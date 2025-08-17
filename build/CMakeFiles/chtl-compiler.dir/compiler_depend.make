@@ -405,6 +405,7 @@ CMakeFiles/chtl-compiler.dir/src/main.cpp.o: /workspace/src/main.cpp \
   /usr/include/c++/14/bits/cpp_type_traits.h \
   /usr/include/c++/14/bits/cxxabi_forced.h \
   /usr/include/c++/14/bits/cxxabi_init_exception.h \
+  /usr/include/c++/14/bits/deque.tcc \
   /usr/include/c++/14/bits/enable_special_members.h \
   /usr/include/c++/14/bits/erase_if.h \
   /usr/include/c++/14/bits/exception.h \
@@ -447,12 +448,14 @@ CMakeFiles/chtl-compiler.dir/src/main.cpp.o: /workspace/src/main.cpp \
   /usr/include/c++/14/bits/stl_algobase.h \
   /usr/include/c++/14/bits/stl_bvector.h \
   /usr/include/c++/14/bits/stl_construct.h \
+  /usr/include/c++/14/bits/stl_deque.h \
   /usr/include/c++/14/bits/stl_function.h \
   /usr/include/c++/14/bits/stl_iterator.h \
   /usr/include/c++/14/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/14/bits/stl_iterator_base_types.h \
   /usr/include/c++/14/bits/stl_pair.h \
   /usr/include/c++/14/bits/stl_raw_storage_iter.h \
+  /usr/include/c++/14/bits/stl_stack.h \
   /usr/include/c++/14/bits/stl_tempbuf.h \
   /usr/include/c++/14/bits/stl_uninitialized.h \
   /usr/include/c++/14/bits/stl_vector.h \
@@ -479,6 +482,7 @@ CMakeFiles/chtl-compiler.dir/src/main.cpp.o: /workspace/src/main.cpp \
   /usr/include/c++/14/cwctype \
   /usr/include/c++/14/debug/assertions.h \
   /usr/include/c++/14/debug/debug.h \
+  /usr/include/c++/14/deque \
   /usr/include/c++/14/exception \
   /usr/include/c++/14/ext/aligned_buffer.h \
   /usr/include/c++/14/ext/alloc_traits.h \
@@ -501,6 +505,7 @@ CMakeFiles/chtl-compiler.dir/src/main.cpp.o: /workspace/src/main.cpp \
   /usr/include/c++/14/pstl/glue_memory_defs.h \
   /usr/include/c++/14/pstl/pstl_config.h \
   /usr/include/c++/14/sstream \
+  /usr/include/c++/14/stack \
   /usr/include/c++/14/stdexcept \
   /usr/include/c++/14/streambuf \
   /usr/include/c++/14/string \
@@ -869,26 +874,20 @@ bin/chtl-compiler: /lib/x86_64-linux-gnu/Scrt1.o \
   CMakeFiles/chtl-compiler.dir/src/compiler/chtljs/CHTLJSCompiler.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/compiler/css/CSSCompiler.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/compiler/js/JSCompiler.cpp.o \
-  CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/dispatcher/CompilerDispatcher.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/generator/CHTLGenerator.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/generator/CHTLJSGenerator.cpp.o \
-  CMakeFiles/chtl-compiler.dir/src/lexer/CHTLJSLexer.cpp.o \
-  CMakeFiles/chtl-compiler.dir/src/lexer/CHTLLexer.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/main.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/module/CJMODManager.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/module/CMODManager.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/parser/CHTLJSParser.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/parser/CHTLParser.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/scanner/CHTLUnifiedScanner.cpp.o \
-  CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/utils/FileUtils.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/utils/StringUtils.cpp.o
 
 
 CMakeFiles/chtl-compiler.dir/src/utils/FileUtils.cpp.o:
-
-CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.o:
 
 CMakeFiles/chtl-compiler.dir/src/scanner/CHTLUnifiedScanner.cpp.o:
 
@@ -899,8 +898,6 @@ CMakeFiles/chtl-compiler.dir/src/main.cpp.o:
 CMakeFiles/chtl-compiler.dir/src/generator/CHTLJSGenerator.cpp.o:
 
 CMakeFiles/chtl-compiler.dir/src/dispatcher/CompilerDispatcher.cpp.o:
-
-CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.o:
 
 CMakeFiles/chtl-compiler.dir/src/compiler/js/JSCompiler.cpp.o:
 
@@ -1290,8 +1287,6 @@ CMakeFiles/chtl-compiler.dir/src/module/CMODManager.cpp.o:
 
 /usr/include/stdlib.h:
 
-CMakeFiles/chtl-compiler.dir/src/lexer/CHTLJSLexer.cpp.o:
-
 /usr/include/c++/14/istream:
 
 /usr/include/x86_64-linux-gnu/bits/setjmp.h:
@@ -1423,8 +1418,6 @@ CMakeFiles/chtl-compiler.dir/src/parser/CHTLJSParser.cpp.o:
 /usr/include/c++/14/bits/stl_pair.h:
 
 /usr/include/c++/14/bits/ostream_insert.h:
-
-CMakeFiles/chtl-compiler.dir/src/lexer/CHTLLexer.cpp.o:
 
 /usr/include/x86_64-linux-gnu/bits/endian.h:
 
