@@ -63,4 +63,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_namespace_enhanced.dir/DependInfo.cmake"
   "CMakeFiles/test_cmod.dir/DependInfo.cmake"
   "CMakeFiles/test_cjmod.dir/DependInfo.cmake"
+  "CMakeFiles/test_virtual_object.dir/DependInfo.cmake"
   )

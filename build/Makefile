@@ -343,6 +343,19 @@ test_cjmod/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cjmod.dir/build.make CMakeFiles/test_cjmod.dir/build
 .PHONY : test_cjmod/fast
 
+#=============================================================================
+# Target rules for targets named test_virtual_object
+
+# Build rule for target.
+test_virtual_object: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_virtual_object
+.PHONY : test_virtual_object
+
+# fast build rule for target.
+test_virtual_object/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_virtual_object.dir/build.make CMakeFiles/test_virtual_object.dir/build
+.PHONY : test_virtual_object/fast
+
 src/ast/ASTNode.o: src/ast/ASTNode.cpp.o
 .PHONY : src/ast/ASTNode.o
 
@@ -366,6 +379,30 @@ src/ast/ASTNode.s: src/ast/ASTNode.cpp.s
 src/ast/ASTNode.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.s
 .PHONY : src/ast/ASTNode.cpp.s
+
+src/ast/VirtualObjectManager.o: src/ast/VirtualObjectManager.cpp.o
+.PHONY : src/ast/VirtualObjectManager.o
+
+# target to build an object file
+src/ast/VirtualObjectManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o
+.PHONY : src/ast/VirtualObjectManager.cpp.o
+
+src/ast/VirtualObjectManager.i: src/ast/VirtualObjectManager.cpp.i
+.PHONY : src/ast/VirtualObjectManager.i
+
+# target to preprocess a source file
+src/ast/VirtualObjectManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.i
+.PHONY : src/ast/VirtualObjectManager.cpp.i
+
+src/ast/VirtualObjectManager.s: src/ast/VirtualObjectManager.cpp.s
+.PHONY : src/ast/VirtualObjectManager.s
+
+# target to generate assembly for a file
+src/ast/VirtualObjectManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.s
+.PHONY : src/ast/VirtualObjectManager.cpp.s
 
 src/common/CJmodManager.o: src/common/CJmodManager.cpp.o
 .PHONY : src/common/CJmodManager.o
@@ -871,6 +908,30 @@ test/test_simple_parser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_simple_parser.dir/build.make CMakeFiles/test_simple_parser.dir/test/test_simple_parser.cpp.s
 .PHONY : test/test_simple_parser.cpp.s
 
+test/test_virtual_object.o: test/test_virtual_object.cpp.o
+.PHONY : test/test_virtual_object.o
+
+# target to build an object file
+test/test_virtual_object.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_virtual_object.dir/build.make CMakeFiles/test_virtual_object.dir/test/test_virtual_object.cpp.o
+.PHONY : test/test_virtual_object.cpp.o
+
+test/test_virtual_object.i: test/test_virtual_object.cpp.i
+.PHONY : test/test_virtual_object.i
+
+# target to preprocess a source file
+test/test_virtual_object.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_virtual_object.dir/build.make CMakeFiles/test_virtual_object.dir/test/test_virtual_object.cpp.i
+.PHONY : test/test_virtual_object.cpp.i
+
+test/test_virtual_object.s: test/test_virtual_object.cpp.s
+.PHONY : test/test_virtual_object.s
+
+# target to generate assembly for a file
+test/test_virtual_object.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_virtual_object.dir/build.make CMakeFiles/test_virtual_object.dir/test/test_virtual_object.cpp.s
+.PHONY : test/test_virtual_object.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -897,9 +958,13 @@ help:
 	@echo "... test_parser"
 	@echo "... test_parser_generator"
 	@echo "... test_simple_parser"
+	@echo "... test_virtual_object"
 	@echo "... src/ast/ASTNode.o"
 	@echo "... src/ast/ASTNode.i"
 	@echo "... src/ast/ASTNode.s"
+	@echo "... src/ast/VirtualObjectManager.o"
+	@echo "... src/ast/VirtualObjectManager.i"
+	@echo "... src/ast/VirtualObjectManager.s"
 	@echo "... src/common/CJmodManager.o"
 	@echo "... src/common/CJmodManager.i"
 	@echo "... src/common/CJmodManager.s"
@@ -963,6 +1028,9 @@ help:
 	@echo "... test/test_simple_parser.o"
 	@echo "... test/test_simple_parser.i"
 	@echo "... test/test_simple_parser.s"
+	@echo "... test/test_virtual_object.o"
+	@echo "... test/test_virtual_object.i"
+	@echo "... test/test_virtual_object.s"
 .PHONY : help
 
 

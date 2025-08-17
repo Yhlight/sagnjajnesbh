@@ -29,6 +29,7 @@ set(COMMON_SOURCES
 # AST模块源文件
 set(AST_SOURCES
     src/ast/ASTNode.cpp
+    src/ast/VirtualObjectManager.cpp
 )
 
 # 解析器模块源文件
@@ -89,12 +90,15 @@ target_link_libraries(test_cmod chtl_common)
 add_executable(test_cjmod test/test_cjmod.cpp)
 target_link_libraries(test_cjmod chtl_common)
 
+add_executable(test_virtual_object test/test_virtual_object.cpp)
+target_link_libraries(test_virtual_object chtl_common chtl_ast)
+
 # 设置输出目录
 set_target_properties(chtl_common chtl_ast chtl_parser chtl_generator PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
 )
 
-set_target_properties(test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser test_namespace_enhanced test_cmod test_cjmod PROPERTIES
+set_target_properties(test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser test_namespace_enhanced test_cmod test_cjmod test_virtual_object PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
