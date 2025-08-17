@@ -51,9 +51,13 @@ set_target_properties(chtl-compiler PROPERTIES
 # 创建模块目录
 file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/module")
 
-# 复制官方模块到输出目录
-file(COPY "${CMAKE_SOURCE_DIR}/src/Module/" DESTINATION "${CMAKE_BINARY_DIR}/module/")
+# 复制官方模块到输出目录 (如果存在)
+if(EXISTS "${CMAKE_SOURCE_DIR}/src/Module/")
+    file(COPY "${CMAKE_SOURCE_DIR}/src/Module/" DESTINATION "${CMAKE_BINARY_DIR}/module/")
+endif()
 
 # 安装规则
 install(TARGETS chtl-compiler DESTINATION bin)
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/src/Module/" DESTINATION module)
+if(EXISTS "${CMAKE_SOURCE_DIR}/src/Module/")
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/src/Module/" DESTINATION module)
+endif()

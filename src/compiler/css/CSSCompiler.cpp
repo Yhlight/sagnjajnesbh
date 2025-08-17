@@ -1,4 +1,11 @@
-// Stub implementation - will be implemented later
-namespace CHTL {
-// This file will be implemented in later tasks
+#include <string>
+
+namespace chtl {
+    // 占位符实现
+    class CSSCompiler {
+    public:
+        std::string compile(const std::string& code) {
+            return "/* CSS: " + code + " */";
+        }
+    };
 }
