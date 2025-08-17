@@ -20,6 +20,9 @@ ImportManager::ImportManager(CompilerContext& context) : context_(context) {
     
     // 初始化Cmod管理器
     cmod_manager_ = std::make_unique<CmodManager>();
+    
+    // 初始化CJmod管理器
+    cjmod_manager_ = std::make_unique<CJmodManager>();
 }
 
 void ImportManager::setSearchConfig(const ImportSearchConfig& config) {
@@ -274,59 +277,49 @@ std::vector<ImportInfo> ImportManager::processChtlImport(const std::string& path
 std::vector<ImportInfo> ImportManager::processCJmodImport(const std::string& path, const std::string& alias) {
     std::vector<ImportInfo> results;
     
-    PathType path_type = analyzePathType(path);
-    std::vector<std::string> resolved_paths;
+    // 解析模块名，检查是否包含子模块
+    auto [main_module, submodule] = CJmodUtils::parseCJmodModuleName(path);
     
-    // 转换点号路径为斜杠路径
-    std::string converted_path = convertDotSlashPath(path);
+    if (!submodule.empty()) {
+        // 处理子模块导入
+        return processCJmodSubmoduleImport(main_module, submodule, alias);
+    }
     
-    if (path_type == PathType::NAME_ONLY) {
-        // 名称（不带后缀）：仅匹配cjmod文件
-        resolved_paths = searchModuleFiles(converted_path, {".cjmod"});
-    } else if (path_type == PathType::NAME_WITH_EXTENSION) {
-        // 具体名称（带后缀）：按搜索顺序查找指定文件
-        if (getFileExtension(converted_path) == ".cjmod") {
-            resolved_paths = searchModuleFiles(converted_path, {".cjmod"});
-        } else {
-            reportImportError("CJmod import must have .cjmod extension: " + path, ImportInfo(ImportType::CJMOD, path, alias));
-            return results;
-        }
-    } else if (path_type == PathType::SPECIFIC_PATH) {
-        // 具体路径（含文件信息）：直接按路径查找
-        if (fileExists(converted_path) && getFileExtension(converted_path) == ".cjmod") {
-            resolved_paths.push_back(getCanonicalPath(converted_path));
-        } else {
-            reportImportError("CJmod file not found: " + converted_path, ImportInfo(ImportType::CJMOD, path, alias));
-            return results;
-        }
-    } else if (path_type == PathType::DIRECTORY_PATH) {
-        // 具体路径（不含文件信息）：触发报错
-        reportImportError("CJmod import path must contain file information: " + path, ImportInfo(ImportType::CJMOD, path, alias));
+    // 使用CJmodManager解析CJmod路径
+    std::string cjmod_path = cjmod_manager_->resolveCJmodPath(path, cjmod_manager_->getCJmodSearchPaths());
+    
+    if (cjmod_path.empty()) {
+        reportImportError("CJmod not found: " + path, ImportInfo(ImportType::CJMOD, path, alias));
         return results;
     }
     
-    if (resolved_paths.empty()) {
-        reportImportError("CJmod file not found: " + path, ImportInfo(ImportType::CJMOD, path, alias));
-        return results;
-    }
-    
-    for (const std::string& resolved_path : resolved_paths) {
+    // 验证CJmod文件
+    if (cjmod_path.size() >= 7 && cjmod_path.substr(cjmod_path.size() - 7) == ".cjmod") {
+        if (!cjmod_manager_->validateCJmodFile(cjmod_path)) {
+            reportImportError("Invalid CJmod file: " + cjmod_manager_->getLastError(), 
+                            ImportInfo(ImportType::CJMOD, path, alias));
+            return results;
+        }
+        
+        // 提取CJmod信息
+        CJmodInfo info;
+        if (!cjmod_manager_->extractCJmodInfo(cjmod_path, info)) {
+            reportImportError("Cannot extract CJmod info: " + cjmod_manager_->getLastError(),
+                            ImportInfo(ImportType::CJMOD, path, alias));
+            return results;
+        }
+        
+        // 创建CJmod导入信息
+        ImportInfo import_info(ImportType::CJMOD, path, alias);
+        import_info.resolved_path = cjmod_path;
+        import_info.path_type = PathType::SPECIFIC_PATH;
+        results.push_back(import_info);
+    } else {
+        // 处理目录形式的CJmod
         ImportInfo info(ImportType::CJMOD, path, alias);
-        info.resolved_path = resolved_path;
-        info.path_type = path_type;
-        
-        // 检查循环依赖
-        std::string current_file = context_.getCurrentFile();
-        if (detectCircularDependency(current_file, resolved_path)) {
-            reportImportError("Circular dependency detected: " + current_file + " -> " + resolved_path, info);
-            continue;
-        }
-        
-        if (!isDuplicateImport(info)) {
-            results.push_back(info);
-            markAsImported(info);
-            addDependency(current_file, resolved_path);
-        }
+        info.resolved_path = cjmod_path;
+        info.path_type = PathType::DIRECTORY_PATH;
+        results.push_back(info);
     }
     
     return results;
@@ -891,6 +884,56 @@ std::vector<std::string> ImportManager::extractCmodSymbols(const std::string& cm
     }
     
     return symbols;
+}
+
+// CJmod相关方法实现
+std::vector<ImportInfo> ImportManager::processCJmodSubmoduleImport(const std::string& main_module, 
+                                                                  const std::string& submodule, 
+                                                                  const std::string& alias) {
+    std::vector<ImportInfo> results;
+    
+    // 解析主模块路径
+    std::string main_cjmod_path = cjmod_manager_->resolveCJmodPath(main_module, cjmod_manager_->getCJmodSearchPaths());
+    
+    if (main_cjmod_path.empty()) {
+        reportImportError("Main CJmod module not found: " + main_module, 
+                        ImportInfo(ImportType::CJMOD, main_module + "." + submodule, alias));
+        return results;
+    }
+    
+    if (main_cjmod_path.size() >= 7 && main_cjmod_path.substr(main_cjmod_path.size() - 7) == ".cjmod") {
+        // 检查子模块是否存在
+        if (!cjmod_manager_->hasCJmodSubmodule(main_cjmod_path, submodule)) {
+            reportImportError("CJmod submodule not found: " + submodule + " in " + main_module,
+                            ImportInfo(ImportType::CJMOD, main_module + "." + submodule, alias));
+            return results;
+        }
+        
+        // 创建子模块导入信息
+        ImportInfo import_info(ImportType::CJMOD, main_module + "." + submodule, alias);
+        import_info.resolved_path = main_cjmod_path + ":" + submodule;
+        import_info.path_type = PathType::SPECIFIC_PATH;
+        results.push_back(import_info);
+    }
+    
+    return results;
+}
+
+bool ImportManager::loadCJmodContent(const std::string& cjmod_path, const std::string& file_path, std::string& content) {
+    size_t colon_pos = cjmod_path.find(':');
+    if (colon_pos == std::string::npos) {
+        return cjmod_manager_->extractCJmodFile(cjmod_path, file_path, content);
+    }
+    
+    std::string actual_cjmod_path = cjmod_path.substr(0, colon_pos);
+    std::string submodule_name = cjmod_path.substr(colon_pos + 1);
+    std::string internal_file_path = "src/" + submodule_name + "/" + file_path;
+    
+    return cjmod_manager_->extractCJmodFile(actual_cjmod_path, internal_file_path, content);
+}
+
+bool ImportManager::compileCJmodModule(const std::string& cjmod_path, const std::string& output_path) {
+    return cjmod_manager_->compileCJmodSources(cjmod_path, output_path);
 }
 
 } // namespace chtl

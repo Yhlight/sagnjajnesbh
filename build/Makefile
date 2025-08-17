@@ -330,6 +330,19 @@ test_cmod/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cmod.dir/build.make CMakeFiles/test_cmod.dir/build
 .PHONY : test_cmod/fast
 
+#=============================================================================
+# Target rules for targets named test_cjmod
+
+# Build rule for target.
+test_cjmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_cjmod
+.PHONY : test_cjmod
+
+# fast build rule for target.
+test_cjmod/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cjmod.dir/build.make CMakeFiles/test_cjmod.dir/build
+.PHONY : test_cjmod/fast
+
 src/ast/ASTNode.o: src/ast/ASTNode.cpp.o
 .PHONY : src/ast/ASTNode.o
 
@@ -353,6 +366,30 @@ src/ast/ASTNode.s: src/ast/ASTNode.cpp.s
 src/ast/ASTNode.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.s
 .PHONY : src/ast/ASTNode.cpp.s
+
+src/common/CJmodManager.o: src/common/CJmodManager.cpp.o
+.PHONY : src/common/CJmodManager.o
+
+# target to build an object file
+src/common/CJmodManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/CJmodManager.cpp.o
+.PHONY : src/common/CJmodManager.cpp.o
+
+src/common/CJmodManager.i: src/common/CJmodManager.cpp.i
+.PHONY : src/common/CJmodManager.i
+
+# target to preprocess a source file
+src/common/CJmodManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/CJmodManager.cpp.i
+.PHONY : src/common/CJmodManager.cpp.i
+
+src/common/CJmodManager.s: src/common/CJmodManager.cpp.s
+.PHONY : src/common/CJmodManager.s
+
+# target to generate assembly for a file
+src/common/CJmodManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/CJmodManager.cpp.s
+.PHONY : src/common/CJmodManager.cpp.s
 
 src/common/CmodManager.o: src/common/CmodManager.cpp.o
 .PHONY : src/common/CmodManager.o
@@ -642,6 +679,30 @@ test/test_basic.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_basic.dir/build.make CMakeFiles/test_basic.dir/test/test_basic.cpp.s
 .PHONY : test/test_basic.cpp.s
 
+test/test_cjmod.o: test/test_cjmod.cpp.o
+.PHONY : test/test_cjmod.o
+
+# target to build an object file
+test/test_cjmod.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cjmod.dir/build.make CMakeFiles/test_cjmod.dir/test/test_cjmod.cpp.o
+.PHONY : test/test_cjmod.cpp.o
+
+test/test_cjmod.i: test/test_cjmod.cpp.i
+.PHONY : test/test_cjmod.i
+
+# target to preprocess a source file
+test/test_cjmod.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cjmod.dir/build.make CMakeFiles/test_cjmod.dir/test/test_cjmod.cpp.i
+.PHONY : test/test_cjmod.cpp.i
+
+test/test_cjmod.s: test/test_cjmod.cpp.s
+.PHONY : test/test_cjmod.s
+
+# target to generate assembly for a file
+test/test_cjmod.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cjmod.dir/build.make CMakeFiles/test_cjmod.dir/test/test_cjmod.cpp.s
+.PHONY : test/test_cjmod.cpp.s
+
 test/test_cmod.o: test/test_cmod.cpp.o
 .PHONY : test/test_cmod.o
 
@@ -828,6 +889,7 @@ help:
 	@echo "... chtl_parser"
 	@echo "... test_ast"
 	@echo "... test_basic"
+	@echo "... test_cjmod"
 	@echo "... test_cmod"
 	@echo "... test_debug_parser"
 	@echo "... test_final_parser"
@@ -838,6 +900,9 @@ help:
 	@echo "... src/ast/ASTNode.o"
 	@echo "... src/ast/ASTNode.i"
 	@echo "... src/ast/ASTNode.s"
+	@echo "... src/common/CJmodManager.o"
+	@echo "... src/common/CJmodManager.i"
+	@echo "... src/common/CJmodManager.s"
 	@echo "... src/common/CmodManager.o"
 	@echo "... src/common/CmodManager.i"
 	@echo "... src/common/CmodManager.s"
@@ -874,6 +939,9 @@ help:
 	@echo "... test/test_basic.o"
 	@echo "... test/test_basic.i"
 	@echo "... test/test_basic.s"
+	@echo "... test/test_cjmod.o"
+	@echo "... test/test_cjmod.i"
+	@echo "... test/test_cjmod.s"
 	@echo "... test/test_cmod.o"
 	@echo "... test/test_cmod.i"
 	@echo "... test/test_cmod.s"

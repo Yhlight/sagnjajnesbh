@@ -23,6 +23,7 @@ set(COMMON_SOURCES
     src/common/Lexer.cpp
     src/common/SimpleZip.cpp
     src/common/CmodManager.cpp
+    src/common/CJmodManager.cpp
 )
 
 # AST模块源文件
@@ -85,12 +86,15 @@ target_link_libraries(test_namespace_enhanced chtl_common)
 add_executable(test_cmod test/test_cmod.cpp)
 target_link_libraries(test_cmod chtl_common)
 
+add_executable(test_cjmod test/test_cjmod.cpp)
+target_link_libraries(test_cjmod chtl_common)
+
 # 设置输出目录
 set_target_properties(chtl_common chtl_ast chtl_parser chtl_generator PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
 )
 
-set_target_properties(test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser test_namespace_enhanced test_cmod PROPERTIES
+set_target_properties(test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser test_namespace_enhanced test_cmod test_cjmod PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
@@ -99,7 +103,7 @@ install(TARGETS chtl_common chtl_ast chtl_parser chtl_generator
     ARCHIVE DESTINATION lib
 )
 
-install(TARGETS test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser test_namespace_enhanced test_cmod
+install(TARGETS test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser test_namespace_enhanced test_cmod test_cjmod
     RUNTIME DESTINATION bin
 )
 

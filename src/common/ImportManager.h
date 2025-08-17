@@ -1,6 +1,7 @@
 #pragma once
 #include "Context.h"
 #include "CmodManager.h"
+#include "CJmodManager.h"
 #include "../ast/ASTNode.h"
 #include <string>
 #include <vector>
@@ -202,6 +203,9 @@ private:
     // Cmod管理
     std::unique_ptr<CmodManager> cmod_manager_;
     
+    // CJmod管理
+    std::unique_ptr<CJmodManager> cjmod_manager_;
+    
     // Cmod特定方法
     std::vector<ImportInfo> processCmodImport(const std::string& module_name, const std::string& alias = "");
     std::vector<ImportInfo> processSubmoduleImport(const std::string& main_module, 
@@ -209,6 +213,14 @@ private:
                                                   const std::string& alias = "");
     bool loadCmodContent(const std::string& cmod_path, const std::string& file_path, std::string& content);
     std::vector<std::string> extractCmodSymbols(const std::string& cmod_path, const std::string& symbol_type);
+    
+    // CJmod特定方法
+    std::vector<ImportInfo> processCJmodImport(const std::string& module_name, const std::string& alias = "");
+    std::vector<ImportInfo> processCJmodSubmoduleImport(const std::string& main_module, 
+                                                       const std::string& submodule, 
+                                                       const std::string& alias = "");
+    bool loadCJmodContent(const std::string& cjmod_path, const std::string& file_path, std::string& content);
+    bool compileCJmodModule(const std::string& cjmod_path, const std::string& output_path);
     
     // 通配符处理
     std::vector<std::string> expandWildcard(const std::string& base_path, 
