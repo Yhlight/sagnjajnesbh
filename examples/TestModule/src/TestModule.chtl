@@ -1,0 +1,35 @@
+[Namespace] TestModule
+
+[Template] @Style ButtonStyle
+{
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+[Custom] @Element Button
+{
+    button
+    {
+        style
+        {
+            @Style ButtonStyle;
+        }
+        
+        text
+        {
+            Click Me
+        }
+    }
+}
+
+[Template] @Var Colors
+{
+    primary: "#007bff";
+    secondary: "#6c757d";
+    success: "#28a745";
+    danger: "#dc3545";
+}

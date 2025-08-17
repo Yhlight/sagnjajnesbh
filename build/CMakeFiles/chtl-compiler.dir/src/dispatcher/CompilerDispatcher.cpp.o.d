@@ -245,6 +245,21 @@ CMakeFiles/chtl-compiler.dir/src/dispatcher/CompilerDispatcher.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/fstream.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
+  /workspace/src/dispatcher/../../include/CHTLParser.h \
+  /workspace/src/dispatcher/../../include/CHTLTokens.h \
+  /workspace/src/dispatcher/../../include/CHTLASTNodes.h \
+  /workspace/src/dispatcher/../../include/CHTLLexer.h \
+  /workspace/src/dispatcher/../../include/StateMachine.h \
+  /workspace/src/dispatcher/../../include/ContextManager.h \
+  /workspace/src/dispatcher/../../include/GlobalMap.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/queue \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_heap.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_queue.h \
+  /workspace/src/dispatcher/../../include/CHTLJSParser.h \
+  /workspace/src/dispatcher/../../include/CHTLJSASTNodes.h \
+  /workspace/src/dispatcher/../../include/CHTLGenerator.h \
+  /workspace/src/dispatcher/../../include/CHTLJSGenerator.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/chrono \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/chrono.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ratio \

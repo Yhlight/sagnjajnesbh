@@ -6,7 +6,7 @@
 #include "ContextManager.h"
 #include <queue>
 
-namespace CHTL {
+namespace chtl {
 
 // 词法分析器状态
 enum class LexerState {
@@ -29,7 +29,7 @@ enum class LexerState {
  */
 class CHTLLexer {
 public:
-    CHTLLexer(const String& sourceCode, StateMachine& stateMachine, ContextManager& contextManager);
+    CHTLLexer(const String& sourceCode, chtl::StateMachine& stateMachine, chtl::ContextManager& contextManager);
     ~CHTLLexer() = default;
     
     // 词法分析
@@ -43,7 +43,7 @@ public:
     size_t getCurrentColumn() const { return currentColumn_; }
     
     // 错误处理
-    const std::vector<CompilerError>& getErrors() const { return errors_; }
+    const std::vector<chtl::CompilerError>& getErrors() const { return errors_; }
     bool hasErrors() const { return !errors_.empty(); }
     
     // 预览功能
@@ -80,7 +80,7 @@ private:
     size_t currentColumn_;
     std::stack<LexerState> stateStack_;
     std::queue<Token> tokenBuffer_;
-    std::vector<CompilerError> errors_;
+    std::vector<chtl::CompilerError> errors_;
     Statistics statistics_;
     
     // 配置选项
@@ -89,9 +89,9 @@ private:
     bool generatePositionInfo_;
     
     // 依赖组件
-    StateMachine& stateMachine_;
-    ContextManager& contextManager_;
-    KeywordMap& keywordMap_;
+    chtl::StateMachine& stateMachine_;
+    chtl::ContextManager& contextManager_;
+    chtl::KeywordMap& keywordMap_;
     
     // 字符操作
     char currentChar() const;
@@ -187,4 +187,4 @@ private:
     String getCurrentContext() const;
 };
 
-} // namespace CHTL
+} // namespace chtl
