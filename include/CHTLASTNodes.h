@@ -157,10 +157,15 @@ public:
     bool isLocal() const { return isLocal_; }
     void setLocal(bool local) { isLocal_ = local; }
     
+    // 内容管理
+    const String& getContent() const { return content_; }
+    void setContent(const String& content) { content_ = content; }
+    
     void accept(class CHTLASTVisitor& visitor) override;
 
 private:
     bool isLocal_; // true表示局部脚本块，false表示全局脚本块
+    String content_; // 脚本内容
 };
 
 // 模板样式节点
@@ -221,6 +226,54 @@ public:
 private:
     String name_;
     StringMap variables_;
+};
+
+// 模板使用节点
+class TemplateUsageNode : public CHTLASTNode {
+public:
+    TemplateUsageNode(const String& type, const String& name, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), type_(type), name_(name) {}
+    
+    const String& getType() const { return type_; }
+    const String& getName() const { return name_; }
+    void setType(const String& type) { type_ = type; }
+    void setName(const String& name) { name_ = name; }
+    
+    // 特例化参数
+    void addSpecialization(const String& key, const String& value) { specializations_[key] = value; }
+    const StringMap& getSpecializations() const { return specializations_; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String type_; // @Style, @Element, @Var
+    String name_; // 模板名称
+    StringMap specializations_; // 特例化参数
+};
+
+// 变量引用节点
+class VariableReferenceNode : public CHTLASTNode {
+public:
+    VariableReferenceNode(const String& name, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), name_(name) {}
+    
+    const String& getName() const { return name_; }
+    void setName(const String& name) { name_ = name; }
+    
+    // 变量组引用 ThemeColor(tableColor)
+    const String& getGroupName() const { return groupName_; }
+    const String& getVariableName() const { return variableName_; }
+    void setGroupReference(const String& group, const String& variable) {
+        groupName_ = group;
+        variableName_ = variable;
+    }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String name_;
+    String groupName_;    // 变量组名称
+    String variableName_; // 组内变量名称
 };
 
 // 自定义样式节点
@@ -296,6 +349,170 @@ public:
 private:
     String name_;
     StringMap variables_;
+};
+
+// 变量节点
+class VariableNode : public CHTLASTNode {
+public:
+    VariableNode(const String& name, const String& value, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), name_(name), value_(value) {}
+    
+    const String& getName() const { return name_; }
+    const String& getValue() const { return value_; }
+    void setName(const String& name) { name_ = name; }
+    void setValue(const String& value) { value_ = value; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String name_;
+    String value_;
+};
+
+// 删除节点 (delete语法)
+class DeleteNode : public CHTLASTNode {
+public:
+    DeleteNode(const String& target, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), target_(target) {}
+    
+    const String& getTarget() const { return target_; }
+    void setTarget(const String& target) { target_ = target; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String target_;
+};
+
+// 继承节点 (inherit语法)
+class InheritNode : public CHTLASTNode {
+public:
+    InheritNode(const String& target, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), target_(target) {}
+    
+    const String& getTarget() const { return target_; }
+    void setTarget(const String& target) { target_ = target; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String target_;
+};
+
+// 异常节点 (except语法)
+class ExceptNode : public CHTLASTNode {
+public:
+    ExceptNode(const String& target, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), target_(target) {}
+    
+    const String& getTarget() const { return target_; }
+    void setTarget(const String& target) { target_ = target; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String target_;
+};
+
+// 类选择器节点
+class ClassSelectorNode : public CHTLASTNode {
+public:
+    ClassSelectorNode(const String& className, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::CSS_RULE, line, column), className_(className) {}
+    
+    const String& getClassName() const { return className_; }
+    void setClassName(const String& className) { className_ = className; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String className_;
+};
+
+// ID选择器节点
+class IdSelectorNode : public CHTLASTNode {
+public:
+    IdSelectorNode(const String& idName, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::CSS_RULE, line, column), idName_(idName) {}
+    
+    const String& getIdName() const { return idName_; }
+    void setIdName(const String& idName) { idName_ = idName; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String idName_;
+};
+
+// 伪选择器节点
+class PseudoSelectorNode : public CHTLASTNode {
+public:
+    PseudoSelectorNode(const String& selector, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::CSS_RULE, line, column), selector_(selector) {}
+    
+    const String& getSelector() const { return selector_; }
+    void setSelector(const String& selector) { selector_ = selector; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String selector_;
+};
+
+// 样式属性节点 (兼容StylePropertyNode)
+using StylePropertyNode = CSSPropertyNode;
+
+// 插入操作节点 (用于自定义元素的insert操作)
+class InsertNode : public CHTLASTNode {
+public:
+    enum class InsertPosition {
+        AFTER,      // after
+        BEFORE,     // before
+        REPLACE,    // replace
+        AT_TOP,     // at top
+        AT_BOTTOM   // at bottom
+    };
+    
+    InsertNode(InsertPosition position, const String& selector, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), position_(position), selector_(selector) {}
+    
+    InsertPosition getPosition() const { return position_; }
+    const String& getSelector() const { return selector_; }
+    void setPosition(InsertPosition position) { position_ = position; }
+    void setSelector(const String& selector) { selector_ = selector; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    InsertPosition position_;
+    String selector_;
+};
+
+// 特例化使用节点 (用于自定义系统的特例化操作)
+class SpecializationNode : public CHTLASTNode {
+public:
+    SpecializationNode(const String& type, const String& name, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), type_(type), name_(name) {}
+    
+    const String& getType() const { return type_; }
+    const String& getName() const { return name_; }
+    void setType(const String& type) { type_ = type; }
+    void setName(const String& name) { name_ = name; }
+    
+    // 删除操作
+    void addDeletedProperty(const String& property) { deletedProperties_.push_back(property); }
+    const StringList& getDeletedProperties() const { return deletedProperties_; }
+    
+    void addDeletedInheritance(const String& inheritance) { deletedInheritances_.push_back(inheritance); }
+    const StringList& getDeletedInheritances() const { return deletedInheritances_; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String type_; // @Style, @Element, @Var
+    String name_; // 模板或自定义名称
+    StringList deletedProperties_;    // 删除的属性列表
+    StringList deletedInheritances_;  // 删除的继承列表
 };
 
 // 导入节点
@@ -417,6 +634,8 @@ public:
     virtual void visit(TemplateStyleNode& node) = 0;
     virtual void visit(TemplateElementNode& node) = 0;
     virtual void visit(TemplateVarNode& node) = 0;
+    virtual void visit(TemplateUsageNode& node) = 0;
+    virtual void visit(VariableReferenceNode& node) = 0;
     virtual void visit(CustomStyleNode& node) = 0;
     virtual void visit(CustomElementNode& node) = 0;
     virtual void visit(CustomVarNode& node) = 0;

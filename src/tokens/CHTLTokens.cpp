@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <regex>
 
-namespace CHTL {
+namespace chtl {
 
 // Token便利方法实现
 bool Token::isKeyword() const {
@@ -319,4 +319,4 @@ TokenValue parseNumberLiteral(const std::string& literal) {
 
 } // namespace TokenUtils
 
-} // namespace CHTL
+} // namespace chtl

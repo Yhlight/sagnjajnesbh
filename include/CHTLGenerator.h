@@ -180,6 +180,10 @@ private:
     StringMap localStyles_;         // 局部样式
     StringSet processedSelectors_;  // 已处理的选择器
     
+    // 新增：全局CSS和JS管理
+    std::unordered_map<String, StringMap> globalCSS_;  // 全局CSS规则
+    String globalJS_;                                   // 全局JS代码
+    
     // 内部生成方法
     void generateNode(std::shared_ptr<CHTLASTNode> node);
     void processChildren(std::shared_ptr<CHTLASTNode> parent);
@@ -205,7 +209,6 @@ private:
     
     // 变量替换
     String expandVariables(const String& text) const;
-    String expandTemplateVariables(const String& text, const String& templateName) const;
     
     // 样式处理
     void processLocalStyles(std::shared_ptr<StyleBlockNode> styleBlock, const String& elementContext);
@@ -226,6 +229,51 @@ private:
     // 调试和日志
     void debugLog(const String& message) const;
     void logGenerationStep(const String& step, const String& details = "") const;
+    
+    // 新增核心生成方法
+    void generateHTMLRecursive(std::shared_ptr<CHTLASTNode> node, std::ostringstream& stream);
+    void generateElementHTML(std::shared_ptr<ElementNode> element, std::ostringstream& stream);
+    void generateTextHTML(std::shared_ptr<TextNode> text, std::ostringstream& stream);
+    
+    // 样式和脚本处理
+    void processStyleBlock(std::shared_ptr<StyleBlockNode> styleBlock);
+    void processCSSProperty(std::shared_ptr<CSSPropertyNode> property);
+    void processCSSRule(std::shared_ptr<CSSRuleNode> rule);
+    void processScriptBlock(std::shared_ptr<ScriptBlockNode> scriptBlock);
+    void processTemplateUsage(std::shared_ptr<TemplateUsageNode> usage);
+    
+    // 全局样式和脚本管理
+    void addToGlobalCSS(const String& selector, const String& property, const String& value);
+    void generateGlobalCSS(std::ostringstream& stream);
+    void generateGlobalJS(std::ostringstream& stream);
+    
+    // CHTL JS代码生成
+    String generateCHTLJSCode(std::shared_ptr<CHTLASTNode> node);
+    
+    // 模板管理方法
+    void registerTemplateStyle(std::shared_ptr<TemplateStyleNode> templateStyle);
+    void registerTemplateElement(std::shared_ptr<TemplateElementNode> templateElement);
+    void registerTemplateVar(std::shared_ptr<TemplateVarNode> templateVar);
+    
+    // 自定义管理方法
+    void registerCustomStyle(std::shared_ptr<CustomStyleNode> customStyle);
+    void registerCustomElement(std::shared_ptr<CustomElementNode> customElement);
+    void registerCustomVar(std::shared_ptr<CustomVarNode> customVar);
+    
+    // 特例化操作处理
+    String processStyleSpecialization(std::shared_ptr<SpecializationNode> specialization);
+    String processInsertOperation(std::shared_ptr<InsertNode> insertNode);
+    void processStyleTemplateUsage(std::shared_ptr<TemplateStyleNode> templateStyle, std::shared_ptr<TemplateUsageNode> usage);
+    void processCustomStyleUsage(std::shared_ptr<CustomStyleNode> customStyle, std::shared_ptr<TemplateUsageNode> usage);
+    String getSpecializationValue(std::shared_ptr<TemplateUsageNode> usage, const String& propertyName);
+    
+    // 变量替换方法
+    String expandTemplateVariables(const String& text, const String& templateName = "") const;
+    String resolveVariableReference(std::shared_ptr<VariableReferenceNode> varRef);
+    
+    // 工具方法
+    String escapeHTML(const String& text);
+    String escapeHTMLAttribute(const String& text);
     
     // 辅助工具
     bool isValidHtmlTag(const String& tagName) const;

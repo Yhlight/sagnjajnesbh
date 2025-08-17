@@ -22,7 +22,7 @@ enum class NamespaceItemType {
 };
 
 // 命名空间项目
-struct NamespaceItem {
+struct NamespaceManagerItem {
     String name;
     NamespaceItemType type;
     std::shared_ptr<CHTLASTNode> node;
@@ -30,7 +30,7 @@ struct NamespaceItem {
     size_t line = 0;
     size_t column = 0;
     
-    NamespaceItem(const String& n, NamespaceItemType t, std::shared_ptr<CHTLASTNode> node_ptr, 
+    NamespaceManagerItem(const String& n, NamespaceItemType t, std::shared_ptr<CHTLASTNode> node_ptr, 
                   const String& file = "", size_t l = 0, size_t c = 0)
         : name(n), type(t), node(node_ptr), sourceFile(file), line(l), column(c) {}
 };
@@ -40,7 +40,7 @@ struct NamespaceConflict {
     String namespaceName;
     String itemName;
     NamespaceItemType itemType;
-    std::vector<NamespaceItem> conflictingItems;
+    std::vector<NamespaceManagerItem> conflictingItems;
     
     NamespaceConflict(const String& ns, const String& item, NamespaceItemType type)
         : namespaceName(ns), itemName(item), itemType(type) {}
@@ -66,11 +66,11 @@ public:
     void setSourceFile(const String& file) { sourceFile_ = file; }
     
     // 项目管理
-    bool addItem(const NamespaceItem& item);
+    bool addItem(const NamespaceManagerItem& item);
     bool hasItem(const String& name, NamespaceItemType type) const;
     std::shared_ptr<CHTLASTNode> getItem(const String& name, NamespaceItemType type) const;
-    std::vector<NamespaceItem> getItemsByName(const String& name) const;
-    std::vector<NamespaceItem> getAllItems() const;
+    std::vector<NamespaceManagerItem> getItemsByName(const String& name) const;
+    std::vector<NamespaceManagerItem> getAllItems() const;
     
     // 嵌套命名空间管理
     bool addNestedNamespace(std::shared_ptr<Namespace> nestedNs);
@@ -95,12 +95,12 @@ public:
 private:
     String name_;
     String sourceFile_;
-    std::unordered_map<String, std::vector<NamespaceItem>> items_; // name -> items (支持同名不同类型)
+    std::unordered_map<String, std::vector<NamespaceManagerItem>> items_; // name -> items (支持同名不同类型)
     std::unordered_map<String, std::shared_ptr<Namespace>> nestedNamespaces_;
     
     // 辅助方法
     String getItemTypeString(NamespaceItemType type) const;
-    bool areItemsCompatible(const NamespaceItem& item1, const NamespaceItem& item2) const;
+    bool areItemsCompatible(const NamespaceManagerItem& item1, const NamespaceManagerItem& item2) const;
 };
 
 // 命名空间管理器
