@@ -1,0 +1,1007 @@
+// CHTL综合语法测试文件 - 测试所有CHTL语法特性
+// 此文件用于验证CHTL编译器对所有语法的解析与生成能力
+
+// ========================================
+// 1. 注释测试
+// ========================================
+// 单行注释 - 不会被生成器识别
+/* 
+   多行注释 - 不会被生成器识别
+   包含多行内容
+*/
+-- 生成器识别的注释
+
+// ========================================
+// 2. 配置组测试
+// ========================================
+[Configuration]
+{
+    INDEX_INITIAL_COUNT = 0;
+    DISABLE_NAME_GROUP = false;
+    DISABLE_CUSTOM_ORIGIN_TYPE = false;
+    DEBUG_MODE = true;
+
+    [Name]
+    {
+        CUSTOM_STYLE = [@Style, @style, @CSS];
+        CUSTOM_ELEMENT = @Element;
+        CUSTOM_VAR = @Var;
+        TEMPLATE_STYLE = @Style;
+        TEMPLATE_ELEMENT = @Element;
+        TEMPLATE_VAR = @Var;
+        ORIGIN_HTML = @Html;
+        ORIGIN_STYLE = @Style;
+        ORIGIN_JAVASCRIPT = @JavaScript;
+        KEYWORD_INHERIT = inherit;
+        KEYWORD_DELETE = delete;
+        KEYWORD_INSERT = insert;
+        KEYWORD_TEXT = text;
+        KEYWORD_STYLE = style;
+        KEYWORD_SCRIPT = script;
+    }
+
+    [OriginType]
+    {
+        ORIGINTYPE_VUE = @Vue;
+        ORIGINTYPE_REACT = @React;
+    }
+}
+
+// ========================================
+// 3. 命名空间测试
+// ========================================
+[Namespace] TestSpace
+{
+    [Namespace] SubSpace
+    
+    // ========================================
+    // 4. 变量组模板测试
+    // ========================================
+    [Template] @Var Colors
+    {
+        primary: "rgb(0, 123, 255)";
+        secondary: "rgb(108, 117, 125)";
+        success: "rgb(40, 167, 69)";
+        danger: "rgb(220, 53, 69)";
+        warning: "rgb(255, 193, 7)";
+        info: "rgb(23, 162, 184)";
+        light: "rgb(248, 249, 250)";
+        dark: "rgb(52, 58, 64)";
+    }
+
+    [Template] @Var Spacing
+    {
+        xs: "4px";
+        sm: "8px";
+        md: "16px";
+        lg: "24px";
+        xl: "32px";
+    }
+
+    // ========================================
+    // 5. 样式组模板测试
+    // ========================================
+    [Template] @Style BaseText
+    {
+        font-family: "Arial, sans-serif";
+        font-size: 16px;
+        line-height: 1.6;
+        color: Colors(dark);
+    }
+
+    [Template] @Style ButtonBase
+    {
+        @Style BaseText;
+        padding: Spacing(sm) + " " + Spacing(md);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    // 显式继承测试
+    [Template] @Style PrimaryButton
+    {
+        background-color: Colors(primary);
+        color: white;
+        inherit @Style ButtonBase;
+    }
+
+    // ========================================
+    // 6. 元素模板测试
+    // ========================================
+    [Template] @Element Card
+    {
+        div
+        {
+            style
+            {
+                .card
+                {
+                    background: white;
+                    border: "1px solid #ddd";
+                    border-radius: 8px;
+                    padding: Spacing(lg);
+                    box-shadow: "0 2px 4px rgba(0,0,0,0.1)";
+                }
+            }
+            
+            div
+            {
+                style
+                {
+                    .card-header
+                    {
+                        font-weight: bold;
+                        margin-bottom: Spacing(md);
+                        color: Colors(primary);
+                    }
+                }
+            }
+            
+            div
+            {
+                style
+                {
+                    .card-body
+                    {
+                        @Style BaseText;
+                    }
+                }
+            }
+        }
+    }
+
+    // ========================================
+    // 7. 自定义无值样式组测试
+    // ========================================
+    [Custom] @Style FlexLayout
+    {
+        display,
+        flex-direction,
+        justify-content,
+        align-items,
+        gap;
+    }
+
+    [Custom] @Style GridLayout
+    {
+        display,
+        grid-template-columns,
+        grid-template-rows,
+        grid-gap;
+    }
+
+    // ========================================
+    // 8. 自定义样式组继承测试
+    // ========================================
+    [Custom] @Style CenterFlex
+    {
+        @Style FlexLayout
+        {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: Spacing(md);
+        }
+    }
+
+    // ========================================
+    // 9. 自定义样式组特例化测试
+    // ========================================
+    [Custom] @Style ResponsiveFlex
+    {
+        @Style CenterFlex
+        {
+            delete gap;
+        }
+        flex-wrap: wrap;
+        gap: Spacing(sm);
+    }
+
+    // ========================================
+    // 10. 自定义元素测试
+    // ========================================
+    [Custom] @Element Button
+    {
+        button
+        {
+            style
+            {
+                .btn
+                {
+                    @Style PrimaryButton;
+                }
+                
+                &:hover
+                {
+                    opacity: 0.8;
+                    transform: translateY(-1px);
+                }
+                
+                &:active
+                {
+                    transform: translateY(0);
+                }
+            }
+            
+            text
+            {
+                点击按钮
+            }
+        }
+    }
+
+    [Custom] @Element Modal
+    {
+        div
+        {
+            style
+            {
+                .modal-overlay
+                {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: "rgba(0,0,0,0.5)";
+                    @Style CenterFlex;
+                }
+            }
+            
+            div
+            {
+                style
+                {
+                    .modal-content
+                    {
+                        background: white;
+                        border-radius: 8px;
+                        padding: Spacing(xl);
+                        max-width: 500px;
+                        width: 90%;
+                    }
+                }
+                
+                div
+                {
+                    style
+                    {
+                        .modal-header
+                        {
+                            font-size: 24px;
+                            font-weight: bold;
+                            margin-bottom: Spacing(md);
+                        }
+                    }
+                }
+                
+                div
+                {
+                    style
+                    {
+                        .modal-body
+                        {
+                            @Style BaseText;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // ========================================
+    // 11. 自定义变量组测试
+    // ========================================
+    [Custom] @Var Theme
+    {
+        primaryColor: Colors(primary);
+        secondaryColor: Colors(secondary);
+        backgroundColor: Colors(light);
+        textColor: Colors(dark);
+        borderRadius: "8px";
+    }
+
+    // ========================================
+    // 12. 原始嵌入测试
+    // ========================================
+    [Origin] @Html HeaderContent
+    {
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    }
+
+    [Origin] @Style GlobalStyles
+    {
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    [Origin] @JavaScript UtilityFunctions
+    {
+        function showModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+        
+        function hideModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    }
+
+    // 自定义类型原始嵌入测试
+    [Origin] @Vue VueComponent
+    {
+        <template>
+            <div class="vue-component">
+                <h1>{{ title }}</h1>
+            </div>
+        </template>
+    }
+
+    [Origin] @React ReactComponent
+    {
+        const MyComponent = () => {
+            return <div>React Component</div>;
+        };
+    }
+}
+
+// ========================================
+// 13. 导入测试
+// ========================================
+// [Import] @Html from header.html as HeaderHtml;
+// [Import] @Style from styles.css as ExternalStyles;
+// [Import] @JavaScript from script.js as ExternalScript;
+// [Import] @Chtl from components.chtl;
+// [Import] [Custom] @Element Button from ui-components.chtl as UIButton;
+// [Import] [Template] @Style BaseTheme from theme.chtl as Theme;
+// [Import] @CJmod from extensions;
+
+// ========================================
+// 14. 主页面结构测试
+// ========================================
+html
+{
+    head
+    {
+        title
+        {
+            text
+            {
+                CHTL综合语法测试
+            }
+        }
+        
+        [Origin] @Html HeaderContent;
+        [Origin] @Style GlobalStyles;
+    }
+    
+    body
+    {
+        style
+        {
+            background-color: Theme(backgroundColor);
+            color: Theme(textColor);
+            @Style BaseText;
+        }
+        
+        // ========================================
+        // 15. 文本节点测试
+        // ========================================
+        
+        // 带引号的文本
+        text
+        {
+            "这是带引号的文本节点"
+        }
+        
+        // 无修饰字面量文本
+        text
+        {
+            这是无修饰字面量文本节点
+        }
+        
+        // ========================================
+        // 16. 基础元素和属性测试
+        // ========================================
+        div
+        {
+            id: main-container;
+            class: "container";
+            data-testid: comprehensive-test;
+            
+            style
+            {
+                @Style CenterFlex;
+                min-height: 100vh;
+                padding: Spacing(xl);
+            }
+            
+            // ========================================
+            // 17. 标题测试
+            // ========================================
+            h1
+            {
+                style
+                {
+                    color: Theme(primaryColor);
+                    font-size: 36px;
+                    margin-bottom: Spacing(xl);
+                    text-align: center;
+                }
+                
+                text
+                {
+                    CHTL语法全面测试
+                }
+            }
+            
+            // ========================================
+            // 18. 使用元素模板测试
+            // ========================================
+            @Element Card from TestSpace;
+            
+            // ========================================
+            // 19. 使用自定义元素测试
+            // ========================================
+            @Element Button from TestSpace;
+            
+            // ========================================
+            // 20. 自定义元素特例化测试
+            // ========================================
+            @Element Modal from TestSpace
+            {
+                div[1] // 索引访问第二个div（modal-content）
+                {
+                    style
+                    {
+                        border: "2px solid " + Theme(primaryColor);
+                    }
+                }
+                
+                // 插入元素测试
+                insert after div[1]
+                {
+                    div
+                    {
+                        style
+                        {
+                            .modal-footer
+                            {
+                                margin-top: Spacing(lg);
+                                text-align: center;
+                            }
+                        }
+                        
+                        @Element Button from TestSpace;
+                    }
+                }
+            }
+            
+            // ========================================
+            // 21. 局部样式块综合测试
+            // ========================================
+            div
+            {
+                style
+                {
+                    // 内联样式
+                    width: 100%;
+                    max-width: 1200px;
+                    
+                    // 自动化类名
+                    .feature-grid
+                    {
+                        @Style GridLayout
+                        {
+                            display: grid;
+                            grid-template-columns: "repeat(auto-fit, minmax(300px, 1fr))";
+                            grid-template-rows: auto;
+                            grid-gap: Spacing(lg);
+                        }
+                    }
+                    
+                    // 上下文推导
+                    &:hover
+                    {
+                        transform: scale(1.02);
+                    }
+                }
+                
+                // 特性卡片1 - 模板系统
+                div
+                {
+                    style
+                    {
+                        .feature-card
+                        {
+                            background: white;
+                            border: "2px solid " + Colors(primary);
+                            border-radius: Theme(borderRadius);
+                            padding: Spacing(lg);
+                            transition: "all 0.3s ease";
+                        }
+                        
+                        &:hover
+                        {
+                            box-shadow: "0 8px 16px rgba(0,0,0,0.15)";
+                            transform: translateY(-2px);
+                        }
+                    }
+                    
+                    h2
+                    {
+                        style
+                        {
+                            color: Colors(primary);
+                            margin-top: 0;
+                        }
+                        
+                        text
+                        {
+                            模板系统
+                        }
+                    }
+                    
+                    p
+                    {
+                        style
+                        {
+                            @Style BaseText;
+                        }
+                        
+                        text
+                        {
+                            支持@Style、@Element、@Var三种模板类型，提供强大的代码复用能力。
+                        }
+                    }
+                    
+                    ul
+                    {
+                        li
+                        {
+                            text { 样式组模板 }
+                        }
+                        li
+                        {
+                            text { 元素模板 }
+                        }
+                        li
+                        {
+                            text { 变量组模板 }
+                        }
+                        li
+                        {
+                            text { 组合式继承 }
+                        }
+                        li
+                        {
+                            text { 显式继承 }
+                        }
+                    }
+                }
+                
+                // 特性卡片2 - 自定义系统
+                div
+                {
+                    style
+                    {
+                        .feature-card
+                        {
+                            background: white;
+                            border: "2px solid " + Colors(success);
+                            border-radius: Theme(borderRadius);
+                            padding: Spacing(lg);
+                            transition: "all 0.3s ease";
+                        }
+                        
+                        &:hover
+                        {
+                            box-shadow: "0 8px 16px rgba(0,0,0,0.15)";
+                            transform: translateY(-2px);
+                        }
+                    }
+                    
+                    h2
+                    {
+                        style
+                        {
+                            color: Colors(success);
+                            margin-top: 0;
+                        }
+                        
+                        text
+                        {
+                            自定义系统
+                        }
+                    }
+                    
+                    p
+                    {
+                        style
+                        {
+                            @Style BaseText;
+                        }
+                        
+                        text
+                        {
+                            支持无值样式组、特例化操作、索引访问、元素插入删除等高级功能。
+                        }
+                    }
+                    
+                    ul
+                    {
+                        li
+                        {
+                            text { 无值样式组 }
+                        }
+                        li
+                        {
+                            text { 特例化操作 }
+                        }
+                        li
+                        {
+                            text { 索引访问 }
+                        }
+                        li
+                        {
+                            text { 元素插入 }
+                        }
+                        li
+                        {
+                            text { 删除操作 }
+                        }
+                    }
+                }
+                
+                // 特性卡片3 - 局部样式
+                div
+                {
+                    style
+                    {
+                        .feature-card
+                        {
+                            background: white;
+                            border: "2px solid " + Colors(info);
+                            border-radius: Theme(borderRadius);
+                            padding: Spacing(lg);
+                            transition: "all 0.3s ease";
+                        }
+                        
+                        &:hover
+                        {
+                            box-shadow: "0 8px 16px rgba(0,0,0,0.15)";
+                            transform: translateY(-2px);
+                        }
+                    }
+                    
+                    h2
+                    {
+                        style
+                        {
+                            color: Colors(info);
+                            margin-top: 0;
+                        }
+                        
+                        text
+                        {
+                            局部样式块
+                        }
+                    }
+                    
+                    p
+                    {
+                        style
+                        {
+                            @Style BaseText;
+                        }
+                        
+                        text
+                        {
+                            支持内联样式、自动化类名生成、上下文推导、伪类伪元素选择器。
+                        }
+                    }
+                    
+                    ul
+                    {
+                        li
+                        {
+                            text { 内联样式 }
+                        }
+                        li
+                        {
+                            text { 自动化类名/ID }
+                        }
+                        li
+                        {
+                            text { 上下文推导(&) }
+                        }
+                        li
+                        {
+                            text { 伪类选择器 }
+                        }
+                        li
+                        {
+                            text { 伪元素选择器 }
+                        }
+                    }
+                }
+                
+                // 特性卡片4 - 原始嵌入
+                div
+                {
+                    style
+                    {
+                        .feature-card
+                        {
+                            background: white;
+                            border: "2px solid " + Colors(warning);
+                            border-radius: Theme(borderRadius);
+                            padding: Spacing(lg);
+                            transition: "all 0.3s ease";
+                        }
+                        
+                        &:hover
+                        {
+                            box-shadow: "0 8px 16px rgba(0,0,0,0.15)";
+                            transform: translateY(-2px);
+                        }
+                    }
+                    
+                    h2
+                    {
+                        style
+                        {
+                            color: Colors(warning);
+                            margin-top: 0;
+                        }
+                        
+                        text
+                        {
+                            原始嵌入
+                        }
+                    }
+                    
+                    p
+                    {
+                        style
+                        {
+                            @Style BaseText;
+                        }
+                        
+                        text
+                        {
+                            支持HTML、CSS、JS原始代码嵌入，以及自定义类型系统。
+                        }
+                    }
+                    
+                    ul
+                    {
+                        li
+                        {
+                            text { HTML嵌入 }
+                        }
+                        li
+                        {
+                            text { CSS嵌入 }
+                        }
+                        li
+                        {
+                            text { JavaScript嵌入 }
+                        }
+                        li
+                        {
+                            text { 自定义类型 }
+                        }
+                        li
+                        {
+                            text { 带名嵌入 }
+                        }
+                    }
+                }
+            }
+            
+            // ========================================
+            // 22. CE对等式测试 (: 与 = 等价)
+            // ========================================
+            div
+            {
+                id = "ce-equality-test";
+                class = test-class;
+                data-value = "测试CE对等式";
+                
+                style
+                {
+                    margin-top = Spacing(xl);
+                    padding = Spacing(lg);
+                    border = "1px solid " + Colors(secondary);
+                    border-radius = Theme(borderRadius);
+                }
+                
+                text
+                {
+                    CE对等式测试 - 冒号与等号完全等价
+                }
+            }
+            
+            // ========================================
+            // 23. 约束测试
+            // ========================================
+            div
+            {
+                except span, [Custom] @Element Modal;
+                
+                style
+                {
+                    margin-top: Spacing(lg);
+                    padding: Spacing(md);
+                    background: Colors(light);
+                    border-radius: Theme(borderRadius);
+                }
+                
+                text
+                {
+                    此区域约束了span元素和Modal自定义元素的使用
+                }
+            }
+        }
+        
+        // ========================================
+        // 24. CHTL JS测试区域
+        // ========================================
+        div
+        {
+            id: chtl-js-test;
+            
+            style
+            {
+                .js-demo
+                {
+                    margin-top: Spacing(xl);
+                    padding: Spacing(lg);
+                    background: Colors(dark);
+                    color: white;
+                    border-radius: Theme(borderRadius);
+                }
+            }
+            
+            h2
+            {
+                text
+                {
+                    CHTL JS功能演示
+                }
+            }
+            
+            button
+            {
+                id: demo-button;
+                
+                style
+                {
+                    .demo-btn
+                    {
+                        @Style PrimaryButton;
+                        margin: Spacing(sm);
+                    }
+                    
+                    &:hover
+                    {
+                        background-color: Colors(success);
+                    }
+                }
+                
+                text
+                {
+                    点击测试
+                }
+                
+                // CHTL JS局部脚本测试
+                script
+                {
+                    // 增强选择器测试
+                    {{demo-btn}}.addEventListener('click', () => {
+                        console.log('CHTL JS增强选择器工作正常!');
+                        
+                        // 使用->语法
+                        {{#chtl-js-test}}->style.backgroundColor = 'rgb(40, 167, 69)';
+                        
+                        setTimeout(() => {
+                            {{#chtl-js-test}}->style.backgroundColor = '';
+                        }, 1000);
+                    });
+                    
+                    // 增强监听器测试
+                    {{demo-btn}}->listen({
+                        mouseenter: () => {
+                            console.log('鼠标进入按钮');
+                        },
+                        
+                        mouseleave: () => {
+                            console.log('鼠标离开按钮');
+                        }
+                    });
+                }
+            }
+        }
+        
+        // 全局脚本
+        [Origin] @JavaScript UtilityFunctions;
+        
+        script
+        {
+            // 事件委托测试
+            {{body}}->delegate({
+                target: {{.feature-card}},
+                click: function() {
+                    console.log('卡片被点击:', this);
+                },
+                mouseenter: function() {
+                    this.style.transform = 'scale(1.02)';
+                },
+                mouseleave: function() {
+                    this.style.transform = '';
+                }
+            });
+            
+            // 动画测试
+            const cardAnimation = animate({
+                target: {{.feature-card}},
+                duration: 2000,
+                easing: ease-in-out,
+                
+                begin: {
+                    opacity: 0;
+                    transform: 'translateY(50px)';
+                },
+                
+                when: [
+                    {
+                        at: 0.5;
+                        opacity: 0.7;
+                        transform: 'translateY(25px)';
+                    }
+                ],
+                
+                end: {
+                    opacity: 1;
+                    transform: 'translateY(0)';
+                },
+                
+                loop: 1,
+                delay: 500,
+                callback: function() {
+                    console.log('卡片动画完成');
+                }
+            });
+            
+            // 虚对象测试
+            vir TestVir = listen({
+                click: () => {
+                    console.log('虚对象click事件');
+                },
+                
+                hover: () => {
+                    console.log('虚对象hover事件');
+                }
+            });
+            
+            // 调用虚对象方法
+            TestVir->click();
+        }
+    }
+}
+
+// ========================================
+// 25. 全局约束测试
+// ========================================
+except [Origin] @Html;  // 全局禁用HTML原始嵌入
