@@ -699,6 +699,198 @@ void CmodManager::setError(const std::string& error) {
     std::cerr << "CmodManager错误: " << error << std::endl;
 }
 
+// 自动导出分析实现
+CmodInfo CmodManager::analyzeSourceFiles(const std::string& base_path, const CmodStructure& structure) {
+    CmodInfo info;
+    
+    // 分析主模块文件
+    std::string src_path = joinPath(base_path, structure.src_dir);
+    for (const std::string& source_file : structure.source_files) {
+        std::string file_path = joinPath(src_path, source_file);
+        std::string content;
+        if (readFileContent(file_path, content)) {
+            // 提取各种类型的符号
+            auto styles = extractSymbolsFromChtlFile(content, "@Style");
+            auto elements = extractSymbolsFromChtlFile(content, "@Element");
+            auto vars = extractSymbolsFromChtlFile(content, "@Var");
+            
+            info.exported_styles.insert(info.exported_styles.end(), styles.begin(), styles.end());
+            info.exported_elements.insert(info.exported_elements.end(), elements.begin(), elements.end());
+            info.exported_vars.insert(info.exported_vars.end(), vars.begin(), vars.end());
+        }
+    }
+    
+    // 分析子模块文件
+    for (const std::string& submodule : structure.submodules) {
+        std::string submodule_src_path = joinPath(joinPath(src_path, submodule), "src");
+        if (directoryExists(submodule_src_path)) {
+            auto submodule_files = listDirectory(submodule_src_path);
+            for (const std::string& file : submodule_files) {
+                if (file.size() >= CHTL_EXTENSION.size() && 
+                    file.substr(file.size() - CHTL_EXTENSION.size()) == CHTL_EXTENSION) {
+                    std::string file_path = joinPath(submodule_src_path, file);
+                    std::string content;
+                    if (readFileContent(file_path, content)) {
+                        auto styles = extractSymbolsFromChtlFile(content, "@Style");
+                        auto elements = extractSymbolsFromChtlFile(content, "@Element");
+                        auto vars = extractSymbolsFromChtlFile(content, "@Var");
+                        
+                        info.exported_styles.insert(info.exported_styles.end(), styles.begin(), styles.end());
+                        info.exported_elements.insert(info.exported_elements.end(), elements.begin(), elements.end());
+                        info.exported_vars.insert(info.exported_vars.end(), vars.begin(), vars.end());
+                    }
+                }
+            }
+        }
+    }
+    
+    // 去重
+    std::sort(info.exported_styles.begin(), info.exported_styles.end());
+    info.exported_styles.erase(std::unique(info.exported_styles.begin(), info.exported_styles.end()), info.exported_styles.end());
+    
+    std::sort(info.exported_elements.begin(), info.exported_elements.end());
+    info.exported_elements.erase(std::unique(info.exported_elements.begin(), info.exported_elements.end()), info.exported_elements.end());
+    
+    std::sort(info.exported_vars.begin(), info.exported_vars.end());
+    info.exported_vars.erase(std::unique(info.exported_vars.begin(), info.exported_vars.end()), info.exported_vars.end());
+    
+    return info;
+}
+
+std::vector<std::string> CmodManager::extractSymbolsFromChtlFile(const std::string& file_content, const std::string& symbol_type) {
+    std::vector<std::string> symbols;
+    
+    // 查找模板和自定义定义
+    std::string template_pattern = "[Template] " + symbol_type + " ";
+    std::string custom_pattern = "[Custom] " + symbol_type + " ";
+    
+    std::istringstream stream(file_content);
+    std::string line;
+    
+    while (std::getline(stream, line)) {
+        // 去除前后空白
+        line.erase(0, line.find_first_not_of(" \t"));
+        line.erase(line.find_last_not_of(" \t") + 1);
+        
+        // 跳过注释
+        if (line.empty() || (line.size() >= 2 && line.substr(0, 2) == "//")) {
+            continue;
+        }
+        
+        // 检查模板定义
+        if (line.find(template_pattern) == 0) {
+            std::string symbol_name = line.substr(template_pattern.length());
+            // 去除可能的花括号
+            size_t brace_pos = symbol_name.find('{');
+            if (brace_pos != std::string::npos) {
+                symbol_name = symbol_name.substr(0, brace_pos);
+            }
+            // 去除空白
+            symbol_name.erase(0, symbol_name.find_first_not_of(" \t"));
+            symbol_name.erase(symbol_name.find_last_not_of(" \t") + 1);
+            
+            if (!symbol_name.empty()) {
+                symbols.push_back(symbol_name);
+            }
+        }
+        
+        // 检查自定义定义
+        if (line.find(custom_pattern) == 0) {
+            std::string symbol_name = line.substr(custom_pattern.length());
+            // 去除可能的花括号
+            size_t brace_pos = symbol_name.find('{');
+            if (brace_pos != std::string::npos) {
+                symbol_name = symbol_name.substr(0, brace_pos);
+            }
+            // 去除空白
+            symbol_name.erase(0, symbol_name.find_first_not_of(" \t"));
+            symbol_name.erase(symbol_name.find_last_not_of(" \t") + 1);
+            
+            if (!symbol_name.empty()) {
+                symbols.push_back(symbol_name);
+            }
+        }
+    }
+    
+    return symbols;
+}
+
+bool CmodManager::generateExportSection(const CmodInfo& info, std::string& export_content) {
+    std::ostringstream oss;
+    
+    oss << "\n[Export]\n{\n";
+    
+    // 生成样式导出
+    if (!info.exported_styles.empty()) {
+        oss << "    @Style ";
+        for (size_t i = 0; i < info.exported_styles.size(); ++i) {
+            if (i > 0) oss << ", ";
+            oss << info.exported_styles[i];
+        }
+        oss << ";\n";
+    }
+    
+    // 生成元素导出
+    if (!info.exported_elements.empty()) {
+        oss << "    @Element ";
+        for (size_t i = 0; i < info.exported_elements.size(); ++i) {
+            if (i > 0) oss << ", ";
+            oss << info.exported_elements[i];
+        }
+        oss << ";\n";
+    }
+    
+    // 生成变量导出
+    if (!info.exported_vars.empty()) {
+        oss << "    @Var ";
+        for (size_t i = 0; i < info.exported_vars.size(); ++i) {
+            if (i > 0) oss << ", ";
+            oss << info.exported_vars[i];
+        }
+        oss << ";\n";
+    }
+    
+    oss << "}\n";
+    
+    export_content = oss.str();
+    return true;
+}
+
+bool CmodManager::updateInfoFileWithExports(const std::string& info_file_path, const CmodInfo& analyzed_info) {
+    std::string original_content;
+    if (!readFileContent(info_file_path, original_content)) {
+        setError("无法读取信息文件: " + info_file_path);
+        return false;
+    }
+    
+    // 检查是否已经存在Export节
+    if (original_content.find("[Export]") != std::string::npos) {
+        // 已存在Export节，不自动更新（允许手动控制）
+        return true;
+    }
+    
+    // 生成Export节
+    std::string export_section;
+    if (!generateExportSection(analyzed_info, export_section)) {
+        return false;
+    }
+    
+    // 将Export节添加到文件末尾
+    std::string updated_content = original_content + export_section;
+    
+    // 写回文件
+    std::ofstream file(info_file_path);
+    if (!file.is_open()) {
+        setError("无法写入信息文件: " + info_file_path);
+        return false;
+    }
+    
+    file << updated_content;
+    file.close();
+    
+    return true;
+}
+
 // CmodUtils命名空间实现
 namespace CmodUtils {
 

@@ -119,6 +119,12 @@ private:
     std::string extractInfoValue(const std::string& content, const std::string& key);
     std::vector<std::string> parseExportList(const std::string& content, const std::string& type);
     
+    // 自动导出分析
+    CmodInfo analyzeSourceFiles(const std::string& base_path, const CmodStructure& structure);
+    std::vector<std::string> extractSymbolsFromChtlFile(const std::string& file_content, const std::string& symbol_type);
+    bool generateExportSection(const CmodInfo& info, std::string& export_content);
+    bool updateInfoFileWithExports(const std::string& info_file_path, const CmodInfo& analyzed_info);
+    
     // 错误处理
     void setError(const std::string& error);
     
