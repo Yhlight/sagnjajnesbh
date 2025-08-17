@@ -13,6 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/common/State.cpp.o"
   "CMakeFiles/chtl_common.dir/src/common/State.cpp.o.d"
+  "CMakeFiles/chtl_common.dir/src/common/SyntaxConstrainer.cpp.o"
+  "CMakeFiles/chtl_common.dir/src/common/SyntaxConstrainer.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/common/Token.cpp.o"
   "CMakeFiles/chtl_common.dir/src/common/Token.cpp.o.d"
   "lib/libchtl_common.a"

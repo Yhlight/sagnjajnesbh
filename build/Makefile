@@ -356,6 +356,19 @@ test_virtual_object/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_virtual_object.dir/build.make CMakeFiles/test_virtual_object.dir/build
 .PHONY : test_virtual_object/fast
 
+#=============================================================================
+# Target rules for targets named test_syntax_constraints
+
+# Build rule for target.
+test_syntax_constraints: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_syntax_constraints
+.PHONY : test_syntax_constraints
+
+# fast build rule for target.
+test_syntax_constraints/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/build
+.PHONY : test_syntax_constraints/fast
+
 src/ast/ASTNode.o: src/ast/ASTNode.cpp.o
 .PHONY : src/ast/ASTNode.o
 
@@ -571,6 +584,30 @@ src/common/State.s: src/common/State.cpp.s
 src/common/State.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/State.cpp.s
 .PHONY : src/common/State.cpp.s
+
+src/common/SyntaxConstrainer.o: src/common/SyntaxConstrainer.cpp.o
+.PHONY : src/common/SyntaxConstrainer.o
+
+# target to build an object file
+src/common/SyntaxConstrainer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/SyntaxConstrainer.cpp.o
+.PHONY : src/common/SyntaxConstrainer.cpp.o
+
+src/common/SyntaxConstrainer.i: src/common/SyntaxConstrainer.cpp.i
+.PHONY : src/common/SyntaxConstrainer.i
+
+# target to preprocess a source file
+src/common/SyntaxConstrainer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/SyntaxConstrainer.cpp.i
+.PHONY : src/common/SyntaxConstrainer.cpp.i
+
+src/common/SyntaxConstrainer.s: src/common/SyntaxConstrainer.cpp.s
+.PHONY : src/common/SyntaxConstrainer.s
+
+# target to generate assembly for a file
+src/common/SyntaxConstrainer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/SyntaxConstrainer.cpp.s
+.PHONY : src/common/SyntaxConstrainer.cpp.s
 
 src/common/Token.o: src/common/Token.cpp.o
 .PHONY : src/common/Token.o
@@ -908,6 +945,30 @@ test/test_simple_parser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_simple_parser.dir/build.make CMakeFiles/test_simple_parser.dir/test/test_simple_parser.cpp.s
 .PHONY : test/test_simple_parser.cpp.s
 
+test/test_syntax_constraints.o: test/test_syntax_constraints.cpp.o
+.PHONY : test/test_syntax_constraints.o
+
+# target to build an object file
+test/test_syntax_constraints.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.o
+.PHONY : test/test_syntax_constraints.cpp.o
+
+test/test_syntax_constraints.i: test/test_syntax_constraints.cpp.i
+.PHONY : test/test_syntax_constraints.i
+
+# target to preprocess a source file
+test/test_syntax_constraints.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.i
+.PHONY : test/test_syntax_constraints.cpp.i
+
+test/test_syntax_constraints.s: test/test_syntax_constraints.cpp.s
+.PHONY : test/test_syntax_constraints.s
+
+# target to generate assembly for a file
+test/test_syntax_constraints.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.s
+.PHONY : test/test_syntax_constraints.cpp.s
+
 test/test_virtual_object.o: test/test_virtual_object.cpp.o
 .PHONY : test/test_virtual_object.o
 
@@ -958,6 +1019,7 @@ help:
 	@echo "... test_parser"
 	@echo "... test_parser_generator"
 	@echo "... test_simple_parser"
+	@echo "... test_syntax_constraints"
 	@echo "... test_virtual_object"
 	@echo "... src/ast/ASTNode.o"
 	@echo "... src/ast/ASTNode.i"
@@ -986,6 +1048,9 @@ help:
 	@echo "... src/common/State.o"
 	@echo "... src/common/State.i"
 	@echo "... src/common/State.s"
+	@echo "... src/common/SyntaxConstrainer.o"
+	@echo "... src/common/SyntaxConstrainer.i"
+	@echo "... src/common/SyntaxConstrainer.s"
 	@echo "... src/common/Token.o"
 	@echo "... src/common/Token.i"
 	@echo "... src/common/Token.s"
@@ -1028,6 +1093,9 @@ help:
 	@echo "... test/test_simple_parser.o"
 	@echo "... test/test_simple_parser.i"
 	@echo "... test/test_simple_parser.s"
+	@echo "... test/test_syntax_constraints.o"
+	@echo "... test/test_syntax_constraints.i"
+	@echo "... test/test_syntax_constraints.s"
 	@echo "... test/test_virtual_object.o"
 	@echo "... test/test_virtual_object.i"
 	@echo "... test/test_virtual_object.s"
