@@ -13,8 +13,13 @@ bin/chtl-compiler: \
   CMakeFiles/chtl-compiler.dir/src/parser/CHTLJSParser.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/ast/CHTLASTNodes.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/ast/CHTLJSASTNodes.cpp.o \
+  CMakeFiles/chtl-compiler.dir/src/ast/ASTStateTracker.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/generator/CHTLGenerator.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/generator/CHTLJSGenerator.cpp.o \
+  CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.o \
+  CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.o \
+  CMakeFiles/chtl-compiler.dir/src/context/ContextAssistant.cpp.o \
+  CMakeFiles/chtl-compiler.dir/src/global/GlobalMap.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/module/CMODManager.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/module/CJMODManager.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/utils/FileUtils.cpp.o \
@@ -75,9 +80,19 @@ CMakeFiles/chtl-compiler.dir/src/ast/CHTLASTNodes.cpp.o:
 
 CMakeFiles/chtl-compiler.dir/src/ast/CHTLJSASTNodes.cpp.o:
 
+CMakeFiles/chtl-compiler.dir/src/ast/ASTStateTracker.cpp.o:
+
 CMakeFiles/chtl-compiler.dir/src/generator/CHTLGenerator.cpp.o:
 
 CMakeFiles/chtl-compiler.dir/src/generator/CHTLJSGenerator.cpp.o:
+
+CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.o:
+
+CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.o:
+
+CMakeFiles/chtl-compiler.dir/src/context/ContextAssistant.cpp.o:
+
+CMakeFiles/chtl-compiler.dir/src/global/GlobalMap.cpp.o:
 
 CMakeFiles/chtl-compiler.dir/src/module/CMODManager.cpp.o:
 

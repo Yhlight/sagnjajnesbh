@@ -1,7 +1,7 @@
 #include "../../include/GlobalMap.h"
 #include <fstream>
 
-namespace CHTL {
+namespace chtl {
 
 GlobalMap& GlobalMap::getInstance() {
     static GlobalMap instance;
@@ -425,4 +425,4 @@ void GlobalMap::collectDependencies(const String& name, const String& namespace_
     }
 }
 
-} // namespace CHTL
+} // namespace chtl

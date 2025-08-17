@@ -28,8 +28,14 @@ add_executable(chtl-compiler
     src/parser/CHTLJSParser.cpp
     src/ast/CHTLASTNodes.cpp
     src/ast/CHTLJSASTNodes.cpp
+    src/ast/ASTStateTracker.cpp
     src/generator/CHTLGenerator.cpp
     src/generator/CHTLJSGenerator.cpp
+
+    src/state/StateMachine.cpp
+    src/context/ContextManager.cpp
+    src/context/ContextAssistant.cpp
+    src/global/GlobalMap.cpp
 
     src/module/CMODManager.cpp
     src/module/CJMODManager.cpp

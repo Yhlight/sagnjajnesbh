@@ -1,6 +1,7 @@
 #include "../../include/ContextManager.h"
+#include <algorithm>
 
-namespace CHTL {
+namespace chtl {
 
 // ContextGuard实现
 ContextGuard::ContextGuard(ContextManager& cm, const ContextInfo& context)
@@ -184,9 +185,9 @@ bool ContextManager::checkConstraints(const String& element, const String& type)
     bool elementOk = element.empty() || checkElementConstraint(element);
     bool typeOk = type.empty() || checkTypeConstraint(type);
     
-    statistics_.constraintChecks++;
+    const_cast<ContextManager*>(this)->statistics_.constraintChecks++;
     if (!elementOk || !typeOk) {
-        statistics_.constraintViolations++;
+        const_cast<ContextManager*>(this)->statistics_.constraintViolations++;
     }
     
     return elementOk && typeOk;
@@ -255,7 +256,7 @@ bool ContextManager::validateTypeUsage(const String& type) const {
 
 bool ContextManager::validateCHTLJSUsage() const {
     if (!isCHTLJSAllowed()) {
-        reportConstraintViolation("CHTL JS", "CHTL JS语法在当前上下文中不被允许");
+        const_cast<ContextManager*>(this)->reportConstraintViolation("CHTL JS", "CHTL JS语法在当前上下文中不被允许");
         return false;
     }
     return true;
@@ -263,7 +264,7 @@ bool ContextManager::validateCHTLJSUsage() const {
 
 bool ContextManager::validateTemplateUsage(const String& templateName) const {
     if (!areTemplatesAllowed()) {
-        reportConstraintViolation(templateName, "模板在当前上下文中不被允许");
+        const_cast<ContextManager*>(this)->reportConstraintViolation(templateName, "模板在当前上下文中不被允许");
         return false;
     }
     return true;
@@ -271,7 +272,7 @@ bool ContextManager::validateTemplateUsage(const String& templateName) const {
 
 bool ContextManager::validateCustomUsage(const String& customName) const {
     if (!areCustomsAllowed()) {
-        reportConstraintViolation(customName, "自定义在当前上下文中不被允许");
+        const_cast<ContextManager*>(this)->reportConstraintViolation(customName, "自定义在当前上下文中不被允许");
         return false;
     }
     return true;
@@ -350,7 +351,7 @@ void ContextManager::reportContextError(const String& message) {
     contextErrors_.push_back(message);
 }
 
-void ContextManager::reportConstraintViolation(const String& element, const String& constraint) const {
+void ContextManager::reportConstraintViolation(const String& element, const String& constraint) {
     const_cast<ContextManager*>(this)->contextErrors_.push_back(
         "约束违反: " + element + " - " + constraint);
 }
@@ -459,4 +460,4 @@ String ContextManager::resolveInGlobalScope(const String& name, const String& ty
     return name;
 }
 
-} // namespace CHTL
+} // namespace chtl

@@ -174,6 +174,30 @@ chtl-compiler/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/build
 .PHONY : chtl-compiler/fast
 
+src/ast/ASTStateTracker.o: src/ast/ASTStateTracker.cpp.o
+.PHONY : src/ast/ASTStateTracker.o
+
+# target to build an object file
+src/ast/ASTStateTracker.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/ast/ASTStateTracker.cpp.o
+.PHONY : src/ast/ASTStateTracker.cpp.o
+
+src/ast/ASTStateTracker.i: src/ast/ASTStateTracker.cpp.i
+.PHONY : src/ast/ASTStateTracker.i
+
+# target to preprocess a source file
+src/ast/ASTStateTracker.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/ast/ASTStateTracker.cpp.i
+.PHONY : src/ast/ASTStateTracker.cpp.i
+
+src/ast/ASTStateTracker.s: src/ast/ASTStateTracker.cpp.s
+.PHONY : src/ast/ASTStateTracker.s
+
+# target to generate assembly for a file
+src/ast/ASTStateTracker.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/ast/ASTStateTracker.cpp.s
+.PHONY : src/ast/ASTStateTracker.cpp.s
+
 src/ast/CHTLASTNodes.o: src/ast/CHTLASTNodes.cpp.o
 .PHONY : src/ast/CHTLASTNodes.o
 
@@ -318,6 +342,54 @@ src/compiler/js/JSCompiler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/compiler/js/JSCompiler.cpp.s
 .PHONY : src/compiler/js/JSCompiler.cpp.s
 
+src/context/ContextAssistant.o: src/context/ContextAssistant.cpp.o
+.PHONY : src/context/ContextAssistant.o
+
+# target to build an object file
+src/context/ContextAssistant.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/context/ContextAssistant.cpp.o
+.PHONY : src/context/ContextAssistant.cpp.o
+
+src/context/ContextAssistant.i: src/context/ContextAssistant.cpp.i
+.PHONY : src/context/ContextAssistant.i
+
+# target to preprocess a source file
+src/context/ContextAssistant.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/context/ContextAssistant.cpp.i
+.PHONY : src/context/ContextAssistant.cpp.i
+
+src/context/ContextAssistant.s: src/context/ContextAssistant.cpp.s
+.PHONY : src/context/ContextAssistant.s
+
+# target to generate assembly for a file
+src/context/ContextAssistant.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/context/ContextAssistant.cpp.s
+.PHONY : src/context/ContextAssistant.cpp.s
+
+src/context/ContextManager.o: src/context/ContextManager.cpp.o
+.PHONY : src/context/ContextManager.o
+
+# target to build an object file
+src/context/ContextManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.o
+.PHONY : src/context/ContextManager.cpp.o
+
+src/context/ContextManager.i: src/context/ContextManager.cpp.i
+.PHONY : src/context/ContextManager.i
+
+# target to preprocess a source file
+src/context/ContextManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.i
+.PHONY : src/context/ContextManager.cpp.i
+
+src/context/ContextManager.s: src/context/ContextManager.cpp.s
+.PHONY : src/context/ContextManager.s
+
+# target to generate assembly for a file
+src/context/ContextManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.s
+.PHONY : src/context/ContextManager.cpp.s
+
 src/dispatcher/CompilerDispatcher.o: src/dispatcher/CompilerDispatcher.cpp.o
 .PHONY : src/dispatcher/CompilerDispatcher.o
 
@@ -389,6 +461,30 @@ src/generator/CHTLJSGenerator.s: src/generator/CHTLJSGenerator.cpp.s
 src/generator/CHTLJSGenerator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/generator/CHTLJSGenerator.cpp.s
 .PHONY : src/generator/CHTLJSGenerator.cpp.s
+
+src/global/GlobalMap.o: src/global/GlobalMap.cpp.o
+.PHONY : src/global/GlobalMap.o
+
+# target to build an object file
+src/global/GlobalMap.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/global/GlobalMap.cpp.o
+.PHONY : src/global/GlobalMap.cpp.o
+
+src/global/GlobalMap.i: src/global/GlobalMap.cpp.i
+.PHONY : src/global/GlobalMap.i
+
+# target to preprocess a source file
+src/global/GlobalMap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/global/GlobalMap.cpp.i
+.PHONY : src/global/GlobalMap.cpp.i
+
+src/global/GlobalMap.s: src/global/GlobalMap.cpp.s
+.PHONY : src/global/GlobalMap.s
+
+# target to generate assembly for a file
+src/global/GlobalMap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/global/GlobalMap.cpp.s
+.PHONY : src/global/GlobalMap.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -534,6 +630,30 @@ src/scanner/CHTLUnifiedScanner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/scanner/CHTLUnifiedScanner.cpp.s
 .PHONY : src/scanner/CHTLUnifiedScanner.cpp.s
 
+src/state/StateMachine.o: src/state/StateMachine.cpp.o
+.PHONY : src/state/StateMachine.o
+
+# target to build an object file
+src/state/StateMachine.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.o
+.PHONY : src/state/StateMachine.cpp.o
+
+src/state/StateMachine.i: src/state/StateMachine.cpp.i
+.PHONY : src/state/StateMachine.i
+
+# target to preprocess a source file
+src/state/StateMachine.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.i
+.PHONY : src/state/StateMachine.cpp.i
+
+src/state/StateMachine.s: src/state/StateMachine.cpp.s
+.PHONY : src/state/StateMachine.s
+
+# target to generate assembly for a file
+src/state/StateMachine.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.s
+.PHONY : src/state/StateMachine.cpp.s
+
 src/utils/FileUtils.o: src/utils/FileUtils.cpp.o
 .PHONY : src/utils/FileUtils.o
 
@@ -595,6 +715,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... chtl-compiler"
+	@echo "... src/ast/ASTStateTracker.o"
+	@echo "... src/ast/ASTStateTracker.i"
+	@echo "... src/ast/ASTStateTracker.s"
 	@echo "... src/ast/CHTLASTNodes.o"
 	@echo "... src/ast/CHTLASTNodes.i"
 	@echo "... src/ast/CHTLASTNodes.s"
@@ -613,6 +736,12 @@ help:
 	@echo "... src/compiler/js/JSCompiler.o"
 	@echo "... src/compiler/js/JSCompiler.i"
 	@echo "... src/compiler/js/JSCompiler.s"
+	@echo "... src/context/ContextAssistant.o"
+	@echo "... src/context/ContextAssistant.i"
+	@echo "... src/context/ContextAssistant.s"
+	@echo "... src/context/ContextManager.o"
+	@echo "... src/context/ContextManager.i"
+	@echo "... src/context/ContextManager.s"
 	@echo "... src/dispatcher/CompilerDispatcher.o"
 	@echo "... src/dispatcher/CompilerDispatcher.i"
 	@echo "... src/dispatcher/CompilerDispatcher.s"
@@ -622,6 +751,9 @@ help:
 	@echo "... src/generator/CHTLJSGenerator.o"
 	@echo "... src/generator/CHTLJSGenerator.i"
 	@echo "... src/generator/CHTLJSGenerator.s"
+	@echo "... src/global/GlobalMap.o"
+	@echo "... src/global/GlobalMap.i"
+	@echo "... src/global/GlobalMap.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
@@ -640,6 +772,9 @@ help:
 	@echo "... src/scanner/CHTLUnifiedScanner.o"
 	@echo "... src/scanner/CHTLUnifiedScanner.i"
 	@echo "... src/scanner/CHTLUnifiedScanner.s"
+	@echo "... src/state/StateMachine.o"
+	@echo "... src/state/StateMachine.i"
+	@echo "... src/state/StateMachine.s"
 	@echo "... src/utils/FileUtils.o"
 	@echo "... src/utils/FileUtils.i"
 	@echo "... src/utils/FileUtils.s"

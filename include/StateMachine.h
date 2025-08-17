@@ -4,7 +4,7 @@
 #include <stack>
 #include <memory>
 
-namespace CHTL {
+namespace chtl {
 
 // 编译状态枚举
 enum class CompilerState {
@@ -192,4 +192,4 @@ namespace StateUtils {
     bool isValidScopeNesting(ScopeType parent, ScopeType child);
 }
 
-} // namespace CHTL
+} // namespace chtl
