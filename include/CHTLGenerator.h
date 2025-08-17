@@ -255,6 +255,18 @@ private:
     void registerTemplateElement(std::shared_ptr<TemplateElementNode> templateElement);
     void registerTemplateVar(std::shared_ptr<TemplateVarNode> templateVar);
     
+    // 自定义管理方法
+    void registerCustomStyle(std::shared_ptr<CustomStyleNode> customStyle);
+    void registerCustomElement(std::shared_ptr<CustomElementNode> customElement);
+    void registerCustomVar(std::shared_ptr<CustomVarNode> customVar);
+    
+    // 特例化操作处理
+    String processStyleSpecialization(std::shared_ptr<SpecializationNode> specialization);
+    String processInsertOperation(std::shared_ptr<InsertNode> insertNode);
+    void processStyleTemplateUsage(std::shared_ptr<TemplateStyleNode> templateStyle, std::shared_ptr<TemplateUsageNode> usage);
+    void processCustomStyleUsage(std::shared_ptr<CustomStyleNode> customStyle, std::shared_ptr<TemplateUsageNode> usage);
+    String getSpecializationValue(std::shared_ptr<TemplateUsageNode> usage, const String& propertyName);
+    
     // 变量替换方法
     String expandTemplateVariables(const String& text, const String& templateName = "") const;
     String resolveVariableReference(std::shared_ptr<VariableReferenceNode> varRef);

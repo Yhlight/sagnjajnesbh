@@ -1,0 +1,149 @@
+// CHTL语法文档示例测试文件
+
+// 1. 基础文本节点
+text
+{
+    "这是一段文本"
+}
+
+// 2. 无修饰字面量
+text
+{
+    这是一段文本
+}
+
+// 3. 基础元素和属性
+div
+{
+    id: box;
+    class: welcome;
+
+    text
+    {
+        HelloWorld
+    }
+}
+
+// 4. 样式组模板
+[Template] @Style DefaultText
+{
+    color: "black";
+    line-height: 1.6;
+}
+
+// 5. 元素模板
+[Template] @Element Box
+{
+    span
+    {
+        text
+        {
+            这是一组div
+        }
+    }
+
+    div
+    {
+        style
+        {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+    }
+
+    div
+    {
+        style
+        {
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+        }
+    }
+}
+
+// 6. 变量组模板
+[Template] @Var ThemeColor
+{
+    tableColor: "rgb(255, 192, 203)";
+}
+
+// 7. 自定义无值样式组
+[Custom] @Style TextSet
+{
+    color,
+    font-size;
+}
+
+// 8. 自定义样式继承
+[Custom] @Style WhiteText
+{
+    @Style TextSet
+    {
+        color: white;
+        font-size: 16px;
+    }
+}
+
+// 9. 自定义元素
+[Custom] @Element CustomBox
+{
+    div
+    {
+
+    }
+
+    div
+    {
+
+    }
+
+    span
+    {
+
+    }
+}
+
+// 10. 自定义变量组
+[Custom] @Var CustomTheme
+{
+    tableColor: "rgb(255, 192, 203)";
+    textColor: "black";
+}
+
+// 11. 使用模板和自定义的页面
+body
+{
+    @Element Box;
+
+    div
+    {
+        style
+        {
+            @Style DefaultText;
+        }
+
+        text
+        {
+            使用模板样式的文本
+        }
+    }
+
+    div
+    {
+        style
+        {
+            @Style TextSet
+            {
+                color: red;
+                font-size: 16px;
+            }
+        }
+
+        text
+        {
+            使用无值样式组的文本
+        }
+    }
+}

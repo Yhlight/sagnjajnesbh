@@ -101,6 +101,21 @@ void CHTLGenerator::generateHTMLRecursive(std::shared_ptr<CHTLASTNode> node, std
             registerTemplateVar(std::static_pointer_cast<TemplateVarNode>(node));
             break;
             
+        case ASTNodeType::CUSTOM_STYLE:
+            // 注册自定义样式
+            registerCustomStyle(std::static_pointer_cast<CustomStyleNode>(node));
+            break;
+            
+        case ASTNodeType::CUSTOM_ELEMENT:
+            // 注册自定义元素
+            registerCustomElement(std::static_pointer_cast<CustomElementNode>(node));
+            break;
+            
+        case ASTNodeType::CUSTOM_VAR:
+            // 注册自定义变量
+            registerCustomVar(std::static_pointer_cast<CustomVarNode>(node));
+            break;
+            
         case ASTNodeType::UNKNOWN_NODE:
             // 处理模板使用节点（类型为UNKNOWN_NODE的特殊情况）
             if (auto usage = std::dynamic_pointer_cast<TemplateUsageNode>(node)) {
@@ -578,37 +593,128 @@ void CHTLGenerator::processTemplateUsage(std::shared_ptr<TemplateUsageNode> usag
     const String& templateName = usage->getName();
     
     if (templateType == "@Style") {
-        // 样式模板使用
-        auto it = templateContext_.styleTemplates.find(templateName);
-        if (it != templateContext_.styleTemplates.end()) {
-            // 展开样式模板的属性
-            for (const auto& child : it->second->getChildren()) {
-                if (child->getType() == ASTNodeType::CSS_PROPERTY) {
-                    auto property = std::static_pointer_cast<CSSPropertyNode>(child);
-                    String expandedValue = expandTemplateVariables(property->getValue(), templateName);
-                    
-                    if (styleContext_.inLocalStyle && styleContext_.currentSelector.empty()) {
-                        // 作为内联样式添加
-                        styleContext_.inlineStyles[property->getProperty()] = expandedValue;
-                    } else {
-                        // 添加到全局样式
-                        addToGlobalCSS(styleContext_.currentSelector.empty() ? "body" : styleContext_.currentSelector, 
-                                     property->getProperty(), expandedValue);
-                    }
+        // 样式模板或自定义样式使用
+        bool foundTemplate = false;
+        
+        // 首先尝试从模板中查找
+        auto templateIt = templateContext_.styleTemplates.find(templateName);
+        if (templateIt != templateContext_.styleTemplates.end()) {
+            foundTemplate = true;
+            processStyleTemplateUsage(templateIt->second, usage);
+        } else {
+            // 然后尝试从自定义中查找
+            auto customIt = templateContext_.customStyles.find(templateName);
+            if (customIt != templateContext_.customStyles.end()) {
+                foundTemplate = true;
+                processCustomStyleUsage(customIt->second, usage);
+            }
+        }
+        
+        if (!foundTemplate && debugMode_) {
+            debugLog("警告: 未找到样式模板或自定义: " + templateName);
+        }
+    } else if (templateType == "@Element") {
+        // 元素模板或自定义元素使用
+        bool foundTemplate = false;
+        
+        auto templateIt = templateContext_.elementTemplates.find(templateName);
+        if (templateIt != templateContext_.elementTemplates.end()) {
+            foundTemplate = true;
+            if (debugMode_) {
+                debugLog("处理元素模板使用: " + templateName);
+            }
+        } else {
+            auto customIt = templateContext_.customElements.find(templateName);
+            if (customIt != templateContext_.customElements.end()) {
+                foundTemplate = true;
+                if (debugMode_) {
+                    debugLog("处理自定义元素使用: " + templateName);
                 }
             }
         }
-    } else if (templateType == "@Element") {
-        // 元素模板使用 - 这里需要在元素上下文中处理
-        if (debugMode_) {
-            debugLog("处理元素模板使用: " + templateName);
+        
+        if (!foundTemplate && debugMode_) {
+            debugLog("警告: 未找到元素模板或自定义: " + templateName);
         }
     } else if (templateType == "@Var") {
-        // 变量模板使用 - 通常不需要特殊处理，变量在解析时已经注册
+        // 变量模板或自定义变量使用
         if (debugMode_) {
             debugLog("处理变量模板使用: " + templateName);
         }
     }
+}
+
+void CHTLGenerator::processStyleTemplateUsage(std::shared_ptr<TemplateStyleNode> templateStyle, std::shared_ptr<TemplateUsageNode> usage) {
+    // 展开样式模板的属性
+    for (const auto& child : templateStyle->getChildren()) {
+        if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+            auto property = std::static_pointer_cast<CSSPropertyNode>(child);
+            String expandedValue = expandTemplateVariables(property->getValue(), templateStyle->getName());
+            
+            if (styleContext_.inLocalStyle && styleContext_.currentSelector.empty()) {
+                // 作为内联样式添加
+                styleContext_.inlineStyles[property->getProperty()] = expandedValue;
+            } else {
+                // 添加到全局样式
+                addToGlobalCSS(styleContext_.currentSelector.empty() ? "body" : styleContext_.currentSelector, 
+                             property->getProperty(), expandedValue);
+            }
+        }
+    }
+    
+    // 处理特例化操作
+    for (const auto& child : usage->getChildren()) {
+        if (auto specialization = std::dynamic_pointer_cast<SpecializationNode>(child)) {
+            String specializationCSS = processStyleSpecialization(specialization);
+            // 将特例化的CSS添加到当前上下文
+        }
+    }
+}
+
+void CHTLGenerator::processCustomStyleUsage(std::shared_ptr<CustomStyleNode> customStyle, std::shared_ptr<TemplateUsageNode> usage) {
+    // 处理自定义样式的使用，包括无值样式组的特例化
+    for (const auto& child : customStyle->getChildren()) {
+        if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+            auto property = std::static_pointer_cast<CSSPropertyNode>(child);
+            String propName = property->getProperty();
+            String propValue = property->getValue();
+            
+            if (propValue.empty()) {
+                // 无值属性，需要从使用时的特例化中获取值
+                String specializationValue = getSpecializationValue(usage, propName);
+                if (!specializationValue.empty()) {
+                    if (styleContext_.inLocalStyle && styleContext_.currentSelector.empty()) {
+                        styleContext_.inlineStyles[propName] = specializationValue;
+                    } else {
+                        addToGlobalCSS(styleContext_.currentSelector.empty() ? "body" : styleContext_.currentSelector, 
+                                     propName, specializationValue);
+                    }
+                }
+            } else {
+                // 有值属性，直接使用
+                String expandedValue = expandTemplateVariables(propValue, customStyle->getName());
+                if (styleContext_.inLocalStyle && styleContext_.currentSelector.empty()) {
+                    styleContext_.inlineStyles[propName] = expandedValue;
+                } else {
+                    addToGlobalCSS(styleContext_.currentSelector.empty() ? "body" : styleContext_.currentSelector, 
+                                 propName, expandedValue);
+                }
+            }
+        }
+    }
+}
+
+String CHTLGenerator::getSpecializationValue(std::shared_ptr<TemplateUsageNode> usage, const String& propertyName) {
+    // 从模板使用的特例化块中查找属性值
+    for (const auto& child : usage->getChildren()) {
+        if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+            auto property = std::static_pointer_cast<CSSPropertyNode>(child);
+            if (property->getProperty() == propertyName) {
+                return property->getValue();
+            }
+        }
+    }
+    return "";
 }
 
 void CHTLGenerator::registerTemplateStyle(std::shared_ptr<TemplateStyleNode> templateStyle) {
@@ -644,9 +750,195 @@ void CHTLGenerator::registerTemplateVar(std::shared_ptr<TemplateVarNode> templat
         debugLog("注册变量模板: " + name + " (包含 " + std::to_string(variables.size()) + " 个变量)");
     }
 }
-String CHTLGenerator::generateCustomStyle(std::shared_ptr<CustomStyleNode> customStyle) { return ""; }
-String CHTLGenerator::generateCustomElement(std::shared_ptr<CustomElementNode> customElement) { return ""; }
-String CHTLGenerator::generateCustomVar(std::shared_ptr<CustomVarNode> customVar) { return ""; }
+void CHTLGenerator::registerCustomStyle(std::shared_ptr<CustomStyleNode> customStyle) {
+    const String& name = customStyle->getName();
+    templateContext_.customStyles[name] = customStyle;
+    
+    if (debugMode_) {
+        debugLog("注册自定义样式: " + name);
+    }
+}
+
+void CHTLGenerator::registerCustomElement(std::shared_ptr<CustomElementNode> customElement) {
+    const String& name = customElement->getName();
+    templateContext_.customElements[name] = customElement;
+    
+    if (debugMode_) {
+        debugLog("注册自定义元素: " + name);
+    }
+}
+
+void CHTLGenerator::registerCustomVar(std::shared_ptr<CustomVarNode> customVar) {
+    const String& name = customVar->getName();
+    templateContext_.customVars[name] = customVar;
+    
+    // 将变量添加到全局变量映射
+    const auto& variables = customVar->getVariables();
+    for (const auto& [varName, varValue] : variables) {
+        String fullName = name + "." + varName;
+        templateContext_.variables[fullName] = varValue;
+    }
+    
+    if (debugMode_) {
+        debugLog("注册自定义变量: " + name + " (包含 " + std::to_string(variables.size()) + " 个变量)");
+    }
+}
+
+String CHTLGenerator::generateCustomStyle(std::shared_ptr<CustomStyleNode> customStyle) {
+    if (!customStyle) return "";
+    
+    std::ostringstream result;
+    const String& customName = customStyle->getName();
+    
+    // 处理继承
+    for (const String& inheritedName : customStyle->getInheritedTemplates()) {
+        // 首先尝试从模板中查找
+        auto templateIt = templateContext_.styleTemplates.find(inheritedName);
+        if (templateIt != templateContext_.styleTemplates.end()) {
+            String inheritedCSS = generateTemplateStyle(templateIt->second);
+            result << inheritedCSS;
+        } else {
+            // 然后尝试从自定义中查找
+            auto customIt = templateContext_.customStyles.find(inheritedName);
+            if (customIt != templateContext_.customStyles.end()) {
+                String inheritedCSS = generateCustomStyle(customIt->second);
+                result << inheritedCSS;
+            }
+        }
+    }
+    
+    // 处理当前自定义的样式属性
+    for (const auto& child : customStyle->getChildren()) {
+        if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+            auto property = std::static_pointer_cast<CSSPropertyNode>(child);
+            String propName = property->getProperty();
+            String propValue = property->getValue();
+            
+            // 检查是否为无值样式组属性
+            if (propValue.empty()) {
+                // 无值属性，需要在使用时填入值
+                if (debugMode_) {
+                    debugLog("发现无值样式属性: " + propName);
+                }
+            } else {
+                String expandedValue = expandTemplateVariables(propValue, customName);
+                result << "  " << propName << ": " << expandedValue << ";\n";
+            }
+        } else if (auto specialization = std::dynamic_pointer_cast<SpecializationNode>(child)) {
+            // 处理特例化操作
+            String specializationCSS = processStyleSpecialization(specialization);
+            result << specializationCSS;
+        }
+    }
+    
+    return result.str();
+}
+
+String CHTLGenerator::generateCustomElement(std::shared_ptr<CustomElementNode> customElement) {
+    if (!customElement) return "";
+    
+    std::ostringstream result;
+    const String& customName = customElement->getName();
+    
+    // 处理继承
+    for (const String& inheritedName : customElement->getInheritedTemplates()) {
+        // 首先尝试从模板中查找
+        auto templateIt = templateContext_.elementTemplates.find(inheritedName);
+        if (templateIt != templateContext_.elementTemplates.end()) {
+            String inheritedHTML = generateTemplateElement(templateIt->second);
+            result << inheritedHTML;
+        } else {
+            // 然后尝试从自定义中查找
+            auto customIt = templateContext_.customElements.find(inheritedName);
+            if (customIt != templateContext_.customElements.end()) {
+                String inheritedHTML = generateCustomElement(customIt->second);
+                result << inheritedHTML;
+            }
+        }
+    }
+    
+    // 处理当前自定义的元素
+    for (const auto& child : customElement->getChildren()) {
+        if (auto insertNode = std::dynamic_pointer_cast<InsertNode>(child)) {
+            // 处理插入操作
+            String insertHTML = processInsertOperation(insertNode);
+            result << insertHTML;
+        } else {
+            // 普通元素
+            generateHTMLRecursive(child, result);
+        }
+    }
+    
+    return result.str();
+}
+
+String CHTLGenerator::generateCustomVar(std::shared_ptr<CustomVarNode> customVar) {
+    // 自定义变量不直接生成内容，而是提供变量值
+    return "";
+}
+
+String CHTLGenerator::processStyleSpecialization(std::shared_ptr<SpecializationNode> specialization) {
+    if (!specialization) return "";
+    
+    std::ostringstream result;
+    const String& templateName = specialization->getName();
+    
+    // 获取基础模板
+    auto templateIt = templateContext_.styleTemplates.find(templateName);
+    if (templateIt != templateContext_.styleTemplates.end()) {
+        // 生成基础模板的样式，但排除删除的属性
+        auto baseTemplate = templateIt->second;
+        for (const auto& child : baseTemplate->getChildren()) {
+            if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+                auto property = std::static_pointer_cast<CSSPropertyNode>(child);
+                String propName = property->getProperty();
+                
+                // 检查是否在删除列表中
+                bool isDeleted = false;
+                for (const String& deletedProp : specialization->getDeletedProperties()) {
+                    if (deletedProp == propName) {
+                        isDeleted = true;
+                        break;
+                    }
+                }
+                
+                if (!isDeleted) {
+                    String expandedValue = expandTemplateVariables(property->getValue(), templateName);
+                    result << "  " << propName << ": " << expandedValue << ";\n";
+                }
+            }
+        }
+    }
+    
+    // 添加特例化的新属性
+    for (const auto& child : specialization->getChildren()) {
+        if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+            auto property = std::static_pointer_cast<CSSPropertyNode>(child);
+            String expandedValue = expandTemplateVariables(property->getValue(), templateName);
+            result << "  " << property->getProperty() << ": " << expandedValue << ";\n";
+        }
+    }
+    
+    return result.str();
+}
+
+String CHTLGenerator::processInsertOperation(std::shared_ptr<InsertNode> insertNode) {
+    if (!insertNode) return "";
+    
+    std::ostringstream result;
+    
+    // 生成插入的内容
+    for (const auto& child : insertNode->getChildren()) {
+        generateHTMLRecursive(child, result);
+    }
+    
+    // 这里简化处理，实际应该根据位置和选择器进行DOM操作
+    if (debugMode_) {
+        debugLog("处理插入操作: " + insertNode->getSelector());
+    }
+    
+    return result.str();
+}
 String CHTLGenerator::generateImport(std::shared_ptr<ImportNode> import) { return ""; }
 String CHTLGenerator::generateNamespace(std::shared_ptr<NamespaceNode> namespaceNode) { return ""; }
 String CHTLGenerator::generateConfiguration(const StringMap& configMap) { return ""; }

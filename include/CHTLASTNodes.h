@@ -462,6 +462,59 @@ private:
 // 样式属性节点 (兼容StylePropertyNode)
 using StylePropertyNode = CSSPropertyNode;
 
+// 插入操作节点 (用于自定义元素的insert操作)
+class InsertNode : public CHTLASTNode {
+public:
+    enum class InsertPosition {
+        AFTER,      // after
+        BEFORE,     // before
+        REPLACE,    // replace
+        AT_TOP,     // at top
+        AT_BOTTOM   // at bottom
+    };
+    
+    InsertNode(InsertPosition position, const String& selector, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), position_(position), selector_(selector) {}
+    
+    InsertPosition getPosition() const { return position_; }
+    const String& getSelector() const { return selector_; }
+    void setPosition(InsertPosition position) { position_ = position; }
+    void setSelector(const String& selector) { selector_ = selector; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    InsertPosition position_;
+    String selector_;
+};
+
+// 特例化使用节点 (用于自定义系统的特例化操作)
+class SpecializationNode : public CHTLASTNode {
+public:
+    SpecializationNode(const String& type, const String& name, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), type_(type), name_(name) {}
+    
+    const String& getType() const { return type_; }
+    const String& getName() const { return name_; }
+    void setType(const String& type) { type_ = type; }
+    void setName(const String& name) { name_ = name; }
+    
+    // 删除操作
+    void addDeletedProperty(const String& property) { deletedProperties_.push_back(property); }
+    const StringList& getDeletedProperties() const { return deletedProperties_; }
+    
+    void addDeletedInheritance(const String& inheritance) { deletedInheritances_.push_back(inheritance); }
+    const StringList& getDeletedInheritances() const { return deletedInheritances_; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String type_; // @Style, @Element, @Var
+    String name_; // 模板或自定义名称
+    StringList deletedProperties_;    // 删除的属性列表
+    StringList deletedInheritances_;  // 删除的继承列表
+};
+
 // 导入节点
 class ImportNode : public CHTLASTNode {
 public:

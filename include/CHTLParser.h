@@ -101,9 +101,18 @@ public:
     std::shared_ptr<TemplateStyleNode> parseTemplateStyleImpl(const String& templateName, size_t line, size_t column);
     std::shared_ptr<TemplateElementNode> parseTemplateElementImpl(const String& templateName, size_t line, size_t column);
     std::shared_ptr<TemplateVarNode> parseTemplateVarImpl(const String& templateName, size_t line, size_t column);
+    
+    // 自定义解析实现方法
     std::shared_ptr<CustomStyleNode> parseCustomStyle();
     std::shared_ptr<CustomElementNode> parseCustomElement();
     std::shared_ptr<CustomVarNode> parseCustomVar();
+    std::shared_ptr<CustomStyleNode> parseCustomStyleImpl(const String& customName, size_t line, size_t column);
+    std::shared_ptr<CustomElementNode> parseCustomElementImpl(const String& customName, size_t line, size_t column);
+    std::shared_ptr<CustomVarNode> parseCustomVarImpl(const String& customName, size_t line, size_t column);
+    
+    // 特例化和插入操作解析
+    std::shared_ptr<CHTLASTNode> parseStyleSpecialization(const String& templateName);
+    std::shared_ptr<CHTLASTNode> parseInsert();
     
     // 特殊语法解析
     std::shared_ptr<CHTLASTNode> parseInherit();

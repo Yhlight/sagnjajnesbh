@@ -139,6 +139,16 @@ void PseudoSelectorNode::accept(CHTLASTVisitor& visitor) {
     // 注意：PseudoSelectorNode 没有在访问者接口中定义，暂时留空或添加到接口
 }
 
+// InsertNode 实现
+void InsertNode::accept(CHTLASTVisitor& visitor) {
+    // 注意：InsertNode 没有在访问者接口中定义，暂时留空或添加到接口
+}
+
+// SpecializationNode 实现
+void SpecializationNode::accept(CHTLASTVisitor& visitor) {
+    // 注意：SpecializationNode 没有在访问者接口中定义，暂时留空或添加到接口
+}
+
 // CustomStyleNode 实现
 void CustomStyleNode::accept(CHTLASTVisitor& visitor) {
     visitor.visit(*this);
