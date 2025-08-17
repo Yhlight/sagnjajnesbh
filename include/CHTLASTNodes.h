@@ -157,10 +157,15 @@ public:
     bool isLocal() const { return isLocal_; }
     void setLocal(bool local) { isLocal_ = local; }
     
+    // 内容管理
+    const String& getContent() const { return content_; }
+    void setContent(const String& content) { content_ = content; }
+    
     void accept(class CHTLASTVisitor& visitor) override;
 
 private:
     bool isLocal_; // true表示局部脚本块，false表示全局脚本块
+    String content_; // 脚本内容
 };
 
 // 模板样式节点
@@ -297,6 +302,117 @@ private:
     String name_;
     StringMap variables_;
 };
+
+// 变量节点
+class VariableNode : public CHTLASTNode {
+public:
+    VariableNode(const String& name, const String& value, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), name_(name), value_(value) {}
+    
+    const String& getName() const { return name_; }
+    const String& getValue() const { return value_; }
+    void setName(const String& name) { name_ = name; }
+    void setValue(const String& value) { value_ = value; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String name_;
+    String value_;
+};
+
+// 删除节点 (delete语法)
+class DeleteNode : public CHTLASTNode {
+public:
+    DeleteNode(const String& target, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), target_(target) {}
+    
+    const String& getTarget() const { return target_; }
+    void setTarget(const String& target) { target_ = target; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String target_;
+};
+
+// 继承节点 (inherit语法)
+class InheritNode : public CHTLASTNode {
+public:
+    InheritNode(const String& target, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), target_(target) {}
+    
+    const String& getTarget() const { return target_; }
+    void setTarget(const String& target) { target_ = target; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String target_;
+};
+
+// 异常节点 (except语法)
+class ExceptNode : public CHTLASTNode {
+public:
+    ExceptNode(const String& target, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), target_(target) {}
+    
+    const String& getTarget() const { return target_; }
+    void setTarget(const String& target) { target_ = target; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String target_;
+};
+
+// 类选择器节点
+class ClassSelectorNode : public CHTLASTNode {
+public:
+    ClassSelectorNode(const String& className, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::CSS_RULE, line, column), className_(className) {}
+    
+    const String& getClassName() const { return className_; }
+    void setClassName(const String& className) { className_ = className; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String className_;
+};
+
+// ID选择器节点
+class IdSelectorNode : public CHTLASTNode {
+public:
+    IdSelectorNode(const String& idName, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::CSS_RULE, line, column), idName_(idName) {}
+    
+    const String& getIdName() const { return idName_; }
+    void setIdName(const String& idName) { idName_ = idName; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String idName_;
+};
+
+// 伪选择器节点
+class PseudoSelectorNode : public CHTLASTNode {
+public:
+    PseudoSelectorNode(const String& selector, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::CSS_RULE, line, column), selector_(selector) {}
+    
+    const String& getSelector() const { return selector_; }
+    void setSelector(const String& selector) { selector_ = selector; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String selector_;
+};
+
+// 样式属性节点 (兼容StylePropertyNode)
+using StylePropertyNode = CSSPropertyNode;
 
 // 导入节点
 class ImportNode : public CHTLASTNode {

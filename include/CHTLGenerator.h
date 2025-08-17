@@ -180,6 +180,10 @@ private:
     StringMap localStyles_;         // 局部样式
     StringSet processedSelectors_;  // 已处理的选择器
     
+    // 新增：全局CSS和JS管理
+    std::unordered_map<String, StringMap> globalCSS_;  // 全局CSS规则
+    String globalJS_;                                   // 全局JS代码
+    
     // 内部生成方法
     void generateNode(std::shared_ptr<CHTLASTNode> node);
     void processChildren(std::shared_ptr<CHTLASTNode> parent);
@@ -226,6 +230,29 @@ private:
     // 调试和日志
     void debugLog(const String& message) const;
     void logGenerationStep(const String& step, const String& details = "") const;
+    
+    // 新增核心生成方法
+    void generateHTMLRecursive(std::shared_ptr<CHTLASTNode> node, std::ostringstream& stream);
+    void generateElementHTML(std::shared_ptr<ElementNode> element, std::ostringstream& stream);
+    void generateTextHTML(std::shared_ptr<TextNode> text, std::ostringstream& stream);
+    
+    // 样式和脚本处理
+    void processStyleBlock(std::shared_ptr<StyleBlockNode> styleBlock);
+    void processCSSProperty(std::shared_ptr<CSSPropertyNode> property);
+    void processCSSRule(std::shared_ptr<CSSRuleNode> rule);
+    void processScriptBlock(std::shared_ptr<ScriptBlockNode> scriptBlock);
+    
+    // 全局样式和脚本管理
+    void addToGlobalCSS(const String& selector, const String& property, const String& value);
+    void generateGlobalCSS(std::ostringstream& stream);
+    void generateGlobalJS(std::ostringstream& stream);
+    
+    // CHTL JS代码生成
+    String generateCHTLJSCode(std::shared_ptr<CHTLASTNode> node);
+    
+    // 工具方法
+    String escapeHTML(const String& text);
+    String escapeHTMLAttribute(const String& text);
     
     // 辅助工具
     bool isValidHtmlTag(const String& tagName) const;

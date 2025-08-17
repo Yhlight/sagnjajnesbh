@@ -97,6 +97,10 @@ enum class TokenType {
     CALLBACK,           // callback
     AT_KEYWORD,         // at (在when块中使用)
     
+    // 新增缺失的Token类型
+    HASH,               // # (用于ID选择器)
+    EOF_TOKEN,          // EOF的替代名称
+    
     // HTML元素 (动态识别)
     HTML_TAG,           // HTML标签名
     

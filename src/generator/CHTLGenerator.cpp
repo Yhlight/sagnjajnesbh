@@ -1,5 +1,6 @@
 #include "../../include/CHTLGenerator.h"
 #include <iostream>
+#include <sstream>
 
 namespace chtl {
 
@@ -24,10 +25,25 @@ GeneratorResult CHTLGenerator::generate(std::shared_ptr<CHTLASTNode> ast) {
     }
     
     try {
-        // 简化实现 - 生成基本HTML结构
-        result_.htmlOutput = "<div><!-- CHTL Generated Content --></div>";
-        result_.cssOutput = "/* CHTL Generated Styles */";
-        result_.jsOutput = "/* CHTL Generated Scripts */";
+        // 重置上下文
+        styleContext_ = StyleContext{};
+        templateContext_ = TemplateContext{};
+        
+        // 生成HTML
+        std::ostringstream htmlStream;
+        generateHTMLRecursive(ast, htmlStream);
+        result_.htmlOutput = htmlStream.str();
+        
+        // 生成CSS
+        std::ostringstream cssStream;
+        generateGlobalCSS(cssStream);
+        result_.cssOutput = cssStream.str();
+        
+        // 生成JS
+        std::ostringstream jsStream;
+        generateGlobalJS(jsStream);
+        result_.jsOutput = jsStream.str();
+        
         result_.success = true;
         
         if (debugMode_) {
@@ -41,6 +57,297 @@ GeneratorResult CHTLGenerator::generate(std::shared_ptr<CHTLASTNode> ast) {
     return result_;
 }
 
+void CHTLGenerator::generateHTMLRecursive(std::shared_ptr<CHTLASTNode> node, std::ostringstream& stream) {
+    if (!node) return;
+    
+    switch (node->getType()) {
+        case ASTNodeType::ROOT:
+            // 根节点，处理子节点
+            for (const auto& child : node->getChildren()) {
+                generateHTMLRecursive(child, stream);
+            }
+            break;
+            
+        case ASTNodeType::ELEMENT:
+            generateElementHTML(std::static_pointer_cast<ElementNode>(node), stream);
+            break;
+            
+        case ASTNodeType::TEXT_NODE:
+            generateTextHTML(std::static_pointer_cast<TextNode>(node), stream);
+            break;
+            
+        case ASTNodeType::STYLE_BLOCK:
+            // 局部样式块不直接输出HTML，而是处理样式
+            processStyleBlock(std::static_pointer_cast<StyleBlockNode>(node));
+            break;
+            
+        case ASTNodeType::SCRIPT_BLOCK:
+            // 局部脚本块不直接输出HTML，而是处理脚本
+            processScriptBlock(std::static_pointer_cast<ScriptBlockNode>(node));
+            break;
+            
+        default:
+            // 其他节点类型递归处理子节点
+            for (const auto& child : node->getChildren()) {
+                generateHTMLRecursive(child, stream);
+            }
+            break;
+    }
+}
+
+void CHTLGenerator::generateElementHTML(std::shared_ptr<ElementNode> element, std::ostringstream& stream) {
+    const String& tagName = element->getTagName();
+    
+    stream << "<" << tagName;
+    
+    // 生成属性
+    StringMap attributes = element->getAttributes();
+    
+    // 添加自动生成的class和id
+    if (!styleContext_.autoClasses.empty()) {
+        String classAttr;
+        for (const auto& className : styleContext_.autoClasses) {
+            if (!classAttr.empty()) classAttr += " ";
+            classAttr += className;
+        }
+        if (!classAttr.empty()) {
+            if (attributes.find("class") != attributes.end()) {
+                attributes["class"] += " " + classAttr;
+            } else {
+                attributes["class"] = classAttr;
+            }
+        }
+    }
+    
+    if (!styleContext_.autoIds.empty() && !styleContext_.autoIds.begin()->empty()) {
+        attributes["id"] = *styleContext_.autoIds.begin();
+    }
+    
+    // 添加内联样式
+    if (!styleContext_.inlineStyles.empty()) {
+        String styleAttr;
+        for (const auto& [property, value] : styleContext_.inlineStyles) {
+            if (!styleAttr.empty()) styleAttr += "; ";
+            styleAttr += property + ": " + value;
+        }
+        if (!styleAttr.empty()) {
+            attributes["style"] = styleAttr;
+        }
+    }
+    
+    // 输出属性
+    for (const auto& [name, value] : attributes) {
+        stream << " " << name << "=\"" << escapeHTMLAttribute(value) << "\"";
+    }
+    
+    // 检查是否为自闭合标签
+    if (isSelfClosingTag(tagName)) {
+        stream << " />";
+    } else {
+        stream << ">";
+        
+        // 处理子节点
+        for (const auto& child : element->getChildren()) {
+            generateHTMLRecursive(child, stream);
+        }
+        
+        stream << "</" << tagName << ">";
+    }
+    
+    // 重置当前元素的样式上下文
+    styleContext_.inlineStyles.clear();
+    styleContext_.autoClasses.clear();
+    styleContext_.autoIds.clear();
+}
+
+void CHTLGenerator::generateTextHTML(std::shared_ptr<TextNode> text, std::ostringstream& stream) {
+    String content = text->getContent();
+    
+    // 处理无修饰字面量和引号字符串
+    if (content.front() == '"' && content.back() == '"') {
+        content = content.substr(1, content.length() - 2);
+    } else if (content.front() == '\'' && content.back() == '\'') {
+        content = content.substr(1, content.length() - 2);
+    }
+    // 无修饰字面量直接使用
+    
+    stream << escapeHTML(content);
+}
+
+void CHTLGenerator::processStyleBlock(std::shared_ptr<StyleBlockNode> styleBlock) {
+    styleContext_.inLocalStyle = styleBlock->isLocal();
+    
+    for (const auto& child : styleBlock->getChildren()) {
+        switch (child->getType()) {
+            case ASTNodeType::CSS_PROPERTY:
+                processCSSProperty(std::static_pointer_cast<CSSPropertyNode>(child));
+                break;
+                
+            case ASTNodeType::CSS_RULE:
+                processCSSRule(std::static_pointer_cast<CSSRuleNode>(child));
+                break;
+                
+            default:
+                // 递归处理其他节点
+                for (const auto& grandChild : child->getChildren()) {
+                    if (grandChild->getType() == ASTNodeType::CSS_PROPERTY) {
+                        processCSSProperty(std::static_pointer_cast<CSSPropertyNode>(grandChild));
+                    }
+                }
+                break;
+        }
+    }
+}
+
+void CHTLGenerator::processCSSProperty(std::shared_ptr<CSSPropertyNode> property) {
+    const String& prop = property->getProperty();
+    const String& value = property->getValue();
+    
+    if (styleContext_.inLocalStyle) {
+        // 局部样式块中的直接属性作为内联样式
+        if (styleContext_.currentSelector.empty()) {
+            styleContext_.inlineStyles[prop] = value;
+        } else {
+            // 有选择器的情况，添加到相应的样式表
+            addToGlobalCSS(styleContext_.currentSelector, prop, value);
+        }
+    } else {
+        // 全局样式块
+        addToGlobalCSS(styleContext_.currentSelector, prop, value);
+    }
+}
+
+void CHTLGenerator::processCSSRule(std::shared_ptr<CSSRuleNode> rule) {
+    String selector = rule->getSelector();
+    
+    // 处理自动化类名/id
+    if (selector.front() == '.') {
+        // 类选择器，自动添加类名
+        String className = selector.substr(1);
+        styleContext_.autoClasses.insert(className);
+        styleContext_.currentSelector = selector;
+    } else if (selector.front() == '#') {
+        // ID选择器，自动添加ID
+        String idName = selector.substr(1);
+        styleContext_.autoIds.insert(idName);
+        styleContext_.currentSelector = selector;
+    } else if (selector.front() == '&') {
+        // 上下文推导
+        if (selector == "&") {
+            // 使用当前类名或ID
+            if (!styleContext_.autoClasses.empty()) {
+                styleContext_.currentSelector = "." + *styleContext_.autoClasses.begin();
+            } else if (!styleContext_.autoIds.empty()) {
+                styleContext_.currentSelector = "#" + *styleContext_.autoIds.begin();
+            }
+        } else if (selector.find(":") != String::npos) {
+            // 伪类选择器
+            String baseSelector = !styleContext_.autoClasses.empty() 
+                ? "." + *styleContext_.autoClasses.begin()
+                : (!styleContext_.autoIds.empty() ? "#" + *styleContext_.autoIds.begin() : "");
+            
+            if (!baseSelector.empty()) {
+                styleContext_.currentSelector = baseSelector + selector.substr(1);
+            }
+        }
+    } else {
+        styleContext_.currentSelector = selector;
+    }
+    
+    // 处理规则内的属性
+    for (const auto& child : rule->getChildren()) {
+        if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+            processCSSProperty(std::static_pointer_cast<CSSPropertyNode>(child));
+        }
+    }
+}
+
+void CHTLGenerator::processScriptBlock(std::shared_ptr<ScriptBlockNode> scriptBlock) {
+    // 局部脚本块处理
+    if (scriptBlock->isLocal()) {
+        // 添加到全局脚本中，但使用高优先级且不污染全局的方式
+        for (const auto& child : scriptBlock->getChildren()) {
+            // 处理CHTL JS语法
+            String jsCode = generateCHTLJSCode(child);
+            globalJS_ += jsCode + "\n";
+        }
+    }
+}
+
+void CHTLGenerator::addToGlobalCSS(const String& selector, const String& property, const String& value) {
+    globalCSS_[selector][property] = value;
+}
+
+void CHTLGenerator::generateGlobalCSS(std::ostringstream& stream) {
+    for (const auto& [selector, properties] : globalCSS_) {
+        stream << selector << " {\n";
+        for (const auto& [property, value] : properties) {
+            stream << "  " << property << ": " << value << ";\n";
+        }
+        stream << "}\n\n";
+    }
+}
+
+void CHTLGenerator::generateGlobalJS(std::ostringstream& stream) {
+    if (!globalJS_.empty()) {
+        stream << "(function() {\n";
+        stream << "  'use strict';\n";
+        stream << globalJS_;
+        stream << "})();\n";
+    }
+}
+
+String CHTLGenerator::generateCHTLJSCode(std::shared_ptr<CHTLASTNode> node) {
+    // 基础CHTL JS代码生成
+    // 这里先返回占位符，后续任务会完整实现
+    return "// CHTL JS Code";
+}
+
+String CHTLGenerator::escapeHTML(const String& text) {
+    String result = text;
+    size_t pos = 0;
+    
+    while ((pos = result.find('&', pos)) != String::npos) {
+        result.replace(pos, 1, "&amp;");
+        pos += 5;
+    }
+    
+    pos = 0;
+    while ((pos = result.find('<', pos)) != String::npos) {
+        result.replace(pos, 1, "&lt;");
+        pos += 4;
+    }
+    
+    pos = 0;
+    while ((pos = result.find('>', pos)) != String::npos) {
+        result.replace(pos, 1, "&gt;");
+        pos += 4;
+    }
+    
+    return result;
+}
+
+String CHTLGenerator::escapeHTMLAttribute(const String& text) {
+    String result = escapeHTML(text);
+    size_t pos = 0;
+    
+    while ((pos = result.find('"', pos)) != String::npos) {
+        result.replace(pos, 1, "&quot;");
+        pos += 6;
+    }
+    
+    return result;
+}
+
+bool CHTLGenerator::isSelfClosingTag(const String& tagName) const {
+    static const StringSet selfClosingTags = {
+        "area", "base", "br", "col", "embed", "hr", "img", "input",
+        "link", "meta", "param", "source", "track", "wbr"
+    };
+    
+    return selfClosingTags.find(tagName) != selfClosingTags.end();
+}
+
 GeneratorResult CHTLGenerator::generateFromFile(const String& filename) {
     // 占位符实现
     result_.addError(GeneratorErrorType::OUTPUT_ERROR, "generateFromFile未实现");
@@ -48,23 +355,50 @@ GeneratorResult CHTLGenerator::generateFromFile(const String& filename) {
 }
 
 String CHTLGenerator::generateHTML(std::shared_ptr<CHTLASTNode> ast) {
-    return "<div><!-- HTML Generated --></div>";
+    std::ostringstream stream;
+    generateHTMLRecursive(ast, stream);
+    return stream.str();
 }
 
 String CHTLGenerator::generateCSS(std::shared_ptr<CHTLASTNode> ast) {
-    return "/* CSS Generated */";
+    std::ostringstream stream;
+    generateGlobalCSS(stream);
+    return stream.str();
 }
 
 String CHTLGenerator::generateJS(std::shared_ptr<CHTLASTNode> ast) {
-    return "/* JS Generated */";
+    std::ostringstream stream;
+    generateGlobalJS(stream);
+    return stream.str();
 }
 
 // 占位符方法实现
-String CHTLGenerator::generateElement(std::shared_ptr<ElementNode> element) { return ""; }
-String CHTLGenerator::generateText(std::shared_ptr<TextNode> text) { return ""; }
-String CHTLGenerator::generateAttribute(std::shared_ptr<AttributeNode> attribute) { return ""; }
-String CHTLGenerator::generateStyle(std::shared_ptr<StyleBlockNode> style) { return ""; }
-String CHTLGenerator::generateScript(std::shared_ptr<ScriptBlockNode> script) { return ""; }
+String CHTLGenerator::generateElement(std::shared_ptr<ElementNode> element) { 
+    std::ostringstream stream;
+    generateElementHTML(element, stream);
+    return stream.str();
+}
+
+String CHTLGenerator::generateText(std::shared_ptr<TextNode> text) { 
+    std::ostringstream stream;
+    generateTextHTML(text, stream);
+    return stream.str();
+}
+
+String CHTLGenerator::generateAttribute(std::shared_ptr<AttributeNode> attribute) { 
+    return attribute->getName() + "=\"" + escapeHTMLAttribute(attribute->getValue()) + "\"";
+}
+
+String CHTLGenerator::generateStyle(std::shared_ptr<StyleBlockNode> style) { 
+    processStyleBlock(style);
+    return "";
+}
+
+String CHTLGenerator::generateScript(std::shared_ptr<ScriptBlockNode> script) { 
+    processScriptBlock(script);
+    return "";
+}
+
 String CHTLGenerator::generateStyleProperty(std::shared_ptr<CSSPropertyNode> property) { return ""; }
 String CHTLGenerator::generateClassSelector(const String& className) { return ""; }
 String CHTLGenerator::generateIdSelector(const String& idName) { return ""; }

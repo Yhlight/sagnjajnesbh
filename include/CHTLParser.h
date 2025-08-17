@@ -89,6 +89,8 @@ public:
     std::shared_ptr<CHTLASTNode> parseClassSelector();
     std::shared_ptr<CHTLASTNode> parseIdSelector();
     std::shared_ptr<CHTLASTNode> parsePseudoSelector();
+    std::shared_ptr<CHTLASTNode> parseStyleContent();
+    std::shared_ptr<CHTLASTNode> parseElementContent();
     
     // 模板和自定义解析
     std::shared_ptr<TemplateStyleNode> parseTemplateStyle();

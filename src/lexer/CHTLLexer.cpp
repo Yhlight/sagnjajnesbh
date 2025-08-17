@@ -1,7 +1,7 @@
 #include "../../include/CHTLLexer.h"
 #include <cctype>
 
-namespace CHTL {
+namespace chtl {
 
 CHTLLexer::CHTLLexer(const String& sourceCode, StateMachine& stateMachine, ContextManager& contextManager)
     : sourceCode_(sourceCode), currentPos_(0), currentLine_(1), currentColumn_(1),
@@ -325,4 +325,4 @@ bool CHTLLexer::matchKeywordBoundary(const String& keyword) const { return false
 void CHTLLexer::dumpCurrentState() const {}
 String CHTLLexer::getCurrentContext() const { return ""; }
 
-} // namespace CHTL
+} // namespace chtl
