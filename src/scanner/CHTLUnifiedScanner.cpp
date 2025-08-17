@@ -3,7 +3,7 @@
 #include <cctype>
 #include <regex>
 
-namespace CHTL {
+namespace chtl {
 
 CHTLUnifiedScanner::CHTLUnifiedScanner(const String& sourceCode)
     : sourceCode_(sourceCode), currentPos_(0), currentLine_(1), currentColumn_(1) {
@@ -462,4 +462,4 @@ std::pair<size_t, size_t> CHTLUnifiedScanner::getLineColumn(size_t pos) const {
     return {line, column};
 }
 
-} // namespace CHTL
+} // namespace chtl

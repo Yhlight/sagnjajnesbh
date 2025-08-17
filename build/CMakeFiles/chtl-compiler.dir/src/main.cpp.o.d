@@ -236,6 +236,11 @@ CMakeFiles/chtl-compiler.dir/src/main.cpp.o: /workspace/src/main.cpp \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/variant \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/optional \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
   /workspace/src/../include/CompilerDispatcher.h \
   /workspace/src/../include/CHTLUnifiedScanner.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \

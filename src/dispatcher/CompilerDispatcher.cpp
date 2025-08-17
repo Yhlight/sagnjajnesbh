@@ -2,7 +2,7 @@
 #include <fstream>
 #include <chrono>
 
-namespace CHTL {
+namespace chtl {
 
 // 临时前向声明的编译器类
 class CHTLCompiler {
@@ -220,4 +220,4 @@ void CompilerDispatcher::collectWarnings(CompilerResult& result, const std::vect
     result.warnings.insert(result.warnings.end(), warnings.begin(), warnings.end());
 }
 
-} // namespace CHTL
+} // namespace chtl

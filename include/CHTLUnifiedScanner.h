@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-namespace CHTL {
+namespace chtl {
 
 /**
  * CHTL统一扫描器 - 精准代码切割器
@@ -82,4 +82,4 @@ private:
     std::pair<size_t, size_t> getLineColumn(size_t pos) const;
 };
 
-} // namespace CHTL
+} // namespace chtl

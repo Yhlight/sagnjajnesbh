@@ -318,30 +318,6 @@ src/compiler/js/JSCompiler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/compiler/js/JSCompiler.cpp.s
 .PHONY : src/compiler/js/JSCompiler.cpp.s
 
-src/context/ContextManager.o: src/context/ContextManager.cpp.o
-.PHONY : src/context/ContextManager.o
-
-# target to build an object file
-src/context/ContextManager.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.o
-.PHONY : src/context/ContextManager.cpp.o
-
-src/context/ContextManager.i: src/context/ContextManager.cpp.i
-.PHONY : src/context/ContextManager.i
-
-# target to preprocess a source file
-src/context/ContextManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.i
-.PHONY : src/context/ContextManager.cpp.i
-
-src/context/ContextManager.s: src/context/ContextManager.cpp.s
-.PHONY : src/context/ContextManager.s
-
-# target to generate assembly for a file
-src/context/ContextManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.s
-.PHONY : src/context/ContextManager.cpp.s
-
 src/dispatcher/CompilerDispatcher.o: src/dispatcher/CompilerDispatcher.cpp.o
 .PHONY : src/dispatcher/CompilerDispatcher.o
 
@@ -413,54 +389,6 @@ src/generator/CHTLJSGenerator.s: src/generator/CHTLJSGenerator.cpp.s
 src/generator/CHTLJSGenerator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/generator/CHTLJSGenerator.cpp.s
 .PHONY : src/generator/CHTLJSGenerator.cpp.s
-
-src/lexer/CHTLJSLexer.o: src/lexer/CHTLJSLexer.cpp.o
-.PHONY : src/lexer/CHTLJSLexer.o
-
-# target to build an object file
-src/lexer/CHTLJSLexer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/lexer/CHTLJSLexer.cpp.o
-.PHONY : src/lexer/CHTLJSLexer.cpp.o
-
-src/lexer/CHTLJSLexer.i: src/lexer/CHTLJSLexer.cpp.i
-.PHONY : src/lexer/CHTLJSLexer.i
-
-# target to preprocess a source file
-src/lexer/CHTLJSLexer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/lexer/CHTLJSLexer.cpp.i
-.PHONY : src/lexer/CHTLJSLexer.cpp.i
-
-src/lexer/CHTLJSLexer.s: src/lexer/CHTLJSLexer.cpp.s
-.PHONY : src/lexer/CHTLJSLexer.s
-
-# target to generate assembly for a file
-src/lexer/CHTLJSLexer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/lexer/CHTLJSLexer.cpp.s
-.PHONY : src/lexer/CHTLJSLexer.cpp.s
-
-src/lexer/CHTLLexer.o: src/lexer/CHTLLexer.cpp.o
-.PHONY : src/lexer/CHTLLexer.o
-
-# target to build an object file
-src/lexer/CHTLLexer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/lexer/CHTLLexer.cpp.o
-.PHONY : src/lexer/CHTLLexer.cpp.o
-
-src/lexer/CHTLLexer.i: src/lexer/CHTLLexer.cpp.i
-.PHONY : src/lexer/CHTLLexer.i
-
-# target to preprocess a source file
-src/lexer/CHTLLexer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/lexer/CHTLLexer.cpp.i
-.PHONY : src/lexer/CHTLLexer.cpp.i
-
-src/lexer/CHTLLexer.s: src/lexer/CHTLLexer.cpp.s
-.PHONY : src/lexer/CHTLLexer.s
-
-# target to generate assembly for a file
-src/lexer/CHTLLexer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/lexer/CHTLLexer.cpp.s
-.PHONY : src/lexer/CHTLLexer.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -606,30 +534,6 @@ src/scanner/CHTLUnifiedScanner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/scanner/CHTLUnifiedScanner.cpp.s
 .PHONY : src/scanner/CHTLUnifiedScanner.cpp.s
 
-src/state/StateMachine.o: src/state/StateMachine.cpp.o
-.PHONY : src/state/StateMachine.o
-
-# target to build an object file
-src/state/StateMachine.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.o
-.PHONY : src/state/StateMachine.cpp.o
-
-src/state/StateMachine.i: src/state/StateMachine.cpp.i
-.PHONY : src/state/StateMachine.i
-
-# target to preprocess a source file
-src/state/StateMachine.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.i
-.PHONY : src/state/StateMachine.cpp.i
-
-src/state/StateMachine.s: src/state/StateMachine.cpp.s
-.PHONY : src/state/StateMachine.s
-
-# target to generate assembly for a file
-src/state/StateMachine.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl-compiler.dir/build.make CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.s
-.PHONY : src/state/StateMachine.cpp.s
-
 src/utils/FileUtils.o: src/utils/FileUtils.cpp.o
 .PHONY : src/utils/FileUtils.o
 
@@ -709,9 +613,6 @@ help:
 	@echo "... src/compiler/js/JSCompiler.o"
 	@echo "... src/compiler/js/JSCompiler.i"
 	@echo "... src/compiler/js/JSCompiler.s"
-	@echo "... src/context/ContextManager.o"
-	@echo "... src/context/ContextManager.i"
-	@echo "... src/context/ContextManager.s"
 	@echo "... src/dispatcher/CompilerDispatcher.o"
 	@echo "... src/dispatcher/CompilerDispatcher.i"
 	@echo "... src/dispatcher/CompilerDispatcher.s"
@@ -721,12 +622,6 @@ help:
 	@echo "... src/generator/CHTLJSGenerator.o"
 	@echo "... src/generator/CHTLJSGenerator.i"
 	@echo "... src/generator/CHTLJSGenerator.s"
-	@echo "... src/lexer/CHTLJSLexer.o"
-	@echo "... src/lexer/CHTLJSLexer.i"
-	@echo "... src/lexer/CHTLJSLexer.s"
-	@echo "... src/lexer/CHTLLexer.o"
-	@echo "... src/lexer/CHTLLexer.i"
-	@echo "... src/lexer/CHTLLexer.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
@@ -745,9 +640,6 @@ help:
 	@echo "... src/scanner/CHTLUnifiedScanner.o"
 	@echo "... src/scanner/CHTLUnifiedScanner.i"
 	@echo "... src/scanner/CHTLUnifiedScanner.s"
-	@echo "... src/state/StateMachine.o"
-	@echo "... src/state/StateMachine.i"
-	@echo "... src/state/StateMachine.s"
 	@echo "... src/utils/FileUtils.o"
 	@echo "... src/utils/FileUtils.i"
 	@echo "... src/utils/FileUtils.s"

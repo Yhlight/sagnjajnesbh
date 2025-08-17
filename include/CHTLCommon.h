@@ -7,8 +7,9 @@
 #include <unordered_set>
 #include <variant>
 #include <optional>
+#include <stack>
 
-namespace CHTL {
+namespace chtl {
 
 // 前向声明
 class CHTLASTNode;
@@ -31,79 +32,8 @@ enum class FragmentType {
     UNKNOWN         // 未知类型
 };
 
-// Token类型
-enum class TokenType {
-    // 基础Token
-    IDENTIFIER,     // 标识符
-    STRING,         // 字符串字面量
-    NUMBER,         // 数字字面量
-    COMMENT,        // 注释
-    
-    // 符号
-    LEFT_BRACE,     // {
-    RIGHT_BRACE,    // }
-    LEFT_PAREN,     // (
-    RIGHT_PAREN,    // )
-    LEFT_BRACKET,   // [
-    RIGHT_BRACKET,  // ]
-    SEMICOLON,      // ;
-    COLON,          // :
-    EQUALS,         // =
-    COMMA,          // ,
-    DOT,            // .
-    ARROW,          // ->
-    AMPERSAND,      // &
-    
-    // CHTL关键字
-    TEXT,           // text
-    STYLE,          // style
-    SCRIPT,         // script
-    
-    // 模板相关
-    TEMPLATE,       // [Template]
-    CUSTOM,         // [Custom]
-    ORIGIN,         // [Origin]
-    IMPORT,         // [Import]
-    NAMESPACE,      // [Namespace]
-    CONFIGURATION,  // [Configuration]
-    
-    // 类型标识
-    AT_STYLE,       // @Style
-    AT_ELEMENT,     // @Element
-    AT_VAR,         // @Var
-    AT_HTML,        // @Html
-    AT_JAVASCRIPT,  // @JavaScript
-    AT_CHTL,        // @Chtl
-    AT_CJMOD,       // @CJmod
-    
-    // 关键字
-    INHERIT,        // inherit
-    DELETE,         // delete
-    INSERT,         // insert
-    AFTER,          // after
-    BEFORE,         // before
-    REPLACE,        // replace
-    AT_TOP,         // at top
-    AT_BOTTOM,      // at bottom
-    FROM,           // from
-    AS,             // as
-    EXCEPT,         // except
-    
-    // CHTL JS特殊符号
-    DOUBLE_LEFT_BRACE,  // {{
-    DOUBLE_RIGHT_BRACE, // }}
-    VIR,            // vir
-    LISTEN,         // listen
-    DELEGATE,       // delegate
-    ANIMATE,        // animate
-    
-    // 结束符
-    END_OF_FILE,    // EOF
-    NEWLINE,        // 换行
-    WHITESPACE,     // 空白字符
-    
-    UNKNOWN         // 未知Token
-};
+// 基础Token类型 (详细定义在CHTLTokens.h中)
+enum class TokenType;
 
 // AST节点类型
 enum class ASTNodeType {
@@ -144,18 +74,8 @@ enum class ASTNodeType {
     UNKNOWN_NODE
 };
 
-// Token结构
-struct Token {
-    TokenType type;
-    String value;
-    size_t line;
-    size_t column;
-    size_t position;
-    
-    Token(TokenType t = TokenType::UNKNOWN, const String& v = "", 
-          size_t l = 0, size_t c = 0, size_t p = 0)
-        : type(t), value(v), line(l), column(c), position(p) {}
-};
+// Token结构 (详细定义在CHTLTokens.h中)
+struct Token;
 
 // 代码片段结构
 struct CodeFragment {
@@ -201,4 +121,4 @@ struct CompilerResult {
     std::vector<String> warnings;
 };
 
-} // namespace CHTL
+} // namespace chtl

@@ -9,16 +9,12 @@ bin/chtl-compiler: \
   CMakeFiles/chtl-compiler.dir/src/compiler/chtljs/CHTLJSCompiler.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/compiler/css/CSSCompiler.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/compiler/js/JSCompiler.cpp.o \
-  CMakeFiles/chtl-compiler.dir/src/lexer/CHTLLexer.cpp.o \
-  CMakeFiles/chtl-compiler.dir/src/lexer/CHTLJSLexer.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/parser/CHTLParser.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/parser/CHTLJSParser.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/ast/CHTLASTNodes.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/ast/CHTLJSASTNodes.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/generator/CHTLGenerator.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/generator/CHTLJSGenerator.cpp.o \
-  CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.o \
-  CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/module/CMODManager.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/module/CJMODManager.cpp.o \
   CMakeFiles/chtl-compiler.dir/src/utils/FileUtils.cpp.o \
@@ -71,10 +67,6 @@ CMakeFiles/chtl-compiler.dir/src/compiler/css/CSSCompiler.cpp.o:
 
 CMakeFiles/chtl-compiler.dir/src/compiler/js/JSCompiler.cpp.o:
 
-CMakeFiles/chtl-compiler.dir/src/lexer/CHTLLexer.cpp.o:
-
-CMakeFiles/chtl-compiler.dir/src/lexer/CHTLJSLexer.cpp.o:
-
 CMakeFiles/chtl-compiler.dir/src/parser/CHTLParser.cpp.o:
 
 CMakeFiles/chtl-compiler.dir/src/parser/CHTLJSParser.cpp.o:
@@ -86,10 +78,6 @@ CMakeFiles/chtl-compiler.dir/src/ast/CHTLJSASTNodes.cpp.o:
 CMakeFiles/chtl-compiler.dir/src/generator/CHTLGenerator.cpp.o:
 
 CMakeFiles/chtl-compiler.dir/src/generator/CHTLJSGenerator.cpp.o:
-
-CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.o:
-
-CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.o:
 
 CMakeFiles/chtl-compiler.dir/src/module/CMODManager.cpp.o:
 

@@ -3,7 +3,7 @@
 #include "CHTLCommon.h"
 #include "CHTLUnifiedScanner.h"
 
-namespace CHTL {
+namespace chtl {
 
 // 前向声明
 class CHTLCompiler;
@@ -74,4 +74,4 @@ private:
     void collectWarnings(CompilerResult& result, const std::vector<String>& warnings);
 };
 
-} // namespace CHTL
+} // namespace chtl

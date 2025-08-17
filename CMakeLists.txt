@@ -23,16 +23,14 @@ add_executable(chtl-compiler
     src/compiler/chtljs/CHTLJSCompiler.cpp
     src/compiler/css/CSSCompiler.cpp
     src/compiler/js/JSCompiler.cpp
-    src/lexer/CHTLLexer.cpp
-    src/lexer/CHTLJSLexer.cpp
+
     src/parser/CHTLParser.cpp
     src/parser/CHTLJSParser.cpp
     src/ast/CHTLASTNodes.cpp
     src/ast/CHTLJSASTNodes.cpp
     src/generator/CHTLGenerator.cpp
     src/generator/CHTLJSGenerator.cpp
-    src/context/ContextManager.cpp
-    src/state/StateMachine.cpp
+
     src/module/CMODManager.cpp
     src/module/CJMODManager.cpp
     src/utils/FileUtils.cpp

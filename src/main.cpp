@@ -26,8 +26,8 @@ void printVersion() {
     std::cout << "使用MIT开源协议\n";
 }
 
-CHTL::CompilerOptions parseArguments(int argc, char* argv[], std::string& inputFile) {
-    CHTL::CompilerOptions options;
+chtl::CompilerOptions parseArguments(int argc, char* argv[], std::string& inputFile) {
+    chtl::CompilerOptions options;
     
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
@@ -79,7 +79,7 @@ CHTL::CompilerOptions parseArguments(int argc, char* argv[], std::string& inputF
 int main(int argc, char* argv[]) {
     try {
         std::string inputFile;
-        CHTL::CompilerOptions options = parseArguments(argc, argv, inputFile);
+        chtl::CompilerOptions options = parseArguments(argc, argv, inputFile);
         
         if (inputFile.empty()) {
             std::cerr << "错误: 未指定输入文件\n";
@@ -102,10 +102,10 @@ int main(int argc, char* argv[]) {
         }
         
         // 创建编译器调度器
-        CHTL::CompilerDispatcher dispatcher(options);
+        chtl::CompilerDispatcher dispatcher(options);
         
         // 编译文件
-        CHTL::CompilerResult result = dispatcher.compileFile(inputFile);
+        chtl::CompilerResult result = dispatcher.compileFile(inputFile);
         
         if (result.success) {
             // 写入输出文件
