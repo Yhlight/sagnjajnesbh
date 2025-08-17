@@ -96,7 +96,8 @@ test_unified_scanner_EXTERNAL_OBJECTS =
 bin/test_unified_scanner: CMakeFiles/test_unified_scanner.dir/test/test_unified_scanner.cpp.o
 bin/test_unified_scanner: CMakeFiles/test_unified_scanner.dir/build.make
 bin/test_unified_scanner: CMakeFiles/test_unified_scanner.dir/compiler_depend.ts
-bin/test_unified_scanner: lib/libchtl_common.a
+bin/test_unified_scanner: lib/libunified_core.a
+bin/test_unified_scanner: lib/libchtl_shared.a
 bin/test_unified_scanner: CMakeFiles/test_unified_scanner.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/test_unified_scanner"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_unified_scanner.dir/link.txt --verbose=$(VERBOSE)

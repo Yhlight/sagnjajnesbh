@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libchtl_other.a CMakeFiles/chtl_other.dir/src/common/CompilerCore.cpp.o CMakeFiles/chtl_other.dir/src/common/ContextManager.cpp.o CMakeFiles/chtl_other.dir/src/parser/ParserExtensions.cpp.o
+/usr/bin/ranlib lib/libchtl_other.a

@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libunified_core.a CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o
+/usr/bin/ranlib lib/libunified_core.a

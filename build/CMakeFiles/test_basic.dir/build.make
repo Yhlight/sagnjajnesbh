@@ -96,7 +96,8 @@ test_basic_EXTERNAL_OBJECTS =
 bin/test_basic: CMakeFiles/test_basic.dir/test/test_basic.cpp.o
 bin/test_basic: CMakeFiles/test_basic.dir/build.make
 bin/test_basic: CMakeFiles/test_basic.dir/compiler_depend.ts
-bin/test_basic: lib/libchtl_common.a
+bin/test_basic: lib/libchtl_compiler.a
+bin/test_basic: lib/libchtl_shared.a
 bin/test_basic: CMakeFiles/test_basic.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/test_basic"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_basic.dir/link.txt --verbose=$(VERBOSE)

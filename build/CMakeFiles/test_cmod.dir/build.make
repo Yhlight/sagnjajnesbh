@@ -96,7 +96,8 @@ test_cmod_EXTERNAL_OBJECTS =
 bin/test_cmod: CMakeFiles/test_cmod.dir/test/test_cmod.cpp.o
 bin/test_cmod: CMakeFiles/test_cmod.dir/build.make
 bin/test_cmod: CMakeFiles/test_cmod.dir/compiler_depend.ts
-bin/test_cmod: lib/libchtl_common.a
+bin/test_cmod: lib/libchtl_compiler.a
+bin/test_cmod: lib/libchtl_shared.a
 bin/test_cmod: CMakeFiles/test_cmod.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/test_cmod"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_cmod.dir/link.txt --verbose=$(VERBOSE)

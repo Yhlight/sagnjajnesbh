@@ -96,8 +96,9 @@ test_virtual_object_EXTERNAL_OBJECTS =
 bin/test_virtual_object: CMakeFiles/test_virtual_object.dir/test/test_virtual_object.cpp.o
 bin/test_virtual_object: CMakeFiles/test_virtual_object.dir/build.make
 bin/test_virtual_object: CMakeFiles/test_virtual_object.dir/compiler_depend.ts
-bin/test_virtual_object: lib/libchtl_common.a
+bin/test_virtual_object: lib/libchtl_js_compiler.a
 bin/test_virtual_object: lib/libchtl_ast.a
+bin/test_virtual_object: lib/libchtl_shared.a
 bin/test_virtual_object: CMakeFiles/test_virtual_object.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/test_virtual_object"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_virtual_object.dir/link.txt --verbose=$(VERBOSE)
