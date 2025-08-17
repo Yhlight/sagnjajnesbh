@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -Xlinker --dependency-file=CMakeFiles/test_chtl_js_lexer.dir/link.d CMakeFiles/test_chtl_js_lexer.dir/test/test_chtl_js_lexer.cpp.o -o bin/test_chtl_js_lexer  lib/libchtl_js_compiler.a lib/libchtl_shared.a
