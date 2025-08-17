@@ -1,6 +1,7 @@
 #include "../../include/StateMachine.h"
+#include <algorithm>
 
-namespace CHTL {
+namespace chtl {
 
 // StateGuard实现
 StateGuard::StateGuard(StateMachine& sm, const StateInfo& newState) 
@@ -326,4 +327,4 @@ bool isValidScopeNesting(ScopeType parent, ScopeType child) {
 
 } // namespace StateUtils
 
-} // namespace CHTL
+} // namespace chtl

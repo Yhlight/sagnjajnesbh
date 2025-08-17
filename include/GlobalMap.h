@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <memory>
 
-namespace CHTL {
+namespace chtl {
 
 // 前向声明
 class CHTLASTNode;
@@ -208,3 +208,5 @@ private:
     
     String currentNamespace_;
 };
+
+} // namespace chtl

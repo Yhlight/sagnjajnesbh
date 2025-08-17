@@ -5,7 +5,7 @@
 #include "GlobalMap.h"
 #include <stack>
 
-namespace CHTL {
+namespace chtl {
 
 // 上下文类型
 enum class ContextType {
@@ -223,4 +223,4 @@ private:
 #define CHTL_SCRIPT_CONTEXT(cm) \
     ContextGuard __script_guard(cm, ContextInfo(ContextType::SCRIPT_BLOCK, "script"))
 
-} // namespace CHTL
+} // namespace chtl

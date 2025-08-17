@@ -1,0 +1,12 @@
+[Info]
+{
+    name = "TestCJmod";
+    version = "1.0.0";
+    description = "CHTL JS扩展模块示例";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "extension";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}

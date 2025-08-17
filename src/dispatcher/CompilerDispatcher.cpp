@@ -1,223 +1,219 @@
 #include "../../include/CompilerDispatcher.h"
+#include "../../include/CHTLUnifiedScanner.h"
+#include "../../include/CHTLParser.h"
+#include "../../include/CHTLJSParser.h"
+#include "../../include/CHTLGenerator.h"
+#include "../../include/CHTLJSGenerator.h"
+#include <iostream>
 #include <fstream>
 #include <chrono>
 
 namespace chtl {
 
-// 临时前向声明的编译器类
-class CHTLCompiler {
-public:
-    String compile(const String& code) { return "<!-- CHTL: " + code + " -->"; }
-};
-
-class CHTLJSCompiler {
-public:
-    String compile(const String& code) { return "/* CHTL JS: " + code + " */"; }
-};
-
-class CSSCompiler {
-public:
-    String compile(const String& code) { return "/* CSS: " + code + " */"; }
-};
-
-class JSCompiler {
-public:
-    String compile(const String& code) { return "/* JS: " + code + " */"; }
-};
-
 CompilerDispatcher::CompilerDispatcher(const CompilerOptions& options)
-    : options_(options) {
-    initializeCompilers();
-}
-
-CompilerDispatcher::~CompilerDispatcher() {
-    cleanupCompilers();
-}
-
-CompilerResult CompilerDispatcher::compile(const String& sourceCode, const String& filename) {
-    auto startTime = std::chrono::high_resolution_clock::now();
+    : options_(options), debugMode_(options.debugMode) {
     
-    // 重置统计信息
-    stats_ = CompileStats{};
+    // 初始化统计信息
+    stats_.chtlFragments = 0;
+    stats_.chtlJSFragments = 0;
+    stats_.cssFragments = 0;
+    stats_.jsFragments = 0;
+    stats_.htmlFragments = 0;
+    stats_.compilationTime = 0;
     
-    // 扫描代码片段
-    CHTLUnifiedScanner scanner(sourceCode);
-    std::vector<CodeFragment> fragments = scanner.scanAllFragments();
-    
-    // 检查扫描错误
-    CompilerResult result;
-    const auto& scanErrors = scanner.getErrors();
-    if (!scanErrors.empty()) {
-        result.success = false;
-        result.errors = scanErrors;
-        return result;
+    if (debugMode_) {
+        std::cout << "[CompilerDispatcher] 初始化完成" << std::endl;
     }
-    
-    // 处理片段
-    result = processFragments(fragments, filename);
-    
-    // 计算编译时间
-    auto endTime = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
-    stats_.compilationTime = duration.count() / 1000.0; // 转换为毫秒
-    
-    return result;
 }
 
 CompilerResult CompilerDispatcher::compileFile(const String& filename) {
+    auto startTime = std::chrono::high_resolution_clock::now();
+    
+    CompilerResult result;
+    result.success = false;
+    
+    if (debugMode_) {
+        std::cout << "[CompilerDispatcher] 开始编译文件: " << filename << std::endl;
+    }
+    
+    // 读取文件
     std::ifstream file(filename);
     if (!file.good()) {
-        CompilerResult result;
-        result.success = false;
-        result.errors.emplace_back("无法打开文件: " + filename, filename);
+        result.errors.emplace_back("无法打开文件: " + filename, filename, 0, 0);
         return result;
     }
     
-    String sourceCode((std::istreambuf_iterator<char>(file)),
-                      std::istreambuf_iterator<char>());
+    String source((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     file.close();
     
-    return compile(sourceCode, filename);
+    return compileSource(source, filename);
 }
 
-void CompilerDispatcher::setOptions(const CompilerOptions& options) {
-    options_ = options;
-}
-
-CompilerResult CompilerDispatcher::processFragments(const std::vector<CodeFragment>& fragments, const String& filename) {
+CompilerResult CompilerDispatcher::compileSource(const String& source, const String& filename) {
+    auto startTime = std::chrono::high_resolution_clock::now();
+    
     CompilerResult result;
-    result.success = true;
+    result.success = false;
     
-    std::vector<String> htmlParts;
-    std::vector<String> cssParts;
-    std::vector<String> jsParts;
-    
-    for (const auto& fragment : fragments) {
-        FragmentResult fragResult = compileFragment(fragment, filename);
+    try {
+        // 第一步：扫描源代码，分割代码片段
+        CHTLUnifiedScanner scanner(options_);
+        auto scanResult = scanner.scan(source, filename);
         
-        // 收集结果
-        if (!fragResult.html.empty()) {
-            htmlParts.push_back(fragResult.html);
-        }
-        if (!fragResult.css.empty()) {
-            cssParts.push_back(fragResult.css);
-        }
-        if (!fragResult.javascript.empty()) {
-            jsParts.push_back(fragResult.javascript);
+        if (!scanResult.success) {
+            for (const auto& error : scanResult.errors) {
+                result.errors.emplace_back(error.message, filename, error.line, error.column);
+            }
+            return result;
         }
         
-        // 收集错误和警告
-        collectErrors(result, fragResult.errors);
-        collectWarnings(result, fragResult.warnings);
-        
-        // 更新统计信息
-        switch (fragment.type) {
-            case FragmentType::CHTL:
-                stats_.chtlFragments++;
-                break;
-            case FragmentType::CHTL_JS:
-                stats_.chtlJSFragments++;
-                break;
-            case FragmentType::CSS:
-                stats_.cssFragments++;
-                break;
-            case FragmentType::JAVASCRIPT:
-                stats_.jsFragments++;
-                break;
-            case FragmentType::HTML:
-                stats_.htmlFragments++;
-                break;
-            default:
-                break;
+        if (debugMode_) {
+            std::cout << "[CompilerDispatcher] 扫描完成，发现 " << scanResult.fragments.size() << " 个代码片段" << std::endl;
         }
+        
+        // 第二步：解析各个代码片段
+        String htmlOutput, cssOutput, jsOutput;
+        
+        for (const auto& fragment : scanResult.fragments) {
+            switch (fragment.type) {
+                case FragmentType::CHTL:
+                    {
+                        auto chtlResult = compileCHTLFragment(fragment, filename);
+                        if (!chtlResult.success) {
+                            for (const auto& error : chtlResult.errors) {
+                                result.errors.push_back(error);
+                            }
+                        } else {
+                            htmlOutput += chtlResult.htmlOutput;
+                            cssOutput += chtlResult.cssOutput;
+                            jsOutput += chtlResult.jsOutput;
+                        }
+                        stats_.chtlFragments++;
+                    }
+                    break;
+                    
+                case FragmentType::CHTL_JS:
+                    {
+                        auto jsResult = compileCHTLJSFragment(fragment, filename);
+                        if (!jsResult.success) {
+                            for (const auto& error : jsResult.errors) {
+                                result.errors.emplace_back(error.message, filename, error.line, error.column);
+                            }
+                        } else {
+                            jsOutput += jsResult.jsOutput;
+                        }
+                        stats_.chtlJSFragments++;
+                    }
+                    break;
+                    
+                case FragmentType::CSS:
+                    cssOutput += fragment.content;
+                    stats_.cssFragments++;
+                    break;
+                    
+                case FragmentType::JAVASCRIPT:
+                    jsOutput += fragment.content;
+                    stats_.jsFragments++;
+                    break;
+                    
+                case FragmentType::HTML:
+                    htmlOutput += fragment.content;
+                    stats_.htmlFragments++;
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+        
+        // 第三步：合并输出
+        result.output = generateFinalOutput(htmlOutput, cssOutput, jsOutput);
+        result.success = true;
+        
+        // 计算编译时间
+        auto endTime = std::chrono::high_resolution_clock::now();
+        stats_.compilationTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+        
+        if (debugMode_) {
+            std::cout << "[CompilerDispatcher] 编译完成，用时 " << stats_.compilationTime << "ms" << std::endl;
+        }
+        
+    } catch (const std::exception& e) {
+        result.errors.emplace_back("编译异常: " + String(e.what()), filename, 0, 0);
     }
     
-    if (!result.errors.empty()) {
-        result.success = false;
+    return result;
+}
+
+GeneratorResult CompilerDispatcher::compileCHTLFragment(const CodeFragment& fragment, const String& filename) {
+    // 使用CHTL解析器和生成器
+    CHTLParser parser(options_);
+    auto parseResult = parser.parse(fragment.content, filename);
+    
+    GeneratorResult result;
+    if (!parseResult.success) {
+        for (const auto& error : parseResult.errors) {
+            result.addError(GeneratorErrorType::AST_ERROR, error.message, error.context, error.line, error.column);
+        }
         return result;
     }
     
-    // 合并结果为HTML
-    String html = "<!DOCTYPE html>\n<html>\n<head>\n";
-    if (!cssParts.empty()) {
-        html += "<style>\n";
-        for (const auto& css : cssParts) {
-            html += css + "\n";
+    CHTLGenerator generator(options_);
+    return generator.generate(parseResult.ast);
+}
+
+CHTLJSGeneratorResult CompilerDispatcher::compileCHTLJSFragment(const CodeFragment& fragment, const String& filename) {
+    // 使用CHTL JS解析器和生成器
+    CHTLJSParser parser(options_);
+    auto parseResult = parser.parse(fragment.content, filename);
+    
+    CHTLJSGeneratorResult result;
+    if (!parseResult.success) {
+        for (const auto& error : parseResult.errors) {
+            result.addError(CHTLJSGeneratorErrorType::AST_ERROR, error.message, error.context, error.line, error.column);
         }
-        html += "</style>\n";
-    }
-    html += "</head>\n<body>\n";
-    
-    for (const auto& htmlPart : htmlParts) {
-        html += htmlPart + "\n";
+        return result;
     }
     
-    if (!jsParts.empty()) {
-        html += "<script>\n";
-        for (const auto& js : jsParts) {
-            html += js + "\n";
-        }
-        html += "</script>\n";
+    CHTLJSGenerator generator(options_);
+    return generator.generate(parseResult.ast);
+}
+
+String CompilerDispatcher::generateFinalOutput(const String& html, const String& css, const String& js) {
+    std::ostringstream output;
+    
+    output << "<!DOCTYPE html>\n";
+    output << "<html lang=\"zh-CN\">\n";
+    output << "<head>\n";
+    output << "    <meta charset=\"UTF-8\">\n";
+    output << "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n";
+    output << "    <title>CHTL Generated Page</title>\n";
+    
+    if (!css.empty()) {
+        output << "    <style>\n";
+        output << css;
+        output << "    </style>\n";
     }
     
-    html += "</body>\n</html>";
-    result.output = html;
+    output << "</head>\n";
+    output << "<body>\n";
+    output << html;
+    output << "\n";
     
-    return result;
-}
-
-CompilerDispatcher::FragmentResult CompilerDispatcher::compileFragment(const CodeFragment& fragment, const String& filename) {
-    FragmentResult result;
-    
-    try {
-        switch (fragment.type) {
-            case FragmentType::CHTL:
-                result.html = chtlCompiler_->compile(fragment.content);
-                break;
-            case FragmentType::CHTL_JS:
-                result.javascript = chtlJSCompiler_->compile(fragment.content);
-                break;
-            case FragmentType::CSS:
-                result.css = cssCompiler_->compile(fragment.content);
-                break;
-            case FragmentType::JAVASCRIPT:
-                result.javascript = jsCompiler_->compile(fragment.content);
-                break;
-            case FragmentType::HTML:
-                result.html = fragment.content; // HTML直接输出
-                break;
-            default:
-                result.warnings.push_back("未知片段类型，跳过处理");
-                break;
-        }
-    } catch (const std::exception& e) {
-        result.errors.emplace_back("编译片段时出错: " + String(e.what()), filename, 
-                                   fragment.startLine, fragment.startColumn);
+    if (!js.empty()) {
+        output << "    <script>\n";
+        output << js;
+        output << "    </script>\n";
     }
     
-    return result;
+    output << "</body>\n";
+    output << "</html>\n";
+    
+    return output.str();
 }
 
-void CompilerDispatcher::initializeCompilers() {
-    chtlCompiler_ = std::make_unique<CHTLCompiler>();
-    chtlJSCompiler_ = std::make_unique<CHTLJSCompiler>();
-    cssCompiler_ = std::make_unique<CSSCompiler>();
-    jsCompiler_ = std::make_unique<JSCompiler>();
-}
-
-void CompilerDispatcher::cleanupCompilers() {
-    chtlCompiler_.reset();
-    chtlJSCompiler_.reset();
-    cssCompiler_.reset();
-    jsCompiler_.reset();
-}
-
-void CompilerDispatcher::collectErrors(CompilerResult& result, const std::vector<CompilerError>& errors) {
-    result.errors.insert(result.errors.end(), errors.begin(), errors.end());
-}
-
-void CompilerDispatcher::collectWarnings(CompilerResult& result, const std::vector<String>& warnings) {
-    result.warnings.insert(result.warnings.end(), warnings.begin(), warnings.end());
+const CompilerStats& CompilerDispatcher::getStats() const {
+    return stats_;
 }
 
 } // namespace chtl
