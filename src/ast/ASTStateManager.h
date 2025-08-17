@@ -6,7 +6,8 @@
 #include <unordered_set>
 #include <vector>
 #include <chrono>
-#include <functional>
+    #include <functional>
+    #include <mutex>
 
 namespace chtl {
 namespace ast {
