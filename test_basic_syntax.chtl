@@ -1,0 +1,163 @@
+// CHTL基础语法测试文件
+// 测试注释、文本节点、字面量、CE对等式、元素节点、属性
+
+-- 这是一个生成器注释，会被保留到HTML中
+
+// 这是单行注释，不会出现在生成的HTML中
+/* 这是多行注释，
+   也不会出现在生成的HTML中 */
+
+// 1. 测试文本节点 - 双引号字符串
+text
+{
+    "这是一段双引号字符串文本"
+}
+
+// 2. 测试文本节点 - 单引号字符串  
+text
+{
+    '这是一段单引号字符串文本'
+}
+
+// 3. 测试文本节点 - 无修饰字面量
+text
+{
+    这是一段无修饰字面量文本
+}
+
+// 4. 测试基础HTML元素
+html
+{
+    head
+    {
+        title
+        {
+            text
+            {
+                "CHTL基础语法测试页面"
+            }
+        }
+    }
+    
+    body
+    {
+        // 5. 测试属性 - 使用冒号
+        div
+        {
+            id: main-container;
+            class: "container";
+            
+            text
+            {
+                "这是主容器"
+            }
+        }
+        
+        // 6. 测试属性 - 使用等号 (CE对等式)
+        div
+        {
+            id = secondary-container;
+            class = 'content';
+            
+            text
+            {
+                '这是次要容器，使用等号定义属性'
+            }
+        }
+        
+        // 7. 测试嵌套元素
+        section
+        {
+            class: content-section;
+            
+            h1
+            {
+                text
+                {
+                    "标题文本"
+                }
+            }
+            
+            p
+            {
+                text
+                {
+                    这是一个段落，使用无修饰字面量
+                }
+            }
+            
+            div
+            {
+                class: nested-div;
+                
+                span
+                {
+                    text
+                    {
+                        "嵌套的span元素"
+                    }
+                }
+            }
+        }
+        
+        // 8. 测试自闭合标签
+        br
+        {
+        }
+        
+        hr
+        {
+        }
+        
+        img
+        {
+            src: "test.jpg";
+            alt = "测试图片";
+        }
+        
+        // 9. 测试多个属性
+        input
+        {
+            type: text;
+            name = username;
+            placeholder: "请输入用户名";
+            required = true;
+        }
+        
+        // 10. 测试复杂嵌套
+        ul
+        {
+            class: item-list;
+            
+            li
+            {
+                text
+                {
+                    "列表项 1"
+                }
+            }
+            
+            li
+            {
+                text
+                {
+                    "列表项 2"  
+                }
+            }
+            
+            li
+            {
+                a
+                {
+                    href: "https://example.com";
+                    target = "_blank";
+                    
+                    text
+                    {
+                        "外部链接"
+                    }
+                }
+            }
+        }
+    }
+}
