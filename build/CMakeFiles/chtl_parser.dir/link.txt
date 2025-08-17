@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libchtl_parser.a CMakeFiles/chtl_parser.dir/src/parser/Parser.cpp.o CMakeFiles/chtl_parser.dir/src/parser/ParserExtensions.cpp.o
+/usr/bin/ranlib lib/libchtl_parser.a
