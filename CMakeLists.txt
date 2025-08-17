@@ -77,12 +77,15 @@ target_link_libraries(test_final_parser chtl_common chtl_ast chtl_parser chtl_ge
 add_executable(test_debug_parser test/test_debug_parser.cpp)
 target_link_libraries(test_debug_parser chtl_common chtl_ast chtl_parser chtl_generator)
 
+add_executable(test_namespace_enhanced test/test_namespace_enhanced.cpp)
+target_link_libraries(test_namespace_enhanced chtl_common)
+
 # 设置输出目录
 set_target_properties(chtl_common chtl_ast chtl_parser chtl_generator PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
 )
 
-set_target_properties(test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser PROPERTIES
+set_target_properties(test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser test_namespace_enhanced PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
@@ -91,7 +94,7 @@ install(TARGETS chtl_common chtl_ast chtl_parser chtl_generator
     ARCHIVE DESTINATION lib
 )
 
-install(TARGETS test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser
+install(TARGETS test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser test_namespace_enhanced
     RUNTIME DESTINATION bin
 )
 

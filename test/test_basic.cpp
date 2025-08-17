@@ -51,6 +51,22 @@ void testGlobalMap() {
     globalMap.enterNamespace("testNamespace");
     std::string currentNs = globalMap.getCurrentNamespace();
     assert(currentNs == "testNamespace");
+    globalMap.addSymbol("nsSymbol1", SymbolType::CUSTOM_ELEMENT, "ns_value1");
+    globalMap.exitNamespace();
+    
+    // 测试命名空间合并
+    bool merged = globalMap.mergeNamespace("testNamespace");
+    assert(merged == true); // 应该合并现有命名空间
+    globalMap.addSymbol("nsSymbol2", SymbolType::CUSTOM_STYLE, "ns_value2");
+    
+    // 验证两个符号都在同一命名空间中
+    auto nsSymbol1 = globalMap.findSymbol("nsSymbol1");
+    auto nsSymbol2 = globalMap.findSymbol("nsSymbol2");
+    assert(nsSymbol1 != nullptr);
+    assert(nsSymbol2 != nullptr);
+    assert(nsSymbol1->namespace_path == "testNamespace");
+    assert(nsSymbol2->namespace_path == "testNamespace");
+    
     globalMap.exitNamespace();
     
     std::cout << "GlobalMap模块测试通过!" << std::endl;

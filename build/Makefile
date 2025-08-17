@@ -304,6 +304,19 @@ test_debug_parser/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_debug_parser.dir/build.make CMakeFiles/test_debug_parser.dir/build
 .PHONY : test_debug_parser/fast
 
+#=============================================================================
+# Target rules for targets named test_namespace_enhanced
+
+# Build rule for target.
+test_namespace_enhanced: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_namespace_enhanced
+.PHONY : test_namespace_enhanced
+
+# fast build rule for target.
+test_namespace_enhanced/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_namespace_enhanced.dir/build.make CMakeFiles/test_namespace_enhanced.dir/build
+.PHONY : test_namespace_enhanced/fast
+
 src/ast/ASTNode.o: src/ast/ASTNode.cpp.o
 .PHONY : src/ast/ASTNode.o
 
@@ -616,6 +629,30 @@ test/test_final_parser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_final_parser.dir/build.make CMakeFiles/test_final_parser.dir/test/test_final_parser.cpp.s
 .PHONY : test/test_final_parser.cpp.s
 
+test/test_namespace_enhanced.o: test/test_namespace_enhanced.cpp.o
+.PHONY : test/test_namespace_enhanced.o
+
+# target to build an object file
+test/test_namespace_enhanced.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_namespace_enhanced.dir/build.make CMakeFiles/test_namespace_enhanced.dir/test/test_namespace_enhanced.cpp.o
+.PHONY : test/test_namespace_enhanced.cpp.o
+
+test/test_namespace_enhanced.i: test/test_namespace_enhanced.cpp.i
+.PHONY : test/test_namespace_enhanced.i
+
+# target to preprocess a source file
+test/test_namespace_enhanced.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_namespace_enhanced.dir/build.make CMakeFiles/test_namespace_enhanced.dir/test/test_namespace_enhanced.cpp.i
+.PHONY : test/test_namespace_enhanced.cpp.i
+
+test/test_namespace_enhanced.s: test/test_namespace_enhanced.cpp.s
+.PHONY : test/test_namespace_enhanced.s
+
+# target to generate assembly for a file
+test/test_namespace_enhanced.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_namespace_enhanced.dir/build.make CMakeFiles/test_namespace_enhanced.dir/test/test_namespace_enhanced.cpp.s
+.PHONY : test/test_namespace_enhanced.cpp.s
+
 test/test_parser.o: test/test_parser.cpp.o
 .PHONY : test/test_parser.o
 
@@ -708,6 +745,7 @@ help:
 	@echo "... test_basic"
 	@echo "... test_debug_parser"
 	@echo "... test_final_parser"
+	@echo "... test_namespace_enhanced"
 	@echo "... test_parser"
 	@echo "... test_parser_generator"
 	@echo "... test_simple_parser"
@@ -750,6 +788,9 @@ help:
 	@echo "... test/test_final_parser.o"
 	@echo "... test/test_final_parser.i"
 	@echo "... test/test_final_parser.s"
+	@echo "... test/test_namespace_enhanced.o"
+	@echo "... test/test_namespace_enhanced.i"
+	@echo "... test/test_namespace_enhanced.s"
 	@echo "... test/test_parser.o"
 	@echo "... test/test_parser.i"
 	@echo "... test/test_parser.s"

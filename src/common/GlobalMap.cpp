@@ -44,6 +44,26 @@ Scope* Scope::createChildScope(const std::string& scope_name) {
     return child_ptr;
 }
 
+Scope* Scope::findChildScope(const std::string& scope_name) {
+    for (const auto& child : children) {
+        if (child->name == scope_name) {
+            return child.get();
+        }
+    }
+    return nullptr;
+}
+
+Scope* Scope::findOrCreateChildScope(const std::string& scope_name) {
+    // 首先尝试查找已存在的子作用域
+    Scope* existing_scope = findChildScope(scope_name);
+    if (existing_scope) {
+        return existing_scope; // 返回已存在的作用域，实现合并
+    }
+    
+    // 如果不存在，则创建新的子作用域
+    return createChildScope(scope_name);
+}
+
 std::string Scope::getFullPath() const {
     if (!parent) return name;
     
@@ -61,7 +81,7 @@ GlobalMap::GlobalMap() {
 GlobalMap::~GlobalMap() = default;
 
 void GlobalMap::enterScope(const std::string& scope_name) {
-    current_scope_ = current_scope_->createChildScope(scope_name);
+    current_scope_ = current_scope_->findOrCreateChildScope(scope_name);
 }
 
 void GlobalMap::exitScope() {
@@ -90,6 +110,24 @@ bool GlobalMap::addSymbol(const std::string& name, SymbolType type,
                          const std::string& value, size_t line, size_t column) {
     std::string current_namespace = getCurrentNamespace();
     auto symbol = std::make_shared<Symbol>(name, type, value, current_namespace, line, column);
+    
+    // 检测冲突
+    auto conflicts = detectConflicts(name, type, value);
+    if (!conflicts.empty()) {
+        // 如果是命名空间类型且存在同名命名空间，允许合并
+        if (type == SymbolType::NAMESPACE) {
+            auto existing = current_scope_->findSymbol(name);
+            if (existing && existing->type == SymbolType::NAMESPACE) {
+                // 命名空间合并，不添加重复符号，返回成功
+                return true;
+            }
+        }
+        
+        // 对于其他类型的冲突，可以选择警告但仍然添加，或者拒绝添加
+        // 这里选择警告但允许添加（可根据需要调整策略）
+        std::cout << "警告: 检测到符号冲突 - " << conflicts[0].conflict_type << ": " << conflicts[0].suggestion << std::endl;
+    }
+    
     return current_scope_->addSymbol(symbol);
 }
 
@@ -107,6 +145,33 @@ std::shared_ptr<Symbol> GlobalMap::findSymbolInNamespace(const std::string& name
 void GlobalMap::enterNamespace(const std::string& namespace_name) {
     namespace_stack_.push(namespace_name);
     enterScope(namespace_name);
+}
+
+bool GlobalMap::mergeNamespace(const std::string& namespace_name) {
+    // 检查当前作用域是否已有同名子命名空间
+    Scope* existing_namespace = current_scope_->findChildScope(namespace_name);
+    if (existing_namespace) {
+        // 命名空间已存在，进入该命名空间进行合并
+        namespace_stack_.push(namespace_name);
+        current_scope_ = existing_namespace;
+        return true; // 表示合并了现有命名空间
+    } else {
+        // 命名空间不存在，创建新的
+        enterNamespace(namespace_name);
+        return false; // 表示创建了新的命名空间
+    }
+}
+
+std::vector<std::string> GlobalMap::getNamespaceHierarchy() const {
+    std::vector<std::string> hierarchy;
+    std::stack<std::string> temp_stack = namespace_stack_;
+    
+    while (!temp_stack.empty()) {
+        hierarchy.insert(hierarchy.begin(), temp_stack.top());
+        temp_stack.pop();
+    }
+    
+    return hierarchy;
 }
 
 void GlobalMap::exitNamespace() {
@@ -172,10 +237,118 @@ bool GlobalMap::hasConflict(const std::string& name, SymbolType type) {
 std::vector<std::shared_ptr<Symbol>> GlobalMap::getConflicts(const std::string& name) {
     std::vector<std::shared_ptr<Symbol>> conflicts;
     
-    // 简化实现：查找所有同名符号
-    auto symbol = findSymbol(name);
-    if (symbol) {
-        conflicts.push_back(symbol);
+    // 递归查找所有作用域中的同名符号
+    std::function<void(Scope*)> findConflictsInScope = [&](Scope* scope) {
+        auto it = scope->symbols.find(name);
+        if (it != scope->symbols.end()) {
+            conflicts.push_back(it->second);
+        }
+        
+        // 递归查找子作用域
+        for (const auto& child : scope->children) {
+            findConflictsInScope(child.get());
+        }
+    };
+    
+    findConflictsInScope(root_scope_.get());
+    return conflicts;
+}
+
+std::vector<GlobalMap::ConflictInfo> GlobalMap::detectConflicts(const std::string& name, 
+                                                               SymbolType type, 
+                                                               const std::string& value) {
+    std::vector<ConflictInfo> conflicts;
+    
+    // 查找当前作用域中的符号
+    auto existing_symbol = current_scope_->findSymbol(name);
+    if (existing_symbol) {
+        ConflictInfo conflict;
+        conflict.existing_symbol = existing_symbol;
+        
+        // 创建新符号用于比较
+        std::string current_namespace = getCurrentNamespace();
+        conflict.new_symbol = std::make_shared<Symbol>(name, type, value, current_namespace);
+        
+        if (existing_symbol->type != type) {
+            conflict.conflict_type = "类型冲突";
+            conflict.suggestion = "符号 '" + name + "' 已存在不同类型定义，请使用不同的名称或确认类型一致性";
+        } else if (existing_symbol->value != value && !value.empty()) {
+            conflict.conflict_type = "值冲突";
+            conflict.suggestion = "符号 '" + name + "' 已存在不同值定义，可能需要合并或重命名";
+        } else {
+            conflict.conflict_type = "重复定义";
+            conflict.suggestion = "符号 '" + name + "' 重复定义，如果是命名空间合并则正常，否则请检查";
+        }
+        
+        conflicts.push_back(conflict);
+    }
+    
+    // 检查父作用域中的潜在冲突
+    if (current_scope_->parent) {
+        auto parent_symbol = current_scope_->parent->findSymbolRecursive(name);
+        if (parent_symbol && parent_symbol != existing_symbol) {
+            ConflictInfo conflict;
+            conflict.existing_symbol = parent_symbol;
+            
+            std::string current_namespace = getCurrentNamespace();
+            conflict.new_symbol = std::make_shared<Symbol>(name, type, value, current_namespace);
+            
+            conflict.conflict_type = "作用域遮蔽";
+            conflict.suggestion = "符号 '" + name + "' 将遮蔽外层作用域的同名符号";
+            conflicts.push_back(conflict);
+        }
+    }
+    
+    return conflicts;
+}
+
+bool GlobalMap::hasNamespaceConflict(const std::string& namespace_path) {
+    // 检查命名空间路径是否与现有符号冲突
+    auto parts = getNamespaceHierarchy();
+    std::string current_path = "";
+    
+    for (const std::string& part : parts) {
+        if (!current_path.empty()) current_path += "::";
+        current_path += part;
+        
+        // 检查是否存在同名但不同类型的符号
+        auto symbol = findSymbolInNamespace("", current_path);
+        if (symbol && symbol->type != SymbolType::NAMESPACE) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+std::vector<GlobalMap::ConflictInfo> GlobalMap::getNamespaceConflicts(const std::string& namespace_path) {
+    std::vector<ConflictInfo> conflicts;
+    
+    // 分解命名空间路径并检查每个部分
+    std::vector<std::string> parts;
+    std::stringstream ss(namespace_path);
+    std::string part;
+    
+    while (std::getline(ss, part, ':')) {
+        if (!part.empty() && part != ":") {
+            parts.push_back(part);
+        }
+    }
+    
+    std::string current_path = "";
+    for (const std::string& part : parts) {
+        if (!current_path.empty()) current_path += "::";
+        current_path += part;
+        
+        auto existing_symbol = findSymbolInNamespace("", current_path);
+        if (existing_symbol && existing_symbol->type != SymbolType::NAMESPACE) {
+            ConflictInfo conflict;
+            conflict.existing_symbol = existing_symbol;
+            conflict.new_symbol = std::make_shared<Symbol>(part, SymbolType::NAMESPACE, "", current_path);
+            conflict.conflict_type = "命名空间与符号冲突";
+            conflict.suggestion = "命名空间路径 '" + current_path + "' 与现有符号冲突";
+            conflicts.push_back(conflict);
+        }
     }
     
     return conflicts;

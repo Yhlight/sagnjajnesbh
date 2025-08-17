@@ -64,6 +64,12 @@ public:
     // 创建子作用域
     Scope* createChildScope(const std::string& scope_name);
     
+    // 查找或创建子作用域（支持合并）
+    Scope* findOrCreateChildScope(const std::string& scope_name);
+    
+    // 查找子作用域
+    Scope* findChildScope(const std::string& scope_name);
+    
     // 获取完整路径
     std::string getFullPath() const;
 };
@@ -95,6 +101,10 @@ public:
     std::string getCurrentNamespace() const;
     bool isNamespaceExists(const std::string& namespace_path);
     
+    // 命名空间合并支持
+    bool mergeNamespace(const std::string& namespace_name);
+    std::vector<std::string> getNamespaceHierarchy() const;
+    
     // 导入管理
     struct ImportInfo {
         std::string source_path;    // 源路径
@@ -115,6 +125,19 @@ public:
     // 冲突检测
     bool hasConflict(const std::string& name, SymbolType type);
     std::vector<std::shared_ptr<Symbol>> getConflicts(const std::string& name);
+    
+    // 增强冲突检测
+    struct ConflictInfo {
+        std::shared_ptr<Symbol> existing_symbol;
+        std::shared_ptr<Symbol> new_symbol;
+        std::string conflict_type;
+        std::string suggestion;
+    };
+    
+    std::vector<ConflictInfo> detectConflicts(const std::string& name, SymbolType type, 
+                                             const std::string& value = "");
+    bool hasNamespaceConflict(const std::string& namespace_path);
+    std::vector<ConflictInfo> getNamespaceConflicts(const std::string& namespace_path);
     
     // 循环依赖检测
     bool hasCyclicDependency(const std::string& target_path);
