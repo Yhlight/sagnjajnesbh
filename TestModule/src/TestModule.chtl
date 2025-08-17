@@ -1,0 +1,84 @@
+[Namespace] TestModule
+
+[Template] @Style TestButton
+{
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+[Template] @Style TestCard
+{
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: white;
+}
+
+[Template] @Var TestColors
+{
+    primaryColor: "#007bff";
+    secondaryColor: "#6c757d";
+    successColor: "#28a745";
+    dangerColor: "#dc3545";
+    warningColor: "#ffc107";
+}
+
+[Template] @Var TestSizes
+{
+    smallPadding: "8px";
+    mediumPadding: "16px";
+    largePadding: "24px";
+    borderRadius: "4px";
+}
+
+[Template] @Element TestBox
+{
+    div
+    {
+        style
+        {
+            @Style TestCard;
+            padding: TestSizes(mediumPadding);
+            border-radius: TestSizes(borderRadius);
+        }
+        
+        text
+        {
+            "这是一个测试盒子"
+        }
+    }
+}
+
+[Template] @Element TestContainer
+{
+    div
+    {
+        style
+        {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: TestSizes(largePadding);
+        }
+        
+        @Element TestBox;
+        
+        button
+        {
+            style
+            {
+                @Style TestButton;
+                background-color: TestColors(primaryColor);
+            }
+            
+            text
+            {
+                "测试按钮"
+            }
+        }
+    }
+}

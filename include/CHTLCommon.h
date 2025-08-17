@@ -64,6 +64,8 @@ enum class ASTNodeType {
     // 导入相关
     IMPORT_STATEMENT,
     NAMESPACE_DECLARATION,
+    IMPORTED_CHTL,
+    CJMOD,
     
     // CHTL JS相关
     ENHANCED_SELECTOR,

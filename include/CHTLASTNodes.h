@@ -645,4 +645,60 @@ public:
     virtual void visit(ConstraintNode& node) = 0;
 };
 
+// 导入的CHTL节点
+class ImportedCHTLNode : public CHTLASTNode {
+public:
+    ImportedCHTLNode(const String& filePath, const String& alias = "", size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::IMPORTED_CHTL, line, column), filePath_(filePath), alias_(alias) {}
+    
+    void accept(CHTLASTVisitor& visitor) override {
+        visitor.visit(*this);
+    }
+    
+    // Getters
+    String getFilePath() const { return filePath_; }
+    String getAlias() const { return alias_; }
+    String getContent() const { return content_; }
+    
+    // Setters
+    void setContent(const String& content) { content_ = content; }
+    void setAlias(const String& alias) { alias_ = alias; }
+    
+    String toString() const override {
+        return "ImportedCHTL(" + filePath_ + (alias_.empty() ? "" : " as " + alias_) + ")";
+    }
+
+private:
+    String filePath_;
+    String alias_;
+    String content_;
+};
+
+// CJmod模块节点
+class CJmodNode : public CHTLASTNode {
+public:
+    CJmodNode(const String& modulePath, const String& alias = "", size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::CJMOD, line, column), modulePath_(modulePath), alias_(alias) {}
+    
+    void accept(CHTLASTVisitor& visitor) override {
+        visitor.visit(*this);
+    }
+    
+    // Getters
+    String getModulePath() const { return modulePath_; }
+    String getAlias() const { return alias_; }
+    
+    // Setters
+    void setModulePath(const String& path) { modulePath_ = path; }
+    void setAlias(const String& alias) { alias_ = alias; }
+    
+    String toString() const override {
+        return "CJmod(" + modulePath_ + (alias_.empty() ? "" : " as " + alias_) + ")";
+    }
+
+private:
+    String modulePath_;
+    String alias_;
+};
+
 } // namespace chtl

@@ -1,0 +1,19 @@
+[Info]
+{
+    name = "TestModule";
+    version = "1.0.0";
+    description = "CHTL测试模块 - 用于验证CMOD打包和导入功能";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "test";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export]
+{
+    @Style TestButton, TestCard;
+    @Element TestBox, TestContainer;
+    @Var TestColors, TestSizes;
+}

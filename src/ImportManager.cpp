@@ -113,7 +113,9 @@ size_t DuplicateImportManager::getCacheSize() const {
 
 PathResolver::PathResolver(const String& currentDirectory, const String& officialModulePath)
     : currentDirectory_(currentDirectory), officialModulePath_(officialModulePath) {
-    currentModuleDirectory_ = joinPath(currentDirectory_, "module");
+    if (officialModulePath_.empty()) {
+        officialModulePath_ = "./modules"; // 默认官方模块路径
+    }
 }
 
 PathNormalizationResult PathResolver::normalizePath(const String& path) {
@@ -122,25 +124,29 @@ PathNormalizationResult PathResolver::normalizePath(const String& path) {
     try {
         fs::path fsPath(path);
         
-        // 处理相对路径和绝对路径
+        // 处理相对路径
         if (fsPath.is_relative()) {
             fsPath = fs::path(currentDirectory_) / fsPath;
         }
         
-        // 规范化路径（解析 . 和 .. ）
-        fs::path canonical = fs::weakly_canonical(fsPath);
-        result.normalizedPath = canonical.string();
-        result.canonicalForm = canonical.string();
+        // 规范化路径
+        result.normalizedPath = fs::canonical(fsPath).string();
+        result.canonicalForm = result.normalizedPath;
+        result.isEquivalent = true;
         
-        // 替换路径分隔符为统一格式
+        // 将路径分隔符统一为 '/'
         std::replace(result.normalizedPath.begin(), result.normalizedPath.end(), '\\', '/');
         std::replace(result.canonicalForm.begin(), result.canonicalForm.end(), '\\', '/');
         
-        result.isEquivalent = true;
-    } catch (const std::exception& e) {
+    } catch (const fs::filesystem_error&) {
+        // 如果路径不存在，仍然进行基本规范化
         result.normalizedPath = path;
         result.canonicalForm = path;
         result.isEquivalent = false;
+        
+        // 替换 '.' 为 '/'
+        std::replace(result.normalizedPath.begin(), result.normalizedPath.end(), '.', '/');
+        std::replace(result.canonicalForm.begin(), result.canonicalForm.end(), '.', '/');
     }
     
     return result;
@@ -153,7 +159,7 @@ bool PathResolver::arePathsEquivalent(const String& path1, const String& path2) 
 }
 
 ImportPathType PathResolver::detectPathType(const String& path) {
-    // 检查通配符模式
+    // 检查通配符
     if (path.find(".*") != String::npos || path.find("/*") != String::npos) {
         if (path.find(".*.cmod") != String::npos || path.find("/*.cmod") != String::npos) {
             return ImportPathType::WILDCARD_CMOD;
@@ -165,27 +171,26 @@ ImportPathType PathResolver::detectPathType(const String& path) {
     }
     
     // 检查是否包含路径分隔符
-    if (path.find('/') != String::npos || path.find('\\') != String::npos) {
-        // 检查是否以文件名结尾
-        fs::path fsPath(path);
-        if (fsPath.has_filename() && !fsPath.filename().empty()) {
-            String filename = fsPath.filename().string();
-            if (filename.find('.') != String::npos) {
-                return ImportPathType::FULL_FILE_PATH;
-            } else {
-                return ImportPathType::FULL_FILE_PATH; // 无扩展名的完整路径
-            }
+    bool hasPathSeparator = path.find('/') != String::npos || path.find('\\') != String::npos || path.find('.') != String::npos;
+    
+    if (hasPathSeparator) {
+        // 检查是否有文件扩展名
+        size_t lastDot = path.find_last_of('.');
+        size_t lastSlash = path.find_last_of("/\\");
+        
+        if (lastDot != String::npos && (lastSlash == String::npos || lastDot > lastSlash)) {
+            return ImportPathType::FULL_FILE_PATH;
         } else {
             return ImportPathType::DIRECTORY_PATH;
         }
+    } else {
+        // 纯文件名，检查是否有扩展名
+        if (path.find('.') != String::npos) {
+            return ImportPathType::FILENAME_WITH_EXT;
+        } else {
+            return ImportPathType::FILENAME_ONLY;
+        }
     }
-    
-    // 检查是否有文件扩展名
-    if (path.find('.') != String::npos) {
-        return ImportPathType::FILENAME_WITH_EXT;
-    }
-    
-    return ImportPathType::FILENAME_ONLY;
 }
 
 std::vector<String> PathResolver::searchPaths(const String& path, ImportNode::ImportType importType) {
@@ -219,16 +224,16 @@ std::vector<String> PathResolver::resolveHtmlStyleJsPath(const String& path, Imp
     ImportPathType pathType = detectPathType(path);
     
     // 确定文件扩展名
-    std::vector<String> extensions;
+    String extension;
     switch (type) {
         case ImportNode::ImportType::HTML:
-            extensions = {".html", ".htm"};
+            extension = ".html";
             break;
         case ImportNode::ImportType::STYLE:
-            extensions = {".css"};
+            extension = ".css";
             break;
         case ImportNode::ImportType::JAVASCRIPT:
-            extensions = {".js", ".mjs"};
+            extension = ".js";
             break;
         default:
             return results;
@@ -236,30 +241,37 @@ std::vector<String> PathResolver::resolveHtmlStyleJsPath(const String& path, Imp
     
     switch (pathType) {
         case ImportPathType::FILENAME_ONLY: {
-            // 在当前目录搜索
-            auto found = searchInDirectory(currentDirectory_, path, extensions);
-            results.insert(results.end(), found.begin(), found.end());
-            break;
-        }
-        case ImportPathType::FILENAME_WITH_EXT: {
-            // 直接在当前目录搜索该文件
-            String fullPath = joinPath(currentDirectory_, path);
-            if (fileExists(fullPath)) {
-                results.push_back(fullPath);
+            // 在当前目录搜索对应类型的文件
+            String targetFile = path + extension;
+            fs::path fullPath = fs::path(currentDirectory_) / targetFile;
+            if (fs::exists(fullPath)) {
+                results.push_back(fullPath.string());
             }
             break;
         }
+        
+        case ImportPathType::FILENAME_WITH_EXT: {
+            // 直接在当前目录搜索具体文件
+            fs::path fullPath = fs::path(currentDirectory_) / path;
+            if (fs::exists(fullPath)) {
+                results.push_back(fullPath.string());
+            }
+            break;
+        }
+        
+        case ImportPathType::DIRECTORY_PATH: {
+            // 路径是文件夹，直接报错
+            throw std::runtime_error("导入路径不能指向文件夹: " + path);
+        }
+        
         case ImportPathType::FULL_FILE_PATH: {
-            // 直接使用该路径
-            if (fileExists(path)) {
+            // 具体路径，直接检查文件是否存在
+            if (fs::exists(path)) {
                 results.push_back(path);
             }
             break;
         }
-        case ImportPathType::DIRECTORY_PATH: {
-            // 报错：不允许指向文件夹
-            break;
-        }
+        
         default:
             break;
     }
@@ -271,67 +283,70 @@ std::vector<String> PathResolver::resolveChtlPath(const String& path) {
     std::vector<String> results;
     ImportPathType pathType = detectPathType(path);
     
-    // 检查是否是官方模块
-    if (isOfficialModulePath(path)) {
-        String resolvedPath = resolveOfficialModulePath(path);
-        if (!resolvedPath.empty()) {
-            results.push_back(resolvedPath);
-        }
-        return results;
-    }
-    
-    std::vector<String> extensions = {".cmod", ".chtl"};
-    
     switch (pathType) {
         case ImportPathType::FILENAME_ONLY: {
-            // 1. 官方模块目录
-            if (!officialModulePath_.empty()) {
-                auto found = searchInDirectory(officialModulePath_, path, extensions);
-                results.insert(results.end(), found.begin(), found.end());
-            }
+            // 搜索顺序：官方模块 -> 当前目录/module -> 当前目录
+            // 优先级：cmod > chtl
             
-            // 2. 当前目录的module文件夹
-            auto found = searchInDirectory(currentModuleDirectory_, path, extensions);
-            results.insert(results.end(), found.begin(), found.end());
+            // 1. 官方模块搜索
+            std::vector<String> searchPaths = {
+                officialModulePath_ + "/" + path + ".cmod",
+                officialModulePath_ + "/" + path + ".chtl"
+            };
             
-            // 3. 当前目录
-            found = searchInDirectory(currentDirectory_, path, extensions);
-            results.insert(results.end(), found.begin(), found.end());
-            break;
-        }
-        case ImportPathType::FILENAME_WITH_EXT: {
-            // 1. 官方模块目录
-            if (!officialModulePath_.empty()) {
-                String fullPath = joinPath(officialModulePath_, path);
-                if (fileExists(fullPath)) {
-                    results.push_back(fullPath);
+            // 2. 当前目录/module搜索
+            searchPaths.push_back(currentDirectory_ + "/module/" + path + ".cmod");
+            searchPaths.push_back(currentDirectory_ + "/module/" + path + ".chtl");
+            
+            // 3. 当前目录搜索
+            searchPaths.push_back(currentDirectory_ + "/" + path + ".cmod");
+            searchPaths.push_back(currentDirectory_ + "/" + path + ".chtl");
+            
+            for (const auto& searchPath : searchPaths) {
+                if (fs::exists(searchPath)) {
+                    results.push_back(searchPath);
+                    break; // 找到第一个就停止
                 }
             }
+            break;
+        }
+        
+        case ImportPathType::FILENAME_WITH_EXT: {
+            // 具体文件名，按相同搜索顺序
+            std::vector<String> searchPaths = {
+                officialModulePath_ + "/" + path,
+                currentDirectory_ + "/module/" + path,
+                currentDirectory_ + "/" + path
+            };
             
-            // 2. 当前目录的module文件夹
-            String fullPath = joinPath(currentModuleDirectory_, path);
-            if (fileExists(fullPath)) {
-                results.push_back(fullPath);
-            }
-            
-            // 3. 当前目录
-            fullPath = joinPath(currentDirectory_, path);
-            if (fileExists(fullPath)) {
-                results.push_back(fullPath);
+            for (const auto& searchPath : searchPaths) {
+                if (fs::exists(searchPath)) {
+                    results.push_back(searchPath);
+                    break;
+                }
             }
             break;
         }
+        
         case ImportPathType::FULL_FILE_PATH: {
-            if (fileExists(path)) {
+            // 具体路径，直接检查
+            if (fs::exists(path)) {
                 results.push_back(path);
             }
             break;
         }
+        
+        case ImportPathType::DIRECTORY_PATH: {
+            // 路径不包含文件信息，报错
+            throw std::runtime_error("CHTL导入路径必须包含文件信息: " + path);
+        }
+        
         case ImportPathType::WILDCARD_ALL:
         case ImportPathType::WILDCARD_CMOD:
         case ImportPathType::WILDCARD_CHTL: {
             return resolveWildcardPath(path, ImportNode::ImportType::CHTL);
         }
+        
         default:
             break;
     }
@@ -343,53 +358,51 @@ std::vector<String> PathResolver::resolveCJmodPath(const String& path) {
     std::vector<String> results;
     ImportPathType pathType = detectPathType(path);
     
-    std::vector<String> extensions = {".cjmod"};
-    
     switch (pathType) {
         case ImportPathType::FILENAME_ONLY: {
-            // 1. 官方模块目录
-            if (!officialModulePath_.empty()) {
-                auto found = searchInDirectory(officialModulePath_, path, extensions);
-                results.insert(results.end(), found.begin(), found.end());
-            }
+            // 搜索顺序：官方模块 -> 当前目录/module -> 当前目录
+            std::vector<String> searchPaths = {
+                officialModulePath_ + "/" + path + ".cjmod",
+                currentDirectory_ + "/module/" + path + ".cjmod",
+                currentDirectory_ + "/" + path + ".cjmod"
+            };
             
-            // 2. 当前目录的module文件夹
-            auto found = searchInDirectory(currentModuleDirectory_, path, extensions);
-            results.insert(results.end(), found.begin(), found.end());
-            
-            // 3. 当前目录
-            found = searchInDirectory(currentDirectory_, path, extensions);
-            results.insert(results.end(), found.begin(), found.end());
-            break;
-        }
-        case ImportPathType::FILENAME_WITH_EXT: {
-            // 1. 官方模块目录
-            if (!officialModulePath_.empty()) {
-                String fullPath = joinPath(officialModulePath_, path);
-                if (fileExists(fullPath)) {
-                    results.push_back(fullPath);
+            for (const auto& searchPath : searchPaths) {
+                if (fs::exists(searchPath)) {
+                    results.push_back(searchPath);
+                    break;
                 }
             }
+            break;
+        }
+        
+        case ImportPathType::FILENAME_WITH_EXT: {
+            std::vector<String> searchPaths = {
+                officialModulePath_ + "/" + path,
+                currentDirectory_ + "/module/" + path,
+                currentDirectory_ + "/" + path
+            };
             
-            // 2. 当前目录的module文件夹
-            String fullPath = joinPath(currentModuleDirectory_, path);
-            if (fileExists(fullPath)) {
-                results.push_back(fullPath);
-            }
-            
-            // 3. 当前目录
-            fullPath = joinPath(currentDirectory_, path);
-            if (fileExists(fullPath)) {
-                results.push_back(fullPath);
+            for (const auto& searchPath : searchPaths) {
+                if (fs::exists(searchPath)) {
+                    results.push_back(searchPath);
+                    break;
+                }
             }
             break;
         }
+        
         case ImportPathType::FULL_FILE_PATH: {
-            if (fileExists(path)) {
+            if (fs::exists(path)) {
                 results.push_back(path);
             }
             break;
         }
+        
+        case ImportPathType::DIRECTORY_PATH: {
+            throw std::runtime_error("CJmod导入路径必须包含文件信息: " + path);
+        }
+        
         default:
             break;
     }
@@ -401,61 +414,48 @@ std::vector<String> PathResolver::resolveWildcardPath(const String& path, Import
     std::vector<String> results;
     
     // 解析通配符路径
-    String directory;
+    String basePath = path;
     String pattern;
     
-    size_t wildcardPos = path.find(".*");
-    if (wildcardPos == String::npos) {
-        wildcardPos = path.find("/*");
+    if (path.find(".*") != String::npos) {
+        size_t pos = path.find(".*");
+        basePath = path.substr(0, pos);
+        pattern = path.substr(pos + 1);
+    } else if (path.find("/*") != String::npos) {
+        size_t pos = path.find("/*");
+        basePath = path.substr(0, pos);
+        pattern = path.substr(pos + 1);
     }
     
-    if (wildcardPos != String::npos) {
-        directory = path.substr(0, wildcardPos);
-        pattern = path.substr(wildcardPos);
-    }
+    // 将 '.' 替换为 '/'
+    std::replace(basePath.begin(), basePath.end(), '.', '/');
     
-    // 如果没有指定目录，使用当前目录
-    if (directory.empty()) {
-        directory = currentDirectory_;
-    }
-    
-    // 确定搜索的文件扩展名
-    std::vector<String> extensions;
-    if (pattern.find(".cmod") != String::npos) {
-        extensions = {".cmod"};
-    } else if (pattern.find(".chtl") != String::npos) {
-        extensions = {".chtl"};
-    } else {
-        // 根据导入类型确定扩展名
-        switch (type) {
-            case ImportNode::ImportType::CHTL:
-                extensions = {".cmod", ".chtl"};
-                break;
-            case ImportNode::ImportType::CJMOD:
-                extensions = {".cjmod"};
-                break;
-            default:
-                extensions = {".cmod", ".chtl"};
-                break;
-        }
-    }
-    
-    // 搜索匹配的文件
     try {
-        if (fs::exists(directory) && fs::is_directory(directory)) {
-            for (const auto& entry : fs::directory_iterator(directory)) {
+        if (fs::exists(basePath) && fs::is_directory(basePath)) {
+            for (const auto& entry : fs::directory_iterator(basePath)) {
                 if (entry.is_regular_file()) {
                     String filename = entry.path().filename().string();
-                    String ext = entry.path().extension().string();
+                    String extension = entry.path().extension().string();
                     
-                    if (std::find(extensions.begin(), extensions.end(), ext) != extensions.end()) {
+                    bool shouldInclude = false;
+                    
+                    if (pattern == "*") {
+                        // 所有cmod和chtl文件
+                        shouldInclude = (extension == ".cmod" || extension == ".chtl");
+                    } else if (pattern == "*.cmod") {
+                        shouldInclude = (extension == ".cmod");
+                    } else if (pattern == "*.chtl") {
+                        shouldInclude = (extension == ".chtl");
+                    }
+                    
+                    if (shouldInclude) {
                         results.push_back(entry.path().string());
                     }
                 }
             }
         }
-    } catch (const std::exception& e) {
-        // 目录访问失败，忽略
+    } catch (const fs::filesystem_error&) {
+        // 目录不存在或无法访问
     }
     
     return results;
@@ -466,32 +466,10 @@ bool PathResolver::isOfficialModulePath(const String& path) {
 }
 
 String PathResolver::resolveOfficialModulePath(const String& path) {
-    if (!isOfficialModulePath(path)) {
-        return "";
+    if (isOfficialModulePath(path)) {
+        return officialModulePath_ + "/" + path.substr(6); // 移除 "chtl::" 前缀
     }
-    
-    // 移除 "chtl::" 前缀
-    String modulePath = path.substr(6); // "chtl::".length() == 6
-    
-    if (!officialModulePath_.empty()) {
-        String fullPath = joinPath(officialModulePath_, modulePath);
-        
-        // 尝试不同的扩展名
-        std::vector<String> extensions = {".cmod", ".chtl"};
-        for (const auto& ext : extensions) {
-            String pathWithExt = fullPath + ext;
-            if (fileExists(pathWithExt)) {
-                return pathWithExt;
-            }
-        }
-        
-        // 如果已经有扩展名
-        if (fileExists(fullPath)) {
-            return fullPath;
-        }
-    }
-    
-    return "";
+    return path;
 }
 
 // 辅助方法实现
@@ -585,538 +563,298 @@ String PathResolver::joinPath(const String& directory, const String& filename) {
 // ==================== ImportManager ====================
 
 ImportManager::ImportManager(const String& currentDirectory, const String& officialModulePath)
-    : pathResolver_(std::make_unique<PathResolver>(currentDirectory, officialModulePath)),
-      circularDetector_(std::make_unique<CircularDependencyDetector>()),
-      duplicateManager_(std::make_unique<DuplicateImportManager>()) {
+    : pathResolver_(currentDirectory, officialModulePath),
+      currentDirectory_(currentDirectory) {
 }
 
-ImportResult ImportManager::processImport(std::shared_ptr<ImportNode> importNode, const String& currentFile) {
+ImportResult ImportManager::importFile(const ImportNode& importNode) {
     ImportResult result;
     
-    if (!importNode) {
-        result.error = "Invalid import node";
-        return result;
-    }
-    
-    const String& path = importNode->getPath();
-    const String& alias = importNode->getAlias();
-    ImportNode::ImportType importType = importNode->getImportType();
-    
-    // 验证导入路径
-    if (!validateImportPath(path, importType)) {
-        result.error = "Invalid import path: " + path;
-        return result;
-    }
-    
-    // 处理不同类型的导入
-    switch (importType) {
-        case ImportNode::ImportType::HTML:
-            return processHtmlImport(path, alias, currentFile);
-        case ImportNode::ImportType::STYLE:
-            return processStyleImport(path, alias, currentFile);
-        case ImportNode::ImportType::JAVASCRIPT:
-            return processJavaScriptImport(path, alias, currentFile);
-        case ImportNode::ImportType::CHTL:
-        case ImportNode::ImportType::CUSTOM_STYLE:
-        case ImportNode::ImportType::CUSTOM_ELEMENT:
-        case ImportNode::ImportType::CUSTOM_VAR:
-        case ImportNode::ImportType::TEMPLATE_STYLE:
-        case ImportNode::ImportType::TEMPLATE_ELEMENT:
-        case ImportNode::ImportType::TEMPLATE_VAR:
-            return processChtlImport(path, currentFile);
-        case ImportNode::ImportType::CJMOD:
-            return processCJmodImport(path, currentFile);
-        default:
-            result.error = "Unsupported import type";
-            return result;
-    }
-}
-
-ImportResult ImportManager::processHtmlImport(const String& path, const String& alias, const String& currentFile) {
-    ImportResult result;
-    
-    // 检查是否需要as语法
-    if (alias.empty()) {
-        // 如果没有as语法，直接跳过
-        addWarning("HTML import without 'as' syntax skipped: " + path);
-        result.success = true;
-        return result;
-    }
-    
-    // 解析路径
-    auto resolvedPaths = pathResolver_->searchPaths(path, ImportNode::ImportType::HTML);
-    
-    if (resolvedPaths.empty()) {
-        result.error = "HTML file not found: " + path;
-        return result;
-    }
-    
-    String resolvedPath = resolvedPaths[0]; // 取第一个匹配的文件
-    
-    // 规范化路径
-    auto normResult = pathResolver_->normalizePath(resolvedPath);
-    String normalizedPath = normResult.normalizedPath;
-    
-    // 检查循环依赖
-    if (checkCircularDependency(currentFile, normalizedPath)) {
-        result.error = "Circular dependency detected: " + currentFile + " -> " + normalizedPath;
-        return result;
-    }
-    
-    // 检查重复导入
-    if (duplicateManager_->isAlreadyImported(normalizedPath, ImportNode::ImportType::HTML)) {
-        result.ast = duplicateManager_->getCachedImport(normalizedPath, ImportNode::ImportType::HTML);
-        result.success = true;
-        result.resolvedPath = normalizedPath;
-        addWarning("Using cached HTML import: " + path);
-        return result;
-    }
-    
-    // 加载文件内容
-    result.ast = loadFileContent(resolvedPath, ImportNode::ImportType::HTML);
-    
-    if (result.ast) {
-        // 创建带名原始嵌入节点
-        auto originNode = createNamedOriginNode(ImportNode::ImportType::HTML, "", alias);
-        result.ast = originNode;
-        
-        // 添加依赖关系
-        addDependency(currentFile, normalizedPath);
-        
-        // 缓存导入结果
-        duplicateManager_->markAsImported(normalizedPath, ImportNode::ImportType::HTML, result.ast);
-        
-        result.success = true;
-        result.resolvedPath = normalizedPath;
-    } else {
-        result.error = "Failed to load HTML file: " + resolvedPath;
-    }
-    
-    return result;
-}
-
-ImportResult ImportManager::processStyleImport(const String& path, const String& alias, const String& currentFile) {
-    ImportResult result;
-    
-    // 检查是否需要as语法
-    if (alias.empty()) {
-        // 如果没有as语法，直接跳过
-        addWarning("Style import without 'as' syntax skipped: " + path);
-        result.success = true;
-        return result;
-    }
-    
-    // 解析路径
-    auto resolvedPaths = pathResolver_->searchPaths(path, ImportNode::ImportType::STYLE);
-    
-    if (resolvedPaths.empty()) {
-        result.error = "Style file not found: " + path;
-        return result;
-    }
-    
-    String resolvedPath = resolvedPaths[0];
-    
-    // 规范化路径
-    auto normResult = pathResolver_->normalizePath(resolvedPath);
-    String normalizedPath = normResult.normalizedPath;
-    
-    // 检查循环依赖
-    if (checkCircularDependency(currentFile, normalizedPath)) {
-        result.error = "Circular dependency detected: " + currentFile + " -> " + normalizedPath;
-        return result;
-    }
-    
-    // 检查重复导入
-    if (duplicateManager_->isAlreadyImported(normalizedPath, ImportNode::ImportType::STYLE)) {
-        result.ast = duplicateManager_->getCachedImport(normalizedPath, ImportNode::ImportType::STYLE);
-        result.success = true;
-        result.resolvedPath = normalizedPath;
-        addWarning("Using cached Style import: " + path);
-        return result;
-    }
-    
-    // 加载文件内容
-    result.ast = loadFileContent(resolvedPath, ImportNode::ImportType::STYLE);
-    
-    if (result.ast) {
-        // 创建带名原始嵌入节点
-        auto originNode = createNamedOriginNode(ImportNode::ImportType::STYLE, "", alias);
-        result.ast = originNode;
-        
-        // 添加依赖关系
-        addDependency(currentFile, normalizedPath);
-        
-        // 缓存导入结果
-        duplicateManager_->markAsImported(normalizedPath, ImportNode::ImportType::STYLE, result.ast);
-        
-        result.success = true;
-        result.resolvedPath = normalizedPath;
-    } else {
-        result.error = "Failed to load Style file: " + resolvedPath;
-    }
-    
-    return result;
-}
-
-ImportResult ImportManager::processJavaScriptImport(const String& path, const String& alias, const String& currentFile) {
-    ImportResult result;
-    
-    // 检查是否需要as语法
-    if (alias.empty()) {
-        // 如果没有as语法，直接跳过
-        addWarning("JavaScript import without 'as' syntax skipped: " + path);
-        result.success = true;
-        return result;
-    }
-    
-    // 解析路径
-    auto resolvedPaths = pathResolver_->searchPaths(path, ImportNode::ImportType::JAVASCRIPT);
-    
-    if (resolvedPaths.empty()) {
-        result.error = "JavaScript file not found: " + path;
-        return result;
-    }
-    
-    String resolvedPath = resolvedPaths[0];
-    
-    // 规范化路径
-    auto normResult = pathResolver_->normalizePath(resolvedPath);
-    String normalizedPath = normResult.normalizedPath;
-    
-    // 检查循环依赖
-    if (checkCircularDependency(currentFile, normalizedPath)) {
-        result.error = "Circular dependency detected: " + currentFile + " -> " + normalizedPath;
-        return result;
-    }
-    
-    // 检查重复导入
-    if (duplicateManager_->isAlreadyImported(normalizedPath, ImportNode::ImportType::JAVASCRIPT)) {
-        result.ast = duplicateManager_->getCachedImport(normalizedPath, ImportNode::ImportType::JAVASCRIPT);
-        result.success = true;
-        result.resolvedPath = normalizedPath;
-        addWarning("Using cached JavaScript import: " + path);
-        return result;
-    }
-    
-    // 加载文件内容
-    result.ast = loadFileContent(resolvedPath, ImportNode::ImportType::JAVASCRIPT);
-    
-    if (result.ast) {
-        // 创建带名原始嵌入节点
-        auto originNode = createNamedOriginNode(ImportNode::ImportType::JAVASCRIPT, "", alias);
-        result.ast = originNode;
-        
-        // 添加依赖关系
-        addDependency(currentFile, normalizedPath);
-        
-        // 缓存导入结果
-        duplicateManager_->markAsImported(normalizedPath, ImportNode::ImportType::JAVASCRIPT, result.ast);
-        
-        result.success = true;
-        result.resolvedPath = normalizedPath;
-    } else {
-        result.error = "Failed to load JavaScript file: " + resolvedPath;
-    }
-    
-    return result;
-}
-
-ImportResult ImportManager::processChtlImport(const String& path, const String& currentFile) {
-    ImportResult result;
-    
-    // 检查是否是通配符导入
-    ImportPathType pathType = pathResolver_->detectPathType(path);
-    if (pathType == ImportPathType::WILDCARD_ALL || 
-        pathType == ImportPathType::WILDCARD_CMOD || 
-        pathType == ImportPathType::WILDCARD_CHTL) {
-        return processWildcardImport(path, ImportNode::ImportType::CHTL, currentFile);
-    }
-    
-    // 解析路径
-    auto resolvedPaths = pathResolver_->searchPaths(path, ImportNode::ImportType::CHTL);
-    
-    if (resolvedPaths.empty()) {
-        result.error = "CHTL file not found: " + path;
-        return result;
-    }
-    
-    String resolvedPath = resolvedPaths[0]; // cmod优先
-    
-    // 规范化路径
-    auto normResult = pathResolver_->normalizePath(resolvedPath);
-    String normalizedPath = normResult.normalizedPath;
-    
-    // 检查循环依赖
-    if (checkCircularDependency(currentFile, normalizedPath)) {
-        result.error = "Circular dependency detected: " + currentFile + " -> " + normalizedPath;
-        return result;
-    }
-    
-    // 检查重复导入
-    if (duplicateManager_->isAlreadyImported(normalizedPath, ImportNode::ImportType::CHTL)) {
-        result.ast = duplicateManager_->getCachedImport(normalizedPath, ImportNode::ImportType::CHTL);
-        result.success = true;
-        result.resolvedPath = normalizedPath;
-        addWarning("Using cached CHTL import: " + path);
-        return result;
-    }
-    
-    // 加载文件内容
-    result.ast = loadFileContent(resolvedPath, ImportNode::ImportType::CHTL);
-    
-    if (result.ast) {
-        // 添加依赖关系
-        addDependency(currentFile, normalizedPath);
-        
-        // 缓存导入结果
-        duplicateManager_->markAsImported(normalizedPath, ImportNode::ImportType::CHTL, result.ast);
-        
-        result.success = true;
-        result.resolvedPath = normalizedPath;
-    } else {
-        result.error = "Failed to load CHTL file: " + resolvedPath;
-    }
-    
-    return result;
-}
-
-ImportResult ImportManager::processCJmodImport(const String& path, const String& currentFile) {
-    ImportResult result;
-    
-    // 解析路径
-    auto resolvedPaths = pathResolver_->searchPaths(path, ImportNode::ImportType::CJMOD);
-    
-    if (resolvedPaths.empty()) {
-        result.error = "CJmod file not found: " + path;
-        return result;
-    }
-    
-    String resolvedPath = resolvedPaths[0];
-    
-    // 规范化路径
-    auto normResult = pathResolver_->normalizePath(resolvedPath);
-    String normalizedPath = normResult.normalizedPath;
-    
-    // 检查循环依赖
-    if (checkCircularDependency(currentFile, normalizedPath)) {
-        result.error = "Circular dependency detected: " + currentFile + " -> " + normalizedPath;
-        return result;
-    }
-    
-    // 检查重复导入
-    if (duplicateManager_->isAlreadyImported(normalizedPath, ImportNode::ImportType::CJMOD)) {
-        result.ast = duplicateManager_->getCachedImport(normalizedPath, ImportNode::ImportType::CJMOD);
-        result.success = true;
-        result.resolvedPath = normalizedPath;
-        addWarning("Using cached CJmod import: " + path);
-        return result;
-    }
-    
-    // 加载文件内容
-    result.ast = loadFileContent(resolvedPath, ImportNode::ImportType::CJMOD);
-    
-    if (result.ast) {
-        // 添加依赖关系
-        addDependency(currentFile, normalizedPath);
-        
-        // 缓存导入结果
-        duplicateManager_->markAsImported(normalizedPath, ImportNode::ImportType::CJMOD, result.ast);
-        
-        result.success = true;
-        result.resolvedPath = normalizedPath;
-    } else {
-        result.error = "Failed to load CJmod file: " + resolvedPath;
-    }
-    
-    return result;
-}
-
-ImportResult ImportManager::processWildcardImport(const String& path, ImportNode::ImportType type, const String& currentFile) {
-    ImportResult result;
-    
-    // 解析通配符路径
-    auto resolvedPaths = pathResolver_->resolveWildcardPath(path, type);
-    
-    if (resolvedPaths.empty()) {
-        result.error = "No files found matching wildcard pattern: " + path;
-        return result;
-    }
-    
-    result.resolvedPaths = resolvedPaths;
-    
-    // 处理每个匹配的文件
-    for (const auto& resolvedPath : resolvedPaths) {
-        // 规范化路径
-        auto normResult = pathResolver_->normalizePath(resolvedPath);
-        String normalizedPath = normResult.normalizedPath;
+    try {
+        // 检查官方模块前缀
+        String resolvedPath = importNode.getPath();
+        if (pathResolver_.isOfficialModulePath(resolvedPath)) {
+            resolvedPath = pathResolver_.resolveOfficialModulePath(resolvedPath);
+        }
         
         // 检查循环依赖
-        if (checkCircularDependency(currentFile, normalizedPath)) {
-            addWarning("Circular dependency detected, skipping: " + normalizedPath);
-            continue;
+        if (circularDetector_.hasCircularDependency(currentDirectory_, resolvedPath)) {
+            result.error = "检测到循环依赖: " + resolvedPath;
+            return result;
         }
+        
+        // 路径规范化
+        auto normResult = pathResolver_.normalizePath(resolvedPath);
+        String normalizedPath = normResult.normalizedPath;
         
         // 检查重复导入
-        if (duplicateManager_->isAlreadyImported(normalizedPath, type)) {
-            auto cachedAst = duplicateManager_->getCachedImport(normalizedPath, type);
-            if (cachedAst) {
-                result.astNodes.push_back(cachedAst);
-            }
-            continue;
+        if (duplicateManager_.isAlreadyImported(normalizedPath, importNode.getImportType())) {
+            result = ImportResult{};
+            result.success = true;
+            result.resolvedPath = normalizedPath;
+            result.ast = duplicateManager_.getCachedImport(normalizedPath, importNode.getImportType());
+            return result;
         }
         
-        // 加载文件内容
-        auto ast = loadFileContent(resolvedPath, type);
-        
-        if (ast) {
-            result.astNodes.push_back(ast);
-            
-            // 添加依赖关系
-            addDependency(currentFile, normalizedPath);
-            
-            // 缓存导入结果
-            duplicateManager_->markAsImported(normalizedPath, type, ast);
-        } else {
-            addWarning("Failed to load file: " + resolvedPath);
+        // 根据导入类型处理
+        switch (importNode.getImportType()) {
+            case ImportNode::ImportType::HTML:
+            case ImportNode::ImportType::STYLE:
+            case ImportNode::ImportType::JAVASCRIPT:
+                return importHtmlStyleJs(importNode, resolvedPath);
+                
+            case ImportNode::ImportType::CHTL:
+                return importChtl(importNode, resolvedPath);
+                
+            case ImportNode::ImportType::CJMOD:
+                return importCJmod(importNode, resolvedPath);
+                
+            default:
+                result.error = "不支持的导入类型";
+                return result;
         }
+        
+    } catch (const std::exception& e) {
+        result.error = "导入失败: " + String(e.what());
+        return result;
+    }
+}
+
+ImportResult ImportManager::importHtmlStyleJs(const ImportNode& importNode, const String& path) {
+    ImportResult result;
+    
+    // 对于@Html，@Style，@JavaScript等导入语法，如果没有as语法，则直接跳过
+    if (importNode.getAlias().empty()) {
+        result.success = true; // 直接跳过，不报错
+        return result;
     }
     
-    result.success = !result.astNodes.empty();
-    
-    if (!result.success) {
-        result.error = "Failed to load any files from wildcard import: " + path;
+    // 有as语法，创建对应类型的带名原始嵌入节点
+    try {
+        auto resolvedPaths = pathResolver_.resolveHtmlStyleJsPath(path, importNode.getImportType());
+        
+        if (resolvedPaths.empty()) {
+            result.error = "找不到文件: " + path;
+            return result;
+        }
+        
+        String targetPath = resolvedPaths[0];
+        
+        // 读取文件内容
+        std::ifstream file(targetPath);
+        if (!file.is_open()) {
+            result.error = "无法打开文件: " + targetPath;
+            return result;
+        }
+        
+        std::ostringstream contentStream;
+        contentStream << file.rdbuf();
+        String content = contentStream.str();
+        file.close();
+        
+        // 创建带名原始嵌入节点
+        String originType;
+        switch (importNode.getImportType()) {
+            case ImportNode::ImportType::HTML:
+                originType = "@Html";
+                break;
+            case ImportNode::ImportType::STYLE:
+                originType = "@Style";
+                break;
+            case ImportNode::ImportType::JAVASCRIPT:
+                originType = "@JavaScript";
+                break;
+            default:
+                result.error = "无效的导入类型";
+                return result;
+        }
+        
+        auto originNode = std::make_shared<OriginNode>(originType, importNode.getAlias(), 0, 0);
+        originNode->setContent(content);
+        originNode->setSourcePath(targetPath);
+        
+        result.success = true;
+        result.resolvedPath = targetPath;
+        result.ast = originNode;
+        
+        // 添加到缓存
+        duplicateManager_.markAsImported(targetPath, importNode.getImportType(), originNode);
+        circularDetector_.addDependency(currentDirectory_, targetPath);
+        
+    } catch (const std::exception& e) {
+        result.error = "导入HTML/CSS/JS文件失败: " + String(e.what());
     }
     
     return result;
 }
 
-std::shared_ptr<OriginNode> ImportManager::createNamedOriginNode(ImportNode::ImportType type, const String& content, const String& name) {
-    OriginNode::OriginType originType;
+ImportResult ImportManager::importChtl(const ImportNode& importNode, const String& path) {
+    ImportResult result;
     
-    switch (type) {
-        case ImportNode::ImportType::HTML:
-            originType = OriginNode::OriginType::HTML;
-            break;
-        case ImportNode::ImportType::STYLE:
-            originType = OriginNode::OriginType::STYLE;
-            break;
-        case ImportNode::ImportType::JAVASCRIPT:
-            originType = OriginNode::OriginType::JAVASCRIPT;
-            break;
-        default:
-            originType = OriginNode::OriginType::CUSTOM;
-            break;
+    try {
+        auto resolvedPaths = pathResolver_.resolveChtlPath(path);
+        
+        if (resolvedPaths.empty()) {
+            result.error = "找不到CHTL模块: " + path;
+            return result;
+        }
+        
+        // 处理通配符导入（多个文件）
+        if (resolvedPaths.size() > 1) {
+            result.resolvedPaths = resolvedPaths;
+            
+            for (const auto& filePath : resolvedPaths) {
+                auto fileResult = importSingleChtlFile(filePath, importNode.getAlias());
+                if (fileResult.success) {
+                    result.astNodes.push_back(fileResult.ast);
+                } else {
+                    result.error += "导入 " + filePath + " 失败: " + fileResult.error + "; ";
+                }
+            }
+            
+            result.success = !result.astNodes.empty();
+            return result;
+        }
+        
+        // 单个文件导入
+        String targetPath = resolvedPaths[0];
+        return importSingleChtlFile(targetPath, importNode.getAlias());
+        
+    } catch (const std::exception& e) {
+        result.error = "导入CHTL模块失败: " + String(e.what());
+        return result;
+    }
+}
+
+ImportResult ImportManager::importSingleChtlFile(const String& filePath, const String& alias) {
+    ImportResult result;
+    
+    try {
+        // 检查文件扩展名
+        String extension = fs::path(filePath).extension().string();
+        
+        if (extension == ".cmod") {
+            // 处理CMOD文件
+            return importCmodFile(filePath, alias);
+        } else if (extension == ".chtl") {
+            // 处理CHTL文件
+            return importChtlFile(filePath, alias);
+        } else {
+            result.error = "不支持的文件类型: " + extension;
+            return result;
+        }
+        
+    } catch (const std::exception& e) {
+        result.error = "导入CHTL文件失败: " + String(e.what());
+        return result;
+    }
+}
+
+ImportResult ImportManager::importChtlFile(const String& filePath, const String& alias) {
+    ImportResult result;
+    
+    try {
+        // 读取CHTL文件
+        std::ifstream file(filePath);
+        if (!file.is_open()) {
+            result.error = "无法打开CHTL文件: " + filePath;
+            return result;
+        }
+        
+        std::ostringstream contentStream;
+        contentStream << file.rdbuf();
+        String content = contentStream.str();
+        file.close();
+        
+        // 解析CHTL内容
+        // 这里需要使用CHTLParser来解析内容
+        // 暂时创建一个简单的节点包装
+        auto importedNode = std::make_shared<ImportedCHTLNode>(filePath, alias, 0, 0);
+        importedNode->setContent(content);
+        
+        result.success = true;
+        result.resolvedPath = filePath;
+        result.ast = importedNode;
+        
+        // 添加到缓存和依赖跟踪
+        duplicateManager_.markAsImported(filePath, ImportNode::ImportType::CHTL, importedNode);
+        circularDetector_.addDependency(currentDirectory_, filePath);
+        
+    } catch (const std::exception& e) {
+        result.error = "导入CHTL文件失败: " + String(e.what());
     }
     
-    auto originNode = std::make_shared<OriginNode>(originType, content);
-    originNode->setName(name);
+    return result;
+}
+
+ImportResult ImportManager::importCJmod(const ImportNode& importNode, const String& path) {
+    ImportResult result;
     
-    return originNode;
+    try {
+        auto resolvedPaths = pathResolver_.resolveCJmodPath(path);
+        
+        if (resolvedPaths.empty()) {
+            result.error = "找不到CJmod模块: " + path;
+            return result;
+        }
+        
+        String targetPath = resolvedPaths[0];
+        
+        // 处理CJmod文件
+        return importCJmodFile(targetPath, importNode.getAlias());
+        
+    } catch (const std::exception& e) {
+        result.error = "导入CJmod模块失败: " + String(e.what());
+        return result;
+    }
 }
 
-// 依赖管理方法
-void ImportManager::addDependency(const String& from, const String& to) {
-    circularDetector_->addDependency(from, to);
+ImportResult ImportManager::importCJmodFile(const String& filePath, const String& alias) {
+    ImportResult result;
+    
+    try {
+        // CJmod文件是二进制模块文件，需要特殊处理
+        // 这里创建一个CJmod节点来表示导入的模块
+        auto cjmodNode = std::make_shared<CJmodNode>(filePath, alias, 0, 0);
+        cjmodNode->setModulePath(filePath);
+        
+        result.success = true;
+        result.resolvedPath = filePath;
+        result.ast = cjmodNode;
+        
+        // 添加到缓存和依赖跟踪
+        duplicateManager_.markAsImported(filePath, ImportNode::ImportType::CJMOD, cjmodNode);
+        circularDetector_.addDependency(currentDirectory_, filePath);
+        
+    } catch (const std::exception& e) {
+        result.error = "导入CJmod文件失败: " + String(e.what());
+    }
+    
+    return result;
 }
 
-bool ImportManager::checkCircularDependency(const String& from, const String& to) {
-    return circularDetector_->hasCircularDependency(from, to);
+std::vector<ImportResult> ImportManager::importMultipleFiles(const std::vector<ImportNode>& importNodes) {
+    std::vector<ImportResult> results;
+    
+    for (const auto& importNode : importNodes) {
+        auto result = importFile(importNode);
+        results.push_back(result);
+    }
+    
+    return results;
+}
+
+void ImportManager::clearCache() {
+    duplicateManager_.clearCache();
+    circularDetector_.clear();
+}
+
+bool ImportManager::hasCircularDependency(const String& fromFile, const String& toFile) {
+    return circularDetector_.hasCircularDependency(fromFile, toFile);
 }
 
 std::vector<String> ImportManager::getDependencyChain(const String& file) {
-    return circularDetector_->getDependencyChain(file);
-}
-
-// 缓存管理方法
-void ImportManager::clearImportCache() {
-    duplicateManager_->clearCache();
-}
-
-size_t ImportManager::getImportCacheSize() const {
-    return duplicateManager_->getCacheSize();
-}
-
-// 配置方法
-void ImportManager::setOfficialModulePath(const String& path) {
-    pathResolver_ = std::make_unique<PathResolver>(pathResolver_->currentDirectory_, path);
-}
-
-void ImportManager::setCurrentDirectory(const String& directory) {
-    String officialPath = pathResolver_->officialModulePath_;
-    pathResolver_ = std::make_unique<PathResolver>(directory, officialPath);
-}
-
-// 辅助方法
-std::shared_ptr<CHTLASTNode> ImportManager::loadFileContent(const String& filePath, ImportNode::ImportType type) {
-    try {
-        std::ifstream file(filePath);
-        if (!file.is_open()) {
-            return nullptr;
-        }
-        
-        std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-        file.close();
-        
-        // 根据文件类型处理内容
-        String extension = pathResolver_->getFileExtension(filePath);
-        
-        if (extension == ".cmod" || extension == ".cjmod") {
-            // TODO: 处理模块文件，这里暂时返回原始内容节点
-            return std::make_shared<OriginNode>(OriginNode::OriginType::CUSTOM, content);
-        } else if (extension == ".chtl") {
-            // 解析CHTL文件
-            CHTLParser parser;
-            auto parseResult = parser.parse(content, filePath);
-            return parseResult.ast;
-        } else {
-            // 其他文件类型作为原始内容处理
-            OriginNode::OriginType originType = OriginNode::OriginType::CUSTOM;
-            
-            switch (type) {
-                case ImportNode::ImportType::HTML:
-                    originType = OriginNode::OriginType::HTML;
-                    break;
-                case ImportNode::ImportType::STYLE:
-                    originType = OriginNode::OriginType::STYLE;
-                    break;
-                case ImportNode::ImportType::JAVASCRIPT:
-                    originType = OriginNode::OriginType::JAVASCRIPT;
-                    break;
-                default:
-                    originType = OriginNode::OriginType::CUSTOM;
-                    break;
-            }
-            
-            return std::make_shared<OriginNode>(originType, content);
-        }
-    } catch (const std::exception& e) {
-        addError("Failed to load file: " + filePath + " - " + e.what());
-        return nullptr;
-    }
-}
-
-bool ImportManager::validateImportPath(const String& path, ImportNode::ImportType type) {
-    if (path.empty()) {
-        return false;
-    }
-    
-    ImportPathType pathType = pathResolver_->detectPathType(path);
-    
-    // 检查是否指向目录（除了通配符情况）
-    if (pathType == ImportPathType::DIRECTORY_PATH) {
-        addError("Import path cannot point to directory: " + path);
-        return false;
-    }
-    
-    return true;
-}
-
-void ImportManager::addError(const String& error) {
-    errors_.push_back(error);
-}
-
-void ImportManager::addWarning(const String& warning) {
-    warnings_.push_back(warning);
+    return circularDetector_.getDependencyChain(file);
 }
 
 } // namespace chtl

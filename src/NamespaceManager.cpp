@@ -120,25 +120,25 @@ bool Namespace::mergeWith(const Namespace& other, std::vector<NamespaceConflict>
         const auto& otherItems = pair.second;
         
         for (const auto& otherItem : otherItems) {
+            // 检查冲突
             if (hasItem(itemName, otherItem.type)) {
-                // 冲突
-                NamespaceConflict conflict(name_, itemName, otherItem.type);
+                // 发现冲突
+                auto existingItem = getItem(itemName, otherItem.type);
                 
-                // 添加现有项目
-                auto existingItems = getItemsByName(itemName);
-                for (const auto& existing : existingItems) {
-                    if (existing.type == otherItem.type) {
-                        conflict.conflictingItems.push_back(existing);
-                    }
-                }
+                NamespaceConflict conflict;
+                conflict.itemName = itemName;
+                conflict.type = otherItem.type;
+                conflict.existingSource = sourceFile_;
+                conflict.newSource = other.sourceFile_;
+                conflict.existingNode = existingItem;
+                conflict.newNode = otherItem.node;
                 
-                // 添加冲突项目
-                conflict.conflictingItems.push_back(otherItem);
                 conflicts.push_back(conflict);
                 success = false;
             } else {
-                // 可以安全添加
-                items_[itemName].push_back(otherItem);
+                // 无冲突，直接添加
+                NamespaceItem newItem = otherItem;
+                items_[itemName].push_back(newItem);
             }
         }
     }
@@ -146,22 +146,77 @@ bool Namespace::mergeWith(const Namespace& other, std::vector<NamespaceConflict>
     // 合并嵌套命名空间
     for (const auto& pair : other.nestedNamespaces_) {
         const String& nsName = pair.first;
-        auto otherNestedNs = pair.second;
+        const auto& otherNs = pair.second;
         
-        auto existingNestedNs = getNestedNamespace(nsName);
-        if (existingNestedNs) {
-            // 递归合并
+        auto it = nestedNamespaces_.find(nsName);
+        if (it != nestedNamespaces_.end()) {
+            // 递归合并嵌套命名空间
             std::vector<NamespaceConflict> nestedConflicts;
-            if (!existingNestedNs->mergeWith(*otherNestedNs, nestedConflicts)) {
+            bool mergeSuccess = it->second->mergeWith(*otherNs, nestedConflicts);
+            
+            if (!mergeSuccess) {
                 conflicts.insert(conflicts.end(), nestedConflicts.begin(), nestedConflicts.end());
                 success = false;
             }
         } else {
-            nestedNamespaces_[nsName] = otherNestedNs;
+            // 直接添加新的嵌套命名空间
+            nestedNamespaces_[nsName] = std::make_shared<Namespace>(*otherNs);
         }
     }
     
     return success;
+}
+
+bool Namespace::resolveConflict(const NamespaceConflict& conflict, ConflictResolutionStrategy strategy) {
+    switch (strategy) {
+        case ConflictResolutionStrategy::KEEP_EXISTING:
+            // 保持现有项目，不做任何操作
+            return true;
+            
+        case ConflictResolutionStrategy::REPLACE_WITH_NEW:
+            // 用新项目替换现有项目
+            {
+                auto& itemList = items_[conflict.itemName];
+                for (auto it = itemList.begin(); it != itemList.end(); ++it) {
+                    if (it->type == conflict.type) {
+                        *it = NamespaceItem{
+                            conflict.itemName,
+                            conflict.type,
+                            conflict.newNode,
+                            conflict.newSource
+                        };
+                        return true;
+                    }
+                }
+            }
+            break;
+            
+        case ConflictResolutionStrategy::CREATE_ALIAS:
+            // 为新项目创建别名
+            {
+                String aliasName = conflict.itemName + "_" + generateUniqueId();
+                NamespaceItem aliasItem{
+                    aliasName,
+                    conflict.type,
+                    conflict.newNode,
+                    conflict.newSource
+                };
+                items_[aliasName].push_back(aliasItem);
+                return true;
+            }
+            break;
+            
+        case ConflictResolutionStrategy::FAIL:
+        default:
+            return false;
+    }
+    
+    return false;
+}
+
+String Namespace::generateUniqueId() {
+    static int counter = 0;
+    return std::to_string(++counter);
 }
 
 NamespaceResolutionResult Namespace::resolve(const String& path) const {
