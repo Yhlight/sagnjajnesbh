@@ -112,7 +112,6 @@ public:
     
     // 特例化和插入操作解析
     std::shared_ptr<CHTLASTNode> parseStyleSpecialization(const String& templateName);
-    std::shared_ptr<CHTLASTNode> parseInsert();
     
     // 特殊语法解析
     std::shared_ptr<CHTLASTNode> parseInherit();
@@ -129,6 +128,7 @@ public:
     String parseIdentifier();
     String parseStringLiteral();
     String parseUnquotedLiteral();
+    String parseElementSelector(int& index);
     
     // 工具方法
     void setDebugMode(bool debug) { debugMode_ = debug; }
@@ -164,6 +164,9 @@ private:
         StringSet templateNames;
         StringSet customNames;
         StringSet namespaces;
+        StringList classNames;          // 自动生成的类名
+        String currentElementName;      // 当前元素名称
+        String currentElementId;        // 自动生成的ID
         bool inLocalStyle = false;
         bool inLocalScript = false;
         bool inTemplate = false;
