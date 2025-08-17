@@ -1,5 +1,5 @@
 #pragma once
-#include "CHTLToken.h"
+#include "CHTLJSToken.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -7,13 +7,13 @@
 namespace chtl {
 
 /**
- * CHTL词法分析器
- * 专门处理CHTL语法的词法分析
+ * CHTL JS词法分析器
+ * 专门处理CHTL JS语法的词法分析
  */
-class CHTLLexer {
+class CHTLJSLexer {
 public:
-    CHTLLexer();
-    ~CHTLLexer() = default;
+    CHTLJSLexer();
+    ~CHTLJSLexer() = default;
     
     // 设置输入源
     void setInput(const std::string& input);
@@ -44,13 +44,13 @@ private:
     char peekChar(size_t offset = 1) const;
     void advance();
     void skipWhitespace();
-    void skipComment();
     
     // Token识别
     Token readString();
     Token readNumber();
     Token readIdentifier();
     Token readOperator();
+    Token readCHTLJSSelector(); // {{...}}
     Token readKeyword(const std::string& word);
     
     // 辅助方法
