@@ -90,17 +90,17 @@ public:
     String generateAutoSelectorQuery(const String& selector, const String& index = "");
     
     // 箭头语法生成
-    String generateArrowExpression(std::shared_ptr<ArrowExpressionNode> arrow);
+    String generateArrowExpression(const String& leftExpr, const String& rightExpr);
     String generateChainedCall(std::shared_ptr<CHTLJSASTNode> leftExpr, std::shared_ptr<CHTLJSASTNode> rightExpr);
     
     // 事件监听器生成
-    String generateListener(std::shared_ptr<ListenerNode> listener);
+    String generateListener(const StringMap& eventMap);
     String generateEventMap(std::shared_ptr<CHTLJSASTNode> eventMap);
     String generateEventHandler(std::shared_ptr<CHTLJSASTNode> handler);
     String generateEventBinding(const String& targetSelector, const String& eventType, const String& handlerCode);
     
     // 事件委托生成
-    String generateDelegate(std::shared_ptr<DelegateNode> delegate);
+    String generateDelegate(const StringMap& delegateConfig);
     String generateDelegateConfig(std::shared_ptr<CHTLJSASTNode> config);
     String generateDelegateTarget(std::shared_ptr<CHTLJSASTNode> target);
     String generateDelegateRegistration(const DelegateRegistry& registry);

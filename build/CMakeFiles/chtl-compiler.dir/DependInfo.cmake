@@ -8,13 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/workspace/src/CHTLCompiler.cpp" "CMakeFiles/chtl-compiler.dir/src/CHTLCompiler.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/CHTLCompiler.cpp.o.d"
+  "/workspace/src/ImportManager.cpp" "CMakeFiles/chtl-compiler.dir/src/ImportManager.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/ImportManager.cpp.o.d"
+  "/workspace/src/ModuleSystem.cpp" "CMakeFiles/chtl-compiler.dir/src/ModuleSystem.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/ModuleSystem.cpp.o.d"
+  "/workspace/src/NamespaceManager.cpp" "CMakeFiles/chtl-compiler.dir/src/NamespaceManager.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/NamespaceManager.cpp.o.d"
   "/workspace/src/ast/ASTStateTracker.cpp" "CMakeFiles/chtl-compiler.dir/src/ast/ASTStateTracker.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/ast/ASTStateTracker.cpp.o.d"
   "/workspace/src/ast/CHTLASTNodes.cpp" "CMakeFiles/chtl-compiler.dir/src/ast/CHTLASTNodes.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/ast/CHTLASTNodes.cpp.o.d"
   "/workspace/src/ast/CHTLJSASTNodes.cpp" "CMakeFiles/chtl-compiler.dir/src/ast/CHTLJSASTNodes.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/ast/CHTLJSASTNodes.cpp.o.d"
-  "/workspace/src/compiler/chtl/CHTLCompiler.cpp" "CMakeFiles/chtl-compiler.dir/src/compiler/chtl/CHTLCompiler.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/compiler/chtl/CHTLCompiler.cpp.o.d"
-  "/workspace/src/compiler/chtljs/CHTLJSCompiler.cpp" "CMakeFiles/chtl-compiler.dir/src/compiler/chtljs/CHTLJSCompiler.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/compiler/chtljs/CHTLJSCompiler.cpp.o.d"
-  "/workspace/src/compiler/css/CSSCompiler.cpp" "CMakeFiles/chtl-compiler.dir/src/compiler/css/CSSCompiler.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/compiler/css/CSSCompiler.cpp.o.d"
-  "/workspace/src/compiler/js/JSCompiler.cpp" "CMakeFiles/chtl-compiler.dir/src/compiler/js/JSCompiler.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/compiler/js/JSCompiler.cpp.o.d"
   "/workspace/src/context/ContextAssistant.cpp" "CMakeFiles/chtl-compiler.dir/src/context/ContextAssistant.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/context/ContextAssistant.cpp.o.d"
   "/workspace/src/context/ContextManager.cpp" "CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/context/ContextManager.cpp.o.d"
   "/workspace/src/dispatcher/CompilerDispatcher.cpp" "CMakeFiles/chtl-compiler.dir/src/dispatcher/CompilerDispatcher.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/dispatcher/CompilerDispatcher.cpp.o.d"
@@ -28,8 +28,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspace/src/parser/CHTLParser.cpp" "CMakeFiles/chtl-compiler.dir/src/parser/CHTLParser.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/parser/CHTLParser.cpp.o.d"
   "/workspace/src/scanner/CHTLUnifiedScanner.cpp" "CMakeFiles/chtl-compiler.dir/src/scanner/CHTLUnifiedScanner.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/scanner/CHTLUnifiedScanner.cpp.o.d"
   "/workspace/src/state/StateMachine.cpp" "CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/state/StateMachine.cpp.o.d"
-  "/workspace/src/utils/FileUtils.cpp" "CMakeFiles/chtl-compiler.dir/src/utils/FileUtils.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/utils/FileUtils.cpp.o.d"
-  "/workspace/src/utils/StringUtils.cpp" "CMakeFiles/chtl-compiler.dir/src/utils/StringUtils.cpp.o" "gcc" "CMakeFiles/chtl-compiler.dir/src/utils/StringUtils.cpp.o.d"
   "" "bin/chtl-compiler" "gcc" "CMakeFiles/chtl-compiler.dir/link.d"
   )
 

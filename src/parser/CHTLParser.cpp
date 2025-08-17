@@ -148,15 +148,119 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parseCustom() {
 std::shared_ptr<CHTLASTNode> CHTLParser::parseImport() {
     const auto& importToken = consumeToken(TokenType::IMPORT_DECL);
     
-    // 简化实现 - 跳过导入语句
-    while (!isAtEnd() && !matchToken(TokenType::SEMICOLON)) {
-        skipToken();
-    }
-    if (matchToken(TokenType::SEMICOLON)) {
-        skipToken();
+    // 解析导入类型和路径
+    ImportNode::ImportType importType;
+    String itemName;
+    String path;
+    String alias;
+    
+    // 解析导入类型
+    if (matchToken(TokenType::AT_HTML)) {
+        importType = ImportNode::ImportType::HTML;
+        consumeToken(TokenType::AT_HTML);
+    } else if (matchToken(TokenType::AT_STYLE)) {
+        importType = ImportNode::ImportType::STYLE;
+        consumeToken(TokenType::AT_STYLE);
+    } else if (matchToken(TokenType::AT_JAVASCRIPT)) {
+        importType = ImportNode::ImportType::JAVASCRIPT;
+        consumeToken(TokenType::AT_JAVASCRIPT);
+    } else if (matchToken(TokenType::AT_CHTL)) {
+        importType = ImportNode::ImportType::CHTL;
+        consumeToken(TokenType::AT_CHTL);
+    } else if (matchToken(TokenType::AT_CJMOD)) {
+        importType = ImportNode::ImportType::CJMOD;
+        consumeToken(TokenType::AT_CJMOD);
+    } else if (matchToken(TokenType::CUSTOM_DECL)) {
+        // 解析 [Custom] @Type
+        consumeToken(TokenType::CUSTOM_DECL);
+        if (matchToken(TokenType::AT_STYLE)) {
+            importType = ImportNode::ImportType::CUSTOM_STYLE;
+            consumeToken(TokenType::AT_STYLE);
+        } else if (matchToken(TokenType::AT_ELEMENT)) {
+            importType = ImportNode::ImportType::CUSTOM_ELEMENT;
+            consumeToken(TokenType::AT_ELEMENT);
+        } else if (matchToken(TokenType::AT_VAR)) {
+            importType = ImportNode::ImportType::CUSTOM_VAR;
+            consumeToken(TokenType::AT_VAR);
+        } else {
+            addError(ParseErrorType::SYNTAX_ERROR, "Expected @Style, @Element, or @Var after [Custom]");
+            return nullptr;
+        }
+        
+        // 解析具体项目名称
+        if (matchToken(TokenType::IDENTIFIER)) {
+            itemName = getCurrentToken().value;
+            consumeToken(TokenType::IDENTIFIER);
+        }
+    } else if (matchToken(TokenType::TEMPLATE_DECL)) {
+        // 解析 [Template] @Type
+        consumeToken(TokenType::TEMPLATE_DECL);
+        if (matchToken(TokenType::AT_STYLE)) {
+            importType = ImportNode::ImportType::TEMPLATE_STYLE;
+            consumeToken(TokenType::AT_STYLE);
+        } else if (matchToken(TokenType::AT_ELEMENT)) {
+            importType = ImportNode::ImportType::TEMPLATE_ELEMENT;
+            consumeToken(TokenType::AT_ELEMENT);
+        } else if (matchToken(TokenType::AT_VAR)) {
+            importType = ImportNode::ImportType::TEMPLATE_VAR;
+            consumeToken(TokenType::AT_VAR);
+        } else {
+            addError(ParseErrorType::SYNTAX_ERROR, "Expected @Style, @Element, or @Var after [Template]");
+            return nullptr;
+        }
+        
+        // 解析具体项目名称
+        if (matchToken(TokenType::IDENTIFIER)) {
+            itemName = getCurrentToken().value;
+            consumeToken(TokenType::IDENTIFIER);
+        }
+    } else {
+        addError(ParseErrorType::SYNTAX_ERROR, "Expected import type after [Import]");
+        return nullptr;
     }
     
-    return std::make_shared<ImportNode>("", importToken.line, importToken.column);
+    // 解析 from 关键字
+    if (!matchToken(TokenType::FROM)) {
+        addError(ParseErrorType::MISSING_TOKEN, "Expected 'from' keyword in import statement");
+        return nullptr;
+    }
+    consumeToken(TokenType::FROM);
+    
+    // 解析路径
+    if (matchToken(TokenType::STRING_LITERAL) || matchToken(TokenType::IDENTIFIER) || matchToken(TokenType::UNQUOTED_LITERAL)) {
+        path = getCurrentToken().value;
+        skipToken();
+    } else {
+        addError(ParseErrorType::SYNTAX_ERROR, "Expected import path after 'from'");
+        return nullptr;
+    }
+    
+    // 解析可选的 as 别名
+    if (matchToken(TokenType::AS)) {
+        consumeToken(TokenType::AS);
+        if (matchToken(TokenType::IDENTIFIER)) {
+            alias = getCurrentToken().value;
+            consumeToken(TokenType::IDENTIFIER);
+        } else {
+            addError(ParseErrorType::SYNTAX_ERROR, "Expected identifier after 'as'");
+            return nullptr;
+        }
+    }
+    
+    // 消费分号
+    if (matchToken(TokenType::SEMICOLON)) {
+        consumeToken(TokenType::SEMICOLON);
+    }
+    
+    // 创建导入节点
+    auto importNode = std::make_shared<ImportNode>(importType, path, importToken.line, importToken.column);
+    importNode->setAlias(alias);
+    importNode->setItemName(itemName);
+    
+    return importNode;
+    
+    // 这行代码已经被前面的return语句替代，不应该执行到这里
+    // return std::make_shared<ImportNode>("", importToken.line, importToken.column);
 }
 
 std::shared_ptr<CHTLASTNode> CHTLParser::parseNamespace() {

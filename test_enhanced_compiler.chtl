@@ -1,0 +1,63 @@
+// 测试增强的Import功能和模块系统
+
+[Namespace] TestSpace
+
+// 测试导入HTML文件（带as语法）
+[Import] @Html from test.html as TestHtml;
+
+// 测试导入CSS文件（带as语法）
+[Import] @Style from styles.css as TestStyles;
+
+// 测试导入JavaScript文件（带as语法）
+[Import] @JavaScript from script.js as TestScript;
+
+// 测试导入CHTL文件
+[Import] @Chtl from components;
+
+// 测试导入官方模块
+[Import] @Chtl from chtl::Chtholly;
+
+// 测试通配符导入
+[Import] @Chtl from ./modules.*;
+[Import] @Chtl from ./modules/*.cmod;
+[Import] @Chtl from ./modules/*.chtl;
+
+// 测试CJmod导入
+[Import] @CJmod from extensions;
+
+[Custom] @Element TestBox
+{
+    div
+    {
+        style
+        {
+            .container
+            {
+                width: 100px;
+                height: 100px;
+                background-color: blue;
+            }
+        }
+        
+        text
+        {
+            这是一个测试元素
+        }
+    }
+}
+
+html
+{
+    head
+    {
+        [Origin] @Html TestHtml;
+        [Origin] @Style TestStyles;
+    }
+    
+    body
+    {
+        @Element TestBox;
+        
+        [Origin] @JavaScript TestScript;
+    }
+}
