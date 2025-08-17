@@ -389,10 +389,10 @@ CMakeFiles/chtl_other.dir/clean:
 # Target rules for target CMakeFiles/chtl_main.dir
 
 # All Build rule for target.
-CMakeFiles/chtl_main.dir/all: CMakeFiles/chtl_other.dir/all
 CMakeFiles/chtl_main.dir/all: CMakeFiles/chtl_compiler.dir/all
 CMakeFiles/chtl_main.dir/all: CMakeFiles/chtl_js_compiler.dir/all
 CMakeFiles/chtl_main.dir/all: CMakeFiles/chtl_shared.dir/all
+CMakeFiles/chtl_main.dir/all: CMakeFiles/chtl_other.dir/all
 CMakeFiles/chtl_main.dir/all: CMakeFiles/css_compiler.dir/all
 CMakeFiles/chtl_main.dir/all: CMakeFiles/js_compiler.dir/all
 CMakeFiles/chtl_main.dir/all: CMakeFiles/unified_core.dir/all

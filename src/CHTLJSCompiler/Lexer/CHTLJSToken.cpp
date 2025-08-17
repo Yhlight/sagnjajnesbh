@@ -1,4 +1,4 @@
-#include "Token.h"
+#include "CHTLJSToken.h"
 #include <algorithm>
 
 namespace chtl {
