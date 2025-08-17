@@ -89,6 +89,7 @@ public:
     std::shared_ptr<CHTLASTNode> parseClassSelector();
     std::shared_ptr<CHTLASTNode> parseIdSelector();
     std::shared_ptr<CHTLASTNode> parsePseudoSelector();
+    std::shared_ptr<CHTLASTNode> parseElementSelector();
     std::shared_ptr<CHTLASTNode> parseStyleContent();
     std::shared_ptr<CHTLASTNode> parseElementContent();
     
@@ -117,7 +118,6 @@ public:
     // 特殊语法解析
     std::shared_ptr<CHTLASTNode> parseInherit();
     std::shared_ptr<CHTLASTNode> parseDelete();
-    std::shared_ptr<CHTLASTNode> parseInsert();
     std::shared_ptr<CHTLASTNode> parseExcept();
     
     // 导入和命名空间

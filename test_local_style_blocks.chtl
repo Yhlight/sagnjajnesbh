@@ -1,0 +1,269 @@
+// CHTL局部样式块系统测试文件
+// 测试内联样式、自动化类名/ID、上下文推导、伪类伪元素选择器
+
+html
+{
+    head
+    {
+        title
+        {
+            text
+            {
+                "CHTL局部样式块测试"
+            }
+        }
+    }
+    
+    body
+    {
+        // 1. 测试内联样式 - 直接在style{}内部添加属性
+        div
+        {
+            // 内联样式
+            style
+            {
+                width: 100px;
+                height: 200px;
+                background-color: lightblue;
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            text
+            {
+                "这个div使用内联样式"
+            }
+        }
+        
+        // 2. 测试自动化类名 - 使用.className自动添加类名
+        div
+        {
+            style
+            {
+                .container  // 自动添加类名container给元素
+                {
+                    width: 300px;
+                    height: 150px;
+                    background-color: lightgreen;
+                    border: 2px solid green;
+                    border-radius: 8px;
+                }
+            }
+            
+            text
+            {
+                "这个div自动获得container类名"
+            }
+        }
+        
+        // 3. 测试自动化ID - 使用#idName自动添加ID
+        div
+        {
+            style
+            {
+                #main-box  // 自动添加ID main-box给元素
+                {
+                    width: 400px;
+                    height: 100px;
+                    background-color: lightyellow;
+                    border: 1px dashed orange;
+                    text-align: center;
+                }
+            }
+            
+            text
+            {
+                "这个div自动获得main-box ID"
+            }
+        }
+        
+        // 4. 测试上下文推导 - 使用&表示当前类名/ID
+        div
+        {
+            style
+            {
+                .hover-box  // 先定义类名
+                {
+                    width: 200px;
+                    height: 200px;
+                    background-color: lightcoral;
+                    transition: all 0.3s ease;
+                }
+                
+                &:hover  // 使用&表示.hover-box，生成.hover-box:hover
+                {
+                    background-color: darkred;
+                    transform: scale(1.1);
+                }
+                
+                &:active  // 生成.hover-box:active
+                {
+                    transform: scale(0.95);
+                }
+                
+                &::before  // 伪元素选择器，生成.hover-box::before
+                {
+                    content: "→ ";
+                    color: white;
+                    font-weight: bold;
+                }
+                
+                &::after  // 生成.hover-box::after
+                {
+                    content: " ←";
+                    color: white;
+                    font-weight: bold;
+                }
+            }
+            
+            text
+            {
+                "悬停效果和伪元素测试"
+            }
+        }
+        
+        // 5. 测试混合使用 - 内联样式 + 类选择器
+        section
+        {
+            style
+            {
+                // 内联样式
+                padding: 30px;
+                margin: 20px 0;
+                
+                .section-content  // 类选择器
+                {
+                    background-color: #f8f9fa;
+                    border-radius: 12px;
+                    padding: 25px;
+                }
+                
+                &:hover  // 基于.section-content的伪类
+                {
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                }
+            }
+            
+            h2
+            {
+                style
+                {
+                    .section-title
+                    {
+                        color: #333;
+                        font-size: 24px;
+                        margin-bottom: 15px;
+                    }
+                }
+                
+                text
+                {
+                    "混合样式测试"
+                }
+            }
+            
+            p
+            {
+                style
+                {
+                    color: #666;
+                    line-height: 1.6;
+                }
+                
+                text
+                {
+                    "这个段落使用内联样式，而标题使用类选择器。"
+                }
+            }
+        }
+        
+        // 6. 测试复杂伪类和伪元素
+        div
+        {
+            style
+            {
+                .interactive-element
+                {
+                    width: 250px;
+                    height: 80px;
+                    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+                    border-radius: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    position: relative;
+                    overflow: hidden;
+                }
+                
+                &:hover
+                {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+                }
+                
+                &:active
+                {
+                    transform: translateY(0);
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                }
+                
+                &::before
+                {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+                    transition: left 0.5s;
+                }
+                
+                &:hover::before
+                {
+                    left: 100%;
+                }
+            }
+            
+            text
+            {
+                "交互式按钮效果"
+            }
+        }
+        
+        // 7. 测试ID与伪类组合
+        div
+        {
+            style
+            {
+                #unique-element
+                {
+                    width: 300px;
+                    height: 60px;
+                    background-color: #007bff;
+                    color: white;
+                    text-align: center;
+                    line-height: 60px;
+                    border-radius: 6px;
+                }
+                
+                &:hover  // 基于#unique-element的伪类
+                {
+                    background-color: #0056b3;
+                }
+                
+                &:focus  // 基于#unique-element的伪类
+                {
+                    outline: 3px solid rgba(0, 123, 255, 0.5);
+                    outline-offset: 2px;
+                }
+            }
+            
+            text
+            {
+                "ID与伪类组合测试"
+            }
+        }
+    }
+}

@@ -981,28 +981,36 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parseStyleContent() {
     const auto& token = currentToken();
     
     if (token.type == TokenType::DOT) {
-        // 类选择器 .className
+        // 类选择器 .className - 自动化类名
         return parseClassSelector();
     } else if (token.type == TokenType::HASH) {
-        // ID选择器 #idName
+        // ID选择器 #idName - 自动化ID
         return parseIdSelector();
     } else if (token.type == TokenType::AMPERSAND) {
         // 上下文推导 &:hover, &::before
         return parsePseudoSelector();
     } else if (token.type == TokenType::AT_STYLE) {
-        // 样式组模板使用
+        // 样式组模板使用 @Style TemplateName;
         return parseTemplateUsage();
     } else if (token.type == TokenType::IDENTIFIER) {
-        // 可能是CSS属性或选择器
+        // 可能是CSS属性或元素选择器
         if (peekToken().type == TokenType::COLON || peekToken().type == TokenType::EQUALS) {
+            // CSS属性 - 内联样式
             return parseStyleProperty();
+        } else if (peekToken().type == TokenType::LEFT_BRACE) {
+            // 元素选择器 elementName { ... }
+            return parseElementSelector();
         } else {
-            // 元素选择器或其他
-            return parseSelector();
+            reportError(ParseErrorType::UNEXPECTED_TOKEN, 
+                       "style块中意外的标识符: " + token.value);
+            skipToken();
+            return nullptr;
         }
     } else if (token.type == TokenType::DELETE) {
+        // 删除操作
         return parseDelete();
     } else if (token.type == TokenType::INHERIT) {
+        // 继承操作
         return parseInherit();
     } else {
         reportError(ParseErrorType::UNEXPECTED_TOKEN, 
@@ -1080,13 +1088,30 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parsePseudoSelector() {
     String pseudoSelector = "&";
     
     // 解析伪类或伪元素
-    while (!matchToken(TokenType::LEFT_BRACE) && !isAtEnd()) {
-        pseudoSelector += currentToken().value;
-        skipToken();
+    // 支持 &:hover, &:active, &::before, &::after 等
+    while (!matchToken(TokenType::LEFT_BRACE) && !isAtEnd() && 
+           !matchToken(TokenType::SEMICOLON) && !matchToken(TokenType::RIGHT_BRACE)) {
+        
+        const auto& token = currentToken();
+        
+        if (token.type == TokenType::COLON) {
+            pseudoSelector += ":";
+            skipToken();
+        } else if (token.type == TokenType::IDENTIFIER) {
+            pseudoSelector += token.value;
+            skipToken();
+        } else {
+            // 其他字符直接添加
+            pseudoSelector += token.value;
+            skipToken();
+        }
     }
     
-    auto pseudo = std::make_shared<PseudoSelectorNode>(pseudoSelector, currentToken().line, currentToken().column);
+    auto pseudo = std::make_shared<PseudoSelectorNode>(pseudoSelector, 
+                                                      currentToken().line, 
+                                                      currentToken().column);
     
+    // 如果有花括号，解析内部的CSS属性
     if (matchToken(TokenType::LEFT_BRACE)) {
         consumeToken(TokenType::LEFT_BRACE);
         
@@ -1110,6 +1135,38 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parsePseudoSelector() {
     }
     
     return pseudo;
+}
+
+// 解析元素选择器（在style块中）
+std::shared_ptr<CHTLASTNode> CHTLParser::parseElementSelector() {
+    const auto& nameToken = consumeToken(TokenType::IDENTIFIER);
+    String selectorName = nameToken.value;
+    
+    auto selector = std::make_shared<CSSRuleNode>(selectorName, nameToken.line, nameToken.column);
+    
+    if (matchToken(TokenType::LEFT_BRACE)) {
+        consumeToken(TokenType::LEFT_BRACE);
+        
+        while (!matchToken(TokenType::RIGHT_BRACE) && !isAtEnd()) {
+            skipWhitespace();
+            skipComments();
+            
+            if (matchToken(TokenType::RIGHT_BRACE)) break;
+            
+            auto property = parseStyleProperty();
+            if (property) {
+                selector->addChild(property);
+            }
+        }
+        
+        if (matchToken(TokenType::RIGHT_BRACE)) {
+            consumeToken(TokenType::RIGHT_BRACE);
+        } else {
+            reportError(ParseErrorType::MISSING_TOKEN, "元素选择器缺少右花括号 '}'");
+        }
+    }
+    
+    return selector;
 }
 
 std::shared_ptr<CHTLASTNode> CHTLParser::parseStyleProperty() {

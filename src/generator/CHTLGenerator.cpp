@@ -1,6 +1,8 @@
 #include "../../include/CHTLGenerator.h"
 #include <iostream>
 #include <sstream>
+#include <regex> // Added for regex
+#include <algorithm> // Added for std::find
 
 namespace chtl {
 
@@ -223,28 +225,41 @@ void CHTLGenerator::generateTextHTML(std::shared_ptr<TextNode> text, std::ostrin
 void CHTLGenerator::processStyleBlock(std::shared_ptr<StyleBlockNode> styleBlock) {
     styleContext_.inLocalStyle = styleBlock->isLocal();
     
+    // 重置当前选择器
+    styleContext_.currentSelector.clear();
+    
+    if (debugMode_) {
+        debugLog("处理" + String(styleContext_.inLocalStyle ? "局部" : "全局") + "样式块");
+    }
+    
     for (const auto& child : styleBlock->getChildren()) {
         switch (child->getType()) {
             case ASTNodeType::CSS_PROPERTY:
+                // 直接CSS属性 - 内联样式
                 processCSSProperty(std::static_pointer_cast<CSSPropertyNode>(child));
                 break;
                 
             case ASTNodeType::CSS_RULE:
+                // CSS规则（包括类选择器、ID选择器、元素选择器等）
                 processCSSRule(std::static_pointer_cast<CSSRuleNode>(child));
                 break;
                 
-            case ASTNodeType::UNKNOWN_NODE:
-                // 处理模板使用节点
-                if (auto usage = std::dynamic_pointer_cast<TemplateUsageNode>(child)) {
-                    processTemplateUsage(usage);
-                }
-                break;
-                
             default:
-                // 递归处理其他节点
-                for (const auto& grandChild : child->getChildren()) {
-                    if (grandChild->getType() == ASTNodeType::CSS_PROPERTY) {
-                        processCSSProperty(std::static_pointer_cast<CSSPropertyNode>(grandChild));
+                // 处理其他类型的节点
+                if (auto classSelector = std::dynamic_pointer_cast<ClassSelectorNode>(child)) {
+                    processClassSelector(classSelector);
+                } else if (auto idSelector = std::dynamic_pointer_cast<IdSelectorNode>(child)) {
+                    processIdSelector(idSelector);
+                } else if (auto pseudoSelector = std::dynamic_pointer_cast<PseudoSelectorNode>(child)) {
+                    processPseudoSelector(pseudoSelector);
+                } else if (auto usage = std::dynamic_pointer_cast<TemplateUsageNode>(child)) {
+                    processTemplateUsage(usage);
+                } else {
+                    // 递归处理其他节点
+                    for (const auto& grandChild : child->getChildren()) {
+                        if (grandChild->getType() == ASTNodeType::CSS_PROPERTY) {
+                            processCSSProperty(std::static_pointer_cast<CSSPropertyNode>(grandChild));
+                        }
                     }
                 }
                 break;
@@ -273,42 +288,147 @@ void CHTLGenerator::processCSSProperty(std::shared_ptr<CSSPropertyNode> property
 void CHTLGenerator::processCSSRule(std::shared_ptr<CSSRuleNode> rule) {
     String selector = rule->getSelector();
     
-    // 处理自动化类名/id
+    // 处理自动化类名/id和上下文推导
     if (selector.front() == '.') {
-        // 类选择器，自动添加类名
+        // 类选择器，自动添加类名到当前元素
         String className = selector.substr(1);
         styleContext_.autoClasses.insert(className);
         styleContext_.currentSelector = selector;
+        
+        if (debugMode_) {
+            debugLog("自动添加类名: " + className);
+        }
     } else if (selector.front() == '#') {
-        // ID选择器，自动添加ID
+        // ID选择器，自动添加ID到当前元素
         String idName = selector.substr(1);
         styleContext_.autoIds.insert(idName);
         styleContext_.currentSelector = selector;
+        
+        if (debugMode_) {
+            debugLog("自动添加ID: " + idName);
+        }
     } else if (selector.front() == '&') {
         // 上下文推导
-        if (selector == "&") {
-            // 使用当前类名或ID
-            if (!styleContext_.autoClasses.empty()) {
-                styleContext_.currentSelector = "." + *styleContext_.autoClasses.begin();
-            } else if (!styleContext_.autoIds.empty()) {
-                styleContext_.currentSelector = "#" + *styleContext_.autoIds.begin();
-            }
-        } else if (selector.find(":") != String::npos) {
-            // 伪类选择器
-            String baseSelector = !styleContext_.autoClasses.empty() 
-                ? "." + *styleContext_.autoClasses.begin()
-                : (!styleContext_.autoIds.empty() ? "#" + *styleContext_.autoIds.begin() : "");
-            
-            if (!baseSelector.empty()) {
-                styleContext_.currentSelector = baseSelector + selector.substr(1);
-            }
+        String resolvedSelector = resolveContextSelector(selector);
+        styleContext_.currentSelector = resolvedSelector;
+        
+        if (debugMode_) {
+            debugLog("上下文推导: " + selector + " -> " + resolvedSelector);
         }
     } else {
+        // 普通选择器（元素选择器等）
         styleContext_.currentSelector = selector;
     }
     
     // 处理规则内的属性
     for (const auto& child : rule->getChildren()) {
+        if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+            processCSSProperty(std::static_pointer_cast<CSSPropertyNode>(child));
+        }
+    }
+}
+
+// 解析上下文选择器
+String CHTLGenerator::resolveContextSelector(const String& selector) {
+    if (selector == "&") {
+        // 单独的&，使用当前类名或ID
+        if (!styleContext_.autoClasses.empty()) {
+            return "." + *styleContext_.autoClasses.begin();
+        } else if (!styleContext_.autoIds.empty()) {
+            return "#" + *styleContext_.autoIds.begin();
+        } else {
+            // 如果没有自动生成的类名或ID，生成一个
+            String autoClass = generateAutoClassName();
+            styleContext_.autoClasses.insert(autoClass);
+            return "." + autoClass;
+        }
+    } else if (selector.find(":") != String::npos) {
+        // 伪类选择器 &:hover, &:active 等
+        String baseSelector;
+        if (!styleContext_.autoClasses.empty()) {
+            baseSelector = "." + *styleContext_.autoClasses.begin();
+        } else if (!styleContext_.autoIds.empty()) {
+            baseSelector = "#" + *styleContext_.autoIds.begin();
+        } else {
+            // 生成自动类名
+            String autoClass = generateAutoClassName();
+            styleContext_.autoClasses.insert(autoClass);
+            baseSelector = "." + autoClass;
+        }
+        return baseSelector + selector.substr(1); // 替换&为基础选择器
+    } else if (selector.find("::") != String::npos) {
+        // 伪元素选择器 &::before, &::after 等
+        String baseSelector;
+        if (!styleContext_.autoClasses.empty()) {
+            baseSelector = "." + *styleContext_.autoClasses.begin();
+        } else if (!styleContext_.autoIds.empty()) {
+            baseSelector = "#" + *styleContext_.autoIds.begin();
+        } else {
+            // 生成自动类名
+            String autoClass = generateAutoClassName();
+            styleContext_.autoClasses.insert(autoClass);
+            baseSelector = "." + autoClass;
+        }
+        return baseSelector + selector.substr(1); // 替换&为基础选择器
+    }
+    
+    return selector; // 如果无法解析，返回原选择器
+}
+
+// 处理类选择器节点
+void CHTLGenerator::processClassSelector(std::shared_ptr<ClassSelectorNode> classSelector) {
+    const String& className = classSelector->getClassName();
+    String selector = "." + className;
+    
+    // 自动添加类名到当前元素
+    styleContext_.autoClasses.insert(className);
+    styleContext_.currentSelector = selector;
+    
+    if (debugMode_) {
+        debugLog("处理类选择器: " + selector);
+    }
+    
+    // 处理选择器内的属性
+    for (const auto& child : classSelector->getChildren()) {
+        if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+            processCSSProperty(std::static_pointer_cast<CSSPropertyNode>(child));
+        }
+    }
+}
+
+// 处理ID选择器节点
+void CHTLGenerator::processIdSelector(std::shared_ptr<IdSelectorNode> idSelector) {
+    const String& idName = idSelector->getIdName();
+    String selector = "#" + idName;
+    
+    // 自动添加ID到当前元素
+    styleContext_.autoIds.insert(idName);
+    styleContext_.currentSelector = selector;
+    
+    if (debugMode_) {
+        debugLog("处理ID选择器: " + selector);
+    }
+    
+    // 处理选择器内的属性
+    for (const auto& child : idSelector->getChildren()) {
+        if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+            processCSSProperty(std::static_pointer_cast<CSSPropertyNode>(child));
+        }
+    }
+}
+
+// 处理伪选择器节点
+void CHTLGenerator::processPseudoSelector(std::shared_ptr<PseudoSelectorNode> pseudoSelector) {
+    const String& pseudoSel = pseudoSelector->getSelector();
+    String resolvedSelector = resolveContextSelector(pseudoSel);
+    styleContext_.currentSelector = resolvedSelector;
+    
+    if (debugMode_) {
+        debugLog("处理伪选择器: " + pseudoSel + " -> " + resolvedSelector);
+    }
+    
+    // 处理选择器内的属性
+    for (const auto& child : pseudoSelector->getChildren()) {
         if (child->getType() == ASTNodeType::CSS_PROPERTY) {
             processCSSProperty(std::static_pointer_cast<CSSPropertyNode>(child));
         }
@@ -567,9 +687,51 @@ String CHTLGenerator::resolveVariableGroup(const String& groupName, const String
 String CHTLGenerator::expandTemplateVariables(const String& text, const String& templateName) const {
     String result = text;
     
-    // 简单的变量替换实现
-    // 这里可以实现更复杂的变量替换逻辑
-    // 例如：${variableName} 或 ThemeColor(tableColor) 的替换
+    // 处理变量组引用: ThemeColor(tableColor)
+    std::regex varGroupRegex(R"((\w+)\((\w+)\))");
+    std::smatch match;
+    
+    while (std::regex_search(result, match, varGroupRegex)) {
+        String groupName = match[1].str();
+        String varName = match[2].str();
+        String fullVarName = groupName + "." + varName;
+        
+        // 查找变量值
+        auto it = templateContext_.variables.find(fullVarName);
+        if (it != templateContext_.variables.end()) {
+            result = std::regex_replace(result, varGroupRegex, it->second, std::regex_constants::format_first_only);
+        } else {
+            // 如果找不到，保持原样
+            if (debugMode_) {
+                debugLog("警告: 未找到变量组变量 " + fullVarName);
+            }
+            break; // 避免无限循环
+        }
+    }
+    
+    // 处理简单变量引用: ${variableName}
+    std::regex simpleVarRegex(R"(\$\{(\w+)\})");
+    while (std::regex_search(result, match, simpleVarRegex)) {
+        String varName = match[1].str();
+        String fullVarName = templateName.empty() ? varName : templateName + "." + varName;
+        
+        // 首先尝试模板作用域的变量
+        auto it = templateContext_.variables.find(fullVarName);
+        if (it != templateContext_.variables.end()) {
+            result = std::regex_replace(result, simpleVarRegex, it->second, std::regex_constants::format_first_only);
+        } else {
+            // 然后尝试全局变量
+            it = templateContext_.variables.find(varName);
+            if (it != templateContext_.variables.end()) {
+                result = std::regex_replace(result, simpleVarRegex, it->second, std::regex_constants::format_first_only);
+            } else {
+                if (debugMode_) {
+                    debugLog("警告: 未找到变量 " + varName);
+                }
+                break; // 避免无限循环
+            }
+        }
+    }
     
     return result;
 }
@@ -881,41 +1043,40 @@ String CHTLGenerator::processStyleSpecialization(std::shared_ptr<SpecializationN
     if (!specialization) return "";
     
     std::ostringstream result;
-    const String& templateName = specialization->getName();
+    const String& specType = specialization->getType();
+    const String& specName = specialization->getName();
     
-    // 获取基础模板
-    auto templateIt = templateContext_.styleTemplates.find(templateName);
-    if (templateIt != templateContext_.styleTemplates.end()) {
-        // 生成基础模板的样式，但排除删除的属性
-        auto baseTemplate = templateIt->second;
-        for (const auto& child : baseTemplate->getChildren()) {
-            if (child->getType() == ASTNodeType::CSS_PROPERTY) {
-                auto property = std::static_pointer_cast<CSSPropertyNode>(child);
-                String propName = property->getProperty();
-                
-                // 检查是否在删除列表中
-                bool isDeleted = false;
-                for (const String& deletedProp : specialization->getDeletedProperties()) {
-                    if (deletedProp == propName) {
-                        isDeleted = true;
-                        break;
-                    }
-                }
-                
-                if (!isDeleted) {
-                    String expandedValue = expandTemplateVariables(property->getValue(), templateName);
-                    result << "  " << propName << ": " << expandedValue << ";\n";
-                }
-            }
+    // 处理删除的属性
+    const auto& deletedProps = specialization->getDeletedProperties();
+    if (!deletedProps.empty() && debugMode_) {
+        debugLog("特例化删除属性: " + specName);
+        for (const auto& prop : deletedProps) {
+            debugLog("  删除属性: " + prop);
         }
     }
     
-    // 添加特例化的新属性
+    // 处理删除的继承
+    const auto& deletedInheritances = specialization->getDeletedInheritances();
+    if (!deletedInheritances.empty() && debugMode_) {
+        debugLog("特例化删除继承: " + specName);
+        for (const auto& inheritance : deletedInheritances) {
+            debugLog("  删除继承: " + inheritance);
+        }
+    }
+    
+    // 处理特例化的属性
     for (const auto& child : specialization->getChildren()) {
         if (child->getType() == ASTNodeType::CSS_PROPERTY) {
             auto property = std::static_pointer_cast<CSSPropertyNode>(child);
-            String expandedValue = expandTemplateVariables(property->getValue(), templateName);
-            result << "  " << property->getProperty() << ": " << expandedValue << ";\n";
+            String propName = property->getProperty();
+            String propValue = property->getValue();
+            
+            // 检查是否为被删除的属性
+            bool isDeleted = std::find(deletedProps.begin(), deletedProps.end(), propName) != deletedProps.end();
+            if (!isDeleted) {
+                String expandedValue = expandTemplateVariables(propValue, specName);
+                result << "  " << propName << ": " << expandedValue << ";\n";
+            }
         }
     }
     
