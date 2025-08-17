@@ -1,0 +1,29 @@
+// 简化的局部样式块测试
+
+div
+{
+    style
+    {
+        // 内联样式
+        width: 200px;
+        height: 100px;
+        
+        // 自动化类名
+        .test-box
+        {
+            background-color: blue;
+            color: white;
+        }
+        
+        // 上下文推导
+        &:hover
+        {
+            background-color: darkblue;
+        }
+    }
+    
+    text
+    {
+        "测试文本"
+    }
+}

@@ -103,6 +103,12 @@ public:
     String generateIdSelector(const String& idName);
     String generatePseudoSelector(const String& pseudoSelector);
     String generateInlineStyles(const StringMap& styles);
+    String resolveContextSelector(const String& selector);
+    
+    // 选择器处理方法
+    void processClassSelector(std::shared_ptr<ClassSelectorNode> classSelector);
+    void processIdSelector(std::shared_ptr<IdSelectorNode> idSelector);
+    void processPseudoSelector(std::shared_ptr<PseudoSelectorNode> pseudoSelector);
     
     // 模板和自定义生成
     String generateTemplateStyle(std::shared_ptr<TemplateStyleNode> templateStyle);
