@@ -57,13 +57,13 @@ String CHTLJSGenerator::generateIdSelectorQuery(const String& idName, const Stri
 String CHTLJSGenerator::generateTagSelectorQuery(const String& tagName, const String& index) { return ""; }
 String CHTLJSGenerator::generateComplexSelectorQuery(const String& selector, const String& index) { return ""; }
 String CHTLJSGenerator::generateAutoSelectorQuery(const String& selector, const String& index) { return ""; }
-String CHTLJSGenerator::generateArrowExpression(std::shared_ptr<ArrowExpressionNode> arrow) { return ""; }
+String CHTLJSGenerator::generateArrowExpression(const String& leftExpr, const String& rightExpr) { return ""; }
 String CHTLJSGenerator::generateChainedCall(std::shared_ptr<CHTLJSASTNode> leftExpr, std::shared_ptr<CHTLJSASTNode> rightExpr) { return ""; }
-String CHTLJSGenerator::generateListener(std::shared_ptr<ListenerNode> listener) { return ""; }
+String CHTLJSGenerator::generateListener(const StringMap& eventMap) { return ""; }
 String CHTLJSGenerator::generateEventMap(std::shared_ptr<CHTLJSASTNode> eventMap) { return ""; }
 String CHTLJSGenerator::generateEventHandler(std::shared_ptr<CHTLJSASTNode> handler) { return ""; }
 String CHTLJSGenerator::generateEventBinding(const String& targetSelector, const String& eventType, const String& handlerCode) { return ""; }
-String CHTLJSGenerator::generateDelegate(std::shared_ptr<DelegateNode> delegate) { return ""; }
+String CHTLJSGenerator::generateDelegate(const StringMap& delegateConfig) { return ""; }
 String CHTLJSGenerator::generateDelegateConfig(std::shared_ptr<CHTLJSASTNode> config) { return ""; }
 String CHTLJSGenerator::generateDelegateTarget(std::shared_ptr<CHTLJSASTNode> target) { return ""; }
 String CHTLJSGenerator::generateDelegateRegistration(const DelegateRegistry& registry) { return ""; }

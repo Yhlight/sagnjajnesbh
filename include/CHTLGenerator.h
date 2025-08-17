@@ -98,10 +98,10 @@ public:
     String generateScript(std::shared_ptr<ScriptBlockNode> script);
     
     // 样式相关生成
-    String generateStyleProperty(std::shared_ptr<StylePropertyNode> property);
-    String generateClassSelector(std::shared_ptr<ClassSelectorNode> selector);
-    String generateIdSelector(std::shared_ptr<IdSelectorNode> selector);
-    String generatePseudoSelector(std::shared_ptr<PseudoSelectorNode> selector);
+    String generateStyleProperty(std::shared_ptr<CSSPropertyNode> property);
+    String generateClassSelector(const String& className);
+    String generateIdSelector(const String& idName);
+    String generatePseudoSelector(const String& pseudoSelector);
     String generateInlineStyles(const StringMap& styles);
     
     // 模板和自定义生成
@@ -113,19 +113,19 @@ public:
     String generateCustomVar(std::shared_ptr<CustomVarNode> customVar);
     
     // 模板使用和变量解析
-    String generateTemplateUsage(std::shared_ptr<TemplateUsageNode> usage);
+    String generateTemplateUsage(const String& templateName, const String& templateType);
     String resolveVariable(const String& varName, const String& templateName = "");
     String resolveVariableGroup(const String& groupName, const String& varName);
     
     // 特殊语法生成
-    String generateInherit(std::shared_ptr<InheritNode> inherit);
-    String generateDelete(std::shared_ptr<DeleteNode> deleteNode);
-    String generateExcept(std::shared_ptr<ExceptNode> except);
+    String generateInherit(const String& inheritTarget);
+    String generateDelete(const String& deleteTarget);
+    String generateExcept(const StringList& exceptList);
     
     // 导入和命名空间
     String generateImport(std::shared_ptr<ImportNode> import);
     String generateNamespace(std::shared_ptr<NamespaceNode> namespaceNode);
-    String generateConfiguration(std::shared_ptr<ConfigurationNode> config);
+    String generateConfiguration(const StringMap& configMap);
     String generateOrigin(std::shared_ptr<OriginNode> origin);
     
     // 工具方法
@@ -214,7 +214,7 @@ private:
     void generateAutoIds(std::shared_ptr<ElementNode> element);
     
     // 约束处理
-    void processExceptConstraints(std::shared_ptr<ExceptNode> except);
+    void processExceptConstraints(const StringList& exceptList);
     bool isElementAllowed(const String& elementName) const;
     bool isTemplateAllowed(const String& templateName) const;
     

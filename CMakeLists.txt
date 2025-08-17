@@ -19,10 +19,6 @@ add_executable(chtl-compiler
     src/main.cpp
     src/scanner/CHTLUnifiedScanner.cpp
     src/dispatcher/CompilerDispatcher.cpp
-    src/compiler/chtl/CHTLCompiler.cpp
-    src/compiler/chtljs/CHTLJSCompiler.cpp
-    src/compiler/css/CSSCompiler.cpp
-    src/compiler/js/JSCompiler.cpp
 
     src/parser/CHTLParser.cpp
     src/parser/CHTLJSParser.cpp
@@ -39,8 +35,11 @@ add_executable(chtl-compiler
 
     src/module/CMODManager.cpp
     src/module/CJMODManager.cpp
-    src/utils/FileUtils.cpp
-    src/utils/StringUtils.cpp
+    
+    src/ImportManager.cpp
+    src/NamespaceManager.cpp
+    src/ModuleSystem.cpp
+    src/CHTLCompiler.cpp
 )
 
 # 设置输出目录

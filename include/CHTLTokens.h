@@ -3,7 +3,7 @@
 #include "CHTLCommon.h"
 #include <unordered_map>
 
-namespace CHTL {
+namespace chtl {
 
 // 扩展Token类型，严格按照CHTL语法文档
 enum class TokenType {
@@ -188,4 +188,4 @@ namespace TokenUtils {
     TokenValue parseNumberLiteral(const std::string& literal);
 }
 
-} // namespace CHTL
+} // namespace chtl

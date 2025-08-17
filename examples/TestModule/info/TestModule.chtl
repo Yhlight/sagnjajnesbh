@@ -1,0 +1,19 @@
+[Info]
+{
+    name = "TestModule";
+    version = "1.0.0";
+    description = "CHTL测试模块示例";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "ui";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export]
+{
+    @Style ButtonStyle;
+    @Element Button;
+    @Var Colors;
+}

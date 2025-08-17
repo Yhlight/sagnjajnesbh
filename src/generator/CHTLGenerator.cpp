@@ -65,10 +65,10 @@ String CHTLGenerator::generateText(std::shared_ptr<TextNode> text) { return ""; 
 String CHTLGenerator::generateAttribute(std::shared_ptr<AttributeNode> attribute) { return ""; }
 String CHTLGenerator::generateStyle(std::shared_ptr<StyleBlockNode> style) { return ""; }
 String CHTLGenerator::generateScript(std::shared_ptr<ScriptBlockNode> script) { return ""; }
-String CHTLGenerator::generateStyleProperty(std::shared_ptr<StylePropertyNode> property) { return ""; }
-String CHTLGenerator::generateClassSelector(std::shared_ptr<ClassSelectorNode> selector) { return ""; }
-String CHTLGenerator::generateIdSelector(std::shared_ptr<IdSelectorNode> selector) { return ""; }
-String CHTLGenerator::generatePseudoSelector(std::shared_ptr<PseudoSelectorNode> selector) { return ""; }
+String CHTLGenerator::generateStyleProperty(std::shared_ptr<CSSPropertyNode> property) { return ""; }
+String CHTLGenerator::generateClassSelector(const String& className) { return ""; }
+String CHTLGenerator::generateIdSelector(const String& idName) { return ""; }
+String CHTLGenerator::generatePseudoSelector(const String& pseudoSelector) { return ""; }
 String CHTLGenerator::generateInlineStyles(const StringMap& styles) { return ""; }
 String CHTLGenerator::generateTemplateStyle(std::shared_ptr<TemplateStyleNode> templateStyle) { return ""; }
 String CHTLGenerator::generateTemplateElement(std::shared_ptr<TemplateElementNode> templateElement) { return ""; }
@@ -76,15 +76,15 @@ String CHTLGenerator::generateTemplateVar(std::shared_ptr<TemplateVarNode> templ
 String CHTLGenerator::generateCustomStyle(std::shared_ptr<CustomStyleNode> customStyle) { return ""; }
 String CHTLGenerator::generateCustomElement(std::shared_ptr<CustomElementNode> customElement) { return ""; }
 String CHTLGenerator::generateCustomVar(std::shared_ptr<CustomVarNode> customVar) { return ""; }
-String CHTLGenerator::generateTemplateUsage(std::shared_ptr<TemplateUsageNode> usage) { return ""; }
+String CHTLGenerator::generateTemplateUsage(const String& templateName, const String& templateType) { return ""; }
 String CHTLGenerator::resolveVariable(const String& varName, const String& templateName) { return ""; }
 String CHTLGenerator::resolveVariableGroup(const String& groupName, const String& varName) { return ""; }
-String CHTLGenerator::generateInherit(std::shared_ptr<InheritNode> inherit) { return ""; }
-String CHTLGenerator::generateDelete(std::shared_ptr<DeleteNode> deleteNode) { return ""; }
-String CHTLGenerator::generateExcept(std::shared_ptr<ExceptNode> except) { return ""; }
+String CHTLGenerator::generateInherit(const String& inheritTarget) { return ""; }
+String CHTLGenerator::generateDelete(const String& deleteTarget) { return ""; }
+String CHTLGenerator::generateExcept(const StringList& exceptList) { return ""; }
 String CHTLGenerator::generateImport(std::shared_ptr<ImportNode> import) { return ""; }
 String CHTLGenerator::generateNamespace(std::shared_ptr<NamespaceNode> namespaceNode) { return ""; }
-String CHTLGenerator::generateConfiguration(std::shared_ptr<ConfigurationNode> config) { return ""; }
+String CHTLGenerator::generateConfiguration(const StringMap& configMap) { return ""; }
 String CHTLGenerator::generateOrigin(std::shared_ptr<OriginNode> origin) { return ""; }
 
 void CHTLGenerator::addInlineStyle(const String& property, const String& value) {}
