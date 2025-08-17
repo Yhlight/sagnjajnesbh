@@ -198,6 +198,20 @@ CMakeFiles/chtl_common.dir/src/common/SyntaxConstrainer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/common/SyntaxConstrainer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/common/SyntaxConstrainer.cpp -o CMakeFiles/chtl_common.dir/src/common/SyntaxConstrainer.cpp.s
 
+CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o: CMakeFiles/chtl_common.dir/flags.make
+CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o: /workspace/src/common/CHTLUnifiedScanner.cpp
+CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o -MF CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o.d -o CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o -c /workspace/src/common/CHTLUnifiedScanner.cpp
+
+CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/common/CHTLUnifiedScanner.cpp > CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.i
+
+CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/common/CHTLUnifiedScanner.cpp -o CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.s
+
 # Object files for target chtl_common
 chtl_common_OBJECTS = \
 "CMakeFiles/chtl_common.dir/src/common/Token.cpp.o" \
@@ -208,7 +222,8 @@ chtl_common_OBJECTS = \
 "CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o" \
 "CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o" \
 "CMakeFiles/chtl_common.dir/src/common/CJmodManager.cpp.o" \
-"CMakeFiles/chtl_common.dir/src/common/SyntaxConstrainer.cpp.o"
+"CMakeFiles/chtl_common.dir/src/common/SyntaxConstrainer.cpp.o" \
+"CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o"
 
 # External object files for target chtl_common
 chtl_common_EXTERNAL_OBJECTS =
@@ -222,9 +237,10 @@ lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/CJmodManager.cpp.o
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/SyntaxConstrainer.cpp.o
+lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/build.make
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX static library lib/libchtl_common.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX static library lib/libchtl_common.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/chtl_common.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtl_common.dir/link.txt --verbose=$(VERBOSE)
 

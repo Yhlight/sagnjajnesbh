@@ -369,6 +369,19 @@ test_syntax_constraints/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/build
 .PHONY : test_syntax_constraints/fast
 
+#=============================================================================
+# Target rules for targets named test_unified_scanner
+
+# Build rule for target.
+test_unified_scanner: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_unified_scanner
+.PHONY : test_unified_scanner
+
+# fast build rule for target.
+test_unified_scanner/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/build
+.PHONY : test_unified_scanner/fast
+
 src/ast/ASTNode.o: src/ast/ASTNode.cpp.o
 .PHONY : src/ast/ASTNode.o
 
@@ -416,6 +429,30 @@ src/ast/VirtualObjectManager.s: src/ast/VirtualObjectManager.cpp.s
 src/ast/VirtualObjectManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.s
 .PHONY : src/ast/VirtualObjectManager.cpp.s
+
+src/common/CHTLUnifiedScanner.o: src/common/CHTLUnifiedScanner.cpp.o
+.PHONY : src/common/CHTLUnifiedScanner.o
+
+# target to build an object file
+src/common/CHTLUnifiedScanner.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o
+.PHONY : src/common/CHTLUnifiedScanner.cpp.o
+
+src/common/CHTLUnifiedScanner.i: src/common/CHTLUnifiedScanner.cpp.i
+.PHONY : src/common/CHTLUnifiedScanner.i
+
+# target to preprocess a source file
+src/common/CHTLUnifiedScanner.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.i
+.PHONY : src/common/CHTLUnifiedScanner.cpp.i
+
+src/common/CHTLUnifiedScanner.s: src/common/CHTLUnifiedScanner.cpp.s
+.PHONY : src/common/CHTLUnifiedScanner.s
+
+# target to generate assembly for a file
+src/common/CHTLUnifiedScanner.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.s
+.PHONY : src/common/CHTLUnifiedScanner.cpp.s
 
 src/common/CJmodManager.o: src/common/CJmodManager.cpp.o
 .PHONY : src/common/CJmodManager.o
@@ -969,6 +1006,30 @@ test/test_syntax_constraints.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.s
 .PHONY : test/test_syntax_constraints.cpp.s
 
+test/test_unified_scanner.o: test/test_unified_scanner.cpp.o
+.PHONY : test/test_unified_scanner.o
+
+# target to build an object file
+test/test_unified_scanner.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/test/test_unified_scanner.cpp.o
+.PHONY : test/test_unified_scanner.cpp.o
+
+test/test_unified_scanner.i: test/test_unified_scanner.cpp.i
+.PHONY : test/test_unified_scanner.i
+
+# target to preprocess a source file
+test/test_unified_scanner.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/test/test_unified_scanner.cpp.i
+.PHONY : test/test_unified_scanner.cpp.i
+
+test/test_unified_scanner.s: test/test_unified_scanner.cpp.s
+.PHONY : test/test_unified_scanner.s
+
+# target to generate assembly for a file
+test/test_unified_scanner.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/test/test_unified_scanner.cpp.s
+.PHONY : test/test_unified_scanner.cpp.s
+
 test/test_virtual_object.o: test/test_virtual_object.cpp.o
 .PHONY : test/test_virtual_object.o
 
@@ -1020,6 +1081,7 @@ help:
 	@echo "... test_parser_generator"
 	@echo "... test_simple_parser"
 	@echo "... test_syntax_constraints"
+	@echo "... test_unified_scanner"
 	@echo "... test_virtual_object"
 	@echo "... src/ast/ASTNode.o"
 	@echo "... src/ast/ASTNode.i"
@@ -1027,6 +1089,9 @@ help:
 	@echo "... src/ast/VirtualObjectManager.o"
 	@echo "... src/ast/VirtualObjectManager.i"
 	@echo "... src/ast/VirtualObjectManager.s"
+	@echo "... src/common/CHTLUnifiedScanner.o"
+	@echo "... src/common/CHTLUnifiedScanner.i"
+	@echo "... src/common/CHTLUnifiedScanner.s"
 	@echo "... src/common/CJmodManager.o"
 	@echo "... src/common/CJmodManager.i"
 	@echo "... src/common/CJmodManager.s"
@@ -1096,6 +1161,9 @@ help:
 	@echo "... test/test_syntax_constraints.o"
 	@echo "... test/test_syntax_constraints.i"
 	@echo "... test/test_syntax_constraints.s"
+	@echo "... test/test_unified_scanner.o"
+	@echo "... test/test_unified_scanner.i"
+	@echo "... test/test_unified_scanner.s"
 	@echo "... test/test_virtual_object.o"
 	@echo "... test/test_virtual_object.i"
 	@echo "... test/test_virtual_object.s"

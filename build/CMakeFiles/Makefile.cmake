@@ -65,4 +65,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_cjmod.dir/DependInfo.cmake"
   "CMakeFiles/test_virtual_object.dir/DependInfo.cmake"
   "CMakeFiles/test_syntax_constraints.dir/DependInfo.cmake"
+  "CMakeFiles/test_unified_scanner.dir/DependInfo.cmake"
   )

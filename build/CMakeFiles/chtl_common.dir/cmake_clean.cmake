@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o"
+  "CMakeFiles/chtl_common.dir/src/common/CHTLUnifiedScanner.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/common/CJmodManager.cpp.o"
   "CMakeFiles/chtl_common.dir/src/common/CJmodManager.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o"

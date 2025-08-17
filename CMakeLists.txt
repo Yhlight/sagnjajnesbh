@@ -25,6 +25,7 @@ set(COMMON_SOURCES
     src/common/CmodManager.cpp
     src/common/CJmodManager.cpp
     src/common/SyntaxConstrainer.cpp
+    src/common/CHTLUnifiedScanner.cpp
 )
 
 # AST模块源文件
@@ -97,12 +98,15 @@ target_link_libraries(test_virtual_object chtl_common chtl_ast)
 add_executable(test_syntax_constraints test/test_syntax_constraints.cpp)
 target_link_libraries(test_syntax_constraints chtl_common chtl_ast)
 
+add_executable(test_unified_scanner test/test_unified_scanner.cpp)
+target_link_libraries(test_unified_scanner chtl_common)
+
 # 设置输出目录
 set_target_properties(chtl_common chtl_ast chtl_parser chtl_generator PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
 )
 
-set_target_properties(test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser test_namespace_enhanced test_cmod test_cjmod test_virtual_object test_syntax_constraints PROPERTIES
+set_target_properties(test_basic test_ast test_parser test_parser_generator test_simple_parser test_final_parser test_debug_parser test_namespace_enhanced test_cmod test_cjmod test_virtual_object test_syntax_constraints test_unified_scanner PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 

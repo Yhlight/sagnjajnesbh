@@ -14,6 +14,7 @@
 /workspace/build/CMakeFiles/test_cjmod.dir
 /workspace/build/CMakeFiles/test_virtual_object.dir
 /workspace/build/CMakeFiles/test_syntax_constraints.dir
+/workspace/build/CMakeFiles/test_unified_scanner.dir
 /workspace/build/CMakeFiles/edit_cache.dir
 /workspace/build/CMakeFiles/rebuild_cache.dir
 /workspace/build/CMakeFiles/list_install_components.dir
