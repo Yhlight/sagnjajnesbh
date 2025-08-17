@@ -37,21 +37,129 @@ Token CHTLLexer::nextToken() {
     
     char ch = currentChar();
     
-    // 基本token识别
+    // 处理注释
+    if (ch == '/') {
+        if (peekChar(1) == '/') {
+            return scanSingleLineComment();
+        } else if (peekChar(1) == '*') {
+            return scanMultiLineComment();
+        } else {
+            nextChar();
+            return makeToken(TokenType::SLASH, "/");
+        }
+    }
+    
+    // 处理生成器注释 --
+    if (ch == '-' && peekChar(1) == '-') {
+        return scanGeneratorComment();
+    }
+    
+    // 处理CHTL JS增强选择器 {{
+    if (ch == '{' && peekChar(1) == '{') {
+        nextChar(); nextChar();
+        return makeToken(TokenType::DOUBLE_LEFT_BRACE, "{{");
+    }
+    
+    // 处理CHTL JS结束选择器 }}
+    if (ch == '}' && peekChar(1) == '}') {
+        nextChar(); nextChar();
+        return makeToken(TokenType::DOUBLE_RIGHT_BRACE, "}}");
+    }
+    
+    // 处理CHTL JS箭头操作符 ->
+    if (ch == '-' && peekChar(1) == '>') {
+        nextChar(); nextChar();
+        return makeToken(TokenType::ARROW, "->");
+    }
+    
+    // 处理声明块 [Template], [Custom], [Origin], [Import], [Namespace], [Configuration]
+    if (ch == '[') {
+        size_t savePos = currentPos_;
+        nextChar(); // skip [
+        
+        String content;
+        while (!isAtEnd() && currentChar() != ']') {
+            content += nextChar();
+        }
+        
+        if (isAtEnd()) {
+            currentPos_ = savePos;
+            nextChar();
+            return makeToken(TokenType::LEFT_BRACKET, "[");
+        }
+        
+        nextChar(); // skip ]
+        
+        if (content == "Template") {
+            return makeToken(TokenType::TEMPLATE_DECL, "[Template]");
+        } else if (content == "Custom") {
+            return makeToken(TokenType::CUSTOM_DECL, "[Custom]");
+        } else if (content == "Origin") {
+            return makeToken(TokenType::ORIGIN_DECL, "[Origin]");
+        } else if (content == "Import") {
+            return makeToken(TokenType::IMPORT_DECL, "[Import]");
+        } else if (content == "Namespace") {
+            return makeToken(TokenType::NAMESPACE_DECL, "[Namespace]");
+        } else if (content == "Configuration") {
+            return makeToken(TokenType::CONFIGURATION_DECL, "[Configuration]");
+        } else if (content == "Name") {
+            return makeToken(TokenType::NAME_BLOCK, "[Name]");
+        } else if (content == "OriginType") {
+            return makeToken(TokenType::ORIGIN_TYPE_BLOCK, "[OriginType]");
+        } else if (content == "Info") {
+            return makeToken(TokenType::INFO_BLOCK, "[Info]");
+        } else if (content == "Export") {
+            return makeToken(TokenType::EXPORT_BLOCK, "[Export]");
+        } else {
+            // 不是特殊声明，回退
+            currentPos_ = savePos;
+            nextChar();
+            return makeToken(TokenType::LEFT_BRACKET, "[");
+        }
+    }
+    
+    // 处理@开头的类型标识符
+    if (ch == '@') {
+        nextChar();
+        String typeContent;
+        while (!isAtEnd() && (isAlphaNumeric(currentChar()) || currentChar() == '_')) {
+            typeContent += nextChar();
+        }
+        
+        if (typeContent == "Style") {
+            return makeToken(TokenType::AT_STYLE, "@Style");
+        } else if (typeContent == "Element") {
+            return makeToken(TokenType::AT_ELEMENT, "@Element");
+        } else if (typeContent == "Var") {
+            return makeToken(TokenType::AT_VAR, "@Var");
+        } else if (typeContent == "Html") {
+            return makeToken(TokenType::AT_HTML, "@Html");
+        } else if (typeContent == "JavaScript") {
+            return makeToken(TokenType::AT_JAVASCRIPT, "@JavaScript");
+        } else if (typeContent == "Chtl") {
+            return makeToken(TokenType::AT_CHTL, "@Chtl");
+        } else if (typeContent == "CJmod") {
+            return makeToken(TokenType::AT_CJMOD, "@CJmod");
+        } else {
+            // 可能是自定义原始嵌入类型
+            return makeToken(TokenType::IDENTIFIER, "@" + typeContent);
+        }
+    }
+    
+    // 基本符号处理
     switch (ch) {
         case '{': nextChar(); return makeToken(TokenType::LEFT_BRACE, "{");
         case '}': nextChar(); return makeToken(TokenType::RIGHT_BRACE, "}");
         case '(': nextChar(); return makeToken(TokenType::LEFT_PAREN, "(");
         case ')': nextChar(); return makeToken(TokenType::RIGHT_PAREN, ")");
-        case '[': nextChar(); return makeToken(TokenType::LEFT_BRACKET, "[");
         case ']': nextChar(); return makeToken(TokenType::RIGHT_BRACKET, "]");
         case ';': nextChar(); return makeToken(TokenType::SEMICOLON, ";");
         case ':': nextChar(); return makeToken(TokenType::COLON, ":");
         case '=': nextChar(); return makeToken(TokenType::EQUALS, "=");
         case ',': nextChar(); return makeToken(TokenType::COMMA, ",");
         case '.': nextChar(); return makeToken(TokenType::DOT, ".");
-        case '/': nextChar(); return makeToken(TokenType::SLASH, "/");
         case '&': nextChar(); return makeToken(TokenType::AMPERSAND, "&");
+        case '#': nextChar(); return makeToken(TokenType::HASH, "#");
         case '"': return scanString('"');
         case '\'': return scanString('\'');
         default:
@@ -59,9 +167,11 @@ Token CHTLLexer::nextToken() {
                 return scanIdentifier();
             } else if (isDigit(ch)) {
                 return scanNumber();
+            } else if (!isWhitespace(ch) && shouldScanAsUnquotedLiteral()) {
+                return scanUnquotedLiteral();
             } else {
                 nextChar();
-                return makeErrorToken("未知字符");
+                return makeErrorToken("未知字符: " + String(1, ch));
             }
     }
 }
@@ -176,10 +286,19 @@ Token CHTLLexer::scanString(char quote) {
 
 Token CHTLLexer::scanUnquotedLiteral() {
     String value;
+    
+    // 无引号字面量可以包含字母、数字、连字符、下划线等，但不能包含特殊符号
     while (!isAtEnd() && !isWhitespace(currentChar()) && 
            currentChar() != '{' && currentChar() != '}' && 
-           currentChar() != ';' && currentChar() != ':') {
+           currentChar() != ';' && currentChar() != ':' && 
+           currentChar() != '=' && currentChar() != ',' &&
+           currentChar() != '(' && currentChar() != ')' &&
+           currentChar() != '[' && currentChar() != ']') {
         value += nextChar();
+    }
+    
+    if (value.empty()) {
+        return makeErrorToken("空的无引号字面量");
     }
     
     statistics_.literalsFound++;
@@ -204,12 +323,18 @@ Token CHTLLexer::scanNumber() {
 
 Token CHTLLexer::scanIdentifier() {
     String value;
-    while (!isAtEnd() && (isAlphaNumeric(currentChar()) || currentChar() == '_')) {
+    while (!isAtEnd() && (isAlphaNumeric(currentChar()) || currentChar() == '_' || currentChar() == '-')) {
         value += nextChar();
     }
     
-    // 检查是否为关键字
-    TokenType type = keywordMap_.getTokenType(value);
+    // 检查是否为CHTL关键字
+    TokenType type = identifyKeyword(value);
+    
+    // 如果不是关键字，检查是否为HTML标签
+    if (type == TokenType::IDENTIFIER && keywordMap_.isHTMLTag(value)) {
+        type = TokenType::HTML_TAG;
+    }
+    
     if (type != TokenType::IDENTIFIER) {
         statistics_.keywordsFound++;
     } else {
@@ -281,9 +406,58 @@ void CHTLLexer::clearBuffer() {
 }
 
 // 其他方法的简化实现
-Token CHTLLexer::scanSingleLineComment() { return makeToken(TokenType::COMMENT_SINGLE, "//"); }
-Token CHTLLexer::scanMultiLineComment() { return makeToken(TokenType::COMMENT_MULTI, "/* */"); }
-Token CHTLLexer::scanGeneratorComment() { return makeToken(TokenType::COMMENT_GENERATOR, "--"); }
+Token CHTLLexer::scanSingleLineComment() { 
+    nextChar(); // skip first /
+    nextChar(); // skip second /
+    
+    String content = "//";
+    while (!isAtEnd() && !isNewline(currentChar())) {
+        content += nextChar();
+    }
+    
+    if (skipComments_) {
+        statistics_.commentsSkipped++;
+        return nextToken(); // 递归调用获取下一个token
+    }
+    
+    return makeToken(TokenType::COMMENT_SINGLE, content);
+}
+
+Token CHTLLexer::scanMultiLineComment() { 
+    nextChar(); // skip /
+    nextChar(); // skip *
+    
+    String content = "/*";
+    while (!isAtEnd()) {
+        if (currentChar() == '*' && peekChar(1) == '/') {
+            content += nextChar(); // *
+            content += nextChar(); // /
+            break;
+        }
+        content += nextChar();
+    }
+    
+    if (skipComments_) {
+        statistics_.commentsSkipped++;
+        return nextToken(); // 递归调用获取下一个token
+    }
+    
+    return makeToken(TokenType::COMMENT_MULTI, content);
+}
+
+Token CHTLLexer::scanGeneratorComment() { 
+    nextChar(); // skip first -
+    nextChar(); // skip second -
+    
+    String content = "--";
+    while (!isAtEnd() && !isNewline(currentChar())) {
+        content += nextChar();
+    }
+    
+    // 生成器注释不应该被跳过，因为它们有语义意义
+    return makeToken(TokenType::COMMENT_GENERATOR, content);
+}
+
 Token CHTLLexer::scanTemplateDeclaration() { return makeToken(TokenType::TEMPLATE_DECL, "[Template]"); }
 Token CHTLLexer::scanCustomDeclaration() { return makeToken(TokenType::CUSTOM_DECL, "[Custom]"); }
 Token CHTLLexer::scanOriginDeclaration() { return makeToken(TokenType::ORIGIN_DECL, "[Origin]"); }
@@ -297,6 +471,65 @@ Token CHTLLexer::scanOperator() { return makeToken(TokenType::COLON, ":"); }
 Token CHTLLexer::scanPunctuation() { return makeToken(TokenType::SEMICOLON, ";"); }
 
 TokenType CHTLLexer::identifyKeyword(const String& word) {
+    // 基础CHTL关键字
+    if (word == "text") return TokenType::TEXT;
+    if (word == "style") return TokenType::STYLE;
+    if (word == "script") return TokenType::SCRIPT;
+    if (word == "inherit") return TokenType::INHERIT;
+    if (word == "delete") return TokenType::DELETE;
+    if (word == "insert") return TokenType::INSERT;
+    if (word == "after") return TokenType::AFTER;
+    if (word == "before") return TokenType::BEFORE;
+    if (word == "replace") return TokenType::REPLACE;
+    if (word == "from") return TokenType::FROM;
+    if (word == "as") return TokenType::AS;
+    if (word == "except") return TokenType::EXCEPT;
+    
+    // 处理复合关键字 "at top", "at bottom"
+    if (word == "at") {
+        // 需要预读下一个token来确定是否为复合关键字
+        size_t savePos = currentPos_;
+        skipWhitespaceChars();
+        
+        if (!isAtEnd()) {
+            String nextWord;
+            while (!isAtEnd() && (isAlphaNumeric(currentChar()) || currentChar() == '_')) {
+                nextWord += currentChar();
+                currentPos_++;
+            }
+            
+            if (nextWord == "top") {
+                return TokenType::AT_TOP;
+            } else if (nextWord == "bottom") {
+                return TokenType::AT_BOTTOM;
+            } else {
+                // 回退
+                currentPos_ = savePos;
+            }
+        } else {
+            currentPos_ = savePos;
+        }
+        
+        return TokenType::AT_KEYWORD;
+    }
+    
+    // CHTL JS关键字
+    if (word == "vir") return TokenType::VIR;
+    if (word == "listen") return TokenType::LISTEN;
+    if (word == "delegate") return TokenType::DELEGATE;
+    if (word == "animate") return TokenType::ANIMATE;
+    if (word == "target") return TokenType::TARGET;
+    if (word == "duration") return TokenType::DURATION;
+    if (word == "easing") return TokenType::EASING;
+    if (word == "begin") return TokenType::BEGIN;
+    if (word == "when") return TokenType::WHEN;
+    if (word == "end") return TokenType::END;
+    if (word == "loop") return TokenType::LOOP;
+    if (word == "direction") return TokenType::DIRECTION;
+    if (word == "delay") return TokenType::DELAY;
+    if (word == "callback") return TokenType::CALLBACK;
+    
+    // 使用KeywordMap进行其他关键字查找
     return keywordMap_.getTokenType(word);
 }
 
@@ -304,10 +537,24 @@ bool CHTLLexer::isKeywordInContext(const String& word) {
     return keywordMap_.isKeyword(word);
 }
 
-bool CHTLLexer::shouldScanAsUnquotedLiteral() const { return false; }
-bool CHTLLexer::shouldScanAsCHTLJS() const { return false; }
-bool CHTLLexer::isInStyleContext() const { return false; }
-bool CHTLLexer::isInScriptContext() const { return false; }
+bool CHTLLexer::shouldScanAsUnquotedLiteral() const {
+    // 在样式上下文中，CSS属性值可以是无引号的
+    // 在属性值上下文中，HTML属性值可以是无引号的
+    return isInStyleContext() || (contextManager_.getCurrentContext().type == ContextType::ATTRIBUTE);
+}
+
+bool CHTLLexer::shouldScanAsCHTLJS() const {
+    return isInScriptContext();
+}
+
+bool CHTLLexer::isInStyleContext() const {
+    return contextManager_.getCurrentContext().type == ContextType::STYLE_BLOCK;
+}
+
+bool CHTLLexer::isInScriptContext() const {
+    return contextManager_.getCurrentContext().type == ContextType::SCRIPT_BLOCK;
+}
+
 bool CHTLLexer::validateToken(const Token& token) { return true; }
 bool CHTLLexer::validateStringLiteral(const String& value) { return true; }
 bool CHTLLexer::validateIdentifier(const String& value) { return true; }
@@ -318,8 +565,25 @@ void CHTLLexer::markPosition() {}
 void CHTLLexer::resetPosition() {}
 bool CHTLLexer::isNewline(char ch) const { return ch == '\n' || ch == '\r'; }
 bool CHTLLexer::isValidNumberChar(char ch) const { return isDigit(ch) || ch == '.'; }
-TokenType CHTLLexer::getCEEquivalentToken(TokenType type) const { return type; }
-bool CHTLLexer::isCEContext() const { return false; }
+TokenType CHTLLexer::getCEEquivalentToken(TokenType type) const {
+    // CE对等式：冒号(:)与等号(=)完全等价
+    if (type == TokenType::COLON) {
+        return TokenType::EQUALS;
+    } else if (type == TokenType::EQUALS) {
+        return TokenType::COLON;
+    }
+    return type;
+}
+
+bool CHTLLexer::isCEContext() const {
+    // 在属性定义或CSS属性定义中，支持CE对等式
+    ContextType contextType = contextManager_.getCurrentContext().type;
+    return contextType == ContextType::ATTRIBUTE || 
+           contextType == ContextType::STYLE_BLOCK || 
+           contextType == ContextType::TEMPLATE || 
+           contextType == ContextType::CUSTOM;
+}
+
 bool CHTLLexer::matchSequence(const String& sequence) const { return false; }
 bool CHTLLexer::matchKeywordBoundary(const String& keyword) const { return false; }
 void CHTLLexer::dumpCurrentState() const {}

@@ -1,0 +1,63 @@
+// CHTL增强导入功能测试
+
+// 测试HTML/CSS/JS导入（带as语法）
+[Import] @Html from "template.html" as PageTemplate;
+[Import] @Style from "styles.css" as GlobalStyles;
+[Import] @JavaScript from "utils.js" as UtilityFunctions;
+
+// 测试CHTL模块导入
+[Import] @Chtl from TestModule;
+[Import] @Chtl from chtl::CoreModule;
+
+// 测试通配符导入
+[Import] @Chtl from components.*;
+[Import] @Chtl from themes/*.chtl;
+
+// 测试CJmod导入
+[Import] @CJmod from AnimationEngine;
+
+html
+{
+    head
+    {
+        text
+        {
+            "增强导入功能测试页面"
+        }
+        
+        // 使用导入的样式
+        [Origin] @Style GlobalStyles;
+    }
+    
+    body
+    {
+        // 使用导入的模板
+        @Element TestContainer from TestModule;
+        
+        div
+        {
+            style
+            {
+                @Style TestButton from TestModule;
+                margin: 20px;
+            }
+            
+            text
+            {
+                "这个按钮使用了导入的样式"
+            }
+        }
+        
+        // 使用导入的HTML模板
+        [Origin] @Html PageTemplate;
+        
+        script
+        {
+            // 使用导入的JavaScript功能
+            [Origin] @JavaScript UtilityFunctions;
+            
+            // 使用CJMOD扩展功能（假设）
+            console.log("测试导入功能");
+        }
+    }
+}

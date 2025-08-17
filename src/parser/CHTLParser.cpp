@@ -699,21 +699,22 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parseInsert() {
     // 解析位置: after, before, replace, at top, at bottom
     InsertNode::InsertPosition position;
     String selector;
+    int index = -1;
     
     if (matchToken(TokenType::AFTER)) {
         position = InsertNode::InsertPosition::AFTER;
         consumeToken(TokenType::AFTER);
         
-        // 解析选择器: div[0]
-        selector = parseSelector()->toString(); // 简化处理
+        // 解析选择器和索引: div[0]
+        selector = parseElementSelector(index);
     } else if (matchToken(TokenType::BEFORE)) {
         position = InsertNode::InsertPosition::BEFORE;
         consumeToken(TokenType::BEFORE);
-        selector = parseSelector()->toString();
+        selector = parseElementSelector(index);
     } else if (matchToken(TokenType::REPLACE)) {
         position = InsertNode::InsertPosition::REPLACE;
         consumeToken(TokenType::REPLACE);
-        selector = parseSelector()->toString();
+        selector = parseElementSelector(index);
     } else if (matchToken(TokenType::AT_TOP)) {
         position = InsertNode::InsertPosition::AT_TOP;
         consumeToken(TokenType::AT_TOP);
@@ -726,6 +727,9 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parseInsert() {
     }
     
     auto insertNode = std::make_shared<InsertNode>(position, selector);
+    if (index >= 0) {
+        insertNode->setIndex(index);
+    }
     
     if (matchToken(TokenType::LEFT_BRACE)) {
         consumeToken(TokenType::LEFT_BRACE);
@@ -753,37 +757,71 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parseInsert() {
 }
 
 std::shared_ptr<CHTLASTNode> CHTLParser::parseDelete() {
-    consumeToken(TokenType::DELETE);
+    const auto& deleteToken = consumeToken(TokenType::DELETE);
     
-    // 解析要删除的项目
     String deleteTarget;
-    while (!matchToken(TokenType::SEMICOLON) && !isAtEnd()) {
-        deleteTarget += currentToken().value + " ";
-        skipToken();
+    int index = -1;
+    
+    // 检查是否是删除样式组继承: delete @Style TemplateName;
+    if (matchAnyToken({TokenType::AT_STYLE, TokenType::AT_ELEMENT, TokenType::AT_VAR})) {
+        const auto& typeToken = consumeToken();
+        const auto& nameToken = consumeToken(TokenType::IDENTIFIER);
+        deleteTarget = typeToken.value + " " + nameToken.value;
+    }
+    // 检查是否是删除元素: delete span; delete div[1];
+    else if (matchToken(TokenType::IDENTIFIER)) {
+        deleteTarget = parseElementSelector(index);
+    }
+    // 检查是否是删除属性: delete color, border;
+    else {
+        while (!matchToken(TokenType::SEMICOLON) && !isAtEnd()) {
+            if (matchToken(TokenType::COMMA)) {
+                deleteTarget += ", ";
+                consumeToken(TokenType::COMMA);
+            } else {
+                deleteTarget += currentToken().value;
+                skipToken();
+            }
+        }
     }
     
     if (matchToken(TokenType::SEMICOLON)) {
-        skipToken();
+        consumeToken(TokenType::SEMICOLON);
     }
     
-    return std::make_shared<DeleteNode>(deleteTarget, currentToken().line, currentToken().column);
+    auto deleteNode = std::make_shared<DeleteNode>(deleteTarget, deleteToken.line, deleteToken.column);
+    if (index >= 0) {
+        deleteNode->setIndex(index);
+    }
+    
+    return deleteNode;
 }
 
 std::shared_ptr<CHTLASTNode> CHTLParser::parseInherit() {
-    consumeToken(TokenType::INHERIT);
+    const auto& inheritToken = consumeToken(TokenType::INHERIT);
     
-    // 解析继承目标
-    String inheritTarget;
-    while (!matchToken(TokenType::SEMICOLON) && !isAtEnd()) {
-        inheritTarget += currentToken().value + " ";
-        skipToken();
+    // 解析继承类型: inherit @Style/@Element/@Var TemplateName;
+    if (!matchAnyToken({TokenType::AT_STYLE, TokenType::AT_ELEMENT, TokenType::AT_VAR})) {
+        reportError(ParseErrorType::SYNTAX_ERROR, "inherit关键字后必须跟模板类型");
+        return nullptr;
     }
+    
+    const auto& typeToken = consumeToken();
+    String inheritType = typeToken.value;
+    
+    const auto& nameToken = consumeToken(TokenType::IDENTIFIER);
+    String inheritName = nameToken.value;
     
     if (matchToken(TokenType::SEMICOLON)) {
-        skipToken();
+        consumeToken(TokenType::SEMICOLON);
     }
     
-    return std::make_shared<InheritNode>(inheritTarget, currentToken().line, currentToken().column);
+    auto inheritNode = std::make_shared<InheritNode>(inheritType + " " + inheritName, 
+                                                    inheritToken.line, inheritToken.column);
+    inheritNode->setInheritType(inheritType);
+    inheritNode->setInheritTarget(inheritName);
+    
+    return inheritNode;
 }
 
 std::shared_ptr<CHTLASTNode> CHTLParser::parseExcept() {
@@ -1018,6 +1056,12 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parseClassSelector() {
     
     auto classSelector = std::make_shared<ClassSelectorNode>(nameToken.value, nameToken.line, nameToken.column);
     
+    // 自动化类名：将类名添加到当前元素上下文
+    if (currentContext_.inLocalStyle && !currentContext_.currentElementName.empty()) {
+        currentContext_.classNames.push_back(nameToken.value);
+        classSelector->setAutoGenerated(true);
+    }
+    
     if (matchToken(TokenType::LEFT_BRACE)) {
         consumeToken(TokenType::LEFT_BRACE);
         
@@ -1048,6 +1092,12 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parseIdSelector() {
     const auto& nameToken = consumeToken(TokenType::IDENTIFIER);
     
     auto idSelector = std::make_shared<IdSelectorNode>(nameToken.value, nameToken.line, nameToken.column);
+    
+    // 自动化ID：将ID添加到当前元素上下文
+    if (currentContext_.inLocalStyle && !currentContext_.currentElementName.empty()) {
+        currentContext_.currentElementId = nameToken.value;
+        idSelector->setAutoGenerated(true);
+    }
     
     if (matchToken(TokenType::LEFT_BRACE)) {
         consumeToken(TokenType::LEFT_BRACE);
@@ -1086,6 +1136,22 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parsePseudoSelector() {
     }
     
     auto pseudo = std::make_shared<PseudoSelectorNode>(pseudoSelector, currentToken().line, currentToken().column);
+    
+    // 上下文推导：&会根据当前上下文推导成类名或ID
+    if (currentContext_.inLocalStyle) {
+        // 如果有自动生成的ID，优先使用ID
+        if (!currentContext_.currentElementId.empty()) {
+            pseudo->setContextSelector("#" + currentContext_.currentElementId);
+        }
+        // 否则使用第一个类名
+        else if (!currentContext_.classNames.empty()) {
+            pseudo->setContextSelector("." + currentContext_.classNames[0]);
+        }
+        // 如果都没有，使用元素名
+        else if (!currentContext_.currentElementName.empty()) {
+            pseudo->setContextSelector(currentContext_.currentElementName);
+        }
+    }
     
     if (matchToken(TokenType::LEFT_BRACE)) {
         consumeToken(TokenType::LEFT_BRACE);
@@ -1397,6 +1463,32 @@ String CHTLParser::parseLiteral() {
     }
 }
 
+String CHTLParser::parseElementSelector(int& index) {
+    const auto& elementToken = consumeToken(TokenType::IDENTIFIER);
+    String elementName = elementToken.value;
+    
+    // 检查是否有索引访问 [index]
+    if (matchToken(TokenType::LEFT_BRACKET)) {
+        consumeToken(TokenType::LEFT_BRACKET);
+        
+        if (matchToken(TokenType::NUMBER)) {
+            const auto& indexToken = consumeToken(TokenType::NUMBER);
+            index = std::stoi(indexToken.value);
+        } else {
+            reportError(ParseErrorType::SYNTAX_ERROR, "索引访问中期望数字");
+            index = 0;
+        }
+        
+        if (matchToken(TokenType::RIGHT_BRACKET)) {
+            consumeToken(TokenType::RIGHT_BRACKET);
+        } else {
+            reportError(ParseErrorType::MISSING_TOKEN, "索引访问缺少右方括号 ']'");
+        }
+    }
+    
+    return elementName;
+}
+
 // Token操作实现
 const Token& CHTLParser::currentToken() const {
     static Token eofToken{TokenType::EOF_TOKEN, "", 0, 0};
@@ -1477,6 +1569,11 @@ void CHTLParser::reportWarning(const String& message) {
 // 上下文管理
 void CHTLParser::enterElementContext(const String& elementName) {
     currentContext_.nestingLevel++;
+    currentContext_.currentElementName = elementName;
+    // 清空之前的自动生成信息
+    currentContext_.classNames.clear();
+    currentContext_.currentElementId.clear();
+    
     contextStack_.push("element:" + elementName);
     
     if (debugMode_) {
@@ -1488,6 +1585,12 @@ void CHTLParser::exitElementContext() {
     if (currentContext_.nestingLevel > 0) {
         currentContext_.nestingLevel--;
     }
+    
+    // 清空当前元素上下文信息
+    currentContext_.currentElementName.clear();
+    currentContext_.classNames.clear();
+    currentContext_.currentElementId.clear();
+    
     if (!contextStack_.empty()) {
         contextStack_.pop();
     }
