@@ -330,9 +330,59 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parseTemplateUsage() {
     auto usage = std::make_shared<TemplateUsageNode>(typeToken.value, nameToken.value, 
                                                     typeToken.line, typeToken.column);
     
+    // 处理变量组特例化: ThemeColor(tableColor = rgb(145, 155, 200))
+    if (typeToken.value == "@Var" && matchToken(TokenType::LEFT_PAREN)) {
+        consumeToken(TokenType::LEFT_PAREN);
+        
+        while (!matchToken(TokenType::RIGHT_PAREN) && !isAtEnd()) {
+            const auto& varNameToken = consumeToken(TokenType::IDENTIFIER);
+            String varName = varNameToken.value;
+            
+            if (matchToken(TokenType::EQUALS)) {
+                consumeToken(TokenType::EQUALS);
+                String varValue = parseLiteral();
+                usage->addSpecialization(varName, varValue);
+            }
+            
+            if (matchToken(TokenType::COMMA)) {
+                consumeToken(TokenType::COMMA);
+            }
+        }
+        
+        if (matchToken(TokenType::RIGHT_PAREN)) {
+            consumeToken(TokenType::RIGHT_PAREN);
+        } else {
+            reportError(ParseErrorType::MISSING_TOKEN, "变量组特例化缺少右括号 ')'");
+        }
+    }
+    
+    // 处理自定义特例化块 (用于自定义系统)
+    if (matchToken(TokenType::LEFT_BRACE)) {
+        consumeToken(TokenType::LEFT_BRACE);
+        
+        while (!matchToken(TokenType::RIGHT_BRACE) && !isAtEnd()) {
+            skipWhitespace();
+            skipComments();
+            
+            if (matchToken(TokenType::RIGHT_BRACE)) break;
+            
+            // 解析特例化内容
+            auto content = parseElementContent();
+            if (content) {
+                usage->addChild(content);
+            }
+        }
+        
+        if (matchToken(TokenType::RIGHT_BRACE)) {
+            consumeToken(TokenType::RIGHT_BRACE);
+        } else {
+            reportError(ParseErrorType::MISSING_TOKEN, "模板使用特例化块缺少右花括号 '}'");
+        }
+    }
+    
     // 可选的分号
     if (matchToken(TokenType::SEMICOLON)) {
-        skipToken();
+        consumeToken(TokenType::SEMICOLON);
     }
     
     return usage;
@@ -340,7 +390,24 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parseTemplateUsage() {
 
 std::shared_ptr<CHTLASTNode> CHTLParser::parseVariableReference() {
     const auto& nameToken = consumeToken(TokenType::IDENTIFIER);
-    return std::make_shared<VariableReferenceNode>(nameToken.value, nameToken.line, nameToken.column);
+    auto varRef = std::make_shared<VariableReferenceNode>(nameToken.value, nameToken.line, nameToken.column);
+    
+    // 检查是否为变量组引用: GroupName(variableName)
+    if (matchToken(TokenType::LEFT_PAREN)) {
+        consumeToken(TokenType::LEFT_PAREN);
+        
+        const auto& varNameToken = consumeToken(TokenType::IDENTIFIER);
+        String variableName = varNameToken.value;
+        
+        if (matchToken(TokenType::RIGHT_PAREN)) {
+            consumeToken(TokenType::RIGHT_PAREN);
+            varRef->setGroupReference(nameToken.value, variableName);
+        } else {
+            reportError(ParseErrorType::MISSING_TOKEN, "变量组引用缺少右括号 ')'");
+        }
+    }
+    
+    return varRef;
 }
 
 std::shared_ptr<CHTLASTNode> CHTLParser::parseSelector() {
@@ -938,25 +1005,19 @@ std::shared_ptr<CHTLASTNode> CHTLParser::parseTemplate() {
     String templateName = nameToken.value;
     
     if (templateType == "@Style") {
-        return parseTemplateStyle();
+        return parseTemplateStyleImpl(templateName, nameToken.line, nameToken.column);
     } else if (templateType == "@Element") {
-        return parseTemplateElement();
+        return parseTemplateElementImpl(templateName, nameToken.line, nameToken.column);
     } else if (templateType == "@Var") {
-        return parseTemplateVar();
+        return parseTemplateVarImpl(templateName, nameToken.line, nameToken.column);
     } else {
         reportError(ParseErrorType::TEMPLATE_ERROR, "未知的模板类型: " + templateType);
         return nullptr;
     }
 }
 
-std::shared_ptr<TemplateStyleNode> CHTLParser::parseTemplateStyle() {
-    // 这里templateType和templateName已经在parseTemplate中解析过了
-    // 需要回退来获取这些信息，或者重构parseTemplate的调用方式
-    
-    const auto& nameToken = peekToken(-1); // 获取之前解析的名称
-    String templateName = nameToken.value;
-    
-    auto templateStyle = std::make_shared<TemplateStyleNode>(templateName, nameToken.line, nameToken.column);
+std::shared_ptr<TemplateStyleNode> CHTLParser::parseTemplateStyleImpl(const String& templateName, size_t line, size_t column) {
+    auto templateStyle = std::make_shared<TemplateStyleNode>(templateName, line, column);
     
     enterTemplateContext(templateName);
     
@@ -969,9 +1030,27 @@ std::shared_ptr<TemplateStyleNode> CHTLParser::parseTemplateStyle() {
             
             if (matchToken(TokenType::RIGHT_BRACE)) break;
             
-            auto property = parseStyleProperty();
-            if (property) {
-                templateStyle->addChild(property);
+            // 解析样式属性或继承
+            if (matchToken(TokenType::INHERIT)) {
+                auto inherit = parseInherit();
+                if (inherit) {
+                    auto inheritNode = std::static_pointer_cast<InheritNode>(inherit);
+                    templateStyle->addInheritance(inheritNode->getTarget());
+                }
+            } else if (matchToken(TokenType::AT_STYLE)) {
+                // 组合式继承: @Style OtherTemplate;
+                consumeToken(TokenType::AT_STYLE);
+                const auto& inheritNameToken = consumeToken(TokenType::IDENTIFIER);
+                templateStyle->addInheritance(inheritNameToken.value);
+                
+                if (matchToken(TokenType::SEMICOLON)) {
+                    consumeToken(TokenType::SEMICOLON);
+                }
+            } else {
+                auto property = parseStyleProperty();
+                if (property) {
+                    templateStyle->addChild(property);
+                }
             }
         }
         
@@ -986,11 +1065,8 @@ std::shared_ptr<TemplateStyleNode> CHTLParser::parseTemplateStyle() {
     return templateStyle;
 }
 
-std::shared_ptr<TemplateElementNode> CHTLParser::parseTemplateElement() {
-    const auto& nameToken = peekToken(-1);
-    String templateName = nameToken.value;
-    
-    auto templateElement = std::make_shared<TemplateElementNode>(templateName, nameToken.line, nameToken.column);
+std::shared_ptr<TemplateElementNode> CHTLParser::parseTemplateElementImpl(const String& templateName, size_t line, size_t column) {
+    auto templateElement = std::make_shared<TemplateElementNode>(templateName, line, column);
     
     enterTemplateContext(templateName);
     
@@ -1003,9 +1079,27 @@ std::shared_ptr<TemplateElementNode> CHTLParser::parseTemplateElement() {
             
             if (matchToken(TokenType::RIGHT_BRACE)) break;
             
-            auto element = parseElement();
-            if (element) {
-                templateElement->addChild(element);
+            // 解析元素或继承
+            if (matchToken(TokenType::INHERIT)) {
+                auto inherit = parseInherit();
+                if (inherit) {
+                    auto inheritNode = std::static_pointer_cast<InheritNode>(inherit);
+                    templateElement->addInheritance(inheritNode->getTarget());
+                }
+            } else if (matchToken(TokenType::AT_ELEMENT)) {
+                // 组合式继承: @Element OtherTemplate;
+                consumeToken(TokenType::AT_ELEMENT);
+                const auto& inheritNameToken = consumeToken(TokenType::IDENTIFIER);
+                templateElement->addInheritance(inheritNameToken.value);
+                
+                if (matchToken(TokenType::SEMICOLON)) {
+                    consumeToken(TokenType::SEMICOLON);
+                }
+            } else {
+                auto element = parseElement();
+                if (element) {
+                    templateElement->addChild(element);
+                }
             }
         }
         
@@ -1020,11 +1114,8 @@ std::shared_ptr<TemplateElementNode> CHTLParser::parseTemplateElement() {
     return templateElement;
 }
 
-std::shared_ptr<TemplateVarNode> CHTLParser::parseTemplateVar() {
-    const auto& nameToken = peekToken(-1);
-    String templateName = nameToken.value;
-    
-    auto templateVar = std::make_shared<TemplateVarNode>(templateName, nameToken.line, nameToken.column);
+std::shared_ptr<TemplateVarNode> CHTLParser::parseTemplateVarImpl(const String& templateName, size_t line, size_t column) {
+    auto templateVar = std::make_shared<TemplateVarNode>(templateName, line, column);
     
     enterTemplateContext(templateName);
     
@@ -1041,21 +1132,20 @@ std::shared_ptr<TemplateVarNode> CHTLParser::parseTemplateVar() {
             const auto& varToken = consumeToken(TokenType::IDENTIFIER);
             String varName = varToken.value;
             
+            // CE对等式：支持 ':' 或 '='
             if (matchToken(TokenType::COLON) || matchToken(TokenType::EQUALS)) {
-                skipToken();
+                consumeToken(); // 消费 : 或 =
+                
+                String varValue = parseLiteral();
+                templateVar->addVariable(varName, varValue);
+                
+                // 可选的分号
+                if (matchToken(TokenType::SEMICOLON)) {
+                    consumeToken(TokenType::SEMICOLON);
+                }
             } else {
-                reportError(ParseErrorType::MISSING_TOKEN, "变量定义缺少 ':' 或 '='");
-                continue;
+                reportError(ParseErrorType::SYNTAX_ERROR, "变量定义缺少 ':' 或 '='");
             }
-            
-            String varValue = parseLiteral();
-            
-            if (matchToken(TokenType::SEMICOLON)) {
-                skipToken();
-            }
-            
-            auto varNode = std::make_shared<VariableNode>(varName, varValue, varToken.line, varToken.column);
-            templateVar->addChild(varNode);
         }
         
         if (matchToken(TokenType::RIGHT_BRACE)) {

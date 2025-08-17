@@ -86,6 +86,37 @@ void CHTLGenerator::generateHTMLRecursive(std::shared_ptr<CHTLASTNode> node, std
             processScriptBlock(std::static_pointer_cast<ScriptBlockNode>(node));
             break;
             
+        case ASTNodeType::TEMPLATE_STYLE:
+            // 注册模板样式
+            registerTemplateStyle(std::static_pointer_cast<TemplateStyleNode>(node));
+            break;
+            
+        case ASTNodeType::TEMPLATE_ELEMENT:
+            // 注册模板元素
+            registerTemplateElement(std::static_pointer_cast<TemplateElementNode>(node));
+            break;
+            
+        case ASTNodeType::TEMPLATE_VAR:
+            // 注册模板变量
+            registerTemplateVar(std::static_pointer_cast<TemplateVarNode>(node));
+            break;
+            
+        case ASTNodeType::UNKNOWN_NODE:
+            // 处理模板使用节点（类型为UNKNOWN_NODE的特殊情况）
+            if (auto usage = std::dynamic_pointer_cast<TemplateUsageNode>(node)) {
+                String usageHTML = generateTemplateUsage(usage->getName(), usage->getType());
+                stream << usageHTML;
+            } else if (auto varRef = std::dynamic_pointer_cast<VariableReferenceNode>(node)) {
+                String varValue = resolveVariableReference(varRef);
+                stream << varValue;
+            } else {
+                // 其他UNKNOWN_NODE类型递归处理子节点
+                for (const auto& child : node->getChildren()) {
+                    generateHTMLRecursive(child, stream);
+                }
+            }
+            break;
+            
         default:
             // 其他节点类型递归处理子节点
             for (const auto& child : node->getChildren()) {
@@ -185,6 +216,13 @@ void CHTLGenerator::processStyleBlock(std::shared_ptr<StyleBlockNode> styleBlock
                 
             case ASTNodeType::CSS_RULE:
                 processCSSRule(std::static_pointer_cast<CSSRuleNode>(child));
+                break;
+                
+            case ASTNodeType::UNKNOWN_NODE:
+                // 处理模板使用节点
+                if (auto usage = std::dynamic_pointer_cast<TemplateUsageNode>(child)) {
+                    processTemplateUsage(usage);
+                }
                 break;
                 
             default:
@@ -404,18 +442,211 @@ String CHTLGenerator::generateClassSelector(const String& className) { return ""
 String CHTLGenerator::generateIdSelector(const String& idName) { return ""; }
 String CHTLGenerator::generatePseudoSelector(const String& pseudoSelector) { return ""; }
 String CHTLGenerator::generateInlineStyles(const StringMap& styles) { return ""; }
-String CHTLGenerator::generateTemplateStyle(std::shared_ptr<TemplateStyleNode> templateStyle) { return ""; }
-String CHTLGenerator::generateTemplateElement(std::shared_ptr<TemplateElementNode> templateElement) { return ""; }
-String CHTLGenerator::generateTemplateVar(std::shared_ptr<TemplateVarNode> templateVar) { return ""; }
+String CHTLGenerator::generateTemplateStyle(std::shared_ptr<TemplateStyleNode> templateStyle) {
+    if (!templateStyle) return "";
+    
+    std::ostringstream result;
+    const String& templateName = templateStyle->getName();
+    
+    // 处理继承
+    for (const String& inheritedName : templateStyle->getInheritedTemplates()) {
+        auto inheritedTemplate = templateContext_.styleTemplates.find(inheritedName);
+        if (inheritedTemplate != templateContext_.styleTemplates.end()) {
+            String inheritedCSS = generateTemplateStyle(inheritedTemplate->second);
+            result << inheritedCSS;
+        }
+    }
+    
+    // 处理当前模板的样式属性
+    for (const auto& child : templateStyle->getChildren()) {
+        if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+            auto property = std::static_pointer_cast<CSSPropertyNode>(child);
+            String expandedValue = expandTemplateVariables(property->getValue(), templateName);
+            result << "  " << property->getProperty() << ": " << expandedValue << ";\n";
+        }
+    }
+    
+    return result.str();
+}
+String CHTLGenerator::generateTemplateElement(std::shared_ptr<TemplateElementNode> templateElement) {
+    if (!templateElement) return "";
+    
+    std::ostringstream result;
+    const String& templateName = templateElement->getName();
+    
+    // 处理继承
+    for (const String& inheritedName : templateElement->getInheritedTemplates()) {
+        auto inheritedTemplate = templateContext_.elementTemplates.find(inheritedName);
+        if (inheritedTemplate != templateContext_.elementTemplates.end()) {
+            String inheritedHTML = generateTemplateElement(inheritedTemplate->second);
+            result << inheritedHTML;
+        }
+    }
+    
+    // 处理当前模板的元素
+    for (const auto& child : templateElement->getChildren()) {
+        generateHTMLRecursive(child, result);
+    }
+    
+    return result.str();
+}
+String CHTLGenerator::generateTemplateVar(std::shared_ptr<TemplateVarNode> templateVar) {
+    // 变量模板不直接生成内容，而是提供变量值
+    return "";
+}
+String CHTLGenerator::generateTemplateUsage(const String& templateName, const String& templateType) {
+    if (templateType == "@Style") {
+        auto it = templateContext_.styleTemplates.find(templateName);
+        if (it != templateContext_.styleTemplates.end()) {
+            return generateTemplateStyle(it->second);
+        }
+    } else if (templateType == "@Element") {
+        auto it = templateContext_.elementTemplates.find(templateName);
+        if (it != templateContext_.elementTemplates.end()) {
+            return generateTemplateElement(it->second);
+        }
+    } else if (templateType == "@Var") {
+        auto it = templateContext_.varTemplates.find(templateName);
+        if (it != templateContext_.varTemplates.end()) {
+            return generateTemplateVar(it->second);
+        }
+    }
+    
+    if (debugMode_) {
+        debugLog("警告: 未找到模板 " + templateType + " " + templateName);
+    }
+    
+    return "";
+}
+String CHTLGenerator::resolveVariable(const String& varName, const String& templateName) {
+    // 首先尝试在指定模板中查找
+    if (!templateName.empty()) {
+        String fullName = templateName + "." + varName;
+        auto it = templateContext_.variables.find(fullName);
+        if (it != templateContext_.variables.end()) {
+            return it->second;
+        }
+    }
+    
+    // 在全局变量中查找
+    auto it = templateContext_.variables.find(varName);
+    if (it != templateContext_.variables.end()) {
+        return it->second;
+    }
+    
+    return varName; // 如果找不到，返回原始名称
+}
+String CHTLGenerator::resolveVariableGroup(const String& groupName, const String& varName) {
+    String fullName = groupName + "." + varName;
+    auto it = templateContext_.variables.find(fullName);
+    if (it != templateContext_.variables.end()) {
+        return it->second;
+    }
+    
+    if (debugMode_) {
+        debugLog("警告: 未找到变量组变量 " + fullName);
+    }
+    
+    return groupName + "(" + varName + ")"; // 返回原始形式
+}
+String CHTLGenerator::expandTemplateVariables(const String& text, const String& templateName) const {
+    String result = text;
+    
+    // 简单的变量替换实现
+    // 这里可以实现更复杂的变量替换逻辑
+    // 例如：${variableName} 或 ThemeColor(tableColor) 的替换
+    
+    return result;
+}
+
+String CHTLGenerator::resolveVariableReference(std::shared_ptr<VariableReferenceNode> varRef) {
+    if (!varRef) return "";
+    
+    // 如果是变量组引用
+    if (!varRef->getGroupName().empty() && !varRef->getVariableName().empty()) {
+        return resolveVariableGroup(varRef->getGroupName(), varRef->getVariableName());
+    }
+    
+    // 普通变量引用
+    return resolveVariable(varRef->getName(), "");
+}
+
+void CHTLGenerator::processTemplateUsage(std::shared_ptr<TemplateUsageNode> usage) {
+    if (!usage) return;
+    
+    const String& templateType = usage->getType();
+    const String& templateName = usage->getName();
+    
+    if (templateType == "@Style") {
+        // 样式模板使用
+        auto it = templateContext_.styleTemplates.find(templateName);
+        if (it != templateContext_.styleTemplates.end()) {
+            // 展开样式模板的属性
+            for (const auto& child : it->second->getChildren()) {
+                if (child->getType() == ASTNodeType::CSS_PROPERTY) {
+                    auto property = std::static_pointer_cast<CSSPropertyNode>(child);
+                    String expandedValue = expandTemplateVariables(property->getValue(), templateName);
+                    
+                    if (styleContext_.inLocalStyle && styleContext_.currentSelector.empty()) {
+                        // 作为内联样式添加
+                        styleContext_.inlineStyles[property->getProperty()] = expandedValue;
+                    } else {
+                        // 添加到全局样式
+                        addToGlobalCSS(styleContext_.currentSelector.empty() ? "body" : styleContext_.currentSelector, 
+                                     property->getProperty(), expandedValue);
+                    }
+                }
+            }
+        }
+    } else if (templateType == "@Element") {
+        // 元素模板使用 - 这里需要在元素上下文中处理
+        if (debugMode_) {
+            debugLog("处理元素模板使用: " + templateName);
+        }
+    } else if (templateType == "@Var") {
+        // 变量模板使用 - 通常不需要特殊处理，变量在解析时已经注册
+        if (debugMode_) {
+            debugLog("处理变量模板使用: " + templateName);
+        }
+    }
+}
+
+void CHTLGenerator::registerTemplateStyle(std::shared_ptr<TemplateStyleNode> templateStyle) {
+    const String& name = templateStyle->getName();
+    templateContext_.styleTemplates[name] = templateStyle;
+    
+    if (debugMode_) {
+        debugLog("注册样式模板: " + name);
+    }
+}
+
+void CHTLGenerator::registerTemplateElement(std::shared_ptr<TemplateElementNode> templateElement) {
+    const String& name = templateElement->getName();
+    templateContext_.elementTemplates[name] = templateElement;
+    
+    if (debugMode_) {
+        debugLog("注册元素模板: " + name);
+    }
+}
+
+void CHTLGenerator::registerTemplateVar(std::shared_ptr<TemplateVarNode> templateVar) {
+    const String& name = templateVar->getName();
+    templateContext_.varTemplates[name] = templateVar;
+    
+    // 将变量添加到全局变量映射
+    const auto& variables = templateVar->getVariables();
+    for (const auto& [varName, varValue] : variables) {
+        String fullName = name + "." + varName;
+        templateContext_.variables[fullName] = varValue;
+    }
+    
+    if (debugMode_) {
+        debugLog("注册变量模板: " + name + " (包含 " + std::to_string(variables.size()) + " 个变量)");
+    }
+}
 String CHTLGenerator::generateCustomStyle(std::shared_ptr<CustomStyleNode> customStyle) { return ""; }
 String CHTLGenerator::generateCustomElement(std::shared_ptr<CustomElementNode> customElement) { return ""; }
 String CHTLGenerator::generateCustomVar(std::shared_ptr<CustomVarNode> customVar) { return ""; }
-String CHTLGenerator::generateTemplateUsage(const String& templateName, const String& templateType) { return ""; }
-String CHTLGenerator::resolveVariable(const String& varName, const String& templateName) { return ""; }
-String CHTLGenerator::resolveVariableGroup(const String& groupName, const String& varName) { return ""; }
-String CHTLGenerator::generateInherit(const String& inheritTarget) { return ""; }
-String CHTLGenerator::generateDelete(const String& deleteTarget) { return ""; }
-String CHTLGenerator::generateExcept(const StringList& exceptList) { return ""; }
 String CHTLGenerator::generateImport(std::shared_ptr<ImportNode> import) { return ""; }
 String CHTLGenerator::generateNamespace(std::shared_ptr<NamespaceNode> namespaceNode) { return ""; }
 String CHTLGenerator::generateConfiguration(const StringMap& configMap) { return ""; }

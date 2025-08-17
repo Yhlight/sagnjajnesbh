@@ -228,6 +228,54 @@ private:
     StringMap variables_;
 };
 
+// 模板使用节点
+class TemplateUsageNode : public CHTLASTNode {
+public:
+    TemplateUsageNode(const String& type, const String& name, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), type_(type), name_(name) {}
+    
+    const String& getType() const { return type_; }
+    const String& getName() const { return name_; }
+    void setType(const String& type) { type_ = type; }
+    void setName(const String& name) { name_ = name; }
+    
+    // 特例化参数
+    void addSpecialization(const String& key, const String& value) { specializations_[key] = value; }
+    const StringMap& getSpecializations() const { return specializations_; }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String type_; // @Style, @Element, @Var
+    String name_; // 模板名称
+    StringMap specializations_; // 特例化参数
+};
+
+// 变量引用节点
+class VariableReferenceNode : public CHTLASTNode {
+public:
+    VariableReferenceNode(const String& name, size_t line = 0, size_t column = 0)
+        : CHTLASTNode(ASTNodeType::UNKNOWN_NODE, line, column), name_(name) {}
+    
+    const String& getName() const { return name_; }
+    void setName(const String& name) { name_ = name; }
+    
+    // 变量组引用 ThemeColor(tableColor)
+    const String& getGroupName() const { return groupName_; }
+    const String& getVariableName() const { return variableName_; }
+    void setGroupReference(const String& group, const String& variable) {
+        groupName_ = group;
+        variableName_ = variable;
+    }
+    
+    void accept(class CHTLASTVisitor& visitor) override;
+
+private:
+    String name_;
+    String groupName_;    // 变量组名称
+    String variableName_; // 组内变量名称
+};
+
 // 自定义样式节点
 class CustomStyleNode : public CHTLASTNode {
 public:
@@ -533,6 +581,8 @@ public:
     virtual void visit(TemplateStyleNode& node) = 0;
     virtual void visit(TemplateElementNode& node) = 0;
     virtual void visit(TemplateVarNode& node) = 0;
+    virtual void visit(TemplateUsageNode& node) = 0;
+    virtual void visit(VariableReferenceNode& node) = 0;
     virtual void visit(CustomStyleNode& node) = 0;
     virtual void visit(CustomElementNode& node) = 0;
     virtual void visit(CustomVarNode& node) = 0;

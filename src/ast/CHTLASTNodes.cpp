@@ -94,6 +94,51 @@ void TemplateVarNode::accept(CHTLASTVisitor& visitor) {
     visitor.visit(*this);
 }
 
+// TemplateUsageNode 实现
+void TemplateUsageNode::accept(CHTLASTVisitor& visitor) {
+    visitor.visit(*this);
+}
+
+// VariableReferenceNode 实现
+void VariableReferenceNode::accept(CHTLASTVisitor& visitor) {
+    visitor.visit(*this);
+}
+
+// VariableNode 实现
+void VariableNode::accept(CHTLASTVisitor& visitor) {
+    // 注意：VariableNode 没有在访问者接口中定义，暂时留空或添加到接口
+}
+
+// DeleteNode 实现
+void DeleteNode::accept(CHTLASTVisitor& visitor) {
+    // 注意：DeleteNode 没有在访问者接口中定义，暂时留空或添加到接口
+}
+
+// InheritNode 实现
+void InheritNode::accept(CHTLASTVisitor& visitor) {
+    // 注意：InheritNode 没有在访问者接口中定义，暂时留空或添加到接口
+}
+
+// ExceptNode 实现
+void ExceptNode::accept(CHTLASTVisitor& visitor) {
+    // 注意：ExceptNode 没有在访问者接口中定义，暂时留空或添加到接口
+}
+
+// ClassSelectorNode 实现
+void ClassSelectorNode::accept(CHTLASTVisitor& visitor) {
+    // 注意：ClassSelectorNode 没有在访问者接口中定义，暂时留空或添加到接口
+}
+
+// IdSelectorNode 实现
+void IdSelectorNode::accept(CHTLASTVisitor& visitor) {
+    // 注意：IdSelectorNode 没有在访问者接口中定义，暂时留空或添加到接口
+}
+
+// PseudoSelectorNode 实现
+void PseudoSelectorNode::accept(CHTLASTVisitor& visitor) {
+    // 注意：PseudoSelectorNode 没有在访问者接口中定义，暂时留空或添加到接口
+}
+
 // CustomStyleNode 实现
 void CustomStyleNode::accept(CHTLASTVisitor& visitor) {
     visitor.visit(*this);

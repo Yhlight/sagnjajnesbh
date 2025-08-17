@@ -96,6 +96,11 @@ public:
     std::shared_ptr<TemplateStyleNode> parseTemplateStyle();
     std::shared_ptr<TemplateElementNode> parseTemplateElement();
     std::shared_ptr<TemplateVarNode> parseTemplateVar();
+    
+    // 模板解析实现方法
+    std::shared_ptr<TemplateStyleNode> parseTemplateStyleImpl(const String& templateName, size_t line, size_t column);
+    std::shared_ptr<TemplateElementNode> parseTemplateElementImpl(const String& templateName, size_t line, size_t column);
+    std::shared_ptr<TemplateVarNode> parseTemplateVarImpl(const String& templateName, size_t line, size_t column);
     std::shared_ptr<CustomStyleNode> parseCustomStyle();
     std::shared_ptr<CustomElementNode> parseCustomElement();
     std::shared_ptr<CustomVarNode> parseCustomVar();

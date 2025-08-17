@@ -209,7 +209,6 @@ private:
     
     // 变量替换
     String expandVariables(const String& text) const;
-    String expandTemplateVariables(const String& text, const String& templateName) const;
     
     // 样式处理
     void processLocalStyles(std::shared_ptr<StyleBlockNode> styleBlock, const String& elementContext);
@@ -241,6 +240,7 @@ private:
     void processCSSProperty(std::shared_ptr<CSSPropertyNode> property);
     void processCSSRule(std::shared_ptr<CSSRuleNode> rule);
     void processScriptBlock(std::shared_ptr<ScriptBlockNode> scriptBlock);
+    void processTemplateUsage(std::shared_ptr<TemplateUsageNode> usage);
     
     // 全局样式和脚本管理
     void addToGlobalCSS(const String& selector, const String& property, const String& value);
@@ -249,6 +249,15 @@ private:
     
     // CHTL JS代码生成
     String generateCHTLJSCode(std::shared_ptr<CHTLASTNode> node);
+    
+    // 模板管理方法
+    void registerTemplateStyle(std::shared_ptr<TemplateStyleNode> templateStyle);
+    void registerTemplateElement(std::shared_ptr<TemplateElementNode> templateElement);
+    void registerTemplateVar(std::shared_ptr<TemplateVarNode> templateVar);
+    
+    // 变量替换方法
+    String expandTemplateVariables(const String& text, const String& templateName = "") const;
+    String resolveVariableReference(std::shared_ptr<VariableReferenceNode> varRef);
     
     // 工具方法
     String escapeHTML(const String& text);
