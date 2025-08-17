@@ -117,7 +117,6 @@ public:
     // 特殊语法解析
     std::shared_ptr<CHTLASTNode> parseInherit();
     std::shared_ptr<CHTLASTNode> parseDelete();
-    std::shared_ptr<CHTLASTNode> parseInsert();
     std::shared_ptr<CHTLASTNode> parseExcept();
     
     // 导入和命名空间

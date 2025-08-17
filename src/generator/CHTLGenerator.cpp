@@ -1,6 +1,8 @@
 #include "../../include/CHTLGenerator.h"
 #include <iostream>
 #include <sstream>
+#include <regex> // Added for regex
+#include <algorithm> // Added for std::find
 
 namespace chtl {
 
@@ -567,9 +569,51 @@ String CHTLGenerator::resolveVariableGroup(const String& groupName, const String
 String CHTLGenerator::expandTemplateVariables(const String& text, const String& templateName) const {
     String result = text;
     
-    // 简单的变量替换实现
-    // 这里可以实现更复杂的变量替换逻辑
-    // 例如：${variableName} 或 ThemeColor(tableColor) 的替换
+    // 处理变量组引用: ThemeColor(tableColor)
+    std::regex varGroupRegex(R"((\w+)\((\w+)\))");
+    std::smatch match;
+    
+    while (std::regex_search(result, match, varGroupRegex)) {
+        String groupName = match[1].str();
+        String varName = match[2].str();
+        String fullVarName = groupName + "." + varName;
+        
+        // 查找变量值
+        auto it = templateContext_.variables.find(fullVarName);
+        if (it != templateContext_.variables.end()) {
+            result = std::regex_replace(result, varGroupRegex, it->second, std::regex_constants::format_first_only);
+        } else {
+            // 如果找不到，保持原样
+            if (debugMode_) {
+                debugLog("警告: 未找到变量组变量 " + fullVarName);
+            }
+            break; // 避免无限循环
+        }
+    }
+    
+    // 处理简单变量引用: ${variableName}
+    std::regex simpleVarRegex(R"(\$\{(\w+)\})");
+    while (std::regex_search(result, match, simpleVarRegex)) {
+        String varName = match[1].str();
+        String fullVarName = templateName.empty() ? varName : templateName + "." + varName;
+        
+        // 首先尝试模板作用域的变量
+        auto it = templateContext_.variables.find(fullVarName);
+        if (it != templateContext_.variables.end()) {
+            result = std::regex_replace(result, simpleVarRegex, it->second, std::regex_constants::format_first_only);
+        } else {
+            // 然后尝试全局变量
+            it = templateContext_.variables.find(varName);
+            if (it != templateContext_.variables.end()) {
+                result = std::regex_replace(result, simpleVarRegex, it->second, std::regex_constants::format_first_only);
+            } else {
+                if (debugMode_) {
+                    debugLog("警告: 未找到变量 " + varName);
+                }
+                break; // 避免无限循环
+            }
+        }
+    }
     
     return result;
 }
@@ -881,41 +925,40 @@ String CHTLGenerator::processStyleSpecialization(std::shared_ptr<SpecializationN
     if (!specialization) return "";
     
     std::ostringstream result;
-    const String& templateName = specialization->getName();
+    const String& specType = specialization->getType();
+    const String& specName = specialization->getName();
     
-    // 获取基础模板
-    auto templateIt = templateContext_.styleTemplates.find(templateName);
-    if (templateIt != templateContext_.styleTemplates.end()) {
-        // 生成基础模板的样式，但排除删除的属性
-        auto baseTemplate = templateIt->second;
-        for (const auto& child : baseTemplate->getChildren()) {
-            if (child->getType() == ASTNodeType::CSS_PROPERTY) {
-                auto property = std::static_pointer_cast<CSSPropertyNode>(child);
-                String propName = property->getProperty();
-                
-                // 检查是否在删除列表中
-                bool isDeleted = false;
-                for (const String& deletedProp : specialization->getDeletedProperties()) {
-                    if (deletedProp == propName) {
-                        isDeleted = true;
-                        break;
-                    }
-                }
-                
-                if (!isDeleted) {
-                    String expandedValue = expandTemplateVariables(property->getValue(), templateName);
-                    result << "  " << propName << ": " << expandedValue << ";\n";
-                }
-            }
+    // 处理删除的属性
+    const auto& deletedProps = specialization->getDeletedProperties();
+    if (!deletedProps.empty() && debugMode_) {
+        debugLog("特例化删除属性: " + specName);
+        for (const auto& prop : deletedProps) {
+            debugLog("  删除属性: " + prop);
         }
     }
     
-    // 添加特例化的新属性
+    // 处理删除的继承
+    const auto& deletedInheritances = specialization->getDeletedInheritances();
+    if (!deletedInheritances.empty() && debugMode_) {
+        debugLog("特例化删除继承: " + specName);
+        for (const auto& inheritance : deletedInheritances) {
+            debugLog("  删除继承: " + inheritance);
+        }
+    }
+    
+    // 处理特例化的属性
     for (const auto& child : specialization->getChildren()) {
         if (child->getType() == ASTNodeType::CSS_PROPERTY) {
             auto property = std::static_pointer_cast<CSSPropertyNode>(child);
-            String expandedValue = expandTemplateVariables(property->getValue(), templateName);
-            result << "  " << property->getProperty() << ": " << expandedValue << ";\n";
+            String propName = property->getProperty();
+            String propValue = property->getValue();
+            
+            // 检查是否为被删除的属性
+            bool isDeleted = std::find(deletedProps.begin(), deletedProps.end(), propName) != deletedProps.end();
+            if (!isDeleted) {
+                String expandedValue = expandTemplateVariables(propValue, specName);
+                result << "  " << propName << ": " << expandedValue << ";\n";
+            }
         }
     }
     

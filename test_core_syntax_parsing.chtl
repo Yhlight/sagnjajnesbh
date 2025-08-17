@@ -1,0 +1,330 @@
+// CHTL核心语法解析与生成测试文件
+// 测试模板系统、自定义系统、样式块等核心功能
+
+// 1. 样式组模板
+[Template] @Style BaseText
+{
+    color: "black";
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+[Template] @Style ButtonStyle
+{
+    @Style BaseText;  // 组合式继承
+    background-color: "blue";
+    padding: "10px 20px";
+    border: "none";
+    border-radius: "4px";
+}
+
+// 2. 元素模板
+[Template] @Element Card
+{
+    div
+    {
+        style
+        {
+            .card
+            {
+                background: "white";
+                border: "1px solid #ddd";
+                border-radius: "8px";
+                padding: "20px";
+            }
+        }
+        
+        div
+        {
+            style
+            {
+                .card-header
+                {
+                    font-weight: "bold";
+                    margin-bottom: "15px";
+                }
+            }
+        }
+        
+        div
+        {
+            style
+            {
+                .card-content
+                {
+                    color: "#666";
+                }
+            }
+        }
+    }
+}
+
+// 3. 变量组模板
+[Template] @Var ThemeColors
+{
+    primary: "rgb(0, 123, 255)";
+    secondary: "rgb(108, 117, 125)";
+    success: "rgb(40, 167, 69)";
+    danger: "rgb(220, 53, 69)";
+}
+
+// 4. 自定义无值样式组
+[Custom] @Style FlexLayout
+{
+    display,
+    flex-direction,
+    justify-content,
+    align-items;
+}
+
+// 5. 自定义样式继承
+[Custom] @Style CenterFlex
+{
+    @Style FlexLayout
+    {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+// 6. 自定义元素
+[Custom] @Element Button
+{
+    button
+    {
+        style
+        {
+            .btn
+            {
+                padding: "8px 16px";
+                border: "none";
+                border-radius: "4px";
+                cursor: "pointer";
+            }
+            
+            &:hover
+            {
+                opacity: 0.8;
+            }
+        }
+        
+        text
+        {
+            点击按钮
+        }
+    }
+}
+
+// 7. 自定义变量组
+[Custom] @Var AppTheme
+{
+    primaryColor: ThemeColors(primary);  // 使用变量组引用
+    textColor: "rgb(33, 37, 41)";
+    backgroundColor: "rgb(248, 249, 250)";
+}
+
+// 8. 使用模板和自定义的页面
+html
+{
+    head
+    {
+        title
+        {
+            text
+            {
+                CHTL核心语法测试
+            }
+        }
+    }
+    
+    body
+    {
+        style
+        {
+            background-color: AppTheme(backgroundColor);
+            color: AppTheme(textColor);
+            font-family: "Arial, sans-serif";
+            margin: 0;
+            padding: 20px;
+        }
+        
+        // 使用元素模板
+        @Element Card;
+        
+        // 使用自定义元素
+        @Element Button;
+        
+        div
+        {
+            style
+            {
+                @Style CenterFlex;
+                min-height: 100vh;
+            }
+            
+            h1
+            {
+                style
+                {
+                    @Style BaseText;
+                    color: AppTheme(primaryColor);
+                    font-size: 32px;
+                    margin-bottom: 30px;
+                }
+                
+                text
+                {
+                    CHTL语法演示
+                }
+            }
+            
+            div
+            {
+                style
+                {
+                    @Style FlexLayout
+                    {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-around;
+                        align-items: flex-start;
+                    }
+                    gap: 20px;
+                    max-width: 1200px;
+                    width: 100%;
+                }
+                
+                // 第一个卡片
+                div
+                {
+                    style
+                    {
+                        .feature-card
+                        {
+                            background: "white";
+                            border: "2px solid " + ThemeColors(primary);
+                            border-radius: "12px";
+                            padding: "25px";
+                            flex: 1;
+                        }
+                    }
+                    
+                    h2
+                    {
+                        style
+                        {
+                            color: ThemeColors(primary);
+                            margin-top: 0;
+                        }
+                        
+                        text
+                        {
+                            模板系统
+                        }
+                    }
+                    
+                    p
+                    {
+                        style
+                        {
+                            @Style BaseText;
+                        }
+                        
+                        text
+                        {
+                            支持样式组模板、元素模板和变量组模板，提供强大的代码复用能力。
+                        }
+                    }
+                }
+                
+                // 第二个卡片
+                div
+                {
+                    style
+                    {
+                        .feature-card
+                        {
+                            background: "white";
+                            border: "2px solid " + ThemeColors(success);
+                            border-radius: "12px";
+                            padding: "25px";
+                            flex: 1;
+                        }
+                    }
+                    
+                    h2
+                    {
+                        style
+                        {
+                            color: ThemeColors(success);
+                            margin-top: 0;
+                        }
+                        
+                        text
+                        {
+                            自定义系统
+                        }
+                    }
+                    
+                    p
+                    {
+                        style
+                        {
+                            @Style BaseText;
+                        }
+                        
+                        text
+                        {
+                            支持无值样式组、特例化操作和灵活的继承机制。
+                        }
+                    }
+                }
+                
+                // 第三个卡片
+                div
+                {
+                    style
+                    {
+                        .feature-card
+                        {
+                            background: "white";
+                            border: "2px solid " + ThemeColors(secondary);
+                            border-radius: "12px";
+                            padding: "25px";
+                            flex: 1;
+                        }
+                    }
+                    
+                    h2
+                    {
+                        style
+                        {
+                            color: ThemeColors(secondary);
+                            margin-top: 0;
+                        }
+                        
+                        text
+                        {
+                            局部样式
+                        }
+                    }
+                    
+                    p
+                    {
+                        style
+                        {
+                            @Style BaseText;
+                        }
+                        
+                        text
+                        {
+                            支持局部样式块、自动化类名生成和上下文推导。
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
