@@ -1,7 +1,14 @@
 /workspace/build/CMakeFiles/chtl_common.dir
 /workspace/build/CMakeFiles/chtl_ast.dir
+/workspace/build/CMakeFiles/chtl_parser.dir
+/workspace/build/CMakeFiles/chtl_generator.dir
 /workspace/build/CMakeFiles/test_basic.dir
 /workspace/build/CMakeFiles/test_ast.dir
+/workspace/build/CMakeFiles/test_parser.dir
+/workspace/build/CMakeFiles/test_parser_generator.dir
+/workspace/build/CMakeFiles/test_simple_parser.dir
+/workspace/build/CMakeFiles/test_final_parser.dir
+/workspace/build/CMakeFiles/test_debug_parser.dir
 /workspace/build/CMakeFiles/edit_cache.dir
 /workspace/build/CMakeFiles/rebuild_cache.dir
 /workspace/build/CMakeFiles/list_install_components.dir

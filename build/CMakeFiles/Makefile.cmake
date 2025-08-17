@@ -51,6 +51,13 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/chtl_common.dir/DependInfo.cmake"
   "CMakeFiles/chtl_ast.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_parser.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_generator.dir/DependInfo.cmake"
   "CMakeFiles/test_basic.dir/DependInfo.cmake"
   "CMakeFiles/test_ast.dir/DependInfo.cmake"
+  "CMakeFiles/test_parser.dir/DependInfo.cmake"
+  "CMakeFiles/test_parser_generator.dir/DependInfo.cmake"
+  "CMakeFiles/test_simple_parser.dir/DependInfo.cmake"
+  "CMakeFiles/test_final_parser.dir/DependInfo.cmake"
+  "CMakeFiles/test_debug_parser.dir/DependInfo.cmake"
   )

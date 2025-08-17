@@ -144,6 +144,11 @@ void TokenFactory::initKeywordMap() {
 Token TokenFactory::createToken(const std::string& text, const TokenPosition& pos) {
     initKeywordMap();
     
+    // 跳过空字符串
+    if (text.empty()) {
+        return Token(TokenType::WHITESPACE, text, pos);
+    }
+    
     // 检查是否为关键字
     auto it = keywordMap.find(text);
     if (it != keywordMap.end()) {
@@ -173,6 +178,11 @@ Token TokenFactory::createToken(const std::string& text, const TokenPosition& po
         ((text[0] == '"' && text[text.length()-1] == '"') ||
          (text[0] == '\'' && text[text.length()-1] == '\''))) {
         return Token(TokenType::STRING_LITERAL, text, pos);
+    }
+    
+    // 检查是否为无引号字面量（包含特殊字符但不是标识符）
+    if (!text.empty() && !std::isalpha(text[0]) && text[0] != '_') {
+        return Token(TokenType::UNQUOTED_LITERAL, text, pos);
     }
     
     // 默认为标识符

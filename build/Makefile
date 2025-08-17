@@ -188,6 +188,32 @@ chtl_ast/fast:
 .PHONY : chtl_ast/fast
 
 #=============================================================================
+# Target rules for targets named chtl_parser
+
+# Build rule for target.
+chtl_parser: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_parser
+.PHONY : chtl_parser
+
+# fast build rule for target.
+chtl_parser/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_parser.dir/build.make CMakeFiles/chtl_parser.dir/build
+.PHONY : chtl_parser/fast
+
+#=============================================================================
+# Target rules for targets named chtl_generator
+
+# Build rule for target.
+chtl_generator: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_generator
+.PHONY : chtl_generator
+
+# fast build rule for target.
+chtl_generator/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_generator.dir/build.make CMakeFiles/chtl_generator.dir/build
+.PHONY : chtl_generator/fast
+
+#=============================================================================
 # Target rules for targets named test_basic
 
 # Build rule for target.
@@ -212,6 +238,71 @@ test_ast: cmake_check_build_system
 test_ast/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_ast.dir/build.make CMakeFiles/test_ast.dir/build
 .PHONY : test_ast/fast
+
+#=============================================================================
+# Target rules for targets named test_parser
+
+# Build rule for target.
+test_parser: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_parser
+.PHONY : test_parser
+
+# fast build rule for target.
+test_parser/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_parser.dir/build.make CMakeFiles/test_parser.dir/build
+.PHONY : test_parser/fast
+
+#=============================================================================
+# Target rules for targets named test_parser_generator
+
+# Build rule for target.
+test_parser_generator: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_parser_generator
+.PHONY : test_parser_generator
+
+# fast build rule for target.
+test_parser_generator/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_parser_generator.dir/build.make CMakeFiles/test_parser_generator.dir/build
+.PHONY : test_parser_generator/fast
+
+#=============================================================================
+# Target rules for targets named test_simple_parser
+
+# Build rule for target.
+test_simple_parser: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_simple_parser
+.PHONY : test_simple_parser
+
+# fast build rule for target.
+test_simple_parser/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_simple_parser.dir/build.make CMakeFiles/test_simple_parser.dir/build
+.PHONY : test_simple_parser/fast
+
+#=============================================================================
+# Target rules for targets named test_final_parser
+
+# Build rule for target.
+test_final_parser: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_final_parser
+.PHONY : test_final_parser
+
+# fast build rule for target.
+test_final_parser/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_final_parser.dir/build.make CMakeFiles/test_final_parser.dir/build
+.PHONY : test_final_parser/fast
+
+#=============================================================================
+# Target rules for targets named test_debug_parser
+
+# Build rule for target.
+test_debug_parser: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_debug_parser
+.PHONY : test_debug_parser
+
+# fast build rule for target.
+test_debug_parser/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_debug_parser.dir/build.make CMakeFiles/test_debug_parser.dir/build
+.PHONY : test_debug_parser/fast
 
 src/ast/ASTNode.o: src/ast/ASTNode.cpp.o
 .PHONY : src/ast/ASTNode.o
@@ -357,6 +448,78 @@ src/common/Token.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/Token.cpp.s
 .PHONY : src/common/Token.cpp.s
 
+src/generator/HTMLGenerator.o: src/generator/HTMLGenerator.cpp.o
+.PHONY : src/generator/HTMLGenerator.o
+
+# target to build an object file
+src/generator/HTMLGenerator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_generator.dir/build.make CMakeFiles/chtl_generator.dir/src/generator/HTMLGenerator.cpp.o
+.PHONY : src/generator/HTMLGenerator.cpp.o
+
+src/generator/HTMLGenerator.i: src/generator/HTMLGenerator.cpp.i
+.PHONY : src/generator/HTMLGenerator.i
+
+# target to preprocess a source file
+src/generator/HTMLGenerator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_generator.dir/build.make CMakeFiles/chtl_generator.dir/src/generator/HTMLGenerator.cpp.i
+.PHONY : src/generator/HTMLGenerator.cpp.i
+
+src/generator/HTMLGenerator.s: src/generator/HTMLGenerator.cpp.s
+.PHONY : src/generator/HTMLGenerator.s
+
+# target to generate assembly for a file
+src/generator/HTMLGenerator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_generator.dir/build.make CMakeFiles/chtl_generator.dir/src/generator/HTMLGenerator.cpp.s
+.PHONY : src/generator/HTMLGenerator.cpp.s
+
+src/parser/Parser.o: src/parser/Parser.cpp.o
+.PHONY : src/parser/Parser.o
+
+# target to build an object file
+src/parser/Parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_parser.dir/build.make CMakeFiles/chtl_parser.dir/src/parser/Parser.cpp.o
+.PHONY : src/parser/Parser.cpp.o
+
+src/parser/Parser.i: src/parser/Parser.cpp.i
+.PHONY : src/parser/Parser.i
+
+# target to preprocess a source file
+src/parser/Parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_parser.dir/build.make CMakeFiles/chtl_parser.dir/src/parser/Parser.cpp.i
+.PHONY : src/parser/Parser.cpp.i
+
+src/parser/Parser.s: src/parser/Parser.cpp.s
+.PHONY : src/parser/Parser.s
+
+# target to generate assembly for a file
+src/parser/Parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_parser.dir/build.make CMakeFiles/chtl_parser.dir/src/parser/Parser.cpp.s
+.PHONY : src/parser/Parser.cpp.s
+
+src/parser/ParserExtensions.o: src/parser/ParserExtensions.cpp.o
+.PHONY : src/parser/ParserExtensions.o
+
+# target to build an object file
+src/parser/ParserExtensions.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_parser.dir/build.make CMakeFiles/chtl_parser.dir/src/parser/ParserExtensions.cpp.o
+.PHONY : src/parser/ParserExtensions.cpp.o
+
+src/parser/ParserExtensions.i: src/parser/ParserExtensions.cpp.i
+.PHONY : src/parser/ParserExtensions.i
+
+# target to preprocess a source file
+src/parser/ParserExtensions.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_parser.dir/build.make CMakeFiles/chtl_parser.dir/src/parser/ParserExtensions.cpp.i
+.PHONY : src/parser/ParserExtensions.cpp.i
+
+src/parser/ParserExtensions.s: src/parser/ParserExtensions.cpp.s
+.PHONY : src/parser/ParserExtensions.s
+
+# target to generate assembly for a file
+src/parser/ParserExtensions.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_parser.dir/build.make CMakeFiles/chtl_parser.dir/src/parser/ParserExtensions.cpp.s
+.PHONY : src/parser/ParserExtensions.cpp.s
+
 test/test_ast.o: test/test_ast.cpp.o
 .PHONY : test/test_ast.o
 
@@ -405,6 +568,126 @@ test/test_basic.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_basic.dir/build.make CMakeFiles/test_basic.dir/test/test_basic.cpp.s
 .PHONY : test/test_basic.cpp.s
 
+test/test_debug_parser.o: test/test_debug_parser.cpp.o
+.PHONY : test/test_debug_parser.o
+
+# target to build an object file
+test/test_debug_parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_debug_parser.dir/build.make CMakeFiles/test_debug_parser.dir/test/test_debug_parser.cpp.o
+.PHONY : test/test_debug_parser.cpp.o
+
+test/test_debug_parser.i: test/test_debug_parser.cpp.i
+.PHONY : test/test_debug_parser.i
+
+# target to preprocess a source file
+test/test_debug_parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_debug_parser.dir/build.make CMakeFiles/test_debug_parser.dir/test/test_debug_parser.cpp.i
+.PHONY : test/test_debug_parser.cpp.i
+
+test/test_debug_parser.s: test/test_debug_parser.cpp.s
+.PHONY : test/test_debug_parser.s
+
+# target to generate assembly for a file
+test/test_debug_parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_debug_parser.dir/build.make CMakeFiles/test_debug_parser.dir/test/test_debug_parser.cpp.s
+.PHONY : test/test_debug_parser.cpp.s
+
+test/test_final_parser.o: test/test_final_parser.cpp.o
+.PHONY : test/test_final_parser.o
+
+# target to build an object file
+test/test_final_parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_final_parser.dir/build.make CMakeFiles/test_final_parser.dir/test/test_final_parser.cpp.o
+.PHONY : test/test_final_parser.cpp.o
+
+test/test_final_parser.i: test/test_final_parser.cpp.i
+.PHONY : test/test_final_parser.i
+
+# target to preprocess a source file
+test/test_final_parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_final_parser.dir/build.make CMakeFiles/test_final_parser.dir/test/test_final_parser.cpp.i
+.PHONY : test/test_final_parser.cpp.i
+
+test/test_final_parser.s: test/test_final_parser.cpp.s
+.PHONY : test/test_final_parser.s
+
+# target to generate assembly for a file
+test/test_final_parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_final_parser.dir/build.make CMakeFiles/test_final_parser.dir/test/test_final_parser.cpp.s
+.PHONY : test/test_final_parser.cpp.s
+
+test/test_parser.o: test/test_parser.cpp.o
+.PHONY : test/test_parser.o
+
+# target to build an object file
+test/test_parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_parser.dir/build.make CMakeFiles/test_parser.dir/test/test_parser.cpp.o
+.PHONY : test/test_parser.cpp.o
+
+test/test_parser.i: test/test_parser.cpp.i
+.PHONY : test/test_parser.i
+
+# target to preprocess a source file
+test/test_parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_parser.dir/build.make CMakeFiles/test_parser.dir/test/test_parser.cpp.i
+.PHONY : test/test_parser.cpp.i
+
+test/test_parser.s: test/test_parser.cpp.s
+.PHONY : test/test_parser.s
+
+# target to generate assembly for a file
+test/test_parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_parser.dir/build.make CMakeFiles/test_parser.dir/test/test_parser.cpp.s
+.PHONY : test/test_parser.cpp.s
+
+test/test_parser_generator.o: test/test_parser_generator.cpp.o
+.PHONY : test/test_parser_generator.o
+
+# target to build an object file
+test/test_parser_generator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_parser_generator.dir/build.make CMakeFiles/test_parser_generator.dir/test/test_parser_generator.cpp.o
+.PHONY : test/test_parser_generator.cpp.o
+
+test/test_parser_generator.i: test/test_parser_generator.cpp.i
+.PHONY : test/test_parser_generator.i
+
+# target to preprocess a source file
+test/test_parser_generator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_parser_generator.dir/build.make CMakeFiles/test_parser_generator.dir/test/test_parser_generator.cpp.i
+.PHONY : test/test_parser_generator.cpp.i
+
+test/test_parser_generator.s: test/test_parser_generator.cpp.s
+.PHONY : test/test_parser_generator.s
+
+# target to generate assembly for a file
+test/test_parser_generator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_parser_generator.dir/build.make CMakeFiles/test_parser_generator.dir/test/test_parser_generator.cpp.s
+.PHONY : test/test_parser_generator.cpp.s
+
+test/test_simple_parser.o: test/test_simple_parser.cpp.o
+.PHONY : test/test_simple_parser.o
+
+# target to build an object file
+test/test_simple_parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_simple_parser.dir/build.make CMakeFiles/test_simple_parser.dir/test/test_simple_parser.cpp.o
+.PHONY : test/test_simple_parser.cpp.o
+
+test/test_simple_parser.i: test/test_simple_parser.cpp.i
+.PHONY : test/test_simple_parser.i
+
+# target to preprocess a source file
+test/test_simple_parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_simple_parser.dir/build.make CMakeFiles/test_simple_parser.dir/test/test_simple_parser.cpp.i
+.PHONY : test/test_simple_parser.cpp.i
+
+test/test_simple_parser.s: test/test_simple_parser.cpp.s
+.PHONY : test/test_simple_parser.s
+
+# target to generate assembly for a file
+test/test_simple_parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_simple_parser.dir/build.make CMakeFiles/test_simple_parser.dir/test/test_simple_parser.cpp.s
+.PHONY : test/test_simple_parser.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -419,8 +702,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... chtl_ast"
 	@echo "... chtl_common"
+	@echo "... chtl_generator"
+	@echo "... chtl_parser"
 	@echo "... test_ast"
 	@echo "... test_basic"
+	@echo "... test_debug_parser"
+	@echo "... test_final_parser"
+	@echo "... test_parser"
+	@echo "... test_parser_generator"
+	@echo "... test_simple_parser"
 	@echo "... src/ast/ASTNode.o"
 	@echo "... src/ast/ASTNode.i"
 	@echo "... src/ast/ASTNode.s"
@@ -439,12 +729,36 @@ help:
 	@echo "... src/common/Token.o"
 	@echo "... src/common/Token.i"
 	@echo "... src/common/Token.s"
+	@echo "... src/generator/HTMLGenerator.o"
+	@echo "... src/generator/HTMLGenerator.i"
+	@echo "... src/generator/HTMLGenerator.s"
+	@echo "... src/parser/Parser.o"
+	@echo "... src/parser/Parser.i"
+	@echo "... src/parser/Parser.s"
+	@echo "... src/parser/ParserExtensions.o"
+	@echo "... src/parser/ParserExtensions.i"
+	@echo "... src/parser/ParserExtensions.s"
 	@echo "... test/test_ast.o"
 	@echo "... test/test_ast.i"
 	@echo "... test/test_ast.s"
 	@echo "... test/test_basic.o"
 	@echo "... test/test_basic.i"
 	@echo "... test/test_basic.s"
+	@echo "... test/test_debug_parser.o"
+	@echo "... test/test_debug_parser.i"
+	@echo "... test/test_debug_parser.s"
+	@echo "... test/test_final_parser.o"
+	@echo "... test/test_final_parser.i"
+	@echo "... test/test_final_parser.s"
+	@echo "... test/test_parser.o"
+	@echo "... test/test_parser.i"
+	@echo "... test/test_parser.s"
+	@echo "... test/test_parser_generator.o"
+	@echo "... test/test_parser_generator.i"
+	@echo "... test/test_parser_generator.s"
+	@echo "... test/test_simple_parser.o"
+	@echo "... test/test_simple_parser.i"
+	@echo "... test/test_simple_parser.s"
 .PHONY : help
 
 

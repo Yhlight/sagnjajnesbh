@@ -62,7 +62,7 @@ Token Lexer::peekToken() {
 }
 
 void Lexer::skipWhitespace() {
-    while (!isAtEnd() && isWhitespace(currentChar())) {
+    while (!isAtEnd() && (isWhitespace(currentChar()) || isNewline(currentChar()))) {
         if (isNewline(currentChar())) {
             advanceLine();
         } else {
