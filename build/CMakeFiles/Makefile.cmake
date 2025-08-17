@@ -61,4 +61,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_final_parser.dir/DependInfo.cmake"
   "CMakeFiles/test_debug_parser.dir/DependInfo.cmake"
   "CMakeFiles/test_namespace_enhanced.dir/DependInfo.cmake"
+  "CMakeFiles/test_cmod.dir/DependInfo.cmake"
   )

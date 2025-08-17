@@ -1,5 +1,6 @@
 #pragma once
 #include "Context.h"
+#include "CmodManager.h"
 #include "../ast/ASTNode.h"
 #include <string>
 #include <vector>
@@ -197,6 +198,17 @@ private:
     // CHTL/CJmod特定搜索
     std::vector<std::string> searchModuleFiles(const std::string& name, 
                                               const std::vector<std::string>& extensions) const;
+    
+    // Cmod管理
+    std::unique_ptr<CmodManager> cmod_manager_;
+    
+    // Cmod特定方法
+    std::vector<ImportInfo> processCmodImport(const std::string& module_name, const std::string& alias = "");
+    std::vector<ImportInfo> processSubmoduleImport(const std::string& main_module, 
+                                                  const std::string& submodule, 
+                                                  const std::string& alias = "");
+    bool loadCmodContent(const std::string& cmod_path, const std::string& file_path, std::string& content);
+    std::vector<std::string> extractCmodSymbols(const std::string& cmod_path, const std::string& symbol_type);
     
     // 通配符处理
     std::vector<std::string> expandWildcard(const std::string& base_path, 

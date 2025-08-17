@@ -1,0 +1,1 @@
+/usr/bin/c++ -Xlinker --dependency-file=CMakeFiles/test_cmod.dir/link.d CMakeFiles/test_cmod.dir/test/test_cmod.cpp.o -o bin/test_cmod  lib/libchtl_common.a

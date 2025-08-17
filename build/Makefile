@@ -317,6 +317,19 @@ test_namespace_enhanced/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_namespace_enhanced.dir/build.make CMakeFiles/test_namespace_enhanced.dir/build
 .PHONY : test_namespace_enhanced/fast
 
+#=============================================================================
+# Target rules for targets named test_cmod
+
+# Build rule for target.
+test_cmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_cmod
+.PHONY : test_cmod
+
+# fast build rule for target.
+test_cmod/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cmod.dir/build.make CMakeFiles/test_cmod.dir/build
+.PHONY : test_cmod/fast
+
 src/ast/ASTNode.o: src/ast/ASTNode.cpp.o
 .PHONY : src/ast/ASTNode.o
 
@@ -340,6 +353,30 @@ src/ast/ASTNode.s: src/ast/ASTNode.cpp.s
 src/ast/ASTNode.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.s
 .PHONY : src/ast/ASTNode.cpp.s
+
+src/common/CmodManager.o: src/common/CmodManager.cpp.o
+.PHONY : src/common/CmodManager.o
+
+# target to build an object file
+src/common/CmodManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o
+.PHONY : src/common/CmodManager.cpp.o
+
+src/common/CmodManager.i: src/common/CmodManager.cpp.i
+.PHONY : src/common/CmodManager.i
+
+# target to preprocess a source file
+src/common/CmodManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.i
+.PHONY : src/common/CmodManager.cpp.i
+
+src/common/CmodManager.s: src/common/CmodManager.cpp.s
+.PHONY : src/common/CmodManager.s
+
+# target to generate assembly for a file
+src/common/CmodManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.s
+.PHONY : src/common/CmodManager.cpp.s
 
 src/common/Context.o: src/common/Context.cpp.o
 .PHONY : src/common/Context.o
@@ -412,6 +449,30 @@ src/common/Lexer.s: src/common/Lexer.cpp.s
 src/common/Lexer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.s
 .PHONY : src/common/Lexer.cpp.s
+
+src/common/SimpleZip.o: src/common/SimpleZip.cpp.o
+.PHONY : src/common/SimpleZip.o
+
+# target to build an object file
+src/common/SimpleZip.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o
+.PHONY : src/common/SimpleZip.cpp.o
+
+src/common/SimpleZip.i: src/common/SimpleZip.cpp.i
+.PHONY : src/common/SimpleZip.i
+
+# target to preprocess a source file
+src/common/SimpleZip.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.i
+.PHONY : src/common/SimpleZip.cpp.i
+
+src/common/SimpleZip.s: src/common/SimpleZip.cpp.s
+.PHONY : src/common/SimpleZip.s
+
+# target to generate assembly for a file
+src/common/SimpleZip.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.s
+.PHONY : src/common/SimpleZip.cpp.s
 
 src/common/State.o: src/common/State.cpp.o
 .PHONY : src/common/State.o
@@ -581,6 +642,30 @@ test/test_basic.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_basic.dir/build.make CMakeFiles/test_basic.dir/test/test_basic.cpp.s
 .PHONY : test/test_basic.cpp.s
 
+test/test_cmod.o: test/test_cmod.cpp.o
+.PHONY : test/test_cmod.o
+
+# target to build an object file
+test/test_cmod.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cmod.dir/build.make CMakeFiles/test_cmod.dir/test/test_cmod.cpp.o
+.PHONY : test/test_cmod.cpp.o
+
+test/test_cmod.i: test/test_cmod.cpp.i
+.PHONY : test/test_cmod.i
+
+# target to preprocess a source file
+test/test_cmod.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cmod.dir/build.make CMakeFiles/test_cmod.dir/test/test_cmod.cpp.i
+.PHONY : test/test_cmod.cpp.i
+
+test/test_cmod.s: test/test_cmod.cpp.s
+.PHONY : test/test_cmod.s
+
+# target to generate assembly for a file
+test/test_cmod.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cmod.dir/build.make CMakeFiles/test_cmod.dir/test/test_cmod.cpp.s
+.PHONY : test/test_cmod.cpp.s
+
 test/test_debug_parser.o: test/test_debug_parser.cpp.o
 .PHONY : test/test_debug_parser.o
 
@@ -743,6 +828,7 @@ help:
 	@echo "... chtl_parser"
 	@echo "... test_ast"
 	@echo "... test_basic"
+	@echo "... test_cmod"
 	@echo "... test_debug_parser"
 	@echo "... test_final_parser"
 	@echo "... test_namespace_enhanced"
@@ -752,6 +838,9 @@ help:
 	@echo "... src/ast/ASTNode.o"
 	@echo "... src/ast/ASTNode.i"
 	@echo "... src/ast/ASTNode.s"
+	@echo "... src/common/CmodManager.o"
+	@echo "... src/common/CmodManager.i"
+	@echo "... src/common/CmodManager.s"
 	@echo "... src/common/Context.o"
 	@echo "... src/common/Context.i"
 	@echo "... src/common/Context.s"
@@ -761,6 +850,9 @@ help:
 	@echo "... src/common/Lexer.o"
 	@echo "... src/common/Lexer.i"
 	@echo "... src/common/Lexer.s"
+	@echo "... src/common/SimpleZip.o"
+	@echo "... src/common/SimpleZip.i"
+	@echo "... src/common/SimpleZip.s"
 	@echo "... src/common/State.o"
 	@echo "... src/common/State.i"
 	@echo "... src/common/State.s"
@@ -782,6 +874,9 @@ help:
 	@echo "... test/test_basic.o"
 	@echo "... test/test_basic.i"
 	@echo "... test/test_basic.s"
+	@echo "... test/test_cmod.o"
+	@echo "... test/test_cmod.i"
+	@echo "... test/test_cmod.s"
 	@echo "... test/test_debug_parser.o"
 	@echo "... test/test_debug_parser.i"
 	@echo "... test/test_debug_parser.s"

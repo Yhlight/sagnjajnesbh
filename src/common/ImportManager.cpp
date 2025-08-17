@@ -17,6 +17,9 @@ ImportManager::ImportManager(CompilerContext& context) : context_(context) {
     search_config_.current_dir = getCurrentDirectory();
     search_config_.current_module_dir = getCurrentModuleDirectory();
     search_config_.official_module_dir = getOfficialModuleDirectory();
+    
+    // 初始化Cmod管理器
+    cmod_manager_ = std::make_unique<CmodManager>();
 }
 
 void ImportManager::setSearchConfig(const ImportSearchConfig& config) {
@@ -211,6 +214,17 @@ std::vector<ImportInfo> ImportManager::processChtlImport(const std::string& path
             // 名称（不带后缀）：按搜索顺序查找
             std::vector<std::string> extensions = {".cmod", ".chtl"};
             resolved_paths = searchModuleFiles(converted_path, extensions);
+        
+        // 如果找到的是.cmod文件，进行特殊处理
+        for (auto it = resolved_paths.begin(); it != resolved_paths.end(); ++it) {
+            if (it->ends_with(".cmod")) {
+                // 处理Cmod导入
+                auto cmod_imports = processCmodImport(converted_path, alias);
+                results.insert(results.end(), cmod_imports.begin(), cmod_imports.end());
+                resolved_paths.erase(it);
+                break;
+            }
+        }
         } else if (path_type == PathType::NAME_WITH_EXTENSION) {
             // 具体名称（带后缀）：按搜索顺序查找指定文件
             resolved_paths = searchModuleFiles(converted_path, {getFileExtension(converted_path)});
@@ -750,6 +764,133 @@ std::pair<bool, bool> ImportStatementParser::parseModifiers(const std::string& m
     bool is_template = modifiers.find("[Template]") != std::string::npos;
     bool is_custom = modifiers.find("[Custom]") != std::string::npos;
     return {is_template, is_custom};
+}
+
+// Cmod相关方法实现
+std::vector<ImportInfo> ImportManager::processCmodImport(const std::string& module_name, const std::string& alias) {
+    std::vector<ImportInfo> results;
+    
+    // 解析模块名，检查是否包含子模块
+    auto [main_module, submodule] = CmodUtils::parseModuleName(module_name);
+    
+    if (!submodule.empty()) {
+        // 处理子模块导入
+        return processSubmoduleImport(main_module, submodule, alias);
+    }
+    
+    // 使用CmodManager解析Cmod路径
+    std::string cmod_path = cmod_manager_->resolveCmodPath(main_module, cmod_manager_->getSearchPaths());
+    
+    if (cmod_path.empty()) {
+        reportImportError("Cmod not found: " + main_module, ImportInfo(ImportType::CHTL, module_name, alias));
+        return results;
+    }
+    
+    // 验证Cmod文件
+    if (cmod_path.ends_with(".cmod")) {
+        if (!cmod_manager_->validateCmodFile(cmod_path)) {
+            reportImportError("Invalid Cmod file: " + cmod_manager_->getLastError(), 
+                            ImportInfo(ImportType::CHTL, module_name, alias));
+            return results;
+        }
+        
+        // 提取Cmod信息
+        CmodInfo info;
+        if (!cmod_manager_->extractCmodInfo(cmod_path, info)) {
+            reportImportError("Cannot extract Cmod info: " + cmod_manager_->getLastError(),
+                            ImportInfo(ImportType::CHTL, module_name, alias));
+            return results;
+        }
+        
+        // 获取Cmod中的所有CHTL文件
+        auto files = cmod_manager_->listCmodFiles(cmod_path);
+        for (const std::string& file : files) {
+            if (file.starts_with("src/") && file.ends_with(".chtl")) {
+                ImportInfo import_info(ImportType::CHTL, module_name, alias);
+                import_info.resolved_path = cmod_path + ":" + file; // 使用特殊格式标识Cmod内文件
+                import_info.path_type = PathType::SPECIFIC_PATH;
+                results.push_back(import_info);
+            }
+        }
+    } else {
+        // 处理目录形式的Cmod
+        ImportInfo info(ImportType::CHTL, module_name, alias);
+        info.resolved_path = cmod_path;
+        info.path_type = PathType::DIRECTORY_PATH;
+        results.push_back(info);
+    }
+    
+    return results;
+}
+
+std::vector<ImportInfo> ImportManager::processSubmoduleImport(const std::string& main_module, 
+                                                             const std::string& submodule, 
+                                                             const std::string& alias) {
+    std::vector<ImportInfo> results;
+    
+    // 解析主模块路径
+    std::string main_cmod_path = cmod_manager_->resolveCmodPath(main_module, cmod_manager_->getSearchPaths());
+    
+    if (main_cmod_path.empty()) {
+        reportImportError("Main module not found: " + main_module, 
+                        ImportInfo(ImportType::CHTL, main_module + "." + submodule, alias));
+        return results;
+    }
+    
+    if (main_cmod_path.ends_with(".cmod")) {
+        // 检查子模块是否存在
+        if (!cmod_manager_->hasSubmodule(main_cmod_path, submodule)) {
+            reportImportError("Submodule not found: " + submodule + " in " + main_module,
+                            ImportInfo(ImportType::CHTL, main_module + "." + submodule, alias));
+            return results;
+        }
+        
+        // 获取子模块文件
+        auto files = cmod_manager_->listCmodFiles(main_cmod_path);
+        std::string submodule_prefix = "src/" + submodule + "/";
+        
+        for (const std::string& file : files) {
+            if (file.starts_with(submodule_prefix) && file.ends_with(".chtl")) {
+                ImportInfo import_info(ImportType::CHTL, main_module + "." + submodule, alias);
+                import_info.resolved_path = main_cmod_path + ":" + file;
+                import_info.path_type = PathType::SPECIFIC_PATH;
+                results.push_back(import_info);
+            }
+        }
+    }
+    
+    return results;
+}
+
+bool ImportManager::loadCmodContent(const std::string& cmod_path, const std::string& file_path, std::string& content) {
+    size_t colon_pos = cmod_path.find(':');
+    if (colon_pos == std::string::npos) {
+        return false;
+    }
+    
+    std::string actual_cmod_path = cmod_path.substr(0, colon_pos);
+    std::string internal_file_path = cmod_path.substr(colon_pos + 1);
+    
+    return cmod_manager_->extractCmodFile(actual_cmod_path, internal_file_path, content);
+}
+
+std::vector<std::string> ImportManager::extractCmodSymbols(const std::string& cmod_path, const std::string& symbol_type) {
+    std::vector<std::string> symbols;
+    
+    CmodInfo info;
+    if (!cmod_manager_->extractCmodInfo(cmod_path, info)) {
+        return symbols;
+    }
+    
+    if (symbol_type == "@Style") {
+        return info.exported_styles;
+    } else if (symbol_type == "@Element") {
+        return info.exported_elements;
+    } else if (symbol_type == "@Var") {
+        return info.exported_vars;
+    }
+    
+    return symbols;
 }
 
 } // namespace chtl

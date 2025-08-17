@@ -142,13 +142,43 @@ CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/common/Lexer.cpp -o CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.s
 
+CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o: CMakeFiles/chtl_common.dir/flags.make
+CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o: /workspace/src/common/SimpleZip.cpp
+CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o -MF CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o.d -o CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o -c /workspace/src/common/SimpleZip.cpp
+
+CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/common/SimpleZip.cpp > CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.i
+
+CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/common/SimpleZip.cpp -o CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.s
+
+CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o: CMakeFiles/chtl_common.dir/flags.make
+CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o: /workspace/src/common/CmodManager.cpp
+CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o -MF CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o.d -o CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o -c /workspace/src/common/CmodManager.cpp
+
+CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/common/CmodManager.cpp > CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.i
+
+CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/common/CmodManager.cpp -o CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.s
+
 # Object files for target chtl_common
 chtl_common_OBJECTS = \
 "CMakeFiles/chtl_common.dir/src/common/Token.cpp.o" \
 "CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.o" \
 "CMakeFiles/chtl_common.dir/src/common/State.cpp.o" \
 "CMakeFiles/chtl_common.dir/src/common/Context.cpp.o" \
-"CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o"
+"CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o" \
+"CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o" \
+"CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o"
 
 # External object files for target chtl_common
 chtl_common_EXTERNAL_OBJECTS =
@@ -158,9 +188,11 @@ lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.o
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/State.cpp.o
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/Context.cpp.o
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o
+lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/SimpleZip.cpp.o
+lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/CmodManager.cpp.o
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/build.make
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library lib/libchtl_common.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX static library lib/libchtl_common.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/chtl_common.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtl_common.dir/link.txt --verbose=$(VERBOSE)
 
