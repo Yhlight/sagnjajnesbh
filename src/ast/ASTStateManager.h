@@ -6,8 +6,8 @@
 #include <unordered_set>
 #include <vector>
 #include <chrono>
-    #include <functional>
-    #include <mutex>
+#include <functional>
+#include <mutex>
 
 namespace chtl {
 namespace ast {
@@ -234,7 +234,7 @@ public:
     
 private:
     std::unordered_map<ASTNode*, NodeStateInfo> node_states_;
-    std::vector<std::shared_ptr<StateChangeListener>> listeners_;
+    std::vector<std::weak_ptr<StateChangeListener>> listeners_;
     mutable std::mutex mutex_;  // 线程安全
     
     // 内部辅助方法
