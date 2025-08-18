@@ -1,0 +1,181 @@
+// 珂朵莉模块使用示例
+// 展示如何正确导入和使用CMOD+CJMOD混合模块
+
+// 导入珂朵莉CMOD模块（包含所有UI组件）
+Import @Chtl from Chtholly
+
+// 导入珂朵莉CJMOD模块（包含printMylove和iNeverAway功能）
+Import @CJmod from Chtholly
+
+html
+{
+    head
+    {
+        title: "珂朵莉模块使用示例";
+    }
+
+    body
+    {
+        // 使用珂朵莉手风琴组件
+        div
+        {
+            class: chtholly-accordion;
+            
+            div
+            {
+                class: chtholly-accordion-header;
+                
+                span
+                {
+                    class: chtholly-accordion-title;
+                    text
+                    {
+                        珂朵莉的回忆
+                    }
+                }
+                
+                span
+                {
+                    class: chtholly-accordion-icon;
+                    text
+                    {
+                        🌸
+                    }
+                }
+            }
+            
+            div
+            {
+                class: chtholly-accordion-content;
+                
+                div
+                {
+                    class: chtholly-accordion-body;
+                    
+                    text
+                    {
+                        这里是珂朵莉珍贵的回忆...
+                        世界上最幸福的女孩。
+                    }
+                }
+            }
+        }
+
+        // 使用珂朵莉四叶窗相册
+        div
+        {
+            class: chtholly-gallery;
+            
+            div
+            {
+                class: chtholly-gallery-item;
+                
+                img
+                {
+                    class: chtholly-gallery-image;
+                    src: "path/to/chtholly1.jpg";
+                    alt: "珂朵莉的照片1";
+                }
+                
+                div
+                {
+                    class: chtholly-gallery-overlay;
+                    text
+                    {
+                        珂朵莉的笑容
+                    }
+                }
+            }
+            
+            div
+            {
+                class: chtholly-gallery-item;
+                
+                img
+                {
+                    class: chtholly-gallery-image;
+                    src: "path/to/chtholly2.jpg";
+                    alt: "珂朵莉的照片2";
+                }
+                
+                div
+                {
+                    class: chtholly-gallery-overlay;
+                    text
+                    {
+                        永恒的约定
+                    }
+                }
+            }
+        }
+
+        // 使用珂朵莉备忘录
+        div
+        {
+            class: chtholly-memo;
+            
+            div
+            {
+                class: chtholly-memo-title;
+                text
+                {
+                    重要的回忆
+                }
+            }
+            
+            div
+            {
+                class: chtholly-memo-content;
+                text
+                {
+                    今天和珂朵莉一起度过了美好的时光...
+                }
+            }
+        }
+
+        // 樱花雨容器（会自动启动动画）
+        div
+        {
+            class: chtholly-sakura-container;
+        }
+
+        script
+        {
+            // 使用CJMOD的printMylove功能
+            const chthollyArt = printMylove({
+                url: "path/to/chtholly.jpg",
+                mode: "ASCII",
+                width: "80",
+                height: "24",
+                scale: 1.0
+            });
+            
+            console.log("珂朵莉的ASCII艺术:");
+            console.log(chthollyArt);
+
+            // 使用CJMOD的iNeverAway功能
+            vir ChthollyMemories = iNeverAway({
+                "Smile<Happy>": function() {
+                    console.log("🌸 珂朵莉开心地笑了");
+                },
+                
+                "Smile<Sad>": function() {
+                    console.log("😢 珂朵莉带着眼泪笑了");
+                },
+                
+                "Promise": {
+                    console.log("💕 珂朵莉许下了永恒的约定");
+                },
+                
+                "Forever": {
+                    console.log("♾️ 珂朵莉永远是世界上最幸福的女孩");
+                }
+            });
+
+            // 调用虚拟对象的方法
+            ChthollyMemories->Smile<Happy>();
+            ChthollyMemories->Promise();
+            ChthollyMemories->Forever();
+        }
+    }
+}

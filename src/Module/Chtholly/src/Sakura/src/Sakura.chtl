@@ -1,171 +1,134 @@
 // 珂朵莉樱花雨组件
 // 如梦如幻的樱花飘落动画
 
-div
+// 定义样式
+style
 {
-    style
+    .chtholly-sakura-container
     {
-        .chtholly-sakura-container
-        {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-            overflow: hidden;
-        }
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1000;
+        overflow: hidden;
+    }
 
-        .chtholly-sakura-petal
+    .chtholly-sakura-petal
+    {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: radial-gradient(ellipse at center, #ff9a9e 0%, #fecfef 70%, transparent 100%);
+        border-radius: 50% 10% 50% 10%;
+        animation: chtholly-sakura-fall 8s linear infinite;
+        opacity: 0.8;
+    }
+
+    @keyframes chtholly-sakura-fall
+    {
+        0%
         {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: radial-gradient(ellipse at center, #ff9a9e 0%, #fecfef 70%, transparent 100%);
-            border-radius: 50% 10% 50% 10%;
-            animation: chtholly-sakura-fall 8s linear infinite;
+            transform: translateY(-100px) translateX(0px) rotate(0deg);
+            opacity: 1;
+        }
+        
+        25%
+        {
+            transform: translateY(25vh) translateX(20px) rotate(90deg);
             opacity: 0.8;
         }
-
-        @keyframes chtholly-sakura-fall
+        
+        50%
         {
-            0%
-            {
-                transform: translateY(-100px) translateX(0px) rotate(0deg);
-                opacity: 1;
-            }
-            
-            25%
-            {
-                transform: translateY(25vh) translateX(20px) rotate(90deg);
-                opacity: 0.8;
-            }
-            
-            50%
-            {
-                transform: translateY(50vh) translateX(-20px) rotate(180deg);
-                opacity: 0.6;
-            }
-            
-            75%
-            {
-                transform: translateY(75vh) translateX(30px) rotate(270deg);
-                opacity: 0.4;
-            }
-            
-            100%
-            {
-                transform: translateY(100vh) translateX(0px) rotate(360deg);
-                opacity: 0;
-            }
+            transform: translateY(50vh) translateX(-20px) rotate(180deg);
+            opacity: 0.6;
         }
-
-        .chtholly-sakura-petal:nth-child(2n)
+        
+        75%
         {
-            animation-delay: -2s;
-            background: radial-gradient(ellipse at center, #ff6b9d 0%, #fecfef 70%, transparent 100%);
+            transform: translateY(75vh) translateX(30px) rotate(270deg);
+            opacity: 0.4;
         }
-
-        .chtholly-sakura-petal:nth-child(3n)
+        
+        100%
         {
-            animation-delay: -4s;
-            background: radial-gradient(ellipse at center, #c44569 0%, #ff9a9e 70%, transparent 100%);
-        }
-
-        .chtholly-sakura-petal:nth-child(4n)
-        {
-            animation-delay: -6s;
-            animation-duration: 10s;
-        }
-
-        .chtholly-sakura-petal:nth-child(5n)
-        {
-            animation-delay: -1s;
-            animation-duration: 6s;
+            transform: translateY(100vh) translateX(0px) rotate(360deg);
+            opacity: 0;
         }
     }
 
-    script
+    .chtholly-sakura-petal:nth-child(2n)
     {
-        // 珂朵莉樱花雨逻辑
-        function initChthollySakura() {
-            const container = document.querySelector('.chtholly-sakura-container');
-            if (!container) return;
-            
-            // 创建樱花花瓣
-            function createSakuraPetal() {
-                const petal = document.createElement('div');
-                petal.className = 'chtholly-sakura-petal';
-                
-                // 随机位置
-                petal.style.left = Math.random() * 100 + '%';
-                petal.style.animationDelay = Math.random() * 8 + 's';
-                petal.style.animationDuration = (Math.random() * 4 + 6) + 's';
-                
-                // 随机大小
-                const size = Math.random() * 8 + 6;
-                petal.style.width = size + 'px';
-                petal.style.height = size + 'px';
-                
-                container.appendChild(petal);
-                
-                // 动画结束后移除花瓣
-                setTimeout(() => {
-                    if (petal.parentNode) {
-                        petal.parentNode.removeChild(petal);
-                    }
-                }, 12000);
-            }
-            
-            // 持续创建樱花花瓣
-            function startSakuraRain() {
-                createSakuraPetal();
-                setTimeout(startSakuraRain, Math.random() * 500 + 300);
-            }
-            
-            // 启动樱花雨
-            startSakuraRain();
-            
-            console.log('🌸 珂朵莉樱花雨已启动 - 如梦如幻的樱花飘落');
-        }
-
-        document.addEventListener('DOMContentLoaded', initChthollySakura);
+        animation-delay: -2s;
+        background: radial-gradient(ellipse at center, #ff6b9d 0%, #fecfef 70%, transparent 100%);
     }
 
-    div
+    .chtholly-sakura-petal:nth-child(3n)
     {
-        class: chtholly-sakura-container;
-        
-        // 初始樱花花瓣
-        div
-        {
-            class: chtholly-sakura-petal;
-            style: left: 10%;
-        }
-        
-        div
-        {
-            class: chtholly-sakura-petal;
-            style: left: 30%;
-        }
-        
-        div
-        {
-            class: chtholly-sakura-petal;
-            style: left: 50%;
-        }
-        
-        div
-        {
-            class: chtholly-sakura-petal;
-            style: left: 70%;
-        }
-        
-        div
-        {
-            class: chtholly-sakura-petal;
-            style: left: 90%;
-        }
+        animation-delay: -4s;
+        background: radial-gradient(ellipse at center, #c44569 0%, #ff9a9e 70%, transparent 100%);
     }
+
+    .chtholly-sakura-petal:nth-child(4n)
+    {
+        animation-delay: -6s;
+        animation-duration: 10s;
+    }
+
+    .chtholly-sakura-petal:nth-child(5n)
+    {
+        animation-delay: -1s;
+        animation-duration: 6s;
+    }
+}
+
+// 定义脚本
+script
+{
+    // 珂朵莉樱花雨逻辑
+    function initChthollySakura() {
+        const container = document.querySelector('.chtholly-sakura-container');
+        if (!container) return;
+        
+        // 创建樱花花瓣
+        function createSakuraPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'chtholly-sakura-petal';
+            
+            // 随机位置
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDelay = Math.random() * 8 + 's';
+            petal.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            
+            // 随机大小
+            const size = Math.random() * 8 + 6;
+            petal.style.width = size + 'px';
+            petal.style.height = size + 'px';
+            
+            container.appendChild(petal);
+            
+            // 动画结束后移除花瓣
+            setTimeout(() => {
+                if (petal.parentNode) {
+                    petal.parentNode.removeChild(petal);
+                }
+            }, 12000);
+        }
+        
+        // 持续创建樱花花瓣
+        function startSakuraRain() {
+            createSakuraPetal();
+            setTimeout(startSakuraRain, Math.random() * 500 + 300);
+        }
+        
+        // 启动樱花雨
+        startSakuraRain();
+        
+        console.log('🌸 珂朵莉樱花雨已启动 - 如梦如幻的樱花飘落');
+    }
+
+    document.addEventListener('DOMContentLoaded', initChthollySakura);
 }

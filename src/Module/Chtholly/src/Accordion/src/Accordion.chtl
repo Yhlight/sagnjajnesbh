@@ -1,150 +1,107 @@
 // 珂朵莉优雅手风琴组件
 // 如樱花般优美的折叠展示组件
 
-div
+// 定义样式
+style
 {
-    style
+    .chtholly-accordion
     {
-        .chtholly-accordion
-        {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.3);
-            overflow: hidden;
-            margin: 10px 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        &:hover
-        {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(255, 154, 158, 0.4);
-        }
-
-        .chtholly-accordion-header
-        {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px 20px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-bottom: 1px solid rgba(255, 107, 157, 0.1);
-            position: relative;
-        }
-
-        .chtholly-accordion-header:hover
-        {
-            background: rgba(255, 107, 157, 0.1);
-        }
-
-        .chtholly-accordion-content
-        {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 255, 255, 0.95);
-        }
-
-        .chtholly-accordion-content.expanded
-        {
-            max-height: 500px;
-            padding: 20px;
-        }
-
-        .chtholly-accordion-icon
-        {
-            float: right;
-            transition: transform 0.3s ease;
-            color: #ff6b9d;
-            font-size: 18px;
-        }
-
-        .chtholly-accordion-icon.expanded
-        {
-            transform: rotate(180deg);
-        }
-
-        .chtholly-accordion-title
-        {
-            color: #5d4e75;
-            font-weight: 600;
-            font-size: 16px;
-        }
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(255, 154, 158, 0.3);
+        overflow: hidden;
+        margin: 10px 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    script
+    .chtholly-accordion:hover
     {
-        // 珂朵莉手风琴交互逻辑
-        function initChthollyAccordion() {
-            {{.chtholly-accordion}} -> listen({
-                click: function() {
-                    const header = this.querySelector('.chtholly-accordion-header');
-                    const content = this.querySelector('.chtholly-accordion-content');
-                    const icon = this.querySelector('.chtholly-accordion-icon');
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(255, 154, 158, 0.4);
+    }
+
+    .chtholly-accordion-header
+    {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 15px 20px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-bottom: 1px solid rgba(255, 107, 157, 0.1);
+        position: relative;
+    }
+
+    .chtholly-accordion-header:hover
+    {
+        background: rgba(255, 107, 157, 0.1);
+    }
+
+    .chtholly-accordion-content
+    {
+        padding: 0 20px;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        background: rgba(255, 255, 255, 0.95);
+    }
+
+    .chtholly-accordion-content.expanded
+    {
+        max-height: 500px;
+        padding: 20px;
+    }
+
+    .chtholly-accordion-icon
+    {
+        float: right;
+        transition: transform 0.3s ease;
+        color: #ff6b9d;
+        font-size: 18px;
+    }
+
+    .chtholly-accordion-icon.expanded
+    {
+        transform: rotate(180deg);
+    }
+
+    .chtholly-accordion-title
+    {
+        color: #5d4e75;
+        font-weight: 600;
+        font-size: 16px;
+    }
+}
+
+// 定义脚本
+script
+{
+    // 珂朵莉手风琴交互逻辑
+    function initChthollyAccordion() {
+        const accordions = document.querySelectorAll('.chtholly-accordion');
+        
+        accordions.forEach(accordion => {
+            const header = accordion.querySelector('.chtholly-accordion-header');
+            const content = accordion.querySelector('.chtholly-accordion-content');
+            const icon = accordion.querySelector('.chtholly-accordion-icon');
+            
+            if (header && content && icon) {
+                header.addEventListener('click', () => {
+                    const isExpanded = content.classList.contains('expanded');
                     
-                    if (header && content && icon) {
-                        const isExpanded = content.classList.contains('expanded');
-                        
-                        // 优雅的展开/收起动画
-                        if (isExpanded) {
-                            content.classList.remove('expanded');
-                            icon.classList.remove('expanded');
-                        } else {
-                            content.classList.add('expanded');
-                            icon.classList.add('expanded');
-                        }
+                    // 优雅的展开/收起动画
+                    if (isExpanded) {
+                        content.classList.remove('expanded');
+                        icon.classList.remove('expanded');
+                    } else {
+                        content.classList.add('expanded');
+                        icon.classList.add('expanded');
                     }
-                }
-            });
-            
-            console.log('🌸 珂朵莉手风琴组件已初始化 - 如樱花般优美');
-        }
-
-        // 自动初始化
-        document.addEventListener('DOMContentLoaded', initChthollyAccordion);
+                });
+            }
+        });
+        
+        console.log('🌸 珂朵莉手风琴组件已初始化 - 如樱花般优美');
     }
 
-    div
-    {
-        class: chtholly-accordion;
-        
-        div
-        {
-            class: chtholly-accordion-header;
-            
-            span
-            {
-                class: chtholly-accordion-title;
-                text
-                {
-                    珂朵莉的手风琴
-                }
-            }
-            
-            span
-            {
-                class: chtholly-accordion-icon;
-                text
-                {
-                    🌸
-                }
-            }
-        }
-        
-        div
-        {
-            class: chtholly-accordion-content;
-            
-            div
-            {
-                class: chtholly-accordion-body;
-                
-                text
-                {
-                    这是珂朵莉优雅的手风琴组件，如樱花般美丽。
-                    世界上最幸福的女孩 - 珂朵莉。
-                }
-            }
-        }
-    }
+    // 自动初始化
+    document.addEventListener('DOMContentLoaded', initChthollyAccordion);
 }

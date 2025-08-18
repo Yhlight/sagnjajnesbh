@@ -1,26 +1,44 @@
 // 珂朵莉备忘录组件 - 记录珍贵的回忆
-div
+
+// 定义样式
+style
 {
-    style
+    .chtholly-memo
     {
-        .chtholly-memo
-        {
-            background: linear-gradient(135deg, #ff9a9e, #fecfef);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.3);
-            margin: 10px 0;
-        }
+        background: linear-gradient(135deg, #ff9a9e, #fecfef);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 8px 25px rgba(255, 154, 158, 0.3);
+        margin: 10px 0;
+        transition: all 0.3s ease;
     }
 
-    script
+    .chtholly-memo:hover
     {
-        console.log('📝 珂朵莉备忘录组件已加载');
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(255, 154, 158, 0.4);
     }
 
-    div
+    .chtholly-memo-title
     {
-        class: chtholly-memo;
-        text { 珂朵莉的备忘录 - 记录珍贵的回忆 }
+        color: #5d4e75;
+        font-weight: 600;
+        margin-bottom: 10px;
     }
+
+    .chtholly-memo-content
+    {
+        color: #5d4e75;
+        line-height: 1.6;
+    }
+}
+
+// 定义脚本
+script
+{
+    function initChthollyMemo() {
+        console.log('📝 珂朵莉备忘录组件已初始化 - 记录珍贵的回忆');
+    }
+
+    document.addEventListener('DOMContentLoaded', initChthollyMemo);
 }
