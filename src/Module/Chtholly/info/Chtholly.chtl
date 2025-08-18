@@ -1,3 +1,4 @@
+// 只需要写这个即可
 [Info]
 {
     name = "chtholly";
@@ -11,13 +12,15 @@
     maxCHTLVersion = "2.0.0";
 }
 
+// 外部查询表，优化性能用，无实际作用
+// 不需要写这个，此由系统生成
 [Export]
 {
-    @Element ChthollyAccordion, ChthollyGallery, ChthollyMemo, 
-             ChthollyNotes, ChthollyProgressBar;
-    
     @Style ChthollyStyle, ChthollyCard, ChthollyButton,
            ChthollyHeader, ChthollyFooter;
+
+    @Element ChthollyPage, ChthollySection, ChthollyNav,
+             ChthollyModal, ChthollyGallery;
 
     @Var ChthollyColors, ChthollyFonts, ChthollySpacing,
          ChthollyBreakpoints, ChthollyAnimations;
