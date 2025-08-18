@@ -5,5 +5,6 @@
 /workspace/build/CMakeFiles/test_antlr_basic.dir
 /workspace/build/CMakeFiles/test_minimal_css.dir
 /workspace/build/CMakeFiles/test_css_validation_only.dir
+/workspace/build/CMakeFiles/test_complex_syntax_errors.dir
 /workspace/build/CMakeFiles/edit_cache.dir
 /workspace/build/CMakeFiles/rebuild_cache.dir

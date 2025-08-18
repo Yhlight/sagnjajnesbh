@@ -51,6 +51,10 @@ target_link_libraries(test_minimal_css chtl_css_compiler)
 add_executable(test_css_validation_only test/test_css_validation_only.cpp)
 target_link_libraries(test_css_validation_only chtl_css_compiler)
 
+# 复杂语法错误测试
+add_executable(test_complex_syntax_errors test/test_complex_syntax_errors.cpp)
+target_link_libraries(test_complex_syntax_errors chtl_css_compiler chtl_js_compiler_antlr)
+
 # 设置输出目录
 set_target_properties(
     chtl_shared_min chtl_css_compiler chtl_js_compiler_antlr
@@ -58,6 +62,6 @@ set_target_properties(
 )
 
 set_target_properties(
-    test_antlr_compilers test_antlr_basic test_minimal_css test_css_validation_only
+    test_antlr_compilers test_antlr_basic test_minimal_css test_css_validation_only test_complex_syntax_errors
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )

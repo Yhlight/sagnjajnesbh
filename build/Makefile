@@ -207,6 +207,19 @@ test_css_validation_only/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_css_validation_only.dir/build.make CMakeFiles/test_css_validation_only.dir/build
 .PHONY : test_css_validation_only/fast
 
+#=============================================================================
+# Target rules for targets named test_complex_syntax_errors
+
+# Build rule for target.
+test_complex_syntax_errors: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_complex_syntax_errors
+.PHONY : test_complex_syntax_errors
+
+# fast build rule for target.
+test_complex_syntax_errors/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complex_syntax_errors.dir/build.make CMakeFiles/test_complex_syntax_errors.dir/build
+.PHONY : test_complex_syntax_errors/fast
+
 src/CSSCompiler/Core/CSSCompilerCore.o: src/CSSCompiler/Core/CSSCompilerCore.cpp.o
 .PHONY : src/CSSCompiler/Core/CSSCompilerCore.o
 
@@ -567,6 +580,30 @@ test/test_antlr_compilers.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_compilers.dir/build.make CMakeFiles/test_antlr_compilers.dir/test/test_antlr_compilers.cpp.s
 .PHONY : test/test_antlr_compilers.cpp.s
 
+test/test_complex_syntax_errors.o: test/test_complex_syntax_errors.cpp.o
+.PHONY : test/test_complex_syntax_errors.o
+
+# target to build an object file
+test/test_complex_syntax_errors.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complex_syntax_errors.dir/build.make CMakeFiles/test_complex_syntax_errors.dir/test/test_complex_syntax_errors.cpp.o
+.PHONY : test/test_complex_syntax_errors.cpp.o
+
+test/test_complex_syntax_errors.i: test/test_complex_syntax_errors.cpp.i
+.PHONY : test/test_complex_syntax_errors.i
+
+# target to preprocess a source file
+test/test_complex_syntax_errors.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complex_syntax_errors.dir/build.make CMakeFiles/test_complex_syntax_errors.dir/test/test_complex_syntax_errors.cpp.i
+.PHONY : test/test_complex_syntax_errors.cpp.i
+
+test/test_complex_syntax_errors.s: test/test_complex_syntax_errors.cpp.s
+.PHONY : test/test_complex_syntax_errors.s
+
+# target to generate assembly for a file
+test/test_complex_syntax_errors.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complex_syntax_errors.dir/build.make CMakeFiles/test_complex_syntax_errors.dir/test/test_complex_syntax_errors.cpp.s
+.PHONY : test/test_complex_syntax_errors.cpp.s
+
 test/test_css_validation_only.o: test/test_css_validation_only.cpp.o
 .PHONY : test/test_css_validation_only.o
 
@@ -628,6 +665,7 @@ help:
 	@echo "... chtl_shared_min"
 	@echo "... test_antlr_basic"
 	@echo "... test_antlr_compilers"
+	@echo "... test_complex_syntax_errors"
 	@echo "... test_css_validation_only"
 	@echo "... test_minimal_css"
 	@echo "... src/CSSCompiler/Core/CSSCompilerCore.o"
@@ -675,6 +713,9 @@ help:
 	@echo "... test/test_antlr_compilers.o"
 	@echo "... test/test_antlr_compilers.i"
 	@echo "... test/test_antlr_compilers.s"
+	@echo "... test/test_complex_syntax_errors.o"
+	@echo "... test/test_complex_syntax_errors.i"
+	@echo "... test/test_complex_syntax_errors.s"
 	@echo "... test/test_css_validation_only.o"
 	@echo "... test/test_css_validation_only.i"
 	@echo "... test/test_css_validation_only.s"
