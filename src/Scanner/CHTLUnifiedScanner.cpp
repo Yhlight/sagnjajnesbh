@@ -46,25 +46,71 @@ CHTLUnifiedScanner::ScanResult CHTLUnifiedScanner::scanCode(const std::string& c
 }
 
 std::vector<CHTLUnifiedScanner::CodeFragment> CHTLUnifiedScanner::contextAwareScan(const std::string& code) {
-    // 基于上下文的精确扫描，不将无修饰字面量作为CHTL JS判断条件
-    // 严格按照CHTL语法文档实现，只使用头文件中声明的方法
+    // 基于上下文的精确扫描，实现可变长度切片机制
+    // 严格按照CHTL语法文档和您的架构要求实现
     
     std::vector<CodeFragment> fragments;
+    std::vector<std::string> contextStack;
     
     if (code.empty()) {
         return fragments;
     }
     
-    // 创建一个基础片段用于测试
-    CodeFragment fragment;
-    fragment.content = code;
-    fragment.context = CodeContext::CHTL_GLOBAL;
-    fragment.startPosition = 0;
-    fragment.endPosition = code.length();
-    fragment.nestingLevel = 0;
-    fragment.parentContext = "global";
+    size_t position = 0;
+    size_t codeLength = code.length();
     
-    fragments.push_back(fragment);
+    // 实现可变长度切片机制
+    while (position < codeLength) {
+        // 更新上下文栈
+        updateContextStack(code, position, contextStack);
+        
+        // 识别当前上下文
+        CodeContext currentContext = identifyContext(code, position, contextStack);
+        
+        // 1. 扫描器单次读取一个代码片段
+        size_t fragmentStart = position;
+        size_t fragmentEnd = findBasicFragmentEnd(code, position, currentContext);
+        
+        // 2. 检查下一个片段的起始部分是否可能与当前片段组成完整的CHTL或CHTL JS代码片段
+        if (fragmentEnd < codeLength) {
+            size_t nextStart = findNextNonWhitespace(code, fragmentEnd);
+            
+            if (checkFragmentCompleteness(code, fragmentEnd, nextStart)) {
+                // 3. 若判定为可组成完整片段，则向前扩增指定长度的切片范围
+                fragmentEnd = expandSliceRange(code, fragmentEnd, 100);
+            }
+        }
+        
+        if (fragmentEnd > fragmentStart) {
+            // 创建代码片段
+            std::string fragmentContent = code.substr(fragmentStart, fragmentEnd - fragmentStart);
+            
+            // 4. 按CHTL/CHTL JS的最小语法单元进行二次切割
+            std::vector<std::string> minimalUnits = performMinimalUnitSlicing(fragmentContent);
+            
+            // 为每个最小单元创建片段
+            for (const auto& unit : minimalUnits) {
+                if (!unit.empty() && !std::all_of(unit.begin(), unit.end(), ::isspace)) {
+                    CodeFragment fragment;
+                    fragment.content = unit;
+                    fragment.context = currentContext;
+                    fragment.startPosition = fragmentStart;
+                    fragment.endPosition = fragmentEnd;
+                    fragment.nestingLevel = static_cast<int>(contextStack.size());
+                    fragment.parentContext = getCurrentContext(contextStack);
+                    
+                    fragments.push_back(fragment);
+                }
+            }
+            
+            position = fragmentEnd;
+        } else {
+            position++;
+        }
+    }
+    
+    // 5. 适当聚合连续片段，避免过度细分
+    fragments = aggregateConsecutiveFragments(fragments);
     
     return fragments;
 }
