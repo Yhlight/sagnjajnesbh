@@ -158,3 +158,25 @@ set_target_properties(
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+# 新的CJMOD框架
+set(NEW_CJMOD_SOURCES
+    src/CHTLJSCompiler/Module/CJMODFramework.cpp
+    src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp
+)
+
+# 新CJMOD框架库
+add_library(chtl_new_cjmod STATIC ${NEW_CJMOD_SOURCES})
+target_link_libraries(chtl_new_cjmod chtl_shared)
+
+# 新CJMOD框架测试
+add_executable(test_new_cjmod_framework test/test_new_cjmod_framework.cpp)
+target_link_libraries(test_new_cjmod_framework chtl_new_cjmod)
+
+# 更新输出目录设置
+set_target_properties(
+    chtl_new_cjmod test_new_cjmod_framework
+    PROPERTIES 
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)

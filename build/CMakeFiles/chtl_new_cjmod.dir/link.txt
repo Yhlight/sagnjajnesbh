@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libchtl_new_cjmod.a CMakeFiles/chtl_new_cjmod.dir/src/CHTLJSCompiler/Module/CJMODFramework.cpp.o CMakeFiles/chtl_new_cjmod.dir/src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.o
+/usr/bin/ranlib lib/libchtl_new_cjmod.a

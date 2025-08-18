@@ -357,6 +357,32 @@ test_chtholly_module/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtholly_module.dir/build.make CMakeFiles/test_chtholly_module.dir/build
 .PHONY : test_chtholly_module/fast
 
+#=============================================================================
+# Target rules for targets named chtl_new_cjmod
+
+# Build rule for target.
+chtl_new_cjmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_new_cjmod
+.PHONY : chtl_new_cjmod
+
+# fast build rule for target.
+chtl_new_cjmod/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_new_cjmod.dir/build.make CMakeFiles/chtl_new_cjmod.dir/build
+.PHONY : chtl_new_cjmod/fast
+
+#=============================================================================
+# Target rules for targets named test_new_cjmod_framework
+
+# Build rule for target.
+test_new_cjmod_framework: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_new_cjmod_framework
+.PHONY : test_new_cjmod_framework
+
+# fast build rule for target.
+test_new_cjmod_framework/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_new_cjmod_framework.dir/build.make CMakeFiles/test_new_cjmod_framework.dir/build
+.PHONY : test_new_cjmod_framework/fast
+
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
@@ -668,6 +694,54 @@ src/CHTLJSCompiler/Lexer/CHTLJSToken.s: src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp
 src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler.dir/build.make CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.s
 .PHONY : src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.s
+
+src/CHTLJSCompiler/Module/CHTLJSIntegration.o: src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.o
+.PHONY : src/CHTLJSCompiler/Module/CHTLJSIntegration.o
+
+# target to build an object file
+src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_new_cjmod.dir/build.make CMakeFiles/chtl_new_cjmod.dir/src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.o
+.PHONY : src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.o
+
+src/CHTLJSCompiler/Module/CHTLJSIntegration.i: src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.i
+.PHONY : src/CHTLJSCompiler/Module/CHTLJSIntegration.i
+
+# target to preprocess a source file
+src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_new_cjmod.dir/build.make CMakeFiles/chtl_new_cjmod.dir/src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.i
+.PHONY : src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.i
+
+src/CHTLJSCompiler/Module/CHTLJSIntegration.s: src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.s
+.PHONY : src/CHTLJSCompiler/Module/CHTLJSIntegration.s
+
+# target to generate assembly for a file
+src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_new_cjmod.dir/build.make CMakeFiles/chtl_new_cjmod.dir/src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.s
+.PHONY : src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp.s
+
+src/CHTLJSCompiler/Module/CJMODFramework.o: src/CHTLJSCompiler/Module/CJMODFramework.cpp.o
+.PHONY : src/CHTLJSCompiler/Module/CJMODFramework.o
+
+# target to build an object file
+src/CHTLJSCompiler/Module/CJMODFramework.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_new_cjmod.dir/build.make CMakeFiles/chtl_new_cjmod.dir/src/CHTLJSCompiler/Module/CJMODFramework.cpp.o
+.PHONY : src/CHTLJSCompiler/Module/CJMODFramework.cpp.o
+
+src/CHTLJSCompiler/Module/CJMODFramework.i: src/CHTLJSCompiler/Module/CJMODFramework.cpp.i
+.PHONY : src/CHTLJSCompiler/Module/CJMODFramework.i
+
+# target to preprocess a source file
+src/CHTLJSCompiler/Module/CJMODFramework.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_new_cjmod.dir/build.make CMakeFiles/chtl_new_cjmod.dir/src/CHTLJSCompiler/Module/CJMODFramework.cpp.i
+.PHONY : src/CHTLJSCompiler/Module/CJMODFramework.cpp.i
+
+src/CHTLJSCompiler/Module/CJMODFramework.s: src/CHTLJSCompiler/Module/CJMODFramework.cpp.s
+.PHONY : src/CHTLJSCompiler/Module/CJMODFramework.s
+
+# target to generate assembly for a file
+src/CHTLJSCompiler/Module/CJMODFramework.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_new_cjmod.dir/build.make CMakeFiles/chtl_new_cjmod.dir/src/CHTLJSCompiler/Module/CJMODFramework.cpp.s
+.PHONY : src/CHTLJSCompiler/Module/CJMODFramework.cpp.s
 
 src/CHTLJSCompiler/Module/CJmodManager.o: src/CHTLJSCompiler/Module/CJmodManager.cpp.o
 .PHONY : src/CHTLJSCompiler/Module/CJmodManager.o
@@ -1101,6 +1175,30 @@ test/test_chtljs_enhanced_functions.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/test/test_chtljs_enhanced_functions.cpp.s
 .PHONY : test/test_chtljs_enhanced_functions.cpp.s
 
+test/test_new_cjmod_framework.o: test/test_new_cjmod_framework.cpp.o
+.PHONY : test/test_new_cjmod_framework.o
+
+# target to build an object file
+test/test_new_cjmod_framework.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_new_cjmod_framework.dir/build.make CMakeFiles/test_new_cjmod_framework.dir/test/test_new_cjmod_framework.cpp.o
+.PHONY : test/test_new_cjmod_framework.cpp.o
+
+test/test_new_cjmod_framework.i: test/test_new_cjmod_framework.cpp.i
+.PHONY : test/test_new_cjmod_framework.i
+
+# target to preprocess a source file
+test/test_new_cjmod_framework.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_new_cjmod_framework.dir/build.make CMakeFiles/test_new_cjmod_framework.dir/test/test_new_cjmod_framework.cpp.i
+.PHONY : test/test_new_cjmod_framework.cpp.i
+
+test/test_new_cjmod_framework.s: test/test_new_cjmod_framework.cpp.s
+.PHONY : test/test_new_cjmod_framework.s
+
+# target to generate assembly for a file
+test/test_new_cjmod_framework.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_new_cjmod_framework.dir/build.make CMakeFiles/test_new_cjmod_framework.dir/test/test_new_cjmod_framework.cpp.s
+.PHONY : test/test_new_cjmod_framework.cpp.s
+
 test/test_syntax_constraints.o: test/test_syntax_constraints.cpp.o
 .PHONY : test/test_syntax_constraints.o
 
@@ -1189,6 +1287,7 @@ help:
 	@echo "... chtl_compiler"
 	@echo "... chtl_js_compiler"
 	@echo "... chtl_js_enhanced"
+	@echo "... chtl_new_cjmod"
 	@echo "... chtl_shared"
 	@echo "... test_auto_addition"
 	@echo "... test_chtholly_module"
@@ -1196,6 +1295,7 @@ help:
 	@echo "... test_chtl_compiler_simple"
 	@echo "... test_chtl_js_lexer"
 	@echo "... test_chtljs_enhanced_functions"
+	@echo "... test_new_cjmod_framework"
 	@echo "... test_syntax_constraints"
 	@echo "... test_undecorated_literals"
 	@echo "... test_unified_scanner"
@@ -1239,6 +1339,12 @@ help:
 	@echo "... src/CHTLJSCompiler/Lexer/CHTLJSToken.o"
 	@echo "... src/CHTLJSCompiler/Lexer/CHTLJSToken.i"
 	@echo "... src/CHTLJSCompiler/Lexer/CHTLJSToken.s"
+	@echo "... src/CHTLJSCompiler/Module/CHTLJSIntegration.o"
+	@echo "... src/CHTLJSCompiler/Module/CHTLJSIntegration.i"
+	@echo "... src/CHTLJSCompiler/Module/CHTLJSIntegration.s"
+	@echo "... src/CHTLJSCompiler/Module/CJMODFramework.o"
+	@echo "... src/CHTLJSCompiler/Module/CJMODFramework.i"
+	@echo "... src/CHTLJSCompiler/Module/CJMODFramework.s"
 	@echo "... src/CHTLJSCompiler/Module/CJmodManager.o"
 	@echo "... src/CHTLJSCompiler/Module/CJmodManager.i"
 	@echo "... src/CHTLJSCompiler/Module/CJmodManager.s"
@@ -1293,6 +1399,9 @@ help:
 	@echo "... test/test_chtljs_enhanced_functions.o"
 	@echo "... test/test_chtljs_enhanced_functions.i"
 	@echo "... test/test_chtljs_enhanced_functions.s"
+	@echo "... test/test_new_cjmod_framework.o"
+	@echo "... test/test_new_cjmod_framework.i"
+	@echo "... test/test_new_cjmod_framework.s"
 	@echo "... test/test_syntax_constraints.o"
 	@echo "... test/test_syntax_constraints.i"
 	@echo "... test/test_syntax_constraints.s"
