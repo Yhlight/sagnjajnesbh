@@ -18,13 +18,13 @@ ChthollyLoader = 珂朵莉风格的加载动画组件，使用心形符号的脉
 ChthollyNotification = 珂朵莉风格的通知组件，具有温柔的渐变背景和滑入动画
 
 [Variables]
-$primary-color = #FFB6C1 ; 浅粉色 - 珂朵莉的温柔
-$secondary-color = #FFA0B4 ; 玫瑰粉 - 珂朵莉的坚强  
-$accent-color = #FF69B4 ; 热粉色 - 珂朵莉的活力
-$text-color = #2F2F2F ; 深灰色 - 温暖的文字
-$background-color = #FFF5F8 ; 粉白色 - 纯净的背景
-$chtholly-gradient = linear-gradient(135deg, $primary-color, $secondary-color)
-$sunset-gradient = linear-gradient(180deg, #FFB6C1, #FFA0B4, #FF8FA3)
+primary-color = #FFB6C1 ; 浅粉色 - 珂朵莉的温柔
+secondary-color = #FFA0B4 ; 玫瑰粉 - 珂朵莉的坚强  
+accent-color = #FF69B4 ; 热粉色 - 珂朵莉的活力
+text-color = #2F2F2F ; 深灰色 - 温暖的文字
+background-color = #FFF5F8 ; 粉白色 - 纯净的背景
+chtholly-gradient = linear-gradient(135deg, primary-color, secondary-color)
+sunset-gradient = linear-gradient(180deg, #FFB6C1, #FFA0B4, #FF8FA3)
 
 [Styles]
 chtholly-btn = 珂朵莉按钮的核心样式类

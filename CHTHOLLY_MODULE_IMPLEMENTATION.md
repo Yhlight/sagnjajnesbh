@@ -134,14 +134,14 @@ class INeverAwayManager {
 
 **色彩体系**：
 ```chtl
-@var $primary-color: #FFB6C1;      // 浅粉色 - 珂朵莉的温柔
-@var $secondary-color: #FFA0B4;    // 玫瑰粉 - 珂朵莉的坚强
-@var $accent-color: #FF69B4;       // 热粉色 - 珂朵莉的活力
-@var $text-color: #2F2F2F;         // 深灰色 - 温暖的文字
-@var $background-color: #FFF5F8;   // 粉白色 - 纯净的背景
+$primary-color: #FFB6C1;      // 浅粉色 - 珂朵莉的温柔
+$secondary-color: #FFA0B4;    // 玫瑰粉 - 珂朵莉的坚强
+$accent-color: #FF69B4;       // 热粉色 - 珂朵莉的活力
+$text-color: #2F2F2F;         // 深灰色 - 温暖的文字
+$background-color: #FFF5F8;   // 粉白色 - 纯净的背景
 
-@var $chtholly-gradient: linear-gradient(135deg, $primary-color, $secondary-color);
-@var $sunset-gradient: linear-gradient(180deg, #FFB6C1, #FFA0B4, #FF8FA3);
+$chtholly-gradient: linear-gradient(135deg, $primary-color, $secondary-color);
+$sunset-gradient: linear-gradient(180deg, #FFB6C1, #FFA0B4, #FF8FA3);
 ```
 
 #### **🌸 完整UI组件库**
