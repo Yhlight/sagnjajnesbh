@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libchtl_test_framework.a CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestBase.cpp.o CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestRunner.cpp.o CMakeFiles/chtl_test_framework.dir/src/Test/Utils/TestUtils.cpp.o CMakeFiles/chtl_test_framework.dir/src/Test/Mocks/MockFileSystem.cpp.o
+/usr/bin/ranlib lib/libchtl_test_framework.a

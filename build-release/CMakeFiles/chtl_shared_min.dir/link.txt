@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libchtl_shared_min.a CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.o CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.o CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.o
+/usr/bin/ranlib lib/libchtl_shared_min.a
