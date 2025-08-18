@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libchtl_antlr_parsers.a CMakeFiles/chtl_antlr_parsers.dir/src/CSSCompiler/Parser/CSS3Lexer.cpp.o CMakeFiles/chtl_antlr_parsers.dir/src/CSSCompiler/Parser/CSS3Parser.cpp.o CMakeFiles/chtl_antlr_parsers.dir/src/CSSCompiler/Parser/CSS3BaseListener.cpp.o CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptBaseListener.cpp.o
+/usr/bin/ranlib lib/libchtl_antlr_parsers.a

@@ -211,3 +211,77 @@ set_target_properties(
     PROPERTIES 
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+# ANTLR 4集成
+set(ANTLR4_ROOT /workspace/external/antlr4-install)
+set(ANTLR4_INCLUDE_DIRS ${ANTLR4_ROOT}/include/antlr4-runtime)
+set(ANTLR4_LIBRARIES ${ANTLR4_ROOT}/lib/libantlr4-runtime.a)
+
+# CSS编译器 (ANTLR集成)
+set(CSS_COMPILER_SOURCES
+    src/CSSCompiler/Parser/CSS3Lexer.cpp
+    src/CSSCompiler/Parser/CSS3Parser.cpp
+    src/CSSCompiler/Parser/CSS3BaseListener.cpp
+    src/CSSCompiler/Parser/CSS3Listener.cpp
+    src/CSSCompiler/Core/CSSCompilerCore.cpp
+)
+
+# JavaScript编译器 (ANTLR集成)
+set(JS_COMPILER_SOURCES
+    src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParser.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptBaseListener.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptListener.cpp
+    src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp
+)
+
+# CSS编译器库
+add_library(chtl_css_antlr STATIC ${CSS_COMPILER_SOURCES})
+target_include_directories(chtl_css_antlr PRIVATE ${ANTLR4_INCLUDE_DIRS})
+target_link_libraries(chtl_css_antlr ${ANTLR4_LIBRARIES} chtl_shared)
+
+# JavaScript编译器库
+add_library(chtl_js_antlr STATIC ${JS_COMPILER_SOURCES})
+target_include_directories(chtl_js_antlr PRIVATE ${ANTLR4_INCLUDE_DIRS})
+target_link_libraries(chtl_js_antlr ${ANTLR4_LIBRARIES} chtl_shared)
+
+# ANTLR集成测试
+add_executable(test_antlr_integration test/test_antlr_integration.cpp)
+target_include_directories(test_antlr_integration PRIVATE ${ANTLR4_INCLUDE_DIRS})
+target_link_libraries(test_antlr_integration chtl_css_antlr chtl_js_antlr)
+
+# 更新输出目录设置
+set_target_properties(
+    chtl_css_antlr chtl_js_antlr test_antlr_integration
+    PROPERTIES 
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+# 简单ANTLR测试 (只测试解析器)
+set(ANTLR_PARSER_SOURCES
+    src/CSSCompiler/Parser/CSS3Lexer.cpp
+    src/CSSCompiler/Parser/CSS3Parser.cpp
+    src/CSSCompiler/Parser/CSS3BaseListener.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParser.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptBaseListener.cpp
+)
+
+add_library(chtl_antlr_parsers STATIC ${ANTLR_PARSER_SOURCES})
+target_include_directories(chtl_antlr_parsers PRIVATE ${ANTLR4_INCLUDE_DIRS})
+target_link_libraries(chtl_antlr_parsers ${ANTLR4_LIBRARIES})
+
+# 简单测试可执行文件
+add_executable(test_antlr_basic 
+    test/test_antlr_basic.cpp
+)
+target_include_directories(test_antlr_basic PRIVATE ${ANTLR4_INCLUDE_DIRS})
+target_link_libraries(test_antlr_basic chtl_antlr_parsers)
+
+set_target_properties(
+    chtl_antlr_parsers test_antlr_basic
+    PROPERTIES 
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)

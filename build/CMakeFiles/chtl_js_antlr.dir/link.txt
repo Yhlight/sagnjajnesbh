@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libchtl_js_antlr.a CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptBaseListener.cpp.o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptListener.cpp.o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o
+/usr/bin/ranlib lib/libchtl_js_antlr.a

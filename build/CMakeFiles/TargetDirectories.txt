@@ -20,6 +20,11 @@
 /workspace/build/CMakeFiles/chtl_unlimited_cjmod.dir
 /workspace/build/CMakeFiles/test_unlimited_cjmod_core.dir
 /workspace/build/CMakeFiles/test_unlimited_cjmod_simple.dir
+/workspace/build/CMakeFiles/chtl_css_antlr.dir
+/workspace/build/CMakeFiles/chtl_js_antlr.dir
+/workspace/build/CMakeFiles/test_antlr_integration.dir
+/workspace/build/CMakeFiles/chtl_antlr_parsers.dir
+/workspace/build/CMakeFiles/test_antlr_basic.dir
 /workspace/build/CMakeFiles/package.dir
 /workspace/build/CMakeFiles/package_source.dir
 /workspace/build/CMakeFiles/edit_cache.dir
