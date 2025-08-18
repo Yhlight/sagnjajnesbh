@@ -1,0 +1,15 @@
+// iNeverAway 功能信息
+[Info]
+{
+    name = "iNeverAway";
+    version = "1.0.0";
+    description = "珂朵莉虚拟对象功能 - 创建标记函数和状态重载";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "virtual-object";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+// CJMOD不需要[Export]节，由系统自动管理

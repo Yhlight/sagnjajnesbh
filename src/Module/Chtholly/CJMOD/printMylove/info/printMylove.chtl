@@ -1,0 +1,15 @@
+// printMylove 功能信息
+[Info]
+{
+    name = "printMylove";
+    version = "1.0.0";
+    description = "珂朵莉图像转字符功能 - 将图片转换成ASCII或像素字符";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "image-processing";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+// CJMOD不需要[Export]节，由系统自动管理
