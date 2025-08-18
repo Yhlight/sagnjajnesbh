@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libchtl_unlimited_cjmod.a CMakeFiles/chtl_unlimited_cjmod.dir/src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.o
+/usr/bin/ranlib lib/libchtl_unlimited_cjmod.a

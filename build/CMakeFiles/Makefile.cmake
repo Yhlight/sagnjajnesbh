@@ -68,4 +68,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_chtholly_module.dir/DependInfo.cmake"
   "CMakeFiles/chtl_new_cjmod.dir/DependInfo.cmake"
   "CMakeFiles/test_new_cjmod_framework.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_unlimited_cjmod.dir/DependInfo.cmake"
+  "CMakeFiles/test_unlimited_cjmod_core.dir/DependInfo.cmake"
+  "CMakeFiles/test_unlimited_cjmod_simple.dir/DependInfo.cmake"
   )

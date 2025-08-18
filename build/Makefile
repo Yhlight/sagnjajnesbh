@@ -383,6 +383,45 @@ test_new_cjmod_framework/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_new_cjmod_framework.dir/build.make CMakeFiles/test_new_cjmod_framework.dir/build
 .PHONY : test_new_cjmod_framework/fast
 
+#=============================================================================
+# Target rules for targets named chtl_unlimited_cjmod
+
+# Build rule for target.
+chtl_unlimited_cjmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_unlimited_cjmod
+.PHONY : chtl_unlimited_cjmod
+
+# fast build rule for target.
+chtl_unlimited_cjmod/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_unlimited_cjmod.dir/build.make CMakeFiles/chtl_unlimited_cjmod.dir/build
+.PHONY : chtl_unlimited_cjmod/fast
+
+#=============================================================================
+# Target rules for targets named test_unlimited_cjmod_core
+
+# Build rule for target.
+test_unlimited_cjmod_core: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_unlimited_cjmod_core
+.PHONY : test_unlimited_cjmod_core
+
+# fast build rule for target.
+test_unlimited_cjmod_core/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_core.dir/build.make CMakeFiles/test_unlimited_cjmod_core.dir/build
+.PHONY : test_unlimited_cjmod_core/fast
+
+#=============================================================================
+# Target rules for targets named test_unlimited_cjmod_simple
+
+# Build rule for target.
+test_unlimited_cjmod_simple: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_unlimited_cjmod_simple
+.PHONY : test_unlimited_cjmod_simple
+
+# fast build rule for target.
+test_unlimited_cjmod_simple/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_simple.dir/build.make CMakeFiles/test_unlimited_cjmod_simple.dir/build
+.PHONY : test_unlimited_cjmod_simple/fast
+
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
@@ -766,6 +805,30 @@ src/CHTLJSCompiler/Module/CJmodManager.s: src/CHTLJSCompiler/Module/CJmodManager
 src/CHTLJSCompiler/Module/CJmodManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler.dir/build.make CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.s
 .PHONY : src/CHTLJSCompiler/Module/CJmodManager.cpp.s
+
+src/CHTLJSCompiler/Module/UnlimitedCJMOD.o: src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.o
+.PHONY : src/CHTLJSCompiler/Module/UnlimitedCJMOD.o
+
+# target to build an object file
+src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_unlimited_cjmod.dir/build.make CMakeFiles/chtl_unlimited_cjmod.dir/src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.o
+.PHONY : src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.o
+
+src/CHTLJSCompiler/Module/UnlimitedCJMOD.i: src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.i
+.PHONY : src/CHTLJSCompiler/Module/UnlimitedCJMOD.i
+
+# target to preprocess a source file
+src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_unlimited_cjmod.dir/build.make CMakeFiles/chtl_unlimited_cjmod.dir/src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.i
+.PHONY : src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.i
+
+src/CHTLJSCompiler/Module/UnlimitedCJMOD.s: src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.s
+.PHONY : src/CHTLJSCompiler/Module/UnlimitedCJMOD.s
+
+# target to generate assembly for a file
+src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_unlimited_cjmod.dir/build.make CMakeFiles/chtl_unlimited_cjmod.dir/src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.s
+.PHONY : src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp.s
 
 src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.o: src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o
 .PHONY : src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.o
@@ -1271,6 +1334,54 @@ test/test_unified_scanner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/test/test_unified_scanner.cpp.s
 .PHONY : test/test_unified_scanner.cpp.s
 
+test/test_unlimited_cjmod_core.o: test/test_unlimited_cjmod_core.cpp.o
+.PHONY : test/test_unlimited_cjmod_core.o
+
+# target to build an object file
+test/test_unlimited_cjmod_core.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_core.dir/build.make CMakeFiles/test_unlimited_cjmod_core.dir/test/test_unlimited_cjmod_core.cpp.o
+.PHONY : test/test_unlimited_cjmod_core.cpp.o
+
+test/test_unlimited_cjmod_core.i: test/test_unlimited_cjmod_core.cpp.i
+.PHONY : test/test_unlimited_cjmod_core.i
+
+# target to preprocess a source file
+test/test_unlimited_cjmod_core.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_core.dir/build.make CMakeFiles/test_unlimited_cjmod_core.dir/test/test_unlimited_cjmod_core.cpp.i
+.PHONY : test/test_unlimited_cjmod_core.cpp.i
+
+test/test_unlimited_cjmod_core.s: test/test_unlimited_cjmod_core.cpp.s
+.PHONY : test/test_unlimited_cjmod_core.s
+
+# target to generate assembly for a file
+test/test_unlimited_cjmod_core.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_core.dir/build.make CMakeFiles/test_unlimited_cjmod_core.dir/test/test_unlimited_cjmod_core.cpp.s
+.PHONY : test/test_unlimited_cjmod_core.cpp.s
+
+test/test_unlimited_cjmod_simple.o: test/test_unlimited_cjmod_simple.cpp.o
+.PHONY : test/test_unlimited_cjmod_simple.o
+
+# target to build an object file
+test/test_unlimited_cjmod_simple.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_simple.dir/build.make CMakeFiles/test_unlimited_cjmod_simple.dir/test/test_unlimited_cjmod_simple.cpp.o
+.PHONY : test/test_unlimited_cjmod_simple.cpp.o
+
+test/test_unlimited_cjmod_simple.i: test/test_unlimited_cjmod_simple.cpp.i
+.PHONY : test/test_unlimited_cjmod_simple.i
+
+# target to preprocess a source file
+test/test_unlimited_cjmod_simple.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_simple.dir/build.make CMakeFiles/test_unlimited_cjmod_simple.dir/test/test_unlimited_cjmod_simple.cpp.i
+.PHONY : test/test_unlimited_cjmod_simple.cpp.i
+
+test/test_unlimited_cjmod_simple.s: test/test_unlimited_cjmod_simple.cpp.s
+.PHONY : test/test_unlimited_cjmod_simple.s
+
+# target to generate assembly for a file
+test/test_unlimited_cjmod_simple.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_simple.dir/build.make CMakeFiles/test_unlimited_cjmod_simple.dir/test/test_unlimited_cjmod_simple.cpp.s
+.PHONY : test/test_unlimited_cjmod_simple.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1289,6 +1400,7 @@ help:
 	@echo "... chtl_js_enhanced"
 	@echo "... chtl_new_cjmod"
 	@echo "... chtl_shared"
+	@echo "... chtl_unlimited_cjmod"
 	@echo "... test_auto_addition"
 	@echo "... test_chtholly_module"
 	@echo "... test_chtl_compiler"
@@ -1299,6 +1411,8 @@ help:
 	@echo "... test_syntax_constraints"
 	@echo "... test_undecorated_literals"
 	@echo "... test_unified_scanner"
+	@echo "... test_unlimited_cjmod_core"
+	@echo "... test_unlimited_cjmod_simple"
 	@echo "... unified_core"
 	@echo "... src/CHTLCompiler/AST/CHTLNodes.o"
 	@echo "... src/CHTLCompiler/AST/CHTLNodes.i"
@@ -1348,6 +1462,9 @@ help:
 	@echo "... src/CHTLJSCompiler/Module/CJmodManager.o"
 	@echo "... src/CHTLJSCompiler/Module/CJmodManager.i"
 	@echo "... src/CHTLJSCompiler/Module/CJmodManager.s"
+	@echo "... src/CHTLJSCompiler/Module/UnlimitedCJMOD.o"
+	@echo "... src/CHTLJSCompiler/Module/UnlimitedCJMOD.i"
+	@echo "... src/CHTLJSCompiler/Module/UnlimitedCJMOD.s"
 	@echo "... src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.o"
 	@echo "... src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.i"
 	@echo "... src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.s"
@@ -1411,6 +1528,12 @@ help:
 	@echo "... test/test_unified_scanner.o"
 	@echo "... test/test_unified_scanner.i"
 	@echo "... test/test_unified_scanner.s"
+	@echo "... test/test_unlimited_cjmod_core.o"
+	@echo "... test/test_unlimited_cjmod_core.i"
+	@echo "... test/test_unlimited_cjmod_core.s"
+	@echo "... test/test_unlimited_cjmod_simple.o"
+	@echo "... test/test_unlimited_cjmod_simple.i"
+	@echo "... test/test_unlimited_cjmod_simple.s"
 .PHONY : help
 
 

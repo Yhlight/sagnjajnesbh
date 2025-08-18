@@ -180,3 +180,34 @@ set_target_properties(
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+# 无限制CJMOD框架
+set(UNLIMITED_CJMOD_SOURCES
+    src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp
+)
+
+# 无限制CJMOD库
+add_library(chtl_unlimited_cjmod STATIC ${UNLIMITED_CJMOD_SOURCES})
+target_link_libraries(chtl_unlimited_cjmod chtl_shared)
+
+# 无限制CJMOD核心测试
+add_executable(test_unlimited_cjmod_core test/test_unlimited_cjmod_core.cpp)
+target_link_libraries(test_unlimited_cjmod_core chtl_unlimited_cjmod)
+
+# 更新输出目录设置
+set_target_properties(
+    chtl_unlimited_cjmod test_unlimited_cjmod_core
+    PROPERTIES 
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+# 无限制CJMOD简单测试
+add_executable(test_unlimited_cjmod_simple test/test_unlimited_cjmod_simple.cpp)
+target_link_libraries(test_unlimited_cjmod_simple chtl_unlimited_cjmod)
+
+set_target_properties(
+    test_unlimited_cjmod_simple
+    PROPERTIES 
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)

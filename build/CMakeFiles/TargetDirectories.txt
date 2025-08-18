@@ -17,6 +17,9 @@
 /workspace/build/CMakeFiles/test_chtholly_module.dir
 /workspace/build/CMakeFiles/chtl_new_cjmod.dir
 /workspace/build/CMakeFiles/test_new_cjmod_framework.dir
+/workspace/build/CMakeFiles/chtl_unlimited_cjmod.dir
+/workspace/build/CMakeFiles/test_unlimited_cjmod_core.dir
+/workspace/build/CMakeFiles/test_unlimited_cjmod_simple.dir
 /workspace/build/CMakeFiles/package.dir
 /workspace/build/CMakeFiles/package_source.dir
 /workspace/build/CMakeFiles/edit_cache.dir
