@@ -49,6 +49,9 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/chtl_scanner_working.dir/DependInfo.cmake"
-  "CMakeFiles/test_scanner_working.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_scanner.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_common.dir/DependInfo.cmake"
+  "CMakeFiles/chtljs_compiler.dir/DependInfo.cmake"
+  "CMakeFiles/test_working_parts.dir/DependInfo.cmake"
+  "CMakeFiles/test_chtl_syntax_compliance.dir/DependInfo.cmake"
   )

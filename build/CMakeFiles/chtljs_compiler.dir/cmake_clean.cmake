@@ -5,6 +5,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o.d"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o.d"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o.d"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o.d"
   "lib/libchtljs_compiler.a"
   "lib/libchtljs_compiler.pdb"
 )

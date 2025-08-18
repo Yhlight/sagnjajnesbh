@@ -1,4 +1,7 @@
-/workspace/build/CMakeFiles/chtl_scanner_working.dir
-/workspace/build/CMakeFiles/test_scanner_working.dir
+/workspace/build/CMakeFiles/chtl_scanner.dir
+/workspace/build/CMakeFiles/chtl_common.dir
+/workspace/build/CMakeFiles/chtljs_compiler.dir
+/workspace/build/CMakeFiles/test_working_parts.dir
+/workspace/build/CMakeFiles/test_chtl_syntax_compliance.dir
 /workspace/build/CMakeFiles/edit_cache.dir
 /workspace/build/CMakeFiles/rebuild_cache.dir
