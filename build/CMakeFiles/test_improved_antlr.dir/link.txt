@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Xlinker --dependency-file=CMakeFiles/test_improved_antlr.dir/link.d CMakeFiles/test_improved_antlr.dir/test/test_improved_antlr.cpp.o -o bin/test_improved_antlr  lib/libchtl_antlr_parsers.a /workspace/external/antlr4-install/lib/libantlr4-runtime.a

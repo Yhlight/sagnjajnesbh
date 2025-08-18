@@ -1,7 +1,7 @@
 #pragma once
-#include "../Parser/JavaScriptParser.h"
-#include "../Parser/JavaScriptLexer.h"
-#include "../Parser/JavaScriptListener.h"
+#include "../Parser/JavaScriptParser_cpp.h"
+#include "../Parser/JavaScriptLexer_cpp.h"
+#include "../Parser/JavaScriptParser_cppBaseListener.h"
 #include "antlr4-runtime.h"
 #include <string>
 #include <memory>
@@ -24,7 +24,7 @@ public:
     std::string compileJavaScriptFile(const std::string& file_path);
     
     // 解析接口
-    std::unique_ptr<JavaScriptParser::ProgramContext> parseJavaScript(const std::string& js_code);
+    std::unique_ptr<JavaScriptParser_cpp::ProgramContext> parseJavaScript(const std::string& js_code);
     bool validateJavaScript(const std::string& js_code);
     
     // 优化选项
@@ -96,10 +96,10 @@ private:
     std::vector<SourceMapEntry> source_map_entries_;
     
     // 内部处理方法
-    std::string processProgram(JavaScriptParser::ProgramContext* ctx);
-    std::string processStatement(JavaScriptParser::StatementContext* ctx);
-    std::string processDeclaration(JavaScriptParser::DeclarationContext* ctx);
-    std::string processExpression(JavaScriptParser::SingleExpressionContext* ctx);
+    std::string processProgram(JavaScriptParser_cpp::ProgramContext* ctx);
+    std::string processStatement(JavaScriptParser_cpp::StatementContext* ctx);
+    std::string processDeclaration(JavaScriptParser_cpp::DeclarationContext* ctx);
+    std::string processExpression(JavaScriptParser_cpp::SingleExpressionContext* ctx);
     
     // 优化方法
     std::string minifyJavaScript(const std::string& js);
@@ -112,9 +112,12 @@ private:
     std::string processExports(const std::string& js);
     std::string resolveModulePaths(const std::string& js);
     
+public:
     // 错误收集
     void addError(const std::string& error);
     void addWarning(const std::string& warning);
+    
+private:
     
     // 统计更新
     void updateStats(const std::string& input, const std::string& output, double time_ms);
@@ -141,25 +144,16 @@ private:
 /**
  * JavaScript树遍历器 - 处理解析树并生成优化的JavaScript
  */
-class JavaScriptTreeWalker : public JavaScriptBaseListener {
+class JavaScriptTreeWalker : public JavaScriptParser_cppBaseListener {
 public:
     JavaScriptTreeWalker(JavaScriptCompilerCore* compiler) : compiler_(compiler) {}
     
     // 重写监听器方法
-    void enterProgram(JavaScriptParser::ProgramContext *ctx) override;
-    void exitProgram(JavaScriptParser::ProgramContext *ctx) override;
+    void enterProgram(JavaScriptParser_cpp::ProgramContext *ctx) override;
+    void exitProgram(JavaScriptParser_cpp::ProgramContext *ctx) override;
     
-    void enterFunctionDeclaration(JavaScriptParser::FunctionDeclarationContext *ctx) override;
-    void exitFunctionDeclaration(JavaScriptParser::FunctionDeclarationContext *ctx) override;
-    
-    void enterClassDeclaration(JavaScriptParser::ClassDeclarationContext *ctx) override;
-    void exitClassDeclaration(JavaScriptParser::ClassDeclarationContext *ctx) override;
-    
-    void enterVariableDeclaration(JavaScriptParser::VariableDeclarationContext *ctx) override;
-    void exitVariableDeclaration(JavaScriptParser::VariableDeclarationContext *ctx) override;
-    
-    void enterExpressionStatement(JavaScriptParser::ExpressionStatementContext *ctx) override;
-    void exitExpressionStatement(JavaScriptParser::ExpressionStatementContext *ctx) override;
+    void enterFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext *ctx) override;
+    void exitFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext *ctx) override;
     
     // 获取生成的JavaScript
     std::string getGeneratedJavaScript() const { return generated_js_; }
@@ -181,9 +175,9 @@ private:
     std::string processNode(antlr4::tree::ParseTree* ctx);
     
     // 代码生成
-    std::string generateFunction(JavaScriptParser::FunctionDeclarationContext* ctx);
-    std::string generateClass(JavaScriptParser::ClassDeclarationContext* ctx);
-    std::string generateVariable(JavaScriptParser::VariableDeclarationContext* ctx);
+    std::string generateFunction(JavaScriptParser_cpp::FunctionDeclarationContext* ctx);
+    std::string generateClass(JavaScriptParser_cpp::ClassDeclarationContext* ctx);
+    std::string generateVariable(JavaScriptParser_cpp::VariableDeclarationContext* ctx);
 };
 
 /**

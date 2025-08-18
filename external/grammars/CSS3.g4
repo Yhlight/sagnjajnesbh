@@ -1,148 +1,125 @@
-// Simplified CSS3 Grammar based on official ANTLR grammar
-// Adapted for CHTL project without external dependencies
+// Simplified CSS3 Grammar for CHTL CSS Compiler
+// Based on official ANTLR grammars but simplified to avoid generation issues
 
 grammar CSS3;
 
 // Parser Rules
 stylesheet
-    : ( charset | importRule | statement )* EOF
+    : (ruleSet | atRule | COMMENT | WHITESPACE)* EOF
     ;
 
-charset
-    : '@charset' STRING ';'
-    ;
-
-importRule
-    : '@import' ( STRING | URI ) ( MEDIA_LIST )? ';'
-    ;
-
-statement
-    : ruleset
-    | atRule
+ruleSet
+    : selector '{' declaration* '}'
     ;
 
 atRule
-    : '@' IDENTIFIER ( any* )? ( block | ';' )
-    ;
-
-block
-    : '{' ( any | block | ATKEYWORD | ';' )* '}'
-    ;
-
-ruleset
-    : selector ( ',' selector )* '{' declaration? ( ';' declaration? )* '}'
+    : '@' IDENT ('(' expr ')')? ('{' (ruleSet | declaration)* '}' | ';')
     ;
 
 selector
-    : simpleSelector ( combinator simpleSelector )*
+    : simpleSelector (combinator simpleSelector)*
     ;
 
 combinator
-    : '+' | '>' | '~' | ' '
+    : '+' | '>' | '~' | WHITESPACE
     ;
 
 simpleSelector
-    : elementName ( HASH | CLASS | ATTRIB | PSEUDO )*
-    | ( HASH | CLASS | ATTRIB | PSEUDO )+
+    : elementName? (HASH | '.' IDENT | '[' IDENT ('=' (IDENT | STRING))? ']' | ':' IDENT)*
     ;
 
 elementName
-    : IDENTIFIER | '*'
+    : IDENT | '*'
     ;
 
 declaration
-    : property ':' expr ( '!important' )?
+    : property ':' expr ('!important')? ';'?
     ;
 
 property
-    : IDENTIFIER
+    : IDENT
     ;
 
 expr
-    : term ( operator? term )*
+    : term (operator term)*
     ;
 
 term
-    : unaryOperator?
-    ( NUMBER | PERCENTAGE | LENGTH | EMS | EXS | ANGLE | TIME | FREQ | STRING | IDENTIFIER | URI | hexcolor | function )
+    : unaryOperator? (NUMBER | PERCENTAGE | DIMENSION | STRING | IDENT | HASH | url | function_)
     ;
 
-function
-    : FUNCTION expr ')' 
+function_
+    : IDENT '(' expr? ')'
     ;
 
-hexcolor
-    : HASH
+unaryOperator
+    : '+' | '-'
     ;
 
 operator
     : '/' | ','
     ;
 
-unaryOperator
-    : '-' | '+'
-    ;
-
-any
-    : IDENTIFIER | NUMBER | PERCENTAGE | LENGTH | EMS | EXS | ANGLE | TIME | FREQ | STRING | URI | HASH | UNICODE_RANGE | INCLUDES | DASHMATCH | ':' | FUNCTION | '(' any* ')' | '[' any* ']'
+url
+    : 'url(' (STRING | URL_CHARS) ')'
     ;
 
 // Lexer Rules
-fragment NONASCII: ~[\u0000-\u007F];
-fragment UNICODE: '\\' HEX HEX? HEX? HEX? HEX? HEX? ( '\r\n' | [ \t\r\n\f] )?;
-fragment ESCAPE: UNICODE | '\\' ~[\r\n\f0-9a-fA-F];
-fragment NMSTART: [_a-zA-Z] | NONASCII | ESCAPE;
-fragment NMCHAR: [_a-zA-Z0-9\-] | NONASCII | ESCAPE;
-fragment NAME: NMCHAR+;
-fragment HEX: [0-9a-fA-F];
+WHITESPACE : [ \t\r\n\f]+ -> channel(HIDDEN);
+
+COMMENT : '/*' .*? '*/' -> channel(HIDDEN);
 
 STRING
-    : '"' (~[\n\r\f\\"] | '\\' NEWLINE | NONASCII | ESCAPE)* '"'
-    | '\'' (~[\n\r\f\\'] | '\\' NEWLINE | NONASCII | ESCAPE)* '\''
+    : '"' (~["\r\n\f\\] | '\\' .)* '"'
+    | '\'' (~['\r\n\f\\] | '\\' .)* '\''
     ;
 
-IDENTIFIER: NMSTART NMCHAR*;
+HASH : '#' NAME;
 
-FUNCTION: IDENTIFIER '(';
+NUMBER : [0-9]+ ('.' [0-9]+)?;
 
-NUMBER: [0-9]* '.'? [0-9]+;
+PERCENTAGE : NUMBER '%';
 
-PERCENTAGE: NUMBER '%';
+DIMENSION : NUMBER IDENT;
 
-LENGTH: NUMBER ( 'px' | 'cm' | 'mm' | 'in' | 'pt' | 'pc' );
+URL_CHARS : (~[ \t\r\n\f()'"])*;
 
-EMS: NUMBER 'em';
+IDENT : NMSTART NMCHAR*;
 
-EXS: NUMBER 'ex';
+fragment NMSTART : [_a-zA-Z] | NONASCII | ESCAPE;
 
-ANGLE: NUMBER ( 'deg' | 'rad' | 'grad' );
+fragment NMCHAR : [_a-zA-Z0-9\-] | NONASCII | ESCAPE;
 
-TIME: NUMBER ( 'ms' | 's' );
+fragment NAME : NMCHAR+;
 
-FREQ: NUMBER ( 'hz' | 'khz' );
+fragment NONASCII : [\u0080-\uFFFF];
 
-URI: [Uu][Rr][Ll] '(' WS ( STRING | (~[\u0000-\u001F\u007F()\\"] | '\\' NEWLINE | NONASCII | ESCAPE)* ) WS ')';
+// Fixed Unicode handling - no {1,6} quantifier
+fragment UNICODE : '\\' HEX HEX? HEX? HEX? HEX? HEX? WS?;
 
-HASH: '#' NAME;
+fragment ESCAPE : UNICODE | '\\' ~[\r\n\f0-9a-fA-F];
 
-CLASS: '.' IDENTIFIER;
+fragment HEX : [0-9a-fA-F];
 
-ATTRIB: '[' WS IDENTIFIER WS ( ( '=' | INCLUDES | DASHMATCH ) WS ( IDENTIFIER | STRING ) WS )? ']';
+fragment WS : [ \t\r\n\f];
 
-PSEUDO: ':' ':'? ( IDENTIFIER | FUNCTION any* ')' );
-
-UNICODE_RANGE: [Uu] '+' HEX HEX HEX HEX HEX HEX ( '-' HEX HEX HEX HEX HEX HEX )?;
-
-INCLUDES: '~=';
-
-DASHMATCH: '|=';
-
-ATKEYWORD: '@' IDENTIFIER;
-
-MEDIA_LIST: IDENTIFIER ( ',' WS IDENTIFIER )*;
-
-fragment NEWLINE: '\r\n' | [\r\n\f];
-
-WS: [ \t\r\n\f]+ -> skip;
-
-COMMENT: '/*' .*? '*/' -> skip;
+// Punctuation
+LBRACE : '{';
+RBRACE : '}';
+LPAREN : '(';
+RPAREN : ')';
+LBRACKET : '[';
+RBRACKET : ']';
+SEMICOLON : ';';
+COLON : ':';
+DOT : '.';
+COMMA : ',';
+PLUS : '+';
+MINUS : '-';
+MULTIPLY : '*';
+DIVIDE : '/';
+EQUALS : '=';
+TILDE : '~';
+GREATER : '>';
+PIPE : '|';
+AT : '@';

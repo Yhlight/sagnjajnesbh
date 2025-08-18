@@ -1,5 +1,5 @@
 
-// Generated from grammars/CSS3Lexer.g4 by ANTLR 4.13.2
+// Generated from grammars/CSS3.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -12,17 +12,12 @@
 class  CSS3Lexer : public antlr4::Lexer {
 public:
   enum {
-    OpenBracket = 1, CloseBracket = 2, OpenParen = 3, CloseParen = 4, OpenBrace = 5, 
-    CloseBrace = 6, SemiColon = 7, Equal = 8, Colon = 9, Dot = 10, Multiply = 11, 
-    Divide = 12, Pipe = 13, Underscore = 14, Plus = 15, Greater = 16, Tilde = 17, 
-    Comma = 18, Minus = 19, Only = 20, Not = 21, And = 22, Important = 23, 
-    From = 24, To = 25, Comment = 26, Whitespace = 27, Hash = 28, AtKeyword = 29, 
-    Ident = 30, String_ = 31, Number = 32, Percentage = 33, Dimension = 34, 
-    Uri = 35, UnicodeRange = 36, Any = 37
-  };
-
-  enum {
-    ERROR = 2
+    T__0 = 1, T__1 = 2, WHITESPACE = 3, COMMENT = 4, STRING = 5, HASH = 6, 
+    NUMBER = 7, PERCENTAGE = 8, DIMENSION = 9, URL_CHARS = 10, IDENT = 11, 
+    LBRACE = 12, RBRACE = 13, LPAREN = 14, RPAREN = 15, LBRACKET = 16, RBRACKET = 17, 
+    SEMICOLON = 18, COLON = 19, DOT = 20, COMMA = 21, PLUS = 22, MINUS = 23, 
+    MULTIPLY = 24, DIVIDE = 25, EQUALS = 26, TILDE = 27, GREATER = 28, PIPE = 29, 
+    AT = 30
   };
 
   explicit CSS3Lexer(antlr4::CharStream *input);

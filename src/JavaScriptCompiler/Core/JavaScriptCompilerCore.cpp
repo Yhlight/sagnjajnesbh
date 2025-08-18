@@ -89,19 +89,19 @@ std::string JavaScriptCompilerCore::compileJavaScriptFile(const std::string& fil
     }
 }
 
-std::unique_ptr<JavaScriptParser::ProgramContext> JavaScriptCompilerCore::parseJavaScript(const std::string& js_code) {
+std::unique_ptr<JavaScriptParser_cpp::ProgramContext> JavaScriptCompilerCore::parseJavaScript(const std::string& js_code) {
     try {
         // 创建输入流
         ANTLRInputStream input(js_code);
         
         // 创建词法分析器
-        JavaScriptLexer lexer(&input);
+        JavaScriptLexer_cpp lexer(&input);
         
         // 创建token流
         CommonTokenStream tokens(&lexer);
         
         // 创建解析器
-        JavaScriptParser parser(&tokens);
+        JavaScriptParser_cpp parser(&tokens);
         
         // 添加错误监听器
         JavaScriptErrorListener error_listener(this);
@@ -115,8 +115,8 @@ std::unique_ptr<JavaScriptParser::ProgramContext> JavaScriptCompilerCore::parseJ
             return nullptr;
         }
         
-        return std::unique_ptr<JavaScriptParser::ProgramContext>(
-            static_cast<JavaScriptParser::ProgramContext*>(tree));
+        return std::unique_ptr<JavaScriptParser_cpp::ProgramContext>(
+            static_cast<JavaScriptParser_cpp::ProgramContext*>(tree));
         
     } catch (const std::exception& e) {
         addError("解析器创建失败: " + std::string(e.what()));
@@ -304,51 +304,26 @@ void JavaScriptErrorListener::syntaxError(Recognizer *recognizer, Token *offendi
 }
 
 // JavaScriptTreeWalker 实现
-void JavaScriptTreeWalker::enterProgram(JavaScriptParser::ProgramContext *ctx) {
+void JavaScriptTreeWalker::enterProgram(JavaScriptParser_cpp::ProgramContext *ctx) {
     reset();
     appendJS("// CHTL JavaScript编译器生成\n");
     appendJS("'use strict';\n\n");
 }
 
-void JavaScriptTreeWalker::exitProgram(JavaScriptParser::ProgramContext *ctx) {
+void JavaScriptTreeWalker::exitProgram(JavaScriptParser_cpp::ProgramContext *ctx) {
     // 程序处理完成
 }
 
-void JavaScriptTreeWalker::enterFunctionDeclaration(JavaScriptParser::FunctionDeclarationContext *ctx) {
+void JavaScriptTreeWalker::enterFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext *ctx) {
     // 开始处理函数声明
 }
 
-void JavaScriptTreeWalker::exitFunctionDeclaration(JavaScriptParser::FunctionDeclarationContext *ctx) {
+void JavaScriptTreeWalker::exitFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext *ctx) {
     std::string function_code = generateFunction(ctx);
     appendJS(function_code + "\n\n");
 }
 
-void JavaScriptTreeWalker::enterClassDeclaration(JavaScriptParser::ClassDeclarationContext *ctx) {
-    // 开始处理类声明
-}
-
-void JavaScriptTreeWalker::exitClassDeclaration(JavaScriptParser::ClassDeclarationContext *ctx) {
-    std::string class_code = generateClass(ctx);
-    appendJS(class_code + "\n\n");
-}
-
-void JavaScriptTreeWalker::enterVariableDeclaration(JavaScriptParser::VariableDeclarationContext *ctx) {
-    // 开始处理变量声明
-}
-
-void JavaScriptTreeWalker::exitVariableDeclaration(JavaScriptParser::VariableDeclarationContext *ctx) {
-    std::string variable_code = generateVariable(ctx);
-    appendJS(variable_code + "\n");
-}
-
-void JavaScriptTreeWalker::enterExpressionStatement(JavaScriptParser::ExpressionStatementContext *ctx) {
-    // 开始处理表达式语句
-}
-
-void JavaScriptTreeWalker::exitExpressionStatement(JavaScriptParser::ExpressionStatementContext *ctx) {
-    std::string expr_text = extractText(ctx);
-    appendJS(expr_text + "\n");
-}
+// Simplified implementation - only handle basic function declarations
 
 std::string JavaScriptTreeWalker::extractText(ParseTree* ctx) {
     if (!ctx) return "";
@@ -370,7 +345,7 @@ void JavaScriptTreeWalker::appendJS(const std::string& js) {
     generated_js_ += js;
 }
 
-std::string JavaScriptTreeWalker::generateFunction(JavaScriptParser::FunctionDeclarationContext* ctx) {
+std::string JavaScriptTreeWalker::generateFunction(JavaScriptParser_cpp::FunctionDeclarationContext* ctx) {
     if (!ctx) return "";
     
     std::ostringstream func;
@@ -404,7 +379,7 @@ std::string JavaScriptTreeWalker::generateFunction(JavaScriptParser::FunctionDec
     return func.str();
 }
 
-std::string JavaScriptTreeWalker::generateClass(JavaScriptParser::ClassDeclarationContext* ctx) {
+std::string JavaScriptTreeWalker::generateClass(JavaScriptParser_cpp::ClassDeclarationContext* ctx) {
     if (!ctx) return "";
     
     std::ostringstream class_code;
@@ -433,7 +408,7 @@ std::string JavaScriptTreeWalker::generateClass(JavaScriptParser::ClassDeclarati
     return class_code.str();
 }
 
-std::string JavaScriptTreeWalker::generateVariable(JavaScriptParser::VariableDeclarationContext* ctx) {
+std::string JavaScriptTreeWalker::generateVariable(JavaScriptParser_cpp::VariableDeclarationContext* ctx) {
     if (!ctx) return "";
     
     std::ostringstream var_code;

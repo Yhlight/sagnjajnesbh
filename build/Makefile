@@ -487,6 +487,32 @@ test_antlr_basic/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_basic.dir/build.make CMakeFiles/test_antlr_basic.dir/build
 .PHONY : test_antlr_basic/fast
 
+#=============================================================================
+# Target rules for targets named test_comprehensive_antlr
+
+# Build rule for target.
+test_comprehensive_antlr: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_comprehensive_antlr
+.PHONY : test_comprehensive_antlr
+
+# fast build rule for target.
+test_comprehensive_antlr/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comprehensive_antlr.dir/build.make CMakeFiles/test_comprehensive_antlr.dir/build
+.PHONY : test_comprehensive_antlr/fast
+
+#=============================================================================
+# Target rules for targets named test_improved_antlr
+
+# Build rule for target.
+test_improved_antlr: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_improved_antlr
+.PHONY : test_improved_antlr
+
+# fast build rule for target.
+test_improved_antlr/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_improved_antlr.dir/build.make CMakeFiles/test_improved_antlr.dir/build
+.PHONY : test_improved_antlr/fast
+
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
@@ -1663,6 +1689,54 @@ test/test_chtljs_enhanced_functions.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/test/test_chtljs_enhanced_functions.cpp.s
 .PHONY : test/test_chtljs_enhanced_functions.cpp.s
 
+test/test_comprehensive_antlr.o: test/test_comprehensive_antlr.cpp.o
+.PHONY : test/test_comprehensive_antlr.o
+
+# target to build an object file
+test/test_comprehensive_antlr.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comprehensive_antlr.dir/build.make CMakeFiles/test_comprehensive_antlr.dir/test/test_comprehensive_antlr.cpp.o
+.PHONY : test/test_comprehensive_antlr.cpp.o
+
+test/test_comprehensive_antlr.i: test/test_comprehensive_antlr.cpp.i
+.PHONY : test/test_comprehensive_antlr.i
+
+# target to preprocess a source file
+test/test_comprehensive_antlr.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comprehensive_antlr.dir/build.make CMakeFiles/test_comprehensive_antlr.dir/test/test_comprehensive_antlr.cpp.i
+.PHONY : test/test_comprehensive_antlr.cpp.i
+
+test/test_comprehensive_antlr.s: test/test_comprehensive_antlr.cpp.s
+.PHONY : test/test_comprehensive_antlr.s
+
+# target to generate assembly for a file
+test/test_comprehensive_antlr.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comprehensive_antlr.dir/build.make CMakeFiles/test_comprehensive_antlr.dir/test/test_comprehensive_antlr.cpp.s
+.PHONY : test/test_comprehensive_antlr.cpp.s
+
+test/test_improved_antlr.o: test/test_improved_antlr.cpp.o
+.PHONY : test/test_improved_antlr.o
+
+# target to build an object file
+test/test_improved_antlr.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_improved_antlr.dir/build.make CMakeFiles/test_improved_antlr.dir/test/test_improved_antlr.cpp.o
+.PHONY : test/test_improved_antlr.cpp.o
+
+test/test_improved_antlr.i: test/test_improved_antlr.cpp.i
+.PHONY : test/test_improved_antlr.i
+
+# target to preprocess a source file
+test/test_improved_antlr.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_improved_antlr.dir/build.make CMakeFiles/test_improved_antlr.dir/test/test_improved_antlr.cpp.i
+.PHONY : test/test_improved_antlr.cpp.i
+
+test/test_improved_antlr.s: test/test_improved_antlr.cpp.s
+.PHONY : test/test_improved_antlr.s
+
+# target to generate assembly for a file
+test/test_improved_antlr.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_improved_antlr.dir/build.make CMakeFiles/test_improved_antlr.dir/test/test_improved_antlr.cpp.s
+.PHONY : test/test_improved_antlr.cpp.s
+
 test/test_new_cjmod_framework.o: test/test_new_cjmod_framework.cpp.o
 .PHONY : test/test_new_cjmod_framework.o
 
@@ -1837,6 +1911,8 @@ help:
 	@echo "... test_chtl_compiler_simple"
 	@echo "... test_chtl_js_lexer"
 	@echo "... test_chtljs_enhanced_functions"
+	@echo "... test_comprehensive_antlr"
+	@echo "... test_improved_antlr"
 	@echo "... test_new_cjmod_framework"
 	@echo "... test_syntax_constraints"
 	@echo "... test_undecorated_literals"
@@ -1988,6 +2064,12 @@ help:
 	@echo "... test/test_chtljs_enhanced_functions.o"
 	@echo "... test/test_chtljs_enhanced_functions.i"
 	@echo "... test/test_chtljs_enhanced_functions.s"
+	@echo "... test/test_comprehensive_antlr.o"
+	@echo "... test/test_comprehensive_antlr.i"
+	@echo "... test/test_comprehensive_antlr.s"
+	@echo "... test/test_improved_antlr.o"
+	@echo "... test/test_improved_antlr.i"
+	@echo "... test/test_improved_antlr.s"
 	@echo "... test/test_new_cjmod_framework.o"
 	@echo "... test/test_new_cjmod_framework.i"
 	@echo "... test/test_new_cjmod_framework.s"

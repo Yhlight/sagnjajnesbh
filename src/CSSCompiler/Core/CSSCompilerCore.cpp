@@ -81,19 +81,19 @@ std::string CSSCompilerCore::compileCSSFile(const std::string& file_path) {
     }
 }
 
-std::unique_ptr<CSS3Parser::StylesheetContext> CSSCompilerCore::parseCSS(const std::string& css_code) {
+std::unique_ptr<css3Parser::StylesheetContext> CSSCompilerCore::parseCSS(const std::string& css_code) {
     try {
         // 创建输入流
         ANTLRInputStream input(css_code);
         
         // 创建词法分析器
-        CSS3Lexer lexer(&input);
+        css3Lexer lexer(&input);
         
         // 创建token流
         CommonTokenStream tokens(&lexer);
         
         // 创建解析器
-        CSS3Parser parser(&tokens);
+        css3Parser parser(&tokens);
         
         // 添加错误监听器
         CSSErrorListener error_listener(this);

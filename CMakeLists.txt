@@ -289,3 +289,25 @@ set_target_properties(
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+# 综合ANTLR集成测试
+add_executable(test_comprehensive_antlr test/test_comprehensive_antlr.cpp)
+target_include_directories(test_comprehensive_antlr PRIVATE ${ANTLR4_INCLUDE_DIRS})
+target_link_libraries(test_comprehensive_antlr chtl_css_antlr chtl_js_antlr)
+
+set_target_properties(
+    test_comprehensive_antlr
+    PROPERTIES 
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+# 改进的ANTLR简单测试
+add_executable(test_improved_antlr ../test/test_improved_antlr.cpp)
+target_include_directories(test_improved_antlr PRIVATE ${ANTLR4_INCLUDE_DIRS})
+target_link_libraries(test_improved_antlr chtl_antlr_parsers)
+
+set_target_properties(
+    test_improved_antlr
+    PROPERTIES 
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
