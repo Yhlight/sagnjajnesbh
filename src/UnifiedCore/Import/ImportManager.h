@@ -1,7 +1,7 @@
 #pragma once
-#include "../../common/Context.h"
-#include "../../common/CmodManager.h"
-#include "../../common/CJmodManager.h"
+#include "Context.h"
+#include "CmodManager.h"
+#include "CJmodManager.h"
 #include "../ast/ASTNode.h"
 #include <string>
 #include <vector>
