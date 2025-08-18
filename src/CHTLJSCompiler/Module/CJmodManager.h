@@ -1,5 +1,5 @@
 #pragma once
-#include "SimpleZip.h"
+#include "../../Shared/SimpleZip/SimpleZip.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
