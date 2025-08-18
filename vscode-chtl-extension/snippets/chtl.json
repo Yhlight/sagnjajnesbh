@@ -1,0 +1,41 @@
+{
+    "CHTL Basic Template": {
+        "prefix": "chtl-template",
+        "body": [
+            "[Style]",
+            ".${1:component-name} {",
+            "\t${2:/* CSS styles */}",
+            "}",
+            "",
+            "[Component]",
+            "{{${3:ComponentName}}}",
+            "\t{{.${1:component-name}}}",
+            "\t\t${4:<!-- Component content -->}",
+            "\t{{/.${1:component-name}}}",
+            "{{/${3:ComponentName}}}",
+            "",
+            "[Script]",
+            "function create${3:ComponentName}(container, options = {}) {",
+            "\t${5:// Component logic}",
+            "\treturn container;",
+            "}"
+        ],
+        "description": "创建基本的CHTL组件模板"
+    },
+    "Chtholly Module Import": {
+        "prefix": "import-chtholly",
+        "body": [
+            "[Import]",
+            "@Chtl from Chtholly.${1|Accordion,Gallery,Memo,Notes,Sakura|}"
+        ],
+        "description": "导入珂朵莉模块组件"
+    },
+    "Yuigahama Module Import": {
+        "prefix": "import-yuigahama", 
+        "body": [
+            "[Import]",
+            "@Chtl from Yuigahama.${1|MusicPlayer,Accordion,Gallery,Memo|}"
+        ],
+        "description": "导入由比滨结衣模块组件"
+    }
+}

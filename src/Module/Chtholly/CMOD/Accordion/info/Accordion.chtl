@@ -1,0 +1,13 @@
+[Info]
+Name: Chtholly's Elegant Accordion
+Version: 1.0.0
+Author: Chtholly Team
+Description: 珂朵莉优雅手风琴组件，支持多种动画效果
+License: MIT
+Keywords: accordion, elegant, chtholly
+
+[Export]
+Component: Accordion
+Function: createAccordion
+Function: toggleAccordion
+Style: accordion-elegant

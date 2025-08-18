@@ -1,0 +1,108 @@
+[Style]
+.music-player-yui {
+    background: linear-gradient(135deg, #ffb3d9 0%, #ff94c2 100%);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 15px 50px rgba(255, 148, 194, 0.3);
+    font-family: 'Hiragino Sans', sans-serif;
+    color: #8b4b8c;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.album-art {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    background: linear-gradient(45deg, #ff94c2, #ffb3d9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: yuiRotate 20s linear infinite;
+}
+
+@keyframes yuiRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.album-art::before {
+    content: '♪';
+    font-size: 60px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.player-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.control-btn {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    color: #8b4b8c;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 148, 194, 0.4);
+}
+
+[Component]
+{{MusicPlayer}}
+    {{.music-player-yui}}
+        {{.album-art}}{{/.album-art}}
+        {{.track-info}}
+            {{.track-title}}{{trackTitle}}{{/.track-title}}
+            {{.track-artist}}由比滨结衣{{/.track-artist}}
+        {{/.track-info}}
+        {{.player-controls}}
+            {{.control-btn -> click data-action="prev"}}⏮{{/.control-btn}}
+            {{.control-btn -> click data-action="toggle"}}▶{{/.control-btn}}
+            {{.control-btn -> click data-action="next"}}⏭{{/.control-btn}}
+        {{/.player-controls}}
+    {{/.music-player-yui}}
+{{/MusicPlayer}}
+
+[Script]
+function createMusicPlayer(container, playlist = [], options = {}) {
+    console.log('💕 由比滨结衣: 音乐播放器准备好了～');
+    
+    const player = document.createElement('div');
+    player.className = 'music-player-yui';
+    
+    player.innerHTML = `
+        <div class="album-art"></div>
+        <div class="track-info">
+            <div class="track-title">选择一首歌曲</div>
+            <div class="track-artist">由比滨结衣</div>
+        </div>
+        <div class="player-controls">
+            <button class="control-btn" onclick="prevTrack()">⏮</button>
+            <button class="control-btn" onclick="togglePlay()">▶</button>
+            <button class="control-btn" onclick="nextTrack()">⏭</button>
+        </div>
+    `;
+    
+    if (container) {
+        container.appendChild(player);
+    }
+    
+    return player;
+}
+
+function playTrack(index) {
+    console.log('🎵 由比滨结衣: 开始播放音乐～');
+}
+
+function pauseTrack() {
+    console.log('⏸️ 由比滨结衣: 暂停音乐了呢');
+}
