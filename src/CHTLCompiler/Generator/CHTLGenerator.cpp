@@ -235,5 +235,52 @@ void HTMLGenerator::generateScript(const std::string& js) {
     writeLine("</script>");
 }
 
+// === 新增的AST节点visit方法实现 ===
+
+void HTMLGenerator::visit(ast::OriginNode& node) {
+    // 原始嵌入节点处理
+    if (node.originType == "Html") {
+        write(node.content);
+    } else if (node.originType == "Style") {
+        writeLine("<style>");
+        writeLine(node.content);
+        writeLine("</style>");
+    } else if (node.originType == "JavaScript") {
+        writeLine("<script>");
+        writeLine(node.content);
+        writeLine("</script>");
+    } else {
+        // 自定义类型的原始嵌入
+        writeLine("<!-- Origin: " + node.originType + " -->");
+        writeLine(node.content);
+        writeLine("<!-- End Origin: " + node.originType + " -->");
+    }
+}
+
+void HTMLGenerator::visit(ast::ConfigurationNode& node) {
+    // 配置节点不生成HTML，只是编译时配置
+    writeLine("<!-- Configuration: " + node.configName + " -->");
+}
+
+void HTMLGenerator::visit(ast::ConstraintNode& node) {
+    // 约束节点不生成HTML，只是编译时约束
+    writeLine("<!-- Constraint: " + node.type + " -->");
+}
+
+void HTMLGenerator::visit(ast::SpecializationNode& node) {
+    // 特例化节点处理
+    writeLine("<!-- Specialization: " + node.operation + " -->");
+}
+
+void HTMLGenerator::visit(ast::IndexAccessNode& node) {
+    // 索引访问节点处理
+    writeLine("<!-- IndexAccess: " + std::to_string(node.index) + " -->");
+}
+
+void HTMLGenerator::visit(ast::VariableGroupNode& node) {
+    // 变量组节点不直接生成HTML，而是在使用时替换
+    writeLine("<!-- VariableGroup: " + node.groupName + " -->");
+}
+
 } // namespace generator
 } // namespace chtl

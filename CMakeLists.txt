@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(CHTLCompilerWorkingParts VERSION 1.0.0 LANGUAGES CXX)
+project(CHTLCompiler VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -7,26 +7,32 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -Wno
 
 include_directories(src)
 
-# 🎯 只编译能正常工作的部分
+# 🎯 基于已有功能的完整编译配置
 
 # 统一扫描器
 add_library(chtl_scanner STATIC
     src/Scanner/CHTLUnifiedScanner.cpp
 )
 
-# 共同组件
+# 共同组件（包含已有的功能）
 add_library(chtl_common STATIC
     src/Common/Core/NamespaceAlgorithms.cpp
     src/Common/Core/ErrorHandler.cpp
     src/Common/Utils/FileUtils.cpp
     src/Common/ModulePathManager.cpp
     src/Common/SimpleZip/SimpleZip.cpp
-    src/Common/AST/CommentGenerator.cpp
-    src/Common/AST/CommentNode.cpp
-    src/Common/AST/OriginEmbedDetector.cpp
 )
 
-# CHTL JS编译器（已确认能编译）
+# CHTL编译器（包含已有的完整功能）
+add_library(chtl_compiler STATIC
+    src/CHTLCompiler/CHTLCompilerCore.cpp
+    src/CHTLCompiler/Import/ImportManager.cpp
+    src/CHTLCompiler/State/CHTLState.cpp
+    src/CHTLCompiler/State/CHTLGlobalMap.cpp
+)
+target_link_libraries(chtl_compiler chtl_common)
+
+# CHTL JS编译器（包含已有的完整功能）
 add_library(chtljs_compiler STATIC
     src/CHTLJSCompiler/CHTLJSCompiler.cpp
     src/CHTLJSCompiler/Core/AutoAdditionManager.cpp
@@ -36,30 +42,32 @@ add_library(chtljs_compiler STATIC
 )
 target_link_libraries(chtljs_compiler chtl_common)
 
-# 测试能工作的部分
-add_executable(test_working_parts test/test_working_parts.cpp)
+# 测试现有功能
+add_executable(test_existing_features test/test_existing_features.cpp)
 
-# CHTL语法文档合规性测试
-add_executable(test_chtl_syntax_compliance test/test_chtl_syntax_compliance.cpp)
-target_link_libraries(test_working_parts 
+# 完整CHTL合规性验证
+add_executable(test_complete_chtl_compliance test/test_complete_chtl_compliance.cpp)
+target_link_libraries(test_existing_features 
     chtl_scanner 
     chtl_common 
+    chtl_compiler 
     chtljs_compiler
 )
 
-target_link_libraries(test_chtl_syntax_compliance
+target_link_libraries(test_complete_chtl_compliance
     chtl_scanner 
     chtl_common 
+    chtl_compiler 
     chtljs_compiler
 )
 
 # 设置输出目录
 set_target_properties(
-    chtl_scanner chtl_common chtljs_compiler
+    chtl_scanner chtl_common chtl_compiler chtljs_compiler
     PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
 )
 
 set_target_properties(
-    test_working_parts test_chtl_syntax_compliance
+    test_existing_features test_complete_chtl_compliance
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )

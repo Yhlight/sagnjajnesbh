@@ -53,10 +53,10 @@ int main() {
         std::cout << "\n📋 测试JS事件注册表..." << std::endl;
         chtljs::JSEventRegistry eventRegistry;
         
-        auto allEvents = eventRegistry.getAllSupportedEvents();
+        auto allEvents = eventRegistry.getAllEvents();
         std::cout << "✅ 支持的JS事件数量: " << allEvents.size() << std::endl;
         
-        bool supportsClick = eventRegistry.isEventSupported("click");
+        bool supportsClick = eventRegistry.isValidEvent("click");
         std::cout << "✅ 支持click事件: " << (supportsClick ? "是" : "否") << std::endl;
         
         // 5. 测试状态机

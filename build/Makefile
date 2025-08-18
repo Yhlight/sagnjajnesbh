@@ -143,6 +143,19 @@ chtl_common/fast:
 .PHONY : chtl_common/fast
 
 #=============================================================================
+# Target rules for targets named chtl_compiler
+
+# Build rule for target.
+chtl_compiler: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_compiler
+.PHONY : chtl_compiler
+
+# fast build rule for target.
+chtl_compiler/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/build
+.PHONY : chtl_compiler/fast
+
+#=============================================================================
 # Target rules for targets named chtljs_compiler
 
 # Build rule for target.
@@ -156,30 +169,126 @@ chtljs_compiler/fast:
 .PHONY : chtljs_compiler/fast
 
 #=============================================================================
-# Target rules for targets named test_working_parts
+# Target rules for targets named test_existing_features
 
 # Build rule for target.
-test_working_parts: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_working_parts
-.PHONY : test_working_parts
+test_existing_features: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_existing_features
+.PHONY : test_existing_features
 
 # fast build rule for target.
-test_working_parts/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_working_parts.dir/build.make CMakeFiles/test_working_parts.dir/build
-.PHONY : test_working_parts/fast
+test_existing_features/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_existing_features.dir/build.make CMakeFiles/test_existing_features.dir/build
+.PHONY : test_existing_features/fast
 
 #=============================================================================
-# Target rules for targets named test_chtl_syntax_compliance
+# Target rules for targets named test_complete_chtl_compliance
 
 # Build rule for target.
-test_chtl_syntax_compliance: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtl_syntax_compliance
-.PHONY : test_chtl_syntax_compliance
+test_complete_chtl_compliance: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_complete_chtl_compliance
+.PHONY : test_complete_chtl_compliance
 
 # fast build rule for target.
-test_chtl_syntax_compliance/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_syntax_compliance.dir/build.make CMakeFiles/test_chtl_syntax_compliance.dir/build
-.PHONY : test_chtl_syntax_compliance/fast
+test_complete_chtl_compliance/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complete_chtl_compliance.dir/build.make CMakeFiles/test_complete_chtl_compliance.dir/build
+.PHONY : test_complete_chtl_compliance/fast
+
+src/CHTLCompiler/CHTLCompilerCore.o: src/CHTLCompiler/CHTLCompilerCore.cpp.o
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.o
+
+# target to build an object file
+src/CHTLCompiler/CHTLCompilerCore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.cpp.o
+
+src/CHTLCompiler/CHTLCompilerCore.i: src/CHTLCompiler/CHTLCompilerCore.cpp.i
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.i
+
+# target to preprocess a source file
+src/CHTLCompiler/CHTLCompilerCore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.i
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.cpp.i
+
+src/CHTLCompiler/CHTLCompilerCore.s: src/CHTLCompiler/CHTLCompilerCore.cpp.s
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.s
+
+# target to generate assembly for a file
+src/CHTLCompiler/CHTLCompilerCore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.s
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.cpp.s
+
+src/CHTLCompiler/Import/ImportManager.o: src/CHTLCompiler/Import/ImportManager.cpp.o
+.PHONY : src/CHTLCompiler/Import/ImportManager.o
+
+# target to build an object file
+src/CHTLCompiler/Import/ImportManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.o
+.PHONY : src/CHTLCompiler/Import/ImportManager.cpp.o
+
+src/CHTLCompiler/Import/ImportManager.i: src/CHTLCompiler/Import/ImportManager.cpp.i
+.PHONY : src/CHTLCompiler/Import/ImportManager.i
+
+# target to preprocess a source file
+src/CHTLCompiler/Import/ImportManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.i
+.PHONY : src/CHTLCompiler/Import/ImportManager.cpp.i
+
+src/CHTLCompiler/Import/ImportManager.s: src/CHTLCompiler/Import/ImportManager.cpp.s
+.PHONY : src/CHTLCompiler/Import/ImportManager.s
+
+# target to generate assembly for a file
+src/CHTLCompiler/Import/ImportManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.s
+.PHONY : src/CHTLCompiler/Import/ImportManager.cpp.s
+
+src/CHTLCompiler/State/CHTLGlobalMap.o: src/CHTLCompiler/State/CHTLGlobalMap.cpp.o
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.o
+
+# target to build an object file
+src/CHTLCompiler/State/CHTLGlobalMap.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.cpp.o
+
+src/CHTLCompiler/State/CHTLGlobalMap.i: src/CHTLCompiler/State/CHTLGlobalMap.cpp.i
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.i
+
+# target to preprocess a source file
+src/CHTLCompiler/State/CHTLGlobalMap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.i
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.cpp.i
+
+src/CHTLCompiler/State/CHTLGlobalMap.s: src/CHTLCompiler/State/CHTLGlobalMap.cpp.s
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.s
+
+# target to generate assembly for a file
+src/CHTLCompiler/State/CHTLGlobalMap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.s
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.cpp.s
+
+src/CHTLCompiler/State/CHTLState.o: src/CHTLCompiler/State/CHTLState.cpp.o
+.PHONY : src/CHTLCompiler/State/CHTLState.o
+
+# target to build an object file
+src/CHTLCompiler/State/CHTLState.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o
+.PHONY : src/CHTLCompiler/State/CHTLState.cpp.o
+
+src/CHTLCompiler/State/CHTLState.i: src/CHTLCompiler/State/CHTLState.cpp.i
+.PHONY : src/CHTLCompiler/State/CHTLState.i
+
+# target to preprocess a source file
+src/CHTLCompiler/State/CHTLState.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.i
+.PHONY : src/CHTLCompiler/State/CHTLState.cpp.i
+
+src/CHTLCompiler/State/CHTLState.s: src/CHTLCompiler/State/CHTLState.cpp.s
+.PHONY : src/CHTLCompiler/State/CHTLState.s
+
+# target to generate assembly for a file
+src/CHTLCompiler/State/CHTLState.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.s
+.PHONY : src/CHTLCompiler/State/CHTLState.cpp.s
 
 src/CHTLJSCompiler/CHTLJSCompiler.o: src/CHTLJSCompiler/CHTLJSCompiler.cpp.o
 .PHONY : src/CHTLJSCompiler/CHTLJSCompiler.o
@@ -300,78 +409,6 @@ src/CHTLJSCompiler/Parser/SelectorDetector.s: src/CHTLJSCompiler/Parser/Selector
 src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s
 .PHONY : src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s
-
-src/Common/AST/CommentGenerator.o: src/Common/AST/CommentGenerator.cpp.o
-.PHONY : src/Common/AST/CommentGenerator.o
-
-# target to build an object file
-src/Common/AST/CommentGenerator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.o
-.PHONY : src/Common/AST/CommentGenerator.cpp.o
-
-src/Common/AST/CommentGenerator.i: src/Common/AST/CommentGenerator.cpp.i
-.PHONY : src/Common/AST/CommentGenerator.i
-
-# target to preprocess a source file
-src/Common/AST/CommentGenerator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.i
-.PHONY : src/Common/AST/CommentGenerator.cpp.i
-
-src/Common/AST/CommentGenerator.s: src/Common/AST/CommentGenerator.cpp.s
-.PHONY : src/Common/AST/CommentGenerator.s
-
-# target to generate assembly for a file
-src/Common/AST/CommentGenerator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.s
-.PHONY : src/Common/AST/CommentGenerator.cpp.s
-
-src/Common/AST/CommentNode.o: src/Common/AST/CommentNode.cpp.o
-.PHONY : src/Common/AST/CommentNode.o
-
-# target to build an object file
-src/Common/AST/CommentNode.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.o
-.PHONY : src/Common/AST/CommentNode.cpp.o
-
-src/Common/AST/CommentNode.i: src/Common/AST/CommentNode.cpp.i
-.PHONY : src/Common/AST/CommentNode.i
-
-# target to preprocess a source file
-src/Common/AST/CommentNode.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.i
-.PHONY : src/Common/AST/CommentNode.cpp.i
-
-src/Common/AST/CommentNode.s: src/Common/AST/CommentNode.cpp.s
-.PHONY : src/Common/AST/CommentNode.s
-
-# target to generate assembly for a file
-src/Common/AST/CommentNode.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.s
-.PHONY : src/Common/AST/CommentNode.cpp.s
-
-src/Common/AST/OriginEmbedDetector.o: src/Common/AST/OriginEmbedDetector.cpp.o
-.PHONY : src/Common/AST/OriginEmbedDetector.o
-
-# target to build an object file
-src/Common/AST/OriginEmbedDetector.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.o
-.PHONY : src/Common/AST/OriginEmbedDetector.cpp.o
-
-src/Common/AST/OriginEmbedDetector.i: src/Common/AST/OriginEmbedDetector.cpp.i
-.PHONY : src/Common/AST/OriginEmbedDetector.i
-
-# target to preprocess a source file
-src/Common/AST/OriginEmbedDetector.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.i
-.PHONY : src/Common/AST/OriginEmbedDetector.cpp.i
-
-src/Common/AST/OriginEmbedDetector.s: src/Common/AST/OriginEmbedDetector.cpp.s
-.PHONY : src/Common/AST/OriginEmbedDetector.s
-
-# target to generate assembly for a file
-src/Common/AST/OriginEmbedDetector.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.s
-.PHONY : src/Common/AST/OriginEmbedDetector.cpp.s
 
 src/Common/Core/ErrorHandler.o: src/Common/Core/ErrorHandler.cpp.o
 .PHONY : src/Common/Core/ErrorHandler.o
@@ -517,53 +554,53 @@ src/Scanner/CHTLUnifiedScanner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/Scanner/CHTLUnifiedScanner.cpp.s
 .PHONY : src/Scanner/CHTLUnifiedScanner.cpp.s
 
-test/test_chtl_syntax_compliance.o: test/test_chtl_syntax_compliance.cpp.o
-.PHONY : test/test_chtl_syntax_compliance.o
+test/test_complete_chtl_compliance.o: test/test_complete_chtl_compliance.cpp.o
+.PHONY : test/test_complete_chtl_compliance.o
 
 # target to build an object file
-test/test_chtl_syntax_compliance.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_syntax_compliance.dir/build.make CMakeFiles/test_chtl_syntax_compliance.dir/test/test_chtl_syntax_compliance.cpp.o
-.PHONY : test/test_chtl_syntax_compliance.cpp.o
+test/test_complete_chtl_compliance.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complete_chtl_compliance.dir/build.make CMakeFiles/test_complete_chtl_compliance.dir/test/test_complete_chtl_compliance.cpp.o
+.PHONY : test/test_complete_chtl_compliance.cpp.o
 
-test/test_chtl_syntax_compliance.i: test/test_chtl_syntax_compliance.cpp.i
-.PHONY : test/test_chtl_syntax_compliance.i
+test/test_complete_chtl_compliance.i: test/test_complete_chtl_compliance.cpp.i
+.PHONY : test/test_complete_chtl_compliance.i
 
 # target to preprocess a source file
-test/test_chtl_syntax_compliance.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_syntax_compliance.dir/build.make CMakeFiles/test_chtl_syntax_compliance.dir/test/test_chtl_syntax_compliance.cpp.i
-.PHONY : test/test_chtl_syntax_compliance.cpp.i
+test/test_complete_chtl_compliance.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complete_chtl_compliance.dir/build.make CMakeFiles/test_complete_chtl_compliance.dir/test/test_complete_chtl_compliance.cpp.i
+.PHONY : test/test_complete_chtl_compliance.cpp.i
 
-test/test_chtl_syntax_compliance.s: test/test_chtl_syntax_compliance.cpp.s
-.PHONY : test/test_chtl_syntax_compliance.s
+test/test_complete_chtl_compliance.s: test/test_complete_chtl_compliance.cpp.s
+.PHONY : test/test_complete_chtl_compliance.s
 
 # target to generate assembly for a file
-test/test_chtl_syntax_compliance.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_syntax_compliance.dir/build.make CMakeFiles/test_chtl_syntax_compliance.dir/test/test_chtl_syntax_compliance.cpp.s
-.PHONY : test/test_chtl_syntax_compliance.cpp.s
+test/test_complete_chtl_compliance.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complete_chtl_compliance.dir/build.make CMakeFiles/test_complete_chtl_compliance.dir/test/test_complete_chtl_compliance.cpp.s
+.PHONY : test/test_complete_chtl_compliance.cpp.s
 
-test/test_working_parts.o: test/test_working_parts.cpp.o
-.PHONY : test/test_working_parts.o
+test/test_existing_features.o: test/test_existing_features.cpp.o
+.PHONY : test/test_existing_features.o
 
 # target to build an object file
-test/test_working_parts.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_working_parts.dir/build.make CMakeFiles/test_working_parts.dir/test/test_working_parts.cpp.o
-.PHONY : test/test_working_parts.cpp.o
+test/test_existing_features.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_existing_features.dir/build.make CMakeFiles/test_existing_features.dir/test/test_existing_features.cpp.o
+.PHONY : test/test_existing_features.cpp.o
 
-test/test_working_parts.i: test/test_working_parts.cpp.i
-.PHONY : test/test_working_parts.i
+test/test_existing_features.i: test/test_existing_features.cpp.i
+.PHONY : test/test_existing_features.i
 
 # target to preprocess a source file
-test/test_working_parts.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_working_parts.dir/build.make CMakeFiles/test_working_parts.dir/test/test_working_parts.cpp.i
-.PHONY : test/test_working_parts.cpp.i
+test/test_existing_features.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_existing_features.dir/build.make CMakeFiles/test_existing_features.dir/test/test_existing_features.cpp.i
+.PHONY : test/test_existing_features.cpp.i
 
-test/test_working_parts.s: test/test_working_parts.cpp.s
-.PHONY : test/test_working_parts.s
+test/test_existing_features.s: test/test_existing_features.cpp.s
+.PHONY : test/test_existing_features.s
 
 # target to generate assembly for a file
-test/test_working_parts.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_working_parts.dir/build.make CMakeFiles/test_working_parts.dir/test/test_working_parts.cpp.s
-.PHONY : test/test_working_parts.cpp.s
+test/test_existing_features.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_existing_features.dir/build.make CMakeFiles/test_existing_features.dir/test/test_existing_features.cpp.s
+.PHONY : test/test_existing_features.cpp.s
 
 # Help Target
 help:
@@ -574,10 +611,23 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... chtl_common"
+	@echo "... chtl_compiler"
 	@echo "... chtl_scanner"
 	@echo "... chtljs_compiler"
-	@echo "... test_chtl_syntax_compliance"
-	@echo "... test_working_parts"
+	@echo "... test_complete_chtl_compliance"
+	@echo "... test_existing_features"
+	@echo "... src/CHTLCompiler/CHTLCompilerCore.o"
+	@echo "... src/CHTLCompiler/CHTLCompilerCore.i"
+	@echo "... src/CHTLCompiler/CHTLCompilerCore.s"
+	@echo "... src/CHTLCompiler/Import/ImportManager.o"
+	@echo "... src/CHTLCompiler/Import/ImportManager.i"
+	@echo "... src/CHTLCompiler/Import/ImportManager.s"
+	@echo "... src/CHTLCompiler/State/CHTLGlobalMap.o"
+	@echo "... src/CHTLCompiler/State/CHTLGlobalMap.i"
+	@echo "... src/CHTLCompiler/State/CHTLGlobalMap.s"
+	@echo "... src/CHTLCompiler/State/CHTLState.o"
+	@echo "... src/CHTLCompiler/State/CHTLState.i"
+	@echo "... src/CHTLCompiler/State/CHTLState.s"
 	@echo "... src/CHTLJSCompiler/CHTLJSCompiler.o"
 	@echo "... src/CHTLJSCompiler/CHTLJSCompiler.i"
 	@echo "... src/CHTLJSCompiler/CHTLJSCompiler.s"
@@ -593,15 +643,6 @@ help:
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.o"
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.i"
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.s"
-	@echo "... src/Common/AST/CommentGenerator.o"
-	@echo "... src/Common/AST/CommentGenerator.i"
-	@echo "... src/Common/AST/CommentGenerator.s"
-	@echo "... src/Common/AST/CommentNode.o"
-	@echo "... src/Common/AST/CommentNode.i"
-	@echo "... src/Common/AST/CommentNode.s"
-	@echo "... src/Common/AST/OriginEmbedDetector.o"
-	@echo "... src/Common/AST/OriginEmbedDetector.i"
-	@echo "... src/Common/AST/OriginEmbedDetector.s"
 	@echo "... src/Common/Core/ErrorHandler.o"
 	@echo "... src/Common/Core/ErrorHandler.i"
 	@echo "... src/Common/Core/ErrorHandler.s"
@@ -620,12 +661,12 @@ help:
 	@echo "... src/Scanner/CHTLUnifiedScanner.o"
 	@echo "... src/Scanner/CHTLUnifiedScanner.i"
 	@echo "... src/Scanner/CHTLUnifiedScanner.s"
-	@echo "... test/test_chtl_syntax_compliance.o"
-	@echo "... test/test_chtl_syntax_compliance.i"
-	@echo "... test/test_chtl_syntax_compliance.s"
-	@echo "... test/test_working_parts.o"
-	@echo "... test/test_working_parts.i"
-	@echo "... test/test_working_parts.s"
+	@echo "... test/test_complete_chtl_compliance.o"
+	@echo "... test/test_complete_chtl_compliance.i"
+	@echo "... test/test_complete_chtl_compliance.s"
+	@echo "... test/test_existing_features.o"
+	@echo "... test/test_existing_features.i"
+	@echo "... test/test_existing_features.s"
 .PHONY : help
 
 

@@ -1,10 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.o"
-  "CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.o.d"
-  "CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.o"
-  "CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.o.d"
-  "CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.o"
-  "CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o"
   "CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o"

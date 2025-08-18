@@ -28,6 +28,12 @@ public:
     void visit(ast::TextNode& node) override;
     void visit(ast::ImportNode& node) override;
     void visit(ast::NamespaceNode& node) override;
+    void visit(ast::OriginNode& node) override;
+    void visit(ast::ConfigurationNode& node) override;
+    void visit(ast::ConstraintNode& node) override;
+    void visit(ast::SpecializationNode& node) override;
+    void visit(ast::IndexAccessNode& node) override;
+    void visit(ast::VariableGroupNode& node) override;
     
     // 配置
     void setIndentSize(size_t size) { indent_size_ = size; }

@@ -38,6 +38,7 @@ add_library(chtljs_compiler STATIC
     src/CHTLJSCompiler/Core/AutoAdditionManager.cpp
     src/CHTLJSCompiler/Core/JSEventRegistry.cpp
     src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp
+    src/CHTLJSCompiler/Parser/SelectorDetector.cpp
 )
 target_link_libraries(chtljs_compiler chtl_common)
 
