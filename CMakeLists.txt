@@ -15,7 +15,7 @@ add_library(chtl_shared STATIC
 
 # AST组件（需要支持语法约束器）
 add_library(chtl_ast STATIC
-    src/ast/ASTNode.cpp
+    src/CHTLCompiler/AST/CHTLNodes.cpp
     src/CHTLJSCompiler/AST/VirtualObjectManager.cpp
 )
 

@@ -1,2 +1,2 @@
-/usr/bin/ar qc lib/libchtl_ast.a CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.o CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o
+/usr/bin/ar qc lib/libchtl_ast.a CMakeFiles/chtl_ast.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.o CMakeFiles/chtl_ast.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o
 /usr/bin/ranlib lib/libchtl_ast.a

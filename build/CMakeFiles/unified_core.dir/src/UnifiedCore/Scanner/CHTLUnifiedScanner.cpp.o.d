@@ -1,7 +1,7 @@
 CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o: \
   /workspace/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp \
   /workspace/src/UnifiedCore/Scanner/CHTLUnifiedScanner.h \
-  /workspace/src/UnifiedCore/Scanner/../../common/Token.h \
+  /workspace/src/UnifiedCore/Scanner/../../Shared/Common/Types.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/string \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++config.h \
@@ -142,17 +142,13 @@ CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator_args.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tuple \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable_policy.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/aligned_buffer.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/memory \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tempbuf.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_raw_storage_iter.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/align.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h /usr/include/stdint.h \
@@ -163,6 +159,7 @@ CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/shared_ptr_base.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/typeinfo \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/allocated_ptr.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/aligned_buffer.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/atomicity.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/gthr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/gthr-default.h \
@@ -200,10 +197,13 @@ CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/auto_ptr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_memory_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/execution_defs.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable_policy.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \

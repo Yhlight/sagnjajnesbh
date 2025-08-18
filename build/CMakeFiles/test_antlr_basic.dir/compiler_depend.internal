@@ -468,10 +468,12 @@ CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.o
  /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathTokenElement.h
  /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardAnywhereElement.h
  /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardElement.h
- /workspace/src/CSSCompiler/Parser/CSS3Lexer.h
- /workspace/src/CSSCompiler/Parser/CSS3Parser.h
- /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.h
- /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.h
+ /workspace/src/CSSCompiler/Parser/css3Lexer.h
+ /workspace/src/CSSCompiler/Parser/css3Parser.h
+ /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.h
+ /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.h
+ /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBase.h
+ /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.h
 
 bin/test_antlr_basic
  /lib/x86_64-linux-gnu/Scrt1.o

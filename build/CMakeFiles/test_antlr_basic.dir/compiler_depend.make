@@ -467,10 +467,12 @@ CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.o: /workspace/test/tes
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathTokenElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardAnywhereElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardElement.h \
-  /workspace/src/CSSCompiler/Parser/CSS3Lexer.h \
-  /workspace/src/CSSCompiler/Parser/CSS3Parser.h \
-  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.h \
-  /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.h
+  /workspace/src/CSSCompiler/Parser/css3Lexer.h \
+  /workspace/src/CSSCompiler/Parser/css3Parser.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBase.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.h
 
 bin/test_antlr_basic: /lib/x86_64-linux-gnu/Scrt1.o \
   /lib/x86_64-linux-gnu/crti.o \
@@ -503,7 +505,9 @@ lib/libchtl_antlr_parsers.a:
 
 /lib/x86_64-linux-gnu/crti.o:
 
-/workspace/src/CSSCompiler/Parser/CSS3Parser.h:
+/workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.h:
+
+/workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.h:
 
 /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardElement.h:
 
@@ -563,8 +567,6 @@ lib/libchtl_antlr_parsers.a:
 
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/RangeTransition.h:
 
-/workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.h:
-
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/PredictionContextMergeCacheOptions.h:
 
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/PredictionContextMergeCache.h:
@@ -576,8 +578,6 @@ lib/libchtl_antlr_parsers.a:
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/ParserATNSimulatorOptions.h:
 
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/ParserATNSimulator.h:
-
-/workspace/src/CSSCompiler/Parser/CSS3Lexer.h:
 
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/LexerTypeAction.h:
 
@@ -769,9 +769,13 @@ CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.o:
 
 /usr/include/c++/14/typeinfo:
 
+/workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBase.h:
+
 /usr/include/c++/14/type_traits:
 
 /usr/include/c++/14/tuple:
+
+/workspace/src/CSSCompiler/Parser/css3Lexer.h:
 
 /usr/include/c++/14/system_error:
 
@@ -786,8 +790,6 @@ CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.o:
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/SerializedATNView.h:
 
 /usr/include/c++/14/stack:
-
-/workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h:
 
@@ -1107,6 +1109,8 @@ CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.o:
 
 /usr/include/time.h:
 
+/workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.h:
+
 /usr/include/sched.h:
 
 /usr/include/wctype.h:
@@ -1290,6 +1294,8 @@ CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.o:
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/PredictionContext.h:
 
 /usr/include/c++/14/bits/nested_exception.h:
+
+/workspace/src/CSSCompiler/Parser/css3Parser.h:
 
 /usr/include/features.h:
 

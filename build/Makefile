@@ -492,6 +492,7 @@ src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 
 # target to build an object file
 src/CHTLCompiler/AST/CHTLNodes.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.cpp.o
 
@@ -500,6 +501,7 @@ src/CHTLCompiler/AST/CHTLNodes.i: src/CHTLCompiler/AST/CHTLNodes.cpp.i
 
 # target to preprocess a source file
 src/CHTLCompiler/AST/CHTLNodes.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.i
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.cpp.i
 
@@ -508,6 +510,7 @@ src/CHTLCompiler/AST/CHTLNodes.s: src/CHTLCompiler/AST/CHTLNodes.cpp.s
 
 # target to generate assembly for a file
 src/CHTLCompiler/AST/CHTLNodes.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.s
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.cpp.s
 
@@ -684,6 +687,7 @@ src/CHTLJSCompiler/AST/VirtualObjectManager.o: src/CHTLJSCompiler/AST/VirtualObj
 
 # target to build an object file
 src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler.dir/build.make CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o
 .PHONY : src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o
 
@@ -692,6 +696,7 @@ src/CHTLJSCompiler/AST/VirtualObjectManager.i: src/CHTLJSCompiler/AST/VirtualObj
 
 # target to preprocess a source file
 src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler.dir/build.make CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.i
 .PHONY : src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.i
 
@@ -700,6 +705,7 @@ src/CHTLJSCompiler/AST/VirtualObjectManager.s: src/CHTLJSCompiler/AST/VirtualObj
 
 # target to generate assembly for a file
 src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler.dir/build.make CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.s
 .PHONY : src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.s
 
@@ -1423,54 +1429,6 @@ src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s
 .PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s
 
-src/ast/ASTNode.o: src/ast/ASTNode.cpp.o
-.PHONY : src/ast/ASTNode.o
-
-# target to build an object file
-src/ast/ASTNode.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.o
-.PHONY : src/ast/ASTNode.cpp.o
-
-src/ast/ASTNode.i: src/ast/ASTNode.cpp.i
-.PHONY : src/ast/ASTNode.i
-
-# target to preprocess a source file
-src/ast/ASTNode.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.i
-.PHONY : src/ast/ASTNode.cpp.i
-
-src/ast/ASTNode.s: src/ast/ASTNode.cpp.s
-.PHONY : src/ast/ASTNode.s
-
-# target to generate assembly for a file
-src/ast/ASTNode.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.s
-.PHONY : src/ast/ASTNode.cpp.s
-
-src/ast/VirtualObjectManager.o: src/ast/VirtualObjectManager.cpp.o
-.PHONY : src/ast/VirtualObjectManager.o
-
-# target to build an object file
-src/ast/VirtualObjectManager.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o
-.PHONY : src/ast/VirtualObjectManager.cpp.o
-
-src/ast/VirtualObjectManager.i: src/ast/VirtualObjectManager.cpp.i
-.PHONY : src/ast/VirtualObjectManager.i
-
-# target to preprocess a source file
-src/ast/VirtualObjectManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.i
-.PHONY : src/ast/VirtualObjectManager.cpp.i
-
-src/ast/VirtualObjectManager.s: src/ast/VirtualObjectManager.cpp.s
-.PHONY : src/ast/VirtualObjectManager.s
-
-# target to generate assembly for a file
-src/ast/VirtualObjectManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.s
-.PHONY : src/ast/VirtualObjectManager.cpp.s
-
 test/test_antlr_basic.o: test/test_antlr_basic.cpp.o
 .PHONY : test/test_antlr_basic.o
 
@@ -1958,12 +1916,6 @@ help:
 	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.o"
 	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.i"
 	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.s"
-	@echo "... src/ast/ASTNode.o"
-	@echo "... src/ast/ASTNode.i"
-	@echo "... src/ast/ASTNode.s"
-	@echo "... src/ast/VirtualObjectManager.o"
-	@echo "... src/ast/VirtualObjectManager.i"
-	@echo "... src/ast/VirtualObjectManager.s"
 	@echo "... test/test_antlr_basic.o"
 	@echo "... test/test_antlr_basic.i"
 	@echo "... test/test_antlr_basic.s"

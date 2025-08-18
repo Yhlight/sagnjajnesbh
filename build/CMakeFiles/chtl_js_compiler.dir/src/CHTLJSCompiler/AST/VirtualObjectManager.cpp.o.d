@@ -1,8 +1,8 @@
 CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o: \
   /workspace/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp \
   /workspace/src/CHTLJSCompiler/AST/VirtualObjectManager.h \
-  /workspace/src/CHTLJSCompiler/AST/../../ast/ASTNode.h \
-  /workspace/src/CHTLJSCompiler/AST/../../ast/../common/Token.h \
+  /workspace/src/CHTLJSCompiler/AST/../../CHTLCompiler/AST/CHTLNodes.h \
+  /workspace/src/CHTLJSCompiler/AST/../../CHTLCompiler/AST/../Lexer/CHTLToken.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/string \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++config.h \
@@ -143,6 +143,11 @@ CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator_args.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tuple \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
@@ -153,7 +158,6 @@ CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/memory \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tempbuf.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_raw_storage_iter.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/align.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h /usr/include/stdint.h \
@@ -201,10 +205,6 @@ CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/auto_ptr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_memory_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/execution_defs.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \

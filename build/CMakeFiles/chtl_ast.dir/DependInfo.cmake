@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/workspace/src/ast/ASTNode.cpp" "CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.o" "gcc" "CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.o.d"
-  "/workspace/src/ast/VirtualObjectManager.cpp" "CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o" "gcc" "CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o.d"
+  "/workspace/src/CHTLCompiler/AST/CHTLNodes.cpp" "CMakeFiles/chtl_ast.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.o" "gcc" "CMakeFiles/chtl_ast.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.o.d"
+  "/workspace/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp" "CMakeFiles/chtl_ast.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o" "gcc" "CMakeFiles/chtl_ast.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
