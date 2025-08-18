@@ -60,4 +60,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_syntax_constraints.dir/DependInfo.cmake"
   "CMakeFiles/test_chtl_compiler_simple.dir/DependInfo.cmake"
   "CMakeFiles/test_undecorated_literals.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_js_enhanced.dir/DependInfo.cmake"
+  "CMakeFiles/test_chtljs_enhanced_functions.dir/DependInfo.cmake"
   )

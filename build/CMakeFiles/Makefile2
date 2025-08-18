@@ -74,6 +74,8 @@ all: CMakeFiles/test_unified_scanner.dir/all
 all: CMakeFiles/test_syntax_constraints.dir/all
 all: CMakeFiles/test_chtl_compiler_simple.dir/all
 all: CMakeFiles/test_undecorated_literals.dir/all
+all: CMakeFiles/chtl_js_enhanced.dir/all
+all: CMakeFiles/test_chtljs_enhanced_functions.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
@@ -88,6 +90,8 @@ codegen: CMakeFiles/test_unified_scanner.dir/codegen
 codegen: CMakeFiles/test_syntax_constraints.dir/codegen
 codegen: CMakeFiles/test_chtl_compiler_simple.dir/codegen
 codegen: CMakeFiles/test_undecorated_literals.dir/codegen
+codegen: CMakeFiles/chtl_js_enhanced.dir/codegen
+codegen: CMakeFiles/test_chtljs_enhanced_functions.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -106,6 +110,8 @@ clean: CMakeFiles/test_unified_scanner.dir/clean
 clean: CMakeFiles/test_syntax_constraints.dir/clean
 clean: CMakeFiles/test_chtl_compiler_simple.dir/clean
 clean: CMakeFiles/test_undecorated_literals.dir/clean
+clean: CMakeFiles/chtl_js_enhanced.dir/clean
+clean: CMakeFiles/test_chtljs_enhanced_functions.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -115,7 +121,7 @@ clean: CMakeFiles/test_undecorated_literals.dir/clean
 CMakeFiles/chtl_shared.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=18,19,20 "Built target chtl_shared"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=21,22,23 "Built target chtl_shared"
 .PHONY : CMakeFiles/chtl_shared.dir/all
 
 # Build rule for subdir invocation for target.
@@ -132,7 +138,7 @@ chtl_shared: CMakeFiles/chtl_shared.dir/rule
 # codegen rule for target.
 CMakeFiles/chtl_shared.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=18,19,20 "Finished codegen for target chtl_shared"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=21,22,23 "Finished codegen for target chtl_shared"
 .PHONY : CMakeFiles/chtl_shared.dir/codegen
 
 # clean rule for target.
@@ -244,7 +250,7 @@ CMakeFiles/unified_core.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/unified_core.dir/all: CMakeFiles/chtl_ast.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=33,34,35 "Built target unified_core"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=38,39,40 "Built target unified_core"
 .PHONY : CMakeFiles/unified_core.dir/all
 
 # Build rule for subdir invocation for target.
@@ -261,7 +267,7 @@ unified_core: CMakeFiles/unified_core.dir/rule
 # codegen rule for target.
 CMakeFiles/unified_core.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=33,34,35 "Finished codegen for target unified_core"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=38,39,40 "Finished codegen for target unified_core"
 .PHONY : CMakeFiles/unified_core.dir/codegen
 
 # clean rule for target.
@@ -277,7 +283,7 @@ CMakeFiles/test_chtl_compiler.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/test_chtl_compiler.dir/all: CMakeFiles/chtl_compiler.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler.dir/build.make CMakeFiles/test_chtl_compiler.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler.dir/build.make CMakeFiles/test_chtl_compiler.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=21,22 "Built target test_chtl_compiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=24,25 "Built target test_chtl_compiler"
 .PHONY : CMakeFiles/test_chtl_compiler.dir/all
 
 # Build rule for subdir invocation for target.
@@ -294,7 +300,7 @@ test_chtl_compiler: CMakeFiles/test_chtl_compiler.dir/rule
 # codegen rule for target.
 CMakeFiles/test_chtl_compiler.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler.dir/build.make CMakeFiles/test_chtl_compiler.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=21,22 "Finished codegen for target test_chtl_compiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=24,25 "Finished codegen for target test_chtl_compiler"
 .PHONY : CMakeFiles/test_chtl_compiler.dir/codegen
 
 # clean rule for target.
@@ -310,7 +316,7 @@ CMakeFiles/test_chtl_js_lexer.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/test_chtl_js_lexer.dir/all: CMakeFiles/chtl_js_compiler.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_lexer.dir/build.make CMakeFiles/test_chtl_js_lexer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_lexer.dir/build.make CMakeFiles/test_chtl_js_lexer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=25,26 "Built target test_chtl_js_lexer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=28,29 "Built target test_chtl_js_lexer"
 .PHONY : CMakeFiles/test_chtl_js_lexer.dir/all
 
 # Build rule for subdir invocation for target.
@@ -327,7 +333,7 @@ test_chtl_js_lexer: CMakeFiles/test_chtl_js_lexer.dir/rule
 # codegen rule for target.
 CMakeFiles/test_chtl_js_lexer.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_lexer.dir/build.make CMakeFiles/test_chtl_js_lexer.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=25,26 "Finished codegen for target test_chtl_js_lexer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=28,29 "Finished codegen for target test_chtl_js_lexer"
 .PHONY : CMakeFiles/test_chtl_js_lexer.dir/codegen
 
 # clean rule for target.
@@ -344,7 +350,7 @@ CMakeFiles/test_unified_scanner.dir/all: CMakeFiles/chtl_ast.dir/all
 CMakeFiles/test_unified_scanner.dir/all: CMakeFiles/unified_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=31,32 "Built target test_unified_scanner"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=36,37 "Built target test_unified_scanner"
 .PHONY : CMakeFiles/test_unified_scanner.dir/all
 
 # Build rule for subdir invocation for target.
@@ -361,7 +367,7 @@ test_unified_scanner: CMakeFiles/test_unified_scanner.dir/rule
 # codegen rule for target.
 CMakeFiles/test_unified_scanner.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=31,32 "Finished codegen for target test_unified_scanner"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=36,37 "Finished codegen for target test_unified_scanner"
 .PHONY : CMakeFiles/test_unified_scanner.dir/codegen
 
 # clean rule for target.
@@ -378,7 +384,7 @@ CMakeFiles/test_syntax_constraints.dir/all: CMakeFiles/chtl_ast.dir/all
 CMakeFiles/test_syntax_constraints.dir/all: CMakeFiles/unified_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=27,28 "Built target test_syntax_constraints"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=32,33 "Built target test_syntax_constraints"
 .PHONY : CMakeFiles/test_syntax_constraints.dir/all
 
 # Build rule for subdir invocation for target.
@@ -395,7 +401,7 @@ test_syntax_constraints: CMakeFiles/test_syntax_constraints.dir/rule
 # codegen rule for target.
 CMakeFiles/test_syntax_constraints.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=27,28 "Finished codegen for target test_syntax_constraints"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=32,33 "Finished codegen for target test_syntax_constraints"
 .PHONY : CMakeFiles/test_syntax_constraints.dir/codegen
 
 # clean rule for target.
@@ -411,7 +417,7 @@ CMakeFiles/test_chtl_compiler_simple.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/test_chtl_compiler_simple.dir/all: CMakeFiles/chtl_compiler.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler_simple.dir/build.make CMakeFiles/test_chtl_compiler_simple.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler_simple.dir/build.make CMakeFiles/test_chtl_compiler_simple.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=23,24 "Built target test_chtl_compiler_simple"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=26,27 "Built target test_chtl_compiler_simple"
 .PHONY : CMakeFiles/test_chtl_compiler_simple.dir/all
 
 # Build rule for subdir invocation for target.
@@ -428,7 +434,7 @@ test_chtl_compiler_simple: CMakeFiles/test_chtl_compiler_simple.dir/rule
 # codegen rule for target.
 CMakeFiles/test_chtl_compiler_simple.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler_simple.dir/build.make CMakeFiles/test_chtl_compiler_simple.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=23,24 "Finished codegen for target test_chtl_compiler_simple"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=26,27 "Finished codegen for target test_chtl_compiler_simple"
 .PHONY : CMakeFiles/test_chtl_compiler_simple.dir/codegen
 
 # clean rule for target.
@@ -446,7 +452,7 @@ CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/chtl_js_compiler.dir/al
 CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/unified_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=29,30 "Built target test_undecorated_literals"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=34,35 "Built target test_undecorated_literals"
 .PHONY : CMakeFiles/test_undecorated_literals.dir/all
 
 # Build rule for subdir invocation for target.
@@ -463,13 +469,78 @@ test_undecorated_literals: CMakeFiles/test_undecorated_literals.dir/rule
 # codegen rule for target.
 CMakeFiles/test_undecorated_literals.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=29,30 "Finished codegen for target test_undecorated_literals"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=34,35 "Finished codegen for target test_undecorated_literals"
 .PHONY : CMakeFiles/test_undecorated_literals.dir/codegen
 
 # clean rule for target.
 CMakeFiles/test_undecorated_literals.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/clean
 .PHONY : CMakeFiles/test_undecorated_literals.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/chtl_js_enhanced.dir
+
+# All Build rule for target.
+CMakeFiles/chtl_js_enhanced.dir/all: CMakeFiles/chtl_shared.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=18,19,20 "Built target chtl_js_enhanced"
+.PHONY : CMakeFiles/chtl_js_enhanced.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/chtl_js_enhanced.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/chtl_js_enhanced.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
+.PHONY : CMakeFiles/chtl_js_enhanced.dir/rule
+
+# Convenience name for target.
+chtl_js_enhanced: CMakeFiles/chtl_js_enhanced.dir/rule
+.PHONY : chtl_js_enhanced
+
+# codegen rule for target.
+CMakeFiles/chtl_js_enhanced.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=18,19,20 "Finished codegen for target chtl_js_enhanced"
+.PHONY : CMakeFiles/chtl_js_enhanced.dir/codegen
+
+# clean rule for target.
+CMakeFiles/chtl_js_enhanced.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/clean
+.PHONY : CMakeFiles/chtl_js_enhanced.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test_chtljs_enhanced_functions.dir
+
+# All Build rule for target.
+CMakeFiles/test_chtljs_enhanced_functions.dir/all: CMakeFiles/chtl_shared.dir/all
+CMakeFiles/test_chtljs_enhanced_functions.dir/all: CMakeFiles/chtl_js_enhanced.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=30,31 "Built target test_chtljs_enhanced_functions"
+.PHONY : CMakeFiles/test_chtljs_enhanced_functions.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_chtljs_enhanced_functions.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 8
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_chtljs_enhanced_functions.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_chtljs_enhanced_functions.dir/rule
+
+# Convenience name for target.
+test_chtljs_enhanced_functions: CMakeFiles/test_chtljs_enhanced_functions.dir/rule
+.PHONY : test_chtljs_enhanced_functions
+
+# codegen rule for target.
+CMakeFiles/test_chtljs_enhanced_functions.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=30,31 "Finished codegen for target test_chtljs_enhanced_functions"
+.PHONY : CMakeFiles/test_chtljs_enhanced_functions.dir/codegen
+
+# clean rule for target.
+CMakeFiles/test_chtljs_enhanced_functions.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/clean
+.PHONY : CMakeFiles/test_chtljs_enhanced_functions.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

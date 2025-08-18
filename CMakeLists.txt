@@ -91,3 +91,25 @@ set_target_properties(
     test_undecorated_literals
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+# 添加CHTL JS增强功能组件到CHTL JS编译器
+set(CHTL_JS_ENHANCED_SOURCES
+    src/CHTLJSCompiler/Core/JSEventRegistry.cpp
+    src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp
+)
+
+# 更新CHTL JS编译器库
+add_library(chtl_js_enhanced STATIC ${CHTL_JS_ENHANCED_SOURCES})
+target_link_libraries(chtl_js_enhanced chtl_shared)
+
+# CHTL JS增强功能测试
+add_executable(test_chtljs_enhanced_functions test/test_chtljs_enhanced_functions.cpp)
+target_link_libraries(test_chtljs_enhanced_functions chtl_js_enhanced)
+
+# 更新输出目录设置
+set_target_properties(
+    chtl_js_enhanced test_chtljs_enhanced_functions
+    PROPERTIES 
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)

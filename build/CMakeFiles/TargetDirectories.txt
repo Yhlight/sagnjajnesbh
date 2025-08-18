@@ -9,6 +9,8 @@
 /workspace/build/CMakeFiles/test_syntax_constraints.dir
 /workspace/build/CMakeFiles/test_chtl_compiler_simple.dir
 /workspace/build/CMakeFiles/test_undecorated_literals.dir
+/workspace/build/CMakeFiles/chtl_js_enhanced.dir
+/workspace/build/CMakeFiles/test_chtljs_enhanced_functions.dir
 /workspace/build/CMakeFiles/package.dir
 /workspace/build/CMakeFiles/package_source.dir
 /workspace/build/CMakeFiles/edit_cache.dir

@@ -279,6 +279,32 @@ test_undecorated_literals/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/build
 .PHONY : test_undecorated_literals/fast
 
+#=============================================================================
+# Target rules for targets named chtl_js_enhanced
+
+# Build rule for target.
+chtl_js_enhanced: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_js_enhanced
+.PHONY : chtl_js_enhanced
+
+# fast build rule for target.
+chtl_js_enhanced/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/build
+.PHONY : chtl_js_enhanced/fast
+
+#=============================================================================
+# Target rules for targets named test_chtljs_enhanced_functions
+
+# Build rule for target.
+test_chtljs_enhanced_functions: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtljs_enhanced_functions
+.PHONY : test_chtljs_enhanced_functions
+
+# fast build rule for target.
+test_chtljs_enhanced_functions/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/build
+.PHONY : test_chtljs_enhanced_functions/fast
+
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
@@ -495,6 +521,30 @@ src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler.dir/build.make CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.s
 .PHONY : src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.s
 
+src/CHTLJSCompiler/Core/JSEventRegistry.o: src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o
+.PHONY : src/CHTLJSCompiler/Core/JSEventRegistry.o
+
+# target to build an object file
+src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o
+.PHONY : src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o
+
+src/CHTLJSCompiler/Core/JSEventRegistry.i: src/CHTLJSCompiler/Core/JSEventRegistry.cpp.i
+.PHONY : src/CHTLJSCompiler/Core/JSEventRegistry.i
+
+# target to preprocess a source file
+src/CHTLJSCompiler/Core/JSEventRegistry.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.i
+.PHONY : src/CHTLJSCompiler/Core/JSEventRegistry.cpp.i
+
+src/CHTLJSCompiler/Core/JSEventRegistry.s: src/CHTLJSCompiler/Core/JSEventRegistry.cpp.s
+.PHONY : src/CHTLJSCompiler/Core/JSEventRegistry.s
+
+# target to generate assembly for a file
+src/CHTLJSCompiler/Core/JSEventRegistry.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.s
+.PHONY : src/CHTLJSCompiler/Core/JSEventRegistry.cpp.s
+
 src/CHTLJSCompiler/Lexer/CHTLJSLexer.o: src/CHTLJSCompiler/Lexer/CHTLJSLexer.cpp.o
 .PHONY : src/CHTLJSCompiler/Lexer/CHTLJSLexer.o
 
@@ -566,6 +616,30 @@ src/CHTLJSCompiler/Module/CJmodManager.s: src/CHTLJSCompiler/Module/CJmodManager
 src/CHTLJSCompiler/Module/CJmodManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler.dir/build.make CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.s
 .PHONY : src/CHTLJSCompiler/Module/CJmodManager.cpp.s
+
+src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.o: src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o
+.PHONY : src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.o
+
+# target to build an object file
+src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o
+.PHONY : src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o
+
+src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.i: src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.i
+.PHONY : src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.i
+
+# target to preprocess a source file
+src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.i
+.PHONY : src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.i
+
+src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.s: src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.s
+.PHONY : src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.s
+
+# target to generate assembly for a file
+src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.s
+.PHONY : src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.s
 
 src/Shared/SimpleZip/SimpleZip.o: src/Shared/SimpleZip/SimpleZip.cpp.o
 .PHONY : src/Shared/SimpleZip/SimpleZip.o
@@ -783,6 +857,30 @@ test/test_chtl_js_lexer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_lexer.dir/build.make CMakeFiles/test_chtl_js_lexer.dir/test/test_chtl_js_lexer.cpp.s
 .PHONY : test/test_chtl_js_lexer.cpp.s
 
+test/test_chtljs_enhanced_functions.o: test/test_chtljs_enhanced_functions.cpp.o
+.PHONY : test/test_chtljs_enhanced_functions.o
+
+# target to build an object file
+test/test_chtljs_enhanced_functions.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/test/test_chtljs_enhanced_functions.cpp.o
+.PHONY : test/test_chtljs_enhanced_functions.cpp.o
+
+test/test_chtljs_enhanced_functions.i: test/test_chtljs_enhanced_functions.cpp.i
+.PHONY : test/test_chtljs_enhanced_functions.i
+
+# target to preprocess a source file
+test/test_chtljs_enhanced_functions.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/test/test_chtljs_enhanced_functions.cpp.i
+.PHONY : test/test_chtljs_enhanced_functions.cpp.i
+
+test/test_chtljs_enhanced_functions.s: test/test_chtljs_enhanced_functions.cpp.s
+.PHONY : test/test_chtljs_enhanced_functions.s
+
+# target to generate assembly for a file
+test/test_chtljs_enhanced_functions.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/test/test_chtljs_enhanced_functions.cpp.s
+.PHONY : test/test_chtljs_enhanced_functions.cpp.s
+
 test/test_syntax_constraints.o: test/test_syntax_constraints.cpp.o
 .PHONY : test/test_syntax_constraints.o
 
@@ -868,10 +966,12 @@ help:
 	@echo "... chtl_ast"
 	@echo "... chtl_compiler"
 	@echo "... chtl_js_compiler"
+	@echo "... chtl_js_enhanced"
 	@echo "... chtl_shared"
 	@echo "... test_chtl_compiler"
 	@echo "... test_chtl_compiler_simple"
 	@echo "... test_chtl_js_lexer"
+	@echo "... test_chtljs_enhanced_functions"
 	@echo "... test_syntax_constraints"
 	@echo "... test_undecorated_literals"
 	@echo "... test_unified_scanner"
@@ -903,6 +1003,9 @@ help:
 	@echo "... src/CHTLJSCompiler/AST/VirtualObjectManager.o"
 	@echo "... src/CHTLJSCompiler/AST/VirtualObjectManager.i"
 	@echo "... src/CHTLJSCompiler/AST/VirtualObjectManager.s"
+	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.o"
+	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.i"
+	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.s"
 	@echo "... src/CHTLJSCompiler/Lexer/CHTLJSLexer.o"
 	@echo "... src/CHTLJSCompiler/Lexer/CHTLJSLexer.i"
 	@echo "... src/CHTLJSCompiler/Lexer/CHTLJSLexer.s"
@@ -912,6 +1015,9 @@ help:
 	@echo "... src/CHTLJSCompiler/Module/CJmodManager.o"
 	@echo "... src/CHTLJSCompiler/Module/CJmodManager.i"
 	@echo "... src/CHTLJSCompiler/Module/CJmodManager.s"
+	@echo "... src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.o"
+	@echo "... src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.i"
+	@echo "... src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.s"
 	@echo "... src/Shared/SimpleZip/SimpleZip.o"
 	@echo "... src/Shared/SimpleZip/SimpleZip.i"
 	@echo "... src/Shared/SimpleZip/SimpleZip.s"
@@ -939,6 +1045,9 @@ help:
 	@echo "... test/test_chtl_js_lexer.o"
 	@echo "... test/test_chtl_js_lexer.i"
 	@echo "... test/test_chtl_js_lexer.s"
+	@echo "... test/test_chtljs_enhanced_functions.o"
+	@echo "... test/test_chtljs_enhanced_functions.i"
+	@echo "... test/test_chtljs_enhanced_functions.s"
 	@echo "... test/test_syntax_constraints.o"
 	@echo "... test/test_syntax_constraints.i"
 	@echo "... test/test_syntax_constraints.s"
