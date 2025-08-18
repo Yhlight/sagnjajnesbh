@@ -383,14 +383,41 @@ const art = printMylove({
     scale: 1.0
 });
 
-// 自动添加测试
-{{.auto-style}}
-    自动样式内容
-{{/.auto-style}}
+// 自动添加规则测试
+div  // 没有class和id
+{
+    style
+    {
+        .auto-class  // 第一个类选择器 → 自动添加 class="auto-class"
+        {
+            color: blue;
+        }
+    }
+}
 
-{{#auto-script}}
-    自动脚本内容
-{{/auto-script}}
+div  // 没有class和id，style也没有自动添加
+{
+    script
+    {
+        {{.script-class}}  // 明确类选择器 → 自动添加 class="script-class"
+        {{#script-id}}     // 明确ID选择器 → 自动添加 id="script-id"
+    }
+}
+
+// 上下文推导测试
+div
+{
+    class: context-class;
+    id: context-id;
+    style
+    {
+        &:hover  // 类优先 → .context-class:hover
+    }
+    script
+    {
+        {{&}}  // ID优先 → document.getElementById('context-id')
+    }
+}
 
 // 无修饰字面量
 text
@@ -401,14 +428,16 @@ text
 
 div
 {
-    class: undecorated-class
-    title: 无修饰标题
+    class: undecorated-class;
+    title: 无修饰标题;
 }
 )";
     
     return advancedCode.find("printMylove") != std::string::npos &&
-           advancedCode.find("{{.auto-style}}") != std::string::npos &&
-           advancedCode.find("{{#auto-script}}") != std::string::npos &&
+           advancedCode.find(".auto-class") != std::string::npos &&
+           advancedCode.find("{{.script-class}}") != std::string::npos &&
+           advancedCode.find("{{#script-id}}") != std::string::npos &&
+           advancedCode.find("{{&}}") != std::string::npos &&
            advancedCode.find("这是无修饰字面量文本") != std::string::npos;
 }
 

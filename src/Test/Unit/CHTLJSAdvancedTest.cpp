@@ -423,85 +423,204 @@ void CHTLJSAdvancedTest::testAllJavaScriptEvents() {
 
 void CHTLJSAdvancedTest::testAutoLocalStyleAddition() {
     std::string autoStyleCode = R"(
-// 使用{{.xxx}}应该触发自动添加本地样式块
-{{.my-component}}
-    内容
-{{/.my-component}}
+// 局部样式块自动添加规则测试
+div  // 没有明确的class或id
+{
+    style
+    {
+        .primary    // 第一个类选择器 → 自动添加 class="primary"
+        {
+            color: blue;
+        }
+        
+        .secondary  // 第二个类选择器 → 不会添加
+        {
+            color: red;
+        }
+        
+        #header     // 第一个ID选择器 → 自动添加 id="header"
+        {
+            font-size: 24px;
+        }
+        
+        #footer     // 第二个ID选择器 → 不会添加
+        {
+            font-size: 12px;
+        }
+    }
+}
 
-{{.another-class}}
-    更多内容
-{{/.another-class}}
+// 已有属性的情况
+div
+{
+    class: existing-class;
+    style
+    {
+        .new-class  // 不会添加，因为已有class属性
+        {
+            background: yellow;
+        }
+    }
+}
 
-// 预期自动生成的本地样式块:
-// [Local Style]
-// .my-component {
-//     /* 自动生成的样式 */
-// }
-// .another-class {
-//     /* 自动生成的样式 */
-// }
+div
+{
+    id: existing-id;
+    style
+    {
+        #new-id  // 不会添加，因为已有id属性
+        {
+            margin: 10px;
+        }
+    }
+}
 )";
     
-    assertTrue(isValidCHTLJSSyntax(autoStyleCode), "自动样式添加代码应该有效");
+    assertTrue(isValidCHTLJSSyntax(autoStyleCode), "局部样式块自动添加代码应该有效");
     
-    // 验证类选择器的存在
-    assertTrue(autoStyleCode.find("{{.my-component}}") != std::string::npos, "应该包含类选择器");
-    assertTrue(autoStyleCode.find("{{.another-class}}") != std::string::npos, "应该包含另一个类选择器");
+    // 验证第一个选择器（会被添加）
+    assertTrue(autoStyleCode.find(".primary") != std::string::npos, "应该包含第一个类选择器");
+    assertTrue(autoStyleCode.find("#header") != std::string::npos, "应该包含第一个ID选择器");
+    
+    // 验证第二个选择器（不会被添加）
+    assertTrue(autoStyleCode.find(".secondary") != std::string::npos, "应该包含第二个类选择器（但不会被添加）");
+    assertTrue(autoStyleCode.find("#footer") != std::string::npos, "应该包含第二个ID选择器（但不会被添加）");
+    
+    // 验证已有属性的情况
+    assertTrue(autoStyleCode.find("class: existing-class") != std::string::npos, "应该包含已有的class属性");
+    assertTrue(autoStyleCode.find("id: existing-id") != std::string::npos, "应该包含已有的id属性");
 }
 
 void CHTLJSAdvancedTest::testAutoLocalScriptAddition() {
     std::string autoScriptCode = R"(
-// 使用{{#xxx}}应该触发自动添加本地脚本块
-{{#main-container}}
-    主要内容
-{{/main-container}}
+// 局部脚本块自动添加规则测试（当style没有自动添加时）
+div  // 没有class和id，style也没有自动添加
+{
+    script
+    {
+        {{.component}}  // 明确类选择器 → 自动添加 class="component"
+        {{#container}}  // 明确ID选择器 → 自动添加 id="container"
+        {{element}}     // 不明确选择器 → 不会自动添加
+    }
+}
 
-{{#sidebar}}
-    侧边栏内容
-{{/sidebar}}
+// 已有属性的情况，不重复添加
+div
+{
+    class: existing;
+    script
+    {
+        {{#new-id}}  // 可以添加ID，因为没有id属性
+    }
+}
 
-// 预期自动生成的本地脚本块:
-// [Local Script]
-// document.getElementById('main-container').addEventListener('load', function() {
-//     /* 自动生成的脚本 */
-// });
+div
+{
+    id: existing;
+    script
+    {
+        {{.new-class}}  // 可以添加class，因为没有class属性
+    }
+}
+
+// 上下文推导测试
+div
+{
+    class: my-class;
+    id: my-id;
+    script
+    {
+        {{&}}  // ID优先 → 解析为 document.getElementById('my-id')
+    }
+}
+
+div
+{
+    class: only-class;  // 只有class
+    script
+    {
+        {{&}}  // 没有id，使用class → 解析为 document.querySelector('.only-class')
+    }
+}
 )";
     
-    assertTrue(isValidCHTLJSSyntax(autoScriptCode), "自动脚本添加代码应该有效");
+    assertTrue(isValidCHTLJSSyntax(autoScriptCode), "局部脚本块自动添加代码应该有效");
     
-    // 验证ID选择器的存在
-    assertTrue(autoScriptCode.find("{{#main-container}}") != std::string::npos, "应该包含ID选择器");
-    assertTrue(autoScriptCode.find("{{#sidebar}}") != std::string::npos, "应该包含另一个ID选择器");
+    // 验证明确选择器（会触发自动添加）
+    assertTrue(autoScriptCode.find("{{.component}}") != std::string::npos, "应该包含明确的类选择器");
+    assertTrue(autoScriptCode.find("{{#container}}") != std::string::npos, "应该包含明确的ID选择器");
+    
+    // 验证不明确选择器（不会触发自动添加）
+    assertTrue(autoScriptCode.find("{{element}}") != std::string::npos, "应该包含不明确的选择器");
+    
+    // 验证上下文推导
+    assertTrue(autoScriptCode.find("{{&}}") != std::string::npos, "应该包含上下文推导选择器");
+    assertTrue(autoScriptCode.find("ID优先") != std::string::npos, "应该说明script中的ID优先规则");
 }
 
 void CHTLJSAdvancedTest::testIDPriorityRule() {
     std::string priorityCode = R"(
-// 同时存在class和id时，ID优先（性能考虑）
-{{.my-class}}
-    {{#my-id}}
-        内容：ID优先，应该生成本地脚本块而不是样式块
-    {{/my-id}}
-{{/.my-class}}
+// 测试自动添加规则：缺什么，自动添加什么
+div  // 没有class和id
+{
+    style
+    {
+        .box    // 第一个类选择器 → 自动添加 class="box"
+        .box2   // 第二个类选择器 → 不添加
+        #main   // 第一个ID选择器 → 自动添加 id="main"
+        #sub    // 第二个ID选择器 → 不添加
+    }
+}
 
-// 只有class时，生成样式块
-{{.only-class}}
-    只有类选择器的内容
-{{/.only-class}}
+// 已有属性，不重复添加
+div
+{
+    class: existing;
+    style
+    {
+        .box  // 不会添加，因为已有class
+    }
+}
 
-// 只有id时，生成脚本块
-{{#only-id}}
-    只有ID选择器的内容
-{{/only-id}}
+// script自动添加（当style没有添加时）
+div  // 没有class和id，style也没有添加
+{
+    script
+    {
+        {{.auto-class}}  // 明确类选择器 → 自动添加 class="auto-class"
+        {{#auto-id}}     // 明确ID选择器 → 自动添加 id="auto-id"
+        {{element}}      // 不明确 → 不会自动添加
+    }
+}
+
+// 上下文推导优先级
+div
+{
+    class: test;
+    id: main;
+    style
+    {
+        &:hover  // 类优先 → 解析为 .test:hover
+    }
+    script
+    {
+        {{&}}  // ID优先 → 解析为 document.getElementById('main')
+    }
+}
 )";
     
-    assertTrue(isValidCHTLJSSyntax(priorityCode), "ID优先级规则代码应该有效");
+    assertTrue(isValidCHTLJSSyntax(priorityCode), "自动添加规则代码应该有效");
     
-    // 验证ID优先级规则
-    assertTrue(priorityCode.find("{{#my-id}}") != std::string::npos, "应该包含ID选择器");
-    assertTrue(priorityCode.find("{{.my-class}}") != std::string::npos, "应该包含类选择器");
+    // 验证自动添加规则的关键元素
+    assertTrue(priorityCode.find(".box") != std::string::npos, "应该包含第一个类选择器");
+    assertTrue(priorityCode.find("#main") != std::string::npos, "应该包含第一个ID选择器");
+    assertTrue(priorityCode.find("{{.auto-class}}") != std::string::npos, "应该包含明确的CHTL JS类选择器");
+    assertTrue(priorityCode.find("{{#auto-id}}") != std::string::npos, "应该包含明确的CHTL JS ID选择器");
+    assertTrue(priorityCode.find("{{&}}") != std::string::npos, "应该包含上下文推导选择器");
     
-    // 注释说明了预期行为：ID优先生成脚本块
-    assertTrue(priorityCode.find("ID优先") != std::string::npos, "应该说明ID优先规则");
+    // 验证优先级说明
+    assertTrue(priorityCode.find("类优先") != std::string::npos, "应该说明style中的类优先");
+    assertTrue(priorityCode.find("ID优先") != std::string::npos, "应该说明script中的ID优先");
 }
 
 // === 辅助方法实现 ===
