@@ -1,0 +1,26 @@
+// 珂朵莉备忘录组件 - 记录珍贵的回忆
+div
+{
+    style
+    {
+        .chtholly-memo
+        {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.3);
+            margin: 10px 0;
+        }
+    }
+
+    script
+    {
+        console.log('📝 珂朵莉备忘录组件已加载');
+    }
+
+    div
+    {
+        class: chtholly-memo;
+        text { 珂朵莉的备忘录 - 记录珍贵的回忆 }
+    }
+}

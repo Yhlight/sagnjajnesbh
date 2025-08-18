@@ -1,0 +1,16 @@
+// 珂朵莉CJMOD功能模块
+// printMylove 和 iNeverAway 功能实现
+[Info]
+{
+    name = "ChthollyNative";
+    version = "1.0.0";
+    description = "珂朵莉原生C++功能模块 - printMylove图像转字符和iNeverAway虚拟对象";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "native-extension";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+// CJMOD不需要[Export]节，由系统自动管理

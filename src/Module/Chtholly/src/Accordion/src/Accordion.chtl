@@ -12,6 +12,13 @@ div
             box-shadow: 0 8px 25px rgba(255, 154, 158, 0.3);
             overflow: hidden;
             margin: 10px 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        &:hover
+        {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(255, 154, 158, 0.4);
         }
 
         .chtholly-accordion-header
@@ -21,12 +28,12 @@ div
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border-bottom: 1px solid rgba(255, 107, 157, 0.1);
+            position: relative;
         }
 
-        &:hover
+        .chtholly-accordion-header:hover
         {
             background: rgba(255, 107, 157, 0.1);
-            transform: translateY(-1px);
         }
 
         .chtholly-accordion-content
@@ -49,11 +56,19 @@ div
             float: right;
             transition: transform 0.3s ease;
             color: #ff6b9d;
+            font-size: 18px;
         }
 
         .chtholly-accordion-icon.expanded
         {
             transform: rotate(180deg);
+        }
+
+        .chtholly-accordion-title
+        {
+            color: #5d4e75;
+            font-weight: 600;
+            font-size: 16px;
         }
     }
 
@@ -61,28 +76,28 @@ div
     {
         // 珂朵莉手风琴交互逻辑
         function initChthollyAccordion() {
-            const accordions = document.querySelectorAll('.chtholly-accordion');
-            
-            accordions.forEach(accordion => {
-                const header = accordion.querySelector('.chtholly-accordion-header');
-                const content = accordion.querySelector('.chtholly-accordion-content');
-                const icon = accordion.querySelector('.chtholly-accordion-icon');
-                
-                header.addEventListener('click', () => {
-                    const isExpanded = content.classList.contains('expanded');
+            {{.chtholly-accordion}} -> listen({
+                click: function() {
+                    const header = this.querySelector('.chtholly-accordion-header');
+                    const content = this.querySelector('.chtholly-accordion-content');
+                    const icon = this.querySelector('.chtholly-accordion-icon');
                     
-                    // 优雅的展开/收起动画
-                    if (isExpanded) {
-                        content.classList.remove('expanded');
-                        icon.classList.remove('expanded');
-                    } else {
-                        content.classList.add('expanded');
-                        icon.classList.add('expanded');
+                    if (header && content && icon) {
+                        const isExpanded = content.classList.contains('expanded');
+                        
+                        // 优雅的展开/收起动画
+                        if (isExpanded) {
+                            content.classList.remove('expanded');
+                            icon.classList.remove('expanded');
+                        } else {
+                            content.classList.add('expanded');
+                            icon.classList.add('expanded');
+                        }
                     }
-                });
+                }
             });
             
-            console.log('🌸 珂朵莉手风琴组件已初始化');
+            console.log('🌸 珂朵莉手风琴组件已初始化 - 如樱花般优美');
         }
 
         // 自动初始化
@@ -102,7 +117,7 @@ div
                 class: chtholly-accordion-title;
                 text
                 {
-                    手风琴标题
+                    珂朵莉的手风琴
                 }
             }
             
@@ -111,7 +126,7 @@ div
                 class: chtholly-accordion-icon;
                 text
                 {
-                    ▼
+                    🌸
                 }
             }
         }
@@ -126,7 +141,8 @@ div
                 
                 text
                 {
-                    手风琴内容区域 - 珂朵莉优雅的折叠展示
+                    这是珂朵莉优雅的手风琴组件，如樱花般美丽。
+                    世界上最幸福的女孩 - 珂朵莉。
                 }
             }
         }

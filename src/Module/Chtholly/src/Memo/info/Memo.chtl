@@ -1,0 +1,19 @@
+// 珂朵莉备忘录组件
+[Info]
+{
+    name = "ChthollyMemo";
+    version = "1.0.0";
+    description = "珂朵莉备忘录组件 - 记录珍贵的回忆";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "ui-component";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export]
+{
+    @Element ChthollyMemo;
+    @Style ChthollyMemoStyle;
+}

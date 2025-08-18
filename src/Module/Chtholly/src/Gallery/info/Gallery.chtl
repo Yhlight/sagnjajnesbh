@@ -1,0 +1,19 @@
+// 珂朵莉四叶窗相册组件
+[Info]
+{
+    name = "ChthollyGallery";
+    version = "1.0.0";
+    description = "珂朵莉四叶窗相册组件 - 如四叶草般幸运的相册展示";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "ui-component";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export]
+{
+    @Element ChthollyGallery;
+    @Style ChthollyGalleryStyle;
+}
