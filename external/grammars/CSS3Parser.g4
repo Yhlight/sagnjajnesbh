@@ -1,6 +1,6 @@
-// CHTL CSS3 Parser Grammar
-// Based on official ANTLR grammars-v4 CSS3 grammar
-// Simplified for CHTL compiler integration
+// CSS3 Parser Grammar - Based on official ANTLR grammars-v4
+// Adapted for CHTL project requirements
+// Simplified for basic CSS parsing needs
 
 parser grammar CSS3Parser;
 
@@ -8,114 +8,266 @@ options {
     tokenVocab = CSS3Lexer;
 }
 
-stylesheet: ws* (charset ws*)? (imports ws*)* (namespace ws*)* (nestedStatement ws*)* EOF;
+// Main stylesheet rule
+stylesheet
+    : ws? (charset ws?)? (imports ws?)* (namespace_ ws?)* (nestedStatement ws?)* EOF
+    ;
 
-charset: AtKeyword ws* String_ ws* SemiColon;
+// Character set declaration
+charset
+    : CHARSET ws? STRING ws? SemiColon ws?
+    ;
 
-imports: AtKeyword ws* (String_ | Uri) ws* mediaQueryList? SemiColon;
+// Import statements
+imports
+    : IMPORT ws? (STRING | uri) ws? mediaQueryList? SemiColon ws?
+    ;
 
-namespace: AtKeyword ws* (namespacePrefixName ws*)? (String_ | Uri) ws* SemiColon;
+// Namespace declarations
+namespace_
+    : NAMESPACE ws? (namespacePrefix ws?)? (STRING | uri) ws? SemiColon ws?
+    ;
 
-namespacePrefixName: Ident;
+namespacePrefix
+    : IDENT
+    ;
 
-media: AtKeyword ws* mediaQueryList ws* groupRuleBody;
+// Media queries
+media
+    : MEDIA ws? mediaQueryList groupRuleBody ws?
+    ;
 
-mediaQueryList: ws* mediaQuery (ws* Comma ws* mediaQuery)*;
+mediaQueryList
+    : (mediaQuery (Comma ws? mediaQuery)*)? ws?
+    ;
 
-mediaQuery: (Only ws* | Not ws*)? mediaType (ws* And ws* mediaExpression)*
-          | mediaExpression (ws* And ws* mediaExpression)*;
+mediaQuery
+    : mediaType ws? (AND ws? mediaExpression)*
+    | mediaExpression (AND ws? mediaExpression)*
+    ;
 
-mediaType: Ident;
+mediaType
+    : IDENT
+    ;
 
-mediaExpression: OpenParen ws* mediaFeature (ws* Colon ws* expr)? ws* CloseParen;
+mediaExpression
+    : OpenParen ws? mediaFeature (Colon ws? expr)? ws? CloseParen
+    ;
 
-mediaFeature: Ident;
+mediaFeature
+    : IDENT
+    ;
 
-page: AtKeyword ws* pseudoPage? ws* OpenBrace ws* declaration? (ws* SemiColon ws* declaration?)* ws* CloseBrace;
+// Nested statements (rules, at-rules, etc.)
+nestedStatement
+    : ruleset
+    | media
+    | page
+    | fontFaceRule
+    | keyframesRule
+    | supportsRule
+    | unknownAtRule
+    ;
 
-pseudoPage: Colon Ident;
+// Rulesets
+ruleset
+    : selectors_group OpenBrace ws? declarationList? CloseBrace ws?
+    ;
 
-selectorGroup: selector (ws* Comma ws* selector)*;
+selectors_group
+    : selector (Comma ws? selector)*
+    ;
 
-selector: simpleSelectorSequence (combinator simpleSelectorSequence)*;
+selector
+    : simple_selector_sequence (combinator simple_selector_sequence)*
+    ;
 
-combinator: ws* (Plus | Greater | Tilde) ws* | ws+;
+combinator
+    : Plus ws?
+    | Greater ws?
+    | Tilde ws?
+    | ws
+    ;
 
-simpleSelectorSequence: (typeSelector | universal) (Hash | className | attrib | pseudo | negation)*
-                      | (Hash | className | attrib | pseudo | negation)+;
+simple_selector_sequence
+    : (type_selector | universal) (hash | class_ | attrib | pseudo | negation)*
+    | (hash | class_ | attrib | pseudo | negation)+
+    ;
 
-typeSelector: namespacePrefix? elementName;
+type_selector
+    : namespace_prefix? element_name
+    ;
 
-namespacePrefix: (Ident | Multiply)? Pipe;
+namespace_prefix
+    : (IDENT | Multiply)? Pipe
+    ;
 
-elementName: Ident;
+element_name
+    : IDENT
+    ;
 
-universal: namespacePrefix? Multiply;
+universal
+    : namespace_prefix? Multiply
+    ;
 
-className: Dot Ident;
+class_
+    : Dot IDENT
+    ;
 
-attrib: OpenBracket ws* namespacePrefix? Ident ws* ((Equal | '~=' | '|=' | '^=' | '$=' | '*=') ws* (Ident | String_) ws*)? CloseBracket;
+attrib
+    : OpenBracket ws? namespace_prefix? IDENT ws? 
+      ((Equal | '~=' | '|=' | '^=' | '$=' | '*=') ws? (IDENT | STRING) ws?)? 
+      CloseBracket
+    ;
 
-pseudo: Colon Colon? (Ident | functionalPseudo);
+pseudo
+    : Colon Colon? (IDENT | functional_pseudo)
+    ;
 
-functionalPseudo: Ident OpenParen ws* expr ws* CloseParen;
+functional_pseudo
+    : FUNCTION ws? expression CloseParen
+    ;
 
-negation: ':not(' ws* negationArg ws* ')';
+expression
+    : (Plus | Minus | DIMENSION | NUMBER | STRING | IDENT) ws?
+    ;
 
-negationArg: typeSelector | universal | Hash | className | attrib | pseudo;
+negation
+    : ':not(' ws? negation_arg ws? CloseParen
+    ;
 
-declaration: property ws* Colon ws* expr prio?;
+negation_arg
+    : type_selector | universal | hash | class_ | attrib | pseudo
+    ;
 
-prio: '!' ws* 'important';
+// Declarations
+declarationList
+    : (declaration? SemiColon ws?)* declaration?
+    ;
 
-property: Ident;
+declaration
+    : property ws? Colon ws? expr prio?
+    ;
 
-ruleset: selectorGroup ws* OpenBrace ws* declarationList? ws* CloseBrace;
+prio
+    : '!important'
+    ;
 
-declarationList: declaration (ws* SemiColon ws* declaration?)*;
+property
+    : IDENT
+    ;
 
-expr: term (ws* operator? ws* term)*;
+expr
+    : term (operator? term)*
+    ;
 
-term: unaryOperator? (Number | Percentage | Dimension | String_ | Ident | Uri | Hash | unicodeRange | hexColor | function_);
+term
+    : unary_operator?
+      (NUMBER | PERCENTAGE | DIMENSION | STRING | IDENT | uri | hexcolor | function_)
+    ;
 
-function_: Ident OpenParen ws* expr? ws* CloseParen;
+function_
+    : FUNCTION ws? expr CloseParen
+    ;
 
-hexColor: Hash;
+unary_operator
+    : Minus | Plus
+    ;
 
-unicodeRange: UnicodeRange;
+operator
+    : Divide ws? | Comma ws? | /* empty for space */
+    ;
 
-unaryOperator: Minus | Plus;
+hexcolor
+    : Hash
+    ;
 
-operator: Divide | Comma;
+// At-rules
+page
+    : PAGE ws? pseudo_page? OpenBrace ws? declarationList? CloseBrace ws?
+    ;
 
-groupRuleBody: OpenBrace ws* (ruleset | nestedStatement)* ws* CloseBrace;
+pseudo_page
+    : Colon IDENT
+    ;
 
-nestedStatement: ruleset | media | page | fontFaceRule | keyframesRule | supportsRule | atRule;
+fontFaceRule
+    : FONT_FACE ws? OpenBrace ws? declarationList? CloseBrace ws?
+    ;
 
-fontFaceRule: '@font-face' ws* OpenBrace ws* declarationList? ws* CloseBrace;
+keyframesRule
+    : KEYFRAMES ws? IDENT ws? OpenBrace ws? keyframes_blocks? CloseBrace ws?
+    ;
 
-keyframesRule: '@keyframes' ws* Ident ws* OpenBrace ws* keyframeBlock* ws* CloseBrace;
+keyframes_blocks
+    : keyframes_block+
+    ;
 
-keyframeBlock: keyframeSelector (ws* Comma ws* keyframeSelector)* ws* OpenBrace ws* declarationList? ws* CloseBrace;
+keyframes_block
+    : keyframe_selector OpenBrace ws? declarationList? CloseBrace ws?
+    ;
 
-keyframeSelector: 'from' | 'to' | Percentage;
+keyframe_selector
+    : (PERCENTAGE | 'from' | 'to') (Comma ws? (PERCENTAGE | 'from' | 'to'))*
+    ;
 
-supportsRule: '@supports' ws* supportsCondition ws* groupRuleBody;
+supportsRule
+    : SUPPORTS ws? supports_condition ws? groupRuleBody
+    ;
 
-supportsCondition: supportsNegation | supportsConjunction | supportsDisjunction | supportsConditionInParens;
+supports_condition
+    : 'not' ws? supports_condition_in_parens
+    | supports_condition_in_parens (ws? ('and' | 'or') ws? supports_condition_in_parens)*
+    ;
 
-supportsConditionInParens: OpenParen ws* supportsCondition ws* CloseParen | supportsDeclarationCondition | generalEnclosed;
+supports_condition_in_parens
+    : OpenParen ws? supports_condition ws? CloseParen
+    | supports_decl
+    | general_enclosed
+    ;
 
-supportsNegation: 'not' ws+ supportsConditionInParens;
+supports_decl
+    : OpenParen ws? declaration CloseParen
+    ;
 
-supportsConjunction: supportsConditionInParens (ws+ 'and' ws+ supportsConditionInParens)+;
+general_enclosed
+    : (FUNCTION | OpenParen) (any | unused)* CloseParen
+    ;
 
-supportsDisjunction: supportsConditionInParens (ws+ 'or' ws+ supportsConditionInParens)+;
+unknownAtRule
+    : AT_KEYWORD ws? any* (SemiColon | groupRuleBody)
+    ;
 
-supportsDeclarationCondition: OpenParen ws* declaration ws* CloseParen;
+groupRuleBody
+    : OpenBrace ws? nestedStatement* CloseBrace ws?
+    ;
 
-generalEnclosed: (Ident | function_) OpenParen ws* Any* ws* CloseParen;
+// Utility rules
+uri
+    : URI
+    ;
 
-atRule: AtKeyword ws* Any* (OpenBrace ws* Any* ws* CloseBrace | SemiColon);
+any
+    : IDENT | NUMBER | PERCENTAGE | DIMENSION | STRING
+    | Plus | Minus | Multiply | Divide | Equal | Colon | SemiColon | Comma | Dot
+    | OpenParen | CloseParen | OpenBracket | CloseBracket
+    | OpenBrace | CloseBrace | Greater | Tilde | Pipe
+    ;
 
-ws: Whitespace | Comment;
+unused
+    : OpenBrace ws? unused* CloseBrace
+    | OpenBracket ws? unused* CloseBracket  
+    | OpenParen ws? unused* CloseParen
+    | any
+    ;
+
+hash
+    : Hash
+    ;
+
+ws
+    : (Whitespace | Comment)+
+    ;
+
+// Keywords that need to be handled specially
+AND: A N D;
