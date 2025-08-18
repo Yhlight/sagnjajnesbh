@@ -1,4 +1,5 @@
 // printMylove 功能信息
+// 只需要写这个即可
 [Info]
 {
     name = "printMylove";

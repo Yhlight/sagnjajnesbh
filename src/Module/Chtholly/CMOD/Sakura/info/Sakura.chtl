@@ -18,5 +18,5 @@
 [Export]
 {
     [Custom] @Element ChthollySakura;
-    [Custom] @Style ChthollySakuraStyle, ChthollySakuraPetal;
+    [Custom] @Style ChthollySakuraContainer, ChthollySakuraPetal;
 }

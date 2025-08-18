@@ -18,5 +18,6 @@
 [Export]
 {
     [Custom] @Element ChthollyAccordion;
-    [Custom] @Style ChthollyAccordionStyle;
+    [Custom] @Style ChthollyAccordionStyle, ChthollyAccordionHeader, 
+                    ChthollyAccordionContent, ChthollyAccordionIcon;
 }

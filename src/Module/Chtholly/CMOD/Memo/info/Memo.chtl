@@ -18,5 +18,5 @@
 [Export]
 {
     [Template] @Element ChthollyMemo;
-    [Template] @Style ChthollyMemoStyle;
+    [Template] @Style ChthollyMemoStyle, ChthollyMemoTitle, ChthollyMemoContent;
 }
