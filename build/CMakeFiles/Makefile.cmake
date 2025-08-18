@@ -76,4 +76,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_antlr_integration.dir/DependInfo.cmake"
   "CMakeFiles/chtl_antlr_parsers.dir/DependInfo.cmake"
   "CMakeFiles/test_antlr_basic.dir/DependInfo.cmake"
+  "CMakeFiles/test_comment_nodes.dir/DependInfo.cmake"
   )

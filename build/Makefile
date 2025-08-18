@@ -487,6 +487,19 @@ test_antlr_basic/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_basic.dir/build.make CMakeFiles/test_antlr_basic.dir/build
 .PHONY : test_antlr_basic/fast
 
+#=============================================================================
+# Target rules for targets named test_comment_nodes
+
+# Build rule for target.
+test_comment_nodes: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_comment_nodes
+.PHONY : test_comment_nodes
+
+# fast build rule for target.
+test_comment_nodes/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comment_nodes.dir/build.make CMakeFiles/test_comment_nodes.dir/build
+.PHONY : test_comment_nodes/fast
+
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
@@ -1621,6 +1634,30 @@ test/test_chtljs_enhanced_functions.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/test/test_chtljs_enhanced_functions.cpp.s
 .PHONY : test/test_chtljs_enhanced_functions.cpp.s
 
+test/test_comment_nodes.o: test/test_comment_nodes.cpp.o
+.PHONY : test/test_comment_nodes.o
+
+# target to build an object file
+test/test_comment_nodes.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comment_nodes.dir/build.make CMakeFiles/test_comment_nodes.dir/test/test_comment_nodes.cpp.o
+.PHONY : test/test_comment_nodes.cpp.o
+
+test/test_comment_nodes.i: test/test_comment_nodes.cpp.i
+.PHONY : test/test_comment_nodes.i
+
+# target to preprocess a source file
+test/test_comment_nodes.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comment_nodes.dir/build.make CMakeFiles/test_comment_nodes.dir/test/test_comment_nodes.cpp.i
+.PHONY : test/test_comment_nodes.cpp.i
+
+test/test_comment_nodes.s: test/test_comment_nodes.cpp.s
+.PHONY : test/test_comment_nodes.s
+
+# target to generate assembly for a file
+test/test_comment_nodes.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comment_nodes.dir/build.make CMakeFiles/test_comment_nodes.dir/test/test_comment_nodes.cpp.s
+.PHONY : test/test_comment_nodes.cpp.s
+
 test/test_new_cjmod_framework.o: test/test_new_cjmod_framework.cpp.o
 .PHONY : test/test_new_cjmod_framework.o
 
@@ -1795,6 +1832,7 @@ help:
 	@echo "... test_chtl_compiler_simple"
 	@echo "... test_chtl_js_lexer"
 	@echo "... test_chtljs_enhanced_functions"
+	@echo "... test_comment_nodes"
 	@echo "... test_new_cjmod_framework"
 	@echo "... test_syntax_constraints"
 	@echo "... test_undecorated_literals"
@@ -1940,6 +1978,9 @@ help:
 	@echo "... test/test_chtljs_enhanced_functions.o"
 	@echo "... test/test_chtljs_enhanced_functions.i"
 	@echo "... test/test_chtljs_enhanced_functions.s"
+	@echo "... test/test_comment_nodes.o"
+	@echo "... test/test_comment_nodes.i"
+	@echo "... test/test_comment_nodes.s"
 	@echo "... test/test_new_cjmod_framework.o"
 	@echo "... test/test_new_cjmod_framework.i"
 	@echo "... test/test_new_cjmod_framework.s"
