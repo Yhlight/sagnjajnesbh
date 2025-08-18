@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(CHTLCompilerMinimal VERSION 1.0.0 LANGUAGES CXX)
+project(CHTLScannerWorking VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -7,17 +7,15 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -Wno
 
 include_directories(src)
 
-# 🎯 最简化版本：确保项目能正常工作
-
-# 统一扫描器（核心组件）
-add_library(chtl_scanner_minimal STATIC
+# 🔧 恢复工作状态：仅测试Scanner
+add_library(chtl_scanner_working STATIC
     src/Scanner/CHTLUnifiedScanner.cpp
 )
 
-# 基础测试
-add_executable(test_minimal_working test/test_minimal_working.cpp)
-target_link_libraries(test_minimal_working chtl_scanner_minimal)
+# Scanner工作状态测试
+add_executable(test_scanner_working test/test_scanner_working.cpp)
+target_link_libraries(test_scanner_working chtl_scanner_working)
 
 # 设置输出目录
-set_target_properties(chtl_scanner_minimal PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set_target_properties(test_minimal_working PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set_target_properties(chtl_scanner_working PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set_target_properties(test_scanner_working PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

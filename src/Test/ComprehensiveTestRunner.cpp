@@ -8,8 +8,8 @@
 #include <map>
 #include <iomanip>
 #include <filesystem>
-#include "../Shared/Core/NamespaceAlgorithms.h"
-#include "../Shared/Core/ErrorHandler.h"
+#include "../Common/Core/NamespaceAlgorithms.h"
+#include "../Common/Core/ErrorHandler.h"
 #include "Utils/CHTLSyntaxValidator.h"
 
 /**

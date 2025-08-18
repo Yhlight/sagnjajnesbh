@@ -1,10 +1,10 @@
 #pragma once
-#include "../Lexer/CHTLLexer.h"
-#include "../Parser/CHTLParser.h"
-#include "../Generator/CHTLGenerator.h"
-#include "../State/CHTLGlobalMap.h"
-#include "../Module/CmodManager.h"
-#include "../../Shared/SimpleZip/SimpleZip.h"
+#include "Lexer/CHTLLexer.h"
+#include "Parser/CHTLParser.h"
+#include "Generator/CHTLGenerator.h"
+#include "State/CHTLGlobalMap.h"
+#include "Module/CmodManager.h"
+#include "../Common/SimpleZip/SimpleZip.h"
 #include <string>
 #include <memory>
 

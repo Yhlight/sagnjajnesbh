@@ -1,5 +1,5 @@
 #include "../Framework/TestBase.h"
-#include "../../Shared/Core/ErrorHandler.h"
+#include "../../Common/Core/ErrorHandler.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>

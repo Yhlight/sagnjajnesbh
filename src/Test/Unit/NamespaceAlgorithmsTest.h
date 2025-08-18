@@ -1,6 +1,6 @@
 #pragma once
 #include "../Framework/TestBase.h"
-#include "../../Shared/Core/NamespaceAlgorithms.h"
+#include "../../Common/Core/NamespaceAlgorithms.h"
 
 namespace chtl {
 namespace test {

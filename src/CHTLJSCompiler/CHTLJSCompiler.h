@@ -6,7 +6,7 @@
 #include "Virtual/VirtualObjectProcessor.h"
 #include "Operator/ArrowOperatorProcessor.h"
 #include "Script/LocalScriptProcessor.h"
-#include "Enhanced/UnorderedOptionalProcessor.h"
+// Enhanced目录已删除，功能已集成到其他处理器中
 #include <string>
 #include <vector>
 #include <memory>
@@ -173,7 +173,7 @@ private:
     std::shared_ptr<VirtualObjectProcessor> virtualProcessor_;
     std::shared_ptr<ArrowOperatorProcessor> arrowProcessor_;
     std::shared_ptr<LocalScriptProcessor> scriptProcessor_;
-    std::shared_ptr<UnorderedOptionalProcessor> enhancedProcessor_;
+    // enhancedProcessor已集成到其他处理器中
     
     // 编译状态
     CompilationResult lastResult_;

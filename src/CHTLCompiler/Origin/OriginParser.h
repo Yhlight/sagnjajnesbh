@@ -4,7 +4,7 @@
 #include "../AST/CHTLNodes.h"
 #include "../Lexer/CHTLToken.h"
 #include "OriginManager.h"
-#include "../../Shared/AST/OriginEmbedDetector.h"
+#include "../../Common/AST/OriginEmbedDetector.h"
 #include <string>
 #include <vector>
 #include <memory>

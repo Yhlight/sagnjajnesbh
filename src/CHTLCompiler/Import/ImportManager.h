@@ -1,6 +1,6 @@
 #pragma once
 #include "../State/CHTLGlobalMap.h"
-#include "../../Shared/Common/common/ModulePathManager.h"
+#include "../../Common/ModulePathManager.h"
 #include <string>
 #include <vector>
 #include <memory>

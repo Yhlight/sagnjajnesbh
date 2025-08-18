@@ -4,7 +4,7 @@
 #include <chrono>
 #include <functional>
 #include <fstream>
-#include "../Shared/Core/NamespaceAlgorithms.h"
+#include "../Common/Core/NamespaceAlgorithms.h"
 
 /**
  * 简化的CHTL测试运行器

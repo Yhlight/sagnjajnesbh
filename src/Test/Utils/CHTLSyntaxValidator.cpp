@@ -1,5 +1,5 @@
 #include "CHTLSyntaxValidator.h"
-#include "../../Shared/Core/ErrorHandler.h"
+#include "../../Common/Core/ErrorHandler.h"
 #include <filesystem>
 #include <fstream>
 #include <algorithm>

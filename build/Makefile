@@ -117,37 +117,37 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named chtl_scanner_minimal
+# Target rules for targets named chtl_scanner_working
 
 # Build rule for target.
-chtl_scanner_minimal: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_scanner_minimal
-.PHONY : chtl_scanner_minimal
+chtl_scanner_working: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_scanner_working
+.PHONY : chtl_scanner_working
 
 # fast build rule for target.
-chtl_scanner_minimal/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_minimal.dir/build.make CMakeFiles/chtl_scanner_minimal.dir/build
-.PHONY : chtl_scanner_minimal/fast
+chtl_scanner_working/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_working.dir/build.make CMakeFiles/chtl_scanner_working.dir/build
+.PHONY : chtl_scanner_working/fast
 
 #=============================================================================
-# Target rules for targets named test_minimal_working
+# Target rules for targets named test_scanner_working
 
 # Build rule for target.
-test_minimal_working: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_minimal_working
-.PHONY : test_minimal_working
+test_scanner_working: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_scanner_working
+.PHONY : test_scanner_working
 
 # fast build rule for target.
-test_minimal_working/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_working.dir/build.make CMakeFiles/test_minimal_working.dir/build
-.PHONY : test_minimal_working/fast
+test_scanner_working/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_working.dir/build.make CMakeFiles/test_scanner_working.dir/build
+.PHONY : test_scanner_working/fast
 
 src/Scanner/CHTLUnifiedScanner.o: src/Scanner/CHTLUnifiedScanner.cpp.o
 .PHONY : src/Scanner/CHTLUnifiedScanner.o
 
 # target to build an object file
 src/Scanner/CHTLUnifiedScanner.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_minimal.dir/build.make CMakeFiles/chtl_scanner_minimal.dir/src/Scanner/CHTLUnifiedScanner.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_working.dir/build.make CMakeFiles/chtl_scanner_working.dir/src/Scanner/CHTLUnifiedScanner.cpp.o
 .PHONY : src/Scanner/CHTLUnifiedScanner.cpp.o
 
 src/Scanner/CHTLUnifiedScanner.i: src/Scanner/CHTLUnifiedScanner.cpp.i
@@ -155,7 +155,7 @@ src/Scanner/CHTLUnifiedScanner.i: src/Scanner/CHTLUnifiedScanner.cpp.i
 
 # target to preprocess a source file
 src/Scanner/CHTLUnifiedScanner.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_minimal.dir/build.make CMakeFiles/chtl_scanner_minimal.dir/src/Scanner/CHTLUnifiedScanner.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_working.dir/build.make CMakeFiles/chtl_scanner_working.dir/src/Scanner/CHTLUnifiedScanner.cpp.i
 .PHONY : src/Scanner/CHTLUnifiedScanner.cpp.i
 
 src/Scanner/CHTLUnifiedScanner.s: src/Scanner/CHTLUnifiedScanner.cpp.s
@@ -163,32 +163,32 @@ src/Scanner/CHTLUnifiedScanner.s: src/Scanner/CHTLUnifiedScanner.cpp.s
 
 # target to generate assembly for a file
 src/Scanner/CHTLUnifiedScanner.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_minimal.dir/build.make CMakeFiles/chtl_scanner_minimal.dir/src/Scanner/CHTLUnifiedScanner.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_working.dir/build.make CMakeFiles/chtl_scanner_working.dir/src/Scanner/CHTLUnifiedScanner.cpp.s
 .PHONY : src/Scanner/CHTLUnifiedScanner.cpp.s
 
-test/test_minimal_working.o: test/test_minimal_working.cpp.o
-.PHONY : test/test_minimal_working.o
+test/test_scanner_working.o: test/test_scanner_working.cpp.o
+.PHONY : test/test_scanner_working.o
 
 # target to build an object file
-test/test_minimal_working.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_working.dir/build.make CMakeFiles/test_minimal_working.dir/test/test_minimal_working.cpp.o
-.PHONY : test/test_minimal_working.cpp.o
+test/test_scanner_working.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_working.dir/build.make CMakeFiles/test_scanner_working.dir/test/test_scanner_working.cpp.o
+.PHONY : test/test_scanner_working.cpp.o
 
-test/test_minimal_working.i: test/test_minimal_working.cpp.i
-.PHONY : test/test_minimal_working.i
+test/test_scanner_working.i: test/test_scanner_working.cpp.i
+.PHONY : test/test_scanner_working.i
 
 # target to preprocess a source file
-test/test_minimal_working.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_working.dir/build.make CMakeFiles/test_minimal_working.dir/test/test_minimal_working.cpp.i
-.PHONY : test/test_minimal_working.cpp.i
+test/test_scanner_working.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_working.dir/build.make CMakeFiles/test_scanner_working.dir/test/test_scanner_working.cpp.i
+.PHONY : test/test_scanner_working.cpp.i
 
-test/test_minimal_working.s: test/test_minimal_working.cpp.s
-.PHONY : test/test_minimal_working.s
+test/test_scanner_working.s: test/test_scanner_working.cpp.s
+.PHONY : test/test_scanner_working.s
 
 # target to generate assembly for a file
-test/test_minimal_working.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_working.dir/build.make CMakeFiles/test_minimal_working.dir/test/test_minimal_working.cpp.s
-.PHONY : test/test_minimal_working.cpp.s
+test/test_scanner_working.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_working.dir/build.make CMakeFiles/test_scanner_working.dir/test/test_scanner_working.cpp.s
+.PHONY : test/test_scanner_working.cpp.s
 
 # Help Target
 help:
@@ -198,14 +198,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... chtl_scanner_minimal"
-	@echo "... test_minimal_working"
+	@echo "... chtl_scanner_working"
+	@echo "... test_scanner_working"
 	@echo "... src/Scanner/CHTLUnifiedScanner.o"
 	@echo "... src/Scanner/CHTLUnifiedScanner.i"
 	@echo "... src/Scanner/CHTLUnifiedScanner.s"
-	@echo "... test/test_minimal_working.o"
-	@echo "... test/test_minimal_working.i"
-	@echo "... test/test_minimal_working.s"
+	@echo "... test/test_scanner_working.o"
+	@echo "... test/test_scanner_working.i"
+	@echo "... test/test_scanner_working.s"
 .PHONY : help
 
 
