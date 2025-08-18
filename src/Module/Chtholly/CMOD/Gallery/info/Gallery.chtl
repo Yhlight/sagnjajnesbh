@@ -1,13 +1,13 @@
 // 按CHTL语法文档：CMOD Info文件格式
 [Info]
 {
-    name = "Memo";
+    name = "Gallery";
     version = "1.0.0";
-    description = "珂朵莉备忘录组件 - 记录美好回忆";
+    description = "珂朵莉四叶窗相册组件 - 优雅的图片展示";
     author = "CHTL Team";
     license = "MIT";
     dependencies = "";
-    category = "productivity";
+    category = "media";
     minCHTLVersion = "1.0.0";
     maxCHTLVersion = "2.0.0";
 }
@@ -15,6 +15,6 @@
 // 按CHTL语法文档：Export块由系统自动生成，使用全缀名
 [Export]
 {
-    [Custom] @Element ChthollyMemo;
-    [Custom] @Style ChthollyMemoStyle;
+    [Custom] @Element ChthollyGallery;
+    [Custom] @Style ChthollyGalleryStyle;
 }

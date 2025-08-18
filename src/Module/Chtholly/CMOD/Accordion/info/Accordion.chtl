@@ -1,23 +1,20 @@
-// 珂朵莉手风琴组件信息
-// 只需要写这个即可
+// 按CHTL语法文档：CMOD Info文件格式
 [Info]
 {
-    name = "ChthollyAccordion";
+    name = "Accordion";
     version = "1.0.0";
-    description = "珂朵莉优雅手风琴组件 - 如樱花般优美的折叠展示";
+    description = "珂朵莉手风琴组件 - 优雅的折叠展开交互";
     author = "CHTL Team";
     license = "MIT";
     dependencies = "";
-    category = "ui-component";
+    category = "interaction";
     minCHTLVersion = "1.0.0";
     maxCHTLVersion = "2.0.0";
 }
 
-// 外部查询表，优化性能用，无实际作用
-// 不需要写这个，此由系统生成
+// 按CHTL语法文档：Export块由系统自动生成，使用全缀名
 [Export]
 {
     [Custom] @Element ChthollyAccordion;
-    [Custom] @Style ChthollyAccordionStyle, ChthollyAccordionHeader, 
-                    ChthollyAccordionContent, ChthollyAccordionIcon;
+    [Custom] @Style ChthollyAccordionStyle;
 }

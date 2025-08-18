@@ -1,21 +1,21 @@
-// 子模块信息文件
+// 按CHTL语法文档：CMOD Info文件格式
 [Info]
 {
-    name = "YuigahamaMusicPlayer";
+    name = "MusicPlayer";
     version = "1.0.0";
-    description = "由比滨结衣音乐播放器 - 温暖粉色调的音乐体验";
+    description = "由比滨结衣音乐播放器组件 - 温暖治愈的音乐体验";
     author = "CHTL Team";
     license = "MIT";
     dependencies = "";
-    category = "ui-component";
+    category = "media";
     minCHTLVersion = "1.0.0";
     maxCHTLVersion = "2.0.0";
 }
 
-// 外部查询表，优化性能用，无实际作用
-// 不需要写这个，此由系统生成
+// 按CHTL语法文档：Export块由系统自动生成，使用全缀名
 [Export]
 {
-    @Element YuigahamaMusicPlayer;
-    @Style YuiMusicPlayerStyle;
+    [Custom] @Element YuigahamaMusicPlayer;
+    [Custom] @Style YuigahamaMusicPlayerStyle;
+    [Custom] @Var YuigahamaMusicTheme;
 }
