@@ -2,6 +2,7 @@
 #include "../AST/CHTLNodes.h"
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <memory>
 
@@ -27,6 +28,13 @@ struct ElementTemplate {
     std::string name;
     std::vector<std::unique_ptr<ast::ASTNode>> elements;
     std::vector<std::string> inheritedTemplates;
+    
+    // 移动构造函数和赋值操作符
+    ElementTemplate() = default;
+    ElementTemplate(const ElementTemplate&) = delete;
+    ElementTemplate& operator=(const ElementTemplate&) = delete;
+    ElementTemplate(ElementTemplate&&) = default;
+    ElementTemplate& operator=(ElementTemplate&&) = default;
 };
 
 // 变量组模板
@@ -48,7 +56,7 @@ public:
     bool hasStyleTemplate(const std::string& name) const;
     
     // 元素模板管理
-    void addElementTemplate(const std::string& name, const ElementTemplate& tmpl);
+    void addElementTemplate(const std::string& name, ElementTemplate&& tmpl);
     std::shared_ptr<ElementTemplate> getElementTemplate(const std::string& name);
     bool hasElementTemplate(const std::string& name) const;
     
@@ -79,6 +87,7 @@ public:
     size_t getStyleTemplateCount() const { return styleTemplates_.size(); }
     size_t getElementTemplateCount() const { return elementTemplates_.size(); }
     size_t getVariableTemplateCount() const { return variableTemplates_.size(); }
+    std::unordered_map<TemplateType, int> getTemplateStatistics();
 
 private:
     std::unordered_map<std::string, std::shared_ptr<StyleTemplate>> styleTemplates_;
@@ -91,6 +100,13 @@ private:
     void processInheritance(StyleTemplate& tmpl);
     void processInheritance(ElementTemplate& tmpl);
     void processInheritance(VariableTemplate& tmpl);
+    
+    void resolveStyleInheritanceRecursive(const std::string& templateName,
+                                         std::unordered_set<std::string>& visited,
+                                         std::unordered_map<std::string, std::string>& result);
+    void resolveVariableInheritanceRecursive(const std::string& templateName,
+                                            std::unordered_set<std::string>& visited,
+                                            std::unordered_map<std::string, std::string>& result);
     
     bool checkCircularDependency(const std::string& templateName, TemplateType type, 
                                 std::unordered_set<std::string>& visited);

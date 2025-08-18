@@ -107,7 +107,7 @@ std::unique_ptr<ast::TemplateNode> TemplateParser::parseElementTemplate(const st
     elementTemplate.inheritedTemplates = parseContext_.inheritedTemplates;
     
     // 注册到模板管理器
-    templateManager_->addElementTemplate(parseContext_.templateName, elementTemplate);
+    templateManager_->addElementTemplate(parseContext_.templateName, std::move(elementTemplate));
     
     // 验证模板定义
     if (!validateTemplateDefinition("Element", parseContext_.templateName)) {
@@ -300,8 +300,14 @@ bool TemplateParser::parseStyleProperty(const std::vector<Token>& tokens, size_t
 
 bool TemplateParser::parseVariableDefinition(const std::vector<Token>& tokens, size_t& position,
                                             std::string& varName, std::string& varValue) {
-    // 变量定义与样式属性解析相同
+    // 按语法文档：变量定义格式 variableName: "value";
     return parseStyleProperty(tokens, position, varName, varValue);
+}
+
+bool TemplateParser::parseCompositeInheritance(const std::vector<Token>& tokens, size_t& position,
+                                              std::vector<std::string>& inheritedTemplates) {
+    // 按语法文档：组合式继承 @Style ThemeColor;
+    return parseInheritanceStatement(tokens, position, inheritedTemplates);
 }
 
 std::unique_ptr<ast::ElementNode> TemplateParser::parseTemplateElement(const std::vector<Token>& tokens, size_t& position) {

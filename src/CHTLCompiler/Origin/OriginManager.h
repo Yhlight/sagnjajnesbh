@@ -94,6 +94,14 @@ private:
     OriginType parseOriginType(const std::string& typeName);
     std::string formatOriginTypeName(const std::string& typeName);
     bool isValidOriginTypeName(const std::string& typeName);
+    bool isStandardOriginType(const std::string& typeName);
+    bool isValidIdentifier(const std::string& identifier);
+    
+    // 内容验证
+    bool validateHTMLContent(const std::string& content);
+    bool validateStyleContent(const std::string& content);
+    bool validateJavaScriptContent(const std::string& content);
+    bool validateCustomContent(const std::string& content, const std::string& typeName);
     
     // 默认原始类型初始化
     void initializeDefaultOriginTypes();

@@ -107,9 +107,20 @@ private:
     ConstraintTargetType parseTargetType(const std::string& target);
     std::string formatTargetType(ConstraintTargetType type);
     bool isValidConstraintTarget(const std::string& target);
+    bool isHTMLElement(const std::string& element);
     
     // 约束冲突检测
     bool hasConstraintConflict(const ConstraintRule& newRule);
+    
+    // 目标类型解析
+    ConstraintTargetType parseCustomTargetType(const std::string& customType);
+    ConstraintTargetType parseTemplateTargetType(const std::string& templateType);
+    
+    // 约束类型确定
+    ConstraintType determineConstraintType(const std::vector<std::string>& targets);
+    
+    // 工具方法
+    std::vector<std::string> parseCommaSeparatedTargets(const std::string& targets);
 };
 
 // 全局约束管理器实例

@@ -3,6 +3,7 @@
 #include "../Template/TemplateManager.h"
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <memory>
 
@@ -24,6 +25,13 @@ struct CustomElement {
     std::vector<std::unique_ptr<ast::ASTNode>> elements;
     std::vector<std::string> inheritedTemplates;
     std::vector<std::string> inheritedCustoms;
+    
+    // 移动构造函数和赋值操作符
+    CustomElement() = default;
+    CustomElement(const CustomElement&) = delete;
+    CustomElement& operator=(const CustomElement&) = delete;
+    CustomElement(CustomElement&&) = default;
+    CustomElement& operator=(CustomElement&&) = default;
 };
 
 // 自定义变量组
@@ -41,6 +49,13 @@ struct SpecializationOperation {
     std::string target;
     std::string position; // after, before, at top, at bottom
     std::vector<std::unique_ptr<ast::ASTNode>> content; // 插入的内容
+    
+    // 移动构造函数和赋值操作符
+    SpecializationOperation() = default;
+    SpecializationOperation(const SpecializationOperation&) = delete;
+    SpecializationOperation& operator=(const SpecializationOperation&) = delete;
+    SpecializationOperation(SpecializationOperation&&) = default;
+    SpecializationOperation& operator=(SpecializationOperation&&) = default;
 };
 
 // 自定义管理器
@@ -55,7 +70,7 @@ public:
     bool hasCustomStyle(const std::string& name) const;
     
     // 自定义元素管理
-    void addCustomElement(const std::string& name, const CustomElement& custom);
+    void addCustomElement(const std::string& name, CustomElement&& custom);
     std::shared_ptr<CustomElement> getCustomElement(const std::string& name);
     bool hasCustomElement(const std::string& name) const;
     
@@ -117,6 +132,17 @@ private:
     
     bool checkCircularDependency(const std::string& customName, const std::string& type,
                                 std::unordered_set<std::string>& visited);
+    
+    // 特例化操作实现
+    bool applyDeleteOperation(const std::string& targetName, const SpecializationOperation& operation);
+    bool applyInsertOperation(const std::string& targetName, const SpecializationOperation& operation);
+    bool applyReplaceOperation(const std::string& targetName, const SpecializationOperation& operation);
+    bool applyInheritOperation(const std::string& targetName, const SpecializationOperation& operation);
+    
+    bool deleteElementByIndex(const std::string& elementName, const std::string& indexExpression);
+    
+    // 工具方法
+    std::vector<std::string> parseCommaSeparatedList(const std::string& input);
 };
 
 // 全局自定义管理器实例
