@@ -48,5 +48,27 @@ void NamespaceNode::accept(ASTVisitor& visitor) {
     visitor.visit(*this);
 }
 
+// CommentNode实现
+void CommentNode::accept(ASTVisitor& visitor) {
+    visitor.visit(*this);
+}
+
+std::string CommentNode::generateComment(const std::string& context) const {
+    if (comment_type != CommentType::GENERATOR) {
+        return ""; // 只有--注释才生成
+    }
+    
+    if (context == "html") {
+        return "<!-- " + content + " -->";
+    } else if (context == "css") {
+        return "/* " + content + " */";
+    } else if (context == "js" || context == "javascript") {
+        return "// " + content;
+    } else {
+        // 默认HTML注释
+        return "<!-- " + content + " -->";
+    }
+}
+
 } // namespace ast
 } // namespace chtl

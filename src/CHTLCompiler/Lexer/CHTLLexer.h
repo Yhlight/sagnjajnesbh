@@ -53,6 +53,11 @@ private:
     Token readOperator();
     Token readKeyword(const std::string& word);
     
+    // 注释识别
+    Token readSingleLineComment();
+    Token readMultiLineComment();
+    Token readGeneratorComment();
+    
     // 辅助方法
     bool isAtEnd() const;
     bool isAlpha(char c) const;

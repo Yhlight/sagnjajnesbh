@@ -253,4 +253,60 @@ void CHTLLexer::addError(const std::string& message) {
     errors_.push_back("行 " + std::to_string(line_) + ", 列 " + std::to_string(column_) + ": " + message);
 }
 
+Token CHTLLexer::readSingleLineComment() {
+    TokenPosition pos(line_, column_);
+    std::string value;
+    
+    // 跳过 //
+    advance(); // /
+    advance(); // /
+    
+    // 读取到行尾
+    while (!isAtEnd() && currentChar() != '\n') {
+        value += currentChar();
+        advance();
+    }
+    
+    return Token(TokenType::COMMENT_SINGLE, value, pos);
+}
+
+Token CHTLLexer::readMultiLineComment() {
+    TokenPosition pos(line_, column_);
+    std::string value;
+    
+    // 跳过 /*
+    advance(); // /
+    advance(); // *
+    
+    // 读取到 */
+    while (!isAtEnd()) {
+        if (currentChar() == '*' && peekChar() == '/') {
+            advance(); // *
+            advance(); // /
+            break;
+        }
+        value += currentChar();
+        advance();
+    }
+    
+    return Token(TokenType::COMMENT_MULTI, value, pos);
+}
+
+Token CHTLLexer::readGeneratorComment() {
+    TokenPosition pos(line_, column_);
+    std::string value;
+    
+    // 跳过 --
+    advance(); // -
+    advance(); // -
+    
+    // 读取到行尾
+    while (!isAtEnd() && currentChar() != '\n') {
+        value += currentChar();
+        advance();
+    }
+    
+    return Token(TokenType::COMMENT_GENERATOR, value, pos);
+}
+
 } // namespace chtl

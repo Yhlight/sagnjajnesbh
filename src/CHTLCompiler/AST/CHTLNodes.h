@@ -177,6 +177,36 @@ public:
 };
 
 /**
+ * 注释节点 - 支持上下文感知的注释生成
+ */
+class CommentNode : public ASTNode {
+public:
+    enum class CommentType {
+        SINGLE_LINE,    // // 注释 (不生成)
+        MULTI_LINE,     // /* */ 注释 (不生成)
+        GENERATOR       // -- 注释 (根据上下文生成)
+    };
+    
+    CommentType comment_type;
+    std::string content;
+    std::string target_context; // 目标上下文 (html, css, js)
+    
+    explicit CommentNode(CommentType type = CommentType::GENERATOR, 
+                        const std::string& text = "", 
+                        const TokenPosition& pos = TokenPosition()) 
+        : ASTNode(pos), comment_type(type), content(text) {}
+    
+    void accept(ASTVisitor& visitor) override;
+    std::string toString() const override { 
+        return "Comment[" + content + "]"; 
+    }
+    std::string getNodeType() const override { return "Comment"; }
+    
+    // 根据上下文生成适当的注释
+    std::string generateComment(const std::string& context) const;
+};
+
+/**
  * 访问者接口
  */
 class ASTVisitor {
@@ -192,6 +222,7 @@ public:
     virtual void visit(TextNode& node) = 0;
     virtual void visit(ImportNode& node) = 0;
     virtual void visit(NamespaceNode& node) = 0;
+    virtual void visit(CommentNode& node) = 0;
 };
 
 } // namespace ast

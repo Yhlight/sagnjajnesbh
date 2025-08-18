@@ -5,7 +5,7 @@ namespace chtl {
 namespace generator {
 
 HTMLGenerator::HTMLGenerator() 
-    : indent_level_(0), indent_size_(2), pretty_print_(true) {
+    : indent_level_(0), indent_size_(2), pretty_print_(true), current_context_("html") {
 }
 
 std::string HTMLGenerator::generateHTML(ast::ASTNode* root) {
@@ -222,7 +222,9 @@ void HTMLGenerator::generateCloseTag(const std::string& tag) {
 void HTMLGenerator::generateStyle(const std::string& css) {
     writeLine("<style>");
     indent_level_++;
+    current_context_ = "css"; // 设置CSS上下文
     writeLine(css);
+    current_context_ = "html"; // 恢复HTML上下文
     indent_level_--;
     writeLine("</style>");
 }
@@ -230,9 +232,25 @@ void HTMLGenerator::generateStyle(const std::string& css) {
 void HTMLGenerator::generateScript(const std::string& js) {
     writeLine("<script>");
     indent_level_++;
+    current_context_ = "js"; // 设置JS上下文
     writeLine(js);
+    current_context_ = "html"; // 恢复HTML上下文
     indent_level_--;
     writeLine("</script>");
+}
+
+void HTMLGenerator::visit(ast::CommentNode& node) {
+    // 只处理生成器注释 (--注释)
+    if (node.comment_type == ast::CommentNode::CommentType::GENERATOR) {
+        // 根据当前上下文生成适当的注释
+        std::string comment = node.generateComment(current_context_.empty() ? "html" : current_context_);
+        
+        if (!comment.empty()) {
+            writeIndent();
+            writeLine(comment);
+        }
+    }
+    // //和/**/注释不生成任何内容
 }
 
 } // namespace generator

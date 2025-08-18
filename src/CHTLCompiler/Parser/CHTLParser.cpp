@@ -63,6 +63,10 @@ std::unique_ptr<ast::ASTNode> CHTLParser::parseStatement() {
             return parseCustom();
         case TokenType::IDENTIFIER:
             return parseElement();
+        case TokenType::COMMENT_SINGLE:
+        case TokenType::COMMENT_MULTI:
+        case TokenType::COMMENT_GENERATOR:
+            return parseComment();
         default:
             addError("未识别的语句类型: " + token.value);
             advance(); // 跳过未知token
@@ -120,6 +124,41 @@ std::unique_ptr<ast::ASTNode> CHTLParser::parseElement() {
     }
     
     return std::move(element_node);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseComment() {
+    Token token = getCurrentToken();
+    
+    if (debug_mode_) {
+        std::cout << "解析注释: " << token.value << std::endl;
+    }
+    
+    auto comment_node = std::make_unique<ast::CommentNode>();
+    comment_node->content = token.value;
+    
+    // 设置注释类型
+    switch (token.type) {
+        case TokenType::COMMENT_SINGLE:
+            comment_node->comment_type = ast::CommentNode::CommentType::SINGLE_LINE;
+            break;
+        case TokenType::COMMENT_MULTI:
+            comment_node->comment_type = ast::CommentNode::CommentType::MULTI_LINE;
+            break;
+        case TokenType::COMMENT_GENERATOR:
+            comment_node->comment_type = ast::CommentNode::CommentType::GENERATOR;
+            break;
+        default:
+            addError("无效的注释类型");
+            return nullptr;
+    }
+    
+    advance(); // 消费注释token
+    
+    if (debug_mode_) {
+        std::cout << "注释解析完成: " << comment_node->toString() << std::endl;
+    }
+    
+    return std::move(comment_node);
 }
 
 bool CHTLParser::hasMoreTokens() const {

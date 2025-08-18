@@ -28,6 +28,7 @@ public:
     void visit(ast::TextNode& node) override;
     void visit(ast::ImportNode& node) override;
     void visit(ast::NamespaceNode& node) override;
+    void visit(ast::CommentNode& node) override;
     
     // 配置
     void setIndentSize(size_t size) { indent_size_ = size; }
@@ -43,6 +44,7 @@ private:
     size_t indent_size_;
     bool pretty_print_;
     std::vector<std::string> errors_;
+    std::string current_context_; // 当前生成上下文 (html, css, js)
     
     // 辅助方法
     void writeIndent();

@@ -289,3 +289,7 @@ set_target_properties(
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+# 注释节点功能测试
+add_executable(test_comment_nodes test/test_comment_nodes.cpp)
+target_link_libraries(test_comment_nodes chtl_compiler)

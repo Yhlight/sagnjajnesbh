@@ -29,6 +29,7 @@ public:
     std::unique_ptr<ast::ASTNode> parseTemplate();
     std::unique_ptr<ast::ASTNode> parseCustom();
     std::unique_ptr<ast::ASTNode> parseElement();
+    std::unique_ptr<ast::ASTNode> parseComment();
     
     // 状态查询
     bool hasMoreTokens() const;
