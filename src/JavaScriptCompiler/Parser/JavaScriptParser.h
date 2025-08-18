@@ -1,13 +1,5 @@
 
-#include "JavaScriptLexerBase.h"
-#include "JavaScriptParserBase.h"
-// Enable this macro definition when compiled to a static library
-// #define ANTLR4CPP_STATIC
-
-// TODO: add some include
-
-
-// Generated from grammars/JavaScriptParser_cpp.g4 by ANTLR 4.13.2
+// Generated from ../../../external/JavaScriptParser.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -17,7 +9,7 @@
 
 
 
-class  JavaScriptParser_cpp : public JavaScriptParserBase {
+class  JavaScriptParser : public JavaScriptParserBase {
 public:
   enum {
     HashBangLine = 1, MultiLineComment = 2, SingleLineComment = 3, RegularExpressionLiteral = 4, 
@@ -81,11 +73,11 @@ public:
     RuleKeyword = 83, RuleLet_ = 84, RuleEos = 85
   };
 
-  explicit JavaScriptParser_cpp(antlr4::TokenStream *input);
+  explicit JavaScriptParser(antlr4::TokenStream *input);
 
-  JavaScriptParser_cpp(antlr4::TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &options);
+  JavaScriptParser(antlr4::TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &options);
 
-  ~JavaScriptParser_cpp() override;
+  ~JavaScriptParser() override;
 
   std::string getGrammarFileName() const override;
 

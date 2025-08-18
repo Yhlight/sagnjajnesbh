@@ -1,16 +1,8 @@
 
-#include "JavaScriptLexerBase.h"
-#include "JavaScriptParserBase.h"
-// Enable this macro definition when compiled to a static library
-// #define ANTLR4CPP_STATIC
-
-// TODO: add some include
+// Generated from ../../../external/JavaScriptLexer.g4 by ANTLR 4.13.2
 
 
-// Generated from grammars/JavaScriptLexer_cpp.g4 by ANTLR 4.13.2
-
-
-#include "JavaScriptLexer_cpp.h"
+#include "JavaScriptLexer.h"
 
 
 using namespace antlr4;
@@ -21,8 +13,8 @@ using namespace antlr4;
 
 namespace {
 
-struct JavaScriptLexer_cppStaticData final {
-  JavaScriptLexer_cppStaticData(std::vector<std::string> ruleNames,
+struct JavaScriptLexerStaticData final {
+  JavaScriptLexerStaticData(std::vector<std::string> ruleNames,
                           std::vector<std::string> channelNames,
                           std::vector<std::string> modeNames,
                           std::vector<std::string> literalNames,
@@ -32,10 +24,10 @@ struct JavaScriptLexer_cppStaticData final {
         symbolicNames(std::move(symbolicNames)),
         vocabulary(this->literalNames, this->symbolicNames) {}
 
-  JavaScriptLexer_cppStaticData(const JavaScriptLexer_cppStaticData&) = delete;
-  JavaScriptLexer_cppStaticData(JavaScriptLexer_cppStaticData&&) = delete;
-  JavaScriptLexer_cppStaticData& operator=(const JavaScriptLexer_cppStaticData&) = delete;
-  JavaScriptLexer_cppStaticData& operator=(JavaScriptLexer_cppStaticData&&) = delete;
+  JavaScriptLexerStaticData(const JavaScriptLexerStaticData&) = delete;
+  JavaScriptLexerStaticData(JavaScriptLexerStaticData&&) = delete;
+  JavaScriptLexerStaticData& operator=(const JavaScriptLexerStaticData&) = delete;
+  JavaScriptLexerStaticData& operator=(JavaScriptLexerStaticData&&) = delete;
 
   std::vector<antlr4::dfa::DFA> decisionToDFA;
   antlr4::atn::PredictionContextCache sharedContextCache;
@@ -49,21 +41,21 @@ struct JavaScriptLexer_cppStaticData final {
   std::unique_ptr<antlr4::atn::ATN> atn;
 };
 
-::antlr4::internal::OnceFlag javascriptlexer_cppLexerOnceFlag;
+::antlr4::internal::OnceFlag javascriptlexerLexerOnceFlag;
 #if ANTLR4_USE_THREAD_LOCAL_CACHE
 static thread_local
 #endif
-std::unique_ptr<JavaScriptLexer_cppStaticData> javascriptlexer_cppLexerStaticData = nullptr;
+std::unique_ptr<JavaScriptLexerStaticData> javascriptlexerLexerStaticData = nullptr;
 
-void javascriptlexer_cppLexerInitialize() {
+void javascriptlexerLexerInitialize() {
 #if ANTLR4_USE_THREAD_LOCAL_CACHE
-  if (javascriptlexer_cppLexerStaticData != nullptr) {
+  if (javascriptlexerLexerStaticData != nullptr) {
     return;
   }
 #else
-  assert(javascriptlexer_cppLexerStaticData == nullptr);
+  assert(javascriptlexerLexerStaticData == nullptr);
 #endif
-  auto staticData = std::make_unique<JavaScriptLexer_cppStaticData>(
+  auto staticData = std::make_unique<JavaScriptLexerStaticData>(
     std::vector<std::string>{
       "HashBangLine", "MultiLineComment", "SingleLineComment", "RegularExpressionLiteral", 
       "OpenBracket", "CloseBracket", "OpenParen", "CloseParen", "OpenBrace", 
@@ -746,50 +738,50 @@ void javascriptlexer_cppLexerInitialize() {
   for (size_t i = 0; i < count; i++) { 
     staticData->decisionToDFA.emplace_back(staticData->atn->getDecisionState(i), i);
   }
-  javascriptlexer_cppLexerStaticData = std::move(staticData);
+  javascriptlexerLexerStaticData = std::move(staticData);
 }
 
 }
 
-JavaScriptLexer_cpp::JavaScriptLexer_cpp(CharStream *input) : JavaScriptLexerBase(input) {
-  JavaScriptLexer_cpp::initialize();
-  _interpreter = new atn::LexerATNSimulator(this, *javascriptlexer_cppLexerStaticData->atn, javascriptlexer_cppLexerStaticData->decisionToDFA, javascriptlexer_cppLexerStaticData->sharedContextCache);
+JavaScriptLexer::JavaScriptLexer(CharStream *input) : JavaScriptLexerBase(input) {
+  JavaScriptLexer::initialize();
+  _interpreter = new atn::LexerATNSimulator(this, *javascriptlexerLexerStaticData->atn, javascriptlexerLexerStaticData->decisionToDFA, javascriptlexerLexerStaticData->sharedContextCache);
 }
 
-JavaScriptLexer_cpp::~JavaScriptLexer_cpp() {
+JavaScriptLexer::~JavaScriptLexer() {
   delete _interpreter;
 }
 
-std::string JavaScriptLexer_cpp::getGrammarFileName() const {
-  return "JavaScriptLexer_cpp.g4";
+std::string JavaScriptLexer::getGrammarFileName() const {
+  return "JavaScriptLexer.g4";
 }
 
-const std::vector<std::string>& JavaScriptLexer_cpp::getRuleNames() const {
-  return javascriptlexer_cppLexerStaticData->ruleNames;
+const std::vector<std::string>& JavaScriptLexer::getRuleNames() const {
+  return javascriptlexerLexerStaticData->ruleNames;
 }
 
-const std::vector<std::string>& JavaScriptLexer_cpp::getChannelNames() const {
-  return javascriptlexer_cppLexerStaticData->channelNames;
+const std::vector<std::string>& JavaScriptLexer::getChannelNames() const {
+  return javascriptlexerLexerStaticData->channelNames;
 }
 
-const std::vector<std::string>& JavaScriptLexer_cpp::getModeNames() const {
-  return javascriptlexer_cppLexerStaticData->modeNames;
+const std::vector<std::string>& JavaScriptLexer::getModeNames() const {
+  return javascriptlexerLexerStaticData->modeNames;
 }
 
-const dfa::Vocabulary& JavaScriptLexer_cpp::getVocabulary() const {
-  return javascriptlexer_cppLexerStaticData->vocabulary;
+const dfa::Vocabulary& JavaScriptLexer::getVocabulary() const {
+  return javascriptlexerLexerStaticData->vocabulary;
 }
 
-antlr4::atn::SerializedATNView JavaScriptLexer_cpp::getSerializedATN() const {
-  return javascriptlexer_cppLexerStaticData->serializedATN;
+antlr4::atn::SerializedATNView JavaScriptLexer::getSerializedATN() const {
+  return javascriptlexerLexerStaticData->serializedATN;
 }
 
-const atn::ATN& JavaScriptLexer_cpp::getATN() const {
-  return *javascriptlexer_cppLexerStaticData->atn;
+const atn::ATN& JavaScriptLexer::getATN() const {
+  return *javascriptlexerLexerStaticData->atn;
 }
 
 
-void JavaScriptLexer_cpp::action(RuleContext *context, size_t ruleIndex, size_t actionIndex) {
+void JavaScriptLexer::action(RuleContext *context, size_t ruleIndex, size_t actionIndex) {
   switch (ruleIndex) {
     case 8: OpenBraceAction(antlrcpp::downCast<antlr4::RuleContext *>(context), actionIndex); break;
     case 9: TemplateCloseBraceAction(antlrcpp::downCast<antlr4::RuleContext *>(context), actionIndex); break;
@@ -802,7 +794,7 @@ void JavaScriptLexer_cpp::action(RuleContext *context, size_t ruleIndex, size_t 
   }
 }
 
-bool JavaScriptLexer_cpp::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {
+bool JavaScriptLexer::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {
   switch (ruleIndex) {
     case 0: return HashBangLineSempred(antlrcpp::downCast<antlr4::RuleContext *>(context), predicateIndex);
     case 3: return RegularExpressionLiteralSempred(antlrcpp::downCast<antlr4::RuleContext *>(context), predicateIndex);
@@ -824,45 +816,45 @@ bool JavaScriptLexer_cpp::sempred(RuleContext *context, size_t ruleIndex, size_t
   return true;
 }
 
-void JavaScriptLexer_cpp::OpenBraceAction(antlr4::RuleContext *context, size_t actionIndex) {
+void JavaScriptLexer::OpenBraceAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
-    case 0: this->ProcessOpenBrace(); break;
+    case 0: this.ProcessOpenBrace(); break;
 
   default:
     break;
   }
 }
 
-void JavaScriptLexer_cpp::TemplateCloseBraceAction(antlr4::RuleContext *context, size_t actionIndex) {
+void JavaScriptLexer::TemplateCloseBraceAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
-    case 1: this->ProcessTemplateCloseBrace(); break;
+    case 1: this.ProcessTemplateCloseBrace(); break;
 
   default:
     break;
   }
 }
 
-void JavaScriptLexer_cpp::CloseBraceAction(antlr4::RuleContext *context, size_t actionIndex) {
+void JavaScriptLexer::CloseBraceAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
-    case 2: this->ProcessCloseBrace(); break;
+    case 2: this.ProcessCloseBrace(); break;
 
   default:
     break;
   }
 }
 
-void JavaScriptLexer_cpp::StringLiteralAction(antlr4::RuleContext *context, size_t actionIndex) {
+void JavaScriptLexer::StringLiteralAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
-    case 3: this->ProcessStringLiteral(); break;
+    case 3: this.ProcessStringLiteral(); break;
 
   default:
     break;
   }
 }
 
-void JavaScriptLexer_cpp::TemplateStringStartExpressionAction(antlr4::RuleContext *context, size_t actionIndex) {
+void JavaScriptLexer::TemplateStringStartExpressionAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
-    case 4: this->ProcessTemplateOpenBrace(); break;
+    case 4: this.ProcessTemplateOpenBrace(); break;
 
   default:
     break;
@@ -870,9 +862,9 @@ void JavaScriptLexer_cpp::TemplateStringStartExpressionAction(antlr4::RuleContex
 }
 
 
-bool JavaScriptLexer_cpp::HashBangLineSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::HashBangLineSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 0: return  this->IsStartOfFile();
+    case 0: return  this.IsStartOfFile();
 
   default:
     break;
@@ -880,9 +872,9 @@ bool JavaScriptLexer_cpp::HashBangLineSempred(antlr4::RuleContext *_localctx, si
   return true;
 }
 
-bool JavaScriptLexer_cpp::RegularExpressionLiteralSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::RegularExpressionLiteralSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 1: return this->IsRegexPossible();
+    case 1: return this.IsRegexPossible();
 
   default:
     break;
@@ -890,9 +882,9 @@ bool JavaScriptLexer_cpp::RegularExpressionLiteralSempred(antlr4::RuleContext *_
   return true;
 }
 
-bool JavaScriptLexer_cpp::TemplateCloseBraceSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::TemplateCloseBraceSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 2: return this->IsInTemplateString();
+    case 2: return this.IsInTemplateString();
 
   default:
     break;
@@ -900,9 +892,9 @@ bool JavaScriptLexer_cpp::TemplateCloseBraceSempred(antlr4::RuleContext *_localc
   return true;
 }
 
-bool JavaScriptLexer_cpp::OctalIntegerLiteralSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::OctalIntegerLiteralSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 3: return !this->IsStrictMode();
+    case 3: return !this.IsStrictMode();
 
   default:
     break;
@@ -910,9 +902,9 @@ bool JavaScriptLexer_cpp::OctalIntegerLiteralSempred(antlr4::RuleContext *_local
   return true;
 }
 
-bool JavaScriptLexer_cpp::ImplementsSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::ImplementsSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 4: return this->IsStrictMode();
+    case 4: return this.IsStrictMode();
 
   default:
     break;
@@ -920,9 +912,9 @@ bool JavaScriptLexer_cpp::ImplementsSempred(antlr4::RuleContext *_localctx, size
   return true;
 }
 
-bool JavaScriptLexer_cpp::StrictLetSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::StrictLetSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 5: return this->IsStrictMode();
+    case 5: return this.IsStrictMode();
 
   default:
     break;
@@ -930,9 +922,9 @@ bool JavaScriptLexer_cpp::StrictLetSempred(antlr4::RuleContext *_localctx, size_
   return true;
 }
 
-bool JavaScriptLexer_cpp::NonStrictLetSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::NonStrictLetSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 6: return !this->IsStrictMode();
+    case 6: return !this.IsStrictMode();
 
   default:
     break;
@@ -940,9 +932,9 @@ bool JavaScriptLexer_cpp::NonStrictLetSempred(antlr4::RuleContext *_localctx, si
   return true;
 }
 
-bool JavaScriptLexer_cpp::PrivateSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::PrivateSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 7: return this->IsStrictMode();
+    case 7: return this.IsStrictMode();
 
   default:
     break;
@@ -950,9 +942,9 @@ bool JavaScriptLexer_cpp::PrivateSempred(antlr4::RuleContext *_localctx, size_t 
   return true;
 }
 
-bool JavaScriptLexer_cpp::PublicSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::PublicSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 8: return this->IsStrictMode();
+    case 8: return this.IsStrictMode();
 
   default:
     break;
@@ -960,9 +952,9 @@ bool JavaScriptLexer_cpp::PublicSempred(antlr4::RuleContext *_localctx, size_t p
   return true;
 }
 
-bool JavaScriptLexer_cpp::InterfaceSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::InterfaceSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 9: return this->IsStrictMode();
+    case 9: return this.IsStrictMode();
 
   default:
     break;
@@ -970,9 +962,9 @@ bool JavaScriptLexer_cpp::InterfaceSempred(antlr4::RuleContext *_localctx, size_
   return true;
 }
 
-bool JavaScriptLexer_cpp::PackageSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::PackageSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 10: return this->IsStrictMode();
+    case 10: return this.IsStrictMode();
 
   default:
     break;
@@ -980,9 +972,9 @@ bool JavaScriptLexer_cpp::PackageSempred(antlr4::RuleContext *_localctx, size_t 
   return true;
 }
 
-bool JavaScriptLexer_cpp::ProtectedSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::ProtectedSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 11: return this->IsStrictMode();
+    case 11: return this.IsStrictMode();
 
   default:
     break;
@@ -990,9 +982,9 @@ bool JavaScriptLexer_cpp::ProtectedSempred(antlr4::RuleContext *_localctx, size_
   return true;
 }
 
-bool JavaScriptLexer_cpp::StaticSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
+bool JavaScriptLexer::StaticSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 12: return this->IsStrictMode();
+    case 12: return this.IsStrictMode();
 
   default:
     break;
@@ -1001,10 +993,10 @@ bool JavaScriptLexer_cpp::StaticSempred(antlr4::RuleContext *_localctx, size_t p
 }
 
 
-void JavaScriptLexer_cpp::initialize() {
+void JavaScriptLexer::initialize() {
 #if ANTLR4_USE_THREAD_LOCAL_CACHE
-  javascriptlexer_cppLexerInitialize();
+  javascriptlexerLexerInitialize();
 #else
-  ::antlr4::internal::call_once(javascriptlexer_cppLexerOnceFlag, javascriptlexer_cppLexerInitialize);
+  ::antlr4::internal::call_once(javascriptlexerLexerOnceFlag, javascriptlexerLexerInitialize);
 #endif
 }

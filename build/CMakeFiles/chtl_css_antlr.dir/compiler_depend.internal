@@ -492,6 +492,7 @@ CMakeFiles/chtl_css_antlr.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o
  /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardElement.h
  /workspace/src/CSSCompiler/Parser/css3Lexer.h
  /workspace/src/CSSCompiler/Parser/css3Parser.h
+ /workspace/src/CSSCompiler/Parser/css3ParserBaseListener.h
  /workspace/src/CSSCompiler/Parser/css3ParserListener.h
  /workspace/src/CSSCompiler/Core/CSSCompilerCore.h
 

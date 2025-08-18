@@ -81,7 +81,7 @@ std::string CSSCompilerCore::compileCSSFile(const std::string& file_path) {
     }
 }
 
-std::unique_ptr<CSS3Parser::StylesheetContext> CSSCompilerCore::parseCSS(const std::string& css_code) {
+std::unique_ptr<css3Parser::StylesheetContext> CSSCompilerCore::parseCSS(const std::string& css_code) {
     try {
         // 创建输入流
         ANTLRInputStream input(css_code);
@@ -93,7 +93,7 @@ std::unique_ptr<CSS3Parser::StylesheetContext> CSSCompilerCore::parseCSS(const s
         CommonTokenStream tokens(&lexer);
         
         // 创建解析器
-        CSS3Parser parser(&tokens);
+        css3Parser parser(&tokens);
         
         // 添加错误监听器
         CSSErrorListener error_listener(this);
@@ -107,8 +107,8 @@ std::unique_ptr<CSS3Parser::StylesheetContext> CSSCompilerCore::parseCSS(const s
             return nullptr;
         }
         
-        return std::unique_ptr<CSS3Parser::StylesheetContext>(
-            static_cast<CSS3Parser::StylesheetContext*>(tree));
+        return std::unique_ptr<css3Parser::StylesheetContext>(
+            static_cast<css3Parser::StylesheetContext*>(tree));
         
     } catch (const std::exception& e) {
         addError("解析器创建失败: " + std::string(e.what()));
@@ -242,38 +242,38 @@ void CSSErrorListener::syntaxError(Recognizer *recognizer, Token *offendingSymbo
 }
 
 // CSSTreeWalker 实现
-void CSSTreeWalker::enterStylesheet(CSS3Parser::StylesheetContext *ctx) {
+void CSSTreeWalker::enterStylesheet(css3Parser::StylesheetContext *ctx) {
     reset();
     appendCSS("/* CHTL CSS编译器生成 */\n");
 }
 
-void CSSTreeWalker::exitStylesheet(CSS3Parser::StylesheetContext *ctx) {
+void CSSTreeWalker::exitStylesheet(css3Parser::StylesheetContext *ctx) {
     // 样式表处理完成
 }
 
-void CSSTreeWalker::enterRuleset(CSS3Parser::RulesetContext *ctx) {
+void CSSTreeWalker::enterRuleset(css3Parser::RulesetContext *ctx) {
     // 开始处理规则集
 }
 
-void CSSTreeWalker::exitRuleset(CSS3Parser::RulesetContext *ctx) {
+void CSSTreeWalker::exitRuleset(css3Parser::RulesetContext *ctx) {
     std::string ruleset_text = extractText(ctx);
     appendCSS(ruleset_text + "\n");
 }
 
-void CSSTreeWalker::enterAt_rule(CSS3Parser::At_ruleContext *ctx) {
+void CSSTreeWalker::enterAt_rule(css3Parser::At_ruleContext *ctx) {
     // 开始处理@规则
 }
 
-void CSSTreeWalker::exitAt_rule(CSS3Parser::At_ruleContext *ctx) {
+void CSSTreeWalker::exitAt_rule(css3Parser::At_ruleContext *ctx) {
     std::string at_rule_text = extractText(ctx);
     appendCSS(at_rule_text + "\n");
 }
 
-void CSSTreeWalker::enterDeclaration(CSS3Parser::DeclarationContext *ctx) {
+void CSSTreeWalker::enterDeclaration(css3Parser::DeclarationContext *ctx) {
     // 开始处理声明
 }
 
-void CSSTreeWalker::exitDeclaration(CSS3Parser::DeclarationContext *ctx) {
+void CSSTreeWalker::exitDeclaration(css3Parser::DeclarationContext *ctx) {
     // 声明处理完成
 }
 
