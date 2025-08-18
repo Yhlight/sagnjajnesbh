@@ -65,7 +65,7 @@ bool JavaScriptCompilerCore::validateJavaScript(const std::string& js_code) {
     }
 }
 
-std::unique_ptr<JavaScriptParser_cpp::ProgramContext> JavaScriptCompilerCore::parseJavaScript(const std::string& js_code) {
+JavaScriptParser_cpp::ProgramContext* JavaScriptCompilerCore::parseJavaScript(const std::string& js_code) {
     // 创建输入流
     ANTLRInputStream input(js_code);
     
@@ -86,8 +86,7 @@ std::unique_ptr<JavaScriptParser_cpp::ProgramContext> JavaScriptCompilerCore::pa
     // 解析JavaScript
     auto tree = parser.program();
     
-    return std::unique_ptr<JavaScriptParser_cpp::ProgramContext>(
-        static_cast<JavaScriptParser_cpp::ProgramContext*>(tree));
+    return tree;
 }
 
 std::string JavaScriptCompilerCore::optimizeJavaScript(const std::string& js_code) {
@@ -123,7 +122,7 @@ std::string JavaScriptCompilerCore::formatJavaScript(const std::string& js_code)
         
         // 使用树遍历器格式化
         JavaScriptTreeWalker walker(this);
-        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree.get());
+        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree);
         
         return walker.getCompiledJavaScript();
         
@@ -141,7 +140,7 @@ std::vector<std::string> JavaScriptCompilerCore::extractFunctions(const std::str
         }
         
         JavaScriptTreeWalker walker(this);
-        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree.get());
+        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree);
         
         return walker.getFunctions();
         
@@ -159,7 +158,7 @@ std::vector<std::string> JavaScriptCompilerCore::extractVariables(const std::str
         }
         
         JavaScriptTreeWalker walker(this);
-        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree.get());
+        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree);
         
         return walker.getVariables();
         

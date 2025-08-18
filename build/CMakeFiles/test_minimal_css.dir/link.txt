@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Xlinker --dependency-file=CMakeFiles/test_minimal_css.dir/link.d CMakeFiles/test_minimal_css.dir/test/test_minimal_css.cpp.o -o bin/test_minimal_css  lib/libchtl_css_compiler.a lib/libchtl_shared_min.a /workspace/external/antlr4-install/lib/libantlr4-runtime.a

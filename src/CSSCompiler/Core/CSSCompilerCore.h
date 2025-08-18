@@ -57,7 +57,7 @@ private:
     CompilerOptions options_;
     
     // 内部方法
-    std::unique_ptr<css3Parser::StylesheetContext> parseCSS(const std::string& css_code);
+    css3Parser::StylesheetContext* parseCSS(const std::string& css_code);
 };
 
 // CSS错误监听器
@@ -85,6 +85,18 @@ public:
     void enterStylesheet(css3Parser::StylesheetContext* ctx) override;
     void exitStylesheet(css3Parser::StylesheetContext* ctx) override;
     
+    void enterKnownRuleset(css3Parser::KnownRulesetContext* ctx) override;
+    void exitKnownRuleset(css3Parser::KnownRulesetContext* ctx) override;
+    
+    void enterUnknownRuleset(css3Parser::UnknownRulesetContext* ctx) override;
+    void exitUnknownRuleset(css3Parser::UnknownRulesetContext* ctx) override;
+    
+    void enterKnownDeclaration(css3Parser::KnownDeclarationContext* ctx) override;
+    void exitKnownDeclaration(css3Parser::KnownDeclarationContext* ctx) override;
+    
+    void enterUnknownDeclaration(css3Parser::UnknownDeclarationContext* ctx) override;
+    void exitUnknownDeclaration(css3Parser::UnknownDeclarationContext* ctx) override;
+    
     // 结果获取
     std::string getCompiledCSS() const { return output_.str(); }
     std::vector<std::string> getSelectors() const { return selectors_; }
@@ -98,6 +110,10 @@ private:
     
     // 辅助方法
     std::string extractText(antlr4::tree::ParseTree* tree);
+    void processKnownRuleset(css3Parser::KnownRulesetContext* ctx);
+    void processUnknownRuleset(css3Parser::UnknownRulesetContext* ctx);
+    void processKnownDeclaration(css3Parser::KnownDeclarationContext* ctx);
+    void processUnknownDeclaration(css3Parser::UnknownDeclarationContext* ctx);
 };
 
 // CSS优化器

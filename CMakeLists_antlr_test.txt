@@ -39,6 +39,18 @@ target_link_libraries(chtl_js_compiler_antlr chtl_shared_min ${CMAKE_CURRENT_SOU
 add_executable(test_antlr_compilers test/test_antlr_compilers.cpp)
 target_link_libraries(test_antlr_compilers chtl_css_compiler chtl_js_compiler_antlr)
 
+# 基本ANTLR测试
+add_executable(test_antlr_basic test/test_antlr_basic.cpp)
+target_link_libraries(test_antlr_basic chtl_css_compiler chtl_js_compiler_antlr)
+
+# 最小CSS测试
+add_executable(test_minimal_css test/test_minimal_css.cpp)
+target_link_libraries(test_minimal_css chtl_css_compiler)
+
+# CSS验证测试
+add_executable(test_css_validation_only test/test_css_validation_only.cpp)
+target_link_libraries(test_css_validation_only chtl_css_compiler)
+
 # 设置输出目录
 set_target_properties(
     chtl_shared_min chtl_css_compiler chtl_js_compiler_antlr
@@ -46,6 +58,6 @@ set_target_properties(
 )
 
 set_target_properties(
-    test_antlr_compilers
+    test_antlr_compilers test_antlr_basic test_minimal_css test_css_validation_only
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )

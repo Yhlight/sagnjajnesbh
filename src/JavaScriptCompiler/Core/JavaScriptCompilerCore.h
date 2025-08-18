@@ -64,7 +64,7 @@ private:
     CompilerOptions options_;
     
     // 内部方法
-    std::unique_ptr<JavaScriptParser_cpp::ProgramContext> parseJavaScript(const std::string& js_code);
+    JavaScriptParser_cpp::ProgramContext* parseJavaScript(const std::string& js_code);
 };
 
 // JavaScript错误监听器

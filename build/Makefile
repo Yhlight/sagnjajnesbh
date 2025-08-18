@@ -168,6 +168,45 @@ test_antlr_compilers/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_compilers.dir/build.make CMakeFiles/test_antlr_compilers.dir/build
 .PHONY : test_antlr_compilers/fast
 
+#=============================================================================
+# Target rules for targets named test_antlr_basic
+
+# Build rule for target.
+test_antlr_basic: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_antlr_basic
+.PHONY : test_antlr_basic
+
+# fast build rule for target.
+test_antlr_basic/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_basic.dir/build.make CMakeFiles/test_antlr_basic.dir/build
+.PHONY : test_antlr_basic/fast
+
+#=============================================================================
+# Target rules for targets named test_minimal_css
+
+# Build rule for target.
+test_minimal_css: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_minimal_css
+.PHONY : test_minimal_css
+
+# fast build rule for target.
+test_minimal_css/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_css.dir/build.make CMakeFiles/test_minimal_css.dir/build
+.PHONY : test_minimal_css/fast
+
+#=============================================================================
+# Target rules for targets named test_css_validation_only
+
+# Build rule for target.
+test_css_validation_only: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_css_validation_only
+.PHONY : test_css_validation_only
+
+# fast build rule for target.
+test_css_validation_only/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_css_validation_only.dir/build.make CMakeFiles/test_css_validation_only.dir/build
+.PHONY : test_css_validation_only/fast
+
 src/CSSCompiler/Core/CSSCompilerCore.o: src/CSSCompiler/Core/CSSCompilerCore.cpp.o
 .PHONY : src/CSSCompiler/Core/CSSCompilerCore.o
 
@@ -480,6 +519,30 @@ src/Shared/Utils/FileUtils.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.s
 .PHONY : src/Shared/Utils/FileUtils.cpp.s
 
+test/test_antlr_basic.o: test/test_antlr_basic.cpp.o
+.PHONY : test/test_antlr_basic.o
+
+# target to build an object file
+test/test_antlr_basic.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_basic.dir/build.make CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.o
+.PHONY : test/test_antlr_basic.cpp.o
+
+test/test_antlr_basic.i: test/test_antlr_basic.cpp.i
+.PHONY : test/test_antlr_basic.i
+
+# target to preprocess a source file
+test/test_antlr_basic.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_basic.dir/build.make CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.i
+.PHONY : test/test_antlr_basic.cpp.i
+
+test/test_antlr_basic.s: test/test_antlr_basic.cpp.s
+.PHONY : test/test_antlr_basic.s
+
+# target to generate assembly for a file
+test/test_antlr_basic.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_basic.dir/build.make CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.s
+.PHONY : test/test_antlr_basic.cpp.s
+
 test/test_antlr_compilers.o: test/test_antlr_compilers.cpp.o
 .PHONY : test/test_antlr_compilers.o
 
@@ -504,6 +567,54 @@ test/test_antlr_compilers.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_compilers.dir/build.make CMakeFiles/test_antlr_compilers.dir/test/test_antlr_compilers.cpp.s
 .PHONY : test/test_antlr_compilers.cpp.s
 
+test/test_css_validation_only.o: test/test_css_validation_only.cpp.o
+.PHONY : test/test_css_validation_only.o
+
+# target to build an object file
+test/test_css_validation_only.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_css_validation_only.dir/build.make CMakeFiles/test_css_validation_only.dir/test/test_css_validation_only.cpp.o
+.PHONY : test/test_css_validation_only.cpp.o
+
+test/test_css_validation_only.i: test/test_css_validation_only.cpp.i
+.PHONY : test/test_css_validation_only.i
+
+# target to preprocess a source file
+test/test_css_validation_only.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_css_validation_only.dir/build.make CMakeFiles/test_css_validation_only.dir/test/test_css_validation_only.cpp.i
+.PHONY : test/test_css_validation_only.cpp.i
+
+test/test_css_validation_only.s: test/test_css_validation_only.cpp.s
+.PHONY : test/test_css_validation_only.s
+
+# target to generate assembly for a file
+test/test_css_validation_only.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_css_validation_only.dir/build.make CMakeFiles/test_css_validation_only.dir/test/test_css_validation_only.cpp.s
+.PHONY : test/test_css_validation_only.cpp.s
+
+test/test_minimal_css.o: test/test_minimal_css.cpp.o
+.PHONY : test/test_minimal_css.o
+
+# target to build an object file
+test/test_minimal_css.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_css.dir/build.make CMakeFiles/test_minimal_css.dir/test/test_minimal_css.cpp.o
+.PHONY : test/test_minimal_css.cpp.o
+
+test/test_minimal_css.i: test/test_minimal_css.cpp.i
+.PHONY : test/test_minimal_css.i
+
+# target to preprocess a source file
+test/test_minimal_css.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_css.dir/build.make CMakeFiles/test_minimal_css.dir/test/test_minimal_css.cpp.i
+.PHONY : test/test_minimal_css.cpp.i
+
+test/test_minimal_css.s: test/test_minimal_css.cpp.s
+.PHONY : test/test_minimal_css.s
+
+# target to generate assembly for a file
+test/test_minimal_css.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_css.dir/build.make CMakeFiles/test_minimal_css.dir/test/test_minimal_css.cpp.s
+.PHONY : test/test_minimal_css.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -515,7 +626,10 @@ help:
 	@echo "... chtl_css_compiler"
 	@echo "... chtl_js_compiler_antlr"
 	@echo "... chtl_shared_min"
+	@echo "... test_antlr_basic"
 	@echo "... test_antlr_compilers"
+	@echo "... test_css_validation_only"
+	@echo "... test_minimal_css"
 	@echo "... src/CSSCompiler/Core/CSSCompilerCore.o"
 	@echo "... src/CSSCompiler/Core/CSSCompilerCore.i"
 	@echo "... src/CSSCompiler/Core/CSSCompilerCore.s"
@@ -555,9 +669,18 @@ help:
 	@echo "... src/Shared/Utils/FileUtils.o"
 	@echo "... src/Shared/Utils/FileUtils.i"
 	@echo "... src/Shared/Utils/FileUtils.s"
+	@echo "... test/test_antlr_basic.o"
+	@echo "... test/test_antlr_basic.i"
+	@echo "... test/test_antlr_basic.s"
 	@echo "... test/test_antlr_compilers.o"
 	@echo "... test/test_antlr_compilers.i"
 	@echo "... test/test_antlr_compilers.s"
+	@echo "... test/test_css_validation_only.o"
+	@echo "... test/test_css_validation_only.i"
+	@echo "... test/test_css_validation_only.s"
+	@echo "... test/test_minimal_css.o"
+	@echo "... test/test_minimal_css.i"
+	@echo "... test/test_minimal_css.s"
 .PHONY : help
 
 

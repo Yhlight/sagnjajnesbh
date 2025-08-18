@@ -59,7 +59,7 @@ bool CSSCompilerCore::validateCSS(const std::string& css_code) {
     }
 }
 
-std::unique_ptr<css3Parser::StylesheetContext> CSSCompilerCore::parseCSS(const std::string& css_code) {
+css3Parser::StylesheetContext* CSSCompilerCore::parseCSS(const std::string& css_code) {
     // 创建输入流
     ANTLRInputStream input(css_code);
     
@@ -80,8 +80,7 @@ std::unique_ptr<css3Parser::StylesheetContext> CSSCompilerCore::parseCSS(const s
     // 解析CSS
     auto tree = parser.stylesheet();
     
-    return std::unique_ptr<css3Parser::StylesheetContext>(
-        static_cast<css3Parser::StylesheetContext*>(tree));
+    return tree;
 }
 
 std::string CSSCompilerCore::optimizeCSS(const std::string& css_code) {
@@ -116,7 +115,7 @@ std::string CSSCompilerCore::formatCSS(const std::string& css_code) {
         
         // 使用树遍历器格式化
         CSSTreeWalker walker(this);
-        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree.get());
+        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree);
         
         return walker.getCompiledCSS();
         
@@ -134,7 +133,7 @@ std::vector<std::string> CSSCompilerCore::extractSelectors(const std::string& cs
         }
         
         CSSTreeWalker walker(this);
-        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree.get());
+        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree);
         
         return walker.getSelectors();
         
@@ -152,7 +151,7 @@ std::vector<std::string> CSSCompilerCore::extractProperties(const std::string& c
         }
         
         CSSTreeWalker walker(this);
-        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree.get());
+        tree::ParseTreeWalker::DEFAULT.walk(&walker, parse_tree);
         
         return walker.getProperties();
         
@@ -210,14 +209,93 @@ void CSSTreeWalker::exitStylesheet(css3Parser::StylesheetContext* /*ctx*/) {
     // CSS文档结束
 }
 
-// CSS树遍历器的简化实现
+void CSSTreeWalker::enterKnownRuleset(css3Parser::KnownRulesetContext* ctx) {
+    processKnownRuleset(ctx);
+}
+
+void CSSTreeWalker::exitKnownRuleset(css3Parser::KnownRulesetContext* /*ctx*/) {
+    output_ << "}\n";
+}
+
+void CSSTreeWalker::enterUnknownRuleset(css3Parser::UnknownRulesetContext* ctx) {
+    processUnknownRuleset(ctx);
+}
+
+void CSSTreeWalker::exitUnknownRuleset(css3Parser::UnknownRulesetContext* /*ctx*/) {
+    output_ << "}\n";
+}
+
+void CSSTreeWalker::enterKnownDeclaration(css3Parser::KnownDeclarationContext* ctx) {
+    processKnownDeclaration(ctx);
+}
+
+void CSSTreeWalker::exitKnownDeclaration(css3Parser::KnownDeclarationContext* /*ctx*/) {
+    // 声明处理完成
+}
+
+void CSSTreeWalker::enterUnknownDeclaration(css3Parser::UnknownDeclarationContext* ctx) {
+    processUnknownDeclaration(ctx);
+}
+
+void CSSTreeWalker::exitUnknownDeclaration(css3Parser::UnknownDeclarationContext* /*ctx*/) {
+    // 声明处理完成
+}
 
 std::string CSSTreeWalker::extractText(antlr4::tree::ParseTree* tree) {
     if (!tree) return "";
     return tree->getText();
 }
 
-// 简化的CSS处理方法已移除，使用基本的字符串处理
+void CSSTreeWalker::processKnownRuleset(css3Parser::KnownRulesetContext* ctx) {
+    std::string selector = extractText(ctx);
+    
+    // 提取选择器部分（在{之前）
+    size_t brace_pos = selector.find('{');
+    if (brace_pos != std::string::npos) {
+        selector = selector.substr(0, brace_pos);
+    }
+    
+    // 去除前后空白
+    selector.erase(0, selector.find_first_not_of(" \t\n\r"));
+    selector.erase(selector.find_last_not_of(" \t\n\r") + 1);
+    
+    if (!selector.empty()) {
+        selectors_.push_back(selector);
+        output_ << selector << " {\n";
+    }
+}
+
+void CSSTreeWalker::processUnknownRuleset(css3Parser::UnknownRulesetContext* ctx) {
+    std::string ruleset = extractText(ctx);
+    output_ << "/* Unknown ruleset: " << ruleset << " */\n";
+}
+
+void CSSTreeWalker::processKnownDeclaration(css3Parser::KnownDeclarationContext* ctx) {
+    std::string declaration = extractText(ctx);
+    
+    // 提取属性名
+    size_t colon_pos = declaration.find(':');
+    if (colon_pos != std::string::npos) {
+        std::string property = declaration.substr(0, colon_pos);
+        property.erase(0, property.find_first_not_of(" \t\n\r"));
+        property.erase(property.find_last_not_of(" \t\n\r") + 1);
+        
+        if (!property.empty()) {
+            properties_.push_back(property);
+        }
+    }
+    
+    output_ << "    " << declaration;
+    if (declaration.back() != ';') {
+        output_ << ";";
+    }
+    output_ << "\n";
+}
+
+void CSSTreeWalker::processUnknownDeclaration(css3Parser::UnknownDeclarationContext* ctx) {
+    std::string declaration = extractText(ctx);
+    output_ << "    /* Unknown declaration: " << declaration << " */\n";
+}
 
 // CSSOptimizer 实现
 CSSOptimizer::CSSOptimizer() = default;
