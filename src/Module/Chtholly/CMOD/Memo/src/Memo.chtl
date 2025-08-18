@@ -1,0 +1,62 @@
+// 珂朵莉备忘录组件
+// 记录珍贵的回忆
+
+[Namespace] Chtholly
+
+[Template] @Element ChthollyMemo
+{
+    div
+    {
+        style
+        {
+            .chtholly-memo
+            {
+                background: linear-gradient(135deg, #ff9a9e, #fecfef);
+                border-radius: 15px;
+                padding: 20px;
+                box-shadow: 0 8px 25px rgba(255, 154, 158, 0.3);
+                margin: 10px 0;
+                transition: all 0.3s ease;
+            }
+
+            &:hover
+            {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 35px rgba(255, 154, 158, 0.4);
+            }
+
+            .chtholly-memo-title
+            {
+                color: #5d4e75;
+                font-weight: 600;
+                margin-bottom: 10px;
+                font-size: 18px;
+            }
+
+            .chtholly-memo-content
+            {
+                color: #5d4e75;
+                line-height: 1.6;
+            }
+        }
+
+        div
+        {
+            class: chtholly-memo-title;
+            text
+            {
+                珂朵莉的备忘录
+            }
+        }
+        
+        div
+        {
+            class: chtholly-memo-content;
+            text
+            {
+                记录珍贵的回忆...
+                世界上最幸福的女孩 - 珂朵莉。
+            }
+        }
+    }
+}
