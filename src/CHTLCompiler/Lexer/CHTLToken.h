@@ -34,8 +34,15 @@ enum class TokenType {
     SCRIPT,
     INHERIT,
     DELETE,
+    INSERT,
+    REPLACE,
+    AFTER,
+    BEFORE,
+    ATTOP,
+    ATBOTTOM,
     FROM,
     AS,
+    EXCEPT,
     
     // 操作符
     LEFT_BRACE,     // {

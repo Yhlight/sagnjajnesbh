@@ -213,8 +213,28 @@ Token CHTLLexer::readKeyword(const std::string& word) {
     if (word == "script") return Token(TokenType::SCRIPT, word, pos);
     if (word == "inherit") return Token(TokenType::INHERIT, word, pos);
     if (word == "delete") return Token(TokenType::DELETE, word, pos);
+    if (word == "insert") return Token(TokenType::INSERT, word, pos);
+    if (word == "replace") return Token(TokenType::REPLACE, word, pos);
+    if (word == "after") return Token(TokenType::AFTER, word, pos);
+    if (word == "before") return Token(TokenType::BEFORE, word, pos);
+    if (word == "except") return Token(TokenType::EXCEPT, word, pos);
     if (word == "from") return Token(TokenType::FROM, word, pos);
     if (word == "as") return Token(TokenType::AS, word, pos);
+    
+    // 复合关键字
+    if (word == "at") {
+        // 检查是否为 "at top" 或 "at bottom"
+        std::string nextWord = peekNextWord();
+        if (nextWord == "top") {
+            advance(); // 跳过当前 "at"
+            advance(); // 跳过 "top"
+            return Token(TokenType::ATTOP, "at top", pos);
+        } else if (nextWord == "bottom") {
+            advance(); // 跳过当前 "at"
+            advance(); // 跳过 "bottom"
+            return Token(TokenType::ATBOTTOM, "at bottom", pos);
+        }
+    }
     
     // 默认为标识符
     return Token(TokenType::IDENTIFIER, word, pos);
