@@ -117,78 +117,78 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named chtl_scanner_only
+# Target rules for targets named chtl_scanner_clean
 
 # Build rule for target.
-chtl_scanner_only: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_scanner_only
-.PHONY : chtl_scanner_only
+chtl_scanner_clean: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_scanner_clean
+.PHONY : chtl_scanner_clean
 
 # fast build rule for target.
-chtl_scanner_only/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_only.dir/build.make CMakeFiles/chtl_scanner_only.dir/build
-.PHONY : chtl_scanner_only/fast
+chtl_scanner_clean/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_clean.dir/build.make CMakeFiles/chtl_scanner_clean.dir/build
+.PHONY : chtl_scanner_clean/fast
 
 #=============================================================================
-# Target rules for targets named test_scanner_only
+# Target rules for targets named test_clean_architecture
 
 # Build rule for target.
-test_scanner_only: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_scanner_only
-.PHONY : test_scanner_only
+test_clean_architecture: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_clean_architecture
+.PHONY : test_clean_architecture
 
 # fast build rule for target.
-test_scanner_only/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_only.dir/build.make CMakeFiles/test_scanner_only.dir/build
-.PHONY : test_scanner_only/fast
+test_clean_architecture/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_clean_architecture.dir/build.make CMakeFiles/test_clean_architecture.dir/build
+.PHONY : test_clean_architecture/fast
 
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.o: src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.o
-
-# target to build an object file
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_only.dir/build.make CMakeFiles/chtl_scanner_only.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o
-
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.i: src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.i
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.i
-
-# target to preprocess a source file
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_only.dir/build.make CMakeFiles/chtl_scanner_only.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.i
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.i
-
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.s: src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.s
-
-# target to generate assembly for a file
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_only.dir/build.make CMakeFiles/chtl_scanner_only.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s
-
-test/test_scanner_only.o: test/test_scanner_only.cpp.o
-.PHONY : test/test_scanner_only.o
+src/Scanner/CHTLUnifiedScanner.o: src/Scanner/CHTLUnifiedScanner.cpp.o
+.PHONY : src/Scanner/CHTLUnifiedScanner.o
 
 # target to build an object file
-test/test_scanner_only.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_only.dir/build.make CMakeFiles/test_scanner_only.dir/test/test_scanner_only.cpp.o
-.PHONY : test/test_scanner_only.cpp.o
+src/Scanner/CHTLUnifiedScanner.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_clean.dir/build.make CMakeFiles/chtl_scanner_clean.dir/src/Scanner/CHTLUnifiedScanner.cpp.o
+.PHONY : src/Scanner/CHTLUnifiedScanner.cpp.o
 
-test/test_scanner_only.i: test/test_scanner_only.cpp.i
-.PHONY : test/test_scanner_only.i
+src/Scanner/CHTLUnifiedScanner.i: src/Scanner/CHTLUnifiedScanner.cpp.i
+.PHONY : src/Scanner/CHTLUnifiedScanner.i
 
 # target to preprocess a source file
-test/test_scanner_only.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_only.dir/build.make CMakeFiles/test_scanner_only.dir/test/test_scanner_only.cpp.i
-.PHONY : test/test_scanner_only.cpp.i
+src/Scanner/CHTLUnifiedScanner.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_clean.dir/build.make CMakeFiles/chtl_scanner_clean.dir/src/Scanner/CHTLUnifiedScanner.cpp.i
+.PHONY : src/Scanner/CHTLUnifiedScanner.cpp.i
 
-test/test_scanner_only.s: test/test_scanner_only.cpp.s
-.PHONY : test/test_scanner_only.s
+src/Scanner/CHTLUnifiedScanner.s: src/Scanner/CHTLUnifiedScanner.cpp.s
+.PHONY : src/Scanner/CHTLUnifiedScanner.s
 
 # target to generate assembly for a file
-test/test_scanner_only.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_only.dir/build.make CMakeFiles/test_scanner_only.dir/test/test_scanner_only.cpp.s
-.PHONY : test/test_scanner_only.cpp.s
+src/Scanner/CHTLUnifiedScanner.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_clean.dir/build.make CMakeFiles/chtl_scanner_clean.dir/src/Scanner/CHTLUnifiedScanner.cpp.s
+.PHONY : src/Scanner/CHTLUnifiedScanner.cpp.s
+
+test/test_scanner_clean.o: test/test_scanner_clean.cpp.o
+.PHONY : test/test_scanner_clean.o
+
+# target to build an object file
+test/test_scanner_clean.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_clean_architecture.dir/build.make CMakeFiles/test_clean_architecture.dir/test/test_scanner_clean.cpp.o
+.PHONY : test/test_scanner_clean.cpp.o
+
+test/test_scanner_clean.i: test/test_scanner_clean.cpp.i
+.PHONY : test/test_scanner_clean.i
+
+# target to preprocess a source file
+test/test_scanner_clean.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_clean_architecture.dir/build.make CMakeFiles/test_clean_architecture.dir/test/test_scanner_clean.cpp.i
+.PHONY : test/test_scanner_clean.cpp.i
+
+test/test_scanner_clean.s: test/test_scanner_clean.cpp.s
+.PHONY : test/test_scanner_clean.s
+
+# target to generate assembly for a file
+test/test_scanner_clean.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_clean_architecture.dir/build.make CMakeFiles/test_clean_architecture.dir/test/test_scanner_clean.cpp.s
+.PHONY : test/test_scanner_clean.cpp.s
 
 # Help Target
 help:
@@ -198,14 +198,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... chtl_scanner_only"
-	@echo "... test_scanner_only"
-	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.o"
-	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.i"
-	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.s"
-	@echo "... test/test_scanner_only.o"
-	@echo "... test/test_scanner_only.i"
-	@echo "... test/test_scanner_only.s"
+	@echo "... chtl_scanner_clean"
+	@echo "... test_clean_architecture"
+	@echo "... src/Scanner/CHTLUnifiedScanner.o"
+	@echo "... src/Scanner/CHTLUnifiedScanner.i"
+	@echo "... src/Scanner/CHTLUnifiedScanner.s"
+	@echo "... test/test_scanner_clean.o"
+	@echo "... test/test_scanner_clean.i"
+	@echo "... test/test_scanner_clean.s"
 .PHONY : help
 
 

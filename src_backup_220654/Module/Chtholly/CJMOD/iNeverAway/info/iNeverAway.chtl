@@ -1,0 +1,18 @@
+// 按CHTL语法文档：CJMOD Info文件格式（注意：CJMOD没有[Export]块）
+[Info]
+{
+    name = "iNeverAway";
+    version = "1.0.0";
+    description = "珂朵莉iNeverAway函数 - 创建标记函数组，支持状态重载";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "functional";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+    
+    // CJMOD特有配置
+    cppStandard = "C++17";
+    requiresAdvancedFeatures = true;
+    supportStateOverloading = true;
+}

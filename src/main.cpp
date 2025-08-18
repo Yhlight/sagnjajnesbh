@@ -1,7 +1,7 @@
 #include "CHTLCompiler/Core/CHTLCompilerCore.h"
 #include "CHTLJSCompiler/Core/CHTLJSCompilerCore.h"
-#include "UnifiedCore/Scanner/CHTLUnifiedScanner.h"
-#include "UnifiedCore/Dispatcher/CompilerDispatcher.h"
+#include "Scanner/CHTLUnifiedScanner.h"
+#include "Dispatcher/CompilerDispatcher.h"
 #include <iostream>
 #include <string>
 

@@ -63,13 +63,13 @@ CMAKE_BINARY_DIR = /workspace/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/chtl_scanner_only.dir/all
-all: CMakeFiles/test_scanner_only.dir/all
+all: CMakeFiles/chtl_scanner_clean.dir/all
+all: CMakeFiles/test_clean_architecture.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/chtl_scanner_only.dir/codegen
-codegen: CMakeFiles/test_scanner_only.dir/codegen
+codegen: CMakeFiles/chtl_scanner_clean.dir/codegen
+codegen: CMakeFiles/test_clean_architecture.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -77,73 +77,73 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/chtl_scanner_only.dir/clean
-clean: CMakeFiles/test_scanner_only.dir/clean
+clean: CMakeFiles/chtl_scanner_clean.dir/clean
+clean: CMakeFiles/test_clean_architecture.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/chtl_scanner_only.dir
+# Target rules for target CMakeFiles/chtl_scanner_clean.dir
 
 # All Build rule for target.
-CMakeFiles/chtl_scanner_only.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_only.dir/build.make CMakeFiles/chtl_scanner_only.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_only.dir/build.make CMakeFiles/chtl_scanner_only.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2 "Built target chtl_scanner_only"
-.PHONY : CMakeFiles/chtl_scanner_only.dir/all
+CMakeFiles/chtl_scanner_clean.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_clean.dir/build.make CMakeFiles/chtl_scanner_clean.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_clean.dir/build.make CMakeFiles/chtl_scanner_clean.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2 "Built target chtl_scanner_clean"
+.PHONY : CMakeFiles/chtl_scanner_clean.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/chtl_scanner_only.dir/rule: cmake_check_build_system
+CMakeFiles/chtl_scanner_clean.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/chtl_scanner_only.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/chtl_scanner_clean.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
-.PHONY : CMakeFiles/chtl_scanner_only.dir/rule
+.PHONY : CMakeFiles/chtl_scanner_clean.dir/rule
 
 # Convenience name for target.
-chtl_scanner_only: CMakeFiles/chtl_scanner_only.dir/rule
-.PHONY : chtl_scanner_only
+chtl_scanner_clean: CMakeFiles/chtl_scanner_clean.dir/rule
+.PHONY : chtl_scanner_clean
 
 # codegen rule for target.
-CMakeFiles/chtl_scanner_only.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_only.dir/build.make CMakeFiles/chtl_scanner_only.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2 "Finished codegen for target chtl_scanner_only"
-.PHONY : CMakeFiles/chtl_scanner_only.dir/codegen
+CMakeFiles/chtl_scanner_clean.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_clean.dir/build.make CMakeFiles/chtl_scanner_clean.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2 "Finished codegen for target chtl_scanner_clean"
+.PHONY : CMakeFiles/chtl_scanner_clean.dir/codegen
 
 # clean rule for target.
-CMakeFiles/chtl_scanner_only.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_only.dir/build.make CMakeFiles/chtl_scanner_only.dir/clean
-.PHONY : CMakeFiles/chtl_scanner_only.dir/clean
+CMakeFiles/chtl_scanner_clean.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner_clean.dir/build.make CMakeFiles/chtl_scanner_clean.dir/clean
+.PHONY : CMakeFiles/chtl_scanner_clean.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test_scanner_only.dir
+# Target rules for target CMakeFiles/test_clean_architecture.dir
 
 # All Build rule for target.
-CMakeFiles/test_scanner_only.dir/all: CMakeFiles/chtl_scanner_only.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_only.dir/build.make CMakeFiles/test_scanner_only.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_only.dir/build.make CMakeFiles/test_scanner_only.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=3,4 "Built target test_scanner_only"
-.PHONY : CMakeFiles/test_scanner_only.dir/all
+CMakeFiles/test_clean_architecture.dir/all: CMakeFiles/chtl_scanner_clean.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_clean_architecture.dir/build.make CMakeFiles/test_clean_architecture.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_clean_architecture.dir/build.make CMakeFiles/test_clean_architecture.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=3,4 "Built target test_clean_architecture"
+.PHONY : CMakeFiles/test_clean_architecture.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test_scanner_only.dir/rule: cmake_check_build_system
+CMakeFiles/test_clean_architecture.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_scanner_only.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_clean_architecture.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
-.PHONY : CMakeFiles/test_scanner_only.dir/rule
+.PHONY : CMakeFiles/test_clean_architecture.dir/rule
 
 # Convenience name for target.
-test_scanner_only: CMakeFiles/test_scanner_only.dir/rule
-.PHONY : test_scanner_only
+test_clean_architecture: CMakeFiles/test_clean_architecture.dir/rule
+.PHONY : test_clean_architecture
 
 # codegen rule for target.
-CMakeFiles/test_scanner_only.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_only.dir/build.make CMakeFiles/test_scanner_only.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=3,4 "Finished codegen for target test_scanner_only"
-.PHONY : CMakeFiles/test_scanner_only.dir/codegen
+CMakeFiles/test_clean_architecture.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_clean_architecture.dir/build.make CMakeFiles/test_clean_architecture.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=3,4 "Finished codegen for target test_clean_architecture"
+.PHONY : CMakeFiles/test_clean_architecture.dir/codegen
 
 # clean rule for target.
-CMakeFiles/test_scanner_only.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_scanner_only.dir/build.make CMakeFiles/test_scanner_only.dir/clean
-.PHONY : CMakeFiles/test_scanner_only.dir/clean
+CMakeFiles/test_clean_architecture.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_clean_architecture.dir/build.make CMakeFiles/test_clean_architecture.dir/clean
+.PHONY : CMakeFiles/test_clean_architecture.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -1,0 +1,20 @@
+// 按CHTL语法文档：CMOD Info文件格式
+[Info]
+{
+    name = "Accordion";
+    version = "1.0.0";
+    description = "珂朵莉手风琴组件 - 优雅的折叠展开交互";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "interaction";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+// 按CHTL语法文档：Export块由系统自动生成，使用全缀名
+[Export]
+{
+    [Custom] @Element ChthollyAccordion;
+    [Custom] @Style ChthollyAccordionStyle;
+}

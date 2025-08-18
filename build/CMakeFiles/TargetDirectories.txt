@@ -1,4 +1,4 @@
-/workspace/build/CMakeFiles/chtl_scanner_only.dir
-/workspace/build/CMakeFiles/test_scanner_only.dir
+/workspace/build/CMakeFiles/chtl_scanner_clean.dir
+/workspace/build/CMakeFiles/test_clean_architecture.dir
 /workspace/build/CMakeFiles/edit_cache.dir
 /workspace/build/CMakeFiles/rebuild_cache.dir

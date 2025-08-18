@@ -1,0 +1,22 @@
+// 只需要写这个即可
+[Info]
+{
+    name = "yuigahama";
+    version = "1.0.0";
+    description = "由比滨结衣主题模块 - 温暖可爱的青春";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "theme";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+// 外部查询表，优化性能用，无实际作用
+// 不需要写这个，此由系统生成
+[Export]
+{
+    @Element YuigahamaMusicPlayer;
+    @Style YuigahamaStyle, YuigahamaCard, YuigahamaButton;
+    @Var YuigahamaColors, YuigahamaFonts;
+}

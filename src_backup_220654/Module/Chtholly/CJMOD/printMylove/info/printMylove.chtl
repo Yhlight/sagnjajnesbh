@@ -1,0 +1,18 @@
+// 按CHTL语法文档：CJMOD Info文件格式（注意：CJMOD没有[Export]块）
+[Info]
+{
+    name = "printMylove";
+    version = "1.0.0";
+    description = "珂朵莉图片转字符像素块函数 - 将图片转换为ASCII或像素字符形式";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "graphics";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+    
+    // CJMOD特有配置
+    cppStandard = "C++17";
+    requiresImageProcessing = true;
+    externalLibraries = "stb_image";
+}

@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libchtljs_compiler.a CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o
+/usr/bin/ranlib lib/libchtljs_compiler.a

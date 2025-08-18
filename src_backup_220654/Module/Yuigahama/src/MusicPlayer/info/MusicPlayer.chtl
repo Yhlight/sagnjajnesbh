@@ -1,0 +1,21 @@
+// 按CHTL语法文档：CMOD Info文件格式
+[Info]
+{
+    name = "MusicPlayer";
+    version = "1.0.0";
+    description = "由比滨结衣音乐播放器组件 - 温暖治愈的音乐体验";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "media";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+// 按CHTL语法文档：Export块由系统自动生成，使用全缀名
+[Export]
+{
+    [Custom] @Element YuigahamaMusicPlayer;
+    [Custom] @Style YuigahamaMusicPlayerStyle;
+    [Custom] @Var YuigahamaMusicTheme;
+}
