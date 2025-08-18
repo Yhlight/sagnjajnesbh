@@ -4,5 +4,6 @@
 /workspace/build/CMakeFiles/chtljs_compiler.dir
 /workspace/build/CMakeFiles/test_existing_features.dir
 /workspace/build/CMakeFiles/test_complete_chtl_compliance.dir
+/workspace/build/CMakeFiles/test_variable_length_slicing.dir
 /workspace/build/CMakeFiles/edit_cache.dir
 /workspace/build/CMakeFiles/rebuild_cache.dir

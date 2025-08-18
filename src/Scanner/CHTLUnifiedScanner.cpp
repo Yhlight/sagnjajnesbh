@@ -498,5 +498,202 @@ void CHTLUnifiedScanner::initializeUndecoratedLiteralRules() {
     validUndecoratedContexts_.insert("script");
 }
 
+// === 可变长度切片机制实现 ===
+
+bool CHTLUnifiedScanner::checkFragmentCompleteness(const std::string& code, size_t currentEnd, size_t nextStart) {
+    // 检查下一个片段的起始部分是否可能与当前片段组成完整的CHTL或CHTL JS代码片段
+    
+    if (nextStart >= code.length()) {
+        return false;
+    }
+    
+    // 获取当前片段的结尾部分
+    size_t checkStart = currentEnd >= 20 ? currentEnd - 20 : 0;
+    std::string currentEndPart = code.substr(checkStart, currentEnd - checkStart);
+    
+    // 获取下一个片段的开始部分
+    size_t checkLength = std::min(size_t(20), code.length() - nextStart);
+    std::string nextStartPart = code.substr(nextStart, checkLength);
+    
+    // 检查增强选择器 + 箭头操作符组合
+    if (currentEndPart.find("}}") != std::string::npos && nextStartPart.find("->") == 0) {
+        return true;
+    }
+    
+    // 检查函数调用的完整性
+    std::vector<std::string> chtljsFunctions = {"listen", "delegate", "animate"};
+    for (const auto& func : chtljsFunctions) {
+        if (currentEndPart.find(func) != std::string::npos && nextStartPart.find("(") == 0) {
+            return true;
+        }
+    }
+    
+    // 检查虚对象定义的完整性
+    if (currentEndPart.find("vir") != std::string::npos && nextStartPart.find("=") != std::string::npos) {
+        return true;
+    }
+    
+    return false;
+}
+
+size_t CHTLUnifiedScanner::expandSliceRange(const std::string& code, size_t currentEnd, size_t expandLength) {
+    // 向前扩增指定长度的切片范围
+    
+    size_t newEnd = std::min(currentEnd + expandLength, code.length());
+    
+    // 确保在合理的边界上停止
+    while (newEnd > currentEnd && newEnd < code.length()) {
+        char c = code[newEnd];
+        
+        if (c == ';' || c == '}' || c == '\n') {
+            break;
+        }
+        
+        newEnd++;
+    }
+    
+    return newEnd;
+}
+
+std::vector<std::string> CHTLUnifiedScanner::performMinimalUnitSlicing(const std::string& fragment) {
+    // 按最小语法单元进行二次切割
+    // 例如，{{box}}->click 切割为 {{box}}-> 与 click
+    
+    std::vector<std::string> units;
+    
+    if (fragment.empty()) {
+        return units;
+    }
+    
+    size_t pos = 0;
+    std::string currentUnit;
+    
+    while (pos < fragment.length()) {
+        // 检查增强选择器
+        if (pos + 1 < fragment.length() && fragment[pos] == '{' && fragment[pos + 1] == '{') {
+            if (!currentUnit.empty()) {
+                units.push_back(currentUnit);
+                currentUnit.clear();
+            }
+            
+            size_t selectorEnd = fragment.find("}}", pos);
+            if (selectorEnd != std::string::npos) {
+                selectorEnd += 2;
+                
+                // 检查是否紧跟箭头操作符
+                if (selectorEnd + 1 < fragment.length() && 
+                    fragment[selectorEnd] == '-' && fragment[selectorEnd + 1] == '>') {
+                    units.push_back(fragment.substr(pos, selectorEnd - pos + 2));
+                    pos = selectorEnd + 2;
+                } else {
+                    units.push_back(fragment.substr(pos, selectorEnd - pos));
+                    pos = selectorEnd;
+                }
+                continue;
+            }
+        }
+        
+        // 检查箭头操作符
+        if (pos + 1 < fragment.length() && fragment[pos] == '-' && fragment[pos + 1] == '>') {
+            if (!currentUnit.empty()) {
+                units.push_back(currentUnit);
+                currentUnit.clear();
+            }
+            
+            currentUnit = "->";
+            pos += 2;
+            
+            // 读取后续的方法名
+            while (pos < fragment.length() && (std::isalnum(fragment[pos]) || fragment[pos] == '_')) {
+                currentUnit += fragment[pos];
+                pos++;
+            }
+            
+            units.push_back(currentUnit);
+            currentUnit.clear();
+            continue;
+        }
+        
+        // 其他字符
+        if (std::isspace(fragment[pos])) {
+            if (!currentUnit.empty()) {
+                units.push_back(currentUnit);
+                currentUnit.clear();
+            }
+        } else {
+            currentUnit += fragment[pos];
+        }
+        
+        pos++;
+    }
+    
+    if (!currentUnit.empty()) {
+        units.push_back(currentUnit);
+    }
+    
+    return units.empty() ? std::vector<std::string>{fragment} : units;
+}
+
+std::vector<CHTLUnifiedScanner::CodeFragment> CHTLUnifiedScanner::aggregateConsecutiveFragments(const std::vector<CodeFragment>& fragments) {
+    // 适当聚合连续片段，避免过度细分
+    
+    std::vector<CodeFragment> aggregated;
+    
+    if (fragments.empty()) {
+        return aggregated;
+    }
+    
+    CodeFragment current = fragments[0];
+    
+    for (size_t i = 1; i < fragments.size(); ++i) {
+        const auto& fragment = fragments[i];
+        
+        // 检查是否应该聚合
+        bool shouldAggregate = (fragment.context == current.context && 
+                               current.content.length() + fragment.content.length() < 200);
+        
+        if (shouldAggregate) {
+            current.content += " " + fragment.content;
+            current.endPosition = fragment.endPosition;
+        } else {
+            aggregated.push_back(current);
+            current = fragment;
+        }
+    }
+    
+    aggregated.push_back(current);
+    return aggregated;
+}
+
+// === 辅助方法实现 ===
+
+size_t CHTLUnifiedScanner::findBasicFragmentEnd(const std::string& code, size_t startPos, CodeContext context) {
+    // 找到基础片段的结束位置
+    
+    if (startPos >= code.length()) {
+        return code.length();
+    }
+    
+    size_t pos = startPos;
+    while (pos < code.length() && pos < startPos + 50) { // 基础片段最大50字符
+        if (code[pos] == ';' || code[pos] == '}' || code[pos] == '\n') {
+            return pos + 1;
+        }
+        pos++;
+    }
+    
+    return pos;
+}
+
+size_t CHTLUnifiedScanner::findNextNonWhitespace(const std::string& code, size_t startPos) {
+    // 找到下一个非空白字符的位置
+    
+    size_t pos = startPos;
+    while (pos < code.length() && std::isspace(code[pos])) {
+        pos++;
+    }
+    return pos;
+}
+
 } // namespace scanner
 } // namespace chtl

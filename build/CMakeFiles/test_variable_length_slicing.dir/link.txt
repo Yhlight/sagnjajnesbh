@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_variable_length_slicing.dir/link.d CMakeFiles/test_variable_length_slicing.dir/test/test_variable_length_slicing.cpp.o -o bin/test_variable_length_slicing  lib/libchtl_scanner.a

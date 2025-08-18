@@ -69,6 +69,7 @@ all: CMakeFiles/chtl_compiler.dir/all
 all: CMakeFiles/chtljs_compiler.dir/all
 all: CMakeFiles/test_existing_features.dir/all
 all: CMakeFiles/test_complete_chtl_compliance.dir/all
+all: CMakeFiles/test_variable_length_slicing.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
@@ -78,6 +79,7 @@ codegen: CMakeFiles/chtl_compiler.dir/codegen
 codegen: CMakeFiles/chtljs_compiler.dir/codegen
 codegen: CMakeFiles/test_existing_features.dir/codegen
 codegen: CMakeFiles/test_complete_chtl_compliance.dir/codegen
+codegen: CMakeFiles/test_variable_length_slicing.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -91,6 +93,7 @@ clean: CMakeFiles/chtl_compiler.dir/clean
 clean: CMakeFiles/chtljs_compiler.dir/clean
 clean: CMakeFiles/test_existing_features.dir/clean
 clean: CMakeFiles/test_complete_chtl_compliance.dir/clean
+clean: CMakeFiles/test_variable_length_slicing.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -290,6 +293,38 @@ CMakeFiles/test_complete_chtl_compliance.dir/codegen:
 CMakeFiles/test_complete_chtl_compliance.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complete_chtl_compliance.dir/build.make CMakeFiles/test_complete_chtl_compliance.dir/clean
 .PHONY : CMakeFiles/test_complete_chtl_compliance.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test_variable_length_slicing.dir
+
+# All Build rule for target.
+CMakeFiles/test_variable_length_slicing.dir/all: CMakeFiles/chtl_scanner.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_variable_length_slicing.dir/build.make CMakeFiles/test_variable_length_slicing.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_variable_length_slicing.dir/build.make CMakeFiles/test_variable_length_slicing.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=24,25 "Built target test_variable_length_slicing"
+.PHONY : CMakeFiles/test_variable_length_slicing.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_variable_length_slicing.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_variable_length_slicing.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_variable_length_slicing.dir/rule
+
+# Convenience name for target.
+test_variable_length_slicing: CMakeFiles/test_variable_length_slicing.dir/rule
+.PHONY : test_variable_length_slicing
+
+# codegen rule for target.
+CMakeFiles/test_variable_length_slicing.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_variable_length_slicing.dir/build.make CMakeFiles/test_variable_length_slicing.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=24,25 "Finished codegen for target test_variable_length_slicing"
+.PHONY : CMakeFiles/test_variable_length_slicing.dir/codegen
+
+# clean rule for target.
+CMakeFiles/test_variable_length_slicing.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_variable_length_slicing.dir/build.make CMakeFiles/test_variable_length_slicing.dir/clean
+.PHONY : CMakeFiles/test_variable_length_slicing.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

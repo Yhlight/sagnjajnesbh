@@ -269,6 +269,10 @@ private:
     void initializeContextRules();
     void initializeCHTLJSPatterns();
     void initializeUndecoratedLiteralRules();
+    
+    // 可变长度切片辅助方法
+    size_t findBasicFragmentEnd(const std::string& code, size_t startPos, CodeContext context);
+    size_t findNextNonWhitespace(const std::string& code, size_t startPos);
 };
 
 } // namespace scanner

@@ -21,6 +21,7 @@ add_library(chtl_common STATIC
     src/Common/Utils/FileUtils.cpp
     src/Common/ModulePathManager.cpp
     src/Common/SimpleZip/SimpleZip.cpp
+    src/Common/RAIIStateGuard.cpp
 )
 
 # CHTL编译器（包含已有的完整功能）
@@ -47,6 +48,9 @@ add_executable(test_existing_features test/test_existing_features.cpp)
 
 # 完整CHTL合规性验证
 add_executable(test_complete_chtl_compliance test/test_complete_chtl_compliance.cpp)
+
+# 可变长度切片机制测试
+add_executable(test_variable_length_slicing test/test_variable_length_slicing.cpp)
 target_link_libraries(test_existing_features 
     chtl_scanner 
     chtl_common 
@@ -61,6 +65,10 @@ target_link_libraries(test_complete_chtl_compliance
     chtljs_compiler
 )
 
+target_link_libraries(test_variable_length_slicing
+    chtl_scanner
+)
+
 # 设置输出目录
 set_target_properties(
     chtl_scanner chtl_common chtl_compiler chtljs_compiler
@@ -68,6 +76,6 @@ set_target_properties(
 )
 
 set_target_properties(
-    test_existing_features test_complete_chtl_compliance
+    test_existing_features test_complete_chtl_compliance test_variable_length_slicing
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )

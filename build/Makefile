@@ -194,6 +194,19 @@ test_complete_chtl_compliance/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complete_chtl_compliance.dir/build.make CMakeFiles/test_complete_chtl_compliance.dir/build
 .PHONY : test_complete_chtl_compliance/fast
 
+#=============================================================================
+# Target rules for targets named test_variable_length_slicing
+
+# Build rule for target.
+test_variable_length_slicing: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_variable_length_slicing
+.PHONY : test_variable_length_slicing
+
+# fast build rule for target.
+test_variable_length_slicing/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_variable_length_slicing.dir/build.make CMakeFiles/test_variable_length_slicing.dir/build
+.PHONY : test_variable_length_slicing/fast
+
 src/CHTLCompiler/CHTLCompilerCore.o: src/CHTLCompiler/CHTLCompilerCore.cpp.o
 .PHONY : src/CHTLCompiler/CHTLCompilerCore.o
 
@@ -602,6 +615,30 @@ test/test_existing_features.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_existing_features.dir/build.make CMakeFiles/test_existing_features.dir/test/test_existing_features.cpp.s
 .PHONY : test/test_existing_features.cpp.s
 
+test/test_variable_length_slicing.o: test/test_variable_length_slicing.cpp.o
+.PHONY : test/test_variable_length_slicing.o
+
+# target to build an object file
+test/test_variable_length_slicing.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_variable_length_slicing.dir/build.make CMakeFiles/test_variable_length_slicing.dir/test/test_variable_length_slicing.cpp.o
+.PHONY : test/test_variable_length_slicing.cpp.o
+
+test/test_variable_length_slicing.i: test/test_variable_length_slicing.cpp.i
+.PHONY : test/test_variable_length_slicing.i
+
+# target to preprocess a source file
+test/test_variable_length_slicing.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_variable_length_slicing.dir/build.make CMakeFiles/test_variable_length_slicing.dir/test/test_variable_length_slicing.cpp.i
+.PHONY : test/test_variable_length_slicing.cpp.i
+
+test/test_variable_length_slicing.s: test/test_variable_length_slicing.cpp.s
+.PHONY : test/test_variable_length_slicing.s
+
+# target to generate assembly for a file
+test/test_variable_length_slicing.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_variable_length_slicing.dir/build.make CMakeFiles/test_variable_length_slicing.dir/test/test_variable_length_slicing.cpp.s
+.PHONY : test/test_variable_length_slicing.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -616,6 +653,7 @@ help:
 	@echo "... chtljs_compiler"
 	@echo "... test_complete_chtl_compliance"
 	@echo "... test_existing_features"
+	@echo "... test_variable_length_slicing"
 	@echo "... src/CHTLCompiler/CHTLCompilerCore.o"
 	@echo "... src/CHTLCompiler/CHTLCompilerCore.i"
 	@echo "... src/CHTLCompiler/CHTLCompilerCore.s"
@@ -667,6 +705,9 @@ help:
 	@echo "... test/test_existing_features.o"
 	@echo "... test/test_existing_features.i"
 	@echo "... test/test_existing_features.s"
+	@echo "... test/test_variable_length_slicing.o"
+	@echo "... test/test_variable_length_slicing.i"
+	@echo "... test/test_variable_length_slicing.s"
 .PHONY : help
 
 
