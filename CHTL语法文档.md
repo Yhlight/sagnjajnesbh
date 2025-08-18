@@ -730,7 +730,7 @@ body
         IMPORT_STYLE = @Style;
         IMPORT_JAVASCRIPT = @JavaScript;
         IMPORT_CHTL = @Chtl;
-        IMPOER_CRMOD = @CJmod;
+        IMPORT_CRMOD = @CJmod;
         KEYWORD_INHERIT = inherit;
         KEYWORD_DELETE = delete;
         KEYWORD_INSERT = insert;
@@ -763,6 +763,117 @@ body
         // ORIGINTYPE_VUE = @Vue;
         // ORIGINTYPE_MARKDOWN = @Markdown;
         // CHTL强制要求使用ORIGINTYPE_全写的类型名称 = @全大写后 = 全写的类型名称的内容
+    }
+}
+```
+
+### 命名配置组
+你现在可以为配置组命名，命名配置组不会被使用，不被命名的配置组才会启用，如果存在多个不被命名的配置组则冲突，并且可以创建多个，这是因为命名配置组服务于导入[Import]  
+
+```chtl
+[Configuration] @Config Basic
+{
+    INDEX_INITIAL_COUNT = 0;
+    DISABLE_NAME_GROUP = true;
+    DISABLE_CUSTOM_ORIGIN_TYPE = false;
+    DEBUG_MODE = false;
+
+    [Name]
+    {
+        CUSTOM_STYLE = [@Style, @style, @CSS, @Css, @css];
+        CUSTOM_ELEMENT = @Element;
+        CUSTOM_VAR = @Var;
+        TEMPLATE_STYLE = @Style;
+        TEMPLATE_ELEMENT = @Element;
+        TEMPLATE_VAR = @Var;
+        ORIGIN_HTML = @Html;
+        ORIGIN_STYLE = @Style;
+        ORIGIN_JAVASCRIPT = @JavaScript;
+        CONFIGURATION_CONFIG = @Config;  // 新增
+        IMPORT_HTML = @Html;
+        IMPORT_STYLE = @Style;
+        IMPORT_JAVASCRIPT = @JavaScript;
+        IMPORT_CHTL = @Chtl;
+        IMPORT_CRMOD = @CJmod;
+        IMPORT_CONFIG = @Config;  // 新增
+        KEYWORD_INHERIT = inherit;
+        KEYWORD_DELETE = delete;
+        KEYWORD_INSERT = insert;
+        KEYWORD_AFTER = after;
+        KEYWORD_BEFORE = before;
+        KEYWORD_REPLACE = replace;
+        KEYWORD_ATTOP = at top;
+        KEYWORD_ATBOTTOM = at bottom;
+        KEYWORD_FROM = from;
+        KEYWORD_AS = as;
+        KEYWORD_EXCEPT = except;
+        KEYWORD_TEXT = text;
+        KEYWORD_STYLE = style;
+        KEYWORD_SCRIPT = script;
+        KEYWORD_CUSTOM = [Custom];
+        KEYWORD_TEMPLATE = [Template];
+        KEYWORD_ORIGIN = [Origin];
+        KEYWORD_IMPORT = [Import]
+        KEYWORD_NAMESPACE = [Namespace]
+        OPTION_COUNT = 3;
+    }
+
+    [OriginType]
+    {
+        ORIGINTYPE_VUE = @Vue;
+    }
+}
+
+[Configuration] @Config Std
+{
+    INDEX_INITIAL_COUNT = 0;
+    DISABLE_NAME_GROUP = true;
+    DISABLE_CUSTOM_ORIGIN_TYPE = false;
+    DEBUG_MODE = false;
+
+    [Name]
+    {
+        CUSTOM_STYLE = [@Style, @style, @CSS, @Css, @css];
+        CUSTOM_ELEMENT = @Element;
+        CUSTOM_VAR = @Var;
+        TEMPLATE_STYLE = @Style;
+        TEMPLATE_ELEMENT = @Element;
+        TEMPLATE_VAR = @Var;
+        ORIGIN_HTML = @Html;
+        ORIGIN_STYLE = @Style;
+        ORIGIN_JAVASCRIPT = @JavaScript;
+        CONFIGURATION_CONFIG = @Config;
+        IMPORT_HTML = @Html;
+        IMPORT_STYLE = @Style;
+        IMPORT_JAVASCRIPT = @JavaScript;
+        IMPORT_CHTL = @Chtl;
+        IMPORT_CRMOD = @CJmod;
+        IMPORT_CONFIG = @Config;
+        KEYWORD_INHERIT = inherit;
+        KEYWORD_DELETE = delete;
+        KEYWORD_INSERT = insert;
+        KEYWORD_AFTER = after;
+        KEYWORD_BEFORE = before;
+        KEYWORD_REPLACE = replace;
+        KEYWORD_ATTOP = at top;
+        KEYWORD_ATBOTTOM = at bottom;
+        KEYWORD_FROM = from;
+        KEYWORD_AS = as;
+        KEYWORD_EXCEPT = except;
+        KEYWORD_TEXT = text;
+        KEYWORD_STYLE = style;
+        KEYWORD_SCRIPT = script;
+        KEYWORD_CUSTOM = [Custom];
+        KEYWORD_TEMPLATE = [Template];
+        KEYWORD_ORIGIN = [Origin];
+        KEYWORD_IMPORT = [Import]
+        KEYWORD_NAMESPACE = [Namespace]
+        OPTION_COUNT = 3;
+    }
+
+    [OriginType]
+    {
+        ORIGINTYPE_VUE = @Vue;
     }
 }
 ```
@@ -802,6 +913,43 @@ body
 
 导入CJmod文件  
 [Import] @CJmod from cjmod文件路径  
+
+[Import] @Config 导入的配置组名称(可选，不写默认导入无名配置组，如果没有则是第一个有名) from chtl文件路径 as(无用选项) 命名为  
+
+全缀名写法  
+[Import] [Configuration] @Config 导入的配置组名称(可选，不写默认导入无名配置组，如果没有则是第一个有名) from chtl文件路径 as(无用选项) 命名为  
+
+导入原始嵌入  
+[Import] [Origin] @Html 名称 from chtl文件路径 as(可选) 命名为  
+[Import] [Origin] @Style 名称 from chtl文件路径 as(可选) 命名为  
+[Import] [Origin] @Javascript 名称 from chtl文件路径 as(可选) 命名为  
+
+导入所有模板  
+[Import] [Template] from chtl文件路径 as(无效) 命名为  
+
+导入所有自定义  
+[Import] [Custom] from chtl文件路径 as(无效) 命名为  
+
+导入所有命名原始嵌入(注意！命名)  
+[Import] [Origin] from chtl文件路径 as(无效) 命名为  
+
+导入另一个chtl文件之中所有的自定义元素  
+[Import] [Custom] @Element from chtl文件路径 as(无效) 命名为  
+
+导入另一个chtl文件之中所有的自定义样式组  
+[Import] [Custom] @Style from chtl文件路径 as(无效) 命名为   
+
+导入另一个chtl文件之中所有的自定义变量组  
+[Import] [Custom] @Var from chtl文件路径 as(无效) 命名为   
+
+导入另一个chtl文件之中所有的元素模板  
+[Import] [Template] @Element from chtl文件路径 as(无效) 命名为  
+
+导入另一个chtl文件之中所有的样式组模板  
+[Import] [Template] @Style from chtl文件路径 as(无效) 命名为  
+
+导入另一个chtl文件之中所有的变量组模板  
+[Import] [Template] @Var from chtl文件路径 as(无效) 命名为  
 
 可以使用'.'来表示'/'  
 
@@ -1212,14 +1360,23 @@ info文件夹中的chtl文件主要提供两个功能
 // 不需要写这个，此由系统生成
 [Export]
 {
-    @Style ChthollyStyle, ChthollyCard, ChthollyButton,
+    [Custom] @Style ChthollyStyle, ChthollyCard, ChthollyButton,
            ChthollyHeader, ChthollyFooter;
 
-    @Element ChthollyPage, ChthollySection, ChthollyNav,
+    [Custom] @Element ChthollyPage, ChthollySection, ChthollyNav,
              ChthollyModal, ChthollyGallery;
 
-    @Var ChthollyColors, ChthollyFonts, ChthollySpacing,
+    [Custom] @Var ChthollyColors, ChthollyFonts, ChthollySpacing,
          ChthollyBreakpoints, ChthollyAnimations;
+
+    [Template] @Style ...;
+    [Template] @Element ...;
+    [Template] @Var ...;
+    [Origin] @Html ...;
+    [Origin] @Style ...;
+    [Origin] @Javascript ...;
+    [Origin] @Vue ...;  // 一样支持导出自定义类型的原始嵌入
+    [Configuration] @Config ...;
 }
 ```
 
@@ -1299,6 +1456,18 @@ CJmod文件夹
 珂朵莉对于我来说，是一个很特别的角色，是我一直喜欢着的人物，我希望我能让珂朵莉成为CHTL中重要的模块  
 珂朵莉模块采用CMOD + CJMOD的混合模块  
 
+#### CMOD
+##### 手风琴
+##### 四叶窗相册
+##### 备忘录
+##### 暖色笔记
+##### 樱花雨
+##### 鼠标特效
+##### 鼠标拖尾
+##### 视差滚动背景
+##### 右键菜单栏
+##### 进度条
+
 #### CJMOD
 ##### printMylove
 printMylove可以将一张图片变成字符像素块的形式，你可以使用printMylove来把图片转换成字符像素块或ASCII的形式  
@@ -1315,7 +1484,7 @@ const str = printMylove({
 
 ##### iNeverAway
 iNeverAway是一个很特别的功能，从名称上面你完全是理解不到这个功能的实际作用的 iNeverAway用于创建一组标记函数  
-iNeverAway与其他CHTL JS功能不同，它允许开发者定义键，而不是使用键，并使用状态区分同名的键  
+iNeverAway与其他CHTL JS功能不同，它允许开发者定义键，而不是使用键，并可以使用状态区分同名的键  
 iNeverAway需要与虚对象共用  
 
 ```chtl
@@ -1327,6 +1496,14 @@ vir Test = iNeverAway({
     Void<B>: funtion(int, int) {  // 通过状态同名同参重载
 
     },
+
+    Void: {
+
+    },
+
+    Ax: {
+
+    }
 });
 
 Test->Void<A>();
@@ -1334,5 +1511,20 @@ Test->Void<A>();
 Test是虚拟对象，是不存在的对象，这里并没有创建一个对象  
 
 实现原理：  
-iNeverAway  ->  创建一组JS全局函数，名称由CHTL编译器统一管理  
+iNeverAway  ->  创建一组JS全局函数，名称由CHTL编译器统一管理，在调用时才生成对应的JS函数代码  
 vir对象本身不存在，最终转变成相对应的函数的引用  
+
+iNeverAway函数存在的意义其实很迷惑人，这是因为相对于使用iNeverAway，更多人更喜欢使用普通的函数  
+这是当然，毕竟iNeverAway存在的意义本身就不是作为实用功能而存在，然而，iNeverAway其实是CHTL JS的一种新方向  
+也是对函数重载的重定义  
+
+### Yuigahama 由比滨结衣模块
+由比滨结衣模块使用CMOD
+
+#### 音乐播放器
+#### 手风琴
+#### 四叶窗相册
+#### 备忘录
+#### 暖色笔记
+#### 樱花雨
+#### 鼠标特效
