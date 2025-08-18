@@ -1,5 +1,10 @@
 
-// Generated from JavaScriptParser.g4 by ANTLR 4.13.2
+#include "JavaScriptLexerBase.h"
+#include "JavaScriptParserBase.h"
+
+
+
+// Generated from JavaScriptParser_cpp.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -9,7 +14,7 @@
 
 
 
-class  JavaScriptParser : public JavaScriptParserBase {
+class  JavaScriptParser_cpp : public JavaScriptParserBase {
 public:
   enum {
     HashBangLine = 1, MultiLineComment = 2, SingleLineComment = 3, RegularExpressionLiteral = 4, 
@@ -73,11 +78,11 @@ public:
     RuleKeyword = 83, RuleLet_ = 84, RuleEos = 85
   };
 
-  explicit JavaScriptParser(antlr4::TokenStream *input);
+  explicit JavaScriptParser_cpp(antlr4::TokenStream *input);
 
-  JavaScriptParser(antlr4::TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &options);
+  JavaScriptParser_cpp(antlr4::TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &options);
 
-  ~JavaScriptParser() override;
+  ~JavaScriptParser_cpp() override;
 
   std::string getGrammarFileName() const override;
 

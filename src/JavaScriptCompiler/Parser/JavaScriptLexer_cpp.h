@@ -1,5 +1,10 @@
 
-// Generated from JavaScriptLexer.g4 by ANTLR 4.13.2
+#include "JavaScriptLexerBase.h"
+#include "JavaScriptParserBase.h"
+
+
+
+// Generated from JavaScriptLexer_cpp.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -9,7 +14,7 @@
 
 
 
-class  JavaScriptLexer : public JavaScriptLexerBase {
+class  JavaScriptLexer_cpp : public JavaScriptLexerBase {
 public:
   enum {
     HashBangLine = 1, MultiLineComment = 2, SingleLineComment = 3, RegularExpressionLiteral = 4, 
@@ -51,9 +56,9 @@ public:
     TEMPLATE = 1
   };
 
-  explicit JavaScriptLexer(antlr4::CharStream *input);
+  explicit JavaScriptLexer_cpp(antlr4::CharStream *input);
 
-  ~JavaScriptLexer() override;
+  ~JavaScriptLexer_cpp() override;
 
 
   std::string getGrammarFileName() const override;
