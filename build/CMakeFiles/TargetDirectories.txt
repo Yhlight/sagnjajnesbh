@@ -11,6 +11,8 @@
 /workspace/build/CMakeFiles/test_undecorated_literals.dir
 /workspace/build/CMakeFiles/chtl_js_enhanced.dir
 /workspace/build/CMakeFiles/test_chtljs_enhanced_functions.dir
+/workspace/build/CMakeFiles/chtl_auto_addition.dir
+/workspace/build/CMakeFiles/test_auto_addition.dir
 /workspace/build/CMakeFiles/package.dir
 /workspace/build/CMakeFiles/package_source.dir
 /workspace/build/CMakeFiles/edit_cache.dir

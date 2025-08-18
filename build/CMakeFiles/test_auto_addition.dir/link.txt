@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Xlinker --dependency-file=CMakeFiles/test_auto_addition.dir/link.d CMakeFiles/test_auto_addition.dir/test/test_auto_addition.cpp.o -o bin/test_auto_addition  lib/libchtl_auto_addition.a lib/libchtl_shared.a

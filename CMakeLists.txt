@@ -113,3 +113,25 @@ set_target_properties(
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+# 自动添加功能组件
+set(AUTO_ADDITION_SOURCES
+    src/CHTLJSCompiler/Parser/SelectorDetector.cpp
+    src/CHTLJSCompiler/Core/AutoAdditionManager.cpp
+)
+
+# 自动添加功能库
+add_library(chtl_auto_addition STATIC ${AUTO_ADDITION_SOURCES})
+target_link_libraries(chtl_auto_addition chtl_shared)
+
+# 自动添加功能测试
+add_executable(test_auto_addition test/test_auto_addition.cpp)
+target_link_libraries(test_auto_addition chtl_auto_addition)
+
+# 更新输出目录设置
+set_target_properties(
+    chtl_auto_addition test_auto_addition
+    PROPERTIES 
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)

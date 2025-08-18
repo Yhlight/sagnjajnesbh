@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libchtl_auto_addition.a CMakeFiles/chtl_auto_addition.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o CMakeFiles/chtl_auto_addition.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o
+/usr/bin/ranlib lib/libchtl_auto_addition.a

@@ -305,6 +305,32 @@ test_chtljs_enhanced_functions/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/build
 .PHONY : test_chtljs_enhanced_functions/fast
 
+#=============================================================================
+# Target rules for targets named chtl_auto_addition
+
+# Build rule for target.
+chtl_auto_addition: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_auto_addition
+.PHONY : chtl_auto_addition
+
+# fast build rule for target.
+chtl_auto_addition/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_auto_addition.dir/build.make CMakeFiles/chtl_auto_addition.dir/build
+.PHONY : chtl_auto_addition/fast
+
+#=============================================================================
+# Target rules for targets named test_auto_addition
+
+# Build rule for target.
+test_auto_addition: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_auto_addition
+.PHONY : test_auto_addition
+
+# fast build rule for target.
+test_auto_addition/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auto_addition.dir/build.make CMakeFiles/test_auto_addition.dir/build
+.PHONY : test_auto_addition/fast
+
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
@@ -521,6 +547,30 @@ src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler.dir/build.make CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.s
 .PHONY : src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.s
 
+src/CHTLJSCompiler/Core/AutoAdditionManager.o: src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o
+.PHONY : src/CHTLJSCompiler/Core/AutoAdditionManager.o
+
+# target to build an object file
+src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_auto_addition.dir/build.make CMakeFiles/chtl_auto_addition.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o
+.PHONY : src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o
+
+src/CHTLJSCompiler/Core/AutoAdditionManager.i: src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.i
+.PHONY : src/CHTLJSCompiler/Core/AutoAdditionManager.i
+
+# target to preprocess a source file
+src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_auto_addition.dir/build.make CMakeFiles/chtl_auto_addition.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.i
+.PHONY : src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.i
+
+src/CHTLJSCompiler/Core/AutoAdditionManager.s: src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.s
+.PHONY : src/CHTLJSCompiler/Core/AutoAdditionManager.s
+
+# target to generate assembly for a file
+src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_auto_addition.dir/build.make CMakeFiles/chtl_auto_addition.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.s
+.PHONY : src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.s
+
 src/CHTLJSCompiler/Core/JSEventRegistry.o: src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o
 .PHONY : src/CHTLJSCompiler/Core/JSEventRegistry.o
 
@@ -640,6 +690,30 @@ src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.s: src/CHTLJSCompiler/Parser/CHTL
 src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.s
 .PHONY : src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.s
+
+src/CHTLJSCompiler/Parser/SelectorDetector.o: src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o
+.PHONY : src/CHTLJSCompiler/Parser/SelectorDetector.o
+
+# target to build an object file
+src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_auto_addition.dir/build.make CMakeFiles/chtl_auto_addition.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o
+.PHONY : src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o
+
+src/CHTLJSCompiler/Parser/SelectorDetector.i: src/CHTLJSCompiler/Parser/SelectorDetector.cpp.i
+.PHONY : src/CHTLJSCompiler/Parser/SelectorDetector.i
+
+# target to preprocess a source file
+src/CHTLJSCompiler/Parser/SelectorDetector.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_auto_addition.dir/build.make CMakeFiles/chtl_auto_addition.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.i
+.PHONY : src/CHTLJSCompiler/Parser/SelectorDetector.cpp.i
+
+src/CHTLJSCompiler/Parser/SelectorDetector.s: src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s
+.PHONY : src/CHTLJSCompiler/Parser/SelectorDetector.s
+
+# target to generate assembly for a file
+src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_auto_addition.dir/build.make CMakeFiles/chtl_auto_addition.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s
+.PHONY : src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s
 
 src/Shared/SimpleZip/SimpleZip.o: src/Shared/SimpleZip/SimpleZip.cpp.o
 .PHONY : src/Shared/SimpleZip/SimpleZip.o
@@ -784,6 +858,30 @@ src/ast/VirtualObjectManager.s: src/ast/VirtualObjectManager.cpp.s
 src/ast/VirtualObjectManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.s
 .PHONY : src/ast/VirtualObjectManager.cpp.s
+
+test/test_auto_addition.o: test/test_auto_addition.cpp.o
+.PHONY : test/test_auto_addition.o
+
+# target to build an object file
+test/test_auto_addition.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auto_addition.dir/build.make CMakeFiles/test_auto_addition.dir/test/test_auto_addition.cpp.o
+.PHONY : test/test_auto_addition.cpp.o
+
+test/test_auto_addition.i: test/test_auto_addition.cpp.i
+.PHONY : test/test_auto_addition.i
+
+# target to preprocess a source file
+test/test_auto_addition.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auto_addition.dir/build.make CMakeFiles/test_auto_addition.dir/test/test_auto_addition.cpp.i
+.PHONY : test/test_auto_addition.cpp.i
+
+test/test_auto_addition.s: test/test_auto_addition.cpp.s
+.PHONY : test/test_auto_addition.s
+
+# target to generate assembly for a file
+test/test_auto_addition.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auto_addition.dir/build.make CMakeFiles/test_auto_addition.dir/test/test_auto_addition.cpp.s
+.PHONY : test/test_auto_addition.cpp.s
 
 test/test_chtl_compiler.o: test/test_chtl_compiler.cpp.o
 .PHONY : test/test_chtl_compiler.o
@@ -964,10 +1062,12 @@ help:
 	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... chtl_ast"
+	@echo "... chtl_auto_addition"
 	@echo "... chtl_compiler"
 	@echo "... chtl_js_compiler"
 	@echo "... chtl_js_enhanced"
 	@echo "... chtl_shared"
+	@echo "... test_auto_addition"
 	@echo "... test_chtl_compiler"
 	@echo "... test_chtl_compiler_simple"
 	@echo "... test_chtl_js_lexer"
@@ -1003,6 +1103,9 @@ help:
 	@echo "... src/CHTLJSCompiler/AST/VirtualObjectManager.o"
 	@echo "... src/CHTLJSCompiler/AST/VirtualObjectManager.i"
 	@echo "... src/CHTLJSCompiler/AST/VirtualObjectManager.s"
+	@echo "... src/CHTLJSCompiler/Core/AutoAdditionManager.o"
+	@echo "... src/CHTLJSCompiler/Core/AutoAdditionManager.i"
+	@echo "... src/CHTLJSCompiler/Core/AutoAdditionManager.s"
 	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.o"
 	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.i"
 	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.s"
@@ -1018,6 +1121,9 @@ help:
 	@echo "... src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.o"
 	@echo "... src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.i"
 	@echo "... src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.s"
+	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.o"
+	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.i"
+	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.s"
 	@echo "... src/Shared/SimpleZip/SimpleZip.o"
 	@echo "... src/Shared/SimpleZip/SimpleZip.i"
 	@echo "... src/Shared/SimpleZip/SimpleZip.s"
@@ -1036,6 +1142,9 @@ help:
 	@echo "... src/ast/VirtualObjectManager.o"
 	@echo "... src/ast/VirtualObjectManager.i"
 	@echo "... src/ast/VirtualObjectManager.s"
+	@echo "... test/test_auto_addition.o"
+	@echo "... test/test_auto_addition.i"
+	@echo "... test/test_auto_addition.s"
 	@echo "... test/test_chtl_compiler.o"
 	@echo "... test/test_chtl_compiler.i"
 	@echo "... test/test_chtl_compiler.s"
