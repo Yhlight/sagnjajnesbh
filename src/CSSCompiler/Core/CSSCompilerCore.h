@@ -71,10 +71,12 @@ private:
     
     // 内部处理方法
     std::string processStylesheet(css3Parser::StylesheetContext* ctx);
-    std::string processRuleset(css3Parser::RulesetContext* ctx);
-    std::string processAtRule(css3Parser::AtRuleContext* ctx);
-    std::string processSelector(css3Parser::SelectorContext* ctx);
-    std::string processDeclaration(css3Parser::DeclarationContext* ctx);
+    std::string processKnownRuleset(css3Parser::KnownRulesetContext* ctx);
+    std::string processUnknownRuleset(css3Parser::UnknownRulesetContext* ctx);
+    std::string processKnownDeclaration(css3Parser::KnownDeclarationContext* ctx);
+    std::string processUnknownDeclaration(css3Parser::UnknownDeclarationContext* ctx);
+    std::string processMedia(css3Parser::MediaContext* ctx);
+    std::string processKeyframes(css3Parser::KeyframesRuleContext* ctx);
     
     // 优化方法
     std::string minifyCSS(const std::string& css);
@@ -111,18 +113,31 @@ class CSSTreeWalker : public css3ParserBaseListener {
 public:
     CSSTreeWalker(CSSCompilerCore* compiler) : compiler_(compiler) {}
     
-    // 重写监听器方法
+    // 重写监听器方法 - 使用BaseListener中实际存在的方法
     void enterStylesheet(css3Parser::StylesheetContext *ctx) override;
     void exitStylesheet(css3Parser::StylesheetContext *ctx) override;
     
-    void enterRuleset(css3Parser::RulesetContext *ctx) override;
-    void exitRuleset(css3Parser::RulesetContext *ctx) override;
+    // CSS规则集处理
+    void enterKnownRuleset(css3Parser::KnownRulesetContext *ctx) override;
+    void exitKnownRuleset(css3Parser::KnownRulesetContext *ctx) override;
     
-    void enterAtRule(css3Parser::AtRuleContext *ctx) override;
-    void exitAtRule(css3Parser::AtRuleContext *ctx) override;
+    void enterUnknownRuleset(css3Parser::UnknownRulesetContext *ctx) override;
+    void exitUnknownRuleset(css3Parser::UnknownRulesetContext *ctx) override;
     
-    void enterDeclaration(css3Parser::DeclarationContext *ctx) override;
-    void exitDeclaration(css3Parser::DeclarationContext *ctx) override;
+    // CSS声明处理
+    void enterKnownDeclaration(css3Parser::KnownDeclarationContext *ctx) override;
+    void exitKnownDeclaration(css3Parser::KnownDeclarationContext *ctx) override;
+    
+    void enterUnknownDeclaration(css3Parser::UnknownDeclarationContext *ctx) override;
+    void exitUnknownDeclaration(css3Parser::UnknownDeclarationContext *ctx) override;
+    
+    // 媒体查询处理
+    void enterMedia(css3Parser::MediaContext *ctx) override;
+    void exitMedia(css3Parser::MediaContext *ctx) override;
+    
+    // 关键帧处理
+    void enterKeyframesRule(css3Parser::KeyframesRuleContext *ctx) override;
+    void exitKeyframesRule(css3Parser::KeyframesRuleContext *ctx) override;
     
     // 获取生成的CSS
     std::string getGeneratedCSS() const { return generated_css_; }
