@@ -1,233 +1,237 @@
-// CHTL JavaScript Parser Grammar
-// Based on official ANTLR grammars-v4 JavaScript grammar
-// Simplified for CHTL compiler integration
-
+// JavaScript Parser Grammar
 parser grammar JavaScriptParser;
 
 options {
     tokenVocab = JavaScriptLexer;
 }
 
-program: sourceElements? EOF;
+program
+    : sourceElements? EOF
+    ;
 
-sourceElement: statement;
+sourceElements
+    : sourceElement+
+    ;
 
-sourceElements: sourceElement+;
+sourceElement
+    : statement
+    | functionDeclaration
+    ;
 
-statement: block
-         | variableStatement
-         | emptyStatement
-         | expressionStatement
-         | ifStatement
-         | iterationStatement
-         | continueStatement
-         | breakStatement
-         | returnStatement
-         | withStatement
-         | labelledStatement
-         | switchStatement
-         | throwStatement
-         | tryStatement
-         | debuggerStatement
-         | functionDeclaration
-         | classDeclaration;
+statement
+    : block
+    | variableStatement
+    | emptyStatement
+    | expressionStatement
+    | ifStatement
+    | iterationStatement
+    | continueStatement
+    | breakStatement
+    | returnStatement
+    | withStatement
+    | throwStatement
+    | tryStatement
+    ;
 
-block: OpenBrace statementList? CloseBrace;
+block
+    : LBRACE statementList? RBRACE
+    ;
 
-statementList: statement+;
+statementList
+    : statement+
+    ;
 
-variableStatement: (Var | Let | Const) variableDeclarationList SemiColon?;
+variableStatement
+    : VAR variableDeclarationList SEMICOLON?
+    ;
 
-variableDeclarationList: variableDeclaration (Comma variableDeclaration)*;
+variableDeclarationList
+    : variableDeclaration ( COMMA variableDeclaration )*
+    ;
 
-variableDeclaration: Identifier (Assign singleExpression)?;
+variableDeclaration
+    : Identifier initializer?
+    ;
 
-emptyStatement: SemiColon;
+initializer
+    : ASSIGN singleExpression
+    ;
 
-expressionStatement: expressionSequence SemiColon?;
+emptyStatement
+    : SEMICOLON
+    ;
 
-ifStatement: If OpenParen expressionSequence CloseParen statement (Else statement)?;
+expressionStatement
+    : expressionSequence SEMICOLON?
+    ;
 
-iterationStatement: Do statement While OpenParen expressionSequence CloseParen SemiColon?
-                  | While OpenParen expressionSequence CloseParen statement
-                  | For OpenParen (expressionSequence | variableDeclarationList)? SemiColon expressionSequence? SemiColon expressionSequence? CloseParen statement
-                  | For OpenParen (singleExpression | variableDeclarationList) In expressionSequence CloseParen statement;
+ifStatement
+    : IF LPAREN expressionSequence RPAREN statement ( ELSE statement )?
+    ;
 
-continueStatement: Continue Identifier? SemiColon?;
+iterationStatement
+    : DO statement WHILE LPAREN expressionSequence RPAREN SEMICOLON?
+    | WHILE LPAREN expressionSequence RPAREN statement
+    | FOR LPAREN expressionSequence? SEMICOLON expressionSequence? SEMICOLON expressionSequence? RPAREN statement
+    | FOR LPAREN VAR variableDeclarationList SEMICOLON expressionSequence? SEMICOLON expressionSequence? RPAREN statement
+    | FOR LPAREN singleExpression IN expressionSequence RPAREN statement
+    | FOR LPAREN VAR variableDeclaration IN expressionSequence RPAREN statement
+    ;
 
-breakStatement: Break Identifier? SemiColon?;
+continueStatement
+    : CONTINUE Identifier? SEMICOLON?
+    ;
 
-returnStatement: Return expressionSequence? SemiColon?;
+breakStatement
+    : BREAK Identifier? SEMICOLON?
+    ;
 
-withStatement: With OpenParen expressionSequence CloseParen statement;
+returnStatement
+    : RETURN expressionSequence? SEMICOLON?
+    ;
 
-switchStatement: Switch OpenParen expressionSequence CloseParen caseBlock;
+withStatement
+    : WITH LPAREN expressionSequence RPAREN statement
+    ;
 
-caseBlock: OpenBrace caseClauses? (defaultClause caseClauses?)? CloseBrace;
+throwStatement
+    : THROW expressionSequence SEMICOLON?
+    ;
 
-caseClauses: caseClause+;
+tryStatement
+    : TRY block ( catchProduction finallyProduction? | finallyProduction )
+    ;
 
-caseClause: Case expressionSequence Colon statementList?;
+catchProduction
+    : CATCH LPAREN Identifier RPAREN block
+    ;
 
-defaultClause: Default Colon statementList?;
+finallyProduction
+    : FINALLY block
+    ;
 
-labelledStatement: Identifier Colon statement;
+functionDeclaration
+    : FUNCTION Identifier LPAREN formalParameterList? RPAREN LBRACE functionBody RBRACE
+    ;
 
-throwStatement: Throw expressionSequence SemiColon?;
+formalParameterList
+    : Identifier ( COMMA Identifier )*
+    ;
 
-tryStatement: Try block (catchProduction finallyProduction? | finallyProduction);
+functionBody
+    : sourceElements?
+    ;
 
-catchProduction: Catch OpenParen Identifier CloseParen block;
+singleExpression
+    : FUNCTION Identifier? LPAREN formalParameterList? RPAREN LBRACE functionBody RBRACE                    # FunctionExpression
+    | singleExpression LBRACKET expressionSequence RBRACKET                                              # MemberIndexExpression
+    | singleExpression DOT identifierName                                                       # MemberDotExpression
+    | singleExpression arguments                                                                # CallExpression
+    | NEW singleExpression arguments?                                                           # NewExpression
+    | singleExpression PLUS_PLUS                                                                     # PostIncrementExpression
+    | singleExpression MINUS_MINUS                                                                     # PostDecreaseExpression
+    | DELETE singleExpression                                                                   # DeleteExpression
+    | VOID singleExpression                                                                     # VoidExpression
+    | TYPEOF singleExpression                                                                   # TypeofExpression
+    | PLUS_PLUS singleExpression                                                                     # PreIncrementExpression
+    | MINUS_MINUS singleExpression                                                                     # PreDecreaseExpression
+    | PLUS singleExpression                                                                      # UnaryPlusExpression
+    | MINUS singleExpression                                                                      # UnaryMinusExpression
+    | TILDE singleExpression                                                                      # BitNotExpression
+    | NOT singleExpression                                                                      # NotExpression
+    | singleExpression ( MULTIPLY | DIVIDE | MODULO ) singleExpression                                    # MultiplicativeExpression
+    | singleExpression ( PLUS | MINUS ) singleExpression                                          # AdditiveExpression
+    | singleExpression ( LSHIFT | RSHIFT | URSHIFT ) singleExpression                                # BitShiftExpression
+    | singleExpression ( LT | GT | LE | GE ) singleExpression                           # RelationalExpression
+    | singleExpression INSTANCEOF singleExpression                                              # InstanceofExpression
+    | singleExpression IN singleExpression                                                      # InExpression
+    | singleExpression ( EQ | NE | STRICT_EQ | STRICT_NE ) singleExpression                       # EqualityExpression
+    | singleExpression BIT_AND singleExpression                                                     # BitAndExpression
+    | singleExpression BIT_XOR singleExpression                                                     # BitXOrExpression
+    | singleExpression BIT_OR singleExpression                                                     # BitOrExpression
+    | singleExpression AND singleExpression                                                    # LogicalAndExpression
+    | singleExpression OR singleExpression                                                    # LogicalOrExpression
+    | singleExpression QUESTION singleExpression COLON singleExpression                               # TernaryExpression
+    | singleExpression ASSIGN singleExpression                                                     # AssignmentExpression
+    | singleExpression assignmentOperator singleExpression                                     # AssignmentOperatorExpression
+    | THIS                                                                                      # ThisExpression
+    | Identifier                                                                                # IdentifierExpression
+    | literal                                                                                   # LiteralExpression
+    | arrayLiteral                                                                              # ArrayLiteralExpression
+    | objectLiteral                                                                             # ObjectLiteralExpression
+    | LPAREN expressionSequence RPAREN                                                               # ParenthesizedExpression
+    ;
 
-finallyProduction: Finally block;
+assignmentOperator
+    : MULTIPLY_ASSIGN | DIVIDE_ASSIGN | MODULO_ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN | LSHIFT_ASSIGN | RSHIFT_ASSIGN | URSHIFT_ASSIGN | BIT_AND_ASSIGN | BIT_XOR_ASSIGN | BIT_OR_ASSIGN
+    ;
 
-debuggerStatement: Debugger SemiColon?;
+literal
+    : ( NULL | BooleanLiteral | StringLiteral | RegularExpressionLiteral )
+    | numericLiteral
+    ;
 
-functionDeclaration: Function Identifier OpenParen formalParameterList? CloseParen OpenBrace functionBody CloseBrace;
+numericLiteral
+    : DecimalLiteral
+    | HexIntegerLiteral
+    | OctalIntegerLiteral
+    ;
 
-classDeclaration: Class Identifier (Extends singleExpression)? OpenBrace classBody CloseBrace;
+identifierName
+    : Identifier
+    | reservedWord
+    ;
 
-classBody: classElement*;
+reservedWord
+    : keyword
+    | NULL
+    | BooleanLiteral
+    ;
 
-classElement: (Static)? methodDefinition
-            | emptyStatement;
+keyword
+    : BREAK | DO | INSTANCEOF | TYPEOF | CASE | ELSE | NEW | VAR | CATCH | FINALLY | RETURN | VOID | CONTINUE | FOR | SWITCH | WHILE | DEBUGGER | FUNCTION | THIS | WITH | DEFAULT | IF | THROW | DELETE | IN | TRY
+    ;
 
-methodDefinition: propertyName OpenParen formalParameterList? CloseParen OpenBrace functionBody CloseBrace;
+arrayLiteral
+    : LBRACKET elementList? RBRACKET
+    ;
 
-formalParameterList: Identifier (Comma Identifier)*;
+elementList
+    : singleExpression ( COMMA singleExpression )*
+    ;
 
-functionBody: sourceElements?;
+objectLiteral
+    : LBRACE propertyNameAndValueList? RBRACE
+    ;
 
-arrayLiteral: OpenBracket elementList? CloseBracket;
+propertyNameAndValueList
+    : propertyAssignment ( COMMA propertyAssignment )*
+    ;
 
-elementList: singleExpression (Comma singleExpression)*;
+propertyAssignment
+    : propertyName COLON singleExpression
+    | GET propertyName LPAREN RPAREN LBRACE functionBody RBRACE
+    | SET propertyName LPAREN propertySetParameterList RPAREN LBRACE functionBody RBRACE
+    ;
 
-objectLiteral: OpenBrace (propertyAssignment (Comma propertyAssignment)*)? Comma? CloseBrace;
+propertyName
+    : identifierName
+    | StringLiteral
+    | numericLiteral
+    ;
 
-propertyAssignment: propertyName Colon singleExpression
-                  | propertyName OpenParen formalParameterList? CloseParen OpenBrace functionBody CloseBrace;
+propertySetParameterList
+    : Identifier
+    ;
 
-propertyName: identifierName
-            | StringLiteral
-            | numericLiteral;
+arguments
+    : LPAREN argumentList? RPAREN
+    ;
 
-arguments: OpenParen (singleExpression (Comma singleExpression)*)? CloseParen;
+argumentList
+    : singleExpression ( COMMA singleExpression )*
+    ;
 
-expressionSequence: singleExpression (Comma singleExpression)*;
-
-singleExpression: Function Identifier? OpenParen formalParameterList? CloseParen OpenBrace functionBody CloseBrace
-                | singleExpression OpenBracket expressionSequence CloseBracket
-                | singleExpression Dot identifierName
-                | singleExpression arguments
-                | New singleExpression arguments?
-                | singleExpression PlusPlus
-                | singleExpression MinusMinus
-                | Delete singleExpression
-                | Void singleExpression
-                | Typeof singleExpression
-                | PlusPlus singleExpression
-                | MinusMinus singleExpression
-                | Plus singleExpression
-                | Minus singleExpression
-                | BitNot singleExpression
-                | Not singleExpression
-                | singleExpression (Multiply | Divide | Modulus) singleExpression
-                | singleExpression (Plus | Minus) singleExpression
-                | singleExpression (LeftShiftArithmetic | RightShiftArithmetic | RightShiftLogical) singleExpression
-                | singleExpression (LessThan | MoreThan | LessThanEquals | GreaterThanEquals) singleExpression
-                | singleExpression Instanceof singleExpression
-                | singleExpression In singleExpression
-                | singleExpression (Equals_ | NotEquals | IdentityEquals | IdentityNotEquals) singleExpression
-                | singleExpression BitAnd singleExpression
-                | singleExpression BitXOr singleExpression
-                | singleExpression BitOr singleExpression
-                | singleExpression And singleExpression
-                | singleExpression Or singleExpression
-                | singleExpression QuestionMark singleExpression Colon singleExpression
-                | singleExpression Assign singleExpression
-                | singleExpression assignmentOperator singleExpression
-                | This
-                | Identifier
-                | Super
-                | literal
-                | arrayLiteral
-                | objectLiteral
-                | OpenParen expressionSequence CloseParen;
-
-assignmentOperator: MultiplyAssign
-                  | DivideAssign
-                  | ModulusAssign
-                  | PlusAssign
-                  | MinusAssign
-                  | LeftShiftArithmeticAssign
-                  | RightShiftArithmeticAssign
-                  | RightShiftLogicalAssign
-                  | BitAndAssign
-                  | BitXorAssign
-                  | BitOrAssign;
-
-literal: NullLiteral
-       | BooleanLiteral
-       | numericLiteral
-       | StringLiteral
-       | RegularExpressionLiteral;
-
-numericLiteral: DecimalLiteral
-              | HexIntegerLiteral
-              | OctalIntegerLiteral
-              | OctalIntegerLiteral2
-              | BinaryIntegerLiteral;
-
-identifierName: Identifier
-              | reservedWord;
-
-reservedWord: keyword
-            | futureReservedWord
-            | NullLiteral
-            | BooleanLiteral;
-
-keyword: Break
-       | Do
-       | Instanceof
-       | Typeof
-       | Case
-       | Else
-       | New
-       | Var
-       | Catch
-       | Finally
-       | Return
-       | Void
-       | Continue
-       | For
-       | Switch
-       | While
-       | Debugger
-       | Function
-       | This
-       | With
-       | Default
-       | If
-       | Throw
-       | Delete
-       | In
-       | Try
-       | Class
-       | Enum
-       | Extends
-       | Super
-       | Const
-       | Export
-       | Import
-       | Let
-       | Static
-       | Yield
-       | Async
-       | Await;
-
-futureReservedWord: Implements
-                  | Interface
-                  | Package
-                  | Private
-                  | Protected
-                  | Public;
+expressionSequence
+    : singleExpression ( COMMA singleExpression )*
+    ;

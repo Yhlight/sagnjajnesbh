@@ -1,160 +1,196 @@
-// JavaScript Lexer Grammar - Based on official ANTLR grammars-v4
-// Adapted for CHTL project requirements
-// Simplified for basic JavaScript parsing needs
-
+// JavaScript Lexer Grammar
 lexer grammar JavaScriptLexer;
 
-channels {
-    ERROR
-}
-
-// Comments
-MultiLineComment  : '/*' .*? '*/'             -> channel(HIDDEN);
-SingleLineComment : '//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
-
 // Literals
-BooleanLiteral: 'true' | 'false';
-DecimalLiteral: DecimalIntegerLiteral '.' [0-9]* ExponentPart?
-              | '.' [0-9]+ ExponentPart?
-              | DecimalIntegerLiteral ExponentPart?;
+NULL                      : 'null';
+BooleanLiteral            : 'true' | 'false';
 
-HexIntegerLiteral: '0' [xX] [0-9a-fA-F]+;
-OctalIntegerLiteral: '0' [0-7]+;
-OctalIntegerLiteral2: '0' [oO] [0-7]+;
-BinaryIntegerLiteral: '0' [bB] [01]+;
+// Numeric Literals
+DecimalLiteral            : DecimalIntegerLiteral '.' [0-9]* ExponentPart?
+                          | '.' [0-9]+ ExponentPart?
+                          | DecimalIntegerLiteral ExponentPart?
+                          ;
 
-// String literals
-StringLiteral: ('"' DoubleStringCharacter* '"'
-             | '\'' SingleStringCharacter* '\'')
-             {this.ProcessStringLiteral()};
+HexIntegerLiteral         : '0' [xX] [0-9a-fA-F]+;
+OctalIntegerLiteral       : '0' [0-7]+;
 
-// Template literals
-TemplateStringLiteral: '`' ('\\' TemplateStringEscapeSequence | '${' | TemplateStringCharacter)* '`';
+fragment DecimalIntegerLiteral
+                          : '0'
+                          | [1-9] [0-9]*
+                          ;
 
-// Regular expression literals
-RegularExpressionLiteral: '/' RegularExpressionFirstChar RegularExpressionChar* '/' [gimsuvy]*;
+fragment ExponentPart     : [eE] [+-]? [0-9]+;
 
-// Identifiers
-Identifier: IdentifierStart IdentifierPart*;
+// String Literals
+StringLiteral             : '"' DoubleStringCharacter* '"'
+                          | '\'' SingleStringCharacter* '\''
+                          ;
+
+fragment DoubleStringCharacter
+                          : ~["\\\r\n]
+                          | '\\' EscapeSequence
+                          | LineContinuation
+                          ;
+
+fragment SingleStringCharacter
+                          : ~['\\\r\n]
+                          | '\\' EscapeSequence
+                          | LineContinuation
+                          ;
+
+fragment EscapeSequence   : CharacterEscapeSequence
+                          | '0' 
+                          | HexEscapeSequence
+                          | UnicodeEscapeSequence
+                          ;
+
+fragment CharacterEscapeSequence
+                          : SingleEscapeCharacter
+                          | NonEscapeCharacter
+                          ;
+
+fragment HexEscapeSequence: 'x' [0-9a-fA-F] [0-9a-fA-F];
+
+fragment UnicodeEscapeSequence
+                          : 'u' [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F];
+
+fragment SingleEscapeCharacter
+                          : ['"\\bfnrtv];
+
+fragment NonEscapeCharacter
+                          : ~['"\\bfnrtv0-9xu\r\n];
+
+fragment LineContinuation : '\\' [\r\n\u2028\u2029];
+
+// Regular Expression Literals
+RegularExpressionLiteral  : '/' RegularExpressionBody '/' RegularExpressionFlags;
+
+fragment RegularExpressionBody
+                          : RegularExpressionFirstChar RegularExpressionChar*;
+
+fragment RegularExpressionFirstChar
+                          : ~[*\r\n\u2028\u2029\\/[]
+                          | RegularExpressionBackslashSequence
+                          | RegularExpressionClass
+                          ;
+
+fragment RegularExpressionChar
+                          : ~[\r\n\u2028\u2029\\/[]
+                          | RegularExpressionBackslashSequence
+                          | RegularExpressionClass
+                          ;
+
+fragment RegularExpressionClassChar
+                          : ~[\r\n\u2028\u2029\\\]]
+                          | RegularExpressionBackslashSequence
+                          ;
+
+fragment RegularExpressionClass
+                          : '[' RegularExpressionClassChar* ']';
+
+fragment RegularExpressionBackslashSequence
+                          : '\\' ~[\r\n\u2028\u2029];
+
+fragment RegularExpressionFlags
+                          : [gimsuxy]*;
 
 // Keywords
-Break: 'break';
-Do: 'do';
-Instanceof: 'instanceof';
-Typeof: 'typeof';
-Case: 'case';
-Else: 'else';
-New: 'new';
-Var: 'var';
-Catch: 'catch';
-Finally: 'finally';
-Return: 'return';
-Void: 'void';
-Continue: 'continue';
-For: 'for';
-Switch: 'switch';
-While: 'while';
-Debugger: 'debugger';
-Function: 'function';
-This: 'this';
-With: 'with';
-Default: 'default';
-If: 'if';
-Throw: 'throw';
-Delete: 'delete';
-In: 'in';
-Try: 'try';
-
-// Future reserved words
-Class: 'class';
-Enum: 'enum';
-Extends: 'extends';
-Super: 'super';
-Const: 'const';
-Export: 'export';
-Import: 'import';
-
-// Null and undefined
-NullLiteral: 'null';
-UndefinedLiteral: 'undefined';
+BREAK                     : 'break';
+DO                        : 'do';
+INSTANCEOF                : 'instanceof';
+TYPEOF                    : 'typeof';
+CASE                      : 'case';
+ELSE                      : 'else';
+NEW                       : 'new';
+VAR                       : 'var';
+CATCH                     : 'catch';
+FINALLY                   : 'finally';
+RETURN                    : 'return';
+VOID                      : 'void';
+CONTINUE                  : 'continue';
+FOR                       : 'for';
+SWITCH                    : 'switch';
+WHILE                     : 'while';
+DEBUGGER                  : 'debugger';
+FUNCTION                  : 'function';
+THIS                      : 'this';
+WITH                      : 'with';
+DEFAULT                   : 'default';
+IF                        : 'if';
+THROW                     : 'throw';
+DELETE                    : 'delete';
+IN                        : 'in';
+TRY                       : 'try';
+GET                       : 'get';
+SET                       : 'set';
 
 // Punctuators
-OpenBracket: '[';
-CloseBracket: ']';
-OpenParen: '(';
-CloseParen: ')';
-OpenBrace: '{';
-CloseBrace: '}';
-SemiColon: ';';
-Comma: ',';
-Assign: '=';
-QuestionMark: '?';
-Colon: ':';
-Ellipsis: '...';
-Dot: '.';
-PlusPlus: '++';
-MinusMinus: '--';
-Plus: '+';
-Minus: '-';
-BitNot: '~';
-Not: '!';
-Multiply: '*';
-Divide: '/';
-Modulus: '%';
-RightShiftArithmetic: '>>';
-LeftShiftArithmetic: '<<';
-RightShiftLogical: '>>>';
-LessThan: '<';
-MoreThan: '>';
-LessThanEquals: '<=';
-GreaterThanEquals: '>=';
-Equals_: '==';
-NotEquals: '!=';
-IdentityEquals: '===';
-IdentityNotEquals: '!==';
-BitAnd: '&';
-BitXOr: '^';
-BitOr: '|';
-And: '&&';
-Or: '||';
-MultiplyAssign: '*=';
-DivideAssign: '/=';
-ModulusAssign: '%=';
-PlusAssign: '+=';
-MinusAssign: '-=';
-LeftShiftArithmeticAssign: '<<=';
-RightShiftArithmeticAssign: '>>=';
-RightShiftLogicalAssign: '>>>=';
-BitAndAssign: '&=';
-BitXorAssign: '^=';
-BitOrAssign: '|=';
-Arrow: '=>';
+LBRACE                    : '{';
+RBRACE                    : '}';
+LPAREN                    : '(';
+RPAREN                    : ')';
+LBRACKET                  : '[';
+RBRACKET                  : ']';
+SEMICOLON                 : ';';
+COMMA                     : ',';
+DOT                       : '.';
+QUESTION                  : '?';
+COLON                     : ':';
+PLUS_PLUS                 : '++';
+MINUS_MINUS               : '--';
+PLUS                      : '+';
+MINUS                     : '-';
+MULTIPLY                  : '*';
+DIVIDE                    : '/';
+MODULO                    : '%';
+LSHIFT                    : '<<';
+RSHIFT                    : '>>';
+URSHIFT                   : '>>>';
+LT                        : '<';
+GT                        : '>';
+LE                        : '<=';
+GE                        : '>=';
+EQ                        : '==';
+NE                        : '!=';
+STRICT_EQ                 : '===';
+STRICT_NE                 : '!==';
+BIT_AND                   : '&';
+BIT_XOR                   : '^';
+BIT_OR                    : '|';
+AND                       : '&&';
+OR                        : '||';
+ASSIGN                    : '=';
+PLUS_ASSIGN               : '+=';
+MINUS_ASSIGN              : '-=';
+MULTIPLY_ASSIGN           : '*=';
+DIVIDE_ASSIGN             : '/=';
+MODULO_ASSIGN             : '%=';
+LSHIFT_ASSIGN             : '<<=';
+RSHIFT_ASSIGN             : '>>=';
+URSHIFT_ASSIGN            : '>>>=';
+BIT_AND_ASSIGN            : '&=';
+BIT_XOR_ASSIGN            : '^=';
+BIT_OR_ASSIGN             : '|=';
+TILDE                     : '~';
+NOT                       : '!';
 
-// Whitespace
-WhiteSpaces: [\t\u000B\u000C\u0020\u00A0]+ -> channel(HIDDEN);
-LineTerminator: [\r\n\u2028\u2029] -> channel(HIDDEN);
+// Identifiers
+Identifier                : IdentifierStart IdentifierPart*;
 
-// Fragments
-fragment DoubleStringCharacter: ~["\\\r\n] | '\\' EscapeSequence;
-fragment SingleStringCharacter: ~['\\\r\n] | '\\' EscapeSequence;
-fragment EscapeSequence: CharacterEscapeSequence | '0' | HexEscapeSequence | UnicodeEscapeSequence;
-fragment CharacterEscapeSequence: SingleEscapeCharacter | NonEscapeCharacter;
-fragment SingleEscapeCharacter: ['"\\bfnrtv];
-fragment NonEscapeCharacter: ~['"\\bfnrtv0-9xu\r\n];
-fragment EscapeCharacter: SingleEscapeCharacter | [0-9] | [xu];
-fragment HexEscapeSequence: 'x' [0-9a-fA-F] [0-9a-fA-F];
-fragment UnicodeEscapeSequence: 'u' [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F];
-fragment DecimalIntegerLiteral: '0' | [1-9] [0-9]*;
-fragment ExponentPart: [eE] [+-]? [0-9]+;
+fragment IdentifierStart  : [a-zA-Z$_]
+                          | '\\' UnicodeEscapeSequence
+                          ;
 
-fragment TemplateStringEscapeSequence: '`' | '\\' | '$';
-fragment TemplateStringCharacter: ~['`\\$] | '$' ~['{'];
+fragment IdentifierPart   : IdentifierStart
+                          | [0-9]
+                          ;
 
-fragment RegularExpressionFirstChar: ~[*\r\n\u2028\u2029\\/[] | RegularExpressionBackslashSequence | RegularExpressionClass;
-fragment RegularExpressionChar: ~[\r\n\u2028\u2029\\/[] | RegularExpressionBackslashSequence | RegularExpressionClass;
-fragment RegularExpressionBackslashSequence: '\\' ~[\r\n\u2028\u2029];
-fragment RegularExpressionClass: '[' RegularExpressionClassChar* ']';
-fragment RegularExpressionClassChar: ~[\r\n\u2028\u2029\\\]] | RegularExpressionBackslashSequence;
+// White Space
+WhiteSpaces               : [\t\u000B\u000C\u0020\u00A0]+ -> skip;
 
-fragment IdentifierStart: [a-zA-Z$_] | UnicodeEscapeSequence;
-fragment IdentifierPart: IdentifierStart | [0-9];
+// Line Terminators
+LineTerminator            : [\r\n\u2028\u2029] -> skip;
+
+// Comments
+MultiLineComment          : '/*' .*? '*/' -> skip;
+SingleLineComment         : '//' ~[\r\n\u2028\u2029]* -> skip;

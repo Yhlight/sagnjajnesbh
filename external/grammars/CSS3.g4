@@ -1,184 +1,148 @@
+// Simplified CSS3 Grammar based on official ANTLR grammar
+// Adapted for CHTL project without external dependencies
+
 grammar CSS3;
 
-// 简化的CSS3语法定义 - 专为CHTL优化
-
+// Parser Rules
 stylesheet
-    : (ruleset | at_rule)* EOF
+    : ( charset | importRule | statement )* EOF
     ;
 
-at_rule
-    : AT_KEYWORD any_value* (SEMICOLON | block)
+charset
+    : '@charset' STRING ';'
     ;
 
-ruleset
-    : selector_list block
+importRule
+    : '@import' ( STRING | URI ) ( MEDIA_LIST )? ';'
     ;
 
-selector_list
-    : selector (COMMA selector)*
+statement
+    : ruleset
+    | atRule
     ;
 
-selector
-    : simple_selector (combinator simple_selector)*
-    ;
-
-combinator
-    : PLUS
-    | GREATER
-    | TILDE
-    | WS
-    ;
-
-simple_selector
-    : element_name selector_modifier*
-    | selector_modifier+
-    ;
-
-element_name
-    : IDENT
-    | STAR
-    ;
-
-selector_modifier
-    : HASH
-    | class_selector
-    | attrib
-    | pseudo
-    ;
-
-class_selector
-    : DOT IDENT
-    ;
-
-attrib
-    : LBRACKET IDENT (attrib_operator (IDENT | STRING))? RBRACKET
-    ;
-
-attrib_operator
-    : EQUALS
-    | INCLUDES
-    | DASHMATCH
-    | PREFIXMATCH
-    | SUFFIXMATCH
-    | SUBSTRINGMATCH
-    ;
-
-pseudo
-    : COLON COLON? (IDENT | functional_pseudo)
-    ;
-
-functional_pseudo
-    : FUNCTION any_value* RPAREN
+atRule
+    : '@' IDENTIFIER ( any* )? ( block | ';' )
     ;
 
 block
-    : LBRACE declaration_list RBRACE
+    : '{' ( any | block | ATKEYWORD | ';' )* '}'
     ;
 
-declaration_list
-    : declaration (SEMICOLON declaration?)*
+ruleset
+    : selector ( ',' selector )* '{' declaration? ( ';' declaration? )* '}'
+    ;
+
+selector
+    : simpleSelector ( combinator simpleSelector )*
+    ;
+
+combinator
+    : '+' | '>' | '~' | ' '
+    ;
+
+simpleSelector
+    : elementName ( HASH | CLASS | ATTRIB | PSEUDO )*
+    | ( HASH | CLASS | ATTRIB | PSEUDO )+
+    ;
+
+elementName
+    : IDENTIFIER | '*'
     ;
 
 declaration
-    : property COLON value_list (IMPORTANT)?
+    : property ':' expr ( '!important' )?
     ;
 
 property
-    : IDENT
+    : IDENTIFIER
     ;
 
-value_list
-    : value+
+expr
+    : term ( operator? term )*
     ;
 
-value
-    : NUMBER unit?
-    | PERCENTAGE
-    | STRING
-    | IDENT
-    | HASH
-    | URI
-    | FUNCTION any_value* RPAREN
-    | LPAREN any_value* RPAREN
-    | LBRACKET any_value* RBRACKET
+term
+    : unaryOperator?
+    ( NUMBER | PERCENTAGE | LENGTH | EMS | EXS | ANGLE | TIME | FREQ | STRING | IDENTIFIER | URI | hexcolor | function )
     ;
 
-unit
-    : IDENT
+function
+    : FUNCTION expr ')' 
     ;
 
-any_value
-    : NUMBER unit?
-    | PERCENTAGE
-    | STRING
-    | IDENT
-    | HASH
-    | URI
-    | FUNCTION
-    | LPAREN
-    | RPAREN
-    | LBRACKET
-    | RBRACKET
-    | LBRACE
-    | RBRACE
-    | SEMICOLON
-    | COLON
-    | COMMA
-    | PLUS
-    | MINUS
-    | STAR
-    | SLASH
-    | EQUALS
-    | DOT
-    | GREATER
-    | TILDE
+hexcolor
+    : HASH
+    ;
+
+operator
+    : '/' | ','
+    ;
+
+unaryOperator
+    : '-' | '+'
+    ;
+
+any
+    : IDENTIFIER | NUMBER | PERCENTAGE | LENGTH | EMS | EXS | ANGLE | TIME | FREQ | STRING | URI | HASH | UNICODE_RANGE | INCLUDES | DASHMATCH | ':' | FUNCTION | '(' any* ')' | '[' any* ']'
     ;
 
 // Lexer Rules
-AT_KEYWORD      : '@' IDENT;
-HASH            : '#' NMCHAR+;
-STRING          : '"' (~["\n\r\f\\] | '\\' .)* '"' | '\'' (~['\n\r\f\\] | '\\' .)* '\'';
-URI             : 'url(' WS* (STRING | (~[)\\] | '\\' .)*) WS* ')';
-FUNCTION        : IDENT '(';
-NUMBER          : [0-9]+ ('.' [0-9]+)?;
-PERCENTAGE      : NUMBER '%';
-IDENT           : '-'? NMSTART NMCHAR*;
+fragment NONASCII: ~[\u0000-\u007F];
+fragment UNICODE: '\\' HEX HEX? HEX? HEX? HEX? HEX? ( '\r\n' | [ \t\r\n\f] )?;
+fragment ESCAPE: UNICODE | '\\' ~[\r\n\f0-9a-fA-F];
+fragment NMSTART: [_a-zA-Z] | NONASCII | ESCAPE;
+fragment NMCHAR: [_a-zA-Z0-9\-] | NONASCII | ESCAPE;
+fragment NAME: NMCHAR+;
+fragment HEX: [0-9a-fA-F];
 
-// Operators
-INCLUDES        : '~=';
-DASHMATCH       : '|=';
-PREFIXMATCH     : '^=';
-SUFFIXMATCH     : '$=';
-SUBSTRINGMATCH  : '*=';
-EQUALS          : '=';
+STRING
+    : '"' (~[\n\r\f\\"] | '\\' NEWLINE | NONASCII | ESCAPE)* '"'
+    | '\'' (~[\n\r\f\\'] | '\\' NEWLINE | NONASCII | ESCAPE)* '\''
+    ;
 
-// Punctuation
-SEMICOLON       : ';';
-LBRACE          : '{';
-RBRACE          : '}';
-LPAREN          : '(';
-RPAREN          : ')';
-LBRACKET        : '[';
-RBRACKET        : ']';
-COMMA           : ',';
-COLON           : ':';
-DOT             : '.';
-PLUS            : '+';
-MINUS           : '-';
-STAR            : '*';
-SLASH           : '/';
-GREATER         : '>';
-TILDE           : '~';
+IDENTIFIER: NMSTART NMCHAR*;
 
-// Special
-IMPORTANT       : '!' WS* 'important';
+FUNCTION: IDENTIFIER '(';
 
-// Whitespace
-WS              : [ \t\r\n\f]+ -> channel(HIDDEN);
-COMMENT         : '/*' .*? '*/' -> channel(HIDDEN);
+NUMBER: [0-9]* '.'? [0-9]+;
 
-// Fragments
-fragment NMSTART : [a-zA-Z_] | NON_ASCII | ESCAPE;
-fragment NMCHAR  : [a-zA-Z0-9_-] | NON_ASCII | ESCAPE;
-fragment NON_ASCII : ~[\u0000-\u007F];
-fragment ESCAPE  : '\\' ([0-9a-fA-F] [0-9a-fA-F]? [0-9a-fA-F]? [0-9a-fA-F]? [0-9a-fA-F]? [0-9a-fA-F]? [ \t\r\n\f]? | ~[0-9a-fA-F\r\n\f]);
+PERCENTAGE: NUMBER '%';
+
+LENGTH: NUMBER ( 'px' | 'cm' | 'mm' | 'in' | 'pt' | 'pc' );
+
+EMS: NUMBER 'em';
+
+EXS: NUMBER 'ex';
+
+ANGLE: NUMBER ( 'deg' | 'rad' | 'grad' );
+
+TIME: NUMBER ( 'ms' | 's' );
+
+FREQ: NUMBER ( 'hz' | 'khz' );
+
+URI: [Uu][Rr][Ll] '(' WS ( STRING | (~[\u0000-\u001F\u007F()\\"] | '\\' NEWLINE | NONASCII | ESCAPE)* ) WS ')';
+
+HASH: '#' NAME;
+
+CLASS: '.' IDENTIFIER;
+
+ATTRIB: '[' WS IDENTIFIER WS ( ( '=' | INCLUDES | DASHMATCH ) WS ( IDENTIFIER | STRING ) WS )? ']';
+
+PSEUDO: ':' ':'? ( IDENTIFIER | FUNCTION any* ')' );
+
+UNICODE_RANGE: [Uu] '+' HEX HEX HEX HEX HEX HEX ( '-' HEX HEX HEX HEX HEX HEX )?;
+
+INCLUDES: '~=';
+
+DASHMATCH: '|=';
+
+ATKEYWORD: '@' IDENTIFIER;
+
+MEDIA_LIST: IDENTIFIER ( ',' WS IDENTIFIER )*;
+
+fragment NEWLINE: '\r\n' | [\r\n\f];
+
+WS: [ \t\r\n\f]+ -> skip;
+
+COMMENT: '/*' .*? '*/' -> skip;

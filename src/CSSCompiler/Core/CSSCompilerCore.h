@@ -1,7 +1,7 @@
 #pragma once
-#include "../Parser/CSS3Parser.h"
-#include "../Parser/CSS3Lexer.h"
-#include "../Parser/CSS3Listener.h"
+#include "../Parser/css3Parser.h"
+#include "../Parser/css3Lexer.h"
+#include "../Parser/css3ParserBaseListener.h"
 #include "antlr4-runtime.h"
 #include <string>
 #include <memory>
@@ -23,7 +23,7 @@ public:
     std::string compileCSSFile(const std::string& file_path);
     
     // 解析接口
-    std::unique_ptr<CSS3Parser::StylesheetContext> parseCSS(const std::string& css_code);
+    std::unique_ptr<css3Parser::StylesheetContext> parseCSS(const std::string& css_code);
     bool validateCSS(const std::string& css_code);
     
     // 优化选项
@@ -56,6 +56,10 @@ public:
     CompilationStats getLastStats() const { return last_stats_; }
     void printCompilationInfo() const;
     
+    // 错误收集
+    void addError(const std::string& error);
+    void addWarning(const std::string& warning);
+
 private:
     bool minify_output_;
     bool add_vendor_prefixes_;
@@ -66,21 +70,10 @@ private:
     std::vector<std::string> warnings_;
     CompilationStats last_stats_;
     
-    // 内部处理方法
-    std::string processStylesheet(CSS3Parser::StylesheetContext* ctx);
-    std::string processRuleset(CSS3Parser::RulesetContext* ctx);
-    std::string processAtRule(CSS3Parser::At_ruleContext* ctx);
-    std::string processSelector(CSS3Parser::SelectorContext* ctx);
-    std::string processDeclaration(CSS3Parser::DeclarationContext* ctx);
-    
     // 优化方法
     std::string minifyCSS(const std::string& css);
     std::string addVendorPrefixes(const std::string& css);
     std::string autoprefixCSS(const std::string& css);
-    
-    // 错误收集
-    void addError(const std::string& error);
-    void addWarning(const std::string& warning);
     
     // 统计更新
     void updateStats(const std::string& input, const std::string& output, double time_ms);
@@ -104,22 +97,22 @@ private:
 /**
  * CSS树遍历器 - 处理解析树并生成优化的CSS
  */
-class CSSTreeWalker : public CSS3BaseListener {
+class CSSTreeWalker : public css3ParserBaseListener {
 public:
     CSSTreeWalker(CSSCompilerCore* compiler) : compiler_(compiler) {}
     
     // 重写监听器方法
-    void enterStylesheet(CSS3Parser::StylesheetContext *ctx) override;
-    void exitStylesheet(CSS3Parser::StylesheetContext *ctx) override;
+    void enterStylesheet(css3Parser::StylesheetContext *ctx) override;
+    void exitStylesheet(css3Parser::StylesheetContext *ctx) override;
     
-    void enterRuleset(CSS3Parser::RulesetContext *ctx) override;
-    void exitRuleset(CSS3Parser::RulesetContext *ctx) override;
+    void enterRuleset(css3Parser::RulesetContext *ctx) override;
+    void exitRuleset(css3Parser::RulesetContext *ctx) override;
     
-    void enterAt_rule(CSS3Parser::At_ruleContext *ctx) override;
-    void exitAt_rule(CSS3Parser::At_ruleContext *ctx) override;
+    void enterAtRule(css3Parser::AtRuleContext *ctx) override;
+    void exitAtRule(css3Parser::AtRuleContext *ctx) override;
     
-    void enterDeclaration(CSS3Parser::DeclarationContext *ctx) override;
-    void exitDeclaration(CSS3Parser::DeclarationContext *ctx) override;
+    void enterDeclaration(css3Parser::DeclarationContext *ctx) override;
+    void exitDeclaration(css3Parser::DeclarationContext *ctx) override;
     
     // 获取生成的CSS
     std::string getGeneratedCSS() const { return generated_css_; }
