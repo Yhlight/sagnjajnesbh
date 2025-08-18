@@ -449,4 +449,5 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathTokenAnywhereElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathTokenElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardAnywhereElement.h \
-  /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardElement.h
+  /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardElement.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.h

@@ -72,19 +72,19 @@ include CMakeFiles/chtl_js_antlr.dir/flags.make
 CMakeFiles/chtl_js_antlr.dir/codegen:
 .PHONY : CMakeFiles/chtl_js_antlr.dir/codegen
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o: CMakeFiles/chtl_js_antlr.dir/flags.make
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o: CMakeFiles/chtl_js_antlr.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o -MF CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o.d -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o -c /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o: CMakeFiles/chtl_js_antlr.dir/flags.make
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o: CMakeFiles/chtl_js_antlr.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o -MF CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o.d -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o -c /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp > CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp > CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s
 
 CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o: CMakeFiles/chtl_js_antlr.dir/flags.make
 CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp
@@ -100,19 +100,19 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o: CMakeFiles/chtl_js_antlr.dir/flags.make
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o: CMakeFiles/chtl_js_antlr.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o -MF CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o.d -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o -c /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o: CMakeFiles/chtl_js_antlr.dir/flags.make
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o: CMakeFiles/chtl_js_antlr.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o -MF CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o.d -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o -c /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp > CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp > CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s
 
 CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o: CMakeFiles/chtl_js_antlr.dir/flags.make
 CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp
@@ -128,33 +128,33 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o: CMakeFiles/chtl_js_antlr.dir/flags.make
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o: CMakeFiles/chtl_js_antlr.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o -MF CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o.d -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o -c /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o: CMakeFiles/chtl_js_antlr.dir/flags.make
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o: CMakeFiles/chtl_js_antlr.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o -MF CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o.d -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o -c /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp > CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp > CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o: CMakeFiles/chtl_js_antlr.dir/flags.make
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o: CMakeFiles/chtl_js_antlr.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o -MF CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o.d -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o -c /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o: CMakeFiles/chtl_js_antlr.dir/flags.make
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o: CMakeFiles/chtl_js_antlr.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o -MF CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o.d -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o -c /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp > CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.i
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp > CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.i
 
-CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s
+CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp -o CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.s
 
 CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o: CMakeFiles/chtl_js_antlr.dir/flags.make
 CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o: /workspace/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp
@@ -172,23 +172,23 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.
 
 # Object files for target chtl_js_antlr
 chtl_js_antlr_OBJECTS = \
-"CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o" \
+"CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o" \
 "CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o" \
-"CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o" \
+"CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o" \
 "CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o" \
-"CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o" \
-"CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o" \
+"CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o" \
+"CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o" \
 "CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o"
 
 # External object files for target chtl_js_antlr
 chtl_js_antlr_EXTERNAL_OBJECTS =
 
-lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o
+lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o
 lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o
-lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o
+lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o
 lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o
-lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o
-lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o
+lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o
+lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o
 lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o
 lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/build.make
 lib/libchtl_js_antlr.a: CMakeFiles/chtl_js_antlr.dir/link.txt

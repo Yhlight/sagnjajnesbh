@@ -1115,6 +1115,33 @@ src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s
 .PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s
 
+src/JavaScriptCompiler/Parser/JavaScriptLexer.o: src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.o
+
+# target to build an object file
+src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o
+
+src/JavaScriptCompiler/Parser/JavaScriptLexer.i: src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.i
+
+# target to preprocess a source file
+src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i
+
+src/JavaScriptCompiler/Parser/JavaScriptLexer.s: src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.s
+
+# target to generate assembly for a file
+src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s
+
 src/JavaScriptCompiler/Parser/JavaScriptLexerBase.o: src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o
 .PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.o
 
@@ -1142,32 +1169,32 @@ src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s
 .PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s
 
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.o: src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.o
+src/JavaScriptCompiler/Parser/JavaScriptParser.o: src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.o
 
 # target to build an object file
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o
+src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o
 
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.i: src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.i
+src/JavaScriptCompiler/Parser/JavaScriptParser.i: src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.i
 
 # target to preprocess a source file
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i
+src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i
 
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.s: src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.s
+src/JavaScriptCompiler/Parser/JavaScriptParser.s: src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.s
 
 # target to generate assembly for a file
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s
+src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s
 
 src/JavaScriptCompiler/Parser/JavaScriptParserBase.o: src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o
 .PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.o
@@ -1196,83 +1223,56 @@ src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s
 .PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.o: src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.o
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.o: src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.o
 
 # target to build an object file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.i: src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.i
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.i: src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.i
 
 # target to preprocess a source file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.s: src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.s
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.s: src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.s
 
 # target to generate assembly for a file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.o: src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.o
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.o: src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.o
 
 # target to build an object file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.i: src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.i
-
-# target to preprocess a source file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i
-
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.s: src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.s
-
-# target to generate assembly for a file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_antlr_parsers.dir/build.make CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s
-
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.o: src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.o
-
-# target to build an object file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o
-
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.i: src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.i
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.i: src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.i
 
 # target to preprocess a source file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.i
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.i
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.s: src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.s
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.s: src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.s
 
 # target to generate assembly for a file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_antlr.dir/build.make CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.s
 
 src/Module/Chtholly/CJMOD/src/ChthollyInterface.o: src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.o
 .PHONY : src/Module/Chtholly/CJMOD/src/ChthollyInterface.o
@@ -1915,24 +1915,24 @@ help:
 	@echo "... src/JavaScriptCompiler/Core/JavaScriptCompilerCore.o"
 	@echo "... src/JavaScriptCompiler/Core/JavaScriptCompilerCore.i"
 	@echo "... src/JavaScriptCompiler/Core/JavaScriptCompilerCore.s"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer.o"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer.i"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer.s"
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexerBase.o"
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexerBase.i"
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexerBase.s"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.o"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.i"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.s"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser.o"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser.i"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser.s"
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBase.o"
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBase.i"
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBase.s"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.o"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.i"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.s"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.o"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.i"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.s"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.o"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.i"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.s"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.o"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.i"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.s"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserListener.o"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserListener.i"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserListener.s"
 	@echo "... src/Module/Chtholly/CJMOD/src/ChthollyInterface.o"
 	@echo "... src/Module/Chtholly/CJMOD/src/ChthollyInterface.i"
 	@echo "... src/Module/Chtholly/CJMOD/src/ChthollyInterface.s"

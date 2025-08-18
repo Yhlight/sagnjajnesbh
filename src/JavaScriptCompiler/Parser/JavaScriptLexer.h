@@ -5,6 +5,7 @@
 
 
 #include "antlr4-runtime.h"
+#include "JavaScriptLexerBase.h"
 
 
 

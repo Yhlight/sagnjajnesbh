@@ -1,7 +1,7 @@
 #pragma once
-#include "../Parser/JavaScriptParser_cpp.h"
-#include "../Parser/JavaScriptLexer_cpp.h"
-#include "../Parser/JavaScriptParser_cppListener.h"
+#include "../Parser/JavaScriptParser.h"
+#include "../Parser/JavaScriptLexer.h"
+#include "../Parser/JavaScriptParserBaseListener.h"
 #include "antlr4-runtime.h"
 #include <string>
 #include <memory>
