@@ -1,6 +1,6 @@
 #pragma once
 #include "../../CHTLCompiler/AST/CHTLNodes.h"
-#include "Context.h"
+#include "../../CHTLCompiler/Parser/CHTLContext.h"
 #include <string>
 #include <vector>
 #include <unordered_set>

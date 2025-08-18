@@ -360,40 +360,41 @@ ContextType SyntaxConstrainer::inferContextType(ast::ASTNode* node, ContextType 
     if (!node) return parent_context;
     
     // 根据节点类型推断上下文
-    switch (node->type) {
-        case ast::NodeType::STYLE_BLOCK:
-            // 判断是全局还是局部样式块
-            return (parent_context == ContextType::ELEMENT_CONTENT) ? 
-                   ContextType::LOCAL_STYLE : ContextType::GLOBAL_STYLE;
-            
-        case ast::NodeType::SCRIPT_BLOCK:
-            // 判断是全局还是局部script
-            return (parent_context == ContextType::ELEMENT_CONTENT) ? 
-                   ContextType::LOCAL_SCRIPT : ContextType::GLOBAL_SCRIPT;
-            
-        case ast::NodeType::TEMPLATE_DEFINITION:
-            return ContextType::TEMPLATE_DEF;
-            
-        case ast::NodeType::CUSTOM_DEFINITION:
-            return ContextType::CUSTOM_DEF;
-            
-        case ast::NodeType::NAMESPACE_DEFINITION:
-            return ContextType::NAMESPACE_DEF;
-            
-        case ast::NodeType::IMPORT_STATEMENT:
-            return ContextType::IMPORT_STMT;
-            
-        case ast::NodeType::ORIGIN_BLOCK:
-            return ContextType::ORIGIN_BLOCK;
-            
-        case ast::NodeType::CONFIGURATION_BLOCK:
-            return ContextType::CONFIGURATION;
-            
-        case ast::NodeType::ELEMENT:
-            return ContextType::ELEMENT_CONTENT;
-            
-        default:
-            return parent_context;
+    std::string nodeType = node->getNodeType();
+    
+    if (nodeType == "StyleBlock") {
+        // 判断是全局还是局部样式块
+        return (parent_context == ContextType::ELEMENT_CONTENT) ? 
+               ContextType::LOCAL_STYLE : ContextType::GLOBAL_STYLE;
+    }
+    else if (nodeType == "ScriptBlock") {
+        // 判断是全局还是局部script
+        return (parent_context == ContextType::ELEMENT_CONTENT) ? 
+               ContextType::LOCAL_SCRIPT : ContextType::GLOBAL_SCRIPT;
+    }
+    else if (nodeType == "Template") {
+        return ContextType::TEMPLATE_DEF;
+    }
+    else if (nodeType == "Custom") {
+        return ContextType::CUSTOM_DEF;
+    }
+    else if (nodeType == "Namespace") {
+        return ContextType::NAMESPACE_DEF;
+    }
+    else if (nodeType == "Import") {
+        return ContextType::IMPORT_STMT;
+    }
+    else if (nodeType == "Origin") {
+        return ContextType::ORIGIN_BLOCK;
+    }
+    else if (nodeType == "Configuration") {
+        return ContextType::CONFIGURATION;
+    }
+    else if (nodeType == "Element") {
+        return ContextType::ELEMENT_CONTENT;
+    }
+    else {
+        return parent_context;
     }
 }
 
@@ -401,61 +402,31 @@ SyntaxElement SyntaxConstrainer::identifySyntaxElement(ast::ASTNode* node) {
     if (!node) return SyntaxElement::JAVASCRIPT_CODE;
     
     // 根据AST节点类型映射到语法元素
-    switch (node->type) {
-        // 变量相关
-        case ast::NodeType::TEMPLATE_VAR:
-            return SyntaxElement::TEMPLATE_VAR;
-        case ast::NodeType::CUSTOM_VAR:
-            return SyntaxElement::CUSTOM_VAR;
-        case ast::NodeType::VARIABLE_SPECIALIZATION:
-            return SyntaxElement::VAR_SPECIALIZATION;
-            
-        // 样式组相关
-        case ast::NodeType::TEMPLATE_STYLE:
-            return SyntaxElement::TEMPLATE_STYLE;
-        case ast::NodeType::CUSTOM_STYLE:
-            return SyntaxElement::CUSTOM_STYLE;
-            
-        // 元素相关
-        case ast::NodeType::TEMPLATE_ELEMENT:
-            return SyntaxElement::TEMPLATE_ELEMENT;
-        case ast::NodeType::CUSTOM_ELEMENT:
-            return SyntaxElement::CUSTOM_ELEMENT;
-            
-        // 操作相关
-        case ast::NodeType::STYLE_DELETE:
-            return SyntaxElement::DELETE_PROPERTY;
-        case ast::NodeType::STYLE_INHERITANCE:
-            return SyntaxElement::STYLE_INHERITANCE;
-        case ast::NodeType::ELEMENT_INSERT:
-            return SyntaxElement::ELEMENT_INSERT;
-        case ast::NodeType::ELEMENT_DELETE:
-            return SyntaxElement::ELEMENT_DELETE;
-            
-        // CHTL JS相关
-        case ast::NodeType::CHTL_JS_SELECTOR:
-            return SyntaxElement::CHTL_JS_SELECTOR;
-        case ast::NodeType::CHTL_JS_LISTEN:
-            return SyntaxElement::CHTL_JS_LISTEN;
-        case ast::NodeType::CHTL_JS_DELEGATE:
-            return SyntaxElement::CHTL_JS_DELEGATE;
-        case ast::NodeType::CHTL_JS_ANIMATE:
-            return SyntaxElement::CHTL_JS_ANIMATE;
-        case ast::NodeType::CHTL_JS_VIR:
-            return SyntaxElement::CHTL_JS_VIR;
-            
-        // 注释和嵌入
-        case ast::NodeType::GENERATOR_COMMENT:
-            return SyntaxElement::GENERATOR_COMMENT;
-        case ast::NodeType::ORIGIN_BLOCK:
-            return SyntaxElement::ORIGIN_EMBED;
-            
-        // CSS相关
-        case ast::NodeType::CSS_PROPERTY:
-            return SyntaxElement::CSS_PROPERTY;
-            
-        default:
-            return SyntaxElement::JAVASCRIPT_CODE;
+    std::string nodeType = node->getNodeType();
+    
+    if (nodeType == "Template") {
+        return SyntaxElement::TEMPLATE_VAR;
+    }
+    else if (nodeType == "Custom") {
+        return SyntaxElement::CUSTOM_VAR;
+    }
+    else if (nodeType == "Element") {
+        return SyntaxElement::TEMPLATE_ELEMENT;
+    }
+    else if (nodeType == "StyleBlock") {
+        return SyntaxElement::TEMPLATE_STYLE;
+    }
+    else if (nodeType == "ScriptBlock") {
+        return SyntaxElement::CHTL_JS_SELECTOR;
+    }
+    else if (nodeType == "Comment") {
+        return SyntaxElement::GENERATOR_COMMENT;
+    }
+    else if (nodeType == "Import") {
+        return SyntaxElement::ORIGIN_EMBED;
+    }
+    else {
+        return SyntaxElement::JAVASCRIPT_CODE;
     }
 }
 

@@ -818,7 +818,7 @@ bool JavaScriptLexer::sempred(RuleContext *context, size_t ruleIndex, size_t pre
 
 void JavaScriptLexer::OpenBraceAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
-    case 0: this.ProcessOpenBrace(); break;
+    case 0: this->ProcessOpenBrace(); break;
 
   default:
     break;
@@ -827,7 +827,7 @@ void JavaScriptLexer::OpenBraceAction(antlr4::RuleContext *context, size_t actio
 
 void JavaScriptLexer::TemplateCloseBraceAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
-    case 1: this.ProcessTemplateCloseBrace(); break;
+    case 1: this->ProcessTemplateCloseBrace(); break;
 
   default:
     break;
@@ -836,7 +836,7 @@ void JavaScriptLexer::TemplateCloseBraceAction(antlr4::RuleContext *context, siz
 
 void JavaScriptLexer::CloseBraceAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
-    case 2: this.ProcessCloseBrace(); break;
+    case 2: this->ProcessCloseBrace(); break;
 
   default:
     break;
@@ -845,7 +845,7 @@ void JavaScriptLexer::CloseBraceAction(antlr4::RuleContext *context, size_t acti
 
 void JavaScriptLexer::StringLiteralAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
-    case 3: this.ProcessStringLiteral(); break;
+    case 3: this->ProcessStringLiteral(); break;
 
   default:
     break;
@@ -854,7 +854,7 @@ void JavaScriptLexer::StringLiteralAction(antlr4::RuleContext *context, size_t a
 
 void JavaScriptLexer::TemplateStringStartExpressionAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
-    case 4: this.ProcessTemplateOpenBrace(); break;
+    case 4: this->ProcessTemplateOpenBrace(); break;
 
   default:
     break;
@@ -864,7 +864,7 @@ void JavaScriptLexer::TemplateStringStartExpressionAction(antlr4::RuleContext *c
 
 bool JavaScriptLexer::HashBangLineSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 0: return  this.IsStartOfFile();
+    case 0: return  this->IsStartOfFile();
 
   default:
     break;
@@ -874,7 +874,7 @@ bool JavaScriptLexer::HashBangLineSempred(antlr4::RuleContext *_localctx, size_t
 
 bool JavaScriptLexer::RegularExpressionLiteralSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 1: return this.IsRegexPossible();
+    case 1: return this->IsRegexPossible();
 
   default:
     break;
@@ -884,7 +884,7 @@ bool JavaScriptLexer::RegularExpressionLiteralSempred(antlr4::RuleContext *_loca
 
 bool JavaScriptLexer::TemplateCloseBraceSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 2: return this.IsInTemplateString();
+    case 2: return this->IsInTemplateString();
 
   default:
     break;
@@ -894,7 +894,7 @@ bool JavaScriptLexer::TemplateCloseBraceSempred(antlr4::RuleContext *_localctx, 
 
 bool JavaScriptLexer::OctalIntegerLiteralSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 3: return !this.IsStrictMode();
+    case 3: return !this->IsStrictMode();
 
   default:
     break;
@@ -904,7 +904,7 @@ bool JavaScriptLexer::OctalIntegerLiteralSempred(antlr4::RuleContext *_localctx,
 
 bool JavaScriptLexer::ImplementsSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 4: return this.IsStrictMode();
+    case 4: return this->IsStrictMode();
 
   default:
     break;
@@ -914,7 +914,7 @@ bool JavaScriptLexer::ImplementsSempred(antlr4::RuleContext *_localctx, size_t p
 
 bool JavaScriptLexer::StrictLetSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 5: return this.IsStrictMode();
+    case 5: return this->IsStrictMode();
 
   default:
     break;
@@ -924,7 +924,7 @@ bool JavaScriptLexer::StrictLetSempred(antlr4::RuleContext *_localctx, size_t pr
 
 bool JavaScriptLexer::NonStrictLetSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 6: return !this.IsStrictMode();
+    case 6: return !this->IsStrictMode();
 
   default:
     break;
@@ -934,7 +934,7 @@ bool JavaScriptLexer::NonStrictLetSempred(antlr4::RuleContext *_localctx, size_t
 
 bool JavaScriptLexer::PrivateSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 7: return this.IsStrictMode();
+    case 7: return this->IsStrictMode();
 
   default:
     break;
@@ -944,7 +944,7 @@ bool JavaScriptLexer::PrivateSempred(antlr4::RuleContext *_localctx, size_t pred
 
 bool JavaScriptLexer::PublicSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 8: return this.IsStrictMode();
+    case 8: return this->IsStrictMode();
 
   default:
     break;
@@ -954,7 +954,7 @@ bool JavaScriptLexer::PublicSempred(antlr4::RuleContext *_localctx, size_t predi
 
 bool JavaScriptLexer::InterfaceSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 9: return this.IsStrictMode();
+    case 9: return this->IsStrictMode();
 
   default:
     break;
@@ -964,7 +964,7 @@ bool JavaScriptLexer::InterfaceSempred(antlr4::RuleContext *_localctx, size_t pr
 
 bool JavaScriptLexer::PackageSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 10: return this.IsStrictMode();
+    case 10: return this->IsStrictMode();
 
   default:
     break;
@@ -974,7 +974,7 @@ bool JavaScriptLexer::PackageSempred(antlr4::RuleContext *_localctx, size_t pred
 
 bool JavaScriptLexer::ProtectedSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 11: return this.IsStrictMode();
+    case 11: return this->IsStrictMode();
 
   default:
     break;
@@ -984,7 +984,7 @@ bool JavaScriptLexer::ProtectedSempred(antlr4::RuleContext *_localctx, size_t pr
 
 bool JavaScriptLexer::StaticSempred(antlr4::RuleContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 12: return this.IsStrictMode();
+    case 12: return this->IsStrictMode();
 
   default:
     break;

@@ -3039,7 +3039,7 @@ JavaScriptParser::ExpressionStatementContext* JavaScriptParser::expressionStatem
     enterOuterAlt(_localctx, 1);
     setState(354);
 
-    if (!(this.notOpenBraceAndNotFunction())) throw FailedPredicateException(this, "this.notOpenBraceAndNotFunction()");
+    if (!(this->notOpenBraceAndNotFunction())) throw FailedPredicateException(this, "this->notOpenBraceAndNotFunction()");
     setState(355);
     expressionSequence();
     setState(356);
@@ -3738,7 +3738,7 @@ JavaScriptParser::ContinueStatementContext* JavaScriptParser::continueStatement(
     case 1: {
       setState(430);
 
-      if (!(this.notLineTerminator())) throw FailedPredicateException(this, "this.notLineTerminator()");
+      if (!(this->notLineTerminator())) throw FailedPredicateException(this, "this->notLineTerminator()");
       setState(431);
       identifier();
       break;
@@ -3817,7 +3817,7 @@ JavaScriptParser::BreakStatementContext* JavaScriptParser::breakStatement() {
     case 1: {
       setState(437);
 
-      if (!(this.notLineTerminator())) throw FailedPredicateException(this, "this.notLineTerminator()");
+      if (!(this->notLineTerminator())) throw FailedPredicateException(this, "this->notLineTerminator()");
       setState(438);
       identifier();
       break;
@@ -3896,7 +3896,7 @@ JavaScriptParser::ReturnStatementContext* JavaScriptParser::returnStatement() {
     case 1: {
       setState(444);
 
-      if (!(this.notLineTerminator())) throw FailedPredicateException(this, "this.notLineTerminator()");
+      if (!(this->notLineTerminator())) throw FailedPredicateException(this, "this->notLineTerminator()");
       setState(445);
       expressionSequence();
       break;
@@ -3989,7 +3989,7 @@ JavaScriptParser::YieldStatementContext* JavaScriptParser::yieldStatement() {
     case 1: {
       setState(451);
 
-      if (!(this.notLineTerminator())) throw FailedPredicateException(this, "this.notLineTerminator()");
+      if (!(this->notLineTerminator())) throw FailedPredicateException(this, "this->notLineTerminator()");
       setState(452);
       expressionSequence();
       break;
@@ -4602,7 +4602,7 @@ JavaScriptParser::ThrowStatementContext* JavaScriptParser::throwStatement() {
     match(JavaScriptParser::Throw);
     setState(502);
 
-    if (!(this.notLineTerminator())) throw FailedPredicateException(this, "this.notLineTerminator()");
+    if (!(this->notLineTerminator())) throw FailedPredicateException(this, "this->notLineTerminator()");
     setState(503);
     expressionSequence();
     setState(504);
@@ -5284,7 +5284,7 @@ JavaScriptParser::ClassElementContext* JavaScriptParser::classElement() {
       case 2: {
         setState(564);
 
-        if (!(this.n("static"))) throw FailedPredicateException(this, "this.n(\"static\")");
+        if (!(this->n("static"))) throw FailedPredicateException(this, "this->n(\"static\")");
         setState(565);
         identifier();
         break;
@@ -5313,7 +5313,7 @@ JavaScriptParser::ClassElementContext* JavaScriptParser::classElement() {
       case 2: {
         setState(570);
 
-        if (!(this.n("static"))) throw FailedPredicateException(this, "this.n(\"static\")");
+        if (!(this->n("static"))) throw FailedPredicateException(this, "this->n(\"static\")");
         setState(571);
         identifier();
         break;
@@ -5341,7 +5341,7 @@ JavaScriptParser::ClassElementContext* JavaScriptParser::classElement() {
       case 2: {
         setState(576);
 
-        if (!(this.n("static"))) throw FailedPredicateException(this, "this.n(\"static\")");
+        if (!(this->n("static"))) throw FailedPredicateException(this, "this->n(\"static\")");
         setState(577);
         identifier();
         break;
@@ -5462,7 +5462,7 @@ JavaScriptParser::MethodDefinitionContext* JavaScriptParser::methodDefinition() 
         match(JavaScriptParser::Async);
         setState(585);
 
-        if (!(this.notLineTerminator())) throw FailedPredicateException(this, "this.notLineTerminator()");
+        if (!(this->notLineTerminator())) throw FailedPredicateException(this, "this->notLineTerminator()");
         break;
       }
 
@@ -9205,7 +9205,7 @@ JavaScriptParser::SingleExpressionContext* JavaScriptParser::singleExpression(in
           if (!(precpred(_ctx, 39))) throw FailedPredicateException(this, "precpred(_ctx, 39)");
           setState(917);
 
-          if (!(this.notLineTerminator())) throw FailedPredicateException(this, "this.notLineTerminator()");
+          if (!(this->notLineTerminator())) throw FailedPredicateException(this, "this->notLineTerminator()");
           setState(918);
           match(JavaScriptParser::PlusPlus);
           break;
@@ -9220,7 +9220,7 @@ JavaScriptParser::SingleExpressionContext* JavaScriptParser::singleExpression(in
           if (!(precpred(_ctx, 38))) throw FailedPredicateException(this, "precpred(_ctx, 38)");
           setState(920);
 
-          if (!(this.notLineTerminator())) throw FailedPredicateException(this, "this.notLineTerminator()");
+          if (!(this->notLineTerminator())) throw FailedPredicateException(this, "this->notLineTerminator()");
           setState(921);
           match(JavaScriptParser::MinusMinus);
           break;
@@ -10567,7 +10567,7 @@ JavaScriptParser::GetterContext* JavaScriptParser::getter() {
     enterOuterAlt(_localctx, 1);
     setState(1020);
 
-    if (!(this.n("get"))) throw FailedPredicateException(this, "this.n(\"get\")");
+    if (!(this->n("get"))) throw FailedPredicateException(this, "this->n(\"get\")");
     setState(1021);
     identifier();
     setState(1022);
@@ -10629,7 +10629,7 @@ JavaScriptParser::SetterContext* JavaScriptParser::setter() {
     enterOuterAlt(_localctx, 1);
     setState(1024);
 
-    if (!(this.n("set"))) throw FailedPredicateException(this, "this.n(\"set\")");
+    if (!(this->n("set"))) throw FailedPredicateException(this, "this->n(\"set\")");
     setState(1025);
     identifier();
     setState(1026);
@@ -11650,7 +11650,7 @@ JavaScriptParser::EosContext* JavaScriptParser::eos() {
       enterOuterAlt(_localctx, 3);
       setState(1093);
 
-      if (!(this.lineTerminatorAhead())) throw FailedPredicateException(this, "this.lineTerminatorAhead()");
+      if (!(this->lineTerminatorAhead())) throw FailedPredicateException(this, "this->lineTerminatorAhead()");
       break;
     }
 
@@ -11658,7 +11658,7 @@ JavaScriptParser::EosContext* JavaScriptParser::eos() {
       enterOuterAlt(_localctx, 4);
       setState(1094);
 
-      if (!(this.closeBrace())) throw FailedPredicateException(this, "this.closeBrace()");
+      if (!(this->closeBrace())) throw FailedPredicateException(this, "this->closeBrace()");
       break;
     }
 
@@ -11699,7 +11699,7 @@ bool JavaScriptParser::sempred(RuleContext *context, size_t ruleIndex, size_t pr
 
 bool JavaScriptParser::expressionStatementSempred(ExpressionStatementContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 0: return this.notOpenBraceAndNotFunction();
+    case 0: return this->notOpenBraceAndNotFunction();
 
   default:
     break;
@@ -11709,7 +11709,7 @@ bool JavaScriptParser::expressionStatementSempred(ExpressionStatementContext *_l
 
 bool JavaScriptParser::continueStatementSempred(ContinueStatementContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 1: return this.notLineTerminator();
+    case 1: return this->notLineTerminator();
 
   default:
     break;
@@ -11719,7 +11719,7 @@ bool JavaScriptParser::continueStatementSempred(ContinueStatementContext *_local
 
 bool JavaScriptParser::breakStatementSempred(BreakStatementContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 2: return this.notLineTerminator();
+    case 2: return this->notLineTerminator();
 
   default:
     break;
@@ -11729,7 +11729,7 @@ bool JavaScriptParser::breakStatementSempred(BreakStatementContext *_localctx, s
 
 bool JavaScriptParser::returnStatementSempred(ReturnStatementContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 3: return this.notLineTerminator();
+    case 3: return this->notLineTerminator();
 
   default:
     break;
@@ -11739,7 +11739,7 @@ bool JavaScriptParser::returnStatementSempred(ReturnStatementContext *_localctx,
 
 bool JavaScriptParser::yieldStatementSempred(YieldStatementContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 4: return this.notLineTerminator();
+    case 4: return this->notLineTerminator();
 
   default:
     break;
@@ -11749,7 +11749,7 @@ bool JavaScriptParser::yieldStatementSempred(YieldStatementContext *_localctx, s
 
 bool JavaScriptParser::throwStatementSempred(ThrowStatementContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 5: return this.notLineTerminator();
+    case 5: return this->notLineTerminator();
 
   default:
     break;
@@ -11759,9 +11759,9 @@ bool JavaScriptParser::throwStatementSempred(ThrowStatementContext *_localctx, s
 
 bool JavaScriptParser::classElementSempred(ClassElementContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 6: return this.n("static");
-    case 7: return this.n("static");
-    case 8: return this.n("static");
+    case 6: return this->n("static");
+    case 7: return this->n("static");
+    case 8: return this->n("static");
 
   default:
     break;
@@ -11771,7 +11771,7 @@ bool JavaScriptParser::classElementSempred(ClassElementContext *_localctx, size_
 
 bool JavaScriptParser::methodDefinitionSempred(MethodDefinitionContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 9: return this.notLineTerminator();
+    case 9: return this->notLineTerminator();
 
   default:
     break;
@@ -11803,9 +11803,9 @@ bool JavaScriptParser::singleExpressionSempred(SingleExpressionContext *_localct
     case 29: return precpred(_ctx, 45);
     case 30: return precpred(_ctx, 41);
     case 31: return precpred(_ctx, 39);
-    case 32: return this.notLineTerminator();
+    case 32: return this->notLineTerminator();
     case 33: return precpred(_ctx, 38);
-    case 34: return this.notLineTerminator();
+    case 34: return this->notLineTerminator();
     case 35: return precpred(_ctx, 9);
 
   default:
@@ -11816,7 +11816,7 @@ bool JavaScriptParser::singleExpressionSempred(SingleExpressionContext *_localct
 
 bool JavaScriptParser::getterSempred(GetterContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 36: return this.n("get");
+    case 36: return this->n("get");
 
   default:
     break;
@@ -11826,7 +11826,7 @@ bool JavaScriptParser::getterSempred(GetterContext *_localctx, size_t predicateI
 
 bool JavaScriptParser::setterSempred(SetterContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 37: return this.n("set");
+    case 37: return this->n("set");
 
   default:
     break;
@@ -11836,8 +11836,8 @@ bool JavaScriptParser::setterSempred(SetterContext *_localctx, size_t predicateI
 
 bool JavaScriptParser::eosSempred(EosContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 38: return this.lineTerminatorAhead();
-    case 39: return this.closeBrace();
+    case 38: return this->lineTerminatorAhead();
+    case 39: return this->closeBrace();
 
   default:
     break;

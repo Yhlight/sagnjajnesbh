@@ -291,8 +291,8 @@ CMakeFiles/chtl_js_compiler.dir/clean:
 # Target rules for target CMakeFiles/unified_core.dir
 
 # All Build rule for target.
-CMakeFiles/unified_core.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/unified_core.dir/all: CMakeFiles/chtl_ast.dir/all
+CMakeFiles/unified_core.dir/all: CMakeFiles/chtl_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=89,90,91 "Built target unified_core"
@@ -324,8 +324,8 @@ CMakeFiles/unified_core.dir/clean:
 # Target rules for target CMakeFiles/test_chtl_compiler.dir
 
 # All Build rule for target.
-CMakeFiles/test_chtl_compiler.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/test_chtl_compiler.dir/all: CMakeFiles/chtl_compiler.dir/all
+CMakeFiles/test_chtl_compiler.dir/all: CMakeFiles/chtl_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler.dir/build.make CMakeFiles/test_chtl_compiler.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler.dir/build.make CMakeFiles/test_chtl_compiler.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=67,68 "Built target test_chtl_compiler"
@@ -357,8 +357,8 @@ CMakeFiles/test_chtl_compiler.dir/clean:
 # Target rules for target CMakeFiles/test_chtl_js_lexer.dir
 
 # All Build rule for target.
-CMakeFiles/test_chtl_js_lexer.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/test_chtl_js_lexer.dir/all: CMakeFiles/chtl_js_compiler.dir/all
+CMakeFiles/test_chtl_js_lexer.dir/all: CMakeFiles/chtl_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_lexer.dir/build.make CMakeFiles/test_chtl_js_lexer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_lexer.dir/build.make CMakeFiles/test_chtl_js_lexer.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=71,72 "Built target test_chtl_js_lexer"
@@ -390,9 +390,9 @@ CMakeFiles/test_chtl_js_lexer.dir/clean:
 # Target rules for target CMakeFiles/test_unified_scanner.dir
 
 # All Build rule for target.
-CMakeFiles/test_unified_scanner.dir/all: CMakeFiles/chtl_shared.dir/all
-CMakeFiles/test_unified_scanner.dir/all: CMakeFiles/chtl_ast.dir/all
 CMakeFiles/test_unified_scanner.dir/all: CMakeFiles/unified_core.dir/all
+CMakeFiles/test_unified_scanner.dir/all: CMakeFiles/chtl_ast.dir/all
+CMakeFiles/test_unified_scanner.dir/all: CMakeFiles/chtl_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=83,84 "Built target test_unified_scanner"
@@ -424,9 +424,9 @@ CMakeFiles/test_unified_scanner.dir/clean:
 # Target rules for target CMakeFiles/test_syntax_constraints.dir
 
 # All Build rule for target.
-CMakeFiles/test_syntax_constraints.dir/all: CMakeFiles/chtl_shared.dir/all
-CMakeFiles/test_syntax_constraints.dir/all: CMakeFiles/chtl_ast.dir/all
 CMakeFiles/test_syntax_constraints.dir/all: CMakeFiles/unified_core.dir/all
+CMakeFiles/test_syntax_constraints.dir/all: CMakeFiles/chtl_ast.dir/all
+CMakeFiles/test_syntax_constraints.dir/all: CMakeFiles/chtl_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=79,80 "Built target test_syntax_constraints"
@@ -458,8 +458,8 @@ CMakeFiles/test_syntax_constraints.dir/clean:
 # Target rules for target CMakeFiles/test_chtl_compiler_simple.dir
 
 # All Build rule for target.
-CMakeFiles/test_chtl_compiler_simple.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/test_chtl_compiler_simple.dir/all: CMakeFiles/chtl_compiler.dir/all
+CMakeFiles/test_chtl_compiler_simple.dir/all: CMakeFiles/chtl_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler_simple.dir/build.make CMakeFiles/test_chtl_compiler_simple.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler_simple.dir/build.make CMakeFiles/test_chtl_compiler_simple.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=69,70 "Built target test_chtl_compiler_simple"
@@ -491,10 +491,10 @@ CMakeFiles/test_chtl_compiler_simple.dir/clean:
 # Target rules for target CMakeFiles/test_undecorated_literals.dir
 
 # All Build rule for target.
-CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/chtl_shared.dir/all
+CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/unified_core.dir/all
 CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/chtl_ast.dir/all
 CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/chtl_js_compiler.dir/all
-CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/unified_core.dir/all
+CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/chtl_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=81,82 "Built target test_undecorated_literals"
@@ -558,8 +558,8 @@ CMakeFiles/chtl_js_enhanced.dir/clean:
 # Target rules for target CMakeFiles/test_chtljs_enhanced_functions.dir
 
 # All Build rule for target.
-CMakeFiles/test_chtljs_enhanced_functions.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/test_chtljs_enhanced_functions.dir/all: CMakeFiles/chtl_js_enhanced.dir/all
+CMakeFiles/test_chtljs_enhanced_functions.dir/all: CMakeFiles/chtl_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=73,74 "Built target test_chtljs_enhanced_functions"
@@ -623,8 +623,8 @@ CMakeFiles/chtl_auto_addition.dir/clean:
 # Target rules for target CMakeFiles/test_auto_addition.dir
 
 # All Build rule for target.
-CMakeFiles/test_auto_addition.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/test_auto_addition.dir/all: CMakeFiles/chtl_auto_addition.dir/all
+CMakeFiles/test_auto_addition.dir/all: CMakeFiles/chtl_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auto_addition.dir/build.make CMakeFiles/test_auto_addition.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auto_addition.dir/build.make CMakeFiles/test_auto_addition.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=63,64 "Built target test_auto_addition"
@@ -688,8 +688,8 @@ CMakeFiles/chtholly_cjmod.dir/clean:
 # Target rules for target CMakeFiles/test_chtholly_module.dir
 
 # All Build rule for target.
-CMakeFiles/test_chtholly_module.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/test_chtholly_module.dir/all: CMakeFiles/chtholly_cjmod.dir/all
+CMakeFiles/test_chtholly_module.dir/all: CMakeFiles/chtl_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtholly_module.dir/build.make CMakeFiles/test_chtholly_module.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtholly_module.dir/build.make CMakeFiles/test_chtholly_module.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=65,66 "Built target test_chtholly_module"
@@ -1046,8 +1046,8 @@ CMakeFiles/test_antlr_basic.dir/clean:
 # Target rules for target CMakeFiles/test_comment_nodes.dir
 
 # All Build rule for target.
-CMakeFiles/test_comment_nodes.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/test_comment_nodes.dir/all: CMakeFiles/chtl_compiler.dir/all
+CMakeFiles/test_comment_nodes.dir/all: CMakeFiles/chtl_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comment_nodes.dir/build.make CMakeFiles/test_comment_nodes.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comment_nodes.dir/build.make CMakeFiles/test_comment_nodes.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=75,76 "Built target test_comment_nodes"

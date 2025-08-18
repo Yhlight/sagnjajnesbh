@@ -1,6 +1,6 @@
 CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o: \
   /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp \
-  /workspace/src/JavaScriptCompiler/Parser/JavaScriptListener.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserListener.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/antlr4-runtime.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/antlr4-common.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/algorithm \
@@ -450,4 +450,5 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathTokenElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardAnywhereElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardElement.h \
-  /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.h
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBase.h

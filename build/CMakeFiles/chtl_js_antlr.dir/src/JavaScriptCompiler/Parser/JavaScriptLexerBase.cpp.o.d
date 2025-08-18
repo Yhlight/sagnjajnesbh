@@ -1,9 +1,10 @@
 CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o: \
   /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp \
-  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.h \
-  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.h \
+  /workspace/external/antlr4-install/include/antlr4-runtime/antlr4-runtime.h \
+  /workspace/external/antlr4-install/include/antlr4-runtime/antlr4-common.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/algorithm \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_algobase.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++config.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/os_defines.h \
   /usr/include/features.h /usr/include/features-time64.h \
@@ -15,8 +16,6 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.c
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/cpu_defines.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/pstl_config.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_algobase.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/functexcept.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/exception_defines.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/cpp_type_traits.h \
@@ -37,50 +36,22 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.c
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/predefined_ops.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bit \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/concepts \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/allocator.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++allocator.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/new_allocator.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/new \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/exception.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/memoryfwd.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_construct.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/alloc_traits.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/alloc_traits.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/initializer_list \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/refwrap.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/invoke.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_function.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/binders.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/range_access.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/memory_resource.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cstddef \
-  /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
-  /usr/lib/llvm-20/lib/clang/20/include/__stddef_header_macro.h \
-  /usr/lib/llvm-20/lib/clang/20/include/__stddef_ptrdiff_t.h \
-  /usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h \
-  /usr/lib/llvm-20/lib/clang/20/include/__stddef_wchar_t.h \
-  /usr/lib/llvm-20/lib/clang/20/include/__stddef_null.h \
-  /usr/lib/llvm-20/lib/clang/20/include/__stddef_nullptr_t.h \
-  /usr/lib/llvm-20/lib/clang/20/include/__stddef_max_align_t.h \
-  /usr/lib/llvm-20/lib/clang/20/include/__stddef_offsetof.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator_args.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tuple \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
-  /workspace/external/antlr4-install/include/antlr4-runtime/antlr4-runtime.h \
-  /workspace/external/antlr4-install/include/antlr4-runtime/antlr4-common.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/algorithm \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_algo.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/algorithmfwd.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/initializer_list \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_heap.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uniform_int_dist.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tempbuf.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/new \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/exception.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_construct.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cstdlib \
   /usr/include/stdlib.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
+  /usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h \
+  /usr/lib/llvm-20/lib/clang/20/include/__stddef_wchar_t.h \
+  /usr/lib/llvm-20/lib/clang/20/include/__stddef_null.h \
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
   /usr/include/x86_64-linux-gnu/bits/floatn.h \
@@ -129,7 +100,9 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.c
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/atomic_lockfree_defines.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bitset \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/string \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stringfwd.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/memoryfwd.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/char_traits.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/postypes.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cwchar \
@@ -140,6 +113,9 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.c
   /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/allocator.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++allocator.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/new_allocator.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/localefwd.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++locale.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/clocale \
@@ -149,7 +125,14 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.c
   /usr/include/ctype.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/ostream_insert.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/cxxabi_forced.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_function.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/binders.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/refwrap.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/invoke.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/range_access.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/basic_string.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/alloc_traits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/alloc_traits.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/string_view \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/functional_hash.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/string_view.tcc \
@@ -168,6 +151,16 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.c
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/charconv.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/basic_string.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/memory_resource.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cstddef \
+  /usr/lib/llvm-20/lib/clang/20/include/__stddef_header_macro.h \
+  /usr/lib/llvm-20/lib/clang/20/include/__stddef_ptrdiff_t.h \
+  /usr/lib/llvm-20/lib/clang/20/include/__stddef_nullptr_t.h \
+  /usr/lib/llvm-20/lib/clang/20/include/__stddef_max_align_t.h \
+  /usr/lib/llvm-20/lib/clang/20/include/__stddef_offsetof.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator_args.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tuple \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cassert \
   /usr/include/assert.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/climits \
@@ -248,6 +241,7 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.c
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_multimap.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/memory \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_raw_storage_iter.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/align.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unique_ptr.h \
@@ -264,6 +258,11 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.c
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_multiset.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
@@ -451,4 +450,4 @@ CMakeFiles/chtl_js_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.c
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathTokenElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardAnywhereElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardElement.h \
-  /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBase.h
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.h

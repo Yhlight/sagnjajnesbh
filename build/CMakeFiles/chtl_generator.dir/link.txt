@@ -1,2 +1,0 @@
-/usr/bin/ar qc lib/libchtl_generator.a CMakeFiles/chtl_generator.dir/src/generator/HTMLGenerator.cpp.o
-/usr/bin/ranlib lib/libchtl_generator.a

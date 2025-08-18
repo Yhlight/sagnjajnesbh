@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Xlinker --dependency-file=CMakeFiles/chtl_main.dir/link.d CMakeFiles/chtl_main.dir/src/main.cpp.o -o bin/chtl_main  lib/libchtl_compiler.a lib/libchtl_js_compiler.a lib/libcss_compiler.a lib/libjs_compiler.a lib/libunified_core.a lib/libchtl_ast.a lib/libchtl_other.a lib/libchtl_shared.a

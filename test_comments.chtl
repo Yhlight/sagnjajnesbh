@@ -1,0 +1,33 @@
+// 这是单行注释，不会被生成器识别
+
+/* 这是多行注释
+   也不会被生成器识别 */
+
+-- 这是生成器注释，会根据上下文生成不同格式的注释
+
+<html>
+    <head>
+        <title>CHTL注释测试</title>
+        
+        <style>
+            -- 这应该生成CSS格式的注释
+            body {
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    
+    <body>
+        -- 这应该生成HTML格式的注释
+        
+        <div id="test">
+            <p>测试内容</p>
+        </div>
+        
+        <script>
+            -- 这应该生成JavaScript格式的注释
+            console.log("Hello, CHTL!");
+        </script>
+    </body>
+</html>
