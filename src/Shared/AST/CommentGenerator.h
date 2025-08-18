@@ -1,5 +1,6 @@
 #pragma once
 #include "CommentNode.h"
+#include "OriginEmbedDetector.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -146,11 +147,14 @@ public:
     // 工具方法
     bool isInsideString(const std::string& code, size_t position) const;
     bool isInsideComment(const std::string& code, size_t position) const;
+    bool isInsideOriginEmbed(const std::string& code, size_t position) const;
     CommentPosition calculatePosition(const std::string& code, 
                                     size_t start_offset, 
                                     size_t end_offset) const;
     
 private:
+    OriginEmbedDetector origin_detector_;
+    
     // 内部解析辅助方法
     std::pair<size_t, size_t> findCommentBoundaries(const std::string& code,
                                                     size_t start_pos,

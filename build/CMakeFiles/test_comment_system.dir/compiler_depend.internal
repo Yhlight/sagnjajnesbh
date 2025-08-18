@@ -167,6 +167,7 @@ CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.o
  /usr/include/c++/14/bits/stl_iterator_base_types.h
  /usr/include/c++/14/bits/stl_pair.h
  /usr/include/c++/14/bits/stl_raw_storage_iter.h
+ /usr/include/c++/14/bits/stl_relops.h
  /usr/include/c++/14/bits/stl_tempbuf.h
  /usr/include/c++/14/bits/stl_uninitialized.h
  /usr/include/c++/14/bits/stl_vector.h
@@ -221,6 +222,7 @@ CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.o
  /usr/include/c++/14/type_traits
  /usr/include/c++/14/typeinfo
  /usr/include/c++/14/unordered_map
+ /usr/include/c++/14/utility
  /usr/include/c++/14/vector
  /usr/include/x86_64-linux-gnu/c++/14/bits/atomic_word.h
  /usr/include/x86_64-linux-gnu/c++/14/bits/c++allocator.h
@@ -248,6 +250,7 @@ CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.o
  /usr/lib/llvm-20/lib/clang/20/include/stdint.h
  /workspace/src/Shared/AST/CommentGenerator.h
  /workspace/src/Shared/AST/CommentNode.h
+ /workspace/src/Shared/AST/OriginEmbedDetector.h
 
 bin/test_comment_system
  /lib/x86_64-linux-gnu/Scrt1.o

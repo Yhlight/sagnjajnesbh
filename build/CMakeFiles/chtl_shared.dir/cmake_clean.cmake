@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o.d"
   "CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o"
   "CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o.d"
+  "CMakeFiles/chtl_shared.dir/src/Shared/AST/OriginEmbedDetector.cpp.o"
+  "CMakeFiles/chtl_shared.dir/src/Shared/AST/OriginEmbedDetector.cpp.o.d"
   "CMakeFiles/chtl_shared.dir/src/Shared/SimpleZip/SimpleZip.cpp.o"
   "CMakeFiles/chtl_shared.dir/src/Shared/SimpleZip/SimpleZip.cpp.o.d"
   "CMakeFiles/chtl_shared.dir/src/Shared/Utils/FileUtils.cpp.o"

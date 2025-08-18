@@ -166,6 +166,7 @@ CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.o: /workspace/te
   /usr/include/c++/14/bits/stl_iterator_base_types.h \
   /usr/include/c++/14/bits/stl_pair.h \
   /usr/include/c++/14/bits/stl_raw_storage_iter.h \
+  /usr/include/c++/14/bits/stl_relops.h \
   /usr/include/c++/14/bits/stl_tempbuf.h \
   /usr/include/c++/14/bits/stl_uninitialized.h \
   /usr/include/c++/14/bits/stl_vector.h \
@@ -220,6 +221,7 @@ CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.o: /workspace/te
   /usr/include/c++/14/type_traits \
   /usr/include/c++/14/typeinfo \
   /usr/include/c++/14/unordered_map \
+  /usr/include/c++/14/utility \
   /usr/include/c++/14/vector \
   /usr/include/x86_64-linux-gnu/c++/14/bits/atomic_word.h \
   /usr/include/x86_64-linux-gnu/c++/14/bits/c++allocator.h \
@@ -246,7 +248,8 @@ CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.o: /workspace/te
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h \
   /workspace/src/Shared/AST/CommentGenerator.h \
-  /workspace/src/Shared/AST/CommentNode.h
+  /workspace/src/Shared/AST/CommentNode.h \
+  /workspace/src/Shared/AST/OriginEmbedDetector.h
 
 bin/test_comment_system: /lib/x86_64-linux-gnu/Scrt1.o \
   /lib/x86_64-linux-gnu/crti.o \
@@ -277,6 +280,10 @@ lib/libchtl_shared.a:
 /usr/lib/gcc/x86_64-linux-gnu/14/libgcc.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o:
+
+/usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o:
+
+/lib64/ld-linux-x86-64.so.2:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
 
@@ -347,8 +354,6 @@ lib/libchtl_shared.a:
 /usr/include/x86_64-linux-gnu/c++/14/bits/gthr-default.h:
 
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
 /usr/include/c++/14/bits/shared_ptr_atomic.h:
 
@@ -441,6 +446,10 @@ lib/libchtl_shared.a:
 /usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
+
+/lib/x86_64-linux-gnu/libmvec.so.1:
+
+/usr/include/stdlib.h:
 
 /usr/include/c++/14/istream:
 
@@ -582,8 +591,6 @@ lib/libchtl_shared.a:
 
 /usr/include/c++/14/ios:
 
-/lib64/ld-linux-x86-64.so.2:
-
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/error_constants.h:
@@ -593,6 +600,10 @@ lib/libchtl_shared.a:
 /usr/include/x86_64-linux-gnu/c++/14/bits/os_defines.h:
 
 /usr/include/features-time64.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
+
+/usr/include/c++/14/bits/stl_relops.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
@@ -613,10 +624,6 @@ lib/libchtl_shared.a:
 /usr/include/c++/14/bits/istream.tcc:
 
 /usr/include/c++/14/bits/memory_resource.h:
-
-/usr/include/stdlib.h:
-
-/lib/x86_64-linux-gnu/libmvec.so.1:
 
 /usr/include/c++/14/bits/memoryfwd.h:
 
@@ -684,8 +691,6 @@ CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.o:
 
 /usr/include/c++/14/bits/version.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o:
-
 /usr/include/c++/14/concepts:
 
 /usr/include/c++/14/cstddef:
@@ -724,6 +729,14 @@ CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.o:
 
 /usr/include/c++/14/memory:
 
+/usr/include/c++/14/string:
+
+/usr/include/c++/14/tuple:
+
+/usr/include/c++/14/typeinfo:
+
+/usr/include/c++/14/unordered_map:
+
 /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
 
 /usr/include/asm-generic/bitsperlong.h:
@@ -732,13 +745,7 @@ CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.o:
 
 /usr/include/c++/14/pstl/execution_defs.h:
 
-/usr/include/c++/14/string:
-
-/usr/include/c++/14/tuple:
-
-/usr/include/c++/14/typeinfo:
-
-/usr/include/c++/14/unordered_map:
+/usr/include/c++/14/utility:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/atomic_word.h:
 
@@ -777,6 +784,8 @@ CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.o:
 /usr/include/c++/14/cwchar:
 
 /usr/lib/llvm-20/lib/clang/20/include/stddef.h:
+
+/workspace/src/Shared/AST/OriginEmbedDetector.h:
 
 /usr/include/c++/14/bits/locale_classes.h:
 

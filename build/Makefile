@@ -350,6 +350,19 @@ test_comment_system/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comment_system.dir/build.make CMakeFiles/test_comment_system.dir/build
 .PHONY : test_comment_system/fast
 
+#=============================================================================
+# Target rules for targets named test_origin_embed_comments
+
+# Build rule for target.
+test_origin_embed_comments: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_origin_embed_comments
+.PHONY : test_origin_embed_comments
+
+# fast build rule for target.
+test_origin_embed_comments/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_origin_embed_comments.dir/build.make CMakeFiles/test_origin_embed_comments.dir/build
+.PHONY : test_origin_embed_comments/fast
+
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
@@ -926,6 +939,30 @@ src/Shared/AST/CommentNode.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.s
 .PHONY : src/Shared/AST/CommentNode.cpp.s
 
+src/Shared/AST/OriginEmbedDetector.o: src/Shared/AST/OriginEmbedDetector.cpp.o
+.PHONY : src/Shared/AST/OriginEmbedDetector.o
+
+# target to build an object file
+src/Shared/AST/OriginEmbedDetector.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/AST/OriginEmbedDetector.cpp.o
+.PHONY : src/Shared/AST/OriginEmbedDetector.cpp.o
+
+src/Shared/AST/OriginEmbedDetector.i: src/Shared/AST/OriginEmbedDetector.cpp.i
+.PHONY : src/Shared/AST/OriginEmbedDetector.i
+
+# target to preprocess a source file
+src/Shared/AST/OriginEmbedDetector.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/AST/OriginEmbedDetector.cpp.i
+.PHONY : src/Shared/AST/OriginEmbedDetector.cpp.i
+
+src/Shared/AST/OriginEmbedDetector.s: src/Shared/AST/OriginEmbedDetector.cpp.s
+.PHONY : src/Shared/AST/OriginEmbedDetector.s
+
+# target to generate assembly for a file
+src/Shared/AST/OriginEmbedDetector.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/AST/OriginEmbedDetector.cpp.s
+.PHONY : src/Shared/AST/OriginEmbedDetector.cpp.s
+
 src/Shared/SimpleZip/SimpleZip.o: src/Shared/SimpleZip/SimpleZip.cpp.o
 .PHONY : src/Shared/SimpleZip/SimpleZip.o
 
@@ -1166,6 +1203,30 @@ test/test_new_cjmod_framework.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_new_cjmod_framework.dir/build.make CMakeFiles/test_new_cjmod_framework.dir/test/test_new_cjmod_framework.cpp.s
 .PHONY : test/test_new_cjmod_framework.cpp.s
 
+test/test_origin_embed_comments.o: test/test_origin_embed_comments.cpp.o
+.PHONY : test/test_origin_embed_comments.o
+
+# target to build an object file
+test/test_origin_embed_comments.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_origin_embed_comments.dir/build.make CMakeFiles/test_origin_embed_comments.dir/test/test_origin_embed_comments.cpp.o
+.PHONY : test/test_origin_embed_comments.cpp.o
+
+test/test_origin_embed_comments.i: test/test_origin_embed_comments.cpp.i
+.PHONY : test/test_origin_embed_comments.i
+
+# target to preprocess a source file
+test/test_origin_embed_comments.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_origin_embed_comments.dir/build.make CMakeFiles/test_origin_embed_comments.dir/test/test_origin_embed_comments.cpp.i
+.PHONY : test/test_origin_embed_comments.cpp.i
+
+test/test_origin_embed_comments.s: test/test_origin_embed_comments.cpp.s
+.PHONY : test/test_origin_embed_comments.s
+
+# target to generate assembly for a file
+test/test_origin_embed_comments.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_origin_embed_comments.dir/build.make CMakeFiles/test_origin_embed_comments.dir/test/test_origin_embed_comments.cpp.s
+.PHONY : test/test_origin_embed_comments.cpp.s
+
 test/test_undecorated_literals.o: test/test_undecorated_literals.cpp.o
 .PHONY : test/test_undecorated_literals.o
 
@@ -1238,6 +1299,7 @@ help:
 	@echo "... test_chtljs_enhanced_functions"
 	@echo "... test_comment_system"
 	@echo "... test_new_cjmod_framework"
+	@echo "... test_origin_embed_comments"
 	@echo "... test_undecorated_literals"
 	@echo "... test_unlimited_cjmod_simple"
 	@echo "... src/CHTLCompiler/AST/CHTLNodes.o"
@@ -1312,6 +1374,9 @@ help:
 	@echo "... src/Shared/AST/CommentNode.o"
 	@echo "... src/Shared/AST/CommentNode.i"
 	@echo "... src/Shared/AST/CommentNode.s"
+	@echo "... src/Shared/AST/OriginEmbedDetector.o"
+	@echo "... src/Shared/AST/OriginEmbedDetector.i"
+	@echo "... src/Shared/AST/OriginEmbedDetector.s"
 	@echo "... src/Shared/SimpleZip/SimpleZip.o"
 	@echo "... src/Shared/SimpleZip/SimpleZip.i"
 	@echo "... src/Shared/SimpleZip/SimpleZip.s"
@@ -1342,6 +1407,9 @@ help:
 	@echo "... test/test_new_cjmod_framework.o"
 	@echo "... test/test_new_cjmod_framework.i"
 	@echo "... test/test_new_cjmod_framework.s"
+	@echo "... test/test_origin_embed_comments.o"
+	@echo "... test/test_origin_embed_comments.i"
+	@echo "... test/test_origin_embed_comments.s"
 	@echo "... test/test_undecorated_literals.o"
 	@echo "... test/test_undecorated_literals.i"
 	@echo "... test/test_undecorated_literals.s"

@@ -438,11 +438,37 @@ CommentParser::parseCommentsFromCode(const std::string& code) const {
     
     std::vector<std::pair<std::unique_ptr<CommentNode>, CommentPosition>> result;
     
-    // 解析不同类型的注释
+    // 首先检测原始嵌入块，这样我们可以跳过它们内部的内容
+    auto origin_blocks = origin_detector_.detectOriginEmbeds(code);
+    
+    // 解析不同类型的注释（跳过原始嵌入内部）
     auto single_line = parseSingleLineComments(code);
     auto multi_line = parseMultiLineComments(code);
     auto html_comments = parseHTMLComments(code);
     auto generator_comments = parseGeneratorComments(code);
+    
+    // 过滤掉原始嵌入内部的注释
+    auto filter_origin_embeds = [&origin_blocks](auto& comments) {
+        comments.erase(
+            std::remove_if(comments.begin(), comments.end(),
+                [&origin_blocks](const auto& comment_pair) {
+                    size_t comment_pos = comment_pair.second.start_offset;
+                    for (const auto& block : origin_blocks) {
+                        if (!block.is_reference && 
+                            comment_pos >= block.content_start && 
+                            comment_pos < block.content_end) {
+                            return true; // 在原始嵌入内部，应该移除
+                        }
+                    }
+                    return false;
+                }),
+            comments.end());
+    };
+    
+    filter_origin_embeds(single_line);
+    filter_origin_embeds(multi_line);
+    filter_origin_embeds(html_comments);
+    filter_origin_embeds(generator_comments);
     
     // 合并所有注释
     result.insert(result.end(), 
@@ -555,7 +581,8 @@ CommentParser::parseSingleLineComments(const std::string& code) const {
     
     for (; iter != end; ++iter) {
         const std::smatch& match = *iter;
-        if (!isInsideString(code, match.position())) {
+        if (!isInsideString(code, match.position()) && 
+            !isInsideOriginEmbed(code, match.position())) {
             std::string content = match[1].str();
             size_t start_pos = match.position();
             size_t end_pos = start_pos + match.length();
@@ -580,7 +607,8 @@ CommentParser::parseMultiLineComments(const std::string& code) const {
     
     for (; iter != end; ++iter) {
         const std::smatch& match = *iter;
-        if (!isInsideString(code, match.position())) {
+        if (!isInsideString(code, match.position()) && 
+            !isInsideOriginEmbed(code, match.position())) {
             std::string content = match[1].str();
             size_t start_pos = match.position();
             size_t end_pos = start_pos + match.length();
@@ -628,7 +656,8 @@ CommentParser::parseGeneratorComments(const std::string& code) const {
     
     for (; iter != end; ++iter) {
         const std::smatch& match = *iter;
-        if (!isInsideString(code, match.position())) {
+        if (!isInsideString(code, match.position()) && 
+            !isInsideOriginEmbed(code, match.position())) {
             std::string content = match[1].str();
             size_t start_pos = match.position();
             size_t end_pos = start_pos + match.length();
@@ -658,6 +687,10 @@ bool CommentParser::isInsideString(const std::string& code, size_t position) con
     
     // 如果引号数量为奇数，说明在字符串内部
     return (single_quotes % 2 == 1) || (double_quotes % 2 == 1);
+}
+
+bool CommentParser::isInsideOriginEmbed(const std::string& code, size_t position) const {
+    return origin_detector_.isInsideOriginEmbed(code, position);
 }
 
 bool CommentParser::isInsideComment(const std::string& code, size_t position) const {

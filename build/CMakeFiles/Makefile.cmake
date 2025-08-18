@@ -130,4 +130,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_new_cjmod_framework.dir/DependInfo.cmake"
   "CMakeFiles/test_unlimited_cjmod_simple.dir/DependInfo.cmake"
   "CMakeFiles/test_comment_system.dir/DependInfo.cmake"
+  "CMakeFiles/test_origin_embed_comments.dir/DependInfo.cmake"
   )

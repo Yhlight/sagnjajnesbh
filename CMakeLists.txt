@@ -13,6 +13,7 @@ add_library(chtl_shared STATIC
     src/Shared/Utils/FileUtils.cpp
     src/Shared/AST/CommentNode.cpp
     src/Shared/AST/CommentGenerator.cpp
+    src/Shared/AST/OriginEmbedDetector.cpp
 )
 
 # CHTL编译器（完整可用）
@@ -103,6 +104,9 @@ target_link_libraries(test_unlimited_cjmod_simple chtl_unlimited_cjmod)
 add_executable(test_comment_system test/test_comment_system.cpp)
 target_link_libraries(test_comment_system chtl_shared)
 
+add_executable(test_origin_embed_comments test/test_origin_embed_comments.cpp)
+target_link_libraries(test_origin_embed_comments chtl_shared)
+
 # 设置输出目录
 set_target_properties(
     chtl_shared chtl_compiler chtl_js_compiler chtl_js_enhanced chtl_auto_addition 
@@ -113,6 +117,6 @@ set_target_properties(
 set_target_properties(
     test_chtl_compiler test_chtl_js_lexer test_chtl_compiler_simple test_undecorated_literals
     test_chtljs_enhanced_functions test_auto_addition test_chtholly_module 
-    test_new_cjmod_framework test_unlimited_cjmod_simple test_comment_system
+    test_new_cjmod_framework test_unlimited_cjmod_simple test_comment_system test_origin_embed_comments
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
