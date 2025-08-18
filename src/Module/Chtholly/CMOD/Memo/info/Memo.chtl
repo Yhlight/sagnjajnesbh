@@ -1,14 +1,14 @@
-// 珂朵莉樱花雨组件信息
+// 珂朵莉备忘录组件信息
 // 只需要写这个即可
 [Info]
 {
-    name = "ChthollySakura";
+    name = "ChthollyMemo";
     version = "1.0.0";
-    description = "珂朵莉樱花雨组件 - 如梦如幻的樱花飘落动画";
+    description = "珂朵莉备忘录组件 - 记录珍贵的回忆";
     author = "CHTL Team";
     license = "MIT";
     dependencies = "";
-    category = "animation-component";
+    category = "ui-component";
     minCHTLVersion = "1.0.0";
     maxCHTLVersion = "2.0.0";
 }
@@ -17,6 +17,6 @@
 // 不需要写这个，此由系统生成
 [Export]
 {
-    [Custom] @Element ChthollySakura;
-    [Custom] @Style ChthollySakuraStyle, ChthollySakuraPetal;
+    [Template] @Element ChthollyMemo;
+    [Template] @Style ChthollyMemoStyle;
 }

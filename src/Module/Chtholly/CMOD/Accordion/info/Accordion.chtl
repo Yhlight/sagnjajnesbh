@@ -1,4 +1,5 @@
 // 珂朵莉手风琴组件信息
+// 只需要写这个即可
 [Info]
 {
     name = "ChthollyAccordion";
@@ -12,8 +13,10 @@
     maxCHTLVersion = "2.0.0";
 }
 
+// 外部查询表，优化性能用，无实际作用
+// 不需要写这个，此由系统生成
 [Export]
 {
-    @Element ChthollyAccordion;
-    @Style ChthollyAccordionStyle;
+    [Custom] @Element ChthollyAccordion;
+    [Custom] @Style ChthollyAccordionStyle;
 }
