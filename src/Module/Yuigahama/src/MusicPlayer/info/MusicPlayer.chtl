@@ -1,0 +1,18 @@
+[Info]
+{
+    name = "YuigahamaMusicPlayer";
+    version = "1.0.0";
+    description = "由比滨结衣音乐播放器 - 温暖粉色调的音乐体验";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "ui-component";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export]
+{
+    @Element YuigahamaMusicPlayer;
+    @Style YuiMusicPlayerStyle;
+}

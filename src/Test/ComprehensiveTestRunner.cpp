@@ -308,12 +308,16 @@ bool testNamespaceSystem() {
 bool testModuleSystem() {
     // 测试模块系统
     try {
-        // 检查CMOD文件（相对于build目录的路径）
+        // 检查CMOD文件（正确的语法文档结构：子模块在src内部）
         std::vector<std::string> cmodFiles = {
-            "../src/Module/Chtholly/CMOD/Accordion/info/Accordion.chtl",
-            "../src/Module/Chtholly/CMOD/Accordion/src/Accordion.chtl",
-            "../src/Module/Yuigahama/CMOD/MusicPlayer/info/MusicPlayer.chtl",
-            "../src/Module/Yuigahama/CMOD/MusicPlayer/src/MusicPlayer.chtl"
+            "../src/Module/Chtholly/src/Chtholly.chtl",                    // 主模块文件
+            "../src/Module/Chtholly/info/Chtholly.chtl",                  // 主模块信息
+            "../src/Module/Chtholly/src/Accordion/src/Accordion.chtl",    // 子模块文件
+            "../src/Module/Chtholly/src/Accordion/info/Accordion.chtl",   // 子模块信息
+            "../src/Module/Yuigahama/src/Yuigahama.chtl",                 // 主模块文件
+            "../src/Module/Yuigahama/info/Yuigahama.chtl",                // 主模块信息
+            "../src/Module/Yuigahama/src/MusicPlayer/src/MusicPlayer.chtl", // 子模块文件
+            "../src/Module/Yuigahama/src/MusicPlayer/info/MusicPlayer.chtl" // 子模块信息
         };
         
         for (const auto& file : cmodFiles) {
@@ -324,8 +328,8 @@ bool testModuleSystem() {
             }
         }
         
-        // 验证CMOD内容
-        std::ifstream infoFile("../src/Module/Chtholly/CMOD/Accordion/info/Accordion.chtl");
+        // 验证CMOD内容（使用主模块的info文件）
+        std::ifstream infoFile("../src/Module/Chtholly/info/Chtholly.chtl");
         std::string infoContent((std::istreambuf_iterator<char>(infoFile)),
                                std::istreambuf_iterator<char>());
         

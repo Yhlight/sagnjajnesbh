@@ -1,0 +1,125 @@
+// 由比滨结衣音乐播放器
+// 温暖粉色调的音乐体验
+
+[Style]
+.yui-music-player {
+    background: linear-gradient(135deg, #ffb3d9 0%, #ff8cc8 50%, #ffb3d9 100%);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 12px 35px rgba(255, 179, 217, 0.4);
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.yui-player-header {
+    text-align: center;
+    color: #5d4e75;
+    margin-bottom: 15px;
+}
+
+.yui-player-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.yui-player-artist {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.yui-player-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.yui-control-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #ff6b9d;
+    font-size: 18px;
+}
+
+.yui-control-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+}
+
+.yui-play-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+}
+
+[Component]
+{{YuigahamaMusicPlayer}}
+    {{.yui-music-player}}
+        {{.yui-player-header}}
+            {{.yui-player-title}}由比滨结衣的音乐{{/.yui-player-title}}
+            {{.yui-player-artist}}温暖的青春旋律{{/.yui-player-artist}}
+        {{/.yui-player-header}}
+        
+        {{.yui-player-controls}}
+            {{.yui-control-btn}}⏮{{/.yui-control-btn}}
+            {{.yui-control-btn.yui-play-btn}}▶{{/.yui-control-btn}}
+            {{.yui-control-btn}}⏭{{/.yui-control-btn}}
+        {{/.yui-player-controls}}
+        
+        {{.yui-player-progress}}
+            {{.yui-progress-bar}}
+                {{.yui-progress-fill}}{{/.yui-progress-fill}}
+            {{/.yui-progress-bar}}
+        {{/.yui-player-progress}}
+    {{/.yui-music-player}}
+{{/YuigahamaMusicPlayer}}
+
+[Script]
+// 由比滨结衣音乐播放器逻辑
+function initYuiMusicPlayer() {
+    const players = document.querySelectorAll('.yui-music-player');
+    
+    players.forEach(player => {
+        const playBtn = player.querySelector('.yui-play-btn');
+        const controlBtns = player.querySelectorAll('.yui-control-btn');
+        
+        let isPlaying = false;
+        
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            playBtn.textContent = isPlaying ? '⏸' : '▶';
+            
+            if (isPlaying) {
+                player.classList.add('playing');
+                console.log('💕 由比滨结衣的音乐开始播放');
+            } else {
+                player.classList.remove('playing');
+                console.log('💕 音乐暂停了');
+            }
+        });
+        
+        // 控制按钮交互
+        controlBtns.forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                btn.style.transform = 'scale(1.1)';
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+    });
+    
+    console.log('🎵 由比滨结衣音乐播放器已初始化');
+}
