@@ -14,6 +14,9 @@ namespace css {
  * CSS编译器核心 - 使用ANTLR4实现原生CSS解析和编译
  */
 class CSSCompilerCore {
+    friend class CSSErrorListener;
+    friend class CSSTreeWalker;
+    
 public:
     CSSCompilerCore();
     ~CSSCompilerCore() = default;

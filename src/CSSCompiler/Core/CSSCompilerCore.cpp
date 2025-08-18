@@ -87,7 +87,7 @@ std::unique_ptr<css3Parser::StylesheetContext> CSSCompilerCore::parseCSS(const s
         ANTLRInputStream input(css_code);
         
         // 创建词法分析器
-        CSS3Lexer lexer(&input);
+        css3Lexer lexer(&input);
         
         // 创建token流
         CommonTokenStream tokens(&lexer);
@@ -260,11 +260,11 @@ void CSSTreeWalker::exitRuleset(css3Parser::RulesetContext *ctx) {
     appendCSS(ruleset_text + "\n");
 }
 
-void CSSTreeWalker::enterAt_rule(css3Parser::At_ruleContext *ctx) {
+void CSSTreeWalker::enterAtRule(css3Parser::AtRuleContext *ctx) {
     // 开始处理@规则
 }
 
-void CSSTreeWalker::exitAt_rule(css3Parser::At_ruleContext *ctx) {
+void CSSTreeWalker::exitAtRule(css3Parser::AtRuleContext *ctx) {
     std::string at_rule_text = extractText(ctx);
     appendCSS(at_rule_text + "\n");
 }
