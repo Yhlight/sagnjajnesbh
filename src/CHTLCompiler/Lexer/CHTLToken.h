@@ -22,6 +22,11 @@ enum class TokenType {
     STRING,
     NUMBER,
     
+    // 注释类型
+    COMMENT_SINGLE,     // // 注释
+    COMMENT_MULTI,      // /* */ 注释
+    COMMENT_GENERATOR,  // -- 生成器注释
+    
     // 关键字
     TEMPLATE,
     CUSTOM,

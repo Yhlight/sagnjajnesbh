@@ -1,5 +1,5 @@
 #include "CompilerDispatcher.h"
-#include "Context.h"
+#include "../../CHTLCompiler/Parser/CHTLContext.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -23,8 +23,25 @@ CompilerDispatcher::CompilerDispatcher(const DispatcherConfig& config)
 CompilerDispatcher::~CompilerDispatcher() = default;
 
 void CompilerDispatcher::initializeCompilers() {
-    // 初始化CHTL解析器和生成器
-    // 注意：这里需要上下文，简化实现中我们延迟初始化
+    try {
+        // 初始化CSS编译器 (ANTLR)
+        css_compiler_ = std::make_unique<chtl::css::CSSCompilerCore>();
+        
+        // 初始化JavaScript编译器 (ANTLR)  
+        js_compiler_ = std::make_unique<chtl::javascript::JavaScriptCompilerCore>();
+        
+        // 初始化CHTL编译器
+        chtl_compiler_ = std::make_unique<chtl::CHTLCompilerCore>();
+        
+        // 初始化CHTL JS编译器
+        chtl_js_compiler_ = std::make_unique<chtl::CHTLJSCompilerCore>();
+        
+        std::cout << "所有编译器初始化成功" << std::endl;
+        
+    } catch (const std::exception& e) {
+        std::cerr << "编译器初始化失败: " << e.what() << std::endl;
+        throw;
+    }
 }
 
 void CompilerDispatcher::initializeDefaultCompilerPaths() {
@@ -220,9 +237,29 @@ CompilationFragment CompilerDispatcher::compileCSSFragment(const CodeSlice& slic
     fragment.original_type = slice.type;
     fragment.compiler_used = CompilerType::CSS_COMPILER;
     
-    // 简化实现：直接返回CSS代码
-    fragment.compiled_code = slice.content;
-    fragment.compilation_success = true;
+    try {
+        if (!css_compiler_) {
+            css_compiler_ = std::make_unique<chtl::css::CSSCompilerCore>();
+        }
+        
+        // 使用ANTLR CSS编译器
+        std::string compiled_css = css_compiler_->compileCSS(slice.content);
+        
+        if (css_compiler_->hasErrors()) {
+            fragment.compilation_success = false;
+            fragment.errors = css_compiler_->getErrors();
+        } else {
+            fragment.compiled_code = compiled_css;
+            fragment.compilation_success = true;
+        }
+        
+        // 收集警告
+        fragment.warnings = css_compiler_->getWarnings();
+        
+    } catch (const std::exception& e) {
+        fragment.compilation_success = false;
+        fragment.errors.push_back("CSS编译异常: " + std::string(e.what()));
+    }
     
     return fragment;
 }
@@ -232,9 +269,29 @@ CompilationFragment CompilerDispatcher::compileJavaScriptFragment(const CodeSlic
     fragment.original_type = slice.type;
     fragment.compiler_used = CompilerType::JAVASCRIPT_COMPILER;
     
-    // 简化实现：直接返回JavaScript代码
-    fragment.compiled_code = slice.content;
-    fragment.compilation_success = true;
+    try {
+        if (!js_compiler_) {
+            js_compiler_ = std::make_unique<chtl::javascript::JavaScriptCompilerCore>();
+        }
+        
+        // 使用ANTLR JavaScript编译器
+        std::string compiled_js = js_compiler_->compileJavaScript(slice.content);
+        
+        if (js_compiler_->hasErrors()) {
+            fragment.compilation_success = false;
+            fragment.errors = js_compiler_->getErrors();
+        } else {
+            fragment.compiled_code = compiled_js;
+            fragment.compilation_success = true;
+        }
+        
+        // 收集警告
+        fragment.warnings = js_compiler_->getWarnings();
+        
+    } catch (const std::exception& e) {
+        fragment.compilation_success = false;
+        fragment.errors.push_back("JavaScript编译异常: " + std::string(e.what()));
+    }
     
     return fragment;
 }

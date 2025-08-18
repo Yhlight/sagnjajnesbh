@@ -40,6 +40,19 @@ Token CHTLLexer::nextToken() {
     char c = currentChar();
     TokenPosition pos(line_, column_);
     
+    // 注释检查
+    if (c == '/' || c == '-') {
+        if (c == '/' && peekChar() == '/') {
+            return readSingleLineComment();
+        }
+        if (c == '/' && peekChar() == '*') {
+            return readMultiLineComment();
+        }
+        if (c == '-' && peekChar() == '-') {
+            return readGeneratorComment();
+        }
+    }
+    
     // 字符串
     if (c == '"' || c == '\'') {
         return readString();

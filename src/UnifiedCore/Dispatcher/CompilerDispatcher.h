@@ -1,8 +1,12 @@
 #pragma once
-#include "CHTLUnifiedScanner.h"
-#include "SyntaxConstrainer.h"
-#include "../parser/Parser.h"
-#include "../generator/HTMLGenerator.h"
+#include "../Scanner/CHTLUnifiedScanner.h"
+#include "../Constraints/SyntaxConstrainer.h"
+#include "../../CHTLCompiler/Parser/CHTLParser.h"
+#include "../../CHTLCompiler/Generator/CHTLGenerator.h"
+#include "../../CHTLCompiler/Core/CHTLCompilerCore.h"
+#include "../../CHTLJSCompiler/Core/CHTLJSCompilerCore.h"
+#include "../../CSSCompiler/Core/CSSCompilerCore.h"
+#include "../../JavaScriptCompiler/Core/JavaScriptCompilerCore.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -116,8 +120,12 @@ private:
     DispatcherConfig config_;
     std::unique_ptr<CHTLUnifiedScanner> scanner_;
     std::unique_ptr<SyntaxConstrainer> constrainer_;
-    std::unique_ptr<parser::CHTLParser> chtl_parser_;
-    std::unique_ptr<generator::HTMLGenerator> html_generator_;
+    
+    // 编译器实例
+    std::unique_ptr<chtl::CHTLCompilerCore> chtl_compiler_;
+    std::unique_ptr<chtl::CHTLJSCompilerCore> chtl_js_compiler_;
+    std::unique_ptr<chtl::css::CSSCompilerCore> css_compiler_;
+    std::unique_ptr<chtl::javascript::JavaScriptCompilerCore> js_compiler_;
     
     // 编译器路径
     std::unordered_map<CompilerType, std::string> compiler_paths_;
