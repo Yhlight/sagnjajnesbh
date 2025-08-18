@@ -1,7 +1,7 @@
 #pragma once
-#include "../Parser/JavaScriptLexer.h"
-#include "../Parser/JavaScriptParser.h"
-#include "../Parser/JavaScriptParserBaseListener.h"
+#include "../Parser/JavaScriptLexer_cpp.h"
+#include "../Parser/JavaScriptParser_cpp.h"
+#include "../Parser/JavaScriptParser_cppBaseListener.h"
 #include "../Parser/JavaScriptLexerBase.h"
 #include "../Parser/JavaScriptParserBase.h"
 #include <string>
@@ -64,7 +64,7 @@ private:
     CompilerOptions options_;
     
     // 内部方法
-    std::unique_ptr<JavaScriptParser::ProgramContext> parseJavaScript(const std::string& js_code);
+    std::unique_ptr<JavaScriptParser_cpp::ProgramContext> parseJavaScript(const std::string& js_code);
 };
 
 // JavaScript错误监听器
@@ -84,19 +84,19 @@ private:
 };
 
 // JavaScript树遍历器
-class JavaScriptTreeWalker : public JavaScriptParserBaseListener {
+class JavaScriptTreeWalker : public JavaScriptParser_cppBaseListener {
 public:
     explicit JavaScriptTreeWalker(JavaScriptCompilerCore* compiler) : compiler_(compiler) {}
     
     // 监听器方法
-    void enterProgram(JavaScriptParser::ProgramContext* ctx) override;
-    void exitProgram(JavaScriptParser::ProgramContext* ctx) override;
+    void enterProgram(JavaScriptParser_cpp::ProgramContext* ctx) override;
+    void exitProgram(JavaScriptParser_cpp::ProgramContext* ctx) override;
     
-    void enterFunctionDeclaration(JavaScriptParser::FunctionDeclarationContext* ctx) override;
-    void exitFunctionDeclaration(JavaScriptParser::FunctionDeclarationContext* ctx) override;
+    void enterFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext* ctx) override;
+    void exitFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext* ctx) override;
     
-    void enterVariableStatement(JavaScriptParser::VariableStatementContext* ctx) override;
-    void exitVariableStatement(JavaScriptParser::VariableStatementContext* ctx) override;
+    void enterVariableStatement(JavaScriptParser_cpp::VariableStatementContext* ctx) override;
+    void exitVariableStatement(JavaScriptParser_cpp::VariableStatementContext* ctx) override;
     
     // 结果获取
     std::string getCompiledJavaScript() const { return output_.str(); }
@@ -111,8 +111,8 @@ private:
     
     // 辅助方法
     std::string extractText(antlr4::tree::ParseTree* tree);
-    void processFunction(JavaScriptParser::FunctionDeclarationContext* ctx);
-    void processVariable(JavaScriptParser::VariableStatementContext* ctx);
+    void processFunction(JavaScriptParser_cpp::FunctionDeclarationContext* ctx);
+    void processVariable(JavaScriptParser_cpp::VariableStatementContext* ctx);
 };
 
 // JavaScript优化器
@@ -131,8 +131,8 @@ public:
     std::vector<std::string> findUnusedVariables(const std::string& js_code);
     std::vector<std::string> findUnusedFunctions(const std::string& js_code);
     
-private:
-    // 内部优化逻辑
+public:
+    // 优化辅助方法
     std::string normalizeWhitespace(const std::string& js_code);
     std::string removeComments(const std::string& js_code);
     std::string optimizeExpressions(const std::string& js_code);

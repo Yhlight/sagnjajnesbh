@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Xlinker --dependency-file=CMakeFiles/test_chtljs_enhanced_functions.dir/link.d CMakeFiles/test_chtljs_enhanced_functions.dir/test/test_chtljs_enhanced_functions.cpp.o -o bin/test_chtljs_enhanced_functions  lib/libchtl_js_enhanced.a lib/libchtl_shared.a

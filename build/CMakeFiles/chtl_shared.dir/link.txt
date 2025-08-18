@@ -1,2 +1,0 @@
-/usr/bin/ar qc lib/libchtl_shared.a CMakeFiles/chtl_shared.dir/src/Shared/SimpleZip/SimpleZip.cpp.o CMakeFiles/chtl_shared.dir/src/Shared/Utils/FileUtils.cpp.o CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o CMakeFiles/chtl_shared.dir/src/Shared/AST/OriginEmbedDetector.cpp.o
-/usr/bin/ranlib lib/libchtl_shared.a

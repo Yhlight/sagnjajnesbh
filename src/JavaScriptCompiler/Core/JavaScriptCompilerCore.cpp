@@ -65,18 +65,18 @@ bool JavaScriptCompilerCore::validateJavaScript(const std::string& js_code) {
     }
 }
 
-std::unique_ptr<JavaScriptParser::ProgramContext> JavaScriptCompilerCore::parseJavaScript(const std::string& js_code) {
+std::unique_ptr<JavaScriptParser_cpp::ProgramContext> JavaScriptCompilerCore::parseJavaScript(const std::string& js_code) {
     // 创建输入流
     ANTLRInputStream input(js_code);
     
     // 创建词法分析器
-    JavaScriptLexer lexer(&input);
+    JavaScriptLexer_cpp lexer(&input);
     
     // 创建token流
     CommonTokenStream tokens(&lexer);
     
     // 创建解析器
-    JavaScriptParser parser(&tokens);
+    JavaScriptParser_cpp parser(&tokens);
     
     // 添加错误监听器
     JavaScriptErrorListener error_listener(this);
@@ -86,8 +86,8 @@ std::unique_ptr<JavaScriptParser::ProgramContext> JavaScriptCompilerCore::parseJ
     // 解析JavaScript
     auto tree = parser.program();
     
-    return std::unique_ptr<JavaScriptParser::ProgramContext>(
-        static_cast<JavaScriptParser::ProgramContext*>(tree));
+    return std::unique_ptr<JavaScriptParser_cpp::ProgramContext>(
+        static_cast<JavaScriptParser_cpp::ProgramContext*>(tree));
 }
 
 std::string JavaScriptCompilerCore::optimizeJavaScript(const std::string& js_code) {
@@ -235,27 +235,27 @@ void JavaScriptErrorListener::syntaxError(antlr4::Recognizer* /*recognizer*/,
 }
 
 // JavaScriptTreeWalker 实现
-void JavaScriptTreeWalker::enterProgram(JavaScriptParser::ProgramContext* /*ctx*/) {
+void JavaScriptTreeWalker::enterProgram(JavaScriptParser_cpp::ProgramContext* /*ctx*/) {
     // JavaScript程序开始
 }
 
-void JavaScriptTreeWalker::exitProgram(JavaScriptParser::ProgramContext* /*ctx*/) {
+void JavaScriptTreeWalker::exitProgram(JavaScriptParser_cpp::ProgramContext* /*ctx*/) {
     // JavaScript程序结束
 }
 
-void JavaScriptTreeWalker::enterFunctionDeclaration(JavaScriptParser::FunctionDeclarationContext* ctx) {
+void JavaScriptTreeWalker::enterFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext* ctx) {
     processFunction(ctx);
 }
 
-void JavaScriptTreeWalker::exitFunctionDeclaration(JavaScriptParser::FunctionDeclarationContext* /*ctx*/) {
+void JavaScriptTreeWalker::exitFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext* /*ctx*/) {
     // 函数处理完成
 }
 
-void JavaScriptTreeWalker::enterVariableStatement(JavaScriptParser::VariableStatementContext* ctx) {
+void JavaScriptTreeWalker::enterVariableStatement(JavaScriptParser_cpp::VariableStatementContext* ctx) {
     processVariable(ctx);
 }
 
-void JavaScriptTreeWalker::exitVariableStatement(JavaScriptParser::VariableStatementContext* /*ctx*/) {
+void JavaScriptTreeWalker::exitVariableStatement(JavaScriptParser_cpp::VariableStatementContext* /*ctx*/) {
     // 变量处理完成
 }
 
@@ -264,13 +264,13 @@ std::string JavaScriptTreeWalker::extractText(antlr4::tree::ParseTree* tree) {
     return tree->getText();
 }
 
-void JavaScriptTreeWalker::processFunction(JavaScriptParser::FunctionDeclarationContext* ctx) {
+void JavaScriptTreeWalker::processFunction(JavaScriptParser_cpp::FunctionDeclarationContext* ctx) {
     std::string function_text = extractText(ctx);
     functions_.push_back(function_text);
     output_ << function_text << "\n";
 }
 
-void JavaScriptTreeWalker::processVariable(JavaScriptParser::VariableStatementContext* ctx) {
+void JavaScriptTreeWalker::processVariable(JavaScriptParser_cpp::VariableStatementContext* ctx) {
     std::string variable_text = extractText(ctx);
     variables_.push_back(variable_text);
     output_ << variable_text << "\n";

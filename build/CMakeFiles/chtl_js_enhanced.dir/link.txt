@@ -1,2 +1,0 @@
-/usr/bin/ar qc lib/libchtl_js_enhanced.a CMakeFiles/chtl_js_enhanced.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o CMakeFiles/chtl_js_enhanced.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o
-/usr/bin/ranlib lib/libchtl_js_enhanced.a

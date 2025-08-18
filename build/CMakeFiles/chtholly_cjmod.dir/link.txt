@@ -1,2 +1,0 @@
-/usr/bin/ar qc lib/libchtholly_cjmod.a CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/printMylove.cpp.o CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.o CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.o
-/usr/bin/ranlib lib/libchtholly_cjmod.a

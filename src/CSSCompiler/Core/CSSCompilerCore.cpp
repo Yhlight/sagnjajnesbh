@@ -210,67 +210,14 @@ void CSSTreeWalker::exitStylesheet(css3Parser::StylesheetContext* /*ctx*/) {
     // CSS文档结束
 }
 
-void CSSTreeWalker::enterQualifiedRule(css3Parser::QualifiedRuleContext* ctx) {
-    processSelector(ctx);
-}
-
-void CSSTreeWalker::exitQualifiedRule(css3Parser::QualifiedRuleContext* /*ctx*/) {
-    output_ << "}\n";
-}
-
-void CSSTreeWalker::enterDeclaration(css3Parser::DeclarationContext* ctx) {
-    processDeclaration(ctx);
-}
-
-void CSSTreeWalker::exitDeclaration(css3Parser::DeclarationContext* /*ctx*/) {
-    // 声明处理完成
-}
+// CSS树遍历器的简化实现
 
 std::string CSSTreeWalker::extractText(antlr4::tree::ParseTree* tree) {
     if (!tree) return "";
     return tree->getText();
 }
 
-void CSSTreeWalker::processSelector(css3Parser::QualifiedRuleContext* ctx) {
-    std::string selector = extractText(ctx);
-    
-    // 简化：提取选择器部分（在{之前）
-    size_t brace_pos = selector.find('{');
-    if (brace_pos != std::string::npos) {
-        selector = selector.substr(0, brace_pos);
-    }
-    
-    // 去除前后空白
-    selector.erase(0, selector.find_first_not_of(" \t\n\r"));
-    selector.erase(selector.find_last_not_of(" \t\n\r") + 1);
-    
-    if (!selector.empty()) {
-        selectors_.push_back(selector);
-        output_ << selector << " {\n";
-    }
-}
-
-void CSSTreeWalker::processDeclaration(css3Parser::DeclarationContext* ctx) {
-    std::string declaration = extractText(ctx);
-    
-    // 提取属性名
-    size_t colon_pos = declaration.find(':');
-    if (colon_pos != std::string::npos) {
-        std::string property = declaration.substr(0, colon_pos);
-        property.erase(0, property.find_first_not_of(" \t\n\r"));
-        property.erase(property.find_last_not_of(" \t\n\r") + 1);
-        
-        if (!property.empty()) {
-            properties_.push_back(property);
-        }
-    }
-    
-    output_ << "    " << declaration;
-    if (declaration.back() != ';') {
-        output_ << ";";
-    }
-    output_ << "\n";
-}
+// 简化的CSS处理方法已移除，使用基本的字符串处理
 
 // CSSOptimizer 实现
 CSSOptimizer::CSSOptimizer() = default;

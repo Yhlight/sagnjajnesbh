@@ -1,2 +1,0 @@
-/usr/bin/ar qc lib/libchtl_js_compiler.a CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSLexer.cpp.o CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.o CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o CMakeFiles/chtl_js_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o
-/usr/bin/ranlib lib/libchtl_js_compiler.a

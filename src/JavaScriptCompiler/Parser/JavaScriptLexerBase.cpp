@@ -1,4 +1,4 @@
-#include "JavaScriptLexer.h"
+#include "JavaScriptLexer_cpp.h"
 
 using namespace antlr4;
 
@@ -61,7 +61,7 @@ void JavaScriptLexerBase::ProcessCloseBrace()
 
 void JavaScriptLexerBase::ProcessStringLiteral()
 {
-    if (!lastToken || lastTokenType == JavaScriptLexer::OpenBrace)
+    if (!lastToken || lastTokenType == JavaScriptLexer_cpp::OpenBrace)
     {
         std::string text = getText();
         if (text == "\"use strict\"" || text == "'use strict'")
@@ -93,18 +93,18 @@ bool JavaScriptLexerBase::IsRegexPossible()
     }
     
     switch (lastTokenType) {
-        case JavaScriptLexer::Identifier:
-        case JavaScriptLexer::NullLiteral:
-        case JavaScriptLexer::BooleanLiteral:
-        case JavaScriptLexer::This:
-        case JavaScriptLexer::CloseBracket:
-        case JavaScriptLexer::CloseParen:
-        case JavaScriptLexer::OctalIntegerLiteral:
-        case JavaScriptLexer::DecimalLiteral:
-        case JavaScriptLexer::HexIntegerLiteral:
-        case JavaScriptLexer::StringLiteral:
-        case JavaScriptLexer::PlusPlus:
-        case JavaScriptLexer::MinusMinus:
+        case JavaScriptLexer_cpp::Identifier:
+        case JavaScriptLexer_cpp::NullLiteral:
+        case JavaScriptLexer_cpp::BooleanLiteral:
+        case JavaScriptLexer_cpp::This:
+        case JavaScriptLexer_cpp::CloseBracket:
+        case JavaScriptLexer_cpp::CloseParen:
+        case JavaScriptLexer_cpp::OctalIntegerLiteral:
+        case JavaScriptLexer_cpp::DecimalLiteral:
+        case JavaScriptLexer_cpp::HexIntegerLiteral:
+        case JavaScriptLexer_cpp::StringLiteral:
+        case JavaScriptLexer_cpp::PlusPlus:
+        case JavaScriptLexer_cpp::MinusMinus:
             // After any of the tokens above, no regex literal can follow.
             return false;
         default:

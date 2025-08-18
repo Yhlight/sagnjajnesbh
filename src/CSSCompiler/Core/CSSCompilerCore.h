@@ -36,6 +36,8 @@ public:
     void clearErrors() { errors_.clear(); warnings_.clear(); }
     bool hasErrors() const { return !errors_.empty(); }
     bool hasWarnings() const { return !warnings_.empty(); }
+    void addError(const std::string& error);
+    void addWarning(const std::string& warning);
     
     // 配置选项
     struct CompilerOptions {
@@ -56,8 +58,6 @@ private:
     
     // 内部方法
     std::unique_ptr<css3Parser::StylesheetContext> parseCSS(const std::string& css_code);
-    void addError(const std::string& error);
-    void addWarning(const std::string& warning);
 };
 
 // CSS错误监听器
@@ -85,12 +85,6 @@ public:
     void enterStylesheet(css3Parser::StylesheetContext* ctx) override;
     void exitStylesheet(css3Parser::StylesheetContext* ctx) override;
     
-    void enterQualifiedRule(css3Parser::QualifiedRuleContext* ctx) override;
-    void exitQualifiedRule(css3Parser::QualifiedRuleContext* ctx) override;
-    
-    void enterDeclaration(css3Parser::DeclarationContext* ctx) override;
-    void exitDeclaration(css3Parser::DeclarationContext* ctx) override;
-    
     // 结果获取
     std::string getCompiledCSS() const { return output_.str(); }
     std::vector<std::string> getSelectors() const { return selectors_; }
@@ -104,8 +98,6 @@ private:
     
     // 辅助方法
     std::string extractText(antlr4::tree::ParseTree* tree);
-    void processSelector(css3Parser::QualifiedRuleContext* ctx);
-    void processDeclaration(css3Parser::DeclarationContext* ctx);
 };
 
 // CSS优化器
@@ -124,8 +116,8 @@ public:
     std::vector<std::string> findDuplicateRules(const std::string& css_code);
     std::vector<std::string> findUnusedSelectors(const std::string& css_code);
     
-private:
-    // 内部优化逻辑
+public:
+    // 优化辅助方法
     std::string normalizeWhitespace(const std::string& css_code);
     std::string removeComments(const std::string& css_code);
     std::string shortenValues(const std::string& css_code);

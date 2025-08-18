@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Xlinker --dependency-file=CMakeFiles/test_origin_embed_comments.dir/link.d CMakeFiles/test_origin_embed_comments.dir/test/test_origin_embed_comments.cpp.o -o bin/test_origin_embed_comments  lib/libchtl_shared.a

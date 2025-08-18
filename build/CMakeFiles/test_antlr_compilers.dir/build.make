@@ -98,7 +98,7 @@ bin/test_antlr_compilers: CMakeFiles/test_antlr_compilers.dir/build.make
 bin/test_antlr_compilers: CMakeFiles/test_antlr_compilers.dir/compiler_depend.ts
 bin/test_antlr_compilers: lib/libchtl_css_compiler.a
 bin/test_antlr_compilers: lib/libchtl_js_compiler_antlr.a
-bin/test_antlr_compilers: lib/libchtl_shared.a
+bin/test_antlr_compilers: lib/libchtl_shared_min.a
 bin/test_antlr_compilers: /workspace/external/antlr4-install/lib/libantlr4-runtime.a
 bin/test_antlr_compilers: CMakeFiles/test_antlr_compilers.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/test_antlr_compilers"
