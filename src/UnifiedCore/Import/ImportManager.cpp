@@ -1,4 +1,3 @@
-#include "../../common/Token.h"
 #include "ImportManager.h"
 #include "../ast/CHTLNodes.h"
 #include "../ast/SpecializedNodes.h"
@@ -670,7 +669,7 @@ std::unique_ptr<ast::ASTNode> ImportManager::createOriginBlockNode(ImportType ty
                                                                   const std::string& name,
                                                                   const std::string& content) const {
     // 根据类型创建相应的原始嵌入节点
-    auto origin_node = std::make_unique<ast::OriginBlockNode>("@Html", TokenPosition());
+    auto origin_node = std::make_unique<ast::OriginBlockNode>();
     
     switch (type) {
         case ImportType::HTML:

@@ -1,7 +1,5 @@
-#include <regex>
-#include <chrono>
 #include "CompilerDispatcher.h"
-#include "../../common/Context.h"
+#include "Context.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -203,7 +201,7 @@ CompilationFragment CompilerDispatcher::compileCHTLJSFragment(const CodeSlice& s
         js_code = std::regex_replace(js_code, selector_pattern, "document.querySelector('$1')");
         
         // -> 转换为 .
-        std::regex arrow_pattern("->"); // 修复原始字符串问题
+        std::regex arrow_pattern(R"->");
         js_code = std::regex_replace(js_code, arrow_pattern, ".");
         
         fragment.compiled_code = js_code;

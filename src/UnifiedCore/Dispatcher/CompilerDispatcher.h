@@ -1,9 +1,8 @@
-#include <chrono>
 #pragma once
-#include "../Scanner/CHTLUnifiedScanner.h"
-#include "../Constraints/SyntaxConstrainer.h"
-#include "../../parser/Parser.h"
-#include "../../generator/HTMLGenerator.h"
+#include "CHTLUnifiedScanner.h"
+#include "SyntaxConstrainer.h"
+#include "../parser/Parser.h"
+#include "../generator/HTMLGenerator.h"
 #include <string>
 #include <vector>
 #include <memory>

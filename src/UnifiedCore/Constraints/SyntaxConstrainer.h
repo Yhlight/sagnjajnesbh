@@ -1,6 +1,6 @@
 #pragma once
-#include "../../ast/ASTNode.h"
-#include "../../common/Context.h"
+#include "../../CHTLCompiler/AST/CHTLNodes.h"
+#include "Context.h"
 #include <string>
 #include <vector>
 #include <unordered_set>

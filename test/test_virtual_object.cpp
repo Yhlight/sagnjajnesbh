@@ -1,4 +1,4 @@
-#include "../src/ast/VirtualObjectManager.h"
+#include "../src/CHTLJSCompiler/AST/VirtualObjectManager.h"
 #include <iostream>
 #include <cassert>
 

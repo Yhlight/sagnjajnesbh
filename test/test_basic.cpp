@@ -1,8 +1,8 @@
-#include "../src/common/Token.h"
-#include "../src/common/GlobalMap.h"
-#include "../src/common/State.h"
-#include "../src/common/Context.h"
-#include "../src/common/Lexer.h"
+#include "../src/CHTLCompiler/Lexer/CHTLToken.h"
+#include "../src/Shared/Common/GlobalMap.h"
+#include "../src/CHTLCompiler/State/CHTLState.h"
+#include "../src/CHTLCompiler/Parser/CHTLContext.h"
+#include "../src/CHTLCompiler/Lexer/CHTLLexer.h"
 #include <iostream>
 #include <cassert>
 
