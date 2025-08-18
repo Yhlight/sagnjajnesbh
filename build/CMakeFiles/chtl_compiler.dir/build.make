@@ -100,10 +100,24 @@ CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.s: cmake_
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLCompiler/Import/ImportManager.cpp -o CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.s
 
+CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o: CMakeFiles/chtl_compiler.dir/flags.make
+CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o: /workspace/src/CHTLCompiler/Import/EnhancedImportManager.cpp
+CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o: CMakeFiles/chtl_compiler.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o -MF CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o.d -o CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o -c /workspace/src/CHTLCompiler/Import/EnhancedImportManager.cpp
+
+CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLCompiler/Import/EnhancedImportManager.cpp > CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.i
+
+CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLCompiler/Import/EnhancedImportManager.cpp -o CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.s
+
 CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o: CMakeFiles/chtl_compiler.dir/flags.make
 CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o: /workspace/src/CHTLCompiler/State/CHTLState.cpp
 CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o: CMakeFiles/chtl_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o -MF CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o.d -o CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o -c /workspace/src/CHTLCompiler/State/CHTLState.cpp
 
 CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.i: cmake_force
@@ -117,7 +131,7 @@ CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.s: cmake_force
 CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o: CMakeFiles/chtl_compiler.dir/flags.make
 CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o: /workspace/src/CHTLCompiler/State/CHTLGlobalMap.cpp
 CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o: CMakeFiles/chtl_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o -MF CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o.d -o CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o -c /workspace/src/CHTLCompiler/State/CHTLGlobalMap.cpp
 
 CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.i: cmake_force
@@ -132,6 +146,7 @@ CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.s: cmake_f
 chtl_compiler_OBJECTS = \
 "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o" \
 "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.o" \
+"CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o" \
 "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o" \
 "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o"
 
@@ -140,11 +155,12 @@ chtl_compiler_EXTERNAL_OBJECTS =
 
 lib/libchtl_compiler.a: CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o
 lib/libchtl_compiler.a: CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.o
+lib/libchtl_compiler.a: CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o
 lib/libchtl_compiler.a: CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o
 lib/libchtl_compiler.a: CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o
 lib/libchtl_compiler.a: CMakeFiles/chtl_compiler.dir/build.make
 lib/libchtl_compiler.a: CMakeFiles/chtl_compiler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library lib/libchtl_compiler.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library lib/libchtl_compiler.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/chtl_compiler.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtl_compiler.dir/link.txt --verbose=$(VERBOSE)
 

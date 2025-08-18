@@ -231,6 +231,30 @@ src/CHTLCompiler/CHTLCompilerCore.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.s
 .PHONY : src/CHTLCompiler/CHTLCompilerCore.cpp.s
 
+src/CHTLCompiler/Import/EnhancedImportManager.o: src/CHTLCompiler/Import/EnhancedImportManager.cpp.o
+.PHONY : src/CHTLCompiler/Import/EnhancedImportManager.o
+
+# target to build an object file
+src/CHTLCompiler/Import/EnhancedImportManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o
+.PHONY : src/CHTLCompiler/Import/EnhancedImportManager.cpp.o
+
+src/CHTLCompiler/Import/EnhancedImportManager.i: src/CHTLCompiler/Import/EnhancedImportManager.cpp.i
+.PHONY : src/CHTLCompiler/Import/EnhancedImportManager.i
+
+# target to preprocess a source file
+src/CHTLCompiler/Import/EnhancedImportManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.i
+.PHONY : src/CHTLCompiler/Import/EnhancedImportManager.cpp.i
+
+src/CHTLCompiler/Import/EnhancedImportManager.s: src/CHTLCompiler/Import/EnhancedImportManager.cpp.s
+.PHONY : src/CHTLCompiler/Import/EnhancedImportManager.s
+
+# target to generate assembly for a file
+src/CHTLCompiler/Import/EnhancedImportManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.s
+.PHONY : src/CHTLCompiler/Import/EnhancedImportManager.cpp.s
+
 src/CHTLCompiler/Import/ImportManager.o: src/CHTLCompiler/Import/ImportManager.cpp.o
 .PHONY : src/CHTLCompiler/Import/ImportManager.o
 
@@ -495,6 +519,30 @@ src/Common/ModulePathManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.s
 .PHONY : src/Common/ModulePathManager.cpp.s
 
+src/Common/RAIIStateGuard.o: src/Common/RAIIStateGuard.cpp.o
+.PHONY : src/Common/RAIIStateGuard.o
+
+# target to build an object file
+src/Common/RAIIStateGuard.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/RAIIStateGuard.cpp.o
+.PHONY : src/Common/RAIIStateGuard.cpp.o
+
+src/Common/RAIIStateGuard.i: src/Common/RAIIStateGuard.cpp.i
+.PHONY : src/Common/RAIIStateGuard.i
+
+# target to preprocess a source file
+src/Common/RAIIStateGuard.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/RAIIStateGuard.cpp.i
+.PHONY : src/Common/RAIIStateGuard.cpp.i
+
+src/Common/RAIIStateGuard.s: src/Common/RAIIStateGuard.cpp.s
+.PHONY : src/Common/RAIIStateGuard.s
+
+# target to generate assembly for a file
+src/Common/RAIIStateGuard.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/RAIIStateGuard.cpp.s
+.PHONY : src/Common/RAIIStateGuard.cpp.s
+
 src/Common/SimpleZip/SimpleZip.o: src/Common/SimpleZip/SimpleZip.cpp.o
 .PHONY : src/Common/SimpleZip/SimpleZip.o
 
@@ -657,6 +705,9 @@ help:
 	@echo "... src/CHTLCompiler/CHTLCompilerCore.o"
 	@echo "... src/CHTLCompiler/CHTLCompilerCore.i"
 	@echo "... src/CHTLCompiler/CHTLCompilerCore.s"
+	@echo "... src/CHTLCompiler/Import/EnhancedImportManager.o"
+	@echo "... src/CHTLCompiler/Import/EnhancedImportManager.i"
+	@echo "... src/CHTLCompiler/Import/EnhancedImportManager.s"
 	@echo "... src/CHTLCompiler/Import/ImportManager.o"
 	@echo "... src/CHTLCompiler/Import/ImportManager.i"
 	@echo "... src/CHTLCompiler/Import/ImportManager.s"
@@ -690,6 +741,9 @@ help:
 	@echo "... src/Common/ModulePathManager.o"
 	@echo "... src/Common/ModulePathManager.i"
 	@echo "... src/Common/ModulePathManager.s"
+	@echo "... src/Common/RAIIStateGuard.o"
+	@echo "... src/Common/RAIIStateGuard.i"
+	@echo "... src/Common/RAIIStateGuard.s"
 	@echo "... src/Common/SimpleZip/SimpleZip.o"
 	@echo "... src/Common/SimpleZip/SimpleZip.i"
 	@echo "... src/Common/SimpleZip/SimpleZip.s"

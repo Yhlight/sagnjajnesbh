@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o"
   "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o.d"
+  "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o"
+  "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/EnhancedImportManager.cpp.o.d"
   "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.o"
   "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.o.d"
   "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o"
