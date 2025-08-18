@@ -16,6 +16,10 @@ namespace javascript {
  */
 class JavaScriptCompilerCore {
 public:
+    // 友元声明
+    friend class JavaScriptTreeWalker;
+    friend class JavaScriptErrorListener;
+
     JavaScriptCompilerCore();
     ~JavaScriptCompilerCore() = default;
     
@@ -141,7 +145,7 @@ private:
 /**
  * JavaScript树遍历器 - 处理解析树并生成优化的JavaScript
  */
-class JavaScriptTreeWalker : public JavaScriptBaseListener {
+class JavaScriptTreeWalker : public JavaScriptParserBaseListener {
 public:
     JavaScriptTreeWalker(JavaScriptCompilerCore* compiler) : compiler_(compiler) {}
     

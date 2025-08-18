@@ -377,7 +377,7 @@ std::string JavaScriptTreeWalker::generateFunction(JavaScriptParser::FunctionDec
     
     // 检查是否为异步函数
     bool is_async = false;
-    if (ctx->ASYNC()) {
+    if (ctx->Async()) {
         is_async = true;
         func << "async ";
     }
@@ -385,8 +385,8 @@ std::string JavaScriptTreeWalker::generateFunction(JavaScriptParser::FunctionDec
     func << "function ";
     
     // 函数名
-    if (ctx->Identifier()) {
-        func << ctx->Identifier()->getText();
+    if (ctx->identifier()) {
+        func << ctx->identifier()->getText();
     }
     
     // 参数列表
@@ -412,12 +412,12 @@ std::string JavaScriptTreeWalker::generateClass(JavaScriptParser::ClassDeclarati
     class_code << "class ";
     
     // 类名
-    if (ctx->Identifier()) {
-        class_code << ctx->Identifier()->getText();
+    if (ctx->identifier()) {
+        class_code << ctx->identifier()->getText();
     }
     
     // 继承
-    if (ctx->EXTENDS()) {
+    if (ctx->Extends()) {
         class_code << " extends " << extractText(ctx->singleExpression());
     }
     
@@ -439,11 +439,11 @@ std::string JavaScriptTreeWalker::generateVariable(JavaScriptParser::VariableDec
     std::ostringstream var_code;
     
     // 变量类型
-    if (ctx->VAR()) {
+    if (ctx->Var()) {
         var_code << "var ";
-    } else if (ctx->LET()) {
+    } else if (ctx->Let()) {
         var_code << (target_version_ == "ES5" ? "var " : "let ");
-    } else if (ctx->CONST()) {
+    } else if (ctx->Const()) {
         var_code << (target_version_ == "ES5" ? "var " : "const ");
     }
     
@@ -483,8 +483,7 @@ std::string JavaScriptOptimizer::constantFolding(const std::string& js_code) {
     result = std::regex_replace(result, std::regex(R"((.+)\s*\|\|\s*false\b)"), "$1");
     
     // 数学常量折叠
-    result = std::regex_replace(result, std::regex(R"(\b(\d+)\s*\+\s*(\d+)\b)"), 
-                               [](const std::smatch& match) {
+    result = std::regex_replace(result, std::regex(R"(\b(\d+)\s*\+\s*(\d+)\b)"), "$1+$2");
                                    int a = std::stoi(match[1].str());
                                    int b = std::stoi(match[2].str());
                                    return std::to_string(a + b);
