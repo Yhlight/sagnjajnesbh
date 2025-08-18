@@ -21,7 +21,7 @@ bool Token::isOperator() const {
 }
 
 bool Token::isLiteral() const {
-    return type == TokenType::STRING || type == TokenType::NUMBER;
+    return type == TokenType::STRING || type == TokenType::NUMBER || type == TokenType::UNDECORATED_LITERAL;
 }
 
 bool Token::isCHTLJSKeyword() const {
@@ -115,6 +115,7 @@ void Token::initializeTypeNames() {
     type_names_[TokenType::IDENTIFIER] = "IDENTIFIER";
     type_names_[TokenType::STRING] = "STRING";
     type_names_[TokenType::NUMBER] = "NUMBER";
+    type_names_[TokenType::UNDECORATED_LITERAL] = "UNDECORATED_LITERAL";
     
     // CHTL关键字
     type_names_[TokenType::TEMPLATE] = "TEMPLATE";

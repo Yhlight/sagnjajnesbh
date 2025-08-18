@@ -266,6 +266,19 @@ test_chtl_compiler_simple/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler_simple.dir/build.make CMakeFiles/test_chtl_compiler_simple.dir/build
 .PHONY : test_chtl_compiler_simple/fast
 
+#=============================================================================
+# Target rules for targets named test_undecorated_literals
+
+# Build rule for target.
+test_undecorated_literals: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_undecorated_literals
+.PHONY : test_undecorated_literals
+
+# fast build rule for target.
+test_undecorated_literals/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/build
+.PHONY : test_undecorated_literals/fast
+
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
@@ -794,6 +807,30 @@ test/test_syntax_constraints.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.s
 .PHONY : test/test_syntax_constraints.cpp.s
 
+test/test_undecorated_literals.o: test/test_undecorated_literals.cpp.o
+.PHONY : test/test_undecorated_literals.o
+
+# target to build an object file
+test/test_undecorated_literals.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/test/test_undecorated_literals.cpp.o
+.PHONY : test/test_undecorated_literals.cpp.o
+
+test/test_undecorated_literals.i: test/test_undecorated_literals.cpp.i
+.PHONY : test/test_undecorated_literals.i
+
+# target to preprocess a source file
+test/test_undecorated_literals.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/test/test_undecorated_literals.cpp.i
+.PHONY : test/test_undecorated_literals.cpp.i
+
+test/test_undecorated_literals.s: test/test_undecorated_literals.cpp.s
+.PHONY : test/test_undecorated_literals.s
+
+# target to generate assembly for a file
+test/test_undecorated_literals.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/test/test_undecorated_literals.cpp.s
+.PHONY : test/test_undecorated_literals.cpp.s
+
 test/test_unified_scanner.o: test/test_unified_scanner.cpp.o
 .PHONY : test/test_unified_scanner.o
 
@@ -836,6 +873,7 @@ help:
 	@echo "... test_chtl_compiler_simple"
 	@echo "... test_chtl_js_lexer"
 	@echo "... test_syntax_constraints"
+	@echo "... test_undecorated_literals"
 	@echo "... test_unified_scanner"
 	@echo "... unified_core"
 	@echo "... src/CHTLCompiler/AST/CHTLNodes.o"
@@ -904,6 +942,9 @@ help:
 	@echo "... test/test_syntax_constraints.o"
 	@echo "... test/test_syntax_constraints.i"
 	@echo "... test/test_syntax_constraints.s"
+	@echo "... test/test_undecorated_literals.o"
+	@echo "... test/test_undecorated_literals.i"
+	@echo "... test/test_undecorated_literals.s"
 	@echo "... test/test_unified_scanner.o"
 	@echo "... test/test_unified_scanner.i"
 	@echo "... test/test_unified_scanner.s"

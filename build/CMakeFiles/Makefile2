@@ -73,6 +73,7 @@ all: CMakeFiles/test_chtl_js_lexer.dir/all
 all: CMakeFiles/test_unified_scanner.dir/all
 all: CMakeFiles/test_syntax_constraints.dir/all
 all: CMakeFiles/test_chtl_compiler_simple.dir/all
+all: CMakeFiles/test_undecorated_literals.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
@@ -86,6 +87,7 @@ codegen: CMakeFiles/test_chtl_js_lexer.dir/codegen
 codegen: CMakeFiles/test_unified_scanner.dir/codegen
 codegen: CMakeFiles/test_syntax_constraints.dir/codegen
 codegen: CMakeFiles/test_chtl_compiler_simple.dir/codegen
+codegen: CMakeFiles/test_undecorated_literals.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -103,6 +105,7 @@ clean: CMakeFiles/test_chtl_js_lexer.dir/clean
 clean: CMakeFiles/test_unified_scanner.dir/clean
 clean: CMakeFiles/test_syntax_constraints.dir/clean
 clean: CMakeFiles/test_chtl_compiler_simple.dir/clean
+clean: CMakeFiles/test_undecorated_literals.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -241,7 +244,7 @@ CMakeFiles/unified_core.dir/all: CMakeFiles/chtl_shared.dir/all
 CMakeFiles/unified_core.dir/all: CMakeFiles/chtl_ast.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=31,32,33 "Built target unified_core"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=33,34,35 "Built target unified_core"
 .PHONY : CMakeFiles/unified_core.dir/all
 
 # Build rule for subdir invocation for target.
@@ -258,7 +261,7 @@ unified_core: CMakeFiles/unified_core.dir/rule
 # codegen rule for target.
 CMakeFiles/unified_core.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=31,32,33 "Finished codegen for target unified_core"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=33,34,35 "Finished codegen for target unified_core"
 .PHONY : CMakeFiles/unified_core.dir/codegen
 
 # clean rule for target.
@@ -341,7 +344,7 @@ CMakeFiles/test_unified_scanner.dir/all: CMakeFiles/chtl_ast.dir/all
 CMakeFiles/test_unified_scanner.dir/all: CMakeFiles/unified_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=29,30 "Built target test_unified_scanner"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=31,32 "Built target test_unified_scanner"
 .PHONY : CMakeFiles/test_unified_scanner.dir/all
 
 # Build rule for subdir invocation for target.
@@ -358,7 +361,7 @@ test_unified_scanner: CMakeFiles/test_unified_scanner.dir/rule
 # codegen rule for target.
 CMakeFiles/test_unified_scanner.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=29,30 "Finished codegen for target test_unified_scanner"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=31,32 "Finished codegen for target test_unified_scanner"
 .PHONY : CMakeFiles/test_unified_scanner.dir/codegen
 
 # clean rule for target.
@@ -432,6 +435,41 @@ CMakeFiles/test_chtl_compiler_simple.dir/codegen:
 CMakeFiles/test_chtl_compiler_simple.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler_simple.dir/build.make CMakeFiles/test_chtl_compiler_simple.dir/clean
 .PHONY : CMakeFiles/test_chtl_compiler_simple.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test_undecorated_literals.dir
+
+# All Build rule for target.
+CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/chtl_shared.dir/all
+CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/chtl_ast.dir/all
+CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/chtl_js_compiler.dir/all
+CMakeFiles/test_undecorated_literals.dir/all: CMakeFiles/unified_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=29,30 "Built target test_undecorated_literals"
+.PHONY : CMakeFiles/test_undecorated_literals.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_undecorated_literals.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 16
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_undecorated_literals.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_undecorated_literals.dir/rule
+
+# Convenience name for target.
+test_undecorated_literals: CMakeFiles/test_undecorated_literals.dir/rule
+.PHONY : test_undecorated_literals
+
+# codegen rule for target.
+CMakeFiles/test_undecorated_literals.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=29,30 "Finished codegen for target test_undecorated_literals"
+.PHONY : CMakeFiles/test_undecorated_literals.dir/codegen
+
+# clean rule for target.
+CMakeFiles/test_undecorated_literals.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/clean
+.PHONY : CMakeFiles/test_undecorated_literals.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -81,3 +81,13 @@ set_target_properties(
     test_chtl_compiler_simple
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+# 无修饰字面量测试
+add_executable(test_undecorated_literals test/test_undecorated_literals.cpp)
+target_link_libraries(test_undecorated_literals chtl_js_compiler unified_core)
+
+# 更新输出目录设置
+set_target_properties(
+    test_undecorated_literals
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)

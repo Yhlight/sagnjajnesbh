@@ -60,6 +60,11 @@ Token CHTLJSLexer::nextToken() {
         return readIdentifier();
     }
     
+    // 无修饰字面量（只在特定上下文中）
+    if (isUndecoratedContext() && canBeUndecoratedLiteral()) {
+        return readUndecoratedLiteral();
+    }
+    
     // 操作符和特殊字符
     return readOperator();
 }
@@ -273,6 +278,66 @@ bool CHTLJSLexer::isDigit(char c) const {
 
 bool CHTLJSLexer::isAlphaNumeric(char c) const {
     return isAlpha(c) || isDigit(c);
+}
+
+Token CHTLJSLexer::readUndecoratedLiteral() {
+    TokenPosition pos(line_, column_);
+    std::string value;
+    
+    // 读取无修饰字面量，直到遇到分隔符
+    while (!isAtEnd() && isValidUndecoratedChar(currentChar())) {
+        value += currentChar();
+        advance();
+    }
+    
+    // 去除尾部空白
+    while (!value.empty() && std::isspace(value.back())) {
+        value.pop_back();
+    }
+    
+    if (value.empty()) {
+        addError("空的无修饰字面量");
+        return Token(TokenType::INVALID, "", pos);
+    }
+    
+    return Token(TokenType::UNDECORATED_LITERAL, value, pos);
+}
+
+bool CHTLJSLexer::canBeUndecoratedLiteral() const {
+    char c = currentChar();
+    
+    // 无修饰字面量可以以字母、数字、中文或某些特殊字符开始
+    return isAlpha(c) || isDigit(c) || 
+           (c >= 0x4e00 && c <= 0x9fff) ||  // 中文字符范围
+           c == '-' || c == '_' || c == '.' || c == '#';
+}
+
+bool CHTLJSLexer::isValidUndecoratedChar(char c) const {
+    // 无修饰字面量中允许的字符
+    if (isAlphaNumeric(c) || c == '_' || c == '-' || c == '.' || c == '#' || c == ' ') {
+        return true;
+    }
+    
+    // 中文字符
+    if (c >= 0x4e00 && c <= 0x9fff) {
+        return true;
+    }
+    
+    // 停止字符（表示字面量结束）
+    if (c == ';' || c == '}' || c == '{' || c == ')' || c == '(' || 
+        c == '[' || c == ']' || c == ',' || c == ':' || c == '\n') {
+        return false;
+    }
+    
+    return true;
+}
+
+bool CHTLJSLexer::isUndecoratedContext() const {
+    // 只在特定上下文中允许无修饰字面量
+    return current_context_ == "text" || 
+           current_context_ == "attribute" || 
+           current_context_ == "css_value" ||
+           current_context_ == "style_property";
 }
 
 void CHTLJSLexer::addError(const std::string& message) {

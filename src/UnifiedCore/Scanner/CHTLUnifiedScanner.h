@@ -152,6 +152,11 @@ public:
     std::string getLastError() const { return last_error_; }
     bool hasErrors() const { return !last_error_.empty(); }
     void clearErrors();
+    
+    // 无修饰字面量处理
+    bool isUndecoratedLiteralContext(const std::string& content, size_t position);
+    std::vector<std::pair<size_t, size_t>> findUndecoratedLiterals(const std::string& content, const std::string& context);
+    bool shouldTreatAsUndecoratedLiteral(const std::string& content, size_t start, size_t end, const std::string& context);
 
 private:
     ScannerConfig config_;

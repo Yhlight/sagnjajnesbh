@@ -572,12 +572,16 @@ bool CHTLUnifiedScanner::containsCHTLSyntax(const std::string& content) {
 
 bool CHTLUnifiedScanner::containsCHTLJSSyntax(const std::string& content) {
     // 检查CHTL JS特有语法
+    // 注意：无修饰字面量不作为单独判断条件！
     return content.find("{{") != std::string::npos ||  // {{选择器}}
            content.find("->") != std::string::npos ||  // ->操作符
            content.find("listen") != std::string::npos ||
            content.find("delegate") != std::string::npos ||
            content.find("animate") != std::string::npos ||
            content.find("vir") != std::string::npos;
+    
+    // 重要：无修饰字面量不包含在此判断中，因为它们可能出现在任何地方
+    // 无修饰字面量的识别依赖于上下文，而不是内容特征
 }
 
 bool CHTLUnifiedScanner::containsCSSSyntax(const std::string& content) {
@@ -684,6 +688,106 @@ void CHTLUnifiedScanner::setError(const std::string& error) {
 
 void CHTLUnifiedScanner::clearErrors() {
     last_error_.clear();
+}
+
+bool CHTLUnifiedScanner::isUndecoratedLiteralContext(const std::string& content, size_t position) {
+    // 检查当前位置是否在允许无修饰字面量的上下文中
+    
+    // 检查是否在text块中
+    size_t text_pos = content.rfind("text", position);
+    if (text_pos != std::string::npos) {
+        size_t brace_pos = content.find('{', text_pos);
+        if (brace_pos != std::string::npos && brace_pos < position) {
+            // 在text块内部
+            return true;
+        }
+    }
+    
+    // 检查是否在CSS属性值中
+    size_t colon_pos = content.rfind(':', position);
+    if (colon_pos != std::string::npos) {
+        size_t semicolon_pos = content.find(';', position);
+        if (semicolon_pos != std::string::npos && colon_pos < position && position < semicolon_pos) {
+            // 在CSS属性值中
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+std::vector<std::pair<size_t, size_t>> CHTLUnifiedScanner::findUndecoratedLiterals(const std::string& content, const std::string& context) {
+    std::vector<std::pair<size_t, size_t>> literals;
+    
+    if (context != "text" && context != "css_value") {
+        return literals; // 只在特定上下文中查找
+    }
+    
+    size_t pos = 0;
+    while (pos < content.length()) {
+        // 跳过空白
+        while (pos < content.length() && std::isspace(content[pos])) {
+            pos++;
+        }
+        
+        if (pos >= content.length()) break;
+        
+        // 检查是否为无修饰字面量的开始
+        if (isUndecoratedLiteralContext(content, pos)) {
+            size_t start = pos;
+            
+            // 查找字面量的结束
+            while (pos < content.length() && 
+                   content[pos] != ';' && content[pos] != '}' && content[pos] != '{' &&
+                   content[pos] != '\n') {
+                pos++;
+            }
+            
+            if (pos > start) {
+                literals.emplace_back(start, pos);
+            }
+        } else {
+            pos++;
+        }
+    }
+    
+    return literals;
+}
+
+bool CHTLUnifiedScanner::shouldTreatAsUndecoratedLiteral(const std::string& content, size_t start, size_t end, const std::string& context) {
+    if (start >= end || end > content.length()) {
+        return false;
+    }
+    
+    std::string literal = content.substr(start, end - start);
+    
+    // 去除首尾空白
+    size_t first_non_space = literal.find_first_not_of(" \t");
+    size_t last_non_space = literal.find_last_not_of(" \t");
+    
+    if (first_non_space == std::string::npos) {
+        return false; // 只有空白
+    }
+    
+    literal = literal.substr(first_non_space, last_non_space - first_non_space + 1);
+    
+    // 检查是否包含引号（如果有引号就不是无修饰字面量）
+    if (literal.find('"') != std::string::npos || literal.find('\'') != std::string::npos) {
+        return false;
+    }
+    
+    // 检查是否为CHTL关键字（关键字不应该被当作字面量）
+    static const std::unordered_set<std::string> chtl_keywords = {
+        "Template", "Custom", "Origin", "Import", "Namespace", "text", "style", "script",
+        "listen", "delegate", "animate", "vir", "inherit", "delete", "from", "as"
+    };
+    
+    if (chtl_keywords.find(literal) != chtl_keywords.end()) {
+        return false;
+    }
+    
+    // 在指定上下文中，可以作为无修饰字面量
+    return context == "text" || context == "css_value" || context == "attribute";
 }
 
 // ScannerUtils命名空间实现

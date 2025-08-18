@@ -32,11 +32,16 @@ public:
     std::vector<std::string> getErrors() const { return errors_; }
     void clearErrors() { errors_.clear(); }
     
+    // 上下文管理（用于无修饰字面量识别）
+    void setContext(const std::string& context) { current_context_ = context; }
+    std::string getContext() const { return current_context_; }
+    
 private:
     std::string input_;
     size_t position_;
     size_t line_;
     size_t column_;
+    std::string current_context_;  // 当前上下文（text, attribute, script等）
     std::vector<std::string> errors_;
     
     // 内部方法
@@ -51,6 +56,7 @@ private:
     Token readIdentifier();
     Token readOperator();
     Token readCHTLJSSelector(); // {{...}}
+    Token readUndecoratedLiteral(); // 无修饰字面量
     Token readKeyword(const std::string& word);
     
     // 辅助方法
@@ -59,6 +65,11 @@ private:
     bool isDigit(char c) const;
     bool isAlphaNumeric(char c) const;
     void addError(const std::string& message);
+    
+    // 无修饰字面量识别辅助
+    bool canBeUndecoratedLiteral() const;
+    bool isValidUndecoratedChar(char c) const;
+    bool isUndecoratedContext() const;
 };
 
 } // namespace chtl

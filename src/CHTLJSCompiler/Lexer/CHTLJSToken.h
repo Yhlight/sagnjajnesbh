@@ -21,6 +21,7 @@ enum class TokenType {
     IDENTIFIER,
     STRING,
     NUMBER,
+    UNDECORATED_LITERAL,  // 无修饰字面量
     
     // CHTL关键字
     TEMPLATE,
