@@ -1,0 +1,453 @@
+// Chtholly 珂朵莉模块 - CHTL组件部分
+// 提供与珂朵莉相关的UI组件和样式
+
+@namespace Chtholly {
+
+    // 珂朵莉主题色彩变量
+    @var $primary-color: #FFB6C1;      // 浅粉色 - 珂朵莉的温柔
+    @var $secondary-color: #FFA0B4;    // 玫瑰粉 - 珂朵莉的坚强
+    @var $accent-color: #FF69B4;       // 热粉色 - 珂朵莉的活力
+    @var $text-color: #2F2F2F;         // 深灰色 - 温暖的文字
+    @var $background-color: #FFF5F8;   // 粉白色 - 纯净的背景
+    
+    // 珂朵莉专属渐变
+    @var $chtholly-gradient: linear-gradient(135deg, $primary-color, $secondary-color);
+    @var $sunset-gradient: linear-gradient(180deg, #FFB6C1, #FFA0B4, #FF8FA3);
+    
+    // 珂朵莉按钮组件
+    ChthollyButton {
+        style {
+            .chtholly-btn {
+                background: $chtholly-gradient;
+                border: none;
+                border-radius: 25px;
+                padding: 12px 24px;
+                color: white;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .chtholly-btn:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.5s;
+            }
+            
+            .chtholly-btn:hover:before {
+                left: 100%;
+            }
+            
+            .chtholly-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(255, 182, 193, 0.4);
+            }
+            
+            .chtholly-btn:active {
+                transform: translateY(0);
+            }
+            
+            // 不同尺寸
+            .chtholly-btn.small {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            
+            .chtholly-btn.large {
+                padding: 16px 32px;
+                font-size: 18px;
+            }
+        }
+        
+        script {
+            // 珂朵莉按钮的特殊交互效果
+            {{.chtholly-btn}}->listen({
+                click: function(event) {
+                    // 创建心形粒子效果
+                    createHeartParticles(event.target);
+                },
+                mouseenter: function(event) {
+                    // 播放温柔的音效（如果有的话）
+                    playGentleSound();
+                },
+                mouseleave: function(event) {
+                    // 重置状态
+                    resetButtonState(event.target);
+                }
+            });
+            
+            function createHeartParticles(button) {
+                const rect = button.getBoundingClientRect();
+                for (let i = 0; i < 6; i++) {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '♥';
+                    heart.style.cssText = `
+                        position: fixed;
+                        color: #FF69B4;
+                        font-size: 16px;
+                        pointer-events: none;
+                        z-index: 9999;
+                        left: ${rect.left + rect.width/2}px;
+                        top: ${rect.top + rect.height/2}px;
+                        animation: heartFloat 1s ease-out forwards;
+                    `;
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 1000);
+                }
+            }
+            
+            function playGentleSound() {
+                // 播放轻柔的音效
+                console.log('♪ 珂朵莉的温柔声音...');
+            }
+            
+            function resetButtonState(button) {
+                // 重置按钮状态
+                button.style.transform = '';
+            }
+        }
+    }
+    
+    // 珂朵莉卡片组件
+    ChthollyCard {
+        style {
+            .chtholly-card {
+                background: $background-color;
+                border-radius: 20px;
+                padding: 24px;
+                box-shadow: 0 8px 32px rgba(255, 182, 193, 0.15);
+                border: 2px solid rgba(255, 182, 193, 0.2);
+                position: relative;
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .chtholly-card:before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255, 182, 193, 0.1) 0%, transparent 70%);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .chtholly-card:hover:before {
+                opacity: 1;
+            }
+            
+            .chtholly-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 40px rgba(255, 182, 193, 0.25);
+            }
+            
+            .chtholly-card-title {
+                color: $accent-color;
+                font-size: 24px;
+                font-weight: 700;
+                margin-bottom: 16px;
+                position: relative;
+            }
+            
+            .chtholly-card-title:after {
+                content: '';
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 50px;
+                height: 3px;
+                background: $chtholly-gradient;
+                border-radius: 2px;
+            }
+            
+            .chtholly-card-content {
+                color: $text-color;
+                line-height: 1.6;
+                font-size: 16px;
+            }
+        }
+        
+        script {
+            {{.chtholly-card}}->listen({
+                mouseenter: function(event) {
+                    // 添加温柔的发光效果
+                    event.target.style.boxShadow = '0 12px 40px rgba(255, 182, 193, 0.35), 0 0 20px rgba(255, 182, 193, 0.2)';
+                },
+                mouseleave: function(event) {
+                    // 恢复原始阴影
+                    event.target.style.boxShadow = '0 8px 32px rgba(255, 182, 193, 0.15)';
+                }
+            });
+        }
+    }
+    
+    // 珂朵莉输入框组件
+    ChthollyInput {
+        style {
+            .chtholly-input {
+                border: 2px solid rgba(255, 182, 193, 0.3);
+                border-radius: 15px;
+                padding: 14px 20px;
+                font-size: 16px;
+                color: $text-color;
+                background: rgba(255, 245, 248, 0.8);
+                transition: all 0.3s ease;
+                outline: none;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .chtholly-input:focus {
+                border-color: $accent-color;
+                background: white;
+                box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+                transform: translateY(-1px);
+            }
+            
+            .chtholly-input::placeholder {
+                color: rgba(47, 47, 47, 0.5);
+                font-style: italic;
+            }
+            
+            // 特殊的心形焦点指示器
+            .chtholly-input-container {
+                position: relative;
+                display: inline-block;
+                width: 100%;
+            }
+            
+            .chtholly-input-container:after {
+                content: '♥';
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: $accent-color;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                pointer-events: none;
+            }
+            
+            .chtholly-input:focus + .chtholly-input-container:after,
+            .chtholly-input-container:focus-within:after {
+                opacity: 1;
+            }
+        }
+        
+        script {
+            {{.chtholly-input}}->listen({
+                focus: function(event) {
+                    // 创建温柔的焦点效果
+                    const container = event.target.parentElement;
+                    if (container && container.classList.contains('chtholly-input-container')) {
+                        container.style.transform = 'scale(1.02)';
+                    }
+                },
+                blur: function(event) {
+                    // 移除焦点效果
+                    const container = event.target.parentElement;
+                    if (container && container.classList.contains('chtholly-input-container')) {
+                        container.style.transform = 'scale(1)';
+                    }
+                },
+                input: function(event) {
+                    // 输入时的实时反馈
+                    if (event.target.value.length > 0) {
+                        event.target.style.borderColor = '#FF69B4';
+                    } else {
+                        event.target.style.borderColor = 'rgba(255, 182, 193, 0.3)';
+                    }
+                }
+            });
+        }
+    }
+    
+    // 珂朵莉加载动画组件
+    ChthollyLoader {
+        style {
+            .chtholly-loader {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100px;
+            }
+            
+            .chtholly-spinner {
+                position: relative;
+                width: 60px;
+                height: 60px;
+            }
+            
+            .chtholly-spinner:before,
+            .chtholly-spinner:after {
+                content: '♥';
+                position: absolute;
+                font-size: 20px;
+                color: $accent-color;
+                animation: chthollyPulse 1.5s ease-in-out infinite;
+            }
+            
+            .chtholly-spinner:before {
+                left: 0;
+                animation-delay: 0s;
+            }
+            
+            .chtholly-spinner:after {
+                right: 0;
+                animation-delay: 0.75s;
+            }
+            
+            @keyframes chthollyPulse {
+                0%, 100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1.3);
+                    opacity: 0.7;
+                }
+            }
+            
+            @keyframes heartFloat {
+                0% {
+                    transform: translateY(0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-50px) scale(0.5);
+                    opacity: 0;
+                }
+            }
+        }
+        
+        script {
+            // 珂朵莉加载器的生命周期管理
+            {{.chtholly-loader}}->listen({
+                load: function(event) {
+                    console.log('珂朵莉正在为您加载...');
+                    startChthollyAnimation();
+                }
+            });
+            
+            function startChthollyAnimation() {
+                const loaders = document.querySelectorAll('.chtholly-loader');
+                loaders.forEach(loader => {
+                    // 添加额外的动画效果
+                    loader.style.animation = 'fadeIn 0.5s ease-in';
+                });
+            }
+        }
+    }
+    
+    // 珂朵莉通知组件
+    ChthollyNotification {
+        style {
+            .chtholly-notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: $chtholly-gradient;
+                color: white;
+                padding: 16px 24px;
+                border-radius: 20px;
+                box-shadow: 0 8px 32px rgba(255, 182, 193, 0.3);
+                z-index: 10000;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                max-width: 300px;
+            }
+            
+            .chtholly-notification.show {
+                transform: translateX(0);
+            }
+            
+            .chtholly-notification:before {
+                content: '♥ ';
+                font-size: 18px;
+            }
+            
+            .chtholly-notification-close {
+                position: absolute;
+                top: 8px;
+                right: 12px;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+                opacity: 0.7;
+                transition: opacity 0.2s;
+            }
+            
+            .chtholly-notification-close:hover {
+                opacity: 1;
+            }
+        }
+        
+        script {
+            // 珂朵莉通知系统
+            function showChthollyNotification(message, duration = 3000) {
+                const notification = document.createElement('div');
+                notification.className = 'chtholly-notification';
+                notification.innerHTML = `
+                    ${message}
+                    <button class="chtholly-notification-close">&times;</button>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // 显示动画
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 10);
+                
+                // 关闭按钮事件
+                const closeBtn = notification.querySelector('.chtholly-notification-close');
+                closeBtn.addEventListener('click', () => {
+                    hideChthollyNotification(notification);
+                });
+                
+                // 自动关闭
+                if (duration > 0) {
+                    setTimeout(() => {
+                        hideChthollyNotification(notification);
+                    }, duration);
+                }
+                
+                return notification;
+            }
+            
+            function hideChthollyNotification(notification) {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }
+            
+            // 全局函数，供其他组件调用
+            window.ChthollyNotify = showChthollyNotification;
+        }
+    }
+}
+
+// 导出组件供其他模块使用
+@export {
+    ChthollyButton,
+    ChthollyCard,
+    ChthollyInput,
+    ChthollyLoader,
+    ChthollyNotification
+}

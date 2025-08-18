@@ -1,0 +1,85 @@
+[Info]
+Name = Chtholly
+Version = 1.0.0
+Author = CHTL Core Team
+Description = Chtholly 珂朵莉模块 - 温柔而强大的UI组件库
+License = MIT
+Homepage = https://github.com/chtl-lang/chtl
+Repository = https://github.com/chtl-lang/chtl-modules
+
+[Dependencies]
+CHTL = >= 1.0.0
+
+[Export]
+ChthollyButton = 珂朵莉风格的按钮组件，具有温柔的交互效果和心形粒子动画
+ChthollyCard = 珂朵莉风格的卡片组件，具有优雅的悬浮效果和渐变背景
+ChthollyInput = 珂朵莉风格的输入框组件，具有心形焦点指示器和温柔的过渡效果
+ChthollyLoader = 珂朵莉风格的加载动画组件，使用心形符号的脉冲动画
+ChthollyNotification = 珂朵莉风格的通知组件，具有温柔的渐变背景和滑入动画
+
+[Variables]
+$primary-color = #FFB6C1 ; 浅粉色 - 珂朵莉的温柔
+$secondary-color = #FFA0B4 ; 玫瑰粉 - 珂朵莉的坚强  
+$accent-color = #FF69B4 ; 热粉色 - 珂朵莉的活力
+$text-color = #2F2F2F ; 深灰色 - 温暖的文字
+$background-color = #FFF5F8 ; 粉白色 - 纯净的背景
+$chtholly-gradient = linear-gradient(135deg, $primary-color, $secondary-color)
+$sunset-gradient = linear-gradient(180deg, #FFB6C1, #FFA0B4, #FF8FA3)
+
+[Styles]
+chtholly-btn = 珂朵莉按钮的核心样式类
+chtholly-card = 珂朵莉卡片的核心样式类
+chtholly-input = 珂朵莉输入框的核心样式类
+chtholly-loader = 珂朵莉加载器的核心样式类
+chtholly-notification = 珂朵莉通知的核心样式类
+
+[Scripts]
+ChthollyNotify = 全局通知函数，用于显示珂朵莉风格的通知消息
+
+[Animations]
+chthollyPulse = 心形脉冲动画，用于加载器
+heartFloat = 心形漂浮动画，用于按钮点击效果
+fadeIn = 渐入动画，用于组件显示
+
+[Features]
+HeartParticles = 心形粒子效果，点击按钮时触发
+GentleInteractions = 温柔的交互效果，包括悬浮、焦点等状态
+GradientBackgrounds = 渐变背景，体现珂朵莉的温柔色彩
+ResponsiveDesign = 响应式设计，适配不同屏幕尺寸
+
+[Compatibility]
+MinCHTLVersion = 1.0.0
+MaxCHTLVersion = 2.0.0
+SupportedBrowsers = Chrome >= 60, Firefox >= 55, Safari >= 12, Edge >= 79
+RequiredFeatures = CSS3, ES6, DOM Events
+
+[Theme]
+ColorScheme = Pink, Rose, Warm
+Mood = Gentle, Elegant, Loving
+Inspiration = Chtholly Nota Seniorious
+Character = 珂朵莉·诺塔·塞尼欧里斯
+
+[Documentation]
+README = 详细的组件使用说明和示例
+Examples = 完整的示例代码和演示
+API = 组件API文档和配置选项
+Tutorial = 珂朵莉模块的使用教程
+
+[Metadata]
+Category = UI Components, Theme
+Tags = chtholly, pink, gentle, heart, anime, ui-components
+Priority = High
+Experimental = false
+Emotional = true
+
+[Notes]
+; 珂朵莉模块的CMOD部分
+; 提供了完整的UI组件库，所有组件都体现了珂朵莉的温柔和坚强
+; 
+; 设计理念：
+; - 温柔的粉色调，体现珂朵莉的柔美
+; - 心形元素，代表爱与关怀
+; - 优雅的动画，展现珂朵莉的优美
+; - 强大的功能，体现珂朵莉的坚强
+;
+; 这些组件不仅仅是UI元素，更是对珂朵莉这个角色的致敬

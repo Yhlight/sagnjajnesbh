@@ -331,6 +331,32 @@ test_auto_addition/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auto_addition.dir/build.make CMakeFiles/test_auto_addition.dir/build
 .PHONY : test_auto_addition/fast
 
+#=============================================================================
+# Target rules for targets named chtholly_cjmod
+
+# Build rule for target.
+chtholly_cjmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtholly_cjmod
+.PHONY : chtholly_cjmod
+
+# fast build rule for target.
+chtholly_cjmod/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/build
+.PHONY : chtholly_cjmod/fast
+
+#=============================================================================
+# Target rules for targets named test_chtholly_module
+
+# Build rule for target.
+test_chtholly_module: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtholly_module
+.PHONY : test_chtholly_module
+
+# fast build rule for target.
+test_chtholly_module/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtholly_module.dir/build.make CMakeFiles/test_chtholly_module.dir/build
+.PHONY : test_chtholly_module/fast
+
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
@@ -715,6 +741,78 @@ src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_auto_addition.dir/build.make CMakeFiles/chtl_auto_addition.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s
 .PHONY : src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s
 
+src/Module/Chtholly/CJMOD/src/ChthollyInterface.o: src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.o
+.PHONY : src/Module/Chtholly/CJMOD/src/ChthollyInterface.o
+
+# target to build an object file
+src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.o
+.PHONY : src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.o
+
+src/Module/Chtholly/CJMOD/src/ChthollyInterface.i: src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.i
+.PHONY : src/Module/Chtholly/CJMOD/src/ChthollyInterface.i
+
+# target to preprocess a source file
+src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.i
+.PHONY : src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.i
+
+src/Module/Chtholly/CJMOD/src/ChthollyInterface.s: src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.s
+.PHONY : src/Module/Chtholly/CJMOD/src/ChthollyInterface.s
+
+# target to generate assembly for a file
+src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.s
+.PHONY : src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.s
+
+src/Module/Chtholly/CJMOD/src/iNeverAway.o: src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.o
+.PHONY : src/Module/Chtholly/CJMOD/src/iNeverAway.o
+
+# target to build an object file
+src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.o
+.PHONY : src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.o
+
+src/Module/Chtholly/CJMOD/src/iNeverAway.i: src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.i
+.PHONY : src/Module/Chtholly/CJMOD/src/iNeverAway.i
+
+# target to preprocess a source file
+src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.i
+.PHONY : src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.i
+
+src/Module/Chtholly/CJMOD/src/iNeverAway.s: src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.s
+.PHONY : src/Module/Chtholly/CJMOD/src/iNeverAway.s
+
+# target to generate assembly for a file
+src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.s
+.PHONY : src/Module/Chtholly/CJMOD/src/iNeverAway.cpp.s
+
+src/Module/Chtholly/CJMOD/src/printMylove.o: src/Module/Chtholly/CJMOD/src/printMylove.cpp.o
+.PHONY : src/Module/Chtholly/CJMOD/src/printMylove.o
+
+# target to build an object file
+src/Module/Chtholly/CJMOD/src/printMylove.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/printMylove.cpp.o
+.PHONY : src/Module/Chtholly/CJMOD/src/printMylove.cpp.o
+
+src/Module/Chtholly/CJMOD/src/printMylove.i: src/Module/Chtholly/CJMOD/src/printMylove.cpp.i
+.PHONY : src/Module/Chtholly/CJMOD/src/printMylove.i
+
+# target to preprocess a source file
+src/Module/Chtholly/CJMOD/src/printMylove.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/printMylove.cpp.i
+.PHONY : src/Module/Chtholly/CJMOD/src/printMylove.cpp.i
+
+src/Module/Chtholly/CJMOD/src/printMylove.s: src/Module/Chtholly/CJMOD/src/printMylove.cpp.s
+.PHONY : src/Module/Chtholly/CJMOD/src/printMylove.s
+
+# target to generate assembly for a file
+src/Module/Chtholly/CJMOD/src/printMylove.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/printMylove.cpp.s
+.PHONY : src/Module/Chtholly/CJMOD/src/printMylove.cpp.s
+
 src/Shared/SimpleZip/SimpleZip.o: src/Shared/SimpleZip/SimpleZip.cpp.o
 .PHONY : src/Shared/SimpleZip/SimpleZip.o
 
@@ -882,6 +980,30 @@ test/test_auto_addition.s: test/test_auto_addition.cpp.s
 test/test_auto_addition.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_auto_addition.dir/build.make CMakeFiles/test_auto_addition.dir/test/test_auto_addition.cpp.s
 .PHONY : test/test_auto_addition.cpp.s
+
+test/test_chtholly_module.o: test/test_chtholly_module.cpp.o
+.PHONY : test/test_chtholly_module.o
+
+# target to build an object file
+test/test_chtholly_module.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtholly_module.dir/build.make CMakeFiles/test_chtholly_module.dir/test/test_chtholly_module.cpp.o
+.PHONY : test/test_chtholly_module.cpp.o
+
+test/test_chtholly_module.i: test/test_chtholly_module.cpp.i
+.PHONY : test/test_chtholly_module.i
+
+# target to preprocess a source file
+test/test_chtholly_module.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtholly_module.dir/build.make CMakeFiles/test_chtholly_module.dir/test/test_chtholly_module.cpp.i
+.PHONY : test/test_chtholly_module.cpp.i
+
+test/test_chtholly_module.s: test/test_chtholly_module.cpp.s
+.PHONY : test/test_chtholly_module.s
+
+# target to generate assembly for a file
+test/test_chtholly_module.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtholly_module.dir/build.make CMakeFiles/test_chtholly_module.dir/test/test_chtholly_module.cpp.s
+.PHONY : test/test_chtholly_module.cpp.s
 
 test/test_chtl_compiler.o: test/test_chtl_compiler.cpp.o
 .PHONY : test/test_chtl_compiler.o
@@ -1061,6 +1183,7 @@ help:
 	@echo "... package"
 	@echo "... package_source"
 	@echo "... rebuild_cache"
+	@echo "... chtholly_cjmod"
 	@echo "... chtl_ast"
 	@echo "... chtl_auto_addition"
 	@echo "... chtl_compiler"
@@ -1068,6 +1191,7 @@ help:
 	@echo "... chtl_js_enhanced"
 	@echo "... chtl_shared"
 	@echo "... test_auto_addition"
+	@echo "... test_chtholly_module"
 	@echo "... test_chtl_compiler"
 	@echo "... test_chtl_compiler_simple"
 	@echo "... test_chtl_js_lexer"
@@ -1124,6 +1248,15 @@ help:
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.o"
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.i"
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.s"
+	@echo "... src/Module/Chtholly/CJMOD/src/ChthollyInterface.o"
+	@echo "... src/Module/Chtholly/CJMOD/src/ChthollyInterface.i"
+	@echo "... src/Module/Chtholly/CJMOD/src/ChthollyInterface.s"
+	@echo "... src/Module/Chtholly/CJMOD/src/iNeverAway.o"
+	@echo "... src/Module/Chtholly/CJMOD/src/iNeverAway.i"
+	@echo "... src/Module/Chtholly/CJMOD/src/iNeverAway.s"
+	@echo "... src/Module/Chtholly/CJMOD/src/printMylove.o"
+	@echo "... src/Module/Chtholly/CJMOD/src/printMylove.i"
+	@echo "... src/Module/Chtholly/CJMOD/src/printMylove.s"
 	@echo "... src/Shared/SimpleZip/SimpleZip.o"
 	@echo "... src/Shared/SimpleZip/SimpleZip.i"
 	@echo "... src/Shared/SimpleZip/SimpleZip.s"
@@ -1145,6 +1278,9 @@ help:
 	@echo "... test/test_auto_addition.o"
 	@echo "... test/test_auto_addition.i"
 	@echo "... test/test_auto_addition.s"
+	@echo "... test/test_chtholly_module.o"
+	@echo "... test/test_chtholly_module.i"
+	@echo "... test/test_chtholly_module.s"
 	@echo "... test/test_chtl_compiler.o"
 	@echo "... test/test_chtl_compiler.i"
 	@echo "... test/test_chtl_compiler.s"

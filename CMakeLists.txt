@@ -135,3 +135,26 @@ set_target_properties(
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+# Chtholly 珂朵莉模块
+set(CHTHOLLY_CJMOD_SOURCES
+    src/Module/Chtholly/CJMOD/src/printMylove.cpp
+    src/Module/Chtholly/CJMOD/src/iNeverAway.cpp
+    src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp
+)
+
+# Chtholly CJMOD库
+add_library(chtholly_cjmod STATIC ${CHTHOLLY_CJMOD_SOURCES})
+target_link_libraries(chtholly_cjmod chtl_shared)
+
+# Chtholly模块测试
+add_executable(test_chtholly_module test/test_chtholly_module.cpp)
+target_link_libraries(test_chtholly_module chtholly_cjmod)
+
+# 更新输出目录设置
+set_target_properties(
+    chtholly_cjmod test_chtholly_module
+    PROPERTIES 
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)

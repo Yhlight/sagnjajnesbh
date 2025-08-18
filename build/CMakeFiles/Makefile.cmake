@@ -64,4 +64,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_chtljs_enhanced_functions.dir/DependInfo.cmake"
   "CMakeFiles/chtl_auto_addition.dir/DependInfo.cmake"
   "CMakeFiles/test_auto_addition.dir/DependInfo.cmake"
+  "CMakeFiles/chtholly_cjmod.dir/DependInfo.cmake"
+  "CMakeFiles/test_chtholly_module.dir/DependInfo.cmake"
   )
