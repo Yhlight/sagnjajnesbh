@@ -1,319 +1,207 @@
-// Improved CSS3 Grammar based on official ANTLR grammars-v4
-// Combined lexer and parser grammar for CHTL CSS compiler
-// Adapted from: https://github.com/antlr/grammars-v4/tree/master/css3
+/*
+ * CSS3 Grammar for ANTLR 4
+ * Based on W3C CSS Specification and improved for C++ target compatibility
+ */
 
 grammar CSS3_improved;
 
 // Parser Rules
 stylesheet
-    : ws (charset ws*)* (imports ws*)* (namespace_ ws*)* (nestedStatement ws*)* EOF
+    : ( charset | imports | namespace_rule | rule )* EOF
     ;
 
 charset
-    : '@charset' ws STRING ws ';' ws
+    : CHARSET_SYM STRING ';'
     ;
 
 imports
-    : '@import' ws (STRING | url) ws mediaQueryList? ';' ws
+    : IMPORT_SYM STRING media_list? ';'
+    | IMPORT_SYM URI media_list? ';'
     ;
 
-namespace_
-    : '@namespace' ws (namespacePrefix ws)? (STRING | url) ws ';' ws
+namespace_rule
+    : NAMESPACE_SYM namespace_prefix? ( STRING | URI ) ';'
     ;
 
-namespacePrefix
+namespace_prefix
     : IDENT
     ;
 
-media
-    : '@media' ws mediaQueryList groupRuleBody ws
+media_list
+    : medium ( COMMA medium )*
     ;
 
-mediaQueryList
-    : (mediaQuery (COMMA ws mediaQuery)*)? ws
-    ;
-
-mediaQuery
-    : ('only' | 'not')? ws mediaType ws ('and' ws mediaExpression)*
-    | mediaExpression ('and' ws mediaExpression)*
-    ;
-
-mediaType
+medium
     : IDENT
     ;
 
-mediaExpression
-    : '(' ws mediaFeature (':' ws expr)? ')' ws
+rule
+    : ruleset
+    | media_rule
+    | page_rule
+    | font_face_rule
     ;
 
-mediaFeature
-    : IDENT ws
+media_rule
+    : MEDIA_SYM media_list '{' ruleset* '}'
     ;
 
-page
-    : '@page' ws pseudoPage? '{' ws declaration? (';' ws declaration?)* '}' ws
+page_rule
+    : PAGE_SYM pseudo_page? '{' declaration_list '}'
     ;
 
-pseudoPage
-    : ':' IDENT ws
+pseudo_page
+    : ':' IDENT
     ;
 
-selectorGroup
-    : selector (COMMA ws selector)*
+font_face_rule
+    : FONT_FACE_SYM '{' declaration_list '}'
+    ;
+
+ruleset
+    : selector_list '{' declaration_list '}'
+    ;
+
+selector_list
+    : selector ( COMMA selector )*
     ;
 
 selector
-    : simpleSelectorSequence ws (combinator simpleSelectorSequence ws)*
+    : simple_selector ( combinator simple_selector )*
     ;
 
 combinator
-    : '+' ws
-    | '>' ws
-    | '~' ws
-    | ws
+    : PLUS
+    | GREATER
+    | TILDE
+    | S
     ;
 
-simpleSelectorSequence
-    : (typeSelector | universal) (HASH | className | attrib | pseudo)*
-    | (HASH | className | attrib | pseudo)+
+simple_selector
+    : element_name ( HASH | class | attrib | pseudo )*
+    | ( HASH | class | attrib | pseudo )+
     ;
 
-typeSelector
-    : typeNamespacePrefix? elementName
-    ;
-
-typeNamespacePrefix
-    : (IDENT | '*')? '|'
-    ;
-
-elementName
+element_name
     : IDENT
+    | '*'
     ;
 
-universal
-    : typeNamespacePrefix? '*'
-    ;
-
-className
+class
     : '.' IDENT
     ;
 
 attrib
-    : '[' ws typeNamespacePrefix? IDENT ws (('^=' | '$=' | '*=' | '=' | '~=' | '|=') ws (IDENT | STRING))? ws ']'
+    : '[' IDENT ( ( '=' | INCLUDES | DASHMATCH ) ( IDENT | STRING ) )? ']'
     ;
 
 pseudo
-    : ':' ':'? (IDENT | functionalPseudo)
+    : ':' ( IDENT | FUNCTION ( IDENT | STRING | NUMBER | DIMENSION )* ')' )
     ;
 
-functionalPseudo
-    : FUNCTION ws expression ')'
-    ;
-
-expression
-    : ('+' | '-' | DIMENSION | NUMBER | STRING | IDENT) ws
-    ;
-
-negation
-    : ':not' ws negationArg ws ')'
-    ;
-
-negationArg
-    : typeSelector | universal | HASH | className | attrib | pseudo
-    ;
-
-nestedStatement
-    : ruleset
-    | media
-    | page
-    | fontFaceRule
-    | keyframesRule
-    | supportsRule
-    | atRule
-    ;
-
-groupRuleBody
-    : '{' ws nestedStatement* '}'
-    ;
-
-ruleset
-    : selectorGroup '{' ws declarationList? '}' ws
-    ;
-
-declarationList
-    : declaration (';' ws declaration?)* ws
+declaration_list
+    : declaration ( ';' declaration )*
     ;
 
 declaration
-    : property ':' ws expr prio?
-    | /* empty for error handling */
+    : property ':' expr prio?
     ;
 
 prio
-    : '!important' ws
-    ;
-
-property
-    : IDENT ws
+    : IMPORTANT_SYM
     ;
 
 expr
-    : term (operator? term)*
-    ;
-
-term
-    : unaryOperator? (NUMBER | PERCENTAGE | DIMENSION | STRING | IDENT | url | hexcolor | function_) ws
-    ;
-
-function_
-    : FUNCTION ws expr ')' ws
-    ;
-
-unaryOperator
-    : '-' | '+'
+    : term ( operator term )*
     ;
 
 operator
-    : '/' ws | ',' ws | /* empty */
+    : '/'
+    | COMMA
+    ;
+
+term
+    : unary_operator? ( NUMBER | PERCENTAGE | LENGTH | EMS | EXS | ANGLE | TIME | FREQ )
+    | STRING
+    | IDENT
+    | URI
+    | hexcolor
+    | function
+    ;
+
+function
+    : FUNCTION expr ')'
+    ;
+
+unary_operator
+    : '-'
+    | '+'
     ;
 
 hexcolor
-    : HASH ws
+    : HASH
     ;
 
-url
-    : 'url(' ws (STRING | URL) ws ')'
-    ;
-
-fontFaceRule
-    : '@font-face' ws '{' ws declarationList? '}' ws
-    ;
-
-keyframesRule
-    : '@keyframes' ws IDENT ws '{' ws keyframeBlock* '}' ws
-    ;
-
-keyframeBlock
-    : keyframeSelector '{' ws declarationList? '}' ws
-    ;
-
-keyframeSelector
-    : ('from' | 'to' | PERCENTAGE) ws
-    ;
-
-supportsRule
-    : '@supports' ws supportsCondition ws groupRuleBody
-    ;
-
-supportsCondition
-    : supportsNegation
-    | supportsConjunction
-    | supportsDisjunction
-    | supportsConditionInParens
-    ;
-
-supportsConditionInParens
-    : '(' ws supportsCondition ws ')'
-    | supportsDeclarationCondition
-    | generalEnclosed
-    ;
-
-supportsNegation
-    : 'not' ws supportsConditionInParens
-    ;
-
-supportsConjunction
-    : supportsConditionInParens (ws 'and' ws supportsConditionInParens)+
-    ;
-
-supportsDisjunction
-    : supportsConditionInParens (ws 'or' ws supportsConditionInParens)+
-    ;
-
-supportsDeclarationCondition
-    : '(' ws declaration ')'
-    ;
-
-generalEnclosed
-    : ('(' ws IDENT ws ')') | ('(' ws STRING ws ')')
-    ;
-
-atRule
-    : '@' IDENT ws any* (';' | ('{' ws any* '}')) ws
-    ;
-
-any
-    : IDENT | NUMBER | PERCENTAGE | DIMENSION | STRING | URL | HASH | FUNCTION | '(' | ')' | '[' | ']' | ':' | ';' | '{' | '}' | ws
-    ;
-
-ws
-    : (WHITESPACE | COMMENT)*
+property
+    : IDENT
     ;
 
 // Lexer Rules
-WHITESPACE : [ \t\r\n\f]+ -> channel(HIDDEN);
+fragment H          : [0-9a-fA-F] ;
+fragment NONASCII   : [\u0080-\uFFFF] ;
+fragment UNICODE    : '\\' H H H H H H ( '\r\n' | [ \t\r\n\f] )? ;
+fragment ESCAPE     : UNICODE | ( '\\' ~[\r\n\f0-9a-fA-F] ) ;
+fragment NMSTART    : [_a-zA-Z] | NONASCII | ESCAPE ;
+fragment NMCHAR     : [_a-zA-Z0-9-] | NONASCII | ESCAPE ;
+fragment STRING1    : '"' ( ~[\n\r\f\\"] | '\\' NEWLINE | ESCAPE )* '"' ;
+fragment STRING2    : '\'' ( ~[\n\r\f\\'] | '\\' NEWLINE | ESCAPE )* '\'' ;
+fragment INVALID1   : '"' ( ~[\n\r\f\\"] | '\\' NEWLINE | ESCAPE )* ;
+fragment INVALID2   : '\'' ( ~[\n\r\f\\'] | '\\' NEWLINE | ESCAPE )* ;
+fragment COMMENT    : '/*' .*? '*/' ;
+fragment IDENT      : '-'? NMSTART NMCHAR* ;
+fragment NAME       : NMCHAR+ ;
+fragment NUM        : [0-9]+ | [0-9]* '.' [0-9]+ ;
+fragment STRING     : STRING1 | STRING2 ;
+fragment INVALID    : INVALID1 | INVALID2 ;
+fragment NEWLINE    : '\n' | '\r\n' | '\r' | '\f' ;
+fragment RANGE      : '\\u' H H H H H H '-' '\\u' H H H H H H ;
+fragment W          : [ \t\r\n\f]* ;
 
-COMMENT : '/*' .*? '*/' -> channel(HIDDEN);
+// Tokens
+CHARSET_SYM     : '@charset' ;
+IMPORT_SYM      : '@import' ;
+MEDIA_SYM       : '@media' ;
+PAGE_SYM        : '@page' ;
+FONT_FACE_SYM   : '@font-face' ;
+NAMESPACE_SYM   : '@namespace' ;
+IMPORTANT_SYM   : '!' W 'important' ;
 
-STRING
-    : '"' (~["\r\n\f\\] | '\\' . | '\\\r\n' | '\\\r' | '\\\n')* '"'
-    | '\'' (~['\r\n\f\\] | '\\' . | '\\\r\n' | '\\\r' | '\\\n')* '\''
-    ;
+NUMBER          : NUM ;
+PERCENTAGE      : NUM '%' ;
+LENGTH          : NUM ( 'em' | 'ex' | 'px' | 'cm' | 'mm' | 'in' | 'pt' | 'pc' ) ;
+EMS             : NUM 'em' ;
+EXS             : NUM 'ex' ;
+ANGLE           : NUM ( 'deg' | 'rad' | 'grad' ) ;
+TIME            : NUM ( 'ms' | 's' ) ;
+FREQ            : NUM ( 'hz' | 'khz' ) ;
+DIMENSION       : NUM IDENT ;
 
-HASH : '#' NAME;
+STRING          : STRING1 | STRING2 ;
+IDENT           : IDENT ;
+HASH            : '#' NAME ;
+URI             : 'url(' W ( STRING | ( ~[)\\]+ | '\\' . )* ) W ')' ;
+FUNCTION        : IDENT '(' ;
 
-NUMBER : [0-9]+ ('.' [0-9]+)?;
+INCLUDES        : '~=' ;
+DASHMATCH       : '|=' ;
 
-PERCENTAGE : NUMBER '%';
+COMMA           : ',' ;
+PLUS            : '+' ;
+GREATER         : '>' ;
+TILDE           : '~' ;
 
-DIMENSION : NUMBER IDENT;
+S               : [ \t\r\n\f]+ -> channel(HIDDEN) ;
+COMMENT         : COMMENT -> channel(HIDDEN) ;
 
-URL : 'url(' WS* (STRING | (~[ \t\r\n\f()'"])*) WS* ')';
-
-FUNCTION : IDENT '(';
-
-IDENT : NMSTART NMCHAR*;
-
-fragment NMSTART : [_a-zA-Z] | NONASCII | ESCAPE;
-
-fragment NMCHAR : [_a-zA-Z0-9\-] | NONASCII | ESCAPE;
-
-fragment NAME : NMCHAR+;
-
-fragment NONASCII : [\u0080-\uFFFF];
-
-fragment UNICODE : '\\' HEX HEX? HEX? HEX? HEX? HEX? WS?;
-
-fragment ESCAPE : UNICODE | '\\' ~[\r\n\f0-9a-fA-F];
-
-fragment HEX : [0-9a-fA-F];
-
-fragment WS : [ \t\r\n\f];
-
-COMMA : ',';
-
-// Operators and punctuation
-LBRACE : '{';
-RBRACE : '}';
-LPAREN : '(';
-RPAREN : ')';
-LBRACKET : '[';
-RBRACKET : ']';
-SEMICOLON : ';';
-COLON : ':';
-DOT : '.';
-HASH_SYMBOL : '#';
-STAR : '*';
-PLUS : '+';
-MINUS : '-';
-SLASH : '/';
-PIPE : '|';
-TILDE : '~';
-GREATER : '>';
-EQUALS : '=';
-CARET_EQUALS : '^=';
-DOLLAR_EQUALS : '$=';
-STAR_EQUALS : '*=';
-TILDE_EQUALS : '~=';
-PIPE_EQUALS : '|=';
-EXCLAMATION : '!';
+// Error handling
+INVALID         : INVALID ;

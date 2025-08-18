@@ -43,9 +43,6 @@ public:
   virtual void enterVariableDeclaration(JavaScriptParser::VariableDeclarationContext * /*ctx*/) override { }
   virtual void exitVariableDeclaration(JavaScriptParser::VariableDeclarationContext * /*ctx*/) override { }
 
-  virtual void enterInitializer(JavaScriptParser::InitializerContext * /*ctx*/) override { }
-  virtual void exitInitializer(JavaScriptParser::InitializerContext * /*ctx*/) override { }
-
   virtual void enterEmptyStatement(JavaScriptParser::EmptyStatementContext * /*ctx*/) override { }
   virtual void exitEmptyStatement(JavaScriptParser::EmptyStatementContext * /*ctx*/) override { }
 
@@ -70,6 +67,24 @@ public:
   virtual void enterWithStatement(JavaScriptParser::WithStatementContext * /*ctx*/) override { }
   virtual void exitWithStatement(JavaScriptParser::WithStatementContext * /*ctx*/) override { }
 
+  virtual void enterSwitchStatement(JavaScriptParser::SwitchStatementContext * /*ctx*/) override { }
+  virtual void exitSwitchStatement(JavaScriptParser::SwitchStatementContext * /*ctx*/) override { }
+
+  virtual void enterCaseBlock(JavaScriptParser::CaseBlockContext * /*ctx*/) override { }
+  virtual void exitCaseBlock(JavaScriptParser::CaseBlockContext * /*ctx*/) override { }
+
+  virtual void enterCaseClauses(JavaScriptParser::CaseClausesContext * /*ctx*/) override { }
+  virtual void exitCaseClauses(JavaScriptParser::CaseClausesContext * /*ctx*/) override { }
+
+  virtual void enterCaseClause(JavaScriptParser::CaseClauseContext * /*ctx*/) override { }
+  virtual void exitCaseClause(JavaScriptParser::CaseClauseContext * /*ctx*/) override { }
+
+  virtual void enterDefaultClause(JavaScriptParser::DefaultClauseContext * /*ctx*/) override { }
+  virtual void exitDefaultClause(JavaScriptParser::DefaultClauseContext * /*ctx*/) override { }
+
+  virtual void enterLabelledStatement(JavaScriptParser::LabelledStatementContext * /*ctx*/) override { }
+  virtual void exitLabelledStatement(JavaScriptParser::LabelledStatementContext * /*ctx*/) override { }
+
   virtual void enterThrowStatement(JavaScriptParser::ThrowStatementContext * /*ctx*/) override { }
   virtual void exitThrowStatement(JavaScriptParser::ThrowStatementContext * /*ctx*/) override { }
 
@@ -82,6 +97,9 @@ public:
   virtual void enterFinallyProduction(JavaScriptParser::FinallyProductionContext * /*ctx*/) override { }
   virtual void exitFinallyProduction(JavaScriptParser::FinallyProductionContext * /*ctx*/) override { }
 
+  virtual void enterDebuggerStatement(JavaScriptParser::DebuggerStatementContext * /*ctx*/) override { }
+  virtual void exitDebuggerStatement(JavaScriptParser::DebuggerStatementContext * /*ctx*/) override { }
+
   virtual void enterFunctionDeclaration(JavaScriptParser::FunctionDeclarationContext * /*ctx*/) override { }
   virtual void exitFunctionDeclaration(JavaScriptParser::FunctionDeclarationContext * /*ctx*/) override { }
 
@@ -90,6 +108,9 @@ public:
 
   virtual void enterFunctionBody(JavaScriptParser::FunctionBodyContext * /*ctx*/) override { }
   virtual void exitFunctionBody(JavaScriptParser::FunctionBodyContext * /*ctx*/) override { }
+
+  virtual void enterExpressionSequence(JavaScriptParser::ExpressionSequenceContext * /*ctx*/) override { }
+  virtual void exitExpressionSequence(JavaScriptParser::ExpressionSequenceContext * /*ctx*/) override { }
 
   virtual void enterTernaryExpression(JavaScriptParser::TernaryExpressionContext * /*ctx*/) override { }
   virtual void exitTernaryExpression(JavaScriptParser::TernaryExpressionContext * /*ctx*/) override { }
@@ -205,8 +226,17 @@ public:
   virtual void enterAssignmentOperator(JavaScriptParser::AssignmentOperatorContext * /*ctx*/) override { }
   virtual void exitAssignmentOperator(JavaScriptParser::AssignmentOperatorContext * /*ctx*/) override { }
 
-  virtual void enterLiteral(JavaScriptParser::LiteralContext * /*ctx*/) override { }
-  virtual void exitLiteral(JavaScriptParser::LiteralContext * /*ctx*/) override { }
+  virtual void enterNullLiteral(JavaScriptParser::NullLiteralContext * /*ctx*/) override { }
+  virtual void exitNullLiteral(JavaScriptParser::NullLiteralContext * /*ctx*/) override { }
+
+  virtual void enterBooleanLiteral(JavaScriptParser::BooleanLiteralContext * /*ctx*/) override { }
+  virtual void exitBooleanLiteral(JavaScriptParser::BooleanLiteralContext * /*ctx*/) override { }
+
+  virtual void enterStringLiteral(JavaScriptParser::StringLiteralContext * /*ctx*/) override { }
+  virtual void exitStringLiteral(JavaScriptParser::StringLiteralContext * /*ctx*/) override { }
+
+  virtual void enterNumericLiteralExpression(JavaScriptParser::NumericLiteralExpressionContext * /*ctx*/) override { }
+  virtual void exitNumericLiteralExpression(JavaScriptParser::NumericLiteralExpressionContext * /*ctx*/) override { }
 
   virtual void enterNumericLiteral(JavaScriptParser::NumericLiteralContext * /*ctx*/) override { }
   virtual void exitNumericLiteral(JavaScriptParser::NumericLiteralContext * /*ctx*/) override { }
@@ -226,14 +256,23 @@ public:
   virtual void enterElementList(JavaScriptParser::ElementListContext * /*ctx*/) override { }
   virtual void exitElementList(JavaScriptParser::ElementListContext * /*ctx*/) override { }
 
+  virtual void enterElision(JavaScriptParser::ElisionContext * /*ctx*/) override { }
+  virtual void exitElision(JavaScriptParser::ElisionContext * /*ctx*/) override { }
+
   virtual void enterObjectLiteral(JavaScriptParser::ObjectLiteralContext * /*ctx*/) override { }
   virtual void exitObjectLiteral(JavaScriptParser::ObjectLiteralContext * /*ctx*/) override { }
 
   virtual void enterPropertyNameAndValueList(JavaScriptParser::PropertyNameAndValueListContext * /*ctx*/) override { }
   virtual void exitPropertyNameAndValueList(JavaScriptParser::PropertyNameAndValueListContext * /*ctx*/) override { }
 
-  virtual void enterPropertyAssignment(JavaScriptParser::PropertyAssignmentContext * /*ctx*/) override { }
-  virtual void exitPropertyAssignment(JavaScriptParser::PropertyAssignmentContext * /*ctx*/) override { }
+  virtual void enterPropertyExpressionAssignment(JavaScriptParser::PropertyExpressionAssignmentContext * /*ctx*/) override { }
+  virtual void exitPropertyExpressionAssignment(JavaScriptParser::PropertyExpressionAssignmentContext * /*ctx*/) override { }
+
+  virtual void enterPropertyGetter(JavaScriptParser::PropertyGetterContext * /*ctx*/) override { }
+  virtual void exitPropertyGetter(JavaScriptParser::PropertyGetterContext * /*ctx*/) override { }
+
+  virtual void enterPropertySetter(JavaScriptParser::PropertySetterContext * /*ctx*/) override { }
+  virtual void exitPropertySetter(JavaScriptParser::PropertySetterContext * /*ctx*/) override { }
 
   virtual void enterPropertyName(JavaScriptParser::PropertyNameContext * /*ctx*/) override { }
   virtual void exitPropertyName(JavaScriptParser::PropertyNameContext * /*ctx*/) override { }
@@ -246,9 +285,6 @@ public:
 
   virtual void enterArgumentList(JavaScriptParser::ArgumentListContext * /*ctx*/) override { }
   virtual void exitArgumentList(JavaScriptParser::ArgumentListContext * /*ctx*/) override { }
-
-  virtual void enterExpressionSequence(JavaScriptParser::ExpressionSequenceContext * /*ctx*/) override { }
-  virtual void exitExpressionSequence(JavaScriptParser::ExpressionSequenceContext * /*ctx*/) override { }
 
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }

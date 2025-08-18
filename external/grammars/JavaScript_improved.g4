@@ -1,6 +1,8 @@
-// Improved JavaScript Grammar based on official ANTLR grammars-v4
-// Combined lexer and parser grammar for CHTL JavaScript compiler
-// Adapted from: https://github.com/antlr/grammars-v4/tree/master/javascript
+/*
+ * JavaScript Grammar for ANTLR 4
+ * Combined lexer and parser grammar for C++ target compatibility
+ * Based on the official ANTLR JavaScript grammar
+ */
 
 grammar JavaScript_improved;
 
@@ -15,6 +17,7 @@ sourceElements
 
 sourceElement
     : statement
+    | functionDeclaration
     ;
 
 statement
@@ -33,7 +36,6 @@ statement
     | throwStatement
     | tryStatement
     | debuggerStatement
-    | functionDeclaration
     ;
 
 block
@@ -45,7 +47,9 @@ statementList
     ;
 
 variableStatement
-    : ('var' | 'let' | 'const') variableDeclarationList ';'?
+    : VAR variableDeclarationList ';'?
+    | LET variableDeclarationList ';'?
+    | CONST variableDeclarationList ';'?
     ;
 
 variableDeclarationList
@@ -61,42 +65,40 @@ emptyStatement
     ;
 
 expressionStatement
-    : {this.notOpenBraceAndNotFunction()}? expressionSequence ';'?
+    : singleExpression ';'?
     ;
 
 ifStatement
-    : 'if' '(' expressionSequence ')' statement ('else' statement)?
+    : IF '(' expressionSequence ')' statement (ELSE statement)?
     ;
 
 iterationStatement
-    : 'do' statement 'while' '(' expressionSequence ')' ';'?                                                                                  # DoStatement
-    | 'while' '(' expressionSequence ')' statement                                                                                           # WhileStatement
-    | 'for' '(' expressionSequence? ';' expressionSequence? ';' expressionSequence? ')' statement                                          # ForStatement
-    | 'for' '(' ('var' | 'let' | 'const') variableDeclarationList ';' expressionSequence? ';' expressionSequence? ')' statement           # ForVarStatement
-    | 'for' '(' singleExpression 'in' expressionSequence ')' statement                                                                      # ForInStatement
-    | 'for' '(' ('var' | 'let' | 'const') variableDeclaration 'in' expressionSequence ')' statement                                       # ForVarInStatement
-    | 'for' '(' singleExpression 'of' expressionSequence ')' statement                                                                      # ForOfStatement
-    | 'for' '(' ('var' | 'let' | 'const') variableDeclaration 'of' expressionSequence ')' statement                                       # ForVarOfStatement
+    : FOR '(' expressionSequence? ';' expressionSequence? ';' expressionSequence? ')' statement
+    | FOR '(' VAR variableDeclarationList ';' expressionSequence? ';' expressionSequence? ')' statement
+    | FOR '(' singleExpression IN expressionSequence ')' statement
+    | FOR '(' VAR variableDeclaration IN expressionSequence ')' statement
+    | WHILE '(' expressionSequence ')' statement
+    | DO statement WHILE '(' expressionSequence ')' ';'?
     ;
 
 continueStatement
-    : 'continue' ({this.notLineTerminator()}? Identifier)? ';'?
+    : CONTINUE Identifier? ';'?
     ;
 
 breakStatement
-    : 'break' ({this.notLineTerminator()}? Identifier)? ';'?
+    : BREAK Identifier? ';'?
     ;
 
 returnStatement
-    : 'return' ({this.notLineTerminator()}? expressionSequence)? ';'?
+    : RETURN expressionSequence? ';'?
     ;
 
 withStatement
-    : 'with' '(' expressionSequence ')' statement
+    : WITH '(' expressionSequence ')' statement
     ;
 
 switchStatement
-    : 'switch' '(' expressionSequence ')' caseBlock
+    : SWITCH '(' expressionSequence ')' caseBlock
     ;
 
 caseBlock
@@ -108,11 +110,11 @@ caseClauses
     ;
 
 caseClause
-    : 'case' expressionSequence ':' statementList?
+    : CASE expressionSequence ':' statementList?
     ;
 
 defaultClause
-    : 'default' ':' statementList?
+    : DEFAULT ':' statementList?
     ;
 
 labelledStatement
@@ -120,39 +122,35 @@ labelledStatement
     ;
 
 throwStatement
-    : 'throw' {this.notLineTerminator()}? expressionSequence ';'?
+    : THROW expressionSequence ';'?
     ;
 
 tryStatement
-    : 'try' block (catchProduction finallyProduction? | finallyProduction)
+    : TRY block (catchProduction finallyProduction? | finallyProduction)
     ;
 
 catchProduction
-    : 'catch' ('(' Identifier ')')? block
+    : CATCH '(' Identifier ')' block
     ;
 
 finallyProduction
-    : 'finally' block
+    : FINALLY block
     ;
 
 debuggerStatement
-    : 'debugger' ';'?
+    : DEBUGGER ';'?
     ;
 
 functionDeclaration
-    : 'function' Identifier '(' formalParameterList? ')' functionBody
+    : FUNCTION Identifier '(' formalParameterList? ')' '{' functionBody '}'
     ;
 
 formalParameterList
-    : formalParameterArg (',' formalParameterArg)*
-    ;
-
-formalParameterArg
-    : Identifier ('=' singleExpression)?
+    : Identifier (',' Identifier)*
     ;
 
 functionBody
-    : '{' sourceElements? '}'
+    : sourceElements?
     ;
 
 expressionSequence
@@ -160,43 +158,43 @@ expressionSequence
     ;
 
 singleExpression
-    : 'function' Identifier? '(' formalParameterList? ')' functionBody                                                                      # FunctionExpression
-    | singleExpression '[' expressionSequence ']'                                                                                          # MemberIndexExpression
-    | singleExpression '.' identifierName                                                                                                   # MemberDotExpression
-    | singleExpression arguments                                                                                                            # CallExpression
-    | 'new' singleExpression arguments?                                                                                                     # NewExpression
-    | singleExpression '++'                                                                                                                 # PostIncrementExpression
-    | singleExpression '--'                                                                                                                 # PostDecreaseExpression
-    | 'delete' singleExpression                                                                                                             # DeleteExpression
-    | 'void' singleExpression                                                                                                               # VoidExpression
-    | 'typeof' singleExpression                                                                                                             # TypeofExpression
-    | '++' singleExpression                                                                                                                 # PreIncrementExpression
-    | '--' singleExpression                                                                                                                 # PreDecreaseExpression
-    | '+' singleExpression                                                                                                                  # UnaryPlusExpression
-    | '-' singleExpression                                                                                                                  # UnaryMinusExpression
-    | '~' singleExpression                                                                                                                  # BitNotExpression
-    | '!' singleExpression                                                                                                                  # NotExpression
-    | singleExpression ('*' | '/' | '%') singleExpression                                                                                  # MultiplicativeExpression
-    | singleExpression ('+' | '-') singleExpression                                                                                        # AdditiveExpression
-    | singleExpression ('<<' | '>>' | '>>>') singleExpression                                                                              # BitShiftExpression
-    | singleExpression ('<' | '>' | '<=' | '>=') singleExpression                                                                          # RelationalExpression
-    | singleExpression 'instanceof' singleExpression                                                                                       # InstanceofExpression
-    | singleExpression 'in' singleExpression                                                                                               # InExpression
-    | singleExpression ('==' | '!=' | '===' | '!==') singleExpression                                                                     # EqualityExpression
-    | singleExpression '&' singleExpression                                                                                                 # BitAndExpression
-    | singleExpression '^' singleExpression                                                                                                 # BitXOrExpression
-    | singleExpression '|' singleExpression                                                                                                 # BitOrExpression
-    | singleExpression '&&' singleExpression                                                                                                # LogicalAndExpression
-    | singleExpression '||' singleExpression                                                                                                # LogicalOrExpression
-    | singleExpression '?' singleExpression ':' singleExpression                                                                           # TernaryExpression
-    | singleExpression '=' singleExpression                                                                                                 # AssignmentExpression
-    | singleExpression assignmentOperator singleExpression                                                                                 # AssignmentOperatorExpression
-    | 'this'                                                                                                                                # ThisExpression
-    | Identifier                                                                                                                            # IdentifierExpression
-    | literal                                                                                                                               # LiteralExpression
-    | arrayLiteral                                                                                                                          # ArrayLiteralExpression
-    | objectLiteral                                                                                                                         # ObjectLiteralExpression
-    | '(' expressionSequence ')'                                                                                                            # ParenthesizedExpression
+    : FUNCTION Identifier? '(' formalParameterList? ')' '{' functionBody '}'                    # FunctionExpression
+    | singleExpression '[' expressionSequence ']'                                               # MemberIndexExpression
+    | singleExpression '.' identifierName                                                       # MemberDotExpression
+    | singleExpression arguments                                                                # CallExpression
+    | NEW singleExpression arguments?                                                           # NewExpression
+    | singleExpression '++'                                                                     # PostIncrementExpression
+    | singleExpression '--'                                                                     # PostDecreaseExpression
+    | DELETE singleExpression                                                                   # DeleteExpression
+    | VOID singleExpression                                                                     # VoidExpression
+    | TYPEOF singleExpression                                                                   # TypeofExpression
+    | '++' singleExpression                                                                     # PreIncrementExpression
+    | '--' singleExpression                                                                     # PreDecreaseExpression
+    | '+' singleExpression                                                                      # UnaryPlusExpression
+    | '-' singleExpression                                                                      # UnaryMinusExpression
+    | '~' singleExpression                                                                      # BitNotExpression
+    | '!' singleExpression                                                                      # NotExpression
+    | singleExpression ('*' | '/' | '%') singleExpression                                      # MultiplicativeExpression
+    | singleExpression ('+' | '-') singleExpression                                            # AdditiveExpression
+    | singleExpression ('<<' | '>>' | '>>>') singleExpression                                  # BitShiftExpression
+    | singleExpression ('<' | '>' | '<=' | '>=') singleExpression                              # RelationalExpression
+    | singleExpression INSTANCEOF singleExpression                                              # InstanceofExpression
+    | singleExpression IN singleExpression                                                      # InExpression
+    | singleExpression ('==' | '!=' | '===' | '!==') singleExpression                         # EqualityExpression
+    | singleExpression '&' singleExpression                                                     # BitAndExpression
+    | singleExpression '^' singleExpression                                                     # BitXOrExpression
+    | singleExpression '|' singleExpression                                                     # BitOrExpression
+    | singleExpression '&&' singleExpression                                                    # LogicalAndExpression
+    | singleExpression '||' singleExpression                                                    # LogicalOrExpression
+    | singleExpression '?' singleExpression ':' singleExpression                               # TernaryExpression
+    | singleExpression '=' singleExpression                                                     # AssignmentExpression
+    | singleExpression assignmentOperator singleExpression                                     # AssignmentOperatorExpression
+    | THIS                                                                                      # ThisExpression
+    | Identifier                                                                                # IdentifierExpression
+    | literal                                                                                   # LiteralExpression
+    | arrayLiteral                                                                              # ArrayLiteralExpression
+    | objectLiteral                                                                             # ObjectLiteralExpression
+    | '(' expressionSequence ')'                                                               # ParenthesizedExpression
     ;
 
 assignmentOperator
@@ -214,10 +212,10 @@ assignmentOperator
     ;
 
 literal
-    : NullLiteral
-    | BooleanLiteral
-    | StringLiteral
-    | numericLiteral
+    : NULL                                                                                      # NullLiteral
+    | BooleanLiteral                                                                           # BooleanLiteral
+    | StringLiteral                                                                            # StringLiteral
+    | numericLiteral                                                                           # NumericLiteral
     ;
 
 numericLiteral
@@ -233,67 +231,39 @@ identifierName
 
 reservedWord
     : keyword
-    | futureReservedWord
-    | NullLiteral
+    | NULL
     | BooleanLiteral
     ;
 
 keyword
-    : 'break'
-    | 'do'
-    | 'instanceof'
-    | 'typeof'
-    | 'case'
-    | 'else'
-    | 'new'
-    | 'var'
-    | 'catch'
-    | 'finally'
-    | 'return'
-    | 'void'
-    | 'continue'
-    | 'for'
-    | 'switch'
-    | 'while'
-    | 'debugger'
-    | 'function'
-    | 'this'
-    | 'with'
-    | 'default'
-    | 'if'
-    | 'throw'
-    | 'delete'
-    | 'in'
-    | 'try'
-    | 'let'
-    | 'const'
-    | 'of'
-    ;
-
-futureReservedWord
-    : 'class'
-    | 'enum'
-    | 'extends'
-    | 'super'
-    | 'const'
-    | 'export'
-    | 'import'
-    | 'implements'
-    | 'interface'
-    | 'package'
-    | 'private'
-    | 'protected'
-    | 'public'
-    | 'static'
-    | 'yield'
-    ;
-
-arguments
-    : '(' (argumentList)? ')'
-    ;
-
-argumentList
-    : singleExpression (',' singleExpression)*
+    : BREAK
+    | CASE
+    | CATCH
+    | CONTINUE
+    | DEBUGGER
+    | DEFAULT
+    | DELETE
+    | DO
+    | ELSE
+    | FINALLY
+    | FOR
+    | FUNCTION
+    | IF
+    | IN
+    | INSTANCEOF
+    | NEW
+    | RETURN
+    | SWITCH
+    | THIS
+    | THROW
+    | TRY
+    | TYPEOF
+    | VAR
+    | VOID
+    | WHILE
+    | WITH
+    | CONST
+    | LET
     ;
 
 arrayLiteral
@@ -301,11 +271,11 @@ arrayLiteral
     ;
 
 elementList
-    : arrayElement (',' arrayElement)*
+    : elision? singleExpression (elision singleExpression)*
     ;
 
-arrayElement
-    : singleExpression?
+elision
+    : ','
     ;
 
 objectLiteral
@@ -317,9 +287,9 @@ propertyNameAndValueList
     ;
 
 propertyAssignment
-    : propertyName ':' singleExpression                                                                                                     # PropertyExpressionAssignment
-    | 'get' propertyName '(' ')' functionBody                                                                                              # PropertyGetter
-    | 'set' propertyName '(' Identifier ')' functionBody                                                                                   # PropertySetter
+    : propertyName ':' singleExpression                                                        # PropertyExpressionAssignment
+    | GETTER propertyName '(' ')' '{' functionBody '}'                                        # PropertyGetter
+    | SETTER propertyName '(' propertySetParameterList ')' '{' functionBody '}'               # PropertySetter
     ;
 
 propertyName
@@ -328,38 +298,95 @@ propertyName
     | numericLiteral
     ;
 
-// Lexer Rules
-MultiLineComment : '/*' .*? '*/' -> channel(HIDDEN);
-SingleLineComment : '//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
-RegularExpressionLiteral : '/' RegularExpressionBody '/' RegularExpressionFlags;
-
-// Literals
-NullLiteral : 'null';
-BooleanLiteral : 'true' | 'false';
-DecimalLiteral : DecimalIntegerLiteral '.' [0-9]* ExponentPart? | '.' [0-9]+ ExponentPart? | DecimalIntegerLiteral ExponentPart?;
-
-HexIntegerLiteral : '0' [xX] [0-9a-fA-F]+;
-OctalIntegerLiteral : '0' [0-7]+;
-
-fragment DecimalIntegerLiteral : '0' | [1-9] [0-9]*;
-fragment ExponentPart : [eE] [+-]? [0-9]+;
-
-// String Literals
-StringLiteral
-    : '"' DoubleStringCharacter* '"'
-    | '\'' SingleStringCharacter* '\''
+propertySetParameterList
+    : Identifier
     ;
 
+arguments
+    : '(' argumentList? ')'
+    ;
+
+argumentList
+    : singleExpression (',' singleExpression)*
+    ;
+
+// Lexer Rules
+
+/// Null Literals
+NULL                        : 'null';
+
+/// Boolean Literals
+BooleanLiteral              : 'true'
+                            | 'false'
+                            ;
+
+/// Numeric Literals
+DecimalLiteral              : DecimalIntegerLiteral '.' [0-9]* ExponentPart?
+                            | '.' [0-9]+ ExponentPart?
+                            | DecimalIntegerLiteral ExponentPart?
+                            ;
+
+HexIntegerLiteral           : '0' [xX] HexDigit+;
+
+OctalIntegerLiteral         : '0' [0-7]+;
+
+/// Keywords
+BREAK                       : 'break';
+CASE                        : 'case';
+CATCH                       : 'catch';
+CONTINUE                    : 'continue';
+DEBUGGER                    : 'debugger';
+DEFAULT                     : 'default';
+DELETE                      : 'delete';
+DO                          : 'do';
+ELSE                        : 'else';
+FINALLY                     : 'finally';
+FOR                         : 'for';
+FUNCTION                    : 'function';
+IF                          : 'if';
+IN                          : 'in';
+INSTANCEOF                  : 'instanceof';
+NEW                         : 'new';
+RETURN                      : 'return';
+SWITCH                      : 'switch';
+THIS                        : 'this';
+THROW                       : 'throw';
+TRY                         : 'try';
+TYPEOF                      : 'typeof';
+VAR                         : 'var';
+VOID                        : 'void';
+WHILE                       : 'while';
+WITH                        : 'with';
+CONST                       : 'const';
+LET                         : 'let';
+
+/// Future Reserved Words
+GETTER                      : 'get';
+SETTER                      : 'set';
+
+/// String Literals
+StringLiteral               : '"' DoubleStringCharacter* '"'
+                            | '\'' SingleStringCharacter* '\''
+                            ;
+
+/// Identifiers
+Identifier                  : IdentifierStart IdentifierPart*;
+
+/// Whitespace and Comments
+WhiteSpaces                 : [\t\u000B\u000C\u0020\u00A0]+ -> channel(HIDDEN);
+LineTerminator              : [\r\n\u2028\u2029] -> channel(HIDDEN);
+SingleLineComment           : '//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
+MultiLineComment            : '/*' .*? '*/' -> channel(HIDDEN);
+
+/// Fragment rules
 fragment DoubleStringCharacter
     : ~["\\\r\n]
     | '\\' EscapeSequence
-    | LineContinuation
     ;
 
 fragment SingleStringCharacter
     : ~['\\\r\n]
     | '\\' EscapeSequence
-    | LineContinuation
     ;
 
 fragment EscapeSequence
@@ -374,6 +401,14 @@ fragment CharacterEscapeSequence
     | NonEscapeCharacter
     ;
 
+fragment HexEscapeSequence
+    : 'x' HexDigit HexDigit
+    ;
+
+fragment UnicodeEscapeSequence
+    : 'u' HexDigit HexDigit HexDigit HexDigit
+    ;
+
 fragment SingleEscapeCharacter
     : ['"\\bfnrtv]
     ;
@@ -382,113 +417,26 @@ fragment NonEscapeCharacter
     : ~['"\\bfnrtv0-9xu\r\n]
     ;
 
-fragment EscapeCharacter
-    : SingleEscapeCharacter
+fragment HexDigit
+    : [0-9a-fA-F]
+    ;
+
+fragment DecimalIntegerLiteral
+    : '0'
+    | [1-9] [0-9]*
+    ;
+
+fragment ExponentPart
+    : [eE] [+-]? [0-9]+
+    ;
+
+fragment IdentifierPart
+    : IdentifierStart
     | [0-9]
-    | [xu]
     ;
 
-fragment LineContinuation
-    : '\\' [\r\n\u2028\u2029]
+fragment IdentifierStart
+    : [a-zA-Z]
+    | '$'
+    | '_'
     ;
-
-fragment HexEscapeSequence
-    : 'x' [0-9a-fA-F] [0-9a-fA-F]
-    ;
-
-fragment UnicodeEscapeSequence
-    : 'u' [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F]
-    ;
-
-// Regular Expression
-fragment RegularExpressionBody
-    : RegularExpressionFirstChar RegularExpressionChar*
-    ;
-
-fragment RegularExpressionFirstChar
-    : ~[*\r\n\u2028\u2029\\/[]
-    | RegularExpressionBackslashSequence
-    | RegularExpressionClass
-    ;
-
-fragment RegularExpressionChar
-    : ~[\r\n\u2028\u2029\\/[]
-    | RegularExpressionBackslashSequence
-    | RegularExpressionClass
-    ;
-
-fragment RegularExpressionClass
-    : '[' RegularExpressionClassChar* ']'
-    ;
-
-fragment RegularExpressionClassChar
-    : ~[\r\n\u2028\u2029\\\]]
-    | RegularExpressionBackslashSequence
-    ;
-
-fragment RegularExpressionBackslashSequence
-    : '\\' ~[\r\n\u2028\u2029]
-    ;
-
-fragment RegularExpressionFlags
-    : [gimuy]*
-    ;
-
-// Identifiers
-Identifier : [a-zA-Z$_] [a-zA-Z0-9$_]*;
-
-// Whitespace
-WhiteSpaces : [\t\u000B\u000C\u0020\u00A0]+ -> channel(HIDDEN);
-LineTerminator : [\r\n\u2028\u2029] -> channel(HIDDEN);
-
-// Punctuators
-OpenBracket : '[';
-CloseBracket : ']';
-OpenParen : '(';
-CloseParen : ')';
-OpenBrace : '{';
-CloseBrace : '}';
-SemiColon : ';';
-Comma : ',';
-Assign : '=';
-QuestionMark : '?';
-Colon : ':';
-Ellipsis : '...';
-Dot : '.';
-PlusPlus : '++';
-MinusMinus : '--';
-Plus : '+';
-Minus : '-';
-BitNot : '~';
-Not : '!';
-Multiply : '*';
-Divide : '/';
-Modulus : '%';
-RightShiftArithmetic : '>>';
-LeftShiftArithmetic : '<<';
-RightShiftLogical : '>>>';
-LessThan : '<';
-MoreThan : '>';
-LessThanEquals : '<=';
-GreaterThanEquals : '>=';
-Equals_ : '==';
-NotEquals : '!=';
-IdentityEquals : '===';
-IdentityNotEquals : '!==';
-BitAnd : '&';
-BitXOr : '^';
-BitOr : '|';
-And : '&&';
-Or : '||';
-MultiplyAssign : '*=';
-DivideAssign : '/=';
-ModulusAssign : '%=';
-PlusAssign : '+=';
-MinusAssign : '-=';
-LeftShiftArithmeticAssign : '<<=';
-RightShiftArithmeticAssign : '>>=';
-RightShiftLogicalAssign : '>>>=';
-BitAndAssign : '&=';
-BitXorAssign : '^=';
-BitOrAssign : '|=';
-Arrow : '=>';

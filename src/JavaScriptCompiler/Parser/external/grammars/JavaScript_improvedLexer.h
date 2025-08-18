@@ -1,5 +1,5 @@
 
-// Generated from external/grammars/JavaScript_improved.g4 by ANTLR 4.13.2
+// Generated from external/grammars/JavaScript.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -15,17 +15,19 @@ public:
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
     T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
-    MultiLineComment = 21, SingleLineComment = 22, WhiteSpace = 23, Break = 24, 
-    Case = 25, Catch = 26, Class = 27, Const = 28, Continue = 29, Debugger = 30, 
-    Default = 31, Delete = 32, Do = 33, Else = 34, Export = 35, Extends = 36, 
-    Finally = 37, For = 38, Function = 39, If = 40, Import = 41, In = 42, 
-    Instanceof = 43, Let = 44, New = 45, Return = 46, Super = 47, Switch = 48, 
-    This = 49, Throw = 50, Try = 51, Typeof = 52, Var = 53, Void = 54, While = 55, 
-    With = 56, Yield = 57, BooleanLiteral = 58, NullLiteral = 59, UndefinedLiteral = 60, 
-    NumericLiteral = 61, StringLiteral = 62, Identifier = 63, AssignmentOperator = 64, 
-    OpenBracket = 65, CloseBracket = 66, OpenParen = 67, CloseParen = 68, 
-    OpenBrace = 69, CloseBrace = 70, SemiColon = 71, Comma = 72, Dot = 73, 
-    Question = 74, Colon = 75, Literal = 76, Any = 77
+    T__20 = 21, T__21 = 22, T__22 = 23, T__23 = 24, T__24 = 25, T__25 = 26, 
+    T__26 = 27, T__27 = 28, T__28 = 29, T__29 = 30, T__30 = 31, T__31 = 32, 
+    T__32 = 33, T__33 = 34, T__34 = 35, T__35 = 36, T__36 = 37, T__37 = 38, 
+    T__38 = 39, T__39 = 40, T__40 = 41, T__41 = 42, T__42 = 43, T__43 = 44, 
+    T__44 = 45, T__45 = 46, T__46 = 47, T__47 = 48, NULL_ = 49, BooleanLiteral = 50, 
+    DecimalLiteral = 51, HexIntegerLiteral = 52, OctalIntegerLiteral = 53, 
+    BREAK = 54, CASE = 55, CATCH = 56, CONTINUE = 57, DEBUGGER = 58, DEFAULT = 59, 
+    DELETE = 60, DO = 61, ELSE = 62, FINALLY = 63, FOR = 64, FUNCTION = 65, 
+    IF = 66, IN = 67, INSTANCEOF = 68, NEW = 69, RETURN = 70, SWITCH = 71, 
+    THIS = 72, THROW = 73, TRY = 74, TYPEOF = 75, VAR = 76, VOID = 77, WHILE = 78, 
+    WITH = 79, CONST = 80, LET = 81, GETTER = 82, SETTER = 83, StringLiteral = 84, 
+    Identifier = 85, WhiteSpaces = 86, LineTerminator = 87, SingleLineComment = 88, 
+    MultiLineComment = 89
   };
 
   explicit JavaScript_improvedLexer(antlr4::CharStream *input);

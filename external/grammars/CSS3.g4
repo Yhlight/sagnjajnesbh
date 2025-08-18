@@ -1,125 +1,128 @@
-// Simplified CSS3 Grammar for CHTL CSS Compiler
-// Based on official ANTLR grammars but simplified to avoid generation issues
+/*
+ * Simplified CSS3 Grammar for ANTLR 4
+ * C++ target compatible
+ */
 
 grammar CSS3;
 
 // Parser Rules
 stylesheet
-    : (ruleSet | atRule | COMMENT | WHITESPACE)* EOF
+    : rule* EOF
     ;
 
-ruleSet
-    : selector '{' declaration* '}'
+rule
+    : qualified_rule
+    | at_rule
     ;
 
-atRule
-    : '@' IDENT ('(' expr ')')? ('{' (ruleSet | declaration)* '}' | ';')
+at_rule
+    : AT_KEYWORD component_value* ( '{' declaration_list '}' | ';' )
     ;
 
-selector
-    : simpleSelector (combinator simpleSelector)*
+qualified_rule
+    : component_value* '{' declaration_list '}'
     ;
 
-combinator
-    : '+' | '>' | '~' | WHITESPACE
-    ;
-
-simpleSelector
-    : elementName? (HASH | '.' IDENT | '[' IDENT ('=' (IDENT | STRING))? ']' | ':' IDENT)*
-    ;
-
-elementName
-    : IDENT | '*'
+declaration_list
+    : declaration ( ';' declaration )*
     ;
 
 declaration
-    : property ':' expr ('!important')? ';'?
+    : IDENT ':' component_value+ IMPORTANT?
     ;
 
-property
+component_value
+    : preserved_token
+    | block
+    | function
+    ;
+
+block
+    : '{' component_value* '}'
+    | '[' component_value* ']'
+    | '(' component_value* ')'
+    ;
+
+function
+    : FUNCTION component_value* ')'
+    ;
+
+preserved_token
     : IDENT
-    ;
-
-expr
-    : term (operator term)*
-    ;
-
-term
-    : unaryOperator? (NUMBER | PERCENTAGE | DIMENSION | STRING | IDENT | HASH | url | function_)
-    ;
-
-function_
-    : IDENT '(' expr? ')'
-    ;
-
-unaryOperator
-    : '+' | '-'
-    ;
-
-operator
-    : '/' | ','
-    ;
-
-url
-    : 'url(' (STRING | URL_CHARS) ')'
+    | STRING
+    | DELIM
+    | NUMBER
+    | PERCENTAGE
+    | DIMENSION
+    | URI
+    | HASH
+    | UNICODE_RANGE
+    | INCLUDES
+    | DASHMATCH
+    | PREFIX_MATCH
+    | SUFFIX_MATCH
+    | SUBSTRING_MATCH
+    | COLUMN
+    | CDO
+    | CDC
+    | COLON
+    | SEMICOLON
+    | COMMA
+    | WS
     ;
 
 // Lexer Rules
-WHITESPACE : [ \t\r\n\f]+ -> channel(HIDDEN);
+fragment NEWLINE        : '\r\n' | [ \r\n\f] ;
+fragment WHITESPACE     : [ \t] | NEWLINE ;
+fragment HEX            : [0-9a-fA-F] ;
+fragment ESCAPE         : '\\' ( HEX HEX HEX HEX HEX HEX | HEX HEX HEX HEX HEX | HEX HEX HEX HEX | HEX HEX HEX | HEX HEX | HEX ) WHITESPACE?
+                        | '\\' ~[0-9a-fA-F\r\n\f]
+                        ;
+fragment NMSTART        : [a-zA-Z_] | ESCAPE ;
+fragment NMCHAR         : [a-zA-Z0-9_-] | ESCAPE ;
 
-COMMENT : '/*' .*? '*/' -> channel(HIDDEN);
+// Tokens
+AT_KEYWORD      : '@' NMSTART NMCHAR* ;
+IDENT           : '-'? NMSTART NMCHAR* ;
+FUNCTION        : IDENT '(' ;
+STRING          : '"' ( ~[\n\r\f\\"] | '\\' NEWLINE | ESCAPE )* '"'
+                | '\'' ( ~[\n\r\f\\'] | '\\' NEWLINE | ESCAPE )* '\''
+                ;
+HASH            : '#' NMCHAR+ ;
+NUMBER          : [+-]? ( [0-9]* '.' [0-9]+ | [0-9]+ ) ( [eE] [+-]? [0-9]+ )? ;
+PERCENTAGE      : NUMBER '%' ;
+DIMENSION       : NUMBER IDENT ;
+URI             : 'url(' WHITESPACE* STRING WHITESPACE* ')'
+                | 'url(' WHITESPACE* ( ~[)\\] | '\\' . )* WHITESPACE* ')'
+                ;
+UNICODE_RANGE   : 'U+' HEX HEX HEX HEX HEX HEX '-' HEX HEX HEX HEX HEX HEX
+                | 'U+' HEX HEX HEX HEX HEX HEX
+                | 'U+' HEX HEX HEX HEX HEX
+                | 'U+' HEX HEX HEX HEX
+                | 'U+' HEX HEX HEX
+                | 'U+' HEX HEX
+                | 'U+' HEX
+                ;
 
-STRING
-    : '"' (~["\r\n\f\\] | '\\' .)* '"'
-    | '\'' (~['\r\n\f\\] | '\\' .)* '\''
-    ;
+// Operators
+INCLUDES        : '~=' ;
+DASHMATCH       : '|=' ;
+PREFIX_MATCH    : '^=' ;
+SUFFIX_MATCH    : '$=' ;
+SUBSTRING_MATCH : '*=' ;
+COLUMN          : '||' ;
 
-HASH : '#' NAME;
+// Special tokens
+CDO             : '<!--' ;
+CDC             : '-->' ;
+IMPORTANT       : '!' WHITESPACE* 'important' ;
 
-NUMBER : [0-9]+ ('.' [0-9]+)?;
+// Delimiters
+SEMICOLON       : ';' ;
+COLON           : ':' ;
+COMMA           : ',' ;
+DELIM           : . ;
 
-PERCENTAGE : NUMBER '%';
-
-DIMENSION : NUMBER IDENT;
-
-URL_CHARS : (~[ \t\r\n\f()'"])*;
-
-IDENT : NMSTART NMCHAR*;
-
-fragment NMSTART : [_a-zA-Z] | NONASCII | ESCAPE;
-
-fragment NMCHAR : [_a-zA-Z0-9\-] | NONASCII | ESCAPE;
-
-fragment NAME : NMCHAR+;
-
-fragment NONASCII : [\u0080-\uFFFF];
-
-// Fixed Unicode handling - no {1,6} quantifier
-fragment UNICODE : '\\' HEX HEX? HEX? HEX? HEX? HEX? WS?;
-
-fragment ESCAPE : UNICODE | '\\' ~[\r\n\f0-9a-fA-F];
-
-fragment HEX : [0-9a-fA-F];
-
-fragment WS : [ \t\r\n\f];
-
-// Punctuation
-LBRACE : '{';
-RBRACE : '}';
-LPAREN : '(';
-RPAREN : ')';
-LBRACKET : '[';
-RBRACKET : ']';
-SEMICOLON : ';';
-COLON : ':';
-DOT : '.';
-COMMA : ',';
-PLUS : '+';
-MINUS : '-';
-MULTIPLY : '*';
-DIVIDE : '/';
-EQUALS : '=';
-TILDE : '~';
-GREATER : '>';
-PIPE : '|';
-AT : '@';
+// Whitespace
+WS              : WHITESPACE+ -> channel(HIDDEN) ;
+COMMENT         : '/*' .*? '*/' -> channel(HIDDEN) ;

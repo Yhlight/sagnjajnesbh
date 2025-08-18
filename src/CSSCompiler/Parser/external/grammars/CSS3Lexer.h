@@ -1,5 +1,5 @@
 
-// Generated from external/grammars/CSS3Lexer.g4 by ANTLR 4.13.2
+// Generated from external/grammars/CSS3.g4 by ANTLR 4.13.2
 
 #pragma once
 
@@ -12,14 +12,12 @@
 class  CSS3Lexer : public antlr4::Lexer {
 public:
   enum {
-    CHARSET = 1, IMPORT = 2, SEMICOLON = 3, COMMA = 4, LBRACE = 5, RBRACE = 6, 
-    LPAREN = 7, RPAREN = 8, LBRACKET = 9, RBRACKET = 10, COLON = 11, DOT = 12, 
-    HASH_SYMBOL = 13, STAR = 14, PLUS = 15, GREATER = 16, TILDE = 17, MINUS = 18, 
-    SLASH = 19, PIPE = 20, EQUALS = 21, TILDE_EQUALS = 22, PIPE_EQUALS = 23, 
-    AT = 24, IMPORTANT = 25, STRING = 26, IDENTIFIER = 27, FUNCTION = 28, 
-    NUMBER = 29, PERCENTAGE = 30, LENGTH = 31, EMS = 32, EXS = 33, ANGLE = 34, 
-    TIME = 35, FREQ = 36, URI = 37, HASH = 38, CLASS = 39, ATKEYWORD = 40, 
-    UNICODE_RANGE = 41, WS = 42, COMMENT = 43
+    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, AT_KEYWORD = 7, 
+    IDENT = 8, FUNCTION = 9, STRING = 10, HASH = 11, NUMBER = 12, PERCENTAGE = 13, 
+    DIMENSION = 14, URI = 15, UNICODE_RANGE = 16, INCLUDES = 17, DASHMATCH = 18, 
+    PREFIX_MATCH = 19, SUFFIX_MATCH = 20, SUBSTRING_MATCH = 21, COLUMN = 22, 
+    CDO = 23, CDC = 24, IMPORTANT = 25, SEMICOLON = 26, COLON = 27, COMMA = 28, 
+    DELIM = 29, WS = 30, COMMENT = 31
   };
 
   explicit CSS3Lexer(antlr4::CharStream *input);
