@@ -1,6 +1,6 @@
 #include "antlr4-runtime.h"
-#include "../src/CSSCompiler/Parser/CSS3Lexer.h"
-#include "../src/CSSCompiler/Parser/CSS3Parser.h"
+#include "../src/CSSCompiler/Parser/css3Lexer.h"
+#include "../src/CSSCompiler/Parser/css3Parser.h"
 #include "../src/JavaScriptCompiler/Parser/JavaScriptLexer.h"
 #include "../src/JavaScriptCompiler/Parser/JavaScriptParser.h"
 #include <iostream>
@@ -14,9 +14,9 @@ void testBasicCSS() {
     std::string css = ".test { color: red; }";
     
     ANTLRInputStream input(css);
-    CSS3Lexer lexer(&input);
+    css3Lexer lexer(&input);
     CommonTokenStream tokens(&lexer);
-    CSS3Parser parser(&tokens);
+    css3Parser parser(&tokens);
     
     auto tree = parser.stylesheet();
     

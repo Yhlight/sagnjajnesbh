@@ -217,21 +217,23 @@ set(ANTLR4_ROOT /workspace/external/antlr4-install)
 set(ANTLR4_INCLUDE_DIRS ${ANTLR4_ROOT}/include/antlr4-runtime)
 set(ANTLR4_LIBRARIES ${ANTLR4_ROOT}/lib/libantlr4-runtime.a)
 
-# CSS编译器 (ANTLR集成)
+# CSS编译器 (ANTLR官方语法)
 set(CSS_COMPILER_SOURCES
-    src/CSSCompiler/Parser/CSS3Lexer.cpp
-    src/CSSCompiler/Parser/CSS3Parser.cpp
-    src/CSSCompiler/Parser/CSS3BaseListener.cpp
-    src/CSSCompiler/Parser/CSS3Listener.cpp
+    src/CSSCompiler/Parser/css3Lexer.cpp
+    src/CSSCompiler/Parser/css3Parser.cpp
+    src/CSSCompiler/Parser/css3ParserBaseListener.cpp
+    src/CSSCompiler/Parser/css3ParserListener.cpp
     src/CSSCompiler/Core/CSSCompilerCore.cpp
 )
 
-# JavaScript编译器 (ANTLR集成)
+# JavaScript编译器 (ANTLR官方语法)
 set(JS_COMPILER_SOURCES
     src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp
     src/JavaScriptCompiler/Parser/JavaScriptParser.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptBaseListener.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptListener.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp
     src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp
 )
 
@@ -260,12 +262,14 @@ set_target_properties(
 
 # 简单ANTLR测试 (只测试解析器)
 set(ANTLR_PARSER_SOURCES
-    src/CSSCompiler/Parser/CSS3Lexer.cpp
-    src/CSSCompiler/Parser/CSS3Parser.cpp
-    src/CSSCompiler/Parser/CSS3BaseListener.cpp
+    src/CSSCompiler/Parser/css3Lexer.cpp
+    src/CSSCompiler/Parser/css3Parser.cpp
+    src/CSSCompiler/Parser/css3ParserBaseListener.cpp
     src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp
     src/JavaScriptCompiler/Parser/JavaScriptParser.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptBaseListener.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp
 )
 
 add_library(chtl_antlr_parsers STATIC ${ANTLR_PARSER_SOURCES})
