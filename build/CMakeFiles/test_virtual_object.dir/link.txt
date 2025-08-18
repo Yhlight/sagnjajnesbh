@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Xlinker --dependency-file=CMakeFiles/test_virtual_object.dir/link.d CMakeFiles/test_virtual_object.dir/test/test_virtual_object.cpp.o -o bin/test_virtual_object  lib/libchtl_js_compiler.a lib/libchtl_ast.a lib/libchtl_shared.a

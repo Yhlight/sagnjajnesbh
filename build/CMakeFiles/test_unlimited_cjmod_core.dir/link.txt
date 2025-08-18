@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Xlinker --dependency-file=CMakeFiles/test_unlimited_cjmod_core.dir/link.d CMakeFiles/test_unlimited_cjmod_core.dir/test/test_unlimited_cjmod_core.cpp.o -o bin/test_unlimited_cjmod_core  lib/libchtl_unlimited_cjmod.a lib/libchtl_shared.a

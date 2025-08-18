@@ -13,12 +13,6 @@ add_library(chtl_shared STATIC
     src/Shared/Utils/FileUtils.cpp
 )
 
-# AST组件（需要支持语法约束器）
-add_library(chtl_ast STATIC
-    src/ast/ASTNode.cpp
-    src/ast/VirtualObjectManager.cpp
-)
-
 # CHTL编译器（完整可用）
 add_library(chtl_compiler STATIC
     src/CHTLCompiler/Lexer/CHTLLexer.cpp
@@ -41,12 +35,40 @@ add_library(chtl_js_compiler STATIC
 )
 target_link_libraries(chtl_js_compiler chtl_shared)
 
-# 统一核心（包含扫描器和约束器）
-add_library(unified_core STATIC
-    src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp
-    src/UnifiedCore/Constraints/SyntaxConstrainer.cpp
+# CHTL JS增强功能组件
+add_library(chtl_js_enhanced STATIC
+    src/CHTLJSCompiler/Core/JSEventRegistry.cpp
+    src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp
 )
-target_link_libraries(unified_core chtl_shared chtl_ast)
+target_link_libraries(chtl_js_enhanced chtl_shared)
+
+# 自动添加功能组件
+add_library(chtl_auto_addition STATIC
+    src/CHTLJSCompiler/Parser/SelectorDetector.cpp
+    src/CHTLJSCompiler/Core/AutoAdditionManager.cpp
+)
+target_link_libraries(chtl_auto_addition chtl_shared)
+
+# Chtholly 珂朵莉模块
+add_library(chtholly_cjmod STATIC
+    src/Module/Chtholly/CJMOD/src/printMylove.cpp
+    src/Module/Chtholly/CJMOD/src/iNeverAway.cpp
+    src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp
+)
+target_link_libraries(chtholly_cjmod chtl_shared)
+
+# 新的CJMOD框架
+add_library(chtl_new_cjmod STATIC
+    src/CHTLJSCompiler/Module/CJMODFramework.cpp
+    src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp
+)
+target_link_libraries(chtl_new_cjmod chtl_shared)
+
+# 无限制CJMOD框架
+add_library(chtl_unlimited_cjmod STATIC
+    src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp
+)
+target_link_libraries(chtl_unlimited_cjmod chtl_shared)
 
 # 测试程序
 add_executable(test_chtl_compiler test/test_chtl_compiler.cpp)
@@ -55,159 +77,37 @@ target_link_libraries(test_chtl_compiler chtl_compiler)
 add_executable(test_chtl_js_lexer test/test_chtl_js_lexer.cpp)
 target_link_libraries(test_chtl_js_lexer chtl_js_compiler)
 
-add_executable(test_unified_scanner test/test_unified_scanner.cpp)
-target_link_libraries(test_unified_scanner unified_core)
+add_executable(test_chtl_compiler_simple test/test_chtl_compiler_simple.cpp)
+target_link_libraries(test_chtl_compiler_simple chtl_compiler)
 
-add_executable(test_syntax_constraints test/test_syntax_constraints.cpp)
-target_link_libraries(test_syntax_constraints unified_core)
+add_executable(test_undecorated_literals test/test_undecorated_literals.cpp)
+target_link_libraries(test_undecorated_literals chtl_js_compiler)
+
+add_executable(test_chtljs_enhanced_functions test/test_chtljs_enhanced_functions.cpp)
+target_link_libraries(test_chtljs_enhanced_functions chtl_js_enhanced)
+
+add_executable(test_auto_addition test/test_auto_addition.cpp)
+target_link_libraries(test_auto_addition chtl_auto_addition)
+
+add_executable(test_chtholly_module test/test_chtholly_module.cpp)
+target_link_libraries(test_chtholly_module chtholly_cjmod)
+
+add_executable(test_new_cjmod_framework test/test_new_cjmod_framework.cpp)
+target_link_libraries(test_new_cjmod_framework chtl_new_cjmod)
+
+add_executable(test_unlimited_cjmod_simple test/test_unlimited_cjmod_simple.cpp)
+target_link_libraries(test_unlimited_cjmod_simple chtl_unlimited_cjmod)
 
 # 设置输出目录
 set_target_properties(
-    chtl_shared chtl_ast chtl_compiler chtl_js_compiler unified_core
+    chtl_shared chtl_compiler chtl_js_compiler chtl_js_enhanced chtl_auto_addition 
+    chtholly_cjmod chtl_new_cjmod chtl_unlimited_cjmod
     PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
 )
 
 set_target_properties(
-    test_chtl_compiler test_chtl_js_lexer test_unified_scanner test_syntax_constraints
+    test_chtl_compiler test_chtl_js_lexer test_chtl_compiler_simple test_undecorated_literals
+    test_chtljs_enhanced_functions test_auto_addition test_chtholly_module 
+    test_new_cjmod_framework test_unlimited_cjmod_simple
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
-# 简化的CHTL编译器测试
-add_executable(test_chtl_compiler_simple test/test_chtl_compiler_simple.cpp)
-target_link_libraries(test_chtl_compiler_simple chtl_compiler)
-
-# 更新输出目录设置
-set_target_properties(
-    test_chtl_compiler_simple
-    PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
-# 无修饰字面量测试
-add_executable(test_undecorated_literals test/test_undecorated_literals.cpp)
-target_link_libraries(test_undecorated_literals chtl_js_compiler unified_core)
-
-# 更新输出目录设置
-set_target_properties(
-    test_undecorated_literals
-    PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
-# 添加CHTL JS增强功能组件到CHTL JS编译器
-set(CHTL_JS_ENHANCED_SOURCES
-    src/CHTLJSCompiler/Core/JSEventRegistry.cpp
-    src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp
-)
-
-# 更新CHTL JS编译器库
-add_library(chtl_js_enhanced STATIC ${CHTL_JS_ENHANCED_SOURCES})
-target_link_libraries(chtl_js_enhanced chtl_shared)
-
-# CHTL JS增强功能测试
-add_executable(test_chtljs_enhanced_functions test/test_chtljs_enhanced_functions.cpp)
-target_link_libraries(test_chtljs_enhanced_functions chtl_js_enhanced)
-
-# 更新输出目录设置
-set_target_properties(
-    chtl_js_enhanced test_chtljs_enhanced_functions
-    PROPERTIES 
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
-# 自动添加功能组件
-set(AUTO_ADDITION_SOURCES
-    src/CHTLJSCompiler/Parser/SelectorDetector.cpp
-    src/CHTLJSCompiler/Core/AutoAdditionManager.cpp
-)
-
-# 自动添加功能库
-add_library(chtl_auto_addition STATIC ${AUTO_ADDITION_SOURCES})
-target_link_libraries(chtl_auto_addition chtl_shared)
-
-# 自动添加功能测试
-add_executable(test_auto_addition test/test_auto_addition.cpp)
-target_link_libraries(test_auto_addition chtl_auto_addition)
-
-# 更新输出目录设置
-set_target_properties(
-    chtl_auto_addition test_auto_addition
-    PROPERTIES 
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
-# Chtholly 珂朵莉模块
-set(CHTHOLLY_CJMOD_SOURCES
-    src/Module/Chtholly/CJMOD/src/printMylove.cpp
-    src/Module/Chtholly/CJMOD/src/iNeverAway.cpp
-    src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp
-)
-
-# Chtholly CJMOD库
-add_library(chtholly_cjmod STATIC ${CHTHOLLY_CJMOD_SOURCES})
-target_link_libraries(chtholly_cjmod chtl_shared)
-
-# Chtholly模块测试
-add_executable(test_chtholly_module test/test_chtholly_module.cpp)
-target_link_libraries(test_chtholly_module chtholly_cjmod)
-
-# 更新输出目录设置
-set_target_properties(
-    chtholly_cjmod test_chtholly_module
-    PROPERTIES 
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
-# 新的CJMOD框架
-set(NEW_CJMOD_SOURCES
-    src/CHTLJSCompiler/Module/CJMODFramework.cpp
-    src/CHTLJSCompiler/Module/CHTLJSIntegration.cpp
-)
-
-# 新CJMOD框架库
-add_library(chtl_new_cjmod STATIC ${NEW_CJMOD_SOURCES})
-target_link_libraries(chtl_new_cjmod chtl_shared)
-
-# 新CJMOD框架测试
-add_executable(test_new_cjmod_framework test/test_new_cjmod_framework.cpp)
-target_link_libraries(test_new_cjmod_framework chtl_new_cjmod)
-
-# 更新输出目录设置
-set_target_properties(
-    chtl_new_cjmod test_new_cjmod_framework
-    PROPERTIES 
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
-# 无限制CJMOD框架
-set(UNLIMITED_CJMOD_SOURCES
-    src/CHTLJSCompiler/Module/UnlimitedCJMOD.cpp
-)
-
-# 无限制CJMOD库
-add_library(chtl_unlimited_cjmod STATIC ${UNLIMITED_CJMOD_SOURCES})
-target_link_libraries(chtl_unlimited_cjmod chtl_shared)
-
-# 无限制CJMOD核心测试
-add_executable(test_unlimited_cjmod_core test/test_unlimited_cjmod_core.cpp)
-target_link_libraries(test_unlimited_cjmod_core chtl_unlimited_cjmod)
-
-# 更新输出目录设置
-set_target_properties(
-    chtl_unlimited_cjmod test_unlimited_cjmod_core
-    PROPERTIES 
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
-# 无限制CJMOD简单测试
-add_executable(test_unlimited_cjmod_simple test/test_unlimited_cjmod_simple.cpp)
-target_link_libraries(test_unlimited_cjmod_simple chtl_unlimited_cjmod)
-
-set_target_properties(
-    test_unlimited_cjmod_simple
-    PROPERTIES 
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )

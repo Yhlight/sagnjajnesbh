@@ -65,26 +65,6 @@ CMAKE_BINARY_DIR = /workspace/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target package
-package: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool..."
-	/usr/bin/cpack --config ./CPackConfig.cmake
-.PHONY : package
-
-# Special rule for the target package
-package/fast: package
-.PHONY : package/fast
-
-# Special rule for the target package_source
-package_source:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool for source..."
-	/usr/bin/cpack --config ./CPackSourceConfig.cmake /workspace/build/CPackSourceConfig.cmake
-.PHONY : package_source
-
-# Special rule for the target package_source
-package_source/fast: package_source
-.PHONY : package_source/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "No interactive CMake dialog available..."
@@ -150,19 +130,6 @@ chtl_shared/fast:
 .PHONY : chtl_shared/fast
 
 #=============================================================================
-# Target rules for targets named chtl_ast
-
-# Build rule for target.
-chtl_ast: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_ast
-.PHONY : chtl_ast
-
-# fast build rule for target.
-chtl_ast/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/build
-.PHONY : chtl_ast/fast
-
-#=============================================================================
 # Target rules for targets named chtl_compiler
 
 # Build rule for target.
@@ -189,17 +156,69 @@ chtl_js_compiler/fast:
 .PHONY : chtl_js_compiler/fast
 
 #=============================================================================
-# Target rules for targets named unified_core
+# Target rules for targets named chtl_js_enhanced
 
 # Build rule for target.
-unified_core: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 unified_core
-.PHONY : unified_core
+chtl_js_enhanced: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_js_enhanced
+.PHONY : chtl_js_enhanced
 
 # fast build rule for target.
-unified_core/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/build
-.PHONY : unified_core/fast
+chtl_js_enhanced/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/build
+.PHONY : chtl_js_enhanced/fast
+
+#=============================================================================
+# Target rules for targets named chtl_auto_addition
+
+# Build rule for target.
+chtl_auto_addition: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_auto_addition
+.PHONY : chtl_auto_addition
+
+# fast build rule for target.
+chtl_auto_addition/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_auto_addition.dir/build.make CMakeFiles/chtl_auto_addition.dir/build
+.PHONY : chtl_auto_addition/fast
+
+#=============================================================================
+# Target rules for targets named chtholly_cjmod
+
+# Build rule for target.
+chtholly_cjmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtholly_cjmod
+.PHONY : chtholly_cjmod
+
+# fast build rule for target.
+chtholly_cjmod/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/build
+.PHONY : chtholly_cjmod/fast
+
+#=============================================================================
+# Target rules for targets named chtl_new_cjmod
+
+# Build rule for target.
+chtl_new_cjmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_new_cjmod
+.PHONY : chtl_new_cjmod
+
+# fast build rule for target.
+chtl_new_cjmod/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_new_cjmod.dir/build.make CMakeFiles/chtl_new_cjmod.dir/build
+.PHONY : chtl_new_cjmod/fast
+
+#=============================================================================
+# Target rules for targets named chtl_unlimited_cjmod
+
+# Build rule for target.
+chtl_unlimited_cjmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_unlimited_cjmod
+.PHONY : chtl_unlimited_cjmod
+
+# fast build rule for target.
+chtl_unlimited_cjmod/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_unlimited_cjmod.dir/build.make CMakeFiles/chtl_unlimited_cjmod.dir/build
+.PHONY : chtl_unlimited_cjmod/fast
 
 #=============================================================================
 # Target rules for targets named test_chtl_compiler
@@ -228,32 +247,6 @@ test_chtl_js_lexer/fast:
 .PHONY : test_chtl_js_lexer/fast
 
 #=============================================================================
-# Target rules for targets named test_unified_scanner
-
-# Build rule for target.
-test_unified_scanner: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_unified_scanner
-.PHONY : test_unified_scanner
-
-# fast build rule for target.
-test_unified_scanner/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/build
-.PHONY : test_unified_scanner/fast
-
-#=============================================================================
-# Target rules for targets named test_syntax_constraints
-
-# Build rule for target.
-test_syntax_constraints: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_syntax_constraints
-.PHONY : test_syntax_constraints
-
-# fast build rule for target.
-test_syntax_constraints/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/build
-.PHONY : test_syntax_constraints/fast
-
-#=============================================================================
 # Target rules for targets named test_chtl_compiler_simple
 
 # Build rule for target.
@@ -280,19 +273,6 @@ test_undecorated_literals/fast:
 .PHONY : test_undecorated_literals/fast
 
 #=============================================================================
-# Target rules for targets named chtl_js_enhanced
-
-# Build rule for target.
-chtl_js_enhanced: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_js_enhanced
-.PHONY : chtl_js_enhanced
-
-# fast build rule for target.
-chtl_js_enhanced/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_enhanced.dir/build.make CMakeFiles/chtl_js_enhanced.dir/build
-.PHONY : chtl_js_enhanced/fast
-
-#=============================================================================
 # Target rules for targets named test_chtljs_enhanced_functions
 
 # Build rule for target.
@@ -304,19 +284,6 @@ test_chtljs_enhanced_functions: cmake_check_build_system
 test_chtljs_enhanced_functions/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/build
 .PHONY : test_chtljs_enhanced_functions/fast
-
-#=============================================================================
-# Target rules for targets named chtl_auto_addition
-
-# Build rule for target.
-chtl_auto_addition: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_auto_addition
-.PHONY : chtl_auto_addition
-
-# fast build rule for target.
-chtl_auto_addition/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_auto_addition.dir/build.make CMakeFiles/chtl_auto_addition.dir/build
-.PHONY : chtl_auto_addition/fast
 
 #=============================================================================
 # Target rules for targets named test_auto_addition
@@ -332,19 +299,6 @@ test_auto_addition/fast:
 .PHONY : test_auto_addition/fast
 
 #=============================================================================
-# Target rules for targets named chtholly_cjmod
-
-# Build rule for target.
-chtholly_cjmod: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtholly_cjmod
-.PHONY : chtholly_cjmod
-
-# fast build rule for target.
-chtholly_cjmod/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/build
-.PHONY : chtholly_cjmod/fast
-
-#=============================================================================
 # Target rules for targets named test_chtholly_module
 
 # Build rule for target.
@@ -358,19 +312,6 @@ test_chtholly_module/fast:
 .PHONY : test_chtholly_module/fast
 
 #=============================================================================
-# Target rules for targets named chtl_new_cjmod
-
-# Build rule for target.
-chtl_new_cjmod: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_new_cjmod
-.PHONY : chtl_new_cjmod
-
-# fast build rule for target.
-chtl_new_cjmod/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_new_cjmod.dir/build.make CMakeFiles/chtl_new_cjmod.dir/build
-.PHONY : chtl_new_cjmod/fast
-
-#=============================================================================
 # Target rules for targets named test_new_cjmod_framework
 
 # Build rule for target.
@@ -382,32 +323,6 @@ test_new_cjmod_framework: cmake_check_build_system
 test_new_cjmod_framework/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_new_cjmod_framework.dir/build.make CMakeFiles/test_new_cjmod_framework.dir/build
 .PHONY : test_new_cjmod_framework/fast
-
-#=============================================================================
-# Target rules for targets named chtl_unlimited_cjmod
-
-# Build rule for target.
-chtl_unlimited_cjmod: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_unlimited_cjmod
-.PHONY : chtl_unlimited_cjmod
-
-# fast build rule for target.
-chtl_unlimited_cjmod/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_unlimited_cjmod.dir/build.make CMakeFiles/chtl_unlimited_cjmod.dir/build
-.PHONY : chtl_unlimited_cjmod/fast
-
-#=============================================================================
-# Target rules for targets named test_unlimited_cjmod_core
-
-# Build rule for target.
-test_unlimited_cjmod_core: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_unlimited_cjmod_core
-.PHONY : test_unlimited_cjmod_core
-
-# fast build rule for target.
-test_unlimited_cjmod_core/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_core.dir/build.make CMakeFiles/test_unlimited_cjmod_core.dir/build
-.PHONY : test_unlimited_cjmod_core/fast
 
 #=============================================================================
 # Target rules for targets named test_unlimited_cjmod_simple
@@ -998,102 +913,6 @@ src/Shared/Utils/FileUtils.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/Utils/FileUtils.cpp.s
 .PHONY : src/Shared/Utils/FileUtils.cpp.s
 
-src/UnifiedCore/Constraints/SyntaxConstrainer.o: src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o
-.PHONY : src/UnifiedCore/Constraints/SyntaxConstrainer.o
-
-# target to build an object file
-src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o
-.PHONY : src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o
-
-src/UnifiedCore/Constraints/SyntaxConstrainer.i: src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.i
-.PHONY : src/UnifiedCore/Constraints/SyntaxConstrainer.i
-
-# target to preprocess a source file
-src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.i
-.PHONY : src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.i
-
-src/UnifiedCore/Constraints/SyntaxConstrainer.s: src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.s
-.PHONY : src/UnifiedCore/Constraints/SyntaxConstrainer.s
-
-# target to generate assembly for a file
-src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.s
-.PHONY : src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.s
-
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.o: src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.o
-
-# target to build an object file
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o
-
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.i: src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.i
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.i
-
-# target to preprocess a source file
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.i
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.i
-
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.s: src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.s
-
-# target to generate assembly for a file
-src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s
-.PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s
-
-src/ast/ASTNode.o: src/ast/ASTNode.cpp.o
-.PHONY : src/ast/ASTNode.o
-
-# target to build an object file
-src/ast/ASTNode.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.o
-.PHONY : src/ast/ASTNode.cpp.o
-
-src/ast/ASTNode.i: src/ast/ASTNode.cpp.i
-.PHONY : src/ast/ASTNode.i
-
-# target to preprocess a source file
-src/ast/ASTNode.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.i
-.PHONY : src/ast/ASTNode.cpp.i
-
-src/ast/ASTNode.s: src/ast/ASTNode.cpp.s
-.PHONY : src/ast/ASTNode.s
-
-# target to generate assembly for a file
-src/ast/ASTNode.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.s
-.PHONY : src/ast/ASTNode.cpp.s
-
-src/ast/VirtualObjectManager.o: src/ast/VirtualObjectManager.cpp.o
-.PHONY : src/ast/VirtualObjectManager.o
-
-# target to build an object file
-src/ast/VirtualObjectManager.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o
-.PHONY : src/ast/VirtualObjectManager.cpp.o
-
-src/ast/VirtualObjectManager.i: src/ast/VirtualObjectManager.cpp.i
-.PHONY : src/ast/VirtualObjectManager.i
-
-# target to preprocess a source file
-src/ast/VirtualObjectManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.i
-.PHONY : src/ast/VirtualObjectManager.cpp.i
-
-src/ast/VirtualObjectManager.s: src/ast/VirtualObjectManager.cpp.s
-.PHONY : src/ast/VirtualObjectManager.s
-
-# target to generate assembly for a file
-src/ast/VirtualObjectManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.s
-.PHONY : src/ast/VirtualObjectManager.cpp.s
-
 test/test_auto_addition.o: test/test_auto_addition.cpp.o
 .PHONY : test/test_auto_addition.o
 
@@ -1262,30 +1081,6 @@ test/test_new_cjmod_framework.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_new_cjmod_framework.dir/build.make CMakeFiles/test_new_cjmod_framework.dir/test/test_new_cjmod_framework.cpp.s
 .PHONY : test/test_new_cjmod_framework.cpp.s
 
-test/test_syntax_constraints.o: test/test_syntax_constraints.cpp.o
-.PHONY : test/test_syntax_constraints.o
-
-# target to build an object file
-test/test_syntax_constraints.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.o
-.PHONY : test/test_syntax_constraints.cpp.o
-
-test/test_syntax_constraints.i: test/test_syntax_constraints.cpp.i
-.PHONY : test/test_syntax_constraints.i
-
-# target to preprocess a source file
-test/test_syntax_constraints.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.i
-.PHONY : test/test_syntax_constraints.cpp.i
-
-test/test_syntax_constraints.s: test/test_syntax_constraints.cpp.s
-.PHONY : test/test_syntax_constraints.s
-
-# target to generate assembly for a file
-test/test_syntax_constraints.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.s
-.PHONY : test/test_syntax_constraints.cpp.s
-
 test/test_undecorated_literals.o: test/test_undecorated_literals.cpp.o
 .PHONY : test/test_undecorated_literals.o
 
@@ -1309,54 +1104,6 @@ test/test_undecorated_literals.s: test/test_undecorated_literals.cpp.s
 test/test_undecorated_literals.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_undecorated_literals.dir/build.make CMakeFiles/test_undecorated_literals.dir/test/test_undecorated_literals.cpp.s
 .PHONY : test/test_undecorated_literals.cpp.s
-
-test/test_unified_scanner.o: test/test_unified_scanner.cpp.o
-.PHONY : test/test_unified_scanner.o
-
-# target to build an object file
-test/test_unified_scanner.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/test/test_unified_scanner.cpp.o
-.PHONY : test/test_unified_scanner.cpp.o
-
-test/test_unified_scanner.i: test/test_unified_scanner.cpp.i
-.PHONY : test/test_unified_scanner.i
-
-# target to preprocess a source file
-test/test_unified_scanner.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/test/test_unified_scanner.cpp.i
-.PHONY : test/test_unified_scanner.cpp.i
-
-test/test_unified_scanner.s: test/test_unified_scanner.cpp.s
-.PHONY : test/test_unified_scanner.s
-
-# target to generate assembly for a file
-test/test_unified_scanner.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/test/test_unified_scanner.cpp.s
-.PHONY : test/test_unified_scanner.cpp.s
-
-test/test_unlimited_cjmod_core.o: test/test_unlimited_cjmod_core.cpp.o
-.PHONY : test/test_unlimited_cjmod_core.o
-
-# target to build an object file
-test/test_unlimited_cjmod_core.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_core.dir/build.make CMakeFiles/test_unlimited_cjmod_core.dir/test/test_unlimited_cjmod_core.cpp.o
-.PHONY : test/test_unlimited_cjmod_core.cpp.o
-
-test/test_unlimited_cjmod_core.i: test/test_unlimited_cjmod_core.cpp.i
-.PHONY : test/test_unlimited_cjmod_core.i
-
-# target to preprocess a source file
-test/test_unlimited_cjmod_core.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_core.dir/build.make CMakeFiles/test_unlimited_cjmod_core.dir/test/test_unlimited_cjmod_core.cpp.i
-.PHONY : test/test_unlimited_cjmod_core.cpp.i
-
-test/test_unlimited_cjmod_core.s: test/test_unlimited_cjmod_core.cpp.s
-.PHONY : test/test_unlimited_cjmod_core.s
-
-# target to generate assembly for a file
-test/test_unlimited_cjmod_core.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_core.dir/build.make CMakeFiles/test_unlimited_cjmod_core.dir/test/test_unlimited_cjmod_core.cpp.s
-.PHONY : test/test_unlimited_cjmod_core.cpp.s
 
 test/test_unlimited_cjmod_simple.o: test/test_unlimited_cjmod_simple.cpp.o
 .PHONY : test/test_unlimited_cjmod_simple.o
@@ -1389,11 +1136,8 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... package"
-	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... chtholly_cjmod"
-	@echo "... chtl_ast"
 	@echo "... chtl_auto_addition"
 	@echo "... chtl_compiler"
 	@echo "... chtl_js_compiler"
@@ -1408,12 +1152,8 @@ help:
 	@echo "... test_chtl_js_lexer"
 	@echo "... test_chtljs_enhanced_functions"
 	@echo "... test_new_cjmod_framework"
-	@echo "... test_syntax_constraints"
 	@echo "... test_undecorated_literals"
-	@echo "... test_unified_scanner"
-	@echo "... test_unlimited_cjmod_core"
 	@echo "... test_unlimited_cjmod_simple"
-	@echo "... unified_core"
 	@echo "... src/CHTLCompiler/AST/CHTLNodes.o"
 	@echo "... src/CHTLCompiler/AST/CHTLNodes.i"
 	@echo "... src/CHTLCompiler/AST/CHTLNodes.s"
@@ -1486,18 +1226,6 @@ help:
 	@echo "... src/Shared/Utils/FileUtils.o"
 	@echo "... src/Shared/Utils/FileUtils.i"
 	@echo "... src/Shared/Utils/FileUtils.s"
-	@echo "... src/UnifiedCore/Constraints/SyntaxConstrainer.o"
-	@echo "... src/UnifiedCore/Constraints/SyntaxConstrainer.i"
-	@echo "... src/UnifiedCore/Constraints/SyntaxConstrainer.s"
-	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.o"
-	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.i"
-	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.s"
-	@echo "... src/ast/ASTNode.o"
-	@echo "... src/ast/ASTNode.i"
-	@echo "... src/ast/ASTNode.s"
-	@echo "... src/ast/VirtualObjectManager.o"
-	@echo "... src/ast/VirtualObjectManager.i"
-	@echo "... src/ast/VirtualObjectManager.s"
 	@echo "... test/test_auto_addition.o"
 	@echo "... test/test_auto_addition.i"
 	@echo "... test/test_auto_addition.s"
@@ -1519,18 +1247,9 @@ help:
 	@echo "... test/test_new_cjmod_framework.o"
 	@echo "... test/test_new_cjmod_framework.i"
 	@echo "... test/test_new_cjmod_framework.s"
-	@echo "... test/test_syntax_constraints.o"
-	@echo "... test/test_syntax_constraints.i"
-	@echo "... test/test_syntax_constraints.s"
 	@echo "... test/test_undecorated_literals.o"
 	@echo "... test/test_undecorated_literals.i"
 	@echo "... test/test_undecorated_literals.s"
-	@echo "... test/test_unified_scanner.o"
-	@echo "... test/test_unified_scanner.i"
-	@echo "... test/test_unified_scanner.s"
-	@echo "... test/test_unlimited_cjmod_core.o"
-	@echo "... test/test_unlimited_cjmod_core.i"
-	@echo "... test/test_unlimited_cjmod_core.s"
 	@echo "... test/test_unlimited_cjmod_simple.o"
 	@echo "... test/test_unlimited_cjmod_simple.i"
 	@echo "... test/test_unlimited_cjmod_simple.s"

@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Xlinker --dependency-file=CMakeFiles/test_cjmod.dir/link.d CMakeFiles/test_cjmod.dir/test/test_cjmod.cpp.o -o bin/test_cjmod  lib/libchtl_js_compiler.a lib/libchtl_shared.a

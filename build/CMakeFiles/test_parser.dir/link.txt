@@ -1,1 +1,0 @@
-/usr/bin/c++ -Xlinker --dependency-file=CMakeFiles/test_parser.dir/link.d CMakeFiles/test_parser.dir/test/test_parser.cpp.o -o bin/test_parser  lib/libchtl_common.a lib/libchtl_ast.a lib/libchtl_parser.a lib/libchtl_common.a lib/libchtl_ast.a

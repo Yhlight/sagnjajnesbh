@@ -97,9 +97,7 @@ bin/test_undecorated_literals: CMakeFiles/test_undecorated_literals.dir/test/tes
 bin/test_undecorated_literals: CMakeFiles/test_undecorated_literals.dir/build.make
 bin/test_undecorated_literals: CMakeFiles/test_undecorated_literals.dir/compiler_depend.ts
 bin/test_undecorated_literals: lib/libchtl_js_compiler.a
-bin/test_undecorated_literals: lib/libunified_core.a
 bin/test_undecorated_literals: lib/libchtl_shared.a
-bin/test_undecorated_literals: lib/libchtl_ast.a
 bin/test_undecorated_literals: CMakeFiles/test_undecorated_literals.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/test_undecorated_literals"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_undecorated_literals.dir/link.txt --verbose=$(VERBOSE)
