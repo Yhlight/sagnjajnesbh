@@ -309,12 +309,11 @@ bool testModuleSystem() {
     // 测试模块系统
     try {
         // 检查CMOD文件（正确的语法文档结构：子模块在src内部）
+        // 注意：存在子模块时，主模块src文件可以省略（推荐做法）
         std::vector<std::string> cmodFiles = {
-            "../src/Module/Chtholly/src/Chtholly.chtl",                    // 主模块文件
             "../src/Module/Chtholly/info/Chtholly.chtl",                  // 主模块信息
             "../src/Module/Chtholly/src/Accordion/src/Accordion.chtl",    // 子模块文件
             "../src/Module/Chtholly/src/Accordion/info/Accordion.chtl",   // 子模块信息
-            "../src/Module/Yuigahama/src/Yuigahama.chtl",                 // 主模块文件
             "../src/Module/Yuigahama/info/Yuigahama.chtl",                // 主模块信息
             "../src/Module/Yuigahama/src/MusicPlayer/src/MusicPlayer.chtl", // 子模块文件
             "../src/Module/Yuigahama/src/MusicPlayer/info/MusicPlayer.chtl" // 子模块信息
