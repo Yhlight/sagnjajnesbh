@@ -1,0 +1,48 @@
+// 无名配置组（默认配置）
+[Configuration]
+{
+    INDEX_INITIAL_COUNT = 1;
+    DISABLE_NAME_GROUP = false;
+    DISABLE_CUSTOM_ORIGIN_TYPE = true;
+    DEBUG_MODE = true;
+
+    [Name]
+    {
+        CUSTOM_STYLE = [@Style, @CSS];
+        CUSTOM_ELEMENT = @Element;
+        CUSTOM_VAR = @Var;
+        TEMPLATE_STYLE = @Style;
+        TEMPLATE_ELEMENT = @Element;
+        TEMPLATE_VAR = @Var;
+        ORIGIN_HTML = @Html;
+        ORIGIN_STYLE = @Style;
+        ORIGIN_JAVASCRIPT = @JavaScript;
+        CONFIGURATION_CONFIG = @Config;
+        IMPORT_HTML = @Html;
+        IMPORT_STYLE = @Style;
+        IMPORT_JAVASCRIPT = @JavaScript;
+        IMPORT_CHTL = @Chtl;
+        IMPORT_CRMOD = @CJmod;
+        IMPORT_CONFIG = @Config;
+        KEYWORD_INHERIT = inherit;
+        KEYWORD_DELETE = delete;
+        KEYWORD_INSERT = insert;
+        KEYWORD_AFTER = after;
+        KEYWORD_BEFORE = before;
+        KEYWORD_REPLACE = replace;
+        KEYWORD_ATTOP = at top;
+        KEYWORD_ATBOTTOM = at bottom;
+        KEYWORD_FROM = from;
+        KEYWORD_AS = as;
+        KEYWORD_EXCEPT = except;
+        KEYWORD_TEXT = text;
+        KEYWORD_STYLE = style;
+        KEYWORD_SCRIPT = script;
+        KEYWORD_CUSTOM = [Custom];
+        KEYWORD_TEMPLATE = [Template];
+        KEYWORD_ORIGIN = [Origin];
+        KEYWORD_IMPORT = [Import];
+        KEYWORD_NAMESPACE = [Namespace];
+        OPTION_COUNT = 5;
+    }
+}

@@ -1,0 +1,54 @@
+// 自定义按钮组件
+[Namespace] UI
+
+[Custom] @Element CustomButton
+{
+    button
+    {
+        style
+        {
+            .custom-button
+            {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 25px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            &:hover
+            {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+            }
+
+            &:active
+            {
+                transform: translateY(-1px);
+            }
+        }
+
+        script
+        {
+            {{&}} -> listen({
+                click: function() {
+                    console.log('自定义按钮被点击了！');
+                    
+                    // 添加点击动画效果
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                }
+            });
+        }
+
+        text
+        {
+            自定义按钮
+        }
+    }
+}

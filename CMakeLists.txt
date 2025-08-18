@@ -13,6 +13,8 @@ add_library(chtl_shared_min STATIC
     src/Shared/Utils/FileUtils.cpp
     src/Shared/Core/NamespaceAlgorithms.cpp
     src/Shared/Core/ErrorHandler.cpp
+    src/UnifiedCore/Configuration/ConfigurationManager.cpp
+    src/UnifiedCore/Configuration/ConfigurationImporter.cpp
 )
 
 # CSS编译器（使用ANTLR）
