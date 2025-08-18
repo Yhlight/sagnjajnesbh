@@ -42,6 +42,15 @@ CHTLCompiler_IS_TOP_LEVEL:STATIC=ON
 CHTLCompiler_SOURCE_DIR:STATIC=/workspace
 
 //Value Computed by CMake
+CHTLScannerWorking_BINARY_DIR:STATIC=/workspace/build
+
+//Value Computed by CMake
+CHTLScannerWorking_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+CHTLScannerWorking_SOURCE_DIR:STATIC=/workspace
+
+//Value Computed by CMake
 CHTLScanner_BINARY_DIR:STATIC=/workspace/build
 
 //Value Computed by CMake
@@ -159,7 +168,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=CHTLCompilerClean
+CMAKE_PROJECT_NAME:STATIC=CHTLScannerWorking
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=1.0.0
