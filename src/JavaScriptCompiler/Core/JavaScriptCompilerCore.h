@@ -77,7 +77,7 @@ public:
                     size_t line,
                     size_t charPositionInLine,
                     const std::string& msg,
-                    std::exception_ptr e) override;
+                    std::exception_ptr e);
 
 private:
     JavaScriptCompilerCore* compiler_;
@@ -89,14 +89,14 @@ public:
     explicit JavaScriptTreeWalker(JavaScriptCompilerCore* compiler) : compiler_(compiler) {}
     
     // 监听器方法
-    void enterProgram(JavaScriptParser_cpp::ProgramContext* ctx) override;
-    void exitProgram(JavaScriptParser_cpp::ProgramContext* ctx) override;
+    void enterProgram(JavaScriptParser_cpp::ProgramContext* ctx);
+    void exitProgram(JavaScriptParser_cpp::ProgramContext* ctx);
     
-    void enterFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext* ctx) override;
-    void exitFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext* ctx) override;
+    void enterFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext* ctx);
+    void exitFunctionDeclaration(JavaScriptParser_cpp::FunctionDeclarationContext* ctx);
     
-    void enterVariableStatement(JavaScriptParser_cpp::VariableStatementContext* ctx) override;
-    void exitVariableStatement(JavaScriptParser_cpp::VariableStatementContext* ctx) override;
+    void enterVariableStatement(JavaScriptParser_cpp::VariableStatementContext* ctx);
+    void exitVariableStatement(JavaScriptParser_cpp::VariableStatementContext* ctx);
     
     // 结果获取
     std::string getCompiledJavaScript() const { return output_.str(); }
