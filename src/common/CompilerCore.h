@@ -144,6 +144,20 @@ private:
     
     // 状态一致性检查
     bool validateStateConsistency() const;
+
+    // 语义分析方法
+    bool validateCHTLSemantics(ast::ASTNode* node);
+    bool buildSymbolTable(ast::ASTNode* node);
+    bool performSemanticValidation(ast::ASTNode* node);
+    bool optimizeAST(ast::ASTNode* node);
+    
+    // 具体语义验证方法
+    bool validateTemplateSemantics(ast::ASTNode* node);
+    bool validateCustomSemantics(ast::ASTNode* node);
+    bool validateStyleBlockSemantics(ast::ASTNode* node);
+    bool validateScriptBlockSemantics(ast::ASTNode* node);
+    bool validateImportSemantics(ast::ASTNode* node);
+    bool validateNamespaceSemantics(ast::ASTNode* node);
 };
 
 // 编译器工厂 - 创建预配置的编译器实例
