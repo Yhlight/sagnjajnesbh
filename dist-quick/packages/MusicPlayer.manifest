@@ -1,0 +1,23 @@
+# CHTL CMOD Package Manifest
+# Generated on: Mon Aug 18 05:29:49 PM UTC 2025
+
+[Package]
+Name: MusicPlayer
+Type: CMOD
+Version: 1.0.0
+Created: 2025-08-18T17:29:49+00:00
+Platform: Linux
+
+[Structure]
+Root: MusicPlayer/
+Source: src/MusicPlayer.chtl
+Info: info/MusicPlayer.chtl
+
+[Validation]
+ThreeNameStandard: Verified
+InfoSection: Present
+ExportSection: Present
+
+[Files]
+info/MusicPlayer.chtl: 330 bytes
+src/MusicPlayer.chtl: 2881 bytes
