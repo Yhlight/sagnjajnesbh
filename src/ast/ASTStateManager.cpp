@@ -476,7 +476,7 @@ std::vector<std::string> ASTStateManager::getValidationErrors(ASTNode* node) con
 
 void ASTStateManager::addStateChangeListener(std::shared_ptr<StateChangeListener> listener) {
     std::lock_guard<std::mutex> lock(mutex_);
-    listeners_.push_back(listener);
+    listeners_.push_back(std::weak_ptr<StateChangeListener>(listener));
 }
 
 void ASTStateManager::removeStateChangeListener(std::shared_ptr<StateChangeListener> listener) {
