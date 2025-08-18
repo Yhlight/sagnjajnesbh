@@ -168,6 +168,32 @@ public:
      */
     std::string getCurrentContext(const std::vector<std::string>& contextStack);
     
+    // === 可变长度切片机制 ===
+    
+    /**
+     * 检查片段完整性
+     * 检查下一个片段的起始部分是否可能与当前片段组成完整的CHTL或CHTL JS代码片段
+     */
+    bool checkFragmentCompleteness(const std::string& code, size_t currentEnd, size_t nextStart);
+    
+    /**
+     * 向前扩增切片范围
+     * 若判定为可组成完整片段，则向前扩增指定长度的切片范围
+     */
+    size_t expandSliceRange(const std::string& code, size_t currentEnd, size_t expandLength);
+    
+    /**
+     * 按最小语法单元二次切割
+     * 例如，{{box}}->click 需被切割为 {{box}}-> 与 click 两个单元
+     */
+    std::vector<std::string> performMinimalUnitSlicing(const std::string& fragment);
+    
+    /**
+     * 适当聚合连续片段
+     * 确保多个连续的CHTL/CHTL JS代码片段保持适当聚合，而非全部拆解为最小单元
+     */
+    std::vector<CodeFragment> aggregateConsecutiveFragments(const std::vector<CodeFragment>& fragments);
+    
     // === 嵌套结构处理 ===
     
     /**
