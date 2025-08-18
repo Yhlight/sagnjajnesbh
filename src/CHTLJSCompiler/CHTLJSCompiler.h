@@ -6,6 +6,7 @@
 #include "Virtual/VirtualObjectProcessor.h"
 #include "Operator/ArrowOperatorProcessor.h"
 #include "Script/LocalScriptProcessor.h"
+#include "Enhanced/UnorderedOptionalProcessor.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -94,6 +95,24 @@ public:
      */
     std::string compileVirtualObjects(const std::string& code);
     
+    /**
+     * 编译无修饰字面量
+     * 支持CHTL JS中的无引号字符串字面量
+     */
+    std::string compileUndecoratedLiterals(const std::string& code);
+    
+    /**
+     * 编译无序键值对
+     * 允许键值对以任意顺序出现
+     */
+    std::string compileUnorderedKeyValues(const std::string& code);
+    
+    /**
+     * 编译可选键值对
+     * 支持键值对的可选性和默认值
+     */
+    std::string compileOptionalKeyValues(const std::string& code);
+    
     // === 编译流程控制 ===
     
     /**
@@ -154,6 +173,7 @@ private:
     std::shared_ptr<VirtualObjectProcessor> virtualProcessor_;
     std::shared_ptr<ArrowOperatorProcessor> arrowProcessor_;
     std::shared_ptr<LocalScriptProcessor> scriptProcessor_;
+    std::shared_ptr<UnorderedOptionalProcessor> enhancedProcessor_;
     
     // 编译状态
     CompilationResult lastResult_;

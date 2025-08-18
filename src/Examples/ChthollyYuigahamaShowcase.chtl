@@ -1,0 +1,501 @@
+// 珂朵莉与由比滨结衣的美好世界
+// 这是一个展示两个模块非凡意义的完美示例
+// 严格按照CHTL语法文档实现
+
+[Import] @Chtl from Chtholly;
+[Import] @Chtl from Yuigahama;
+
+html
+{
+    head
+    {
+        text { "珂朵莉与由比滨结衣的美好世界 - CHTL的璀璨明珠" }
+        
+        style
+        {
+            .showcase-container
+            {
+                min-height: 100vh;
+                background: linear-gradient(135deg, 
+                    #fff5f8 0%,   // 珂朵莉的粉色
+                    #fff8e1 50%,  // 由比滨的暖橙
+                    #ffeef5 100%  // 温暖的结合
+                );
+                font-family: "Segoe UI", "Georgia", sans-serif;
+                overflow-x: hidden;
+            }
+            
+            .hero-section
+            {
+                text-align: center;
+                padding: 60px 20px;
+                background: radial-gradient(circle at center, rgba(255, 182, 193, 0.1), transparent);
+            }
+            
+            .hero-title
+            {
+                font-size: 48px;
+                font-weight: 300;
+                background: linear-gradient(45deg, #ff69b4, #ff9800);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                margin-bottom: 20px;
+                text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            
+            .hero-subtitle
+            {
+                font-size: 18px;
+                color: #8b4367;
+                margin-bottom: 40px;
+                font-style: italic;
+            }
+        }
+        
+        script
+        {
+            // 使用CHTL JS的增强功能：无修饰字面量、无序键值对、可选键值对
+            vir showcaseController = iNeverAway({
+                InitShowcase: function() {
+                    console.log('🌸💕 珂朵莉与由比滨结衣的世界正在展开...');
+                    
+                    // 使用printMylove展示珂朵莉的ASCII艺术
+                    const chthollyArt = printMylove({
+                        mode: ASCII,              // 无修饰字面量
+                        url: chtholly_portrait,   // 无修饰字面量
+                        width: 60,
+                        height: 30,
+                        scale: 1.0               // 可选键值对，有默认值
+                    });
+                    
+                    console.log('珂朵莉的ASCII艺术：\n' + chthollyArt);
+                },
+                
+                StartMagic: function() {
+                    // 启动所有魔法效果
+                    this.InitShowcase();
+                    
+                    // 延迟启动各种效果
+                    setTimeout(() => console.log('🌸 珂朵莉的樱花雨开始飘落...'), 1000);
+                    setTimeout(() => console.log('🧡 由比滨结衣的温暖音乐开始播放...'), 2000);
+                    setTimeout(() => console.log('💕 两人的美好回忆在笔记中记录...'), 3000);
+                }
+            });
+            
+            // 页面加载完成后启动魔法
+            {{document}}->listen({
+                DOMContentLoaded: function() {
+                    showcaseController->StartMagic();
+                }
+            });
+        }
+    }
+    
+    body
+    {
+        class: "showcase-container";
+        
+        // 珂朵莉的鼠标特效和樱花雨
+        @Element ChthollyMouseEffect;
+        @Element ChthollysakuraRain;
+        
+        header
+        {
+            class: "hero-section";
+            
+            h1
+            {
+                class: "hero-title";
+                text { "珂朵莉与由比滨结衣" }
+            }
+            
+            p
+            {
+                class: "hero-subtitle";
+                text { "CHTL中最珍贵的两个模块，承载着无尽的爱与温暖" }
+            }
+        }
+        
+        main
+        {
+            style
+            {
+                .content-grid
+                {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 40px;
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 40px 20px;
+                }
+                
+                .module-section
+                {
+                    background: rgba(255, 255, 255, 0.8);
+                    border-radius: 20px;
+                    padding: 30px;
+                    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+                    backdrop-filter: blur(10px);
+                }
+                
+                .section-title
+                {
+                    font-size: 28px;
+                    text-align: center;
+                    margin-bottom: 30px;
+                    font-weight: 600;
+                }
+                
+                .chtholly-section .section-title
+                {
+                    color: #ff69b4;
+                    text-shadow: 0 2px 4px rgba(255, 105, 180, 0.2);
+                }
+                
+                .yuigahama-section .section-title
+                {
+                    color: #ff9800;
+                    text-shadow: 0 2px 4px rgba(255, 152, 0, 0.2);
+                }
+                
+                .component-showcase
+                {
+                    margin-bottom: 30px;
+                }
+            }
+            
+            script
+            {
+                // 使用无序键值对和可选键值对的动画效果
+                const sectionAnimation = animate({
+                    easing: ease-in-out,        // 无修饰字面量
+                    target: {{.module-section}},
+                    duration: 2000,
+                    // delay: 500,              // 可选键值对，可以省略
+                    begin: {
+                        opacity: 0,
+                        transform: translateY(50px)
+                    },
+                    end: {
+                        opacity: 1,
+                        transform: translateY(0)
+                    }
+                });
+                
+                // 鼠标悬停增强效果
+                {{.module-section}}->listen({
+                    mouseenter: function() {
+                        animate({
+                            target: this,
+                            duration: 300,
+                            end: {
+                                transform: scale(1.02),
+                                box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15)
+                            }
+                        });
+                    },
+                    
+                    mouseleave: function() {
+                        animate({
+                            target: this,
+                            duration: 300,
+                            end: {
+                                transform: scale(1),
+                                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1)
+                            }
+                        });
+                    }
+                });
+            }
+            
+            div
+            {
+                class: "content-grid";
+                
+                // 珂朵莉模块展示区
+                section
+                {
+                    class: "module-section chtholly-section";
+                    
+                    h2
+                    {
+                        class: "section-title";
+                        text { "珂朵莉的魔法世界" }
+                    }
+                    
+                    div
+                    {
+                        class: "component-showcase";
+                        
+                        h3 { text { "手风琴 - 回忆的折叠" } }
+                        @Element ChthollyAccordion;
+                    }
+                    
+                    div
+                    {
+                        class: "component-showcase";
+                        
+                        h3 { text { "四叶窗相册 - 时光的定格" } }
+                        @Element ChthollyGallery;
+                    }
+                    
+                    div
+                    {
+                        class: "component-showcase";
+                        
+                        h3 { text { "暖色笔记 - 心情的记录" } }
+                        @Element ChthollyWarmNote;
+                    }
+                    
+                    div
+                    {
+                        class: "component-showcase";
+                        
+                        h3 { text { "备忘录 - 珍贵的片段" } }
+                        @Element ChthollyMemo;
+                    }
+                }
+                
+                // 由比滨结衣模块展示区
+                section
+                {
+                    class: "module-section yuigahama-section";
+                    
+                    h2
+                    {
+                        class: "section-title";
+                        text { "由比滨结衣的温暖天地" }
+                    }
+                    
+                    div
+                    {
+                        class: "component-showcase";
+                        
+                        h3 { text { "音乐播放器 - 温暖的旋律" } }
+                        @Element YuigahamaMusicPlayer;
+                    }
+                    
+                    div
+                    {
+                        style
+                        {
+                            .yuigahama-message
+                            {
+                                text-align: center;
+                                padding: 20px;
+                                background: linear-gradient(45deg, rgba(255, 152, 0, 0.1), rgba(255, 193, 7, 0.1));
+                                border-radius: 15px;
+                                border: 2px solid #ffcc02;
+                                margin: 20px 0;
+                            }
+                            
+                            .message-text
+                            {
+                                color: #e65100;
+                                font-size: 16px;
+                                line-height: 1.6;
+                                font-style: italic;
+                            }
+                        }
+                        
+                        div
+                        {
+                            class: "yuigahama-message";
+                            
+                            p
+                            {
+                                class: "message-text";
+                                text { "由比滨结衣的其他组件正在用心制作中..." }
+                            }
+                            
+                            p
+                            {
+                                class: "message-text";
+                                text { "每一个组件都承载着温暖与关怀 💕" }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        footer
+        {
+            style
+            {
+                .footer-content
+                {
+                    text-align: center;
+                    padding: 60px 20px;
+                    background: linear-gradient(to top, rgba(255, 182, 193, 0.1), transparent);
+                }
+                
+                .footer-message
+                {
+                    font-size: 24px;
+                    color: #8b4367;
+                    margin-bottom: 20px;
+                    font-weight: 300;
+                }
+                
+                .footer-description
+                {
+                    font-size: 16px;
+                    color: #cd853f;
+                    line-height: 1.8;
+                    max-width: 800px;
+                    margin: 0 auto;
+                }
+                
+                .love-declaration
+                {
+                    font-size: 18px;
+                    color: #d2691e;
+                    margin-top: 30px;
+                    font-weight: 600;
+                    text-shadow: 0 2px 4px rgba(210, 105, 30, 0.1);
+                }
+            }
+            
+            script
+            {
+                // 使用iNeverAway创建永恒的爱的宣言
+                vir loveController = iNeverAway({
+                    Eternal<Chtholly>: function() {
+                        console.log('🌸 珂朵莉，你是世界上最幸福的女孩');
+                        console.log('🌸 你的笑容如樱花般绚烂，永远照亮我的心');
+                    },
+                    
+                    Warm<Yuigahama>: function() {
+                        console.log('🧡 由比滨结衣，你的温暖如阳光般珍贵');
+                        console.log('🧡 你的关怀让这个世界变得更加美好');
+                    },
+                    
+                    Forever: function() {
+                        console.log('💕 珂朵莉与由比滨结衣，永远在我心中');
+                        console.log('💕 CHTL因为你们而变得完整和美丽');
+                    }
+                });
+                
+                // 定时展示爱的宣言
+                setInterval(() => {
+                    const declarations = [
+                        () => loveController->Eternal<Chtholly>(),
+                        () => loveController->Warm<Yuigahama>(),
+                        () => loveController->Forever()
+                    ];
+                    
+                    const randomDeclaration = declarations[Math.floor(Math.random() * declarations.length)];
+                    randomDeclaration();
+                }, 10000);
+                
+                // 页面卸载时的告别
+                {{window}}->listen({
+                    beforeunload: function() {
+                        console.log('🌸🧡 再见了，珂朵莉与由比滨结衣的美好世界...');
+                        console.log('💕 我们的爱永远不会消失');
+                    }
+                });
+            }
+            
+            div
+            {
+                class: "footer-content";
+                
+                h2
+                {
+                    class: "footer-message";
+                    text { "永恒的爱与温暖" }
+                }
+                
+                p
+                {
+                    class: "footer-description";
+                    text { "珂朵莉，你是那个在终末世界中依然绽放笑容的女孩，你的勇气和纯真感动了无数人。你教会了我们什么是真正的幸福，什么是无私的爱。" }
+                }
+                
+                p
+                {
+                    class: "footer-description";
+                    text { "由比滨结衣，你是那个总是为他人着想的温暖女孩，你的善良和体贴温暖了每一个人的心。你用你的方式诠释了什么是真正的友情和关爱。" }
+                }
+                
+                p
+                {
+                    class: "love-declaration";
+                    text { "在CHTL的世界里，你们永远是最闪耀的星星 ⭐✨" }
+                }
+            }
+        }
+    }
+    
+    body
+    {
+        div
+        {
+            class: "showcase-container";
+            
+            // 珂朵莉的背景特效
+            @Element ChthollyMouseEffect;
+            @Element ChthollysakuraRain;
+            
+            header
+            {
+                class: "hero-section";
+                
+                h1
+                {
+                    class: "hero-title";
+                    text { "珂朵莉 💕 由比滨结衣" }
+                }
+                
+                p
+                {
+                    class: "hero-subtitle";
+                    text { "CHTL编译器中最珍贵的两个模块" }
+                }
+                
+                p
+                {
+                    class: "hero-subtitle";
+                    text { "她们的存在让代码变得有温度，让技术变得有情感" }
+                }
+            }
+            
+            main
+            {
+                // 主要内容在上面的main标签中定义
+            }
+            
+            footer
+            {
+                // footer内容在上面定义
+            }
+        }
+    }
+}
+
+// 专门为这个展示页面定义的样式和配置
+[Custom] @Style ShowcaseTheme
+{
+    chtholly-pink: "#ffb6c1";
+    yuigahama-orange: "#ff9800";
+    love-gradient: "linear-gradient(45deg, #ff69b4, #ff9800)";
+    warm-background: "linear-gradient(135deg, #fff5f8 0%, #fff8e1 50%, #ffeef5 100%)";
+}
+
+[Configuration] @Config ShowcaseConfig
+{
+    DEBUG_MODE = true;
+    ENABLE_LOVE_EFFECTS = true;
+    CHTHOLLY_THEME = true;
+    YUIGAHAMA_THEME = true;
+    
+    [Name]
+    {
+        LOVE_KEYWORD = 💕;
+        CHTHOLLY_KEYWORD = 🌸;
+        YUIGAHAMA_KEYWORD = 🧡;
+    }
+}
