@@ -1,10 +1,13 @@
 /workspace/build/CMakeFiles/chtl_shared.dir
+/workspace/build/CMakeFiles/chtl_ast.dir
 /workspace/build/CMakeFiles/chtl_compiler.dir
 /workspace/build/CMakeFiles/chtl_js_compiler.dir
 /workspace/build/CMakeFiles/unified_core.dir
 /workspace/build/CMakeFiles/test_chtl_compiler.dir
 /workspace/build/CMakeFiles/test_chtl_js_lexer.dir
 /workspace/build/CMakeFiles/test_unified_scanner.dir
+/workspace/build/CMakeFiles/test_syntax_constraints.dir
+/workspace/build/CMakeFiles/test_chtl_compiler_simple.dir
 /workspace/build/CMakeFiles/package.dir
 /workspace/build/CMakeFiles/package_source.dir
 /workspace/build/CMakeFiles/edit_cache.dir

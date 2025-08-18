@@ -86,30 +86,30 @@ CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/ast/ASTNode.cpp -o CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.s
 
-CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.o: CMakeFiles/chtl_ast.dir/flags.make
-CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.o: /workspace/src/ast/ASTStateManager.cpp
-CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.o: CMakeFiles/chtl_ast.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.o -MF CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.o.d -o CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.o -c /workspace/src/ast/ASTStateManager.cpp
+CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o: CMakeFiles/chtl_ast.dir/flags.make
+CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o: /workspace/src/ast/VirtualObjectManager.cpp
+CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o: CMakeFiles/chtl_ast.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o -MF CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o.d -o CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o -c /workspace/src/ast/VirtualObjectManager.cpp
 
-CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/ast/ASTStateManager.cpp > CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.i
+CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/ast/VirtualObjectManager.cpp > CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.i
 
-CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/ast/ASTStateManager.cpp -o CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.s
+CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/ast/VirtualObjectManager.cpp -o CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.s
 
 # Object files for target chtl_ast
 chtl_ast_OBJECTS = \
 "CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.o" \
-"CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.o"
+"CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o"
 
 # External object files for target chtl_ast
 chtl_ast_EXTERNAL_OBJECTS =
 
 lib/libchtl_ast.a: CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.o
-lib/libchtl_ast.a: CMakeFiles/chtl_ast.dir/src/ast/ASTStateManager.cpp.o
+lib/libchtl_ast.a: CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o
 lib/libchtl_ast.a: CMakeFiles/chtl_ast.dir/build.make
 lib/libchtl_ast.a: CMakeFiles/chtl_ast.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library lib/libchtl_ast.a"

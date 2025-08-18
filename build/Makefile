@@ -150,6 +150,19 @@ chtl_shared/fast:
 .PHONY : chtl_shared/fast
 
 #=============================================================================
+# Target rules for targets named chtl_ast
+
+# Build rule for target.
+chtl_ast: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_ast
+.PHONY : chtl_ast
+
+# fast build rule for target.
+chtl_ast/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/build
+.PHONY : chtl_ast/fast
+
+#=============================================================================
 # Target rules for targets named chtl_compiler
 
 # Build rule for target.
@@ -226,6 +239,32 @@ test_unified_scanner: cmake_check_build_system
 test_unified_scanner/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unified_scanner.dir/build.make CMakeFiles/test_unified_scanner.dir/build
 .PHONY : test_unified_scanner/fast
+
+#=============================================================================
+# Target rules for targets named test_syntax_constraints
+
+# Build rule for target.
+test_syntax_constraints: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_syntax_constraints
+.PHONY : test_syntax_constraints
+
+# fast build rule for target.
+test_syntax_constraints/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/build
+.PHONY : test_syntax_constraints/fast
+
+#=============================================================================
+# Target rules for targets named test_chtl_compiler_simple
+
+# Build rule for target.
+test_chtl_compiler_simple: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtl_compiler_simple
+.PHONY : test_chtl_compiler_simple
+
+# fast build rule for target.
+test_chtl_compiler_simple/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler_simple.dir/build.make CMakeFiles/test_chtl_compiler_simple.dir/build
+.PHONY : test_chtl_compiler_simple/fast
 
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
@@ -587,54 +626,6 @@ src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.s
 .PHONY : src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.s
 
-src/UnifiedCore/Dispatcher/CompilerDispatcher.o: src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o
-.PHONY : src/UnifiedCore/Dispatcher/CompilerDispatcher.o
-
-# target to build an object file
-src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o
-.PHONY : src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o
-
-src/UnifiedCore/Dispatcher/CompilerDispatcher.i: src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.i
-.PHONY : src/UnifiedCore/Dispatcher/CompilerDispatcher.i
-
-# target to preprocess a source file
-src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.i
-.PHONY : src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.i
-
-src/UnifiedCore/Dispatcher/CompilerDispatcher.s: src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.s
-.PHONY : src/UnifiedCore/Dispatcher/CompilerDispatcher.s
-
-# target to generate assembly for a file
-src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.s
-.PHONY : src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.s
-
-src/UnifiedCore/Import/ImportManager.o: src/UnifiedCore/Import/ImportManager.cpp.o
-.PHONY : src/UnifiedCore/Import/ImportManager.o
-
-# target to build an object file
-src/UnifiedCore/Import/ImportManager.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o
-.PHONY : src/UnifiedCore/Import/ImportManager.cpp.o
-
-src/UnifiedCore/Import/ImportManager.i: src/UnifiedCore/Import/ImportManager.cpp.i
-.PHONY : src/UnifiedCore/Import/ImportManager.i
-
-# target to preprocess a source file
-src/UnifiedCore/Import/ImportManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.i
-.PHONY : src/UnifiedCore/Import/ImportManager.cpp.i
-
-src/UnifiedCore/Import/ImportManager.s: src/UnifiedCore/Import/ImportManager.cpp.s
-.PHONY : src/UnifiedCore/Import/ImportManager.s
-
-# target to generate assembly for a file
-src/UnifiedCore/Import/ImportManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.s
-.PHONY : src/UnifiedCore/Import/ImportManager.cpp.s
-
 src/UnifiedCore/Scanner/CHTLUnifiedScanner.o: src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o
 .PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.o
 
@@ -658,6 +649,54 @@ src/UnifiedCore/Scanner/CHTLUnifiedScanner.s: src/UnifiedCore/Scanner/CHTLUnifie
 src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unified_core.dir/build.make CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s
 .PHONY : src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s
+
+src/ast/ASTNode.o: src/ast/ASTNode.cpp.o
+.PHONY : src/ast/ASTNode.o
+
+# target to build an object file
+src/ast/ASTNode.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.o
+.PHONY : src/ast/ASTNode.cpp.o
+
+src/ast/ASTNode.i: src/ast/ASTNode.cpp.i
+.PHONY : src/ast/ASTNode.i
+
+# target to preprocess a source file
+src/ast/ASTNode.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.i
+.PHONY : src/ast/ASTNode.cpp.i
+
+src/ast/ASTNode.s: src/ast/ASTNode.cpp.s
+.PHONY : src/ast/ASTNode.s
+
+# target to generate assembly for a file
+src/ast/ASTNode.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/ASTNode.cpp.s
+.PHONY : src/ast/ASTNode.cpp.s
+
+src/ast/VirtualObjectManager.o: src/ast/VirtualObjectManager.cpp.o
+.PHONY : src/ast/VirtualObjectManager.o
+
+# target to build an object file
+src/ast/VirtualObjectManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.o
+.PHONY : src/ast/VirtualObjectManager.cpp.o
+
+src/ast/VirtualObjectManager.i: src/ast/VirtualObjectManager.cpp.i
+.PHONY : src/ast/VirtualObjectManager.i
+
+# target to preprocess a source file
+src/ast/VirtualObjectManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.i
+.PHONY : src/ast/VirtualObjectManager.cpp.i
+
+src/ast/VirtualObjectManager.s: src/ast/VirtualObjectManager.cpp.s
+.PHONY : src/ast/VirtualObjectManager.s
+
+# target to generate assembly for a file
+src/ast/VirtualObjectManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_ast.dir/build.make CMakeFiles/chtl_ast.dir/src/ast/VirtualObjectManager.cpp.s
+.PHONY : src/ast/VirtualObjectManager.cpp.s
 
 test/test_chtl_compiler.o: test/test_chtl_compiler.cpp.o
 .PHONY : test/test_chtl_compiler.o
@@ -683,6 +722,30 @@ test/test_chtl_compiler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler.dir/build.make CMakeFiles/test_chtl_compiler.dir/test/test_chtl_compiler.cpp.s
 .PHONY : test/test_chtl_compiler.cpp.s
 
+test/test_chtl_compiler_simple.o: test/test_chtl_compiler_simple.cpp.o
+.PHONY : test/test_chtl_compiler_simple.o
+
+# target to build an object file
+test/test_chtl_compiler_simple.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler_simple.dir/build.make CMakeFiles/test_chtl_compiler_simple.dir/test/test_chtl_compiler_simple.cpp.o
+.PHONY : test/test_chtl_compiler_simple.cpp.o
+
+test/test_chtl_compiler_simple.i: test/test_chtl_compiler_simple.cpp.i
+.PHONY : test/test_chtl_compiler_simple.i
+
+# target to preprocess a source file
+test/test_chtl_compiler_simple.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler_simple.dir/build.make CMakeFiles/test_chtl_compiler_simple.dir/test/test_chtl_compiler_simple.cpp.i
+.PHONY : test/test_chtl_compiler_simple.cpp.i
+
+test/test_chtl_compiler_simple.s: test/test_chtl_compiler_simple.cpp.s
+.PHONY : test/test_chtl_compiler_simple.s
+
+# target to generate assembly for a file
+test/test_chtl_compiler_simple.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_compiler_simple.dir/build.make CMakeFiles/test_chtl_compiler_simple.dir/test/test_chtl_compiler_simple.cpp.s
+.PHONY : test/test_chtl_compiler_simple.cpp.s
+
 test/test_chtl_js_lexer.o: test/test_chtl_js_lexer.cpp.o
 .PHONY : test/test_chtl_js_lexer.o
 
@@ -706,6 +769,30 @@ test/test_chtl_js_lexer.s: test/test_chtl_js_lexer.cpp.s
 test/test_chtl_js_lexer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_lexer.dir/build.make CMakeFiles/test_chtl_js_lexer.dir/test/test_chtl_js_lexer.cpp.s
 .PHONY : test/test_chtl_js_lexer.cpp.s
+
+test/test_syntax_constraints.o: test/test_syntax_constraints.cpp.o
+.PHONY : test/test_syntax_constraints.o
+
+# target to build an object file
+test/test_syntax_constraints.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.o
+.PHONY : test/test_syntax_constraints.cpp.o
+
+test/test_syntax_constraints.i: test/test_syntax_constraints.cpp.i
+.PHONY : test/test_syntax_constraints.i
+
+# target to preprocess a source file
+test/test_syntax_constraints.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.i
+.PHONY : test/test_syntax_constraints.cpp.i
+
+test/test_syntax_constraints.s: test/test_syntax_constraints.cpp.s
+.PHONY : test/test_syntax_constraints.s
+
+# target to generate assembly for a file
+test/test_syntax_constraints.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_syntax_constraints.dir/build.make CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.s
+.PHONY : test/test_syntax_constraints.cpp.s
 
 test/test_unified_scanner.o: test/test_unified_scanner.cpp.o
 .PHONY : test/test_unified_scanner.o
@@ -741,11 +828,14 @@ help:
 	@echo "... package"
 	@echo "... package_source"
 	@echo "... rebuild_cache"
+	@echo "... chtl_ast"
 	@echo "... chtl_compiler"
 	@echo "... chtl_js_compiler"
 	@echo "... chtl_shared"
 	@echo "... test_chtl_compiler"
+	@echo "... test_chtl_compiler_simple"
 	@echo "... test_chtl_js_lexer"
+	@echo "... test_syntax_constraints"
 	@echo "... test_unified_scanner"
 	@echo "... unified_core"
 	@echo "... src/CHTLCompiler/AST/CHTLNodes.o"
@@ -793,21 +883,27 @@ help:
 	@echo "... src/UnifiedCore/Constraints/SyntaxConstrainer.o"
 	@echo "... src/UnifiedCore/Constraints/SyntaxConstrainer.i"
 	@echo "... src/UnifiedCore/Constraints/SyntaxConstrainer.s"
-	@echo "... src/UnifiedCore/Dispatcher/CompilerDispatcher.o"
-	@echo "... src/UnifiedCore/Dispatcher/CompilerDispatcher.i"
-	@echo "... src/UnifiedCore/Dispatcher/CompilerDispatcher.s"
-	@echo "... src/UnifiedCore/Import/ImportManager.o"
-	@echo "... src/UnifiedCore/Import/ImportManager.i"
-	@echo "... src/UnifiedCore/Import/ImportManager.s"
 	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.o"
 	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.i"
 	@echo "... src/UnifiedCore/Scanner/CHTLUnifiedScanner.s"
+	@echo "... src/ast/ASTNode.o"
+	@echo "... src/ast/ASTNode.i"
+	@echo "... src/ast/ASTNode.s"
+	@echo "... src/ast/VirtualObjectManager.o"
+	@echo "... src/ast/VirtualObjectManager.i"
+	@echo "... src/ast/VirtualObjectManager.s"
 	@echo "... test/test_chtl_compiler.o"
 	@echo "... test/test_chtl_compiler.i"
 	@echo "... test/test_chtl_compiler.s"
+	@echo "... test/test_chtl_compiler_simple.o"
+	@echo "... test/test_chtl_compiler_simple.i"
+	@echo "... test/test_chtl_compiler_simple.s"
 	@echo "... test/test_chtl_js_lexer.o"
 	@echo "... test/test_chtl_js_lexer.i"
 	@echo "... test/test_chtl_js_lexer.s"
+	@echo "... test/test_syntax_constraints.o"
+	@echo "... test/test_syntax_constraints.i"
+	@echo "... test/test_syntax_constraints.s"
 	@echo "... test/test_unified_scanner.o"
 	@echo "... test/test_unified_scanner.i"
 	@echo "... test/test_unified_scanner.s"

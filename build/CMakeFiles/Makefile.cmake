@@ -50,10 +50,13 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/chtl_shared.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_ast.dir/DependInfo.cmake"
   "CMakeFiles/chtl_compiler.dir/DependInfo.cmake"
   "CMakeFiles/chtl_js_compiler.dir/DependInfo.cmake"
   "CMakeFiles/unified_core.dir/DependInfo.cmake"
   "CMakeFiles/test_chtl_compiler.dir/DependInfo.cmake"
   "CMakeFiles/test_chtl_js_lexer.dir/DependInfo.cmake"
   "CMakeFiles/test_unified_scanner.dir/DependInfo.cmake"
+  "CMakeFiles/test_syntax_constraints.dir/DependInfo.cmake"
+  "CMakeFiles/test_chtl_compiler_simple.dir/DependInfo.cmake"
   )

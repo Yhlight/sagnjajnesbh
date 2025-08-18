@@ -86,24 +86,10 @@ CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s: cm
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp -o CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.s
 
-CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o: CMakeFiles/unified_core.dir/flags.make
-CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o: /workspace/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp
-CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o: CMakeFiles/unified_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o -MF CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o.d -o CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o -c /workspace/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp
-
-CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp > CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.i
-
-CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp -o CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.s
-
 CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o: CMakeFiles/unified_core.dir/flags.make
 CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o: /workspace/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp
 CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o: CMakeFiles/unified_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o -MF CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o.d -o CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o -c /workspace/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp
 
 CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.i: cmake_force
@@ -114,37 +100,19 @@ CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.s:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp -o CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.s
 
-CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o: CMakeFiles/unified_core.dir/flags.make
-CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o: /workspace/src/UnifiedCore/Import/ImportManager.cpp
-CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o: CMakeFiles/unified_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o -MF CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o.d -o CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o -c /workspace/src/UnifiedCore/Import/ImportManager.cpp
-
-CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/UnifiedCore/Import/ImportManager.cpp > CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.i
-
-CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/UnifiedCore/Import/ImportManager.cpp -o CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.s
-
 # Object files for target unified_core
 unified_core_OBJECTS = \
 "CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o" \
-"CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o" \
-"CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o" \
-"CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o"
+"CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o"
 
 # External object files for target unified_core
 unified_core_EXTERNAL_OBJECTS =
 
 lib/libunified_core.a: CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o
-lib/libunified_core.a: CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o
 lib/libunified_core.a: CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o
-lib/libunified_core.a: CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o
 lib/libunified_core.a: CMakeFiles/unified_core.dir/build.make
 lib/libunified_core.a: CMakeFiles/unified_core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library lib/libunified_core.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library lib/libunified_core.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/unified_core.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/unified_core.dir/link.txt --verbose=$(VERBOSE)
 

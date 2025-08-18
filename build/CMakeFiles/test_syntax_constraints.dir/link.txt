@@ -1,1 +1,1 @@
-/usr/bin/c++  -Wall -Wextra -Xlinker --dependency-file=CMakeFiles/test_syntax_constraints.dir/link.d CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.o -o bin/test_syntax_constraints  lib/libunified_core.a lib/libchtl_ast.a lib/libchtl_shared.a
+/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Xlinker --dependency-file=CMakeFiles/test_syntax_constraints.dir/link.d CMakeFiles/test_syntax_constraints.dir/test/test_syntax_constraints.cpp.o -o bin/test_syntax_constraints  lib/libunified_core.a lib/libchtl_shared.a lib/libchtl_ast.a

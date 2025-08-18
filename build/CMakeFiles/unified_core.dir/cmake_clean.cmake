@@ -1,10 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o"
   "CMakeFiles/unified_core.dir/src/UnifiedCore/Constraints/SyntaxConstrainer.cpp.o.d"
-  "CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o"
-  "CMakeFiles/unified_core.dir/src/UnifiedCore/Dispatcher/CompilerDispatcher.cpp.o.d"
-  "CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o"
-  "CMakeFiles/unified_core.dir/src/UnifiedCore/Import/ImportManager.cpp.o.d"
   "CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o"
   "CMakeFiles/unified_core.dir/src/UnifiedCore/Scanner/CHTLUnifiedScanner.cpp.o.d"
   "lib/libunified_core.a"

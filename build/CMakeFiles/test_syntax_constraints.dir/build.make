@@ -97,8 +97,8 @@ bin/test_syntax_constraints: CMakeFiles/test_syntax_constraints.dir/test/test_sy
 bin/test_syntax_constraints: CMakeFiles/test_syntax_constraints.dir/build.make
 bin/test_syntax_constraints: CMakeFiles/test_syntax_constraints.dir/compiler_depend.ts
 bin/test_syntax_constraints: lib/libunified_core.a
-bin/test_syntax_constraints: lib/libchtl_ast.a
 bin/test_syntax_constraints: lib/libchtl_shared.a
+bin/test_syntax_constraints: lib/libchtl_ast.a
 bin/test_syntax_constraints: CMakeFiles/test_syntax_constraints.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/test_syntax_constraints"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_syntax_constraints.dir/link.txt --verbose=$(VERBOSE)

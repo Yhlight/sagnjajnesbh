@@ -1,3 +1,4 @@
+#include "../../common/Token.h"
 #include "ImportManager.h"
 #include "../ast/CHTLNodes.h"
 #include "../ast/SpecializedNodes.h"
