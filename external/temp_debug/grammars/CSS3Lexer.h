@@ -39,6 +39,8 @@ public:
 
   const antlr4::atn::ATN& getATN() const override;
 
+  void action(antlr4::RuleContext *context, size_t ruleIndex, size_t actionIndex) override;
+
   // By default the static state used to implement the lexer is lazily initialized during the first
   // call to the constructor. You can call this function if you wish to initialize the static state
   // ahead of time.
@@ -47,6 +49,7 @@ public:
 private:
 
   // Individual action functions triggered by action() above.
+  void ESCAPEAction(antlr4::RuleContext *context, size_t actionIndex);
 
   // Individual semantic predicate functions triggered by sempred() above.
 
