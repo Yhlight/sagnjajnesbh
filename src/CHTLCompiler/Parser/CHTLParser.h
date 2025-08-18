@@ -2,6 +2,11 @@
 #include "../Lexer/CHTLToken.h"
 #include "CHTLContext.h"
 #include "../AST/CHTLNodes.h"
+#include "../State/CHTLState.h"
+#include "../Template/TemplateParser.h"
+#include "../Custom/CustomParser.h"
+#include "../Origin/OriginParser.h"
+#include "../Constraint/ConstraintParser.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -28,7 +33,24 @@ public:
     std::unique_ptr<ast::ASTNode> parseStatement();
     std::unique_ptr<ast::ASTNode> parseTemplate();
     std::unique_ptr<ast::ASTNode> parseCustom();
+    std::unique_ptr<ast::ASTNode> parseOrigin();
+    std::unique_ptr<ast::ASTNode> parseConfiguration();
+    std::unique_ptr<ast::ASTNode> parseNamespace();
+    std::unique_ptr<ast::ASTNode> parseImport();
+    std::unique_ptr<ast::ASTNode> parseConstraint();
     std::unique_ptr<ast::ASTNode> parseElement();
+    std::unique_ptr<ast::ASTNode> parseSpecialization();
+    std::unique_ptr<ast::ASTNode> parseIndexAccess();
+    
+    // 模板和自定义使用解析
+    std::unique_ptr<ast::ASTNode> parseTemplateUsage();
+    std::unique_ptr<ast::ASTNode> parseCustomUsage();
+    std::unique_ptr<ast::ASTNode> parseOriginUsage();
+    
+    // 变量组解析
+    std::unique_ptr<ast::ASTNode> parseVariableUsage();
+    bool parseVariableCall(const std::vector<Token>& tokens, size_t& position,
+                          std::string& templateName, std::string& variableName, std::string& value);
     
     // 状态查询
     bool hasMoreTokens() const;
@@ -48,6 +70,16 @@ private:
     size_t current_token_;
     CHTLContext* context_;
     std::unique_ptr<CHTLContext> owned_context_;
+    
+    // 状态管理
+    std::unique_ptr<StateManager> state_manager_;
+    
+    // 专门解析器
+    std::unique_ptr<template_system::TemplateParser> template_parser_;
+    std::unique_ptr<custom_system::CustomParser> custom_parser_;
+    std::unique_ptr<origin_system::OriginParser> origin_parser_;
+    std::unique_ptr<constraint_system::ConstraintParser> constraint_parser_;
+    
     bool debug_mode_;
     std::vector<std::string> errors_;
     

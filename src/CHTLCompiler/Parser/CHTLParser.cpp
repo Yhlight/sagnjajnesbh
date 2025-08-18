@@ -9,10 +9,24 @@ namespace parser {
 CHTLParser::CHTLParser() : current_token_(0), debug_mode_(false) {
     owned_context_ = std::make_unique<CHTLContext>();
     context_ = owned_context_.get();
+    
+    // 初始化状态管理器和专门解析器
+    state_manager_ = std::make_unique<StateManager>();
+    template_parser_ = std::make_unique<template_system::TemplateParser>(*context_, *state_manager_);
+    custom_parser_ = std::make_unique<custom_system::CustomParser>(*context_, *state_manager_);
+    origin_parser_ = std::make_unique<origin_system::OriginParser>(*context_, *state_manager_);
+    constraint_parser_ = std::make_unique<constraint_system::ConstraintParser>(*context_, *state_manager_);
 }
 
 CHTLParser::CHTLParser(CHTLContext& context) 
     : current_token_(0), context_(&context), debug_mode_(false) {
+    
+    // 初始化状态管理器和专门解析器
+    state_manager_ = std::make_unique<StateManager>();
+    template_parser_ = std::make_unique<template_system::TemplateParser>(*context_, *state_manager_);
+    custom_parser_ = std::make_unique<custom_system::CustomParser>(*context_, *state_manager_);
+    origin_parser_ = std::make_unique<origin_system::OriginParser>(*context_, *state_manager_);
+    constraint_parser_ = std::make_unique<constraint_system::ConstraintParser>(*context_, *state_manager_);
 }
 
 void CHTLParser::setTokens(const std::vector<Token>& tokens) {
@@ -56,13 +70,47 @@ std::unique_ptr<ast::ASTNode> CHTLParser::parseProgram() {
 std::unique_ptr<ast::ASTNode> CHTLParser::parseStatement() {
     Token token = getCurrentToken();
     
+    // 更新状态机
+    if (!state_manager_->isInState(CompilerState::PARSING_CHTL)) {
+        state_manager_->transition(CompilerState::PARSING_CHTL, SyntaxContext::GLOBAL);
+    }
+    
     switch (token.type) {
-        case TokenType::TEMPLATE:
-            return parseTemplate();
-        case TokenType::CUSTOM:
-            return parseCustom();
-        case TokenType::IDENTIFIER:
-            return parseElement();
+        case TokenType::LEFT_BRACKET: {
+            // 检查括号内的关键字
+            Token nextToken = peekToken(1);
+            if (nextToken.type == TokenType::TEMPLATE) {
+                return parseTemplate();
+            } else if (nextToken.type == TokenType::CUSTOM) {
+                return parseCustom();
+            } else if (nextToken.type == TokenType::ORIGIN) {
+                return parseOrigin();
+            } else if (nextToken.type == TokenType::CONFIGURATION) {
+                return parseConfiguration();
+            } else if (nextToken.type == TokenType::IMPORT) {
+                return parseImport();
+            } else if (nextToken.type == TokenType::NAMESPACE) {
+                return parseNamespace();
+            } else {
+                addError("未识别的括号内语句类型: " + nextToken.value);
+                advance();
+                return nullptr;
+            }
+        }
+        case TokenType::EXCEPT:
+            return parseConstraint();
+        case TokenType::AT:
+            // 可能是模板/自定义使用或变量使用
+            return parseTemplateUsage();
+        case TokenType::IDENTIFIER: {
+            // 检查是否为变量调用格式 TemplateName(variableName)
+            Token nextToken = peekToken(1);
+            if (nextToken.type == TokenType::LEFT_PAREN) {
+                return parseVariableUsage();
+            } else {
+                return parseElement();
+            }
+        }
         default:
             addError("未识别的语句类型: " + token.value);
             advance(); // 跳过未知token
@@ -72,38 +120,137 @@ std::unique_ptr<ast::ASTNode> CHTLParser::parseStatement() {
 
 std::unique_ptr<ast::ASTNode> CHTLParser::parseTemplate() {
     if (debug_mode_) {
-        std::cout << "解析模板定义" << std::endl;
+        std::cout << "使用专门的模板解析器解析模板定义" << std::endl;
     }
     
-    consume(TokenType::TEMPLATE, "期望 'Template' 关键字");
-    
-    // 简化的模板解析
-    auto template_node = std::make_unique<ast::TemplateNode>();
-    
-    if (check(TokenType::IDENTIFIER)) {
-        template_node->name = getCurrentToken().value;
-        advance();
-    }
-    
-    return std::move(template_node);
+    // 委托给专门的模板解析器
+    return template_parser_->parseTemplate(tokens_, current_token_);
 }
 
 std::unique_ptr<ast::ASTNode> CHTLParser::parseCustom() {
     if (debug_mode_) {
-        std::cout << "解析自定义定义" << std::endl;
+        std::cout << "使用专门的自定义解析器解析自定义定义" << std::endl;
     }
     
-    consume(TokenType::CUSTOM, "期望 'Custom' 关键字");
+    // 委托给专门的自定义解析器
+    return custom_parser_->parseCustom(tokens_, current_token_);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseOrigin() {
+    if (debug_mode_) {
+        std::cout << "使用专门的原始嵌入解析器解析原始嵌入" << std::endl;
+    }
     
-    // 简化的自定义解析
+    // 委托给专门的原始嵌入解析器
+    return origin_parser_->parseOrigin(tokens_, current_token_);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseConfiguration() {
+    if (debug_mode_) {
+        std::cout << "解析配置组定义" << std::endl;
+    }
+    
+    // TODO: 实现配置组解析
+    auto config_node = std::make_unique<ast::ConfigurationNode>();
+    
+    return std::move(config_node);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseNamespace() {
+    if (debug_mode_) {
+        std::cout << "解析命名空间定义" << std::endl;
+    }
+    
+    // TODO: 实现命名空间解析
+    auto namespace_node = std::make_unique<ast::NamespaceNode>();
+    
+    return std::move(namespace_node);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseImport() {
+    if (debug_mode_) {
+        std::cout << "解析导入语句" << std::endl;
+    }
+    
+    // TODO: 实现导入解析
+    auto import_node = std::make_unique<ast::ImportNode>();
+    
+    return std::move(import_node);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseConstraint() {
+    if (debug_mode_) {
+        std::cout << "使用专门的约束解析器解析约束" << std::endl;
+    }
+    
+    // 委托给专门的约束解析器
+    return constraint_parser_->parseConstraint(tokens_, current_token_);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseSpecialization() {
+    if (debug_mode_) {
+        std::cout << "解析特例化操作" << std::endl;
+    }
+    
+    // TODO: 实现特例化操作解析
+    auto specialization_node = std::make_unique<ast::SpecializationNode>();
+    
+    return std::move(specialization_node);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseIndexAccess() {
+    if (debug_mode_) {
+        std::cout << "解析索引访问" << std::endl;
+    }
+    
+    // TODO: 实现索引访问解析
+    auto index_node = std::make_unique<ast::IndexAccessNode>();
+    
+    return std::move(index_node);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseTemplateUsage() {
+    if (debug_mode_) {
+        std::cout << "解析模板使用" << std::endl;
+    }
+    
+    // TODO: 实现模板使用解析
+    auto template_node = std::make_unique<ast::TemplateNode>();
+    
+    return std::move(template_node);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseCustomUsage() {
+    if (debug_mode_) {
+        std::cout << "解析自定义使用" << std::endl;
+    }
+    
+    // TODO: 实现自定义使用解析
     auto custom_node = std::make_unique<ast::CustomNode>();
     
-    if (check(TokenType::IDENTIFIER)) {
-        custom_node->name = getCurrentToken().value;
-        advance();
+    return std::move(custom_node);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseOriginUsage() {
+    if (debug_mode_) {
+        std::cout << "解析原始嵌入使用" << std::endl;
     }
     
-    return std::move(custom_node);
+    // TODO: 实现原始嵌入使用解析
+    auto origin_node = std::make_unique<ast::OriginNode>();
+    
+    return std::move(origin_node);
+}
+
+std::unique_ptr<ast::ASTNode> CHTLParser::parseVariableUsage() {
+    if (debug_mode_) {
+        std::cout << "解析变量组使用" << std::endl;
+    }
+    
+    // TODO: 实现变量组使用解析 ThemeColor(tableColor)
+    auto variable_node = std::make_unique<ast::VariableGroupNode>();
+    
+    return std::move(variable_node);
 }
 
 std::unique_ptr<ast::ASTNode> CHTLParser::parseElement() {
