@@ -246,6 +246,19 @@ SimpleTestRunner/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SimpleTestRunner.dir/build.make CMakeFiles/SimpleTestRunner.dir/build
 .PHONY : SimpleTestRunner/fast
 
+#=============================================================================
+# Target rules for targets named ComprehensiveTestRunner
+
+# Build rule for target.
+ComprehensiveTestRunner: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ComprehensiveTestRunner
+.PHONY : ComprehensiveTestRunner
+
+# fast build rule for target.
+ComprehensiveTestRunner/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/build
+.PHONY : ComprehensiveTestRunner/fast
+
 src/CSSCompiler/Core/CSSCompilerCore.o: src/CSSCompiler/Core/CSSCompilerCore.cpp.o
 .PHONY : src/CSSCompiler/Core/CSSCompilerCore.o
 
@@ -582,6 +595,30 @@ src/Shared/Utils/FileUtils.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.s
 .PHONY : src/Shared/Utils/FileUtils.cpp.s
 
+src/Test/ComprehensiveTestRunner.o: src/Test/ComprehensiveTestRunner.cpp.o
+.PHONY : src/Test/ComprehensiveTestRunner.o
+
+# target to build an object file
+src/Test/ComprehensiveTestRunner.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/ComprehensiveTestRunner.cpp.o
+.PHONY : src/Test/ComprehensiveTestRunner.cpp.o
+
+src/Test/ComprehensiveTestRunner.i: src/Test/ComprehensiveTestRunner.cpp.i
+.PHONY : src/Test/ComprehensiveTestRunner.i
+
+# target to preprocess a source file
+src/Test/ComprehensiveTestRunner.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/ComprehensiveTestRunner.cpp.i
+.PHONY : src/Test/ComprehensiveTestRunner.cpp.i
+
+src/Test/ComprehensiveTestRunner.s: src/Test/ComprehensiveTestRunner.cpp.s
+.PHONY : src/Test/ComprehensiveTestRunner.s
+
+# target to generate assembly for a file
+src/Test/ComprehensiveTestRunner.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/ComprehensiveTestRunner.cpp.s
+.PHONY : src/Test/ComprehensiveTestRunner.cpp.s
+
 src/Test/Framework/TestBase.o: src/Test/Framework/TestBase.cpp.o
 .PHONY : src/Test/Framework/TestBase.o
 
@@ -677,6 +714,30 @@ src/Test/SimpleTestRunner.s: src/Test/SimpleTestRunner.cpp.s
 src/Test/SimpleTestRunner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SimpleTestRunner.dir/build.make CMakeFiles/SimpleTestRunner.dir/src/Test/SimpleTestRunner.cpp.s
 .PHONY : src/Test/SimpleTestRunner.cpp.s
+
+src/Test/Utils/CHTLSyntaxValidator.o: src/Test/Utils/CHTLSyntaxValidator.cpp.o
+.PHONY : src/Test/Utils/CHTLSyntaxValidator.o
+
+# target to build an object file
+src/Test/Utils/CHTLSyntaxValidator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o
+.PHONY : src/Test/Utils/CHTLSyntaxValidator.cpp.o
+
+src/Test/Utils/CHTLSyntaxValidator.i: src/Test/Utils/CHTLSyntaxValidator.cpp.i
+.PHONY : src/Test/Utils/CHTLSyntaxValidator.i
+
+# target to preprocess a source file
+src/Test/Utils/CHTLSyntaxValidator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.i
+.PHONY : src/Test/Utils/CHTLSyntaxValidator.cpp.i
+
+src/Test/Utils/CHTLSyntaxValidator.s: src/Test/Utils/CHTLSyntaxValidator.cpp.s
+.PHONY : src/Test/Utils/CHTLSyntaxValidator.s
+
+# target to generate assembly for a file
+src/Test/Utils/CHTLSyntaxValidator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.s
+.PHONY : src/Test/Utils/CHTLSyntaxValidator.cpp.s
 
 src/Test/Utils/TestUtils.o: src/Test/Utils/TestUtils.cpp.o
 .PHONY : src/Test/Utils/TestUtils.o
@@ -830,6 +891,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... ComprehensiveTestRunner"
 	@echo "... SimpleTestRunner"
 	@echo "... chtl_css_compiler"
 	@echo "... chtl_js_compiler_antlr"
@@ -882,6 +944,9 @@ help:
 	@echo "... src/Shared/Utils/FileUtils.o"
 	@echo "... src/Shared/Utils/FileUtils.i"
 	@echo "... src/Shared/Utils/FileUtils.s"
+	@echo "... src/Test/ComprehensiveTestRunner.o"
+	@echo "... src/Test/ComprehensiveTestRunner.i"
+	@echo "... src/Test/ComprehensiveTestRunner.s"
 	@echo "... src/Test/Framework/TestBase.o"
 	@echo "... src/Test/Framework/TestBase.i"
 	@echo "... src/Test/Framework/TestBase.s"
@@ -894,6 +959,9 @@ help:
 	@echo "... src/Test/SimpleTestRunner.o"
 	@echo "... src/Test/SimpleTestRunner.i"
 	@echo "... src/Test/SimpleTestRunner.s"
+	@echo "... src/Test/Utils/CHTLSyntaxValidator.o"
+	@echo "... src/Test/Utils/CHTLSyntaxValidator.i"
+	@echo "... src/Test/Utils/CHTLSyntaxValidator.s"
 	@echo "... src/Test/Utils/TestUtils.o"
 	@echo "... src/Test/Utils/TestUtils.i"
 	@echo "... src/Test/Utils/TestUtils.s"

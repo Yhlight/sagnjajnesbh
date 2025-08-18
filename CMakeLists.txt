@@ -69,6 +69,13 @@ target_link_libraries(chtl_test_framework chtl_shared_min)
 add_executable(SimpleTestRunner src/Test/SimpleTestRunner.cpp)
 target_link_libraries(SimpleTestRunner chtl_shared_min)
 
+# 全面语法测试运行器
+add_executable(ComprehensiveTestRunner 
+    src/Test/ComprehensiveTestRunner.cpp
+    src/Test/Utils/CHTLSyntaxValidator.cpp
+)
+target_link_libraries(ComprehensiveTestRunner chtl_shared_min)
+
 # 设置输出目录
 set_target_properties(
     chtl_shared_min chtl_css_compiler chtl_js_compiler_antlr chtl_test_framework
@@ -76,6 +83,6 @@ set_target_properties(
 )
 
 set_target_properties(
-    test_antlr_compilers test_antlr_basic test_minimal_css test_css_validation_only test_complex_syntax_errors SimpleTestRunner
+    test_antlr_compilers test_antlr_basic test_minimal_css test_css_validation_only test_complex_syntax_errors SimpleTestRunner ComprehensiveTestRunner
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )

@@ -8,5 +8,6 @@
 /workspace/build/CMakeFiles/test_complex_syntax_errors.dir
 /workspace/build/CMakeFiles/chtl_test_framework.dir
 /workspace/build/CMakeFiles/SimpleTestRunner.dir
+/workspace/build/CMakeFiles/ComprehensiveTestRunner.dir
 /workspace/build/CMakeFiles/edit_cache.dir
 /workspace/build/CMakeFiles/rebuild_cache.dir

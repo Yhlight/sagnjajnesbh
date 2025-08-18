@@ -59,4 +59,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/test_complex_syntax_errors.dir/DependInfo.cmake"
   "CMakeFiles/chtl_test_framework.dir/DependInfo.cmake"
   "CMakeFiles/SimpleTestRunner.dir/DependInfo.cmake"
+  "CMakeFiles/ComprehensiveTestRunner.dir/DependInfo.cmake"
   )
