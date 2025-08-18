@@ -1,9 +1,9 @@
 #pragma once
 #include "../Scanner/CHTLUnifiedScanner.h"
-#include "../../CHTLCompiler/Core/CHTLCompilerCore.h"
-#include "../../CHTLJSCompiler/Core/CHTLJSCompilerCore.h"
-#include "../../CSSCompiler/Core/CSSCompilerCore.h"
-#include "../../JavaScriptCompiler/Core/JavaScriptCompilerCore.h"
+#include "../CHTLCompiler/CHTLCompilerCore.h"
+#include "../CHTLJSCompiler/CHTLJSCompilerCore.h"
+#include "../CSSCompiler/CSSCompilerCore.h"
+#include "../JavaScriptCompiler/JavaScriptCompilerCore.h"
 #include <string>
 #include <memory>
 #include <unordered_map>
