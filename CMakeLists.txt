@@ -228,12 +228,12 @@ set(CSS_COMPILER_SOURCES
 
 # JavaScript编译器 (ANTLR官方语法)
 set(JS_COMPILER_SOURCES
-    src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp
     src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptParser.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp
     src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp
     src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp
 )
 
@@ -265,11 +265,11 @@ set(ANTLR_PARSER_SOURCES
     src/CSSCompiler/Parser/css3Lexer.cpp
     src/CSSCompiler/Parser/css3Parser.cpp
     src/CSSCompiler/Parser/css3ParserBaseListener.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp
     src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptParser.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp
     src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp
 )
 
 add_library(chtl_antlr_parsers STATIC ${ANTLR_PARSER_SOURCES})

@@ -1408,7 +1408,7 @@ CMakeFiles/chtl_antlr_parsers.dir/src/CSSCompiler/Parser/css3ParserBaseListener.
   /workspace/src/CSSCompiler/Parser/css3ParserBaseListener.h \
   /workspace/src/CSSCompiler/Parser/css3ParserListener.h
 
-CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp \
+CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp \
   /usr/include/alloca.h \
   /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
@@ -1874,9 +1874,11 @@ CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathTokenElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardAnywhereElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardElement.h \
-  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.h
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBase.h
 
-CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp \
+CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o: /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp \
   /usr/include/alloca.h \
   /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
@@ -2342,13 +2344,16 @@ CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathTokenElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardAnywhereElement.h \
   /workspace/external/antlr4-install/include/antlr4-runtime/tree/xpath/XPathWildcardElement.h \
-  /workspace/src/JavaScriptCompiler/Parser/JavaScriptListener.h \
-  /workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.h
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.h \
+  /workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBase.h
 
 
-/workspace/src/JavaScriptCompiler/Parser/JavaScriptListener.h:
+/workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp:
 
-/workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp:
+/workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.h:
+
+/workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp:
 
 /workspace/src/CSSCompiler/Parser/css3Parser.cpp:
 
@@ -2409,8 +2414,6 @@ CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/RuleStartState.h:
 
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/RangeTransition.h:
-
-/workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.h:
 
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/PredictionContextMergeCacheOptions.h:
 
@@ -2602,6 +2605,8 @@ CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser
 
 /usr/include/c++/14/typeinfo:
 
+/workspace/src/JavaScriptCompiler/Parser/JavaScriptParserBase.h:
+
 /usr/include/c++/14/type_traits:
 
 /usr/include/c++/14/tuple:
@@ -2621,8 +2626,6 @@ CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser
 /workspace/external/antlr4-install/include/antlr4-runtime/atn/SerializedATNView.h:
 
 /usr/include/c++/14/stack:
-
-/workspace/src/JavaScriptCompiler/Parser/JavaScriptParser.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h:
 
@@ -2858,8 +2861,6 @@ CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser
 
 /usr/include/c++/14/bits/predefined_ops.h:
 
-/workspace/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp:
-
 /usr/include/c++/14/cassert:
 
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
@@ -2939,6 +2940,8 @@ CMakeFiles/chtl_antlr_parsers.dir/src/JavaScriptCompiler/Parser/JavaScriptParser
 /usr/include/x86_64-linux-gnu/bits/setjmp.h:
 
 /usr/include/time.h:
+
+/workspace/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.h:
 
 /usr/include/sched.h:
 

@@ -1,8 +1,8 @@
 #include "antlr4-runtime.h"
 #include "../src/CSSCompiler/Parser/css3Lexer.h"
 #include "../src/CSSCompiler/Parser/css3Parser.h"
-#include "../src/JavaScriptCompiler/Parser/JavaScriptLexer.h"
-#include "../src/JavaScriptCompiler/Parser/JavaScriptParser.h"
+#include "../src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.h"
+#include "../src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.h"
 #include <iostream>
 #include <cassert>
 
@@ -35,9 +35,9 @@ void testBasicJavaScript() {
     std::string js = "function test() { return 42; }";
     
     ANTLRInputStream input(js);
-    JavaScriptLexer lexer(&input);
+    JavaScriptLexer_cpp lexer(&input);
     CommonTokenStream tokens(&lexer);
-    JavaScriptParser parser(&tokens);
+    JavaScriptParser_cpp parser(&tokens);
     
     auto tree = parser.program();
     

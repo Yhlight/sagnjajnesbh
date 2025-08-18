@@ -1,4 +1,4 @@
-#include "JavaScriptParser.h"
+#include "JavaScriptParser_cpp.h"
 
 using namespace antlr4;
 
@@ -30,13 +30,13 @@ bool JavaScriptParserBase::notLineTerminator()
 bool JavaScriptParserBase::notOpenBraceAndNotFunction()
 {
     int nextTokenType = _input->LT(1)->getType();
-    return nextTokenType != JavaScriptParser::OpenBrace && nextTokenType != JavaScriptParser::Function_;
+    return nextTokenType != JavaScriptParser_cpp::OpenBrace && nextTokenType != JavaScriptParser_cpp::Function_;
 
 }
 
 bool JavaScriptParserBase::closeBrace()
 {
-    return _input->LT(1)->getType() == JavaScriptParser::CloseBrace;
+    return _input->LT(1)->getType() == JavaScriptParser_cpp::CloseBrace;
 }
 
 bool JavaScriptParserBase::lineTerminatorAhead()
@@ -51,12 +51,12 @@ bool JavaScriptParserBase::lineTerminatorAhead()
         return false;
     }
 
-    if (ahead->getType() == JavaScriptParser::LineTerminator) {
+    if (ahead->getType() == JavaScriptParser_cpp::LineTerminator) {
         // There is definitely a line terminator ahead.
         return true;
     }
 
-    if (ahead->getType() == JavaScriptParser::WhiteSpaces) {
+    if (ahead->getType() == JavaScriptParser_cpp::WhiteSpaces) {
         // Get the token ahead of the current whitespaces.
         possibleIndexEosToken = this->getCurrentToken()->getTokenIndex() - 2;
         if (possibleIndexEosToken < 0) return false;
@@ -68,6 +68,6 @@ bool JavaScriptParserBase::lineTerminatorAhead()
     int type = ahead->getType();
 
     // Check if the token is, or contains a line terminator.
-    return (type == JavaScriptParser::MultiLineComment && (text.find("\r") != std::string::npos || text.find("\n") != std::string::npos)) ||
-            (type == JavaScriptParser::LineTerminator);
+    return (type == JavaScriptParser_cpp::MultiLineComment && (text.find("\r") != std::string::npos || text.find("\n") != std::string::npos)) ||
+            (type == JavaScriptParser_cpp::LineTerminator);
 }
