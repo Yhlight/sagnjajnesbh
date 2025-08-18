@@ -17,5 +17,8 @@
 /workspace/build/CMakeFiles/test_unlimited_cjmod_simple.dir
 /workspace/build/CMakeFiles/test_comment_system.dir
 /workspace/build/CMakeFiles/test_origin_embed_comments.dir
+/workspace/build/CMakeFiles/chtl_css_compiler.dir
+/workspace/build/CMakeFiles/chtl_js_compiler_antlr.dir
+/workspace/build/CMakeFiles/test_antlr_compilers.dir
 /workspace/build/CMakeFiles/edit_cache.dir
 /workspace/build/CMakeFiles/rebuild_cache.dir

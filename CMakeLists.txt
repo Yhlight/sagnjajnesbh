@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable")
 
 include_directories(src)
+include_directories(external/antlr4-install/include/antlr4-runtime)
 
 # 共享组件
 add_library(chtl_shared STATIC
@@ -107,16 +108,42 @@ target_link_libraries(test_comment_system chtl_shared)
 add_executable(test_origin_embed_comments test/test_origin_embed_comments.cpp)
 target_link_libraries(test_origin_embed_comments chtl_shared)
 
+# CSS编译器（使用ANTLR）
+add_library(chtl_css_compiler STATIC
+    src/CSSCompiler/Parser/css3Lexer.cpp
+    src/CSSCompiler/Parser/css3Parser.cpp
+    src/CSSCompiler/Parser/css3ParserBaseListener.cpp
+    src/CSSCompiler/Parser/css3ParserListener.cpp
+    src/CSSCompiler/Core/CSSCompilerCore.cpp
+)
+target_link_libraries(chtl_css_compiler chtl_shared ${CMAKE_CURRENT_SOURCE_DIR}/external/antlr4-install/lib/libantlr4-runtime.a)
+
+# JavaScript编译器（使用ANTLR）
+add_library(chtl_js_compiler_antlr STATIC
+    src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParser.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp
+    src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp
+    src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp
+)
+target_link_libraries(chtl_js_compiler_antlr chtl_shared ${CMAKE_CURRENT_SOURCE_DIR}/external/antlr4-install/lib/libantlr4-runtime.a)
+
+# ANTLR编译器测试
+add_executable(test_antlr_compilers test/test_antlr_compilers.cpp)
+target_link_libraries(test_antlr_compilers chtl_css_compiler chtl_js_compiler_antlr)
+
 # 设置输出目录
 set_target_properties(
     chtl_shared chtl_compiler chtl_js_compiler chtl_js_enhanced chtl_auto_addition 
-    chtholly_cjmod chtl_new_cjmod chtl_unlimited_cjmod
+    chtholly_cjmod chtl_new_cjmod chtl_unlimited_cjmod chtl_css_compiler chtl_js_compiler_antlr
     PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
 )
 
 set_target_properties(
     test_chtl_compiler test_chtl_js_lexer test_chtl_compiler_simple test_undecorated_literals
     test_chtljs_enhanced_functions test_auto_addition test_chtholly_module 
-    test_new_cjmod_framework test_unlimited_cjmod_simple test_comment_system test_origin_embed_comments
+    test_new_cjmod_framework test_unlimited_cjmod_simple test_comment_system test_origin_embed_comments test_antlr_compilers
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )

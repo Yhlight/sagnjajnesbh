@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/workspace/src
+CXX_INCLUDES = -I/workspace/src -I/workspace/external/antlr4-install/include/antlr4-runtime
 
 CXX_FLAGS =  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -std=gnu++17
 

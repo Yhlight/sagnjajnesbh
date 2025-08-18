@@ -363,6 +363,45 @@ test_origin_embed_comments/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_origin_embed_comments.dir/build.make CMakeFiles/test_origin_embed_comments.dir/build
 .PHONY : test_origin_embed_comments/fast
 
+#=============================================================================
+# Target rules for targets named chtl_css_compiler
+
+# Build rule for target.
+chtl_css_compiler: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_css_compiler
+.PHONY : chtl_css_compiler
+
+# fast build rule for target.
+chtl_css_compiler/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/build
+.PHONY : chtl_css_compiler/fast
+
+#=============================================================================
+# Target rules for targets named chtl_js_compiler_antlr
+
+# Build rule for target.
+chtl_js_compiler_antlr: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_js_compiler_antlr
+.PHONY : chtl_js_compiler_antlr
+
+# fast build rule for target.
+chtl_js_compiler_antlr/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/build
+.PHONY : chtl_js_compiler_antlr/fast
+
+#=============================================================================
+# Target rules for targets named test_antlr_compilers
+
+# Build rule for target.
+test_antlr_compilers: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_antlr_compilers
+.PHONY : test_antlr_compilers
+
+# fast build rule for target.
+test_antlr_compilers/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_compilers.dir/build.make CMakeFiles/test_antlr_compilers.dir/build
+.PHONY : test_antlr_compilers/fast
+
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
@@ -819,6 +858,294 @@ src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_auto_addition.dir/build.make CMakeFiles/chtl_auto_addition.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s
 .PHONY : src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s
 
+src/CSSCompiler/Core/CSSCompilerCore.o: src/CSSCompiler/Core/CSSCompilerCore.cpp.o
+.PHONY : src/CSSCompiler/Core/CSSCompilerCore.o
+
+# target to build an object file
+src/CSSCompiler/Core/CSSCompilerCore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o
+.PHONY : src/CSSCompiler/Core/CSSCompilerCore.cpp.o
+
+src/CSSCompiler/Core/CSSCompilerCore.i: src/CSSCompiler/Core/CSSCompilerCore.cpp.i
+.PHONY : src/CSSCompiler/Core/CSSCompilerCore.i
+
+# target to preprocess a source file
+src/CSSCompiler/Core/CSSCompilerCore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.i
+.PHONY : src/CSSCompiler/Core/CSSCompilerCore.cpp.i
+
+src/CSSCompiler/Core/CSSCompilerCore.s: src/CSSCompiler/Core/CSSCompilerCore.cpp.s
+.PHONY : src/CSSCompiler/Core/CSSCompilerCore.s
+
+# target to generate assembly for a file
+src/CSSCompiler/Core/CSSCompilerCore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.s
+.PHONY : src/CSSCompiler/Core/CSSCompilerCore.cpp.s
+
+src/CSSCompiler/Parser/css3Lexer.o: src/CSSCompiler/Parser/css3Lexer.cpp.o
+.PHONY : src/CSSCompiler/Parser/css3Lexer.o
+
+# target to build an object file
+src/CSSCompiler/Parser/css3Lexer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Lexer.cpp.o
+.PHONY : src/CSSCompiler/Parser/css3Lexer.cpp.o
+
+src/CSSCompiler/Parser/css3Lexer.i: src/CSSCompiler/Parser/css3Lexer.cpp.i
+.PHONY : src/CSSCompiler/Parser/css3Lexer.i
+
+# target to preprocess a source file
+src/CSSCompiler/Parser/css3Lexer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Lexer.cpp.i
+.PHONY : src/CSSCompiler/Parser/css3Lexer.cpp.i
+
+src/CSSCompiler/Parser/css3Lexer.s: src/CSSCompiler/Parser/css3Lexer.cpp.s
+.PHONY : src/CSSCompiler/Parser/css3Lexer.s
+
+# target to generate assembly for a file
+src/CSSCompiler/Parser/css3Lexer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Lexer.cpp.s
+.PHONY : src/CSSCompiler/Parser/css3Lexer.cpp.s
+
+src/CSSCompiler/Parser/css3Parser.o: src/CSSCompiler/Parser/css3Parser.cpp.o
+.PHONY : src/CSSCompiler/Parser/css3Parser.o
+
+# target to build an object file
+src/CSSCompiler/Parser/css3Parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Parser.cpp.o
+.PHONY : src/CSSCompiler/Parser/css3Parser.cpp.o
+
+src/CSSCompiler/Parser/css3Parser.i: src/CSSCompiler/Parser/css3Parser.cpp.i
+.PHONY : src/CSSCompiler/Parser/css3Parser.i
+
+# target to preprocess a source file
+src/CSSCompiler/Parser/css3Parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Parser.cpp.i
+.PHONY : src/CSSCompiler/Parser/css3Parser.cpp.i
+
+src/CSSCompiler/Parser/css3Parser.s: src/CSSCompiler/Parser/css3Parser.cpp.s
+.PHONY : src/CSSCompiler/Parser/css3Parser.s
+
+# target to generate assembly for a file
+src/CSSCompiler/Parser/css3Parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Parser.cpp.s
+.PHONY : src/CSSCompiler/Parser/css3Parser.cpp.s
+
+src/CSSCompiler/Parser/css3ParserBaseListener.o: src/CSSCompiler/Parser/css3ParserBaseListener.cpp.o
+.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.o
+
+# target to build an object file
+src/CSSCompiler/Parser/css3ParserBaseListener.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserBaseListener.cpp.o
+.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.cpp.o
+
+src/CSSCompiler/Parser/css3ParserBaseListener.i: src/CSSCompiler/Parser/css3ParserBaseListener.cpp.i
+.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.i
+
+# target to preprocess a source file
+src/CSSCompiler/Parser/css3ParserBaseListener.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserBaseListener.cpp.i
+.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.cpp.i
+
+src/CSSCompiler/Parser/css3ParserBaseListener.s: src/CSSCompiler/Parser/css3ParserBaseListener.cpp.s
+.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.s
+
+# target to generate assembly for a file
+src/CSSCompiler/Parser/css3ParserBaseListener.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserBaseListener.cpp.s
+.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.cpp.s
+
+src/CSSCompiler/Parser/css3ParserListener.o: src/CSSCompiler/Parser/css3ParserListener.cpp.o
+.PHONY : src/CSSCompiler/Parser/css3ParserListener.o
+
+# target to build an object file
+src/CSSCompiler/Parser/css3ParserListener.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserListener.cpp.o
+.PHONY : src/CSSCompiler/Parser/css3ParserListener.cpp.o
+
+src/CSSCompiler/Parser/css3ParserListener.i: src/CSSCompiler/Parser/css3ParserListener.cpp.i
+.PHONY : src/CSSCompiler/Parser/css3ParserListener.i
+
+# target to preprocess a source file
+src/CSSCompiler/Parser/css3ParserListener.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserListener.cpp.i
+.PHONY : src/CSSCompiler/Parser/css3ParserListener.cpp.i
+
+src/CSSCompiler/Parser/css3ParserListener.s: src/CSSCompiler/Parser/css3ParserListener.cpp.s
+.PHONY : src/CSSCompiler/Parser/css3ParserListener.s
+
+# target to generate assembly for a file
+src/CSSCompiler/Parser/css3ParserListener.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserListener.cpp.s
+.PHONY : src/CSSCompiler/Parser/css3ParserListener.cpp.s
+
+src/JavaScriptCompiler/Core/JavaScriptCompilerCore.o: src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o
+.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.o
+
+# target to build an object file
+src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o
+.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o
+
+src/JavaScriptCompiler/Core/JavaScriptCompilerCore.i: src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.i
+.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.i
+
+# target to preprocess a source file
+src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.i
+.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.i
+
+src/JavaScriptCompiler/Core/JavaScriptCompilerCore.s: src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s
+.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.s
+
+# target to generate assembly for a file
+src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s
+.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s
+
+src/JavaScriptCompiler/Parser/JavaScriptLexer.o: src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.o
+
+# target to build an object file
+src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.o
+
+src/JavaScriptCompiler/Parser/JavaScriptLexer.i: src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.i
+
+# target to preprocess a source file
+src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.i
+
+src/JavaScriptCompiler/Parser/JavaScriptLexer.s: src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.s
+
+# target to generate assembly for a file
+src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer.cpp.s
+
+src/JavaScriptCompiler/Parser/JavaScriptLexerBase.o: src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.o
+
+# target to build an object file
+src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o
+
+src/JavaScriptCompiler/Parser/JavaScriptLexerBase.i: src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.i
+
+# target to preprocess a source file
+src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.i
+
+src/JavaScriptCompiler/Parser/JavaScriptLexerBase.s: src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.s
+
+# target to generate assembly for a file
+src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s
+
+src/JavaScriptCompiler/Parser/JavaScriptParser.o: src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.o
+
+# target to build an object file
+src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.o
+
+src/JavaScriptCompiler/Parser/JavaScriptParser.i: src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.i
+
+# target to preprocess a source file
+src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.i
+
+src/JavaScriptCompiler/Parser/JavaScriptParser.s: src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.s
+
+# target to generate assembly for a file
+src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser.cpp.s
+
+src/JavaScriptCompiler/Parser/JavaScriptParserBase.o: src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.o
+
+# target to build an object file
+src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o
+
+src/JavaScriptCompiler/Parser/JavaScriptParserBase.i: src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.i
+
+# target to preprocess a source file
+src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.i
+
+src/JavaScriptCompiler/Parser/JavaScriptParserBase.s: src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.s
+
+# target to generate assembly for a file
+src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s
+
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.o: src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.o
+
+# target to build an object file
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.o
+
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.i: src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.i
+
+# target to preprocess a source file
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.i
+
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.s: src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.s
+
+# target to generate assembly for a file
+src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.cpp.s
+
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.o: src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.o
+
+# target to build an object file
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.o
+
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.i: src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.i
+
+# target to preprocess a source file
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.i
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.i
+
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.s: src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.s
+
+# target to generate assembly for a file
+src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.s
+.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserListener.cpp.s
+
 src/Module/Chtholly/CJMOD/src/ChthollyInterface.o: src/Module/Chtholly/CJMOD/src/ChthollyInterface.cpp.o
 .PHONY : src/Module/Chtholly/CJMOD/src/ChthollyInterface.o
 
@@ -1010,6 +1337,30 @@ src/Shared/Utils/FileUtils.s: src/Shared/Utils/FileUtils.cpp.s
 src/Shared/Utils/FileUtils.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/Utils/FileUtils.cpp.s
 .PHONY : src/Shared/Utils/FileUtils.cpp.s
+
+test/test_antlr_compilers.o: test/test_antlr_compilers.cpp.o
+.PHONY : test/test_antlr_compilers.o
+
+# target to build an object file
+test/test_antlr_compilers.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_compilers.dir/build.make CMakeFiles/test_antlr_compilers.dir/test/test_antlr_compilers.cpp.o
+.PHONY : test/test_antlr_compilers.cpp.o
+
+test/test_antlr_compilers.i: test/test_antlr_compilers.cpp.i
+.PHONY : test/test_antlr_compilers.i
+
+# target to preprocess a source file
+test/test_antlr_compilers.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_compilers.dir/build.make CMakeFiles/test_antlr_compilers.dir/test/test_antlr_compilers.cpp.i
+.PHONY : test/test_antlr_compilers.cpp.i
+
+test/test_antlr_compilers.s: test/test_antlr_compilers.cpp.s
+.PHONY : test/test_antlr_compilers.s
+
+# target to generate assembly for a file
+test/test_antlr_compilers.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_compilers.dir/build.make CMakeFiles/test_antlr_compilers.dir/test/test_antlr_compilers.cpp.s
+.PHONY : test/test_antlr_compilers.cpp.s
 
 test/test_auto_addition.o: test/test_auto_addition.cpp.o
 .PHONY : test/test_auto_addition.o
@@ -1286,11 +1637,14 @@ help:
 	@echo "... chtholly_cjmod"
 	@echo "... chtl_auto_addition"
 	@echo "... chtl_compiler"
+	@echo "... chtl_css_compiler"
 	@echo "... chtl_js_compiler"
+	@echo "... chtl_js_compiler_antlr"
 	@echo "... chtl_js_enhanced"
 	@echo "... chtl_new_cjmod"
 	@echo "... chtl_shared"
 	@echo "... chtl_unlimited_cjmod"
+	@echo "... test_antlr_compilers"
 	@echo "... test_auto_addition"
 	@echo "... test_chtholly_module"
 	@echo "... test_chtl_compiler"
@@ -1359,6 +1713,42 @@ help:
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.o"
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.i"
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.s"
+	@echo "... src/CSSCompiler/Core/CSSCompilerCore.o"
+	@echo "... src/CSSCompiler/Core/CSSCompilerCore.i"
+	@echo "... src/CSSCompiler/Core/CSSCompilerCore.s"
+	@echo "... src/CSSCompiler/Parser/css3Lexer.o"
+	@echo "... src/CSSCompiler/Parser/css3Lexer.i"
+	@echo "... src/CSSCompiler/Parser/css3Lexer.s"
+	@echo "... src/CSSCompiler/Parser/css3Parser.o"
+	@echo "... src/CSSCompiler/Parser/css3Parser.i"
+	@echo "... src/CSSCompiler/Parser/css3Parser.s"
+	@echo "... src/CSSCompiler/Parser/css3ParserBaseListener.o"
+	@echo "... src/CSSCompiler/Parser/css3ParserBaseListener.i"
+	@echo "... src/CSSCompiler/Parser/css3ParserBaseListener.s"
+	@echo "... src/CSSCompiler/Parser/css3ParserListener.o"
+	@echo "... src/CSSCompiler/Parser/css3ParserListener.i"
+	@echo "... src/CSSCompiler/Parser/css3ParserListener.s"
+	@echo "... src/JavaScriptCompiler/Core/JavaScriptCompilerCore.o"
+	@echo "... src/JavaScriptCompiler/Core/JavaScriptCompilerCore.i"
+	@echo "... src/JavaScriptCompiler/Core/JavaScriptCompilerCore.s"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer.o"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer.i"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer.s"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexerBase.o"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexerBase.i"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexerBase.s"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser.o"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser.i"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser.s"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBase.o"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBase.i"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBase.s"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.o"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.i"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBaseListener.s"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserListener.o"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserListener.i"
+	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserListener.s"
 	@echo "... src/Module/Chtholly/CJMOD/src/ChthollyInterface.o"
 	@echo "... src/Module/Chtholly/CJMOD/src/ChthollyInterface.i"
 	@echo "... src/Module/Chtholly/CJMOD/src/ChthollyInterface.s"
@@ -1383,6 +1773,9 @@ help:
 	@echo "... src/Shared/Utils/FileUtils.o"
 	@echo "... src/Shared/Utils/FileUtils.i"
 	@echo "... src/Shared/Utils/FileUtils.s"
+	@echo "... test/test_antlr_compilers.o"
+	@echo "... test/test_antlr_compilers.i"
+	@echo "... test/test_antlr_compilers.s"
 	@echo "... test/test_auto_addition.o"
 	@echo "... test/test_auto_addition.i"
 	@echo "... test/test_auto_addition.s"
