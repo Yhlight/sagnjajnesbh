@@ -151,13 +151,13 @@ enum class ConflictDetectionStrategy {
 };
 
 /**
- * 增强的命名空间管理器
+ * 命名空间管理器
  * 实现同名命名空间自动合并和冲突检测策略
  */
-class EnhancedNamespaceManager {
+class NamespaceManager {
 public:
-    EnhancedNamespaceManager();
-    ~EnhancedNamespaceManager();
+    NamespaceManager();
+    ~NamespaceManager();
     
     /**
      * 设置错误处理器

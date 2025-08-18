@@ -28,6 +28,8 @@ add_library(chtl_common STATIC
 add_library(chtl_compiler STATIC
     src/CHTLCompiler/CHTLCompilerCore.cpp
     src/CHTLCompiler/Import/ImportManager.cpp
+    src/CHTLCompiler/Namespace/NamespaceManager.cpp
+    src/CHTLCompiler/Module/CmodManager.cpp
     src/CHTLCompiler/State/CHTLState.cpp
     src/CHTLCompiler/State/CHTLGlobalMap.cpp
 )
