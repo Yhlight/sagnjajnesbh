@@ -114,10 +114,38 @@ CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Shared/Core/ErrorHandler.cpp -o CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.s
 
+CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
+CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.o: /workspace/src/Shared/Common/common/ModulePathManager.cpp
+CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.o -c /workspace/src/Shared/Common/common/ModulePathManager.cpp
+
+CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/Shared/Common/common/ModulePathManager.cpp > CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.i
+
+CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Shared/Common/common/ModulePathManager.cpp -o CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.s
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
+CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.o: /workspace/src/CHTLCompiler/Import/ImportManager.cpp
+CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.o -c /workspace/src/CHTLCompiler/Import/ImportManager.cpp
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLCompiler/Import/ImportManager.cpp > CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.i
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLCompiler/Import/ImportManager.cpp -o CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.s
+
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o: /workspace/src/UnifiedCore/Configuration/ConfigurationManager.cpp
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o -c /workspace/src/UnifiedCore/Configuration/ConfigurationManager.cpp
 
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.i: cmake_force
@@ -131,7 +159,7 @@ CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManage
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o: /workspace/src/UnifiedCore/Configuration/ConfigurationImporter.cpp
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o -c /workspace/src/UnifiedCore/Configuration/ConfigurationImporter.cpp
 
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.i: cmake_force
@@ -145,7 +173,7 @@ CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImport
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o: /workspace/src/UnifiedCore/Export/ExportGenerator.cpp
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o -c /workspace/src/UnifiedCore/Export/ExportGenerator.cpp
 
 CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.i: cmake_force
@@ -159,7 +187,7 @@ CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.s: cma
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o: /workspace/src/CHTLCompiler/Template/TemplateManager.cpp
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o -c /workspace/src/CHTLCompiler/Template/TemplateManager.cpp
 
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.i: cmake_force
@@ -173,7 +201,7 @@ CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.s: 
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o: /workspace/src/CHTLCompiler/Template/TemplateParser.cpp
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o -c /workspace/src/CHTLCompiler/Template/TemplateParser.cpp
 
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.i: cmake_force
@@ -187,7 +215,7 @@ CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.s: c
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o: /workspace/src/CHTLCompiler/Custom/CustomManager.cpp
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o -c /workspace/src/CHTLCompiler/Custom/CustomManager.cpp
 
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.i: cmake_force
@@ -201,7 +229,7 @@ CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.s: cmak
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o: /workspace/src/CHTLCompiler/Custom/CustomParser.cpp
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o -c /workspace/src/CHTLCompiler/Custom/CustomParser.cpp
 
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.i: cmake_force
@@ -215,7 +243,7 @@ CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.s: cmake
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o: /workspace/src/CHTLCompiler/Origin/OriginManager.cpp
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o -c /workspace/src/CHTLCompiler/Origin/OriginManager.cpp
 
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.i: cmake_force
@@ -229,7 +257,7 @@ CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.s: cmak
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o: /workspace/src/CHTLCompiler/Origin/OriginParser.cpp
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o -c /workspace/src/CHTLCompiler/Origin/OriginParser.cpp
 
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.i: cmake_force
@@ -243,7 +271,7 @@ CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.s: cmake
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o: /workspace/src/CHTLCompiler/Constraint/ConstraintManager.cpp
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o -c /workspace/src/CHTLCompiler/Constraint/ConstraintManager.cpp
 
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.i: cmake_force
@@ -257,7 +285,7 @@ CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o: /workspace/src/CHTLCompiler/Constraint/ConstraintParser.cpp
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o -c /workspace/src/CHTLCompiler/Constraint/ConstraintParser.cpp
 
 CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.i: cmake_force
@@ -268,11 +296,125 @@ CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLCompiler/Constraint/ConstraintParser.cpp -o CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.s
 
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp > CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.i
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.s
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp > CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.i
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.s
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp > CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.i
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.s
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp > CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.i
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.s
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp > CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.i
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.s
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp > CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.i
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.s
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp > CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.i
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.s
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o: CMakeFiles/chtl_shared_min.dir/flags.make
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o: /workspace/src/CHTLJSCompiler/CHTLJSCompiler.cpp
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o: CMakeFiles/chtl_shared_min.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o -MF CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o.d -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o -c /workspace/src/CHTLJSCompiler/CHTLJSCompiler.cpp
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLJSCompiler/CHTLJSCompiler.cpp > CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.i
+
+CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/CHTLJSCompiler.cpp -o CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.s
+
 # Object files for target chtl_shared_min
 chtl_shared_min_OBJECTS = \
 "CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.o" \
 "CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.o" \
 "CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.o" \
+"CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.o" \
+"CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.o" \
 "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o" \
 "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o" \
 "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o" \
@@ -283,7 +425,15 @@ chtl_shared_min_OBJECTS = \
 "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o" \
 "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o" \
 "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o" \
-"CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o"
+"CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o" \
+"CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o" \
+"CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o" \
+"CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o" \
+"CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.o" \
+"CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o" \
+"CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o" \
+"CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o" \
+"CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o"
 
 # External object files for target chtl_shared_min
 chtl_shared_min_EXTERNAL_OBJECTS =
@@ -291,6 +441,8 @@ chtl_shared_min_EXTERNAL_OBJECTS =
 lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.o
 lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.o
 lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.o
+lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/Shared/Common/common/ModulePathManager.cpp.o
+lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Import/ImportManager.cpp.o
 lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o
 lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o
 lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o
@@ -302,9 +454,17 @@ lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin
 lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o
 lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o
 lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o
+lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o
+lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o
+lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o
+lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.o
+lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o
+lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o
+lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o
+lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o
 lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/build.make
 lib/libchtl_shared_min.a: CMakeFiles/chtl_shared_min.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library lib/libchtl_shared_min.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Linking CXX static library lib/libchtl_shared_min.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/chtl_shared_min.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtl_shared_min.dir/link.txt --verbose=$(VERBOSE)
 

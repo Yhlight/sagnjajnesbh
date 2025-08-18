@@ -49,15 +49,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/chtl_shared_min.dir/DependInfo.cmake"
-  "CMakeFiles/chtl_css_compiler.dir/DependInfo.cmake"
-  "CMakeFiles/chtl_js_compiler_antlr.dir/DependInfo.cmake"
-  "CMakeFiles/test_antlr_compilers.dir/DependInfo.cmake"
-  "CMakeFiles/test_antlr_basic.dir/DependInfo.cmake"
-  "CMakeFiles/test_minimal_css.dir/DependInfo.cmake"
-  "CMakeFiles/test_css_validation_only.dir/DependInfo.cmake"
-  "CMakeFiles/test_complex_syntax_errors.dir/DependInfo.cmake"
-  "CMakeFiles/chtl_test_framework.dir/DependInfo.cmake"
-  "CMakeFiles/SimpleTestRunner.dir/DependInfo.cmake"
-  "CMakeFiles/ComprehensiveTestRunner.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_scanner_only.dir/DependInfo.cmake"
+  "CMakeFiles/test_scanner_only.dir/DependInfo.cmake"
   )
