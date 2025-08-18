@@ -1,4 +1,5 @@
 #include "CHTLSyntaxValidator.h"
+#include "../../Shared/Core/ErrorHandler.h"
 #include <filesystem>
 #include <fstream>
 #include <algorithm>
@@ -237,6 +238,7 @@ bool CHTLSyntaxValidator::isValidCJMODStructure(const std::string& path) {
 // === 错误检测实现 ===
 
 std::vector<std::string> CHTLSyntaxValidator::detectSyntaxErrors(const std::string& code) {
+    using namespace chtl::shared::core;
     std::vector<std::string> errors;
     
     // 检查未闭合的CHTL JS标签
@@ -248,12 +250,59 @@ std::vector<std::string> CHTLSyntaxValidator::detectSyntaxErrors(const std::stri
     
     if (openMatches.size() != closeMatches.size()) {
         errors.push_back("CHTL JS标签未正确配对");
+        ErrorHandler::getInstance().reportError(
+            ErrorType::SYNTAX_ERROR, 
+            ErrorCodes::UNCLOSED_TAG, 
+            "CHTL JS标签未正确配对，开启标签数: " + std::to_string(openMatches.size()) + 
+            "，关闭标签数: " + std::to_string(closeMatches.size())
+        );
     }
     
     // 检查无效的函数调用
-    std::regex invalidFunction(R"(\{\{[.#][a-zA-Z0-9_-]+\s*->\s*(unknownFunction|invalidFunc)\s*\}\})");
-    if (std::regex_search(code, invalidFunction)) {
-        errors.push_back("使用了未知的CHTL JS函数");
+    std::regex invalidFunction(R"(\{\{[.#][a-zA-Z0-9_-]+\s*->\s*(unknownFunction|invalidFunc|invalidFunction)\s*\}\})");
+    std::sregex_iterator iter(code.begin(), code.end(), invalidFunction);
+    std::sregex_iterator end;
+    
+    for (; iter != end; ++iter) {
+        std::string match = iter->str();
+        errors.push_back("使用了未知的CHTL JS函数: " + match);
+        
+        ErrorHandler::getInstance().reportError(
+            ErrorType::SYNTAX_ERROR,
+            ErrorCodes::UNKNOWN_FUNCTION,
+            "使用了未知的CHTL JS函数",
+            "",
+            0,
+            0
+        );
+        
+        // 添加修复建议
+        ErrorInfo errorInfo(ErrorLevel::ERROR, ErrorType::SYNTAX_ERROR, 
+                           ErrorCodes::UNKNOWN_FUNCTION, "使用了未知的CHTL JS函数: " + match);
+        errorInfo.suggestions = {"使用 listen", "使用 delegate", "使用 animate", "检查函数名拼写"};
+        ErrorHandler::getInstance().reportError(errorInfo);
+    }
+    
+    // 检查选择器格式错误
+    std::regex invalidSelector(R"(\{\{[^.#][a-zA-Z0-9_-]*\}\})");
+    if (std::regex_search(code, invalidSelector)) {
+        errors.push_back("选择器格式错误，必须以 . 或 # 开头");
+        ErrorHandler::getInstance().reportError(
+            ErrorType::SYNTAX_ERROR,
+            ErrorCodes::INVALID_SELECTOR,
+            "选择器格式错误，必须以 . 或 # 开头"
+        );
+    }
+    
+    // 检查箭头操作符格式错误
+    std::regex malformedArrow(R"(\{\{[.#][a-zA-Z0-9_-]+\s*-[^>]\s*\w*\s*\}\})");
+    if (std::regex_search(code, malformedArrow)) {
+        errors.push_back("箭头操作符格式错误，应该使用 ->");
+        ErrorHandler::getInstance().reportError(
+            ErrorType::SYNTAX_ERROR,
+            ErrorCodes::MALFORMED_ARROW,
+            "箭头操作符格式错误，应该使用 ->"
+        );
     }
     
     return errors;

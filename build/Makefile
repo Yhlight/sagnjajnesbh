@@ -547,6 +547,30 @@ src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s
 .PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s
 
+src/Shared/Core/ErrorHandler.o: src/Shared/Core/ErrorHandler.cpp.o
+.PHONY : src/Shared/Core/ErrorHandler.o
+
+# target to build an object file
+src/Shared/Core/ErrorHandler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.o
+.PHONY : src/Shared/Core/ErrorHandler.cpp.o
+
+src/Shared/Core/ErrorHandler.i: src/Shared/Core/ErrorHandler.cpp.i
+.PHONY : src/Shared/Core/ErrorHandler.i
+
+# target to preprocess a source file
+src/Shared/Core/ErrorHandler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.i
+.PHONY : src/Shared/Core/ErrorHandler.cpp.i
+
+src/Shared/Core/ErrorHandler.s: src/Shared/Core/ErrorHandler.cpp.s
+.PHONY : src/Shared/Core/ErrorHandler.s
+
+# target to generate assembly for a file
+src/Shared/Core/ErrorHandler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.s
+.PHONY : src/Shared/Core/ErrorHandler.cpp.s
+
 src/Shared/Core/NamespaceAlgorithms.o: src/Shared/Core/NamespaceAlgorithms.cpp.o
 .PHONY : src/Shared/Core/NamespaceAlgorithms.o
 
@@ -938,6 +962,9 @@ help:
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.o"
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.i"
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.s"
+	@echo "... src/Shared/Core/ErrorHandler.o"
+	@echo "... src/Shared/Core/ErrorHandler.i"
+	@echo "... src/Shared/Core/ErrorHandler.s"
 	@echo "... src/Shared/Core/NamespaceAlgorithms.o"
 	@echo "... src/Shared/Core/NamespaceAlgorithms.i"
 	@echo "... src/Shared/Core/NamespaceAlgorithms.s"

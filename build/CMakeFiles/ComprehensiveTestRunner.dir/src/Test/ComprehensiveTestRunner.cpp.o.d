@@ -287,4 +287,5 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/ComprehensiveTestRunner.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/auto_ptr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_memory_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/execution_defs.h \
+  /workspace/src/Test/../Shared/Core/ErrorHandler.h \
   /workspace/src/Test/Utils/CHTLSyntaxValidator.h

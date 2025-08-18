@@ -12,6 +12,7 @@ include_directories(external/antlr4-install/include/antlr4-runtime)
 add_library(chtl_shared_min STATIC
     src/Shared/Utils/FileUtils.cpp
     src/Shared/Core/NamespaceAlgorithms.cpp
+    src/Shared/Core/ErrorHandler.cpp
 )
 
 # CSS编译器（使用ANTLR）

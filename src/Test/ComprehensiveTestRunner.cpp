@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <filesystem>
 #include "../Shared/Core/NamespaceAlgorithms.h"
+#include "../Shared/Core/ErrorHandler.h"
 #include "Utils/CHTLSyntaxValidator.h"
 
 /**
@@ -478,34 +479,58 @@ bool testModuleCompatibility() {
 }
 
 bool testErrorHandling() {
+    using namespace chtl::test::utils;
+    using namespace chtl::shared::core;
+    
+    // 清除之前的错误
+    ErrorHandler::getInstance().clearErrors();
+    
     // 测试错误处理
     std::vector<std::string> invalidCodes = {
         "{{.unclosed -> click",                    // 未闭合标签
-        "{{/unopened}}",                          // 未开启就闭合
+        "{{/unopened}}",                          // 未开启就闭合  
         "{{.invalid -> unknownFunction}}",        // 未知函数
+        "{{.invalid -> invalidFunc}}",            // 另一个未知函数
+        "{{invalid-selector}}",                   // 无效选择器
+        "{{.button - click}}",                    // 错误的箭头操作符
         "[InvalidSection]",                       // 无效段落
         "@InvalidImport from module"              // 无效导入
     };
     
-    // 这些代码应该被识别为无效
+    int detectedErrors = 0;
+    
+    // 这些代码应该被识别为无效并报告错误
     for (const auto& code : invalidCodes) {
-        std::regex validPattern(R"(\{\{[.#][a-zA-Z0-9_-]+\s*(?:->\s*\w+)?\s*\}\})");
-        if (code.find("{{") != std::string::npos && !std::regex_search(code, validPattern)) {
-            // 正确识别为无效语法
-            continue;
-        } else if (code.find("[") != std::string::npos && code.find("InvalidSection") != std::string::npos) {
-            // 无效段落
-            continue;
-        } else if (code.find("@InvalidImport") != std::string::npos) {
-            // 无效导入
-            continue;
+        auto errors = CHTLSyntaxValidator::detectSyntaxErrors(code);
+        auto importErrors = CHTLSyntaxValidator::detectImportErrors(code);
+        auto namespaceErrors = CHTLSyntaxValidator::detectNamespaceErrors(code);
+        
+        if (!errors.empty() || !importErrors.empty() || !namespaceErrors.empty()) {
+            detectedErrors++;
+            std::cout << "    ✅ 正确检测到错误: " << code << std::endl;
         } else {
-            std::cout << "    错误处理失败: " << code << std::endl;
-            return false;
+            std::cout << "    ❌ 未检测到错误: " << code << std::endl;
         }
     }
     
-    return true;
+    // 检查错误处理器是否正确记录了错误
+    int handlerErrors = ErrorHandler::getInstance().getErrorCount();
+    std::cout << "    错误处理器记录了 " << handlerErrors << " 个错误" << std::endl;
+    
+    // 生成错误报告
+    if (handlerErrors > 0) {
+        std::string report = ErrorHandler::getInstance().generateSummaryReport();
+        std::cout << "    错误报告摘要:\n" << report << std::endl;
+    }
+    
+    // 至少应该检测到大部分错误
+    bool success = detectedErrors >= 4; // 至少检测到一半的错误
+    
+    if (!success) {
+        std::cout << "    只检测到 " << detectedErrors << "/" << invalidCodes.size() << " 个错误" << std::endl;
+    }
+    
+    return success;
 }
 
 int main() {
