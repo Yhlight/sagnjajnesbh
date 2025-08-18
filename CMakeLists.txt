@@ -11,6 +11,7 @@ include_directories(external/antlr4-install/include/antlr4-runtime)
 # 共享组件（最小化）
 add_library(chtl_shared_min STATIC
     src/Shared/Utils/FileUtils.cpp
+    src/Shared/Core/NamespaceAlgorithms.cpp
 )
 
 # CSS编译器（使用ANTLR）
@@ -55,13 +56,26 @@ target_link_libraries(test_css_validation_only chtl_css_compiler)
 add_executable(test_complex_syntax_errors test/test_complex_syntax_errors.cpp)
 target_link_libraries(test_complex_syntax_errors chtl_css_compiler chtl_js_compiler_antlr)
 
+# CHTL测试框架
+add_library(chtl_test_framework STATIC
+    src/Test/Framework/TestBase.cpp
+    src/Test/Framework/TestRunner.cpp
+    src/Test/Utils/TestUtils.cpp
+    src/Test/Mocks/MockFileSystem.cpp
+)
+target_link_libraries(chtl_test_framework chtl_shared_min)
+
+# 简化测试运行器
+add_executable(SimpleTestRunner src/Test/SimpleTestRunner.cpp)
+target_link_libraries(SimpleTestRunner chtl_shared_min)
+
 # 设置输出目录
 set_target_properties(
-    chtl_shared_min chtl_css_compiler chtl_js_compiler_antlr
+    chtl_shared_min chtl_css_compiler chtl_js_compiler_antlr chtl_test_framework
     PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
 )
 
 set_target_properties(
-    test_antlr_compilers test_antlr_basic test_minimal_css test_css_validation_only test_complex_syntax_errors
+    test_antlr_compilers test_antlr_basic test_minimal_css test_css_validation_only test_complex_syntax_errors SimpleTestRunner
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )

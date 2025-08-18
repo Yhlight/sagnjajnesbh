@@ -220,6 +220,32 @@ test_complex_syntax_errors/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complex_syntax_errors.dir/build.make CMakeFiles/test_complex_syntax_errors.dir/build
 .PHONY : test_complex_syntax_errors/fast
 
+#=============================================================================
+# Target rules for targets named chtl_test_framework
+
+# Build rule for target.
+chtl_test_framework: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_test_framework
+.PHONY : chtl_test_framework
+
+# fast build rule for target.
+chtl_test_framework/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/build
+.PHONY : chtl_test_framework/fast
+
+#=============================================================================
+# Target rules for targets named SimpleTestRunner
+
+# Build rule for target.
+SimpleTestRunner: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SimpleTestRunner
+.PHONY : SimpleTestRunner
+
+# fast build rule for target.
+SimpleTestRunner/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SimpleTestRunner.dir/build.make CMakeFiles/SimpleTestRunner.dir/build
+.PHONY : SimpleTestRunner/fast
+
 src/CSSCompiler/Core/CSSCompilerCore.o: src/CSSCompiler/Core/CSSCompilerCore.cpp.o
 .PHONY : src/CSSCompiler/Core/CSSCompilerCore.o
 
@@ -508,6 +534,30 @@ src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s
 .PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s
 
+src/Shared/Core/NamespaceAlgorithms.o: src/Shared/Core/NamespaceAlgorithms.cpp.o
+.PHONY : src/Shared/Core/NamespaceAlgorithms.o
+
+# target to build an object file
+src/Shared/Core/NamespaceAlgorithms.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.o
+.PHONY : src/Shared/Core/NamespaceAlgorithms.cpp.o
+
+src/Shared/Core/NamespaceAlgorithms.i: src/Shared/Core/NamespaceAlgorithms.cpp.i
+.PHONY : src/Shared/Core/NamespaceAlgorithms.i
+
+# target to preprocess a source file
+src/Shared/Core/NamespaceAlgorithms.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.i
+.PHONY : src/Shared/Core/NamespaceAlgorithms.cpp.i
+
+src/Shared/Core/NamespaceAlgorithms.s: src/Shared/Core/NamespaceAlgorithms.cpp.s
+.PHONY : src/Shared/Core/NamespaceAlgorithms.s
+
+# target to generate assembly for a file
+src/Shared/Core/NamespaceAlgorithms.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.s
+.PHONY : src/Shared/Core/NamespaceAlgorithms.cpp.s
+
 src/Shared/Utils/FileUtils.o: src/Shared/Utils/FileUtils.cpp.o
 .PHONY : src/Shared/Utils/FileUtils.o
 
@@ -531,6 +581,126 @@ src/Shared/Utils/FileUtils.s: src/Shared/Utils/FileUtils.cpp.s
 src/Shared/Utils/FileUtils.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.s
 .PHONY : src/Shared/Utils/FileUtils.cpp.s
+
+src/Test/Framework/TestBase.o: src/Test/Framework/TestBase.cpp.o
+.PHONY : src/Test/Framework/TestBase.o
+
+# target to build an object file
+src/Test/Framework/TestBase.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestBase.cpp.o
+.PHONY : src/Test/Framework/TestBase.cpp.o
+
+src/Test/Framework/TestBase.i: src/Test/Framework/TestBase.cpp.i
+.PHONY : src/Test/Framework/TestBase.i
+
+# target to preprocess a source file
+src/Test/Framework/TestBase.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestBase.cpp.i
+.PHONY : src/Test/Framework/TestBase.cpp.i
+
+src/Test/Framework/TestBase.s: src/Test/Framework/TestBase.cpp.s
+.PHONY : src/Test/Framework/TestBase.s
+
+# target to generate assembly for a file
+src/Test/Framework/TestBase.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestBase.cpp.s
+.PHONY : src/Test/Framework/TestBase.cpp.s
+
+src/Test/Framework/TestRunner.o: src/Test/Framework/TestRunner.cpp.o
+.PHONY : src/Test/Framework/TestRunner.o
+
+# target to build an object file
+src/Test/Framework/TestRunner.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestRunner.cpp.o
+.PHONY : src/Test/Framework/TestRunner.cpp.o
+
+src/Test/Framework/TestRunner.i: src/Test/Framework/TestRunner.cpp.i
+.PHONY : src/Test/Framework/TestRunner.i
+
+# target to preprocess a source file
+src/Test/Framework/TestRunner.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestRunner.cpp.i
+.PHONY : src/Test/Framework/TestRunner.cpp.i
+
+src/Test/Framework/TestRunner.s: src/Test/Framework/TestRunner.cpp.s
+.PHONY : src/Test/Framework/TestRunner.s
+
+# target to generate assembly for a file
+src/Test/Framework/TestRunner.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestRunner.cpp.s
+.PHONY : src/Test/Framework/TestRunner.cpp.s
+
+src/Test/Mocks/MockFileSystem.o: src/Test/Mocks/MockFileSystem.cpp.o
+.PHONY : src/Test/Mocks/MockFileSystem.o
+
+# target to build an object file
+src/Test/Mocks/MockFileSystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Mocks/MockFileSystem.cpp.o
+.PHONY : src/Test/Mocks/MockFileSystem.cpp.o
+
+src/Test/Mocks/MockFileSystem.i: src/Test/Mocks/MockFileSystem.cpp.i
+.PHONY : src/Test/Mocks/MockFileSystem.i
+
+# target to preprocess a source file
+src/Test/Mocks/MockFileSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Mocks/MockFileSystem.cpp.i
+.PHONY : src/Test/Mocks/MockFileSystem.cpp.i
+
+src/Test/Mocks/MockFileSystem.s: src/Test/Mocks/MockFileSystem.cpp.s
+.PHONY : src/Test/Mocks/MockFileSystem.s
+
+# target to generate assembly for a file
+src/Test/Mocks/MockFileSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Mocks/MockFileSystem.cpp.s
+.PHONY : src/Test/Mocks/MockFileSystem.cpp.s
+
+src/Test/SimpleTestRunner.o: src/Test/SimpleTestRunner.cpp.o
+.PHONY : src/Test/SimpleTestRunner.o
+
+# target to build an object file
+src/Test/SimpleTestRunner.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SimpleTestRunner.dir/build.make CMakeFiles/SimpleTestRunner.dir/src/Test/SimpleTestRunner.cpp.o
+.PHONY : src/Test/SimpleTestRunner.cpp.o
+
+src/Test/SimpleTestRunner.i: src/Test/SimpleTestRunner.cpp.i
+.PHONY : src/Test/SimpleTestRunner.i
+
+# target to preprocess a source file
+src/Test/SimpleTestRunner.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SimpleTestRunner.dir/build.make CMakeFiles/SimpleTestRunner.dir/src/Test/SimpleTestRunner.cpp.i
+.PHONY : src/Test/SimpleTestRunner.cpp.i
+
+src/Test/SimpleTestRunner.s: src/Test/SimpleTestRunner.cpp.s
+.PHONY : src/Test/SimpleTestRunner.s
+
+# target to generate assembly for a file
+src/Test/SimpleTestRunner.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SimpleTestRunner.dir/build.make CMakeFiles/SimpleTestRunner.dir/src/Test/SimpleTestRunner.cpp.s
+.PHONY : src/Test/SimpleTestRunner.cpp.s
+
+src/Test/Utils/TestUtils.o: src/Test/Utils/TestUtils.cpp.o
+.PHONY : src/Test/Utils/TestUtils.o
+
+# target to build an object file
+src/Test/Utils/TestUtils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Utils/TestUtils.cpp.o
+.PHONY : src/Test/Utils/TestUtils.cpp.o
+
+src/Test/Utils/TestUtils.i: src/Test/Utils/TestUtils.cpp.i
+.PHONY : src/Test/Utils/TestUtils.i
+
+# target to preprocess a source file
+src/Test/Utils/TestUtils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Utils/TestUtils.cpp.i
+.PHONY : src/Test/Utils/TestUtils.cpp.i
+
+src/Test/Utils/TestUtils.s: src/Test/Utils/TestUtils.cpp.s
+.PHONY : src/Test/Utils/TestUtils.s
+
+# target to generate assembly for a file
+src/Test/Utils/TestUtils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Utils/TestUtils.cpp.s
+.PHONY : src/Test/Utils/TestUtils.cpp.s
 
 test/test_antlr_basic.o: test/test_antlr_basic.cpp.o
 .PHONY : test/test_antlr_basic.o
@@ -660,9 +830,11 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... SimpleTestRunner"
 	@echo "... chtl_css_compiler"
 	@echo "... chtl_js_compiler_antlr"
 	@echo "... chtl_shared_min"
+	@echo "... chtl_test_framework"
 	@echo "... test_antlr_basic"
 	@echo "... test_antlr_compilers"
 	@echo "... test_complex_syntax_errors"
@@ -704,9 +876,27 @@ help:
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.o"
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.i"
 	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.s"
+	@echo "... src/Shared/Core/NamespaceAlgorithms.o"
+	@echo "... src/Shared/Core/NamespaceAlgorithms.i"
+	@echo "... src/Shared/Core/NamespaceAlgorithms.s"
 	@echo "... src/Shared/Utils/FileUtils.o"
 	@echo "... src/Shared/Utils/FileUtils.i"
 	@echo "... src/Shared/Utils/FileUtils.s"
+	@echo "... src/Test/Framework/TestBase.o"
+	@echo "... src/Test/Framework/TestBase.i"
+	@echo "... src/Test/Framework/TestBase.s"
+	@echo "... src/Test/Framework/TestRunner.o"
+	@echo "... src/Test/Framework/TestRunner.i"
+	@echo "... src/Test/Framework/TestRunner.s"
+	@echo "... src/Test/Mocks/MockFileSystem.o"
+	@echo "... src/Test/Mocks/MockFileSystem.i"
+	@echo "... src/Test/Mocks/MockFileSystem.s"
+	@echo "... src/Test/SimpleTestRunner.o"
+	@echo "... src/Test/SimpleTestRunner.i"
+	@echo "... src/Test/SimpleTestRunner.s"
+	@echo "... src/Test/Utils/TestUtils.o"
+	@echo "... src/Test/Utils/TestUtils.i"
+	@echo "... src/Test/Utils/TestUtils.s"
 	@echo "... test/test_antlr_basic.o"
 	@echo "... test/test_antlr_basic.i"
 	@echo "... test/test_antlr_basic.s"
