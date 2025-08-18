@@ -19,8 +19,11 @@ add_library(chtl_shared_min STATIC
     src/CHTLCompiler/Template/TemplateManager.cpp
     src/CHTLCompiler/Template/TemplateParser.cpp
     src/CHTLCompiler/Custom/CustomManager.cpp
+    src/CHTLCompiler/Custom/CustomParser.cpp
     src/CHTLCompiler/Origin/OriginManager.cpp
+    src/CHTLCompiler/Origin/OriginParser.cpp
     src/CHTLCompiler/Constraint/ConstraintManager.cpp
+    src/CHTLCompiler/Constraint/ConstraintParser.cpp
 )
 
 # CSS编译器（使用ANTLR）

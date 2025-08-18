@@ -78,6 +78,7 @@ class CustomNode : public ASTNode {
 public:
     std::string name;
     std::string type; // Style, Element, Var等
+    std::string customType; // 兼容字段
     
     explicit CustomNode(const TokenPosition& pos = TokenPosition()) : ASTNode(pos) {}
     
@@ -92,6 +93,7 @@ public:
 class ElementNode : public ASTNode {
 public:
     std::string tag;
+    std::string tagName; // 兼容字段
     std::vector<std::pair<std::string, std::string>> attributes;
     
     explicit ElementNode(const TokenPosition& pos = TokenPosition()) : ASTNode(pos) {}
@@ -183,8 +185,11 @@ public:
 class OriginNode : public ASTNode {
 public:
     std::string type; // @Html, @Style, @JavaScript, @Vue等
+    std::string originType; // 兼容字段
     std::string name; // 带名原始嵌入的名称
     std::string content; // 原始内容
+    bool isNamed = false; // 是否为带名原始嵌入
+    bool isUsage = false; // 是否为使用而非定义
     
     explicit OriginNode(const TokenPosition& pos = TokenPosition()) : ASTNode(pos) {}
     
@@ -215,6 +220,7 @@ public:
 class ConstraintNode : public ASTNode {
 public:
     std::string constraintType; // except
+    std::string type; // 兼容字段
     std::vector<std::string> targets; // 约束目标
     bool isGlobal; // 是否为全局约束
     

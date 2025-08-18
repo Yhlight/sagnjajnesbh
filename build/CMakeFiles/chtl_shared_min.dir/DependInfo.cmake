@@ -9,8 +9,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspace/src/CHTLCompiler/Constraint/ConstraintManager.cpp" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o.d"
+  "/workspace/src/CHTLCompiler/Constraint/ConstraintParser.cpp" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o.d"
   "/workspace/src/CHTLCompiler/Custom/CustomManager.cpp" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o.d"
+  "/workspace/src/CHTLCompiler/Custom/CustomParser.cpp" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o.d"
   "/workspace/src/CHTLCompiler/Origin/OriginManager.cpp" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o.d"
+  "/workspace/src/CHTLCompiler/Origin/OriginParser.cpp" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o.d"
   "/workspace/src/CHTLCompiler/Template/TemplateManager.cpp" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o.d"
   "/workspace/src/CHTLCompiler/Template/TemplateParser.cpp" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o.d"
   "/workspace/src/Shared/Core/ErrorHandler.cpp" "CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.o.d"
