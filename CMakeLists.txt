@@ -24,6 +24,14 @@ add_library(chtl_shared_min STATIC
     src/CHTLCompiler/Origin/OriginParser.cpp
     src/CHTLCompiler/Constraint/ConstraintManager.cpp
     src/CHTLCompiler/Constraint/ConstraintParser.cpp
+    src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp
+    src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp
+    src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp
+    src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp
+    src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp
+    src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp
+    src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp
+    src/CHTLJSCompiler/CHTLJSCompiler.cpp
 )
 
 # CSS编译器（使用ANTLR）
