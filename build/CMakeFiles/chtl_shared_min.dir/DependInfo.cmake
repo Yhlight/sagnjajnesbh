@@ -11,6 +11,9 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspace/src/Shared/Core/ErrorHandler.cpp" "CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.o.d"
   "/workspace/src/Shared/Core/NamespaceAlgorithms.cpp" "CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.o.d"
   "/workspace/src/Shared/Utils/FileUtils.cpp" "CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.o.d"
+  "/workspace/src/UnifiedCore/Configuration/ConfigurationImporter.cpp" "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o.d"
+  "/workspace/src/UnifiedCore/Configuration/ConfigurationManager.cpp" "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o.d"
+  "/workspace/src/UnifiedCore/Export/ExportGenerator.cpp" "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o" "gcc" "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

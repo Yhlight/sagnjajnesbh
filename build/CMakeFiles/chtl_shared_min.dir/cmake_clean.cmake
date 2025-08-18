@@ -5,6 +5,12 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.o.d"
   "CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.o"
   "CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.o.d"
+  "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o"
+  "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o.d"
+  "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o"
+  "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o.d"
+  "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o"
+  "CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o.d"
   "lib/libchtl_shared_min.a"
   "lib/libchtl_shared_min.pdb"
 )

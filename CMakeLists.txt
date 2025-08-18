@@ -15,6 +15,7 @@ add_library(chtl_shared_min STATIC
     src/Shared/Core/ErrorHandler.cpp
     src/UnifiedCore/Configuration/ConfigurationManager.cpp
     src/UnifiedCore/Configuration/ConfigurationImporter.cpp
+    src/UnifiedCore/Export/ExportGenerator.cpp
 )
 
 # CSS编译器（使用ANTLR）

@@ -787,6 +787,78 @@ src/Test/Utils/TestUtils.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Utils/TestUtils.cpp.s
 .PHONY : src/Test/Utils/TestUtils.cpp.s
 
+src/UnifiedCore/Configuration/ConfigurationImporter.o: src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o
+.PHONY : src/UnifiedCore/Configuration/ConfigurationImporter.o
+
+# target to build an object file
+src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o
+.PHONY : src/UnifiedCore/Configuration/ConfigurationImporter.cpp.o
+
+src/UnifiedCore/Configuration/ConfigurationImporter.i: src/UnifiedCore/Configuration/ConfigurationImporter.cpp.i
+.PHONY : src/UnifiedCore/Configuration/ConfigurationImporter.i
+
+# target to preprocess a source file
+src/UnifiedCore/Configuration/ConfigurationImporter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.i
+.PHONY : src/UnifiedCore/Configuration/ConfigurationImporter.cpp.i
+
+src/UnifiedCore/Configuration/ConfigurationImporter.s: src/UnifiedCore/Configuration/ConfigurationImporter.cpp.s
+.PHONY : src/UnifiedCore/Configuration/ConfigurationImporter.s
+
+# target to generate assembly for a file
+src/UnifiedCore/Configuration/ConfigurationImporter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationImporter.cpp.s
+.PHONY : src/UnifiedCore/Configuration/ConfigurationImporter.cpp.s
+
+src/UnifiedCore/Configuration/ConfigurationManager.o: src/UnifiedCore/Configuration/ConfigurationManager.cpp.o
+.PHONY : src/UnifiedCore/Configuration/ConfigurationManager.o
+
+# target to build an object file
+src/UnifiedCore/Configuration/ConfigurationManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.o
+.PHONY : src/UnifiedCore/Configuration/ConfigurationManager.cpp.o
+
+src/UnifiedCore/Configuration/ConfigurationManager.i: src/UnifiedCore/Configuration/ConfigurationManager.cpp.i
+.PHONY : src/UnifiedCore/Configuration/ConfigurationManager.i
+
+# target to preprocess a source file
+src/UnifiedCore/Configuration/ConfigurationManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.i
+.PHONY : src/UnifiedCore/Configuration/ConfigurationManager.cpp.i
+
+src/UnifiedCore/Configuration/ConfigurationManager.s: src/UnifiedCore/Configuration/ConfigurationManager.cpp.s
+.PHONY : src/UnifiedCore/Configuration/ConfigurationManager.s
+
+# target to generate assembly for a file
+src/UnifiedCore/Configuration/ConfigurationManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Configuration/ConfigurationManager.cpp.s
+.PHONY : src/UnifiedCore/Configuration/ConfigurationManager.cpp.s
+
+src/UnifiedCore/Export/ExportGenerator.o: src/UnifiedCore/Export/ExportGenerator.cpp.o
+.PHONY : src/UnifiedCore/Export/ExportGenerator.o
+
+# target to build an object file
+src/UnifiedCore/Export/ExportGenerator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.o
+.PHONY : src/UnifiedCore/Export/ExportGenerator.cpp.o
+
+src/UnifiedCore/Export/ExportGenerator.i: src/UnifiedCore/Export/ExportGenerator.cpp.i
+.PHONY : src/UnifiedCore/Export/ExportGenerator.i
+
+# target to preprocess a source file
+src/UnifiedCore/Export/ExportGenerator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.i
+.PHONY : src/UnifiedCore/Export/ExportGenerator.cpp.i
+
+src/UnifiedCore/Export/ExportGenerator.s: src/UnifiedCore/Export/ExportGenerator.cpp.s
+.PHONY : src/UnifiedCore/Export/ExportGenerator.s
+
+# target to generate assembly for a file
+src/UnifiedCore/Export/ExportGenerator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/UnifiedCore/Export/ExportGenerator.cpp.s
+.PHONY : src/UnifiedCore/Export/ExportGenerator.cpp.s
+
 test/test_antlr_basic.o: test/test_antlr_basic.cpp.o
 .PHONY : test/test_antlr_basic.o
 
@@ -992,6 +1064,15 @@ help:
 	@echo "... src/Test/Utils/TestUtils.o"
 	@echo "... src/Test/Utils/TestUtils.i"
 	@echo "... src/Test/Utils/TestUtils.s"
+	@echo "... src/UnifiedCore/Configuration/ConfigurationImporter.o"
+	@echo "... src/UnifiedCore/Configuration/ConfigurationImporter.i"
+	@echo "... src/UnifiedCore/Configuration/ConfigurationImporter.s"
+	@echo "... src/UnifiedCore/Configuration/ConfigurationManager.o"
+	@echo "... src/UnifiedCore/Configuration/ConfigurationManager.i"
+	@echo "... src/UnifiedCore/Configuration/ConfigurationManager.s"
+	@echo "... src/UnifiedCore/Export/ExportGenerator.o"
+	@echo "... src/UnifiedCore/Export/ExportGenerator.i"
+	@echo "... src/UnifiedCore/Export/ExportGenerator.s"
 	@echo "... test/test_antlr_basic.o"
 	@echo "... test/test_antlr_basic.i"
 	@echo "... test/test_antlr_basic.s"
