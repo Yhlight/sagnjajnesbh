@@ -323,7 +323,7 @@ bool ExportGenerator::updateInfoFileExports(const std::string& infoFilePath) {
     file.close();
     
     // 查找并替换[Export]节
-    std::regex exportRegex(R"(// 外部查询表.*?\[Export\]\s*\{[^}]*\})", std::regex_constants::dotall);
+    std::regex exportRegex(R"(// 外部查询表.*?\[Export\]\s*\{[^}]*\})");
     std::string newExportSection = generateExportSection();
     
     if (std::regex_search(content, exportRegex)) {
@@ -443,7 +443,7 @@ bool isInfoFile(const std::string& filePath) {
 
 bool isSourceFile(const std::string& filePath) {
     return filePath.find("/src/") != std::string::npos && 
-           filePath.ends_with(".chtl");
+           (filePath.length() >= 5 && filePath.substr(filePath.length() - 5) == ".chtl");
 }
 
 bool processModuleDirectory(const std::string& moduleDir) {

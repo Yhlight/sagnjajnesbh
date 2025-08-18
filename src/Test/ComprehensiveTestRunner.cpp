@@ -308,15 +308,18 @@ bool testNamespaceSystem() {
 bool testModuleSystem() {
     // 测试模块系统
     try {
-        // 检查CMOD文件（正确的语法文档结构：子模块在src内部）
-        // 注意：存在子模块时，主模块src文件可以省略（推荐做法）
+        // 检查CMOD文件（CMOD+CJMOD分离结构）
         std::vector<std::string> cmodFiles = {
-            "../src/Module/Chtholly/info/Chtholly.chtl",                  // 主模块信息
-            "../src/Module/Chtholly/src/Accordion/src/Accordion.chtl",    // 子模块文件
-            "../src/Module/Chtholly/src/Accordion/info/Accordion.chtl",   // 子模块信息
-            "../src/Module/Yuigahama/info/Yuigahama.chtl",                // 主模块信息
-            "../src/Module/Yuigahama/src/MusicPlayer/src/MusicPlayer.chtl", // 子模块文件
-            "../src/Module/Yuigahama/src/MusicPlayer/info/MusicPlayer.chtl" // 子模块信息
+            "../src/Module/Chtholly/info/Chtholly.chtl",                    // 主模块信息
+            "../src/Module/Chtholly/CMOD/Accordion/src/Accordion.chtl",     // CMOD组件文件
+            "../src/Module/Chtholly/CMOD/Accordion/info/Accordion.chtl",    // CMOD组件信息
+            "../src/Module/Chtholly/CMOD/Sakura/src/Sakura.chtl",          // CMOD组件文件
+            "../src/Module/Chtholly/CMOD/Sakura/info/Sakura.chtl",         // CMOD组件信息
+            "../src/Module/Chtholly/CJMOD/printMylove/info/printMylove.chtl", // CJMOD功能信息
+            "../src/Module/Chtholly/CJMOD/iNeverAway/info/iNeverAway.chtl",   // CJMOD功能信息
+            "../src/Module/Yuigahama/info/Yuigahama.chtl",                  // 由比滨结衣主模块信息
+            "../src/Module/Yuigahama/src/MusicPlayer/src/MusicPlayer.chtl", // 由比滨结衣子模块文件
+            "../src/Module/Yuigahama/src/MusicPlayer/info/MusicPlayer.chtl" // 由比滨结衣子模块信息
         };
         
         for (const auto& file : cmodFiles) {
