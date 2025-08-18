@@ -40,14 +40,40 @@ enum class ModuleType {
     CJMOD
 };
 
+// 编译阶段
+enum class CompilationPhase {
+    LEXICAL_ANALYSIS,
+    SYNTAX_ANALYSIS,
+    AST_GENERATION,
+    CODE_GENERATION,
+    OPTIMIZATION,
+    COMPLETED
+};
+
 // 编译结果
 struct CompilationResult {
     bool success;
     std::string output;
     StringList errors;
     StringList warnings;
+    double compilation_time_ms;
     
-    CompilationResult() : success(false) {}
+    CompilationResult() : success(false), compilation_time_ms(0.0) {}
+};
+
+// 编译选项
+struct CompilationOptions {
+    bool enable_optimization;
+    bool enable_debug_info;
+    bool strict_mode;
+    bool enable_warnings;
+    std::string output_format;
+    std::string target_directory;
+    
+    CompilationOptions() 
+        : enable_optimization(false), enable_debug_info(false),
+          strict_mode(true), enable_warnings(true),
+          output_format("html") {}
 };
 
 } // namespace chtl

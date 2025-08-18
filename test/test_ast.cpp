@@ -1,6 +1,4 @@
-#include "../src/ast/ASTNode.h"
-#include "../src/ast/CHTLNodes.h"
-#include "../src/ast/SpecializedNodes.h"
+#include "../src/CHTLCompiler/AST/CHTLNodes.h"
 #include <iostream>
 #include <cassert>
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "../ast/ASTNode.h"
+#include "../../CHTLCompiler/AST/CHTLNodes.h"
 #include "Context.h"
 #include <string>
 #include <vector>

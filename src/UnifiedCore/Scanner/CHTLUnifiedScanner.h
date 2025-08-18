@@ -1,5 +1,5 @@
 #pragma once
-#include "Token.h"
+#include "../../Shared/Common/Types.h"
 #include <string>
 #include <vector>
 #include <memory>

@@ -1,6 +1,6 @@
-#include "../src/parser/Parser.h"
-#include "../src/generator/HTMLGenerator.h"
-#include "../src/common/Context.h"
+#include "../src/CHTLCompiler/Parser/CHTLParser.h"
+#include "../src/CHTLCompiler/Generator/CHTLGenerator.h"
+#include "../src/CHTLCompiler/Parser/CHTLContext.h"
 #include <iostream>
 
 using namespace chtl;
