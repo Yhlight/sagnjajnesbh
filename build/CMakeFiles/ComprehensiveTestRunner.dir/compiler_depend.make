@@ -303,6 +303,7 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/ComprehensiveTestRunner.cpp.o: /
   /usr/lib/llvm-20/lib/clang/20/include/stdarg.h \
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h \
+  /workspace/src/Shared/Core/ErrorHandler.h \
   /workspace/src/Shared/Core/NamespaceAlgorithms.h \
   /workspace/src/Test/Utils/CHTLSyntaxValidator.h
 
@@ -408,12 +409,17 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o:
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
   /usr/include/c++/14/algorithm \
+  /usr/include/c++/14/array \
+  /usr/include/c++/14/backward/auto_ptr.h \
   /usr/include/c++/14/backward/binders.h \
   /usr/include/c++/14/bit \
   /usr/include/c++/14/bits/algorithmfwd.h \
+  /usr/include/c++/14/bits/align.h \
   /usr/include/c++/14/bits/alloc_traits.h \
   /usr/include/c++/14/bits/allocated_ptr.h \
   /usr/include/c++/14/bits/allocator.h \
+  /usr/include/c++/14/bits/atomic_base.h \
+  /usr/include/c++/14/bits/atomic_lockfree_defines.h \
   /usr/include/c++/14/bits/basic_ios.h \
   /usr/include/c++/14/bits/basic_ios.tcc \
   /usr/include/c++/14/bits/basic_string.h \
@@ -427,6 +433,7 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o:
   /usr/include/c++/14/bits/cxxabi_forced.h \
   /usr/include/c++/14/bits/cxxabi_init_exception.h \
   /usr/include/c++/14/bits/deque.tcc \
+  /usr/include/c++/14/bits/enable_special_members.h \
   /usr/include/c++/14/bits/erase_if.h \
   /usr/include/c++/14/bits/exception.h \
   /usr/include/c++/14/bits/exception_defines.h \
@@ -439,6 +446,8 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o:
   /usr/include/c++/14/bits/functexcept.h \
   /usr/include/c++/14/bits/functional_hash.h \
   /usr/include/c++/14/bits/hash_bytes.h \
+  /usr/include/c++/14/bits/hashtable.h \
+  /usr/include/c++/14/bits/hashtable_policy.h \
   /usr/include/c++/14/bits/invoke.h \
   /usr/include/c++/14/bits/ios_base.h \
   /usr/include/c++/14/bits/istream.tcc \
@@ -479,6 +488,7 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o:
   /usr/include/c++/14/bits/regex_scanner.tcc \
   /usr/include/c++/14/bits/requires_hosted.h \
   /usr/include/c++/14/bits/shared_ptr.h \
+  /usr/include/c++/14/bits/shared_ptr_atomic.h \
   /usr/include/c++/14/bits/shared_ptr_base.h \
   /usr/include/c++/14/bits/sstream.tcc \
   /usr/include/c++/14/bits/std_abs.h \
@@ -496,6 +506,7 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o:
   /usr/include/c++/14/bits/stl_map.h \
   /usr/include/c++/14/bits/stl_multimap.h \
   /usr/include/c++/14/bits/stl_pair.h \
+  /usr/include/c++/14/bits/stl_raw_storage_iter.h \
   /usr/include/c++/14/bits/stl_stack.h \
   /usr/include/c++/14/bits/stl_tempbuf.h \
   /usr/include/c++/14/bits/stl_tree.h \
@@ -507,6 +518,7 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o:
   /usr/include/c++/14/bits/stringfwd.h \
   /usr/include/c++/14/bits/uniform_int_dist.h \
   /usr/include/c++/14/bits/unique_ptr.h \
+  /usr/include/c++/14/bits/unordered_map.h \
   /usr/include/c++/14/bits/uses_allocator.h \
   /usr/include/c++/14/bits/uses_allocator_args.h \
   /usr/include/c++/14/bits/utility.h \
@@ -517,6 +529,7 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o:
   /usr/include/c++/14/cerrno \
   /usr/include/c++/14/clocale \
   /usr/include/c++/14/codecvt \
+  /usr/include/c++/14/compare \
   /usr/include/c++/14/concepts \
   /usr/include/c++/14/cstddef \
   /usr/include/c++/14/cstdint \
@@ -538,6 +551,7 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o:
   /usr/include/c++/14/ext/type_traits.h \
   /usr/include/c++/14/filesystem \
   /usr/include/c++/14/fstream \
+  /usr/include/c++/14/functional \
   /usr/include/c++/14/initializer_list \
   /usr/include/c++/14/iomanip \
   /usr/include/c++/14/ios \
@@ -546,10 +560,12 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o:
   /usr/include/c++/14/limits \
   /usr/include/c++/14/locale \
   /usr/include/c++/14/map \
+  /usr/include/c++/14/memory \
   /usr/include/c++/14/new \
   /usr/include/c++/14/ostream \
   /usr/include/c++/14/pstl/execution_defs.h \
   /usr/include/c++/14/pstl/glue_algorithm_defs.h \
+  /usr/include/c++/14/pstl/glue_memory_defs.h \
   /usr/include/c++/14/pstl/pstl_config.h \
   /usr/include/c++/14/ratio \
   /usr/include/c++/14/regex \
@@ -563,6 +579,7 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o:
   /usr/include/c++/14/tuple \
   /usr/include/c++/14/type_traits \
   /usr/include/c++/14/typeinfo \
+  /usr/include/c++/14/unordered_map \
   /usr/include/c++/14/vector \
   /usr/include/x86_64-linux-gnu/c++/14/bits/atomic_word.h \
   /usr/include/x86_64-linux-gnu/c++/14/bits/basic_file.h \
@@ -588,9 +605,11 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o:
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_ptrdiff_t.h \
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h \
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_wchar_t.h \
+  /usr/lib/llvm-20/lib/clang/20/include/sanitizer/tsan_interface.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdarg.h \
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h \
+  /workspace/src/Shared/Core/ErrorHandler.h \
   /workspace/src/Test/Utils/CHTLSyntaxValidator.h
 
 bin/ComprehensiveTestRunner: /lib/x86_64-linux-gnu/Scrt1.o \
@@ -639,6 +658,8 @@ CMakeFiles/ComprehensiveTestRunner.dir/src/Test/ComprehensiveTestRunner.cpp.o:
 /usr/include/c++/14/algorithm:
 
 /workspace/src/Test/Utils/CHTLSyntaxValidator.cpp:
+
+/workspace/src/Shared/Core/ErrorHandler.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/stdint.h:
 

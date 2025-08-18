@@ -308,12 +308,12 @@ bool testNamespaceSystem() {
 bool testModuleSystem() {
     // 测试模块系统
     try {
-        // 检查CMOD文件
+        // 检查CMOD文件（相对于build目录的路径）
         std::vector<std::string> cmodFiles = {
-            "src/Module/Chtholly/CMOD/Accordion/info/Accordion.chtl",
-            "src/Module/Chtholly/CMOD/Accordion/src/Accordion.chtl",
-            "src/Module/Yuigahama/CMOD/MusicPlayer/info/MusicPlayer.chtl",
-            "src/Module/Yuigahama/CMOD/MusicPlayer/src/MusicPlayer.chtl"
+            "../src/Module/Chtholly/CMOD/Accordion/info/Accordion.chtl",
+            "../src/Module/Chtholly/CMOD/Accordion/src/Accordion.chtl",
+            "../src/Module/Yuigahama/CMOD/MusicPlayer/info/MusicPlayer.chtl",
+            "../src/Module/Yuigahama/CMOD/MusicPlayer/src/MusicPlayer.chtl"
         };
         
         for (const auto& file : cmodFiles) {
@@ -325,7 +325,7 @@ bool testModuleSystem() {
         }
         
         // 验证CMOD内容
-        std::ifstream infoFile("src/Module/Chtholly/CMOD/Accordion/info/Accordion.chtl");
+        std::ifstream infoFile("../src/Module/Chtholly/CMOD/Accordion/info/Accordion.chtl");
         std::string infoContent((std::istreambuf_iterator<char>(infoFile)),
                                std::istreambuf_iterator<char>());
         
