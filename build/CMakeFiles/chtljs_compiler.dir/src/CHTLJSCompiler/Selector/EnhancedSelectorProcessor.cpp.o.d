@@ -1,6 +1,5 @@
-CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o: \
-  /workspace/src/CHTLJSCompiler/CHTLJSCompiler.cpp \
-  /workspace/src/CHTLJSCompiler/CHTLJSCompiler.h \
+CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o: \
+  /workspace/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp \
   /workspace/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/string \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
@@ -206,28 +205,6 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/auto_ptr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_memory_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/execution_defs.h \
-  /workspace/src/CHTLJSCompiler/Event/ListenSystemProcessor.h \
-  /workspace/src/CHTLJSCompiler/Event/../Selector/EnhancedSelectorProcessor.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/functional \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/array \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/compare \
-  /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
-  /workspace/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.h \
-  /workspace/src/CHTLJSCompiler/Animation/../Selector/EnhancedSelectorProcessor.h \
-  /workspace/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.h \
-  /workspace/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.h \
-  /workspace/src/CHTLJSCompiler/Script/LocalScriptProcessor.h \
-  /workspace/src/CHTLJSCompiler/Script/../Selector/EnhancedSelectorProcessor.h \
-  /workspace/src/CHTLJSCompiler/Script/../Event/ListenSystemProcessor.h \
-  /workspace/src/CHTLJSCompiler/Script/../Event/DelegateSystemProcessor.h \
-  /workspace/src/CHTLJSCompiler/Script/../Animation/AnimateSystemProcessor.h \
-  /workspace/src/CHTLJSCompiler/Script/../Virtual/VirtualObjectProcessor.h \
-  /workspace/src/CHTLJSCompiler/Script/../Operator/ArrowOperatorProcessor.h \
-  /workspace/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/optional \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ios \
@@ -270,6 +247,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_algo.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/algorithmfwd.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_heap.h \

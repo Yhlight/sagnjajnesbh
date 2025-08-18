@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o"
+  "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o.d"
   "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.o"
   "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.o.d"
   "lib/libchtl_compiler.a"

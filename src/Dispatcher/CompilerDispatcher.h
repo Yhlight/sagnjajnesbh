@@ -1,7 +1,7 @@
 #pragma once
 #include "../Scanner/CHTLUnifiedScanner.h"
 #include "../CHTLCompiler/CHTLCompilerCore.h"
-#include "../CHTLJSCompiler/CHTLJSCompilerCore.h"
+#include "../CHTLJSCompiler/Core/CHTLJSCompilerCore.h"
 #include "../CSSCompiler/CSSCompilerCore.h"
 #include "../JavaScriptCompiler/JavaScriptCompilerCore.h"
 #include <string>

@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/workspace/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp" "CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o" "gcc" "CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o.d"
+  "/workspace/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp" "CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o" "gcc" "CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

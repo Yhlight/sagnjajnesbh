@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o"
-  "CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o.d"
+  "CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o"
+  "CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o.d"
   "lib/libjs_compiler.a"
   "lib/libjs_compiler.pdb"
 )

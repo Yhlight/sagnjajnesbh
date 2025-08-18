@@ -3,6 +3,12 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp.o.d"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o.d"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o.d"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o.d"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o.d"
   "lib/libchtljs_compiler.a"
   "lib/libchtljs_compiler.pdb"
 )

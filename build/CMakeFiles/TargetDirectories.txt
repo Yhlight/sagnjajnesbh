@@ -1,4 +1,4 @@
-/workspace/build/CMakeFiles/chtl_scanner_working.dir
-/workspace/build/CMakeFiles/test_scanner_working.dir
+/workspace/build/CMakeFiles/chtl_scanner_minimal.dir
+/workspace/build/CMakeFiles/test_minimal_working.dir
 /workspace/build/CMakeFiles/edit_cache.dir
 /workspace/build/CMakeFiles/rebuild_cache.dir

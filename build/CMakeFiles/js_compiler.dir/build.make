@@ -72,28 +72,28 @@ include CMakeFiles/js_compiler.dir/flags.make
 CMakeFiles/js_compiler.dir/codegen:
 .PHONY : CMakeFiles/js_compiler.dir/codegen
 
-CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o: CMakeFiles/js_compiler.dir/flags.make
-CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o: /workspace/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp
-CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o: CMakeFiles/js_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o -MF CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o.d -o CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o -c /workspace/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp
+CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o: CMakeFiles/js_compiler.dir/flags.make
+CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o: /workspace/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp
+CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o: CMakeFiles/js_compiler.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o -MF CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o.d -o CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o -c /workspace/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp
 
-CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp > CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.i
+CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp > CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.i
 
-CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp -o CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s
+CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp -o CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.s
 
 # Object files for target js_compiler
 js_compiler_OBJECTS = \
-"CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o"
+"CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o"
 
 # External object files for target js_compiler
 js_compiler_EXTERNAL_OBJECTS =
 
-lib/libjs_compiler.a: CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o
+lib/libjs_compiler.a: CMakeFiles/js_compiler.dir/src/JavaScriptCompiler/JavaScriptCompilerCore.cpp.o
 lib/libjs_compiler.a: CMakeFiles/js_compiler.dir/build.make
 lib/libjs_compiler.a: CMakeFiles/js_compiler.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library lib/libjs_compiler.a"

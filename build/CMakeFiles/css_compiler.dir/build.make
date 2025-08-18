@@ -72,28 +72,28 @@ include CMakeFiles/css_compiler.dir/flags.make
 CMakeFiles/css_compiler.dir/codegen:
 .PHONY : CMakeFiles/css_compiler.dir/codegen
 
-CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o: CMakeFiles/css_compiler.dir/flags.make
-CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o: /workspace/src/CSSCompiler/Core/CSSCompilerCore.cpp
-CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o: CMakeFiles/css_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o -MF CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o.d -o CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o -c /workspace/src/CSSCompiler/Core/CSSCompilerCore.cpp
+CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.o: CMakeFiles/css_compiler.dir/flags.make
+CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.o: /workspace/src/CSSCompiler/CSSCompilerCore.cpp
+CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.o: CMakeFiles/css_compiler.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.o -MF CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.o.d -o CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.o -c /workspace/src/CSSCompiler/CSSCompilerCore.cpp
 
-CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CSSCompiler/Core/CSSCompilerCore.cpp > CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.i
+CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CSSCompiler/CSSCompilerCore.cpp > CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.i
 
-CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CSSCompiler/Core/CSSCompilerCore.cpp -o CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.s
+CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CSSCompiler/CSSCompilerCore.cpp -o CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.s
 
 # Object files for target css_compiler
 css_compiler_OBJECTS = \
-"CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o"
+"CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.o"
 
 # External object files for target css_compiler
 css_compiler_EXTERNAL_OBJECTS =
 
-lib/libcss_compiler.a: CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o
+lib/libcss_compiler.a: CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.o
 lib/libcss_compiler.a: CMakeFiles/css_compiler.dir/build.make
 lib/libcss_compiler.a: CMakeFiles/css_compiler.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library lib/libcss_compiler.a"

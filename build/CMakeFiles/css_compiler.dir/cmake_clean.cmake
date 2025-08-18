@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o"
-  "CMakeFiles/css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o.d"
+  "CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.o"
+  "CMakeFiles/css_compiler.dir/src/CSSCompiler/CSSCompilerCore.cpp.o.d"
   "lib/libcss_compiler.a"
   "lib/libcss_compiler.pdb"
 )

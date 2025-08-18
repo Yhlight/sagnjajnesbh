@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/workspace/src/CHTLCompiler/CHTLCompilerCore.cpp" "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o" "gcc" "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o.d"
   "/workspace/src/CHTLCompiler/Import/ImportManager.cpp" "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.o" "gcc" "CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.o.d"
   )
 
