@@ -181,4 +181,4 @@ COMMENT         : '/*' .*? '*/' -> channel(HIDDEN);
 fragment NMSTART : [a-zA-Z_] | NON_ASCII | ESCAPE;
 fragment NMCHAR  : [a-zA-Z0-9_-] | NON_ASCII | ESCAPE;
 fragment NON_ASCII : ~[\u0000-\u007F];
-fragment ESCAPE  : '\\' ([0-9a-fA-F]{1,6} WS? | ~[0-9a-fA-F\r\n\f]);
+fragment ESCAPE  : '\\' ([0-9a-fA-F]{1,6} [ \t\r\n\f]? | ~[0-9a-fA-F\r\n\f]);
