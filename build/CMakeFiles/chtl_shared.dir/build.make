@@ -100,19 +100,51 @@ CMakeFiles/chtl_shared.dir/src/Shared/Utils/FileUtils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared.dir/src/Shared/Utils/FileUtils.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Shared/Utils/FileUtils.cpp -o CMakeFiles/chtl_shared.dir/src/Shared/Utils/FileUtils.cpp.s
 
+CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o: CMakeFiles/chtl_shared.dir/flags.make
+CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o: /workspace/src/Shared/AST/CommentNode.cpp
+CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o: CMakeFiles/chtl_shared.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o -MF CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o.d -o CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o -c /workspace/src/Shared/AST/CommentNode.cpp
+
+CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/Shared/AST/CommentNode.cpp > CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.i
+
+CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Shared/AST/CommentNode.cpp -o CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.s
+
+CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o: CMakeFiles/chtl_shared.dir/flags.make
+CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o: /workspace/src/Shared/AST/CommentGenerator.cpp
+CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o: CMakeFiles/chtl_shared.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o -MF CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o.d -o CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o -c /workspace/src/Shared/AST/CommentGenerator.cpp
+
+CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/Shared/AST/CommentGenerator.cpp > CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.i
+
+CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Shared/AST/CommentGenerator.cpp -o CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.s
+
 # Object files for target chtl_shared
 chtl_shared_OBJECTS = \
 "CMakeFiles/chtl_shared.dir/src/Shared/SimpleZip/SimpleZip.cpp.o" \
-"CMakeFiles/chtl_shared.dir/src/Shared/Utils/FileUtils.cpp.o"
+"CMakeFiles/chtl_shared.dir/src/Shared/Utils/FileUtils.cpp.o" \
+"CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o" \
+"CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o"
 
 # External object files for target chtl_shared
 chtl_shared_EXTERNAL_OBJECTS =
 
 lib/libchtl_shared.a: CMakeFiles/chtl_shared.dir/src/Shared/SimpleZip/SimpleZip.cpp.o
 lib/libchtl_shared.a: CMakeFiles/chtl_shared.dir/src/Shared/Utils/FileUtils.cpp.o
+lib/libchtl_shared.a: CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o
+lib/libchtl_shared.a: CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o
 lib/libchtl_shared.a: CMakeFiles/chtl_shared.dir/build.make
 lib/libchtl_shared.a: CMakeFiles/chtl_shared.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library lib/libchtl_shared.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library lib/libchtl_shared.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/chtl_shared.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtl_shared.dir/link.txt --verbose=$(VERBOSE)
 

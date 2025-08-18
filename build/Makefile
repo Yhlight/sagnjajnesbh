@@ -337,6 +337,19 @@ test_unlimited_cjmod_simple/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_unlimited_cjmod_simple.dir/build.make CMakeFiles/test_unlimited_cjmod_simple.dir/build
 .PHONY : test_unlimited_cjmod_simple/fast
 
+#=============================================================================
+# Target rules for targets named test_comment_system
+
+# Build rule for target.
+test_comment_system: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_comment_system
+.PHONY : test_comment_system
+
+# fast build rule for target.
+test_comment_system/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comment_system.dir/build.make CMakeFiles/test_comment_system.dir/build
+.PHONY : test_comment_system/fast
+
 src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
 .PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
@@ -865,6 +878,54 @@ src/Module/Chtholly/CJMOD/src/printMylove.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtholly_cjmod.dir/build.make CMakeFiles/chtholly_cjmod.dir/src/Module/Chtholly/CJMOD/src/printMylove.cpp.s
 .PHONY : src/Module/Chtholly/CJMOD/src/printMylove.cpp.s
 
+src/Shared/AST/CommentGenerator.o: src/Shared/AST/CommentGenerator.cpp.o
+.PHONY : src/Shared/AST/CommentGenerator.o
+
+# target to build an object file
+src/Shared/AST/CommentGenerator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.o
+.PHONY : src/Shared/AST/CommentGenerator.cpp.o
+
+src/Shared/AST/CommentGenerator.i: src/Shared/AST/CommentGenerator.cpp.i
+.PHONY : src/Shared/AST/CommentGenerator.i
+
+# target to preprocess a source file
+src/Shared/AST/CommentGenerator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.i
+.PHONY : src/Shared/AST/CommentGenerator.cpp.i
+
+src/Shared/AST/CommentGenerator.s: src/Shared/AST/CommentGenerator.cpp.s
+.PHONY : src/Shared/AST/CommentGenerator.s
+
+# target to generate assembly for a file
+src/Shared/AST/CommentGenerator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentGenerator.cpp.s
+.PHONY : src/Shared/AST/CommentGenerator.cpp.s
+
+src/Shared/AST/CommentNode.o: src/Shared/AST/CommentNode.cpp.o
+.PHONY : src/Shared/AST/CommentNode.o
+
+# target to build an object file
+src/Shared/AST/CommentNode.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.o
+.PHONY : src/Shared/AST/CommentNode.cpp.o
+
+src/Shared/AST/CommentNode.i: src/Shared/AST/CommentNode.cpp.i
+.PHONY : src/Shared/AST/CommentNode.i
+
+# target to preprocess a source file
+src/Shared/AST/CommentNode.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.i
+.PHONY : src/Shared/AST/CommentNode.cpp.i
+
+src/Shared/AST/CommentNode.s: src/Shared/AST/CommentNode.cpp.s
+.PHONY : src/Shared/AST/CommentNode.s
+
+# target to generate assembly for a file
+src/Shared/AST/CommentNode.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared.dir/build.make CMakeFiles/chtl_shared.dir/src/Shared/AST/CommentNode.cpp.s
+.PHONY : src/Shared/AST/CommentNode.cpp.s
+
 src/Shared/SimpleZip/SimpleZip.o: src/Shared/SimpleZip/SimpleZip.cpp.o
 .PHONY : src/Shared/SimpleZip/SimpleZip.o
 
@@ -1057,6 +1118,30 @@ test/test_chtljs_enhanced_functions.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtljs_enhanced_functions.dir/build.make CMakeFiles/test_chtljs_enhanced_functions.dir/test/test_chtljs_enhanced_functions.cpp.s
 .PHONY : test/test_chtljs_enhanced_functions.cpp.s
 
+test/test_comment_system.o: test/test_comment_system.cpp.o
+.PHONY : test/test_comment_system.o
+
+# target to build an object file
+test/test_comment_system.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comment_system.dir/build.make CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.o
+.PHONY : test/test_comment_system.cpp.o
+
+test/test_comment_system.i: test/test_comment_system.cpp.i
+.PHONY : test/test_comment_system.i
+
+# target to preprocess a source file
+test/test_comment_system.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comment_system.dir/build.make CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.i
+.PHONY : test/test_comment_system.cpp.i
+
+test/test_comment_system.s: test/test_comment_system.cpp.s
+.PHONY : test/test_comment_system.s
+
+# target to generate assembly for a file
+test/test_comment_system.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_comment_system.dir/build.make CMakeFiles/test_comment_system.dir/test/test_comment_system.cpp.s
+.PHONY : test/test_comment_system.cpp.s
+
 test/test_new_cjmod_framework.o: test/test_new_cjmod_framework.cpp.o
 .PHONY : test/test_new_cjmod_framework.o
 
@@ -1151,6 +1236,7 @@ help:
 	@echo "... test_chtl_compiler_simple"
 	@echo "... test_chtl_js_lexer"
 	@echo "... test_chtljs_enhanced_functions"
+	@echo "... test_comment_system"
 	@echo "... test_new_cjmod_framework"
 	@echo "... test_undecorated_literals"
 	@echo "... test_unlimited_cjmod_simple"
@@ -1220,6 +1306,12 @@ help:
 	@echo "... src/Module/Chtholly/CJMOD/src/printMylove.o"
 	@echo "... src/Module/Chtholly/CJMOD/src/printMylove.i"
 	@echo "... src/Module/Chtholly/CJMOD/src/printMylove.s"
+	@echo "... src/Shared/AST/CommentGenerator.o"
+	@echo "... src/Shared/AST/CommentGenerator.i"
+	@echo "... src/Shared/AST/CommentGenerator.s"
+	@echo "... src/Shared/AST/CommentNode.o"
+	@echo "... src/Shared/AST/CommentNode.i"
+	@echo "... src/Shared/AST/CommentNode.s"
 	@echo "... src/Shared/SimpleZip/SimpleZip.o"
 	@echo "... src/Shared/SimpleZip/SimpleZip.i"
 	@echo "... src/Shared/SimpleZip/SimpleZip.s"
@@ -1244,6 +1336,9 @@ help:
 	@echo "... test/test_chtljs_enhanced_functions.o"
 	@echo "... test/test_chtljs_enhanced_functions.i"
 	@echo "... test/test_chtljs_enhanced_functions.s"
+	@echo "... test/test_comment_system.o"
+	@echo "... test/test_comment_system.i"
+	@echo "... test/test_comment_system.s"
 	@echo "... test/test_new_cjmod_framework.o"
 	@echo "... test/test_new_cjmod_framework.i"
 	@echo "... test/test_new_cjmod_framework.s"
