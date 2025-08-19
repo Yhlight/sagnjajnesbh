@@ -40,13 +40,26 @@ add_library(chtljs_compiler STATIC
     src/CHTLJSCompiler/CHTLJSCompiler.cpp
     src/CHTLJSCompiler/Core/AutoAdditionManager.cpp
     src/CHTLJSCompiler/Core/JSEventRegistry.cpp
+    src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp
     src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp
     src/CHTLJSCompiler/Parser/SelectorDetector.cpp
+    src/CHTLJSCompiler/Module/YourCJMODDesign.cpp
 )
 target_link_libraries(chtljs_compiler chtl_common)
 
 # 测试现有功能
 add_executable(test_existing_features test/test_existing_features.cpp)
+
+# 测试新的CHTL JS和CJMOD功能
+add_executable(test_chtl_js_cjmod 
+    test/test_chtl_js_features.cpp
+    test/test_cjmod_design.cpp
+)
+target_link_libraries(test_chtl_js_cjmod chtljs_compiler chtl_scanner chtl_common)
+
+# 测试珂朵莉模块
+add_executable(test_chtholly_module test/test_chtholly_complete.cpp)
+target_link_libraries(test_chtholly_module chtljs_compiler chtl_scanner chtl_common)
 
 # 完整CHTL合规性验证
 add_executable(test_complete_chtl_compliance test/test_complete_chtl_compliance.cpp)

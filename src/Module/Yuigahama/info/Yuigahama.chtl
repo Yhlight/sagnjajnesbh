@@ -1,9 +1,13 @@
-// 只需要写这个即可
+// ========================================
+// 由比滨结衣模块信息文件 - 严格按照CHTL语法文档
+// CMOD纯模块 - 7个UI组件
+// ========================================
+
 [Info]
 {
-    name = "yuigahama";
+    name = "Yuigahama";
     version = "1.0.0";
-    description = "由比滨结衣主题模块 - 温暖可爱的青春";
+    description = "由比滨结衣主题模块 - 温暖阳光的女孩";
     author = "CHTL Team";
     license = "MIT";
     dependencies = "";
@@ -12,11 +16,15 @@
     maxCHTLVersion = "2.0.0";
 }
 
-// 外部查询表，优化性能用，无实际作用
-// 不需要写这个，此由系统生成
 [Export]
 {
-    @Element YuigahamaMusicPlayer;
-    @Style YuigahamaStyle, YuigahamaCard, YuigahamaButton;
-    @Var YuigahamaColors, YuigahamaFonts;
+    // 7个CMOD UI组件
+    [Custom] @Element YuigahamaMusicPlayer, YuigahamaAccordion, YuigahamaGallery,
+             YuigahamaMemo, YuigahamaNote, YuigahamaSakura, YuigahamaMouseEffect;
+    
+    [Custom] @Style YuigahamaTheme, YuigahamaColors, YuigahamaAnimations,
+             YuigahamaEffects, YuigahamaTransitions;
+    
+    [Custom] @Var YuigahamaColorPalette, YuigahamaSpacing, YuigahamaFonts,
+             YuigahamaBreakpoints, YuigahamaTimings;
 }

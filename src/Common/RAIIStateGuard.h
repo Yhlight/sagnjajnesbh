@@ -1,5 +1,6 @@
 #pragma once
 #include "../CHTLCompiler/State/CHTLState.h"
+#include "../Scanner/CHTLUnifiedScanner.h"
 #include <memory>
 #include <functional>
 #include <vector>
@@ -162,7 +163,7 @@ public:
     /**
      * 根据扫描器结果更新上下文
      */
-    void updateFromScannerResult(const scanner::CHTLUnifiedScanner::ScanResult& scanResult);
+    void updateFromScannerResult(const chtl::scanner::CHTLUnifiedScanner::ScanResult& scanResult);
     
     /**
      * 为扫描器提供上下文信息

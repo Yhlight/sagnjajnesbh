@@ -182,6 +182,32 @@ test_existing_features/fast:
 .PHONY : test_existing_features/fast
 
 #=============================================================================
+# Target rules for targets named test_chtl_js_cjmod
+
+# Build rule for target.
+test_chtl_js_cjmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtl_js_cjmod
+.PHONY : test_chtl_js_cjmod
+
+# fast build rule for target.
+test_chtl_js_cjmod/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/build
+.PHONY : test_chtl_js_cjmod/fast
+
+#=============================================================================
+# Target rules for targets named test_chtholly_module
+
+# Build rule for target.
+test_chtholly_module: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtholly_module
+.PHONY : test_chtholly_module
+
+# fast build rule for target.
+test_chtholly_module/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtholly_module.dir/build.make CMakeFiles/test_chtholly_module.dir/build
+.PHONY : test_chtholly_module/fast
+
+#=============================================================================
 # Target rules for targets named test_complete_chtl_compliance
 
 # Build rule for target.
@@ -399,6 +425,30 @@ src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.s
 .PHONY : src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.s
 
+src/CHTLJSCompiler/Core/CHTLJSProcessor.o: src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.o
+.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.o
+
+# target to build an object file
+src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.o
+.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.o
+
+src/CHTLJSCompiler/Core/CHTLJSProcessor.i: src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.i
+.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.i
+
+# target to preprocess a source file
+src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.i
+.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.i
+
+src/CHTLJSCompiler/Core/CHTLJSProcessor.s: src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.s
+.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.s
+
+# target to generate assembly for a file
+src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.s
+.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.s
+
 src/CHTLJSCompiler/Core/JSEventRegistry.o: src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o
 .PHONY : src/CHTLJSCompiler/Core/JSEventRegistry.o
 
@@ -446,6 +496,30 @@ src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.s: src/CHTLJSCompiler/Enh
 src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.s
 .PHONY : src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.s
+
+src/CHTLJSCompiler/Module/YourCJMODDesign.o: src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.o
+.PHONY : src/CHTLJSCompiler/Module/YourCJMODDesign.o
+
+# target to build an object file
+src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.o
+.PHONY : src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.o
+
+src/CHTLJSCompiler/Module/YourCJMODDesign.i: src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.i
+.PHONY : src/CHTLJSCompiler/Module/YourCJMODDesign.i
+
+# target to preprocess a source file
+src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.i
+.PHONY : src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.i
+
+src/CHTLJSCompiler/Module/YourCJMODDesign.s: src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.s
+.PHONY : src/CHTLJSCompiler/Module/YourCJMODDesign.s
+
+# target to generate assembly for a file
+src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.s
+.PHONY : src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.s
 
 src/CHTLJSCompiler/Parser/SelectorDetector.o: src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o
 .PHONY : src/CHTLJSCompiler/Parser/SelectorDetector.o
@@ -639,6 +713,78 @@ src/Scanner/CHTLUnifiedScanner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/Scanner/CHTLUnifiedScanner.cpp.s
 .PHONY : src/Scanner/CHTLUnifiedScanner.cpp.s
 
+test/test_chtholly_complete.o: test/test_chtholly_complete.cpp.o
+.PHONY : test/test_chtholly_complete.o
+
+# target to build an object file
+test/test_chtholly_complete.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtholly_module.dir/build.make CMakeFiles/test_chtholly_module.dir/test/test_chtholly_complete.cpp.o
+.PHONY : test/test_chtholly_complete.cpp.o
+
+test/test_chtholly_complete.i: test/test_chtholly_complete.cpp.i
+.PHONY : test/test_chtholly_complete.i
+
+# target to preprocess a source file
+test/test_chtholly_complete.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtholly_module.dir/build.make CMakeFiles/test_chtholly_module.dir/test/test_chtholly_complete.cpp.i
+.PHONY : test/test_chtholly_complete.cpp.i
+
+test/test_chtholly_complete.s: test/test_chtholly_complete.cpp.s
+.PHONY : test/test_chtholly_complete.s
+
+# target to generate assembly for a file
+test/test_chtholly_complete.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtholly_module.dir/build.make CMakeFiles/test_chtholly_module.dir/test/test_chtholly_complete.cpp.s
+.PHONY : test/test_chtholly_complete.cpp.s
+
+test/test_chtl_js_features.o: test/test_chtl_js_features.cpp.o
+.PHONY : test/test_chtl_js_features.o
+
+# target to build an object file
+test/test_chtl_js_features.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_chtl_js_features.cpp.o
+.PHONY : test/test_chtl_js_features.cpp.o
+
+test/test_chtl_js_features.i: test/test_chtl_js_features.cpp.i
+.PHONY : test/test_chtl_js_features.i
+
+# target to preprocess a source file
+test/test_chtl_js_features.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_chtl_js_features.cpp.i
+.PHONY : test/test_chtl_js_features.cpp.i
+
+test/test_chtl_js_features.s: test/test_chtl_js_features.cpp.s
+.PHONY : test/test_chtl_js_features.s
+
+# target to generate assembly for a file
+test/test_chtl_js_features.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_chtl_js_features.cpp.s
+.PHONY : test/test_chtl_js_features.cpp.s
+
+test/test_cjmod_design.o: test/test_cjmod_design.cpp.o
+.PHONY : test/test_cjmod_design.o
+
+# target to build an object file
+test/test_cjmod_design.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_cjmod_design.cpp.o
+.PHONY : test/test_cjmod_design.cpp.o
+
+test/test_cjmod_design.i: test/test_cjmod_design.cpp.i
+.PHONY : test/test_cjmod_design.i
+
+# target to preprocess a source file
+test/test_cjmod_design.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_cjmod_design.cpp.i
+.PHONY : test/test_cjmod_design.cpp.i
+
+test/test_cjmod_design.s: test/test_cjmod_design.cpp.s
+.PHONY : test/test_cjmod_design.s
+
+# target to generate assembly for a file
+test/test_cjmod_design.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_cjmod_design.cpp.s
+.PHONY : test/test_cjmod_design.cpp.s
+
 test/test_complete_chtl_compliance.o: test/test_complete_chtl_compliance.cpp.o
 .PHONY : test/test_complete_chtl_compliance.o
 
@@ -723,6 +869,8 @@ help:
 	@echo "... chtl_compiler"
 	@echo "... chtl_scanner"
 	@echo "... chtljs_compiler"
+	@echo "... test_chtholly_module"
+	@echo "... test_chtl_js_cjmod"
 	@echo "... test_complete_chtl_compliance"
 	@echo "... test_existing_features"
 	@echo "... test_variable_length_slicing"
@@ -750,12 +898,18 @@ help:
 	@echo "... src/CHTLJSCompiler/Core/AutoAdditionManager.o"
 	@echo "... src/CHTLJSCompiler/Core/AutoAdditionManager.i"
 	@echo "... src/CHTLJSCompiler/Core/AutoAdditionManager.s"
+	@echo "... src/CHTLJSCompiler/Core/CHTLJSProcessor.o"
+	@echo "... src/CHTLJSCompiler/Core/CHTLJSProcessor.i"
+	@echo "... src/CHTLJSCompiler/Core/CHTLJSProcessor.s"
 	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.o"
 	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.i"
 	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.s"
 	@echo "... src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.o"
 	@echo "... src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.i"
 	@echo "... src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.s"
+	@echo "... src/CHTLJSCompiler/Module/YourCJMODDesign.o"
+	@echo "... src/CHTLJSCompiler/Module/YourCJMODDesign.i"
+	@echo "... src/CHTLJSCompiler/Module/YourCJMODDesign.s"
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.o"
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.i"
 	@echo "... src/CHTLJSCompiler/Parser/SelectorDetector.s"
@@ -780,6 +934,15 @@ help:
 	@echo "... src/Scanner/CHTLUnifiedScanner.o"
 	@echo "... src/Scanner/CHTLUnifiedScanner.i"
 	@echo "... src/Scanner/CHTLUnifiedScanner.s"
+	@echo "... test/test_chtholly_complete.o"
+	@echo "... test/test_chtholly_complete.i"
+	@echo "... test/test_chtholly_complete.s"
+	@echo "... test/test_chtl_js_features.o"
+	@echo "... test/test_chtl_js_features.i"
+	@echo "... test/test_chtl_js_features.s"
+	@echo "... test/test_cjmod_design.o"
+	@echo "... test/test_cjmod_design.i"
+	@echo "... test/test_cjmod_design.s"
 	@echo "... test/test_complete_chtl_compliance.o"
 	@echo "... test/test_complete_chtl_compliance.i"
 	@echo "... test/test_complete_chtl_compliance.s"

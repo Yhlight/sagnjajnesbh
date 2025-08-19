@@ -54,6 +54,8 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/chtl_compiler.dir/DependInfo.cmake"
   "CMakeFiles/chtljs_compiler.dir/DependInfo.cmake"
   "CMakeFiles/test_existing_features.dir/DependInfo.cmake"
+  "CMakeFiles/test_chtl_js_cjmod.dir/DependInfo.cmake"
+  "CMakeFiles/test_chtholly_module.dir/DependInfo.cmake"
   "CMakeFiles/test_complete_chtl_compliance.dir/DependInfo.cmake"
   "CMakeFiles/test_variable_length_slicing.dir/DependInfo.cmake"
   )
