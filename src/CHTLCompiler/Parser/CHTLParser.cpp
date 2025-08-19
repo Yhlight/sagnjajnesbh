@@ -13,10 +13,10 @@ CHTLParser::CHTLParser() : current_token_(0), debug_mode_(false) {
     // 初始化状态管理器和专门解析器
     state_manager_ = std::make_unique<StateManager>();
     // 安全初始化专门Parser，避免段错误
-    template_parser_ = nullptr;
-    custom_parser_ = nullptr;
-    origin_parser_ = nullptr;
-    constraint_parser_ = nullptr;
+    template_parser_ = std::make_unique<template_system::TemplateParser>(*context_, *state_manager_);
+    custom_parser_ = std::make_unique<template_system::TemplateParser>(*context_, *state_manager_);
+    origin_parser_ = std::make_unique<template_system::TemplateParser>(*context_, *state_manager_);
+    constraint_parser_ = std::make_unique<template_system::TemplateParser>(*context_, *state_manager_);
 }
 
 CHTLParser::CHTLParser(CHTLContext& context) 
