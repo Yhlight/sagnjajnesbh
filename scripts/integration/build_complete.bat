@@ -225,9 +225,9 @@ if "!BUILD_COMPILER!"=="true" (
     set "START_TIME=!TIME!"
     
     if "!BUILD_MODE!"=="debug" (
-        set "COMPILER_SCRIPT=%SCRIPT_DIR%..\build\build_debug.bat"
+        set "COMPILER_SCRIPT=%PROJECT_ROOT%scripts\build\build_debug.bat"
     ) else (
-        set "COMPILER_SCRIPT=%SCRIPT_DIR%..\build\build_release.bat"
+        set "COMPILER_SCRIPT=%PROJECT_ROOT%scripts\build\build_release.bat"
     )
     
     if "!VERBOSE!"=="true" (
@@ -259,10 +259,10 @@ if "!BUILD_VSCODE!"=="true" (
     )
     
     if "!VERBOSE!"=="true" (
-        echo [INFO] Running: %SCRIPT_DIR%..\build\build_vscode_plugin.bat !VSCODE_ARGS!
+        echo [INFO] Running: %PROJECT_ROOT%scripts\build\build_vscode_plugin.bat !VSCODE_ARGS!
     )
     
-    call "%SCRIPT_DIR%..\build\build_vscode_plugin.bat" !VSCODE_ARGS!
+    call "%PROJECT_ROOT%scripts\build\build_vscode_plugin.bat" !VSCODE_ARGS!
     if %errorlevel%==0 (
         set "BUILD_RESULTS=!BUILD_RESULTS!VSCode:SUCCESS;"
         set /a TOTAL_SUCCESS+=1
@@ -291,10 +291,10 @@ if "!BUILD_MODULES!"=="true" (
     )
     
     if "!VERBOSE!"=="true" (
-        echo [INFO] Running: %SCRIPT_DIR%..\packaging\pack_all.bat !MODULE_ARGS!
+        echo [INFO] Running: %PROJECT_ROOT%scripts\packaging\pack_all.bat !MODULE_ARGS!
     )
     
-    call "%SCRIPT_DIR%..\packaging\pack_all.bat" !MODULE_ARGS!
+    call "%PROJECT_ROOT%scripts\packaging\pack_all.bat" !MODULE_ARGS!
     if %errorlevel%==0 (
         set "BUILD_RESULTS=!BUILD_RESULTS!Modules:SUCCESS;"
         set /a TOTAL_SUCCESS+=1

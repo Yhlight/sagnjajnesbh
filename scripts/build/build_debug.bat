@@ -22,6 +22,17 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
+REM Try to setup Visual Studio environment if not already setup
+if not defined VSINSTALLDIR (
+    echo [INFO] Visual Studio environment not detected, attempting setup...
+    if exist "%SCRIPT_DIR%..\integration\setup_windows_env.bat" (
+        call "%SCRIPT_DIR%..\integration\setup_windows_env.bat"
+        if %errorlevel% neq 0 (
+            echo [WARNING] Could not setup Visual Studio environment automatically
+        )
+    )
+)
+
 REM Check for Visual Studio or MinGW
 set "BUILD_SYSTEM="
 
