@@ -1,480 +1,536 @@
 #include "CmodManager.h"
 #include <iostream>
-#include <filesystem>
 #include <fstream>
-#include <sstream>
+#include <filesystem>
 #include <regex>
-#include <algorithm>
-#include <set>
+#include <sstream>
 
 namespace chtl {
+namespace module {
 
-// 静态常量定义
-const std::string CmodManager::CMOD_EXTENSION = ".cmod";
-const std::string CmodManager::CHTL_EXTENSION = ".chtl";
-const std::string CmodManager::SRC_DIR = "src";
-const std::string CmodManager::INFO_DIR = "info";
-const std::string CmodManager::INFO_SECTION = "[Info]";
-const std::string CmodManager::EXPORT_SECTION = "[Export]";
+// === Version实现 ===
 
-CmodManager::CmodManager() {
-    // 添加默认搜索路径
-    search_paths_ = CmodUtils::getStandardSearchPaths();
+CmodManager::Version::Version(const std::string& versionStr) {
+    std::regex versionRegex(R"((\d+)\.(\d+)\.(\d+))");
+    std::smatch matches;
+    
+    if (std::regex_match(versionStr, matches, versionRegex)) {
+        major = std::stoi(matches[1].str());
+        minor = std::stoi(matches[2].str());
+        patch = std::stoi(matches[3].str());
+    }
 }
+
+bool CmodManager::Version::operator<(const Version& other) const {
+    if (major != other.major) return major < other.major;
+    if (minor != other.minor) return minor < other.minor;
+    return patch < other.patch;
+}
+
+bool CmodManager::Version::operator<=(const Version& other) const {
+    return *this < other || *this == other;
+}
+
+bool CmodManager::Version::operator>(const Version& other) const {
+    return !(*this <= other);
+}
+
+bool CmodManager::Version::operator>=(const Version& other) const {
+    return !(*this < other);
+}
+
+bool CmodManager::Version::operator==(const Version& other) const {
+    return major == other.major && minor == other.minor && patch == other.patch;
+}
+
+// === CmodModule实现 ===
+
+bool CmodModule::isValidNaming() const {
+    // 严格按照CHTL语法文档：三同名规则
+    // 模块文件夹，主模块chtl文件，模块信息chtl文件必须同名
+    
+    std::string folderName = getFileBaseName(rootPath);
+    std::string infoFileName = getFileBaseName(info.infoPath);
+    
+    if (folderName != info.name || folderName != infoFileName) {
+        return false;
+    }
+    
+    // 如果有主模块文件，也必须同名
+    if (!mainChtlPath.empty()) {
+        std::string mainFileName = getFileBaseName(mainChtlPath);
+        if (folderName != mainFileName) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+// === CmodManager实现 ===
+
+CmodManager::CmodManager() = default;
 
 CmodManager::~CmodManager() = default;
 
-bool CmodManager::packCmod(const std::string& source_directory, const std::string& output_cmod_path) {
-    // 分析Cmod结构
-    CmodStructure structure;
-    if (!analyzeCmodStructure(source_directory, structure)) {
-        return false;
-    }
-    
-    // 验证结构
-    if (!validateFileStructure(source_directory, structure)) {
-        return false;
-    }
-    
-    return packCmodFromStructure(structure, source_directory, output_cmod_path);
+void CmodManager::setErrorHandler(std::shared_ptr<common::ErrorHandler> errorHandler) {
+    errorHandler_ = errorHandler;
 }
 
-bool CmodManager::packCmodFromStructure(const CmodStructure& structure, const std::string& base_path, 
-                                       const std::string& output_cmod_path) {
+// === CMOD验证 ===
+
+bool CmodManager::validateCmodStructure(const std::string& modulePath) {
+    if (!directoryExists(modulePath)) {
+        reportError("模块目录不存在: " + modulePath);
+        return false;
+    }
+    
+    std::string moduleName = getFileBaseName(modulePath);
+    
+    // 检查必需的目录结构
+    std::string srcPath = joinPath(modulePath, "src");
+    std::string infoPath = joinPath(modulePath, "info");
+    
+    if (!directoryExists(srcPath)) {
+        reportError("缺少src目录: " + srcPath);
+        return false;
+    }
+    
+    if (!directoryExists(infoPath)) {
+        reportError("缺少info目录: " + infoPath);
+        return false;
+    }
+    
+    // 检查info文件（必须存在且同名）
+    std::string infoFilePath = joinPath(infoPath, moduleName + ".chtl");
+    if (!fileExists(infoFilePath)) {
+        reportError("缺少模块信息文件: " + infoFilePath);
+        return false;
+    }
+    
+    // 验证info文件格式
+    if (!validateInfoFile(infoFilePath)) {
+        return false;
+    }
+    
+    // 检查主模块文件（如果没有子模块则必须存在）
+    std::string mainChtlPath = joinPath(srcPath, moduleName + ".chtl");
+    bool hasMainChtl = fileExists(mainChtlPath);
+    
+    // 检查是否有子模块
+    bool hasSubmodules = false;
+    try {
+        for (const auto& entry : std::filesystem::directory_iterator(srcPath)) {
+            if (entry.is_directory()) {
+                hasSubmodules = true;
+                if (!validateSubmoduleStructure(entry.path().string())) {
+                    return false;
+                }
+            }
+        }
+    } catch (const std::filesystem::filesystem_error& e) {
+        reportError("无法遍历src目录: " + std::string(e.what()));
+        return false;
+    }
+    
+    // 严格按照CHTL语法文档：在没有子模块的情况下，主模块chtl文件必须存在
+    if (!hasSubmodules && !hasMainChtl) {
+        reportError("没有子模块时必须存在主模块文件: " + mainChtlPath);
+        return false;
+    }
+    
+    return true;
+}
+
+bool CmodManager::validateSubmoduleStructure(const std::string& submodulePath) {
+    std::string submoduleName = getFileBaseName(submodulePath);
+    
+    // 子模块必须有src和info目录
+    std::string subSrcPath = joinPath(submodulePath, "src");
+    std::string subInfoPath = joinPath(submodulePath, "info");
+    
+    if (!directoryExists(subSrcPath)) {
+        reportError("子模块缺少src目录: " + subSrcPath);
+        return false;
+    }
+    
+    if (!directoryExists(subInfoPath)) {
+        reportError("子模块缺少info目录: " + subInfoPath);
+        return false;
+    }
+    
+    // 子模块必须有同名的chtl文件
+    std::string subChtlPath = joinPath(subSrcPath, submoduleName + ".chtl");
+    std::string subInfoFilePath = joinPath(subInfoPath, submoduleName + ".chtl");
+    
+    if (!fileExists(subChtlPath)) {
+        reportError("子模块缺少主文件: " + subChtlPath);
+        return false;
+    }
+    
+    if (!fileExists(subInfoFilePath)) {
+        reportError("子模块缺少信息文件: " + subInfoFilePath);
+        return false;
+    }
+    
+    // 验证子模块info文件
+    if (!validateInfoFile(subInfoFilePath)) {
+        return false;
+    }
+    
+    return true;
+}
+
+bool CmodManager::validateInfoFile(const std::string& infoFilePath) {
+    std::string content;
+    if (!readFileContent(infoFilePath, content)) {
+        reportError("无法读取info文件: " + infoFilePath);
+        return false;
+    }
+    
+    // 严格按照CHTL语法文档：必须包含[Info]部分
+    if (content.find("[Info]") == std::string::npos) {
+        reportError("info文件缺少[Info]部分: " + infoFilePath);
+        return false;
+    }
+    
+    // 解析[Info]部分验证必需字段
+    CmodInfo info;
+    if (!parseInfoSection(content, info)) {
+        reportError("无法解析[Info]部分: " + infoFilePath);
+        return false;
+    }
+    
+    // 验证必需字段
+    if (!hasRequiredInfoFields(info)) {
+        reportError("info文件缺少必需字段: " + infoFilePath);
+        return false;
+    }
+    
+    return true;
+}
+
+// === CMOD解析 ===
+
+bool CmodManager::parseCmodModule(const std::string& modulePath, CmodModule& module) {
+    if (!validateCmodStructure(modulePath)) {
+        return false;
+    }
+    
+    module.rootPath = modulePath;
+    std::string moduleName = getFileBaseName(modulePath);
+    
+    // 解析模块信息
+    std::string infoFilePath = joinPath(joinPath(modulePath, "info"), moduleName + ".chtl");
+    if (!parseInfoFile(infoFilePath, module.info)) {
+        return false;
+    }
+    
+    module.info.modulePath = modulePath;
+    module.info.infoPath = infoFilePath;
+    module.info.srcPath = joinPath(modulePath, "src");
+    
+    // 检查主模块文件
+    std::string mainChtlPath = joinPath(module.info.srcPath, moduleName + ".chtl");
+    if (fileExists(mainChtlPath)) {
+        module.mainChtlPath = mainChtlPath;
+    }
+    
+    // 解析导出信息
+    if (!parseExportFile(infoFilePath, module.exports)) {
+        // [Export]部分可能不存在，尝试自动生成
+        if (!generateExports(module.info.srcPath, module.exports)) {
+            reportWarning("无法生成导出信息: " + modulePath);
+        }
+    }
+    
+    // 解析子模块
+    if (!parseSubmodules(module.info.srcPath, module.submodules)) {
+        return false;
+    }
+    
+    // 验证三同名规则
+    if (!module.isValidNaming()) {
+        reportError("模块不符合三同名规则: " + modulePath);
+        return false;
+    }
+    
+    return true;
+}
+
+bool CmodManager::parseInfoFile(const std::string& infoFilePath, CmodInfo& info) {
+    std::string content;
+    if (!readFileContent(infoFilePath, content)) {
+        return false;
+    }
+    
+    return parseInfoSection(content, info);
+}
+
+bool CmodManager::parseExportFile(const std::string& infoFilePath, std::vector<CmodExport>& exports) {
+    std::string content;
+    if (!readFileContent(infoFilePath, content)) {
+        return false;
+    }
+    
+    return parseExportSection(content, exports);
+}
+
+bool CmodManager::parseSubmodules(const std::string& srcPath, std::vector<SubmoduleInfo>& submodules) {
+    try {
+        for (const auto& entry : std::filesystem::directory_iterator(srcPath)) {
+            if (entry.is_directory()) {
+                SubmoduleInfo submodule(entry.path().filename().string());
+                submodule.srcPath = joinPath(entry.path().string(), "src");
+                submodule.infoPath = joinPath(entry.path().string(), "info");
+                
+                // 解析子模块信息
+                std::string subInfoFile = joinPath(submodule.infoPath, submodule.name + ".chtl");
+                if (parseInfoFile(subInfoFile, submodule.info)) {
+                    parseExportFile(subInfoFile, submodule.exports);
+                    submodules.push_back(submodule);
+                }
+            }
+        }
+    } catch (const std::filesystem::filesystem_error& e) {
+        reportError("解析子模块失败: " + std::string(e.what()));
+        return false;
+    }
+    
+    return true;
+}
+
+bool CmodManager::generateExports(const std::string& srcPath, std::vector<CmodExport>& exports) {
+    try {
+        for (const auto& entry : std::filesystem::recursive_directory_iterator(srcPath)) {
+            if (entry.is_regular_file() && entry.path().extension() == ".chtl") {
+                if (!scanChtlFile(entry.path().string(), exports)) {
+                    reportWarning("无法扫描CHTL文件: " + entry.path().string());
+                }
+            }
+        }
+    } catch (const std::filesystem::filesystem_error& e) {
+        reportError("生成导出失败: " + std::string(e.what()));
+        return false;
+    }
+    
+    return true;
+}
+
+// === CMOD打包 ===
+
+bool CmodManager::packCmod(const std::string& modulePath, const std::string& outputPath) {
+    if (!validateCmodStructure(modulePath)) {
+        return false;
+    }
+    
     SimpleZip zip;
+    
+    // 添加整个模块目录到ZIP
+    if (!addDirectoryToZip(zip, modulePath)) {
+        reportError("无法添加模块目录到ZIP: " + modulePath);
+        return false;
+    }
+    
+    // 保存ZIP文件
+    if (!zip.saveToFile(outputPath)) {
+        reportError("无法保存CMOD文件: " + outputPath);
+        return false;
+    }
+    
+    return true;
+}
+
+bool CmodManager::packCmodWithSubmodules(const std::string& modulePath, const std::string& outputPath) {
+    // 与普通打包相同，因为addDirectoryToZip会递归处理子目录
+    return packCmod(modulePath, outputPath);
+}
+
+// === CMOD解包 ===
+
+bool CmodManager::unpackCmod(const std::string& cmodFilePath, const std::string& outputDir) {
+    if (!fileExists(cmodFilePath)) {
+        reportError("CMOD文件不存在: " + cmodFilePath);
+        return false;
+    }
+    
+    if (!validateCmodFile(cmodFilePath)) {
+        return false;
+    }
+    
+    return extractZipToDirectory(cmodFilePath, outputDir);
+}
+
+bool CmodManager::validateCmodFile(const std::string& cmodFilePath) {
+    SimpleZip zip;
+    
+    if (!zip.loadFromFile(cmodFilePath)) {
+        reportError("无法加载CMOD文件: " + cmodFilePath);
+        return false;
+    }
+    
+    auto fileList = zip.getFileList();
+    
+    // 检查必需的文件结构
+    bool hasSrc = false;
+    bool hasInfo = false;
+    
+    for (const auto& file : fileList) {
+        if (file.find("/src/") != std::string::npos) {
+            hasSrc = true;
+        }
+        if (file.find("/info/") != std::string::npos && file.find(".chtl") != std::string::npos) {
+            hasInfo = true;
+        }
+    }
+    
+    if (!hasSrc || !hasInfo) {
+        reportError("CMOD文件结构不完整: " + cmodFilePath);
+        return false;
+    }
+    
+    return true;
+}
+
+// === CMOD安装和管理 ===
+
+bool CmodManager::installCmod(const std::string& cmodFilePath, const std::string& targetDir) {
+    if (!createDirectory(targetDir)) {
+        reportError("无法创建目标目录: " + targetDir);
+        return false;
+    }
+    
+    return unpackCmod(cmodFilePath, targetDir);
+}
+
+bool CmodManager::uninstallCmod(const std::string& moduleName, const std::string& moduleDir) {
+    std::string modulePath = getModuleFullPath(moduleDir, moduleName);
+    
+    if (!directoryExists(modulePath)) {
+        reportError("模块不存在: " + modulePath);
+        return false;
+    }
     
     try {
-        // 添加src目录下的所有文件
-        std::string src_path = joinPath(base_path, structure.src_dir);
-        if (directoryExists(src_path)) {
-            if (!zip.addDirectory("src", src_path)) {
-                setError("添加src目录失败: " + zip.getLastError());
-                return false;
-            }
-        }
-        
-        // 添加info目录下的所有文件
-        std::string info_path = joinPath(base_path, structure.info_dir);
-        if (directoryExists(info_path)) {
-            if (!zip.addDirectory("info", info_path)) {
-                setError("添加info目录失败: " + zip.getLastError());
-                return false;
-            }
-        }
-        
-        // 保存ZIP文件
-        if (!zip.saveToFile(output_cmod_path)) {
-            setError("保存Cmod文件失败: " + zip.getLastError());
-            return false;
-        }
-        
-        std::cout << "成功打包Cmod: " << output_cmod_path << std::endl;
+        std::filesystem::remove_all(modulePath);
         return true;
-        
-    } catch (const std::exception& e) {
-        setError("打包Cmod时发生错误: " + std::string(e.what()));
+    } catch (const std::filesystem::filesystem_error& e) {
+        reportError("无法删除模块: " + std::string(e.what()));
         return false;
     }
 }
 
-bool CmodManager::unpackCmod(const std::string& cmod_path, const std::string& output_directory) {
-    SimpleZip zip;
+std::vector<CmodInfo> CmodManager::listInstalledCmods(const std::string& moduleDir) {
+    std::vector<CmodInfo> cmods;
     
-    if (!zip.loadFromFile(cmod_path)) {
-        setError("无法加载Cmod文件: " + zip.getLastError());
-        return false;
+    if (!directoryExists(moduleDir)) {
+        return cmods;
     }
     
-    if (!zip.extractAll(output_directory)) {
-        setError("解包Cmod文件失败: " + zip.getLastError());
-        return false;
-    }
-    
-    std::cout << "成功解包Cmod到: " << output_directory << std::endl;
-    return true;
-}
-
-bool CmodManager::validateCmodStructure(const std::string& directory_path) {
-    CmodStructure structure;
-    if (!analyzeCmodStructure(directory_path, structure)) {
-        return false;
-    }
-    
-    return validateFileStructure(directory_path, structure);
-}
-
-bool CmodManager::validateCmodFile(const std::string& cmod_path) {
-    SimpleZip zip;
-    
-    if (!zip.loadFromFile(cmod_path)) {
-        setError("无法加载Cmod文件: " + zip.getLastError());
-        return false;
-    }
-    
-    auto files = zip.getFileList();
-    
-    // 检查必要的目录结构
-    bool has_src = false, has_info = false;
-    std::string main_module_name;
-    
-    for (const std::string& file : files) {
-        if (file.substr(0, 4) == "src/") {
-            has_src = true;
-            if (file.size() >= CHTL_EXTENSION.size() && 
-                file.substr(file.size() - CHTL_EXTENSION.size()) == CHTL_EXTENSION) {
-                std::string filename = getFileName(file);
-                if (main_module_name.empty()) {
-                    main_module_name = filename.substr(0, filename.length() - CHTL_EXTENSION.length());
+    try {
+        for (const auto& entry : std::filesystem::directory_iterator(moduleDir)) {
+            if (entry.is_directory()) {
+                CmodModule module;
+                if (parseCmodModule(entry.path().string(), module)) {
+                    cmods.push_back(module.info);
                 }
             }
         }
-        if (file.substr(0, 5) == "info/") {
-            has_info = true;
-        }
+    } catch (const std::filesystem::filesystem_error&) {
+        // 忽略错误，返回已找到的模块
     }
     
-    if (!has_src) {
-        setError("Cmod文件缺少src目录");
-        return false;
-    }
-    
-    if (!has_info) {
-        setError("Cmod文件缺少info目录");
-        return false;
-    }
-    
-    // 检查主模块信息文件
-    if (!main_module_name.empty()) {
-        std::string info_file = "info/" + main_module_name + CHTL_EXTENSION;
-        if (!zip.hasFile(info_file)) {
-            // 检查是否有任何info文件
-            bool found_any_info = false;
-            for (const std::string& file : files) {
-                if (file.substr(0, 5) == "info/" && 
-                    file.size() >= CHTL_EXTENSION.size() && 
-                    file.substr(file.size() - CHTL_EXTENSION.size()) == CHTL_EXTENSION) {
-                    found_any_info = true;
-                    break;
-                }
-            }
-            if (!found_any_info) {
-                setError("缺少模块信息文件");
-                return false;
-            }
-        }
-    }
-    
-    return true;
+    return cmods;
 }
 
-bool CmodManager::parseCmodInfo(const std::string& info_file_content, CmodInfo& info) {
-    std::istringstream stream(info_file_content);
-    std::string line;
-    bool in_info_section = false;
-    bool in_export_section = false;
+std::string CmodManager::findCmodModule(const std::string& moduleName) {
+    // 严格按照CHTL语法文档的Import规则搜索顺序
+    std::vector<std::string> searchPaths = {
+        "module",                    // 官方模块目录
+        "./module",                  // 当前目录module文件夹
+        "."                          // 当前目录
+    };
     
-    while (std::getline(stream, line)) {
-        // 去除前后空白
-        line.erase(0, line.find_first_not_of(" \t"));
-        line.erase(line.find_last_not_of(" \t") + 1);
+    for (const auto& searchPath : searchPaths) {
+        std::string modulePath = getModuleFullPath(searchPath, moduleName);
         
-        // 跳过空行和注释
-        if (line.empty() || (line.size() >= 2 && line.substr(0, 2) == "//")) {
-            continue;
-        }
-        
-        // 检查节标记
-        if (line == INFO_SECTION) {
-            in_info_section = true;
-            in_export_section = false;
-            continue;
+        // 优先匹配.cmod文件
+        std::string cmodPath = modulePath + ".cmod";
+        if (fileExists(cmodPath)) {
+            return cmodPath;
         }
         
-        if (line == EXPORT_SECTION) {
-            in_info_section = false;
-            in_export_section = true;
-            continue;
-        }
-        
-        // 检查节结束
-        if (line == "}") {
-            in_info_section = false;
-            in_export_section = false;
-            continue;
-        }
-        
-        // 解析信息节
-        if (in_info_section && line != "{") {
-            size_t eq_pos = line.find('=');
-            if (eq_pos != std::string::npos) {
-                std::string key = line.substr(0, eq_pos);
-                std::string value = line.substr(eq_pos + 1);
-                
-                // 去除空白和引号
-                key.erase(0, key.find_first_not_of(" \t"));
-                key.erase(key.find_last_not_of(" \t") + 1);
-                value.erase(0, value.find_first_not_of(" \t"));
-                value.erase(value.find_last_not_of(" \t") + 1);
-                
-                // 去除分号
-                if (!value.empty() && value.back() == ';') {
-                    value.pop_back();
-                    // 再次去除空白
-                    value.erase(value.find_last_not_of(" \t") + 1);
-                }
-                
-                // 去除引号
-                if (value.size() >= 2 && value.front() == '"' && value.back() == '"') {
-                    value = value.substr(1, value.length() - 2);
-                }
-                
-                // 赋值到结构体
-                if (key == "name") info.name = value;
-                else if (key == "version") info.version = value;
-                else if (key == "description") info.description = value;
-                else if (key == "author") info.author = value;
-                else if (key == "license") info.license = value;
-                else if (key == "dependencies") info.dependencies = value;
-                else if (key == "category") info.category = value;
-                else if (key == "minCHTLVersion") info.min_chtl_version = value;
-                else if (key == "maxCHTLVersion") info.max_chtl_version = value;
-            }
-        }
-        
-        // 解析导出节
-        if (in_export_section && line != "{") {
-            if (line.find("@Style") != std::string::npos) {
-                auto styles = parseExportList(line, "@Style");
-                info.exported_styles.insert(info.exported_styles.end(), styles.begin(), styles.end());
-            }
-            else if (line.find("@Element") != std::string::npos) {
-                auto elements = parseExportList(line, "@Element");
-                info.exported_elements.insert(info.exported_elements.end(), elements.begin(), elements.end());
-            }
-            else if (line.find("@Var") != std::string::npos) {
-                auto vars = parseExportList(line, "@Var");
-                info.exported_vars.insert(info.exported_vars.end(), vars.begin(), vars.end());
-            }
-        }
-    }
-    
-    // 验证必要字段
-    if (info.name.empty()) {
-        setError("Cmod信息缺少name字段");
-        return false;
-    }
-    
-    if (info.version.empty()) {
-        setError("Cmod信息缺少version字段");
-        return false;
-    }
-    
-    return true;
-}
-
-bool CmodManager::extractCmodInfo(const std::string& cmod_path, CmodInfo& info) {
-    SimpleZip zip;
-    
-    if (!zip.loadFromFile(cmod_path)) {
-        setError("无法加载Cmod文件: " + zip.getLastError());
-        return false;
-    }
-    
-    // 查找主模块信息文件
-    auto files = zip.getFileList();
-    std::string info_file;
-    
-    for (const std::string& file : files) {
-        if (file.substr(0, 5) == "info/" && 
-            file.size() >= CHTL_EXTENSION.size() && 
-            file.substr(file.size() - CHTL_EXTENSION.size()) == CHTL_EXTENSION) {
-            info_file = file;
-            break;
-        }
-    }
-    
-    if (info_file.empty()) {
-        setError("未找到模块信息文件");
-        return false;
-    }
-    
-    std::string content;
-    if (!zip.extractFile(info_file, content)) {
-        setError("无法提取模块信息文件: " + zip.getLastError());
-        return false;
-    }
-    
-    return parseCmodInfo(content, info);
-}
-
-bool CmodManager::analyzeCmodStructure(const std::string& directory_path, CmodStructure& structure) {
-    if (!directoryExists(directory_path)) {
-        setError("目录不存在: " + directory_path);
-        return false;
-    }
-    
-    // 获取目录名作为主模块名
-    structure.main_module_name = getFileName(directory_path);
-    structure.src_dir = SRC_DIR;
-    structure.info_dir = INFO_DIR;
-    structure.has_main_file = false;
-    
-    // 检查src目录
-    std::string src_path = joinPath(directory_path, SRC_DIR);
-    if (directoryExists(src_path)) {
-        auto src_files = listDirectory(src_path);
-        for (const std::string& file : src_files) {
-            std::string full_path = joinPath(src_path, file);
-            if (std::filesystem::is_regular_file(full_path) && 
-                file.size() >= CHTL_EXTENSION.size() && 
-                file.substr(file.size() - CHTL_EXTENSION.size()) == CHTL_EXTENSION) {
-                structure.source_files.push_back(file);
-                
-                // 检查是否是主模块文件
-                std::string base_name = file.substr(0, file.length() - CHTL_EXTENSION.length());
-                if (base_name == structure.main_module_name) {
-                    structure.has_main_file = true;
-                }
-            }
-            else if (std::filesystem::is_directory(full_path)) {
-                structure.submodules.push_back(file);
-            }
-        }
-    }
-    
-    // 检查info目录
-    std::string info_path = joinPath(directory_path, INFO_DIR);
-    if (!directoryExists(info_path)) {
-        setError("缺少info目录");
-        return false;
-    }
-    
-    // 检查主模块信息文件
-    std::string main_info_file = joinPath(info_path, structure.main_module_name + CHTL_EXTENSION);
-    if (!fileExists(main_info_file)) {
-        setError("缺少主模块信息文件: " + main_info_file);
-        return false;
-    }
-    
-    return true;
-}
-
-std::vector<std::string> CmodManager::getSubmodules(const std::string& cmod_path) {
-    SimpleZip zip;
-    std::vector<std::string> submodules;
-    
-    if (!zip.loadFromFile(cmod_path)) {
-        return submodules;
-    }
-    
-    auto files = zip.getFileList();
-    std::set<std::string> submodule_set;
-    
-    for (const std::string& file : files) {
-        if (file.size() > 4 && file.substr(0, 4) == "src/" && file.find('/', 4) != std::string::npos) {
-            // 提取子模块名
-            size_t start = 4; // "src/"的长度
-            size_t end = file.find('/', start);
-            if (end != std::string::npos) {
-                std::string submodule = file.substr(start, end - start);
-                submodule_set.insert(submodule);
-            }
-        }
-    }
-    
-    submodules.assign(submodule_set.begin(), submodule_set.end());
-    return submodules;
-}
-
-bool CmodManager::hasSubmodule(const std::string& cmod_path, const std::string& submodule_name) {
-    auto submodules = getSubmodules(cmod_path);
-    return std::find(submodules.begin(), submodules.end(), submodule_name) != submodules.end();
-}
-
-std::vector<std::string> CmodManager::listCmodFiles(const std::string& cmod_path) {
-    SimpleZip zip;
-    
-    if (!zip.loadFromFile(cmod_path)) {
-        return {};
-    }
-    
-    return zip.getFileList();
-}
-
-bool CmodManager::extractCmodFile(const std::string& cmod_path, const std::string& file_path, std::string& content) {
-    SimpleZip zip;
-    
-    if (!zip.loadFromFile(cmod_path)) {
-        setError("无法加载Cmod文件: " + zip.getLastError());
-        return false;
-    }
-    
-    if (!zip.extractFile(file_path, content)) {
-        setError("无法提取文件: " + zip.getLastError());
-        return false;
-    }
-    
-    return true;
-}
-
-std::string CmodManager::resolveCmodPath(const std::string& module_name, const std::vector<std::string>& search_paths) {
-    for (const std::string& search_path : search_paths) {
-        // 尝试.cmod文件
-        std::string cmod_path = joinPath(search_path, module_name + CMOD_EXTENSION);
-        if (fileExists(cmod_path)) {
-            return cmod_path;
-        }
-        
-        // 尝试.chtl文件
-        std::string chtl_path = joinPath(search_path, module_name + CHTL_EXTENSION);
-        if (fileExists(chtl_path)) {
-            return chtl_path;
-        }
-        
-        // 尝试目录
-        std::string dir_path = joinPath(search_path, module_name);
-        if (directoryExists(dir_path)) {
-            return dir_path;
+        // 然后匹配目录
+        if (directoryExists(modulePath) && validateCmodStructure(modulePath)) {
+            return modulePath;
         }
     }
     
     return "";
 }
 
-std::string CmodManager::resolveSubmodulePath(const std::string& main_module, const std::string& submodule) {
-    auto [module_name, sub_name] = CmodUtils::parseModuleName(main_module + "." + submodule);
-    return resolveCmodPath(module_name, search_paths_);
-}
+// === 版本兼容性 ===
 
-std::vector<std::string> CmodManager::parseDependencies(const std::string& dependencies_str) {
-    std::vector<std::string> dependencies;
-    
-    if (dependencies_str.empty()) {
-        return dependencies;
+bool CmodManager::checkVersionCompatibility(const CmodInfo& info, const std::string& currentVersion) {
+    if (info.minCHTLVersion.empty() && info.maxCHTLVersion.empty()) {
+        return true; // 没有版本限制
     }
     
-    std::istringstream stream(dependencies_str);
-    std::string dependency;
+    Version current(currentVersion);
     
-    while (std::getline(stream, dependency, ',')) {
+    if (!info.minCHTLVersion.empty()) {
+        Version minVersion(info.minCHTLVersion);
+        if (current < minVersion) {
+            return false;
+        }
+    }
+    
+    if (!info.maxCHTLVersion.empty()) {
+        Version maxVersion(info.maxCHTLVersion);
+        if (current > maxVersion) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+CmodManager::Version CmodManager::parseVersion(const std::string& versionStr) {
+    return Version(versionStr);
+}
+
+// === 依赖管理 ===
+
+std::vector<std::string> CmodManager::parseDependencies(const std::string& dependencies) {
+    std::vector<std::string> deps;
+    
+    if (dependencies.empty()) {
+        return deps;
+    }
+    
+    std::stringstream ss(dependencies);
+    std::string dep;
+    
+    while (std::getline(ss, dep, ',')) {
         // 去除前后空白
-        dependency.erase(0, dependency.find_first_not_of(" \t"));
-        dependency.erase(dependency.find_last_not_of(" \t") + 1);
+        dep.erase(0, dep.find_first_not_of(" \t"));
+        dep.erase(dep.find_last_not_of(" \t") + 1);
         
-        if (!dependency.empty()) {
-            dependencies.push_back(dependency);
+        if (!dep.empty()) {
+            deps.push_back(dep);
         }
     }
     
-    return dependencies;
+    return deps;
 }
 
-bool CmodManager::checkDependencies(const CmodInfo& info, const std::vector<std::string>& available_modules) {
-    auto dependencies = parseDependencies(info.dependencies);
+bool CmodManager::checkDependencies(const CmodInfo& info, const std::string& moduleDir) {
+    auto deps = parseDependencies(info.dependencies);
     
-    for (const std::string& dependency : dependencies) {
-        if (std::find(available_modules.begin(), available_modules.end(), dependency) == available_modules.end()) {
-            setError("缺少依赖模块: " + dependency);
+    for (const auto& dep : deps) {
+        std::string depPath = findCmodModule(dep);
+        if (depPath.empty()) {
+            reportError("缺少依赖模块: " + dep);
             return false;
         }
     }
@@ -482,492 +538,291 @@ bool CmodManager::checkDependencies(const CmodInfo& info, const std::vector<std:
     return true;
 }
 
-bool CmodManager::isVersionCompatible(const std::string& required_version, const std::string& available_version) {
-    return CmodUtils::compareVersions(available_version, required_version) >= 0;
-}
-
-bool CmodManager::isCHTLVersionCompatible(const std::string& min_version, const std::string& max_version, 
-                                         const std::string& current_version) {
-    if (!min_version.empty()) {
-        if (CmodUtils::compareVersions(current_version, min_version) < 0) {
+bool CmodManager::installDependencies(const CmodInfo& info, const std::string& moduleDir) {
+    auto deps = parseDependencies(info.dependencies);
+    
+    for (const auto& dep : deps) {
+        std::string depPath = findCmodModule(dep);
+        if (depPath.empty()) {
+            reportError("无法找到依赖模块进行安装: " + dep);
             return false;
         }
-    }
-    
-    if (!max_version.empty()) {
-        if (CmodUtils::compareVersions(current_version, max_version) > 0) {
-            return false;
-        }
-    }
-    
-    return true;
-}
-
-void CmodManager::addSearchPath(const std::string& path) {
-    if (std::find(search_paths_.begin(), search_paths_.end(), path) == search_paths_.end()) {
-        search_paths_.push_back(path);
-    }
-}
-
-void CmodManager::removeSearchPath(const std::string& path) {
-    search_paths_.erase(
-        std::remove(search_paths_.begin(), search_paths_.end(), path),
-        search_paths_.end()
-    );
-}
-
-void CmodManager::clearCache() {
-    info_cache_.clear();
-}
-
-bool CmodManager::isCached(const std::string& cmod_path) {
-    return info_cache_.find(cmod_path) != info_cache_.end();
-}
-
-// 私有方法实现
-bool CmodManager::validateCmodName(const std::string& name) {
-    if (name.empty()) return false;
-    
-    // 检查字符是否合法
-    for (char c : name) {
-        if (!std::isalnum(c) && c != '_' && c != '-') {
-            return false;
+        
+        // 如果依赖是.cmod文件，需要安装
+        if (depPath.find(".cmod") != std::string::npos) {
+            if (!installCmod(depPath, moduleDir)) {
+                reportError("无法安装依赖模块: " + dep);
+                return false;
+            }
         }
     }
     
     return true;
 }
 
-bool CmodManager::validateCmodVersion(const std::string& version) {
-    // 简单的版本号验证 (x.y.z格式)
-    std::regex version_regex(R"(\d+\.\d+\.\d+)");
-    return std::regex_match(version, version_regex);
+// === 实用工具 ===
+
+std::string CmodManager::getModuleFullPath(const std::string& moduleDir, const std::string& moduleName) {
+    return joinPath(moduleDir, moduleName);
 }
 
-bool CmodManager::validateFileStructure(const std::string& base_path, const CmodStructure& structure) {
-    // 验证主模块名
-    if (!validateCmodName(structure.main_module_name)) {
-        setError("无效的模块名: " + structure.main_module_name);
-        return false;
-    }
-    
-    // 验证src目录
-    std::string src_path = joinPath(base_path, structure.src_dir);
-    if (!directoryExists(src_path)) {
-        setError("缺少src目录");
-        return false;
-    }
-    
-    // 验证info目录
-    std::string info_path = joinPath(base_path, structure.info_dir);
-    if (!directoryExists(info_path)) {
-        setError("缺少info目录");
-        return false;
-    }
-    
-    // 验证主模块信息文件
-    std::string main_info_file = joinPath(info_path, structure.main_module_name + CHTL_EXTENSION);
-    if (!fileExists(main_info_file)) {
-        setError("缺少主模块信息文件");
-        return false;
-    }
-    
-    // 验证信息文件内容
-    std::string content;
-    if (!readFileContent(main_info_file, content)) {
-        setError("无法读取主模块信息文件");
-        return false;
-    }
-    
-    CmodInfo info;
-    if (!parseCmodInfo(content, info)) {
-        return false;
-    }
-    
-    return true;
+bool CmodManager::fileExists(const std::string& filePath) {
+    return std::filesystem::exists(filePath) && std::filesystem::is_regular_file(filePath);
 }
 
-// 文件系统操作实现
-bool CmodManager::directoryExists(const std::string& path) {
-    return std::filesystem::exists(path) && std::filesystem::is_directory(path);
+bool CmodManager::directoryExists(const std::string& dirPath) {
+    return std::filesystem::exists(dirPath) && std::filesystem::is_directory(dirPath);
 }
 
-bool CmodManager::fileExists(const std::string& path) {
-    return std::filesystem::exists(path) && std::filesystem::is_regular_file(path);
-}
-
-std::vector<std::string> CmodManager::listDirectory(const std::string& path) {
-    std::vector<std::string> files;
-    
+bool CmodManager::createDirectory(const std::string& dirPath) {
     try {
-        for (const auto& entry : std::filesystem::directory_iterator(path)) {
-            files.push_back(entry.path().filename().string());
-        }
-    } catch (const std::exception&) {
-        // 忽略错误
+        return std::filesystem::create_directories(dirPath);
+    } catch (const std::filesystem::filesystem_error&) {
+        return false;
     }
-    
-    return files;
 }
 
-bool CmodManager::readFileContent(const std::string& file_path, std::string& content) {
-    std::ifstream file(file_path);
+std::string CmodManager::getCurrentCHTLVersion() {
+    return "1.0.0"; // 硬编码版本，实际应该从编译器获取
+}
+
+// === 私有辅助方法 ===
+
+void CmodManager::reportError(const std::string& message, const std::string& context) {
+    std::string fullMessage = message;
+    if (!context.empty()) {
+        fullMessage += " (" + context + ")";
+    }
+    
+    errors_.push_back(fullMessage);
+    
+    if (errorHandler_) {
+        errorHandler_->reportError(common::ErrorLevel::ERROR, common::ErrorType::MODULE, 
+                                 fullMessage, context);
+    }
+}
+
+void CmodManager::reportWarning(const std::string& message, const std::string& context) {
+    if (errorHandler_) {
+        errorHandler_->reportError(common::ErrorLevel::WARNING, common::ErrorType::MODULE, 
+                                 message, context);
+    }
+}
+
+bool CmodManager::readFileContent(const std::string& filePath, std::string& content) {
+    std::ifstream file(filePath);
     if (!file.is_open()) {
         return false;
     }
     
-    std::ostringstream stream;
-    stream << file.rdbuf();
-    content = stream.str();
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    content = buffer.str();
     
     return true;
 }
 
-// 路径处理实现
+bool CmodManager::writeFileContent(const std::string& filePath, const std::string& content) {
+    std::ofstream file(filePath);
+    if (!file.is_open()) {
+        return false;
+    }
+    
+    file << content;
+    return true;
+}
+
+std::string CmodManager::normalizePath(const std::string& path) {
+    std::string normalized = path;
+    std::replace(normalized.begin(), normalized.end(), '\\', '/');
+    return normalized;
+}
+
 std::string CmodManager::joinPath(const std::string& base, const std::string& relative) {
-    std::filesystem::path result = std::filesystem::path(base) / relative;
-    return result.string();
-}
-
-std::string CmodManager::getFileName(const std::string& path) {
-    return std::filesystem::path(path).filename().string();
-}
-
-std::string CmodManager::getFileExtension(const std::string& path) {
-    return std::filesystem::path(path).extension().string();
-}
-
-std::string CmodManager::getDirectoryName(const std::string& path) {
-    return std::filesystem::path(path).parent_path().string();
-}
-
-// 解析辅助实现
-std::string CmodManager::extractInfoValue(const std::string& content, const std::string& key) {
-    // 简化实现：查找key = "value"的模式
-    size_t key_pos = content.find(key);
-    if (key_pos == std::string::npos) return "";
-    
-    size_t eq_pos = content.find('=', key_pos);
-    if (eq_pos == std::string::npos) return "";
-    
-    size_t quote1 = content.find('"', eq_pos);
-    if (quote1 == std::string::npos) return "";
-    
-    size_t quote2 = content.find('"', quote1 + 1);
-    if (quote2 == std::string::npos) return "";
-    
-    return content.substr(quote1 + 1, quote2 - quote1 - 1);
-}
-
-std::vector<std::string> CmodManager::parseExportList(const std::string& content, const std::string& type) {
-    std::vector<std::string> result;
-    
-    // 查找类型标记后的符号列表
-    size_t type_pos = content.find(type);
-    if (type_pos == std::string::npos) {
-        return result;
+    std::string result = normalizePath(base);
+    if (!result.empty() && result.back() != '/') {
+        result += '/';
     }
-    
-    // 提取符号列表部分
-    std::string symbols_part = content.substr(type_pos + type.length());
-    
-    // 去除分号
-    size_t semicolon_pos = symbols_part.find(';');
-    if (semicolon_pos != std::string::npos) {
-        symbols_part = symbols_part.substr(0, semicolon_pos);
-    }
-    
-    // 分割符号
-    std::istringstream stream(symbols_part);
-    std::string symbol;
-    
-    while (std::getline(stream, symbol, ',')) {
-        // 去除前后空白
-        symbol.erase(0, symbol.find_first_not_of(" \t"));
-        symbol.erase(symbol.find_last_not_of(" \t") + 1);
-        
-        if (!symbol.empty()) {
-            result.push_back(symbol);
-        }
-    }
-    
+    result += normalizePath(relative);
     return result;
 }
 
-void CmodManager::setError(const std::string& error) {
-    last_error_ = error;
-    std::cerr << "CmodManager错误: " << error << std::endl;
+std::string CmodManager::getFileName(const std::string& filePath) {
+    std::filesystem::path path(filePath);
+    return path.filename().string();
 }
 
-// 自动导出分析实现
-CmodInfo CmodManager::analyzeSourceFiles(const std::string& base_path, const CmodStructure& structure) {
-    CmodInfo info;
+std::string CmodManager::getFileBaseName(const std::string& filePath) {
+    std::filesystem::path path(filePath);
+    return path.stem().string();
+}
+
+std::string CmodManager::getDirectoryName(const std::string& filePath) {
+    std::filesystem::path path(filePath);
+    return path.parent_path().string();
+}
+
+bool CmodManager::parseInfoSection(const std::string& content, CmodInfo& info) {
+    // 严格按照CHTL语法文档解析[Info]部分
+    std::regex infoRegex(R"(\[Info\]\s*\{([^}]*)\})");
+    std::smatch matches;
     
-    // 分析主模块文件
-    std::string src_path = joinPath(base_path, structure.src_dir);
-    for (const std::string& source_file : structure.source_files) {
-        std::string file_path = joinPath(src_path, source_file);
-        std::string content;
-        if (readFileContent(file_path, content)) {
-            // 提取各种类型的符号
-            auto styles = extractSymbolsFromChtlFile(content, "@Style");
-            auto elements = extractSymbolsFromChtlFile(content, "@Element");
-            auto vars = extractSymbolsFromChtlFile(content, "@Var");
+    if (!std::regex_search(content, matches, infoRegex)) {
+        return false;
+    }
+    
+    std::string infoContent = matches[1].str();
+    
+    // 解析各个字段
+    std::regex fieldRegex(R"((\w+)\s*=\s*"([^"]*)";?)");
+    std::sregex_iterator iter(infoContent.begin(), infoContent.end(), fieldRegex);
+    std::sregex_iterator end;
+    
+    for (; iter != end; ++iter) {
+        std::string key = (*iter)[1].str();
+        std::string value = (*iter)[2].str();
+        
+        if (key == "name") info.name = value;
+        else if (key == "version") info.version = value;
+        else if (key == "description") info.description = value;
+        else if (key == "author") info.author = value;
+        else if (key == "license") info.license = value;
+        else if (key == "dependencies") info.dependencies = value;
+        else if (key == "category") info.category = value;
+        else if (key == "minCHTLVersion") info.minCHTLVersion = value;
+        else if (key == "maxCHTLVersion") info.maxCHTLVersion = value;
+    }
+    
+    return true;
+}
+
+bool CmodManager::parseExportSection(const std::string& content, std::vector<CmodExport>& exports) {
+    // 严格按照CHTL语法文档解析[Export]部分
+    std::regex exportRegex(R"(\[Export\]\s*\{([^}]*)\})");
+    std::smatch matches;
+    
+    if (!std::regex_search(content, matches, exportRegex)) {
+        return false; // [Export]部分可能不存在
+    }
+    
+    std::string exportContent = matches[1].str();
+    
+    // 解析导出行：[Custom] @Style ChthollyStyle, ChthollyCard, ChthollyButton;
+    std::regex lineRegex(R"(\[(\w+)\]\s*@(\w+)\s+([^;]+);)");
+    std::sregex_iterator iter(exportContent.begin(), exportContent.end(), lineRegex);
+    std::sregex_iterator end;
+    
+    for (; iter != end; ++iter) {
+        std::string type = (*iter)[1].str();
+        std::string subType = (*iter)[2].str();
+        std::string symbolsStr = (*iter)[3].str();
+        
+        // 解析符号列表
+        std::vector<std::string> symbols;
+        std::stringstream ss(symbolsStr);
+        std::string symbol;
+        
+        while (std::getline(ss, symbol, ',')) {
+            // 去除前后空白
+            symbol.erase(0, symbol.find_first_not_of(" \t\n"));
+            symbol.erase(symbol.find_last_not_of(" \t\n") + 1);
             
-            info.exported_styles.insert(info.exported_styles.end(), styles.begin(), styles.end());
-            info.exported_elements.insert(info.exported_elements.end(), elements.begin(), elements.end());
-            info.exported_vars.insert(info.exported_vars.end(), vars.begin(), vars.end());
+            if (!symbol.empty()) {
+                symbols.push_back(symbol);
+            }
+        }
+        
+        if (!symbols.empty()) {
+            exports.emplace_back(type, subType, symbols);
         }
     }
     
-    // 分析子模块文件
-    for (const std::string& submodule : structure.submodules) {
-        std::string submodule_src_path = joinPath(joinPath(src_path, submodule), "src");
-        if (directoryExists(submodule_src_path)) {
-            auto submodule_files = listDirectory(submodule_src_path);
-            for (const std::string& file : submodule_files) {
-                if (file.size() >= CHTL_EXTENSION.size() && 
-                    file.substr(file.size() - CHTL_EXTENSION.size()) == CHTL_EXTENSION) {
-                    std::string file_path = joinPath(submodule_src_path, file);
-                    std::string content;
-                    if (readFileContent(file_path, content)) {
-                        auto styles = extractSymbolsFromChtlFile(content, "@Style");
-                        auto elements = extractSymbolsFromChtlFile(content, "@Element");
-                        auto vars = extractSymbolsFromChtlFile(content, "@Var");
-                        
-                        info.exported_styles.insert(info.exported_styles.end(), styles.begin(), styles.end());
-                        info.exported_elements.insert(info.exported_elements.end(), elements.begin(), elements.end());
-                        info.exported_vars.insert(info.exported_vars.end(), vars.begin(), vars.end());
-                    }
+    return true;
+}
+
+bool CmodManager::scanChtlFile(const std::string& filePath, std::vector<CmodExport>& exports) {
+    std::string content;
+    if (!readFileContent(filePath, content)) {
+        return false;
+    }
+    
+    return extractSymbolsFromChtl(content, exports);
+}
+
+bool CmodManager::extractSymbolsFromChtl(const std::string& content, std::vector<CmodExport>& exports) {
+    // 简化的符号提取，实际应该使用完整的CHTL解析器
+    
+    // 提取[Custom] @Element
+    std::regex customElementRegex(R"(\[Custom\]\s*@Element\s+(\w+))");
+    std::sregex_iterator iter(content.begin(), content.end(), customElementRegex);
+    std::sregex_iterator end;
+    
+    std::vector<std::string> customElements;
+    for (; iter != end; ++iter) {
+        customElements.push_back((*iter)[1].str());
+    }
+    
+    if (!customElements.empty()) {
+        exports.emplace_back("Custom", "Element", customElements);
+    }
+    
+    // 类似地提取其他符号类型...
+    // 这里简化处理，实际需要完整实现
+    
+    return true;
+}
+
+bool CmodManager::addDirectoryToZip(SimpleZip& zip, const std::string& dirPath, const std::string& zipPrefix) {
+    try {
+        for (const auto& entry : std::filesystem::recursive_directory_iterator(dirPath)) {
+            if (entry.is_regular_file()) {
+                std::string relativePath = std::filesystem::relative(entry.path(), dirPath).string();
+                std::string zipPath = zipPrefix.empty() ? relativePath : zipPrefix + "/" + relativePath;
+                
+                if (!zip.addFileFromPath(zipPath, entry.path().string())) {
+                    return false;
                 }
             }
         }
-    }
-    
-    // 去重
-    std::sort(info.exported_styles.begin(), info.exported_styles.end());
-    info.exported_styles.erase(std::unique(info.exported_styles.begin(), info.exported_styles.end()), info.exported_styles.end());
-    
-    std::sort(info.exported_elements.begin(), info.exported_elements.end());
-    info.exported_elements.erase(std::unique(info.exported_elements.begin(), info.exported_elements.end()), info.exported_elements.end());
-    
-    std::sort(info.exported_vars.begin(), info.exported_vars.end());
-    info.exported_vars.erase(std::unique(info.exported_vars.begin(), info.exported_vars.end()), info.exported_vars.end());
-    
-    return info;
-}
-
-std::vector<std::string> CmodManager::extractSymbolsFromChtlFile(const std::string& file_content, const std::string& symbol_type) {
-    std::vector<std::string> symbols;
-    
-    // 查找模板和自定义定义
-    std::string template_pattern = "[Template] " + symbol_type + " ";
-    std::string custom_pattern = "[Custom] " + symbol_type + " ";
-    
-    std::istringstream stream(file_content);
-    std::string line;
-    
-    while (std::getline(stream, line)) {
-        // 去除前后空白
-        line.erase(0, line.find_first_not_of(" \t"));
-        line.erase(line.find_last_not_of(" \t") + 1);
-        
-        // 跳过注释
-        if (line.empty() || (line.size() >= 2 && line.substr(0, 2) == "//")) {
-            continue;
-        }
-        
-        // 检查模板定义
-        if (line.find(template_pattern) == 0) {
-            std::string symbol_name = line.substr(template_pattern.length());
-            // 去除可能的花括号
-            size_t brace_pos = symbol_name.find('{');
-            if (brace_pos != std::string::npos) {
-                symbol_name = symbol_name.substr(0, brace_pos);
-            }
-            // 去除空白
-            symbol_name.erase(0, symbol_name.find_first_not_of(" \t"));
-            symbol_name.erase(symbol_name.find_last_not_of(" \t") + 1);
-            
-            if (!symbol_name.empty()) {
-                symbols.push_back(symbol_name);
-            }
-        }
-        
-        // 检查自定义定义
-        if (line.find(custom_pattern) == 0) {
-            std::string symbol_name = line.substr(custom_pattern.length());
-            // 去除可能的花括号
-            size_t brace_pos = symbol_name.find('{');
-            if (brace_pos != std::string::npos) {
-                symbol_name = symbol_name.substr(0, brace_pos);
-            }
-            // 去除空白
-            symbol_name.erase(0, symbol_name.find_first_not_of(" \t"));
-            symbol_name.erase(symbol_name.find_last_not_of(" \t") + 1);
-            
-            if (!symbol_name.empty()) {
-                symbols.push_back(symbol_name);
-            }
-        }
-    }
-    
-    return symbols;
-}
-
-bool CmodManager::generateExportSection(const CmodInfo& info, std::string& export_content) {
-    std::ostringstream oss;
-    
-    oss << "\n[Export]\n{\n";
-    
-    // 生成样式导出
-    if (!info.exported_styles.empty()) {
-        oss << "    @Style ";
-        for (size_t i = 0; i < info.exported_styles.size(); ++i) {
-            if (i > 0) oss << ", ";
-            oss << info.exported_styles[i];
-        }
-        oss << ";\n";
-    }
-    
-    // 生成元素导出
-    if (!info.exported_elements.empty()) {
-        oss << "    @Element ";
-        for (size_t i = 0; i < info.exported_elements.size(); ++i) {
-            if (i > 0) oss << ", ";
-            oss << info.exported_elements[i];
-        }
-        oss << ";\n";
-    }
-    
-    // 生成变量导出
-    if (!info.exported_vars.empty()) {
-        oss << "    @Var ";
-        for (size_t i = 0; i < info.exported_vars.size(); ++i) {
-            if (i > 0) oss << ", ";
-            oss << info.exported_vars[i];
-        }
-        oss << ";\n";
-    }
-    
-    oss << "}\n";
-    
-    export_content = oss.str();
-    return true;
-}
-
-bool CmodManager::updateInfoFileWithExports(const std::string& info_file_path, const CmodInfo& analyzed_info) {
-    std::string original_content;
-    if (!readFileContent(info_file_path, original_content)) {
-        setError("无法读取信息文件: " + info_file_path);
+    } catch (const std::filesystem::filesystem_error&) {
         return false;
     }
-    
-    // 检查是否已经存在Export节
-    if (original_content.find("[Export]") != std::string::npos) {
-        // 已存在Export节，不自动更新（允许手动控制）
-        return true;
-    }
-    
-    // 生成Export节
-    std::string export_section;
-    if (!generateExportSection(analyzed_info, export_section)) {
-        return false;
-    }
-    
-    // 将Export节添加到文件末尾
-    std::string updated_content = original_content + export_section;
-    
-    // 写回文件
-    std::ofstream file(info_file_path);
-    if (!file.is_open()) {
-        setError("无法写入信息文件: " + info_file_path);
-        return false;
-    }
-    
-    file << updated_content;
-    file.close();
     
     return true;
 }
 
-// CmodUtils命名空间实现
-namespace CmodUtils {
-
-std::vector<std::string> getStandardSearchPaths() {
-    std::vector<std::string> paths;
+bool CmodManager::extractZipToDirectory(const std::string& zipPath, const std::string& outputDir) {
+    SimpleZip zip;
     
-    // 添加官方模块路径
-    paths.push_back(getOfficialModulePath());
-    
-    // 添加本地模块路径
-    paths.push_back(getLocalModulePath());
-    
-    // 添加当前目录
-    paths.push_back(".");
-    
-    return paths;
-}
-
-std::string getOfficialModulePath() {
-    // 官方模块路径通常在编译器安装目录下的modules文件夹
-    return "modules";
-}
-
-std::string getLocalModulePath(const std::string& base_path) {
-    return base_path + "/modules";
-}
-
-std::pair<std::string, std::string> parseModuleName(const std::string& full_name) {
-    size_t dot_pos = full_name.find('.');
-    if (dot_pos == std::string::npos) {
-        return {full_name, ""};
+    if (!zip.loadFromFile(zipPath)) {
+        return false;
     }
     
-    return {full_name.substr(0, dot_pos), full_name.substr(dot_pos + 1)};
+    return zip.extractAll(outputDir);
 }
 
-int compareVersions(const std::string& version1, const std::string& version2) {
-    std::vector<int> v1_parts, v2_parts;
-    
-    // 解析版本1
-    std::istringstream stream1(version1);
-    std::string part;
-    while (std::getline(stream1, part, '.')) {
-        v1_parts.push_back(std::stoi(part));
+bool CmodManager::isValidModuleName(const std::string& name) {
+    if (name.empty()) {
+        return false;
     }
     
-    // 解析版本2
-    std::istringstream stream2(version2);
-    while (std::getline(stream2, part, '.')) {
-        v2_parts.push_back(std::stoi(part));
-    }
-    
-    // 比较版本号
-    size_t max_parts = std::max(v1_parts.size(), v2_parts.size());
-    
-    for (size_t i = 0; i < max_parts; ++i) {
-        int v1_part = (i < v1_parts.size()) ? v1_parts[i] : 0;
-        int v2_part = (i < v2_parts.size()) ? v2_parts[i] : 0;
-        
-        if (v1_part < v2_part) return -1;
-        if (v1_part > v2_part) return 1;
-    }
-    
-    return 0;
+    // 模块名只能包含字母、数字、下划线
+    std::regex nameRegex(R"(^[a-zA-Z_][a-zA-Z0-9_]*$)");
+    return std::regex_match(name, nameRegex);
 }
 
-bool matchesPattern(const std::string& path, const std::string& pattern) {
-    // 简单的通配符匹配实现
-    if (pattern == "*") return true;
-    if (pattern.size() >= 2 && pattern.substr(pattern.size() - 2) == "/*") {
-        std::string prefix = pattern.substr(0, pattern.length() - 2);
-        return path.size() >= prefix.size() && path.substr(0, prefix.size()) == prefix;
-    }
-    
-    return path == pattern;
+bool CmodManager::isValidVersion(const std::string& version) {
+    std::regex versionRegex(R"(^\d+\.\d+\.\d+$)");
+    return std::regex_match(version, versionRegex);
 }
 
-} // namespace CmodUtils
+bool CmodManager::hasRequiredInfoFields(const CmodInfo& info) {
+    // 严格按照CHTL语法文档检查必需字段
+    return !info.name.empty() && 
+           !info.version.empty() && 
+           isValidModuleName(info.name) && 
+           isValidVersion(info.version);
+}
 
+} // namespace module
 } // namespace chtl
