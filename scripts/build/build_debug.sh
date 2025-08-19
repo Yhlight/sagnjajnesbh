@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # CHTL Compiler Debug Build Script
-# Cross-platform shell script for building CHTL compiler in debug mode
+# Standard CMake-based build for Unix-like systems
 
 set -e
 
@@ -43,93 +43,111 @@ print_status "Checking build dependencies..."
 
 if ! command -v cmake &> /dev/null; then
     print_error "CMake is not installed or not in PATH"
+    print_status "Please install CMake from: https://cmake.org/download/"
     exit 1
 fi
 
-if ! command -v make &> /dev/null && ! command -v ninja &> /dev/null; then
-    print_error "Neither Make nor Ninja build system found"
+print_success "CMake found: $(cmake --version | head -1)"
+
+# Check for C++ compiler
+COMPILER_FOUND=false
+COMPILER_TYPE=""
+
+if command -v g++ &> /dev/null; then
+    print_success "Found G++: $(g++ --version | head -1)"
+    COMPILER_FOUND=true
+    COMPILER_TYPE="GCC"
+fi
+
+if command -v clang++ &> /dev/null; then
+    print_success "Found Clang++: $(clang++ --version | head -1)"
+    COMPILER_FOUND=true
+    COMPILER_TYPE="Clang"
+fi
+
+if [ "$COMPILER_FOUND" = false ]; then
+    print_error "No C++ compiler found"
+    print_status "Please install one of the following:"
+    print_status "1. GCC (g++)"
+    print_status "2. Clang (clang++)"
+    print_status "3. On Ubuntu: sudo apt install build-essential"
+    print_status "4. On macOS: xcode-select --install"
     exit 1
 fi
 
-print_success "Build dependencies verified"
-
-# Detect build system
-BUILD_SYSTEM="make"
-if command -v ninja &> /dev/null; then
-    BUILD_SYSTEM="ninja"
-    CMAKE_GENERATOR="-G Ninja"
-else
-    CMAKE_GENERATOR=""
-fi
-
-print_status "Using build system: $BUILD_SYSTEM"
+print_success "Using $COMPILER_TYPE compiler"
 
 # Create build directory
 BUILD_DIR="$PROJECT_ROOT/build-debug"
 print_status "Creating build directory: $BUILD_DIR"
 
 if [ -d "$BUILD_DIR" ]; then
-    print_warning "Debug build directory exists, cleaning..."
+    print_status "Cleaning existing build directory..."
     rm -rf "$BUILD_DIR"
 fi
 
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 
-# Configure CMake for debug build
-print_status "Configuring CMake for debug build..."
+# Configure with CMake (let CMake detect the best generator)
+print_status "Configuring with CMake..."
 
-cmake $CMAKE_GENERATOR \
-    -DCMAKE_BUILD_TYPE=Debug \
-    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-    -DBUILD_TESTING=ON \
-    -DENABLE_DEBUG_SYMBOLS=ON \
-    -DENABLE_SANITIZERS=OFF \
-    "$PROJECT_ROOT"
+cmake -DCMAKE_BUILD_TYPE=Debug \
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+      "$PROJECT_ROOT"
 
 if [ $? -ne 0 ]; then
     print_error "CMake configuration failed"
+    print_status "This might be due to missing dependencies or compiler issues"
+    print_status "Check the error messages above for details"
     exit 1
 fi
 
 print_success "CMake configuration completed"
 
-# Build the project
+# Build the project using CMake (universal approach)
 print_status "Building CHTL compiler in debug mode..."
 
-if [ "$BUILD_SYSTEM" = "ninja" ]; then
-    ninja -j$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
-else
-    make -j$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
-fi
+cmake --build . --parallel $(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
 
 if [ $? -ne 0 ]; then
     print_error "Build failed"
+    print_status "Check the error messages above for details"
     exit 1
 fi
 
 print_success "CHTL compiler debug build completed successfully"
 
-# Check if executables were created
+# Find and verify executables
 print_status "Verifying build output..."
 
-EXECUTABLES=("chtl_compiler" "chtl_test")
-for exe in "${EXECUTABLES[@]}"; do
-    if [ -f "$BUILD_DIR/$exe" ] || [ -f "$BUILD_DIR/src/$exe" ]; then
-        print_success "Found executable: $exe"
-    else
-        print_warning "Executable not found: $exe"
+EXE_FOUND=false
+for exe in "chtl_compiler" "chtl"; do
+    if find . -name "$exe" -type f | head -1 | grep -q .; then
+        EXE_PATH=$(find . -name "$exe" -type f | head -1)
+        print_success "Found executable: $EXE_PATH"
+        EXE_FOUND=true
     fi
 done
 
-# Copy compile_commands.json to project root for IDE support
-if [ -f "$BUILD_DIR/compile_commands.json" ]; then
-    cp "$BUILD_DIR/compile_commands.json" "$PROJECT_ROOT/"
-    print_success "Copied compile_commands.json for IDE support"
+if [ "$EXE_FOUND" = false ]; then
+    print_warning "Executables not found in expected locations"
+    print_status "Searching for any CHTL executables..."
+    find . -name "chtl*" -type f -executable | while read exe; do
+        print_status "Found: $exe"
+        EXE_FOUND=true
+    done
+fi
+
+# Copy compile_commands.json for VSCode IntelliSense
+if [ -f "compile_commands.json" ]; then
+    cp "compile_commands.json" "$PROJECT_ROOT/"
+    print_success "Copied compile_commands.json for VSCode IntelliSense"
 fi
 
 print_success "Debug build process completed"
 print_status "Build artifacts are in: $BUILD_DIR"
-print_status "To run tests: cd $BUILD_DIR && ctest"
+print_status "For VSCode: Open the project folder and use CMake extension"
+print_status "To test: cd $BUILD_DIR && ctest"
 
 exit 0

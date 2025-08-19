@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # CHTL Compiler Release Build Script
-# Cross-platform shell script for building CHTL compiler in release mode
+# Standard CMake-based build for Unix-like systems
 
 set -e
 
@@ -43,112 +43,103 @@ print_status "Checking build dependencies..."
 
 if ! command -v cmake &> /dev/null; then
     print_error "CMake is not installed or not in PATH"
+    print_status "Please install CMake from: https://cmake.org/download/"
     exit 1
 fi
 
-if ! command -v make &> /dev/null && ! command -v ninja &> /dev/null; then
-    print_error "Neither Make nor Ninja build system found"
+print_success "CMake found: $(cmake --version | head -1)"
+
+# Check for C++ compiler
+COMPILER_FOUND=false
+COMPILER_TYPE=""
+
+if command -v g++ &> /dev/null; then
+    print_success "Found G++: $(g++ --version | head -1)"
+    COMPILER_FOUND=true
+    COMPILER_TYPE="GCC"
+fi
+
+if command -v clang++ &> /dev/null; then
+    print_success "Found Clang++: $(clang++ --version | head -1)"
+    COMPILER_FOUND=true
+    COMPILER_TYPE="Clang"
+fi
+
+if [ "$COMPILER_FOUND" = false ]; then
+    print_error "No C++ compiler found"
+    print_status "Please install one of the following:"
+    print_status "1. GCC (g++)"
+    print_status "2. Clang (clang++)"
+    print_status "3. On Ubuntu: sudo apt install build-essential"
+    print_status "4. On macOS: xcode-select --install"
     exit 1
 fi
 
-print_success "Build dependencies verified"
-
-# Detect build system
-BUILD_SYSTEM="make"
-if command -v ninja &> /dev/null; then
-    BUILD_SYSTEM="ninja"
-    CMAKE_GENERATOR="-G Ninja"
-else
-    CMAKE_GENERATOR=""
-fi
-
-print_status "Using build system: $BUILD_SYSTEM"
+print_success "Using $COMPILER_TYPE compiler"
 
 # Create build directory
 BUILD_DIR="$PROJECT_ROOT/build-release"
 print_status "Creating build directory: $BUILD_DIR"
 
 if [ -d "$BUILD_DIR" ]; then
-    print_warning "Release build directory exists, cleaning..."
+    print_status "Cleaning existing build directory..."
     rm -rf "$BUILD_DIR"
 fi
 
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 
-# Configure CMake for release build
-print_status "Configuring CMake for release build..."
+# Configure with CMake (let CMake detect the best generator)
+print_status "Configuring with CMake..."
 
-cmake $CMAKE_GENERATOR \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-    -DBUILD_TESTING=OFF \
-    -DENABLE_DEBUG_SYMBOLS=OFF \
-    -DENABLE_OPTIMIZATIONS=ON \
-    -DENABLE_LTO=ON \
-    -DSTRIP_SYMBOLS=ON \
-    "$PROJECT_ROOT"
+cmake -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+      "$PROJECT_ROOT"
 
 if [ $? -ne 0 ]; then
     print_error "CMake configuration failed"
+    print_status "This might be due to missing dependencies or compiler issues"
+    print_status "Check the error messages above for details"
     exit 1
 fi
 
 print_success "CMake configuration completed"
 
-# Build the project
+# Build the project using CMake (universal approach)
 print_status "Building CHTL compiler in release mode..."
 
-if [ "$BUILD_SYSTEM" = "ninja" ]; then
-    ninja -j$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
-else
-    make -j$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
-fi
+cmake --build . --parallel $(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
 
 if [ $? -ne 0 ]; then
     print_error "Build failed"
+    print_status "Check the error messages above for details"
     exit 1
 fi
 
 print_success "CHTL compiler release build completed successfully"
 
-# Check if executables were created
+# Find and verify executables
 print_status "Verifying build output..."
 
-EXECUTABLES=("chtl_compiler")
-for exe in "${EXECUTABLES[@]}"; do
-    if [ -f "$BUILD_DIR/$exe" ] || [ -f "$BUILD_DIR/src/$exe" ]; then
-        print_success "Found executable: $exe"
-        
-        # Get file size for release verification
-        if [ -f "$BUILD_DIR/$exe" ]; then
-            SIZE=$(ls -lh "$BUILD_DIR/$exe" | awk '{print $5}')
-            print_status "Executable size: $SIZE"
-        elif [ -f "$BUILD_DIR/src/$exe" ]; then
-            SIZE=$(ls -lh "$BUILD_DIR/src/$exe" | awk '{print $5}')
-            print_status "Executable size: $SIZE"
-        fi
-    else
-        print_warning "Executable not found: $exe"
+EXE_FOUND=false
+for exe in "chtl_compiler" "chtl"; do
+    if find . -name "$exe" -type f | head -1 | grep -q .; then
+        EXE_PATH=$(find . -name "$exe" -type f | head -1)
+        SIZE=$(ls -lh "$EXE_PATH" | awk '{print $5}')
+        print_success "Found executable: $EXE_PATH (Size: $SIZE)"
+        EXE_FOUND=true
     fi
 done
 
-# Strip symbols if available (additional optimization)
-print_status "Optimizing release binaries..."
-
-for exe in "${EXECUTABLES[@]}"; do
-    if [ -f "$BUILD_DIR/$exe" ]; then
-        if command -v strip &> /dev/null; then
-            strip "$BUILD_DIR/$exe" 2>/dev/null || true
-            print_success "Stripped symbols from $exe"
-        fi
-    elif [ -f "$BUILD_DIR/src/$exe" ]; then
-        if command -v strip &> /dev/null; then
-            strip "$BUILD_DIR/src/$exe" 2>/dev/null || true
-            print_success "Stripped symbols from src/$exe"
-        fi
-    fi
-done
+if [ "$EXE_FOUND" = false ]; then
+    print_warning "Executables not found in expected locations"
+    print_status "Searching for any CHTL executables..."
+    find . -name "chtl*" -type f -executable | while read exe; do
+        SIZE=$(ls -lh "$exe" | awk '{print $5}')
+        print_status "Found: $exe (Size: $SIZE)"
+        EXE_FOUND=true
+    done
+fi
 
 # Create distribution directory
 DIST_DIR="$PROJECT_ROOT/dist"
@@ -159,30 +150,31 @@ if [ -d "$DIST_DIR" ]; then
 fi
 
 mkdir -p "$DIST_DIR/bin"
-mkdir -p "$DIST_DIR/module"
+mkdir -p "$DIST_DIR/lib"
 mkdir -p "$DIST_DIR/docs"
+mkdir -p "$DIST_DIR/module"
 
-# Copy binaries to distribution
-for exe in "${EXECUTABLES[@]}"; do
-    if [ -f "$BUILD_DIR/$exe" ]; then
-        cp "$BUILD_DIR/$exe" "$DIST_DIR/bin/"
-        print_success "Copied $exe to distribution"
-    elif [ -f "$BUILD_DIR/src/$exe" ]; then
-        cp "$BUILD_DIR/src/$exe" "$DIST_DIR/bin/"
-        print_success "Copied src/$exe to distribution"
-    fi
+# Copy executables to distribution
+find . -name "chtl_compiler" -o -name "chtl" -type f | while read exe; do
+    cp "$exe" "$DIST_DIR/bin/"
+    print_success "Copied $(basename "$exe") to distribution"
 done
 
-# Copy modules if they exist
-if [ -d "$PROJECT_ROOT/module" ]; then
-    cp -r "$PROJECT_ROOT/module/"* "$DIST_DIR/module/" 2>/dev/null || true
-    print_success "Copied modules to distribution"
-fi
+# Copy libraries to distribution
+find . -name "*.a" -o -name "*.so" -type f | while read lib; do
+    cp "$lib" "$DIST_DIR/lib/" 2>/dev/null || true
+done
 
 # Copy documentation
 if [ -d "$PROJECT_ROOT/docs" ]; then
     cp -r "$PROJECT_ROOT/docs/"* "$DIST_DIR/docs/" 2>/dev/null || true
     print_success "Copied documentation to distribution"
+fi
+
+# Copy modules
+if [ -d "$PROJECT_ROOT/module" ]; then
+    cp -r "$PROJECT_ROOT/module/"* "$DIST_DIR/module/" 2>/dev/null || true
+    print_success "Copied modules to distribution"
 fi
 
 # Copy license and readme
@@ -197,6 +189,7 @@ fi
 print_success "Release build process completed"
 print_status "Build artifacts are in: $BUILD_DIR"
 print_status "Distribution package is in: $DIST_DIR"
+print_status "For VSCode: Open the project folder and use CMake extension"
 
 # Create archive if tar is available
 if command -v tar &> /dev/null; then

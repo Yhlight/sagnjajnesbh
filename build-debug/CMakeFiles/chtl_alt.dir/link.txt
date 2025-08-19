@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -Xlinker --dependency-file=CMakeFiles/chtl_alt.dir/link.d CMakeFiles/chtl_alt.dir/src/main.cpp.o -o chtl  libchtl_scanner.a libchtl_common.a

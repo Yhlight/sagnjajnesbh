@@ -1,12 +1,13 @@
 @echo off
 REM CHTL Compiler Debug Build Script
-REM Cross-platform batch script for building CHTL compiler in debug mode
+REM Standard CMake-based build for Windows (supports MinGW, MSVC, Clang)
 
 setlocal EnableDelayedExpansion
 
 REM Get script directory and project root
 set "SCRIPT_DIR=%~dp0"
 set "PROJECT_ROOT=%SCRIPT_DIR%..\..\"
+for %%i in ("%PROJECT_ROOT%") do set "PROJECT_ROOT=%%~fi\"
 
 echo [INFO] Starting CHTL Compiler Debug Build
 echo [INFO] Project root: %PROJECT_ROOT%
@@ -19,196 +20,119 @@ echo [INFO] Checking build dependencies...
 where cmake >nul 2>&1
 if %errorlevel% neq 0 (
     echo [ERROR] CMake is not installed or not in PATH
+    echo [INFO] Please install CMake from: https://cmake.org/download/
     exit /b 1
 )
 
-REM Try to setup Visual Studio environment if not already setup
-if not defined VSINSTALLDIR (
-    echo [INFO] Visual Studio environment not detected, attempting setup...
-    if exist "%SCRIPT_DIR%..\integration\setup_windows_env.bat" (
-        call "%SCRIPT_DIR%..\integration\setup_windows_env.bat"
-        if %errorlevel% neq 0 (
-            echo [WARNING] Could not setup Visual Studio environment automatically
-        )
-    )
-)
+echo [SUCCESS] CMake found
 
-REM Check for Visual Studio or MinGW
-set "BUILD_SYSTEM="
+REM Check for C++ compiler (any will do)
+set "COMPILER_FOUND=false"
 
-REM First check for MSBuild (Visual Studio Build Tools)
-where msbuild >nul 2>&1
+where g++ >nul 2>&1
 if %errorlevel%==0 (
-    set "BUILD_SYSTEM=msbuild"
-    echo [INFO] Found MSBuild
-    goto :build_system_found
+    echo [SUCCESS] Found G++ (MinGW/MSYS2)
+    set "COMPILER_FOUND=true"
+    set "COMPILER_TYPE=MinGW"
 )
 
-REM Check for Visual Studio Developer Command Prompt
-if defined VSINSTALLDIR (
-    echo [INFO] Visual Studio environment detected: %VSINSTALLDIR%
-    set "BUILD_SYSTEM=msbuild"
-    goto :build_system_found
+where clang++ >nul 2>&1
+if %errorlevel%==0 (
+    echo [SUCCESS] Found Clang++
+    set "COMPILER_FOUND=true"
+    set "COMPILER_TYPE=Clang"
 )
 
-REM Check for cl.exe (MSVC compiler)
 where cl >nul 2>&1
 if %errorlevel%==0 (
-    echo [INFO] Found MSVC compiler, attempting to find MSBuild...
-    REM Try to find MSBuild in common locations
-    for %%p in (
-        "%ProgramFiles%\Microsoft Visual Studio\2022\*\MSBuild\Current\Bin\MSBuild.exe"
-        "%ProgramFiles%\Microsoft Visual Studio\2019\*\MSBuild\Current\Bin\MSBuild.exe"
-        "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\*\MSBuild\Current\Bin\MSBuild.exe"
-        "%ProgramFiles(x86)%\MSBuild\*\Bin\MSBuild.exe"
-    ) do (
-        if exist "%%p" (
-            set "BUILD_SYSTEM=msbuild"
-            echo [INFO] Found MSBuild at: %%p
-            goto :build_system_found
-        )
-    )
+    echo [SUCCESS] Found MSVC (cl.exe)
+    set "COMPILER_FOUND=true"
+    set "COMPILER_TYPE=MSVC"
 )
 
-REM Check for MinGW
-where mingw32-make >nul 2>&1
-if %errorlevel%==0 (
-    set "BUILD_SYSTEM=mingw"
-    echo [INFO] Found MinGW
-    goto :build_system_found
+if "!COMPILER_FOUND!"=="false" (
+    echo [ERROR] No C++ compiler found
+    echo [INFO] Please install one of the following:
+    echo [INFO] 1. MinGW-w64 (recommended for VSCode)
+    echo [INFO] 2. MSYS2 with development tools
+    echo [INFO] 3. Visual Studio Build Tools
+    echo [INFO] 4. Clang/LLVM
+    exit /b 1
 )
 
-REM Check for MSYS2/Cygwin Make
-where make >nul 2>&1
-if %errorlevel%==0 (
-    set "BUILD_SYSTEM=make"
-    echo [INFO] Found Make
-    goto :build_system_found
-)
-
-REM Check for Ninja
-where ninja >nul 2>&1
-if %errorlevel%==0 (
-    set "BUILD_SYSTEM=ninja"
-    echo [INFO] Found Ninja
-    goto :build_system_found
-)
-
-REM If nothing found, provide helpful error message
-echo [ERROR] No suitable build system found
-echo [INFO] Please install one of the following:
-echo [INFO] 1. Visual Studio 2019/2022 with C++ workload
-echo [INFO] 2. Visual Studio Build Tools
-echo [INFO] 3. MinGW-w64
-echo [INFO] 4. MSYS2 with development tools
-echo [INFO] 
-echo [INFO] For Visual Studio, ensure you're running from:
-echo [INFO] - Developer Command Prompt for VS
-echo [INFO] - Developer PowerShell for VS
-echo [INFO] - Or run vcvarsall.bat first
-exit /b 1
-
-:build_system_found
-
-echo [SUCCESS] Build dependencies verified
-echo [INFO] Using build system: !BUILD_SYSTEM!
+echo [SUCCESS] Using !COMPILER_TYPE! compiler
 
 REM Create build directory
 set "BUILD_DIR=%PROJECT_ROOT%build-debug"
 echo [INFO] Creating build directory: %BUILD_DIR%
 
 if exist "%BUILD_DIR%" (
-    echo [WARNING] Debug build directory exists, cleaning...
+    echo [INFO] Cleaning existing build directory...
     rmdir /s /q "%BUILD_DIR%"
 )
 
 mkdir "%BUILD_DIR%"
 cd /d "%BUILD_DIR%"
 
-REM Configure CMake for debug build
-echo [INFO] Configuring CMake for debug build...
+REM Configure with CMake (let CMake detect the best generator)
+echo [INFO] Configuring with CMake...
 
-if "!BUILD_SYSTEM!"=="msbuild" (
-    cmake -DCMAKE_BUILD_TYPE=Debug ^
-          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ^
-          -DBUILD_TESTING=ON ^
-          -DENABLE_DEBUG_SYMBOLS=ON ^
-          -DENABLE_SANITIZERS=OFF ^
-          "%PROJECT_ROOT%"
-) else if "!BUILD_SYSTEM!"=="mingw" (
-    cmake -G "MinGW Makefiles" ^
-          -DCMAKE_BUILD_TYPE=Debug ^
-          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ^
-          -DBUILD_TESTING=ON ^
-          -DENABLE_DEBUG_SYMBOLS=ON ^
-          -DENABLE_SANITIZERS=OFF ^
-          "%PROJECT_ROOT%"
-) else (
-    cmake -G "Unix Makefiles" ^
-          -DCMAKE_BUILD_TYPE=Debug ^
-          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ^
-          -DBUILD_TESTING=ON ^
-          -DENABLE_DEBUG_SYMBOLS=ON ^
-          -DENABLE_SANITIZERS=OFF ^
-          "%PROJECT_ROOT%"
-)
+REM Let CMake choose the appropriate generator automatically
+cmake -DCMAKE_BUILD_TYPE=Debug ^
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ^
+      "%PROJECT_ROOT%"
 
 if %errorlevel% neq 0 (
     echo [ERROR] CMake configuration failed
+    echo [INFO] This might be due to missing dependencies or compiler issues
+    echo [INFO] Check the error messages above for details
     exit /b 1
 )
 
 echo [SUCCESS] CMake configuration completed
 
-REM Build the project
+REM Build the project using CMake (universal approach)
 echo [INFO] Building CHTL compiler in debug mode...
 
-if "!BUILD_SYSTEM!"=="msbuild" (
-    msbuild CHTL.sln /p:Configuration=Debug /m
-) else if "!BUILD_SYSTEM!"=="mingw" (
-    mingw32-make -j%NUMBER_OF_PROCESSORS%
-) else (
-    make -j%NUMBER_OF_PROCESSORS%
-)
+cmake --build . --config Debug --parallel %NUMBER_OF_PROCESSORS%
 
 if %errorlevel% neq 0 (
     echo [ERROR] Build failed
+    echo [INFO] Check the error messages above for details
     exit /b 1
 )
 
 echo [SUCCESS] CHTL compiler debug build completed successfully
 
-REM Check if executables were created
+REM Find and verify executables
 echo [INFO] Verifying build output...
 
-if exist "%BUILD_DIR%\chtl_compiler.exe" (
-    echo [SUCCESS] Found executable: chtl_compiler.exe
-) else if exist "%BUILD_DIR%\src\chtl_compiler.exe" (
-    echo [SUCCESS] Found executable: src\chtl_compiler.exe
-) else if exist "%BUILD_DIR%\Debug\chtl_compiler.exe" (
-    echo [SUCCESS] Found executable: Debug\chtl_compiler.exe
-) else (
-    echo [WARNING] Executable not found: chtl_compiler.exe
+set "EXE_FOUND=false"
+for /r . %%f in (chtl_compiler.exe chtl.exe) do (
+    if exist "%%f" (
+        echo [SUCCESS] Found executable: %%f
+        set "EXE_FOUND=true"
+    )
 )
 
-if exist "%BUILD_DIR%\chtl_test.exe" (
-    echo [SUCCESS] Found executable: chtl_test.exe
-) else if exist "%BUILD_DIR%\src\chtl_test.exe" (
-    echo [SUCCESS] Found executable: src\chtl_test.exe
-) else if exist "%BUILD_DIR%\Debug\chtl_test.exe" (
-    echo [SUCCESS] Found executable: Debug\chtl_test.exe
-) else (
-    echo [WARNING] Executable not found: chtl_test.exe
+if "!EXE_FOUND!"=="false" (
+    echo [WARNING] Executables not found in expected locations
+    echo [INFO] Searching for any CHTL executables...
+    for /r . %%f in (chtl*.exe) do (
+        echo [INFO] Found: %%f
+        set "EXE_FOUND=true"
+    )
 )
 
-REM Copy compile_commands.json to project root for IDE support
-if exist "%BUILD_DIR%\compile_commands.json" (
-    copy "%BUILD_DIR%\compile_commands.json" "%PROJECT_ROOT%\" >nul
-    echo [SUCCESS] Copied compile_commands.json for IDE support
+REM Copy compile_commands.json for VSCode IntelliSense
+if exist "compile_commands.json" (
+    copy "compile_commands.json" "%PROJECT_ROOT%\" >nul
+    echo [SUCCESS] Copied compile_commands.json for VSCode IntelliSense
 )
 
 echo [SUCCESS] Debug build process completed
 echo [INFO] Build artifacts are in: %BUILD_DIR%
-echo [INFO] To run tests: cd %BUILD_DIR% ^&^& ctest
+echo [INFO] For VSCode: Open the project folder and use CMake extension
+echo [INFO] To test: cd %BUILD_DIR% ^&^& ctest
 
 exit /b 0
