@@ -1,0 +1,353 @@
+// ========================================
+// 您的创新设计使用示例
+// 展示printMylove和其他复杂语法的使用
+// ========================================
+
+[Import] @CJmod from YourDesignDemo
+
+html {
+    head {
+        title { text { 🖼️ 您的创新CJMOD设计演示 } }
+        
+        style {
+            body {
+                margin: 0;
+                padding: 20px;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                font-family: 'Arial', sans-serif;
+                min-height: 100vh;
+            }
+            
+            .demo-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 20px;
+                padding: 30px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            }
+            
+            .demo-section {
+                margin-bottom: 40px;
+                padding: 25px;
+                border: 2px solid #e0e0e0;
+                border-radius: 15px;
+                background: #fafafa;
+            }
+            
+            .demo-btn {
+                padding: 15px 30px;
+                margin: 10px;
+                background: linear-gradient(45deg, #667eea, #764ba2);
+                color: white;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 16px;
+                transition: all 0.3s ease;
+            }
+            
+            .demo-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            }
+            
+            .image-output {
+                background: #f8f9fa;
+                border: 2px dashed #667eea;
+                border-radius: 10px;
+                padding: 20px;
+                margin: 20px 0;
+                font-family: 'Courier New', monospace;
+                white-space: pre;
+                overflow: auto;
+                max-height: 400px;
+                font-size: 8px;
+                line-height: 8px;
+            }
+            
+            .input-group {
+                margin: 15px 0;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .input-group label {
+                min-width: 80px;
+                font-weight: bold;
+                color: #667eea;
+            }
+            
+            .input-group input, .input-group select {
+                flex: 1;
+                padding: 10px;
+                border: 2px solid #ddd;
+                border-radius: 5px;
+                font-size: 14px;
+            }
+            
+            .syntax-display {
+                background: #2d3748;
+                color: #e2e8f0;
+                padding: 20px;
+                border-radius: 10px;
+                font-family: 'Courier New', monospace;
+                margin: 20px 0;
+                overflow-x: auto;
+            }
+            
+            .syntax-highlight {
+                color: #68d391;
+                font-weight: bold;
+            }
+        }
+    }
+    
+    body {
+        div {
+            class: demo-container;
+            
+            h1 { 
+                text { 🚀 您的创新CJMOD设计演示 }
+                style { 
+                    text-align: center; 
+                    color: #667eea; 
+                    margin-bottom: 20px;
+                    font-size: 36px;
+                }
+            }
+            
+            p {
+                text { syntaxAnalys + $ 占位符 + args.bind + scanner.scanKeyword 的完美组合 }
+                style { 
+                    text-align: center; 
+                    color: #666; 
+                    margin-bottom: 40px;
+                    font-size: 18px;
+                }
+            }
+            
+            // 1. printMylove语法演示
+            div {
+                class: demo-section;
+                
+                h3 { 
+                    text { 🖼️ printMylove语法 - 复杂对象参数解析 }
+                    style { color: #667eea; margin-bottom: 20px; }
+                }
+                
+                // 语法展示
+                div {
+                    class: syntax-display;
+                    text {
+printMylove({
+    url: $,
+    mode: $,      // ASCII或Pixel
+    width: $,     // CSS单位、百分比、纯数字
+    height: $,    // 高度
+    scale: $,     // 缩放倍数
+});
+                    }
+                }
+                
+                // 参数输入
+                div {
+                    class: input-group;
+                    label { text { 图片URL: } }
+                    input { 
+                        id: img-url; 
+                        value: https://picsum.photos/200/150;
+                        placeholder: 输入图片URL或路径;
+                    }
+                }
+                
+                div {
+                    class: input-group;
+                    label { text { 转换模式: } }
+                    select {
+                        id: img-mode;
+                        option { value: ASCII; text { ASCII字符 } }
+                        option { value: Pixel; text { 像素块 } }
+                    }
+                }
+                
+                div {
+                    class: input-group;
+                    label { text { 宽度: } }
+                    input { 
+                        id: img-width; 
+                        value: 80;
+                        placeholder: 支持px、%、em、rem、纯数字;
+                    }
+                }
+                
+                div {
+                    class: input-group;
+                    label { text { 高度: } }
+                    input { 
+                        id: img-height; 
+                        value: 60;
+                        placeholder: 支持CSS单位;
+                    }
+                }
+                
+                div {
+                    class: input-group;
+                    label { text { 缩放: } }
+                    input { 
+                        id: img-scale; 
+                        value: 1.0;
+                        placeholder: 0.1-10.0;
+                    }
+                }
+                
+                button { id: generate-ascii; class: demo-btn; text { 🎨 生成ASCII艺术 } }
+                button { id: generate-pixel; class: demo-btn; text { 🖼️ 生成像素艺术 } }
+                
+                div {
+                    id: image-output;
+                    class: image-output;
+                    text { 点击按钮生成图片艺术... }
+                }
+            }
+            
+            // 2. 复杂语法演示
+            div {
+                class: demo-section;
+                
+                h3 { 
+                    text { 🎮 复杂语法演示 - 游戏引擎 }
+                    style { color: #667eea; margin-bottom: 20px; }
+                }
+                
+                div {
+                    class: syntax-display;
+                    text {
+gameEngine({
+    canvas: $,
+    physics: {
+        gravity: $,
+        friction: $,
+        restitution: $
+    },
+    rendering: {
+        fps: $,
+        quality: $,
+        effects: [$, $, $]
+    }
+});
+                    }
+                }
+                
+                button { id: demo-game-engine; class: demo-btn; text { 🎮 演示游戏引擎语法 } }
+                
+                div {
+                    id: game-output;
+                    class: image-output;
+                    text { 游戏引擎演示结果... }
+                }
+            }
+            
+            script {
+                // ========================================
+                // 🚀 使用您的创新CJMOD语法！
+                // ========================================
+                
+                // 🎨 ASCII艺术生成
+                {{#generate-ascii}}->listen({
+                    click: function() {
+                        const url = {{#img-url}}->value;
+                        const width = {{#img-width}}->value;
+                        const height = {{#img-height}}->value;
+                        const scale = {{#img-scale}}->value;
+                        
+                        {{#image-output}}->textContent = '🔄 正在生成ASCII艺术...';
+                        
+                        // 🚀 使用您设计的printMylove语法！
+                        const result = printMylove({
+                            url: url,
+                            mode: 'ASCII',
+                            width: width,
+                            height: height,
+                            scale: scale,
+                        });
+                        
+                        {{#image-output}}->textContent = result;
+                        console.log('🎨 ASCII艺术生成完成');
+                    }
+                });
+                
+                // 🖼️ 像素艺术生成
+                {{#generate-pixel}}->listen({
+                    click: function() {
+                        const url = {{#img-url}}->value;
+                        const width = {{#img-width}}->value;
+                        const height = {{#img-height}}->value;
+                        const scale = {{#img-scale}}->value;
+                        
+                        {{#image-output}}->textContent = '🔄 正在生成像素艺术...';
+                        
+                        // 🚀 使用您设计的printMylove语法！
+                        const result = printMylove({
+                            url: url,
+                            mode: 'Pixel',
+                            width: width,
+                            height: height,
+                            scale: scale,
+                        });
+                        
+                        {{#image-output}}->textContent = result;
+                        console.log('🖼️ 像素艺术生成完成');
+                    }
+                });
+                
+                // 🎮 游戏引擎演示
+                {{#demo-game-engine}}->listen({
+                    click: function() {
+                        {{#game-output}}->textContent = '🎮 初始化游戏引擎...';
+                        
+                        // 🚀 使用复杂的游戏引擎语法
+                        const engine = gameEngine({
+                            canvas: {{#game-output}},
+                            physics: {
+                                gravity: 9.8,
+                                friction: 0.8,
+                                restitution: 0.6
+                            },
+                            rendering: {
+                                fps: 60,
+                                quality: 'high',
+                                effects: ['bloom', 'shadows', 'particles']
+                            }
+                        });
+                        
+                        {{#game-output}}->textContent = '✅ 游戏引擎初始化完成！\n' + 
+                            'FPS: 60\n' +
+                            '物理引擎: 已启用\n' +
+                            '渲染效果: bloom, shadows, particles\n' +
+                            '🎮 准备开始游戏！';
+                        
+                        console.log('🎮 游戏引擎演示完成');
+                    }
+                });
+                
+                // 🎯 初始化演示
+                console.log('🚀 您的创新CJMOD设计演示初始化完成！');
+                console.log('💡 支持的语法特性：');
+                console.log('   - $ 占位符参数标记');
+                console.log('   - args.bind() 命名参数绑定');
+                console.log('   - scanner.scanKeyword() 智能扫描');
+                console.log('   - peekKeyword(±n) 上下文查看');
+                console.log('   - 复杂对象语法解析');
+                console.log('🌟 这个设计让CJMOD开发变得极其简单和强大！');
+                
+                // 显示欢迎消息
+                setTimeout(() => {
+                    toast('🎉 欢迎体验您的创新CJMOD设计！', 'success');
+                }, 1000);
+            }
+        }
+    }
+}
