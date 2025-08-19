@@ -4,6 +4,9 @@ enable_testing()
 add_executable(test_scanner test_scanner.cpp)
 target_link_libraries(test_scanner chtl_scanner)
 
+add_executable(test_scanner_v2 test_scanner_v2.cpp)
+target_link_libraries(test_scanner_v2 chtl_scanner)
+
 add_executable(test_chtl_compiler test_chtl_compiler.cpp)
 target_link_libraries(test_chtl_compiler chtl_compiler_lib)
 
@@ -20,5 +23,6 @@ target_link_libraries(test_integration
 
 # 添加测试
 add_test(NAME scanner_test COMMAND test_scanner)
+add_test(NAME scanner_v2_test COMMAND test_scanner_v2)
 add_test(NAME chtl_compiler_test COMMAND test_chtl_compiler)
 add_test(NAME integration_test COMMAND test_integration)

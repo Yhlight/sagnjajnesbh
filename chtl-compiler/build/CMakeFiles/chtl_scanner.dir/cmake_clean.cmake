@@ -1,8 +1,12 @@
 file(REMOVE_RECURSE
   "CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner.cpp.o"
   "CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner.cpp.o.d"
+  "CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o"
+  "CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o.d"
   "CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o"
   "CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o.d"
+  "CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o"
+  "CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o.d"
   "CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o"
   "CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o.d"
   "libchtl_scanner.a"

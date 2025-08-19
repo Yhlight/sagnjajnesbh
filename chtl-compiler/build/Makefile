@@ -289,6 +289,19 @@ test_scanner/fast:
 .PHONY : test_scanner/fast
 
 #=============================================================================
+# Target rules for targets named test_scanner_v2
+
+# Build rule for target.
+test_scanner_v2: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_scanner_v2
+.PHONY : test_scanner_v2
+
+# fast build rule for target.
+test_scanner_v2/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_scanner_v2.dir/build.make tests/CMakeFiles/test_scanner_v2.dir/build
+.PHONY : test_scanner_v2/fast
+
+#=============================================================================
 # Target rules for targets named test_chtl_compiler
 
 # Build rule for target.
@@ -698,6 +711,30 @@ src/scanner/chtl_unified_scanner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner.cpp.s
 .PHONY : src/scanner/chtl_unified_scanner.cpp.s
 
+src/scanner/chtl_unified_scanner_v2.o: src/scanner/chtl_unified_scanner_v2.cpp.o
+.PHONY : src/scanner/chtl_unified_scanner_v2.o
+
+# target to build an object file
+src/scanner/chtl_unified_scanner_v2.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o
+.PHONY : src/scanner/chtl_unified_scanner_v2.cpp.o
+
+src/scanner/chtl_unified_scanner_v2.i: src/scanner/chtl_unified_scanner_v2.cpp.i
+.PHONY : src/scanner/chtl_unified_scanner_v2.i
+
+# target to preprocess a source file
+src/scanner/chtl_unified_scanner_v2.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.i
+.PHONY : src/scanner/chtl_unified_scanner_v2.cpp.i
+
+src/scanner/chtl_unified_scanner_v2.s: src/scanner/chtl_unified_scanner_v2.cpp.s
+.PHONY : src/scanner/chtl_unified_scanner_v2.s
+
+# target to generate assembly for a file
+src/scanner/chtl_unified_scanner_v2.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.s
+.PHONY : src/scanner/chtl_unified_scanner_v2.cpp.s
+
 src/scanner/scanner_context.o: src/scanner/scanner_context.cpp.o
 .PHONY : src/scanner/scanner_context.o
 
@@ -721,6 +758,30 @@ src/scanner/scanner_context.s: src/scanner/scanner_context.cpp.s
 src/scanner/scanner_context.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.s
 .PHONY : src/scanner/scanner_context.cpp.s
+
+src/scanner/slice_buffer.o: src/scanner/slice_buffer.cpp.o
+.PHONY : src/scanner/slice_buffer.o
+
+# target to build an object file
+src/scanner/slice_buffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o
+.PHONY : src/scanner/slice_buffer.cpp.o
+
+src/scanner/slice_buffer.i: src/scanner/slice_buffer.cpp.i
+.PHONY : src/scanner/slice_buffer.i
+
+# target to preprocess a source file
+src/scanner/slice_buffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.i
+.PHONY : src/scanner/slice_buffer.cpp.i
+
+src/scanner/slice_buffer.s: src/scanner/slice_buffer.cpp.s
+.PHONY : src/scanner/slice_buffer.s
+
+# target to generate assembly for a file
+src/scanner/slice_buffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.s
+.PHONY : src/scanner/slice_buffer.cpp.s
 
 src/scanner/token.o: src/scanner/token.cpp.o
 .PHONY : src/scanner/token.o
@@ -770,6 +831,7 @@ help:
 	@echo "... test_chtl_compiler"
 	@echo "... test_integration"
 	@echo "... test_scanner"
+	@echo "... test_scanner_v2"
 	@echo "... src/compilers/chtl/chtl_ast.o"
 	@echo "... src/compilers/chtl/chtl_ast.i"
 	@echo "... src/compilers/chtl/chtl_ast.s"
@@ -818,9 +880,15 @@ help:
 	@echo "... src/scanner/chtl_unified_scanner.o"
 	@echo "... src/scanner/chtl_unified_scanner.i"
 	@echo "... src/scanner/chtl_unified_scanner.s"
+	@echo "... src/scanner/chtl_unified_scanner_v2.o"
+	@echo "... src/scanner/chtl_unified_scanner_v2.i"
+	@echo "... src/scanner/chtl_unified_scanner_v2.s"
 	@echo "... src/scanner/scanner_context.o"
 	@echo "... src/scanner/scanner_context.i"
 	@echo "... src/scanner/scanner_context.s"
+	@echo "... src/scanner/slice_buffer.o"
+	@echo "... src/scanner/slice_buffer.i"
+	@echo "... src/scanner/slice_buffer.s"
 	@echo "... src/scanner/token.o"
 	@echo "... src/scanner/token.i"
 	@echo "... src/scanner/token.s"

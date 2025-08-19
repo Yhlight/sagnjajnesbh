@@ -14,6 +14,7 @@
 /workspace/chtl-compiler/build/CMakeFiles/install/local.dir
 /workspace/chtl-compiler/build/CMakeFiles/install/strip.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/test_scanner.dir
+/workspace/chtl-compiler/build/tests/CMakeFiles/test_scanner_v2.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/test_chtl_compiler.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/test_integration.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/test.dir

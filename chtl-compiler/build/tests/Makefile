@@ -186,6 +186,20 @@ test_scanner/fast:
 .PHONY : test_scanner/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_scanner_v2.dir/rule:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_scanner_v2.dir/rule
+.PHONY : tests/CMakeFiles/test_scanner_v2.dir/rule
+
+# Convenience name for target.
+test_scanner_v2: tests/CMakeFiles/test_scanner_v2.dir/rule
+.PHONY : test_scanner_v2
+
+# fast build rule for target.
+test_scanner_v2/fast:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_scanner_v2.dir/build.make tests/CMakeFiles/test_scanner_v2.dir/build
+.PHONY : test_scanner_v2/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtl_compiler.dir/rule:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtl_compiler.dir/rule
 .PHONY : tests/CMakeFiles/test_chtl_compiler.dir/rule
@@ -285,6 +299,30 @@ test_scanner.cpp.s:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_scanner.dir/build.make tests/CMakeFiles/test_scanner.dir/test_scanner.cpp.s
 .PHONY : test_scanner.cpp.s
 
+test_scanner_v2.o: test_scanner_v2.cpp.o
+.PHONY : test_scanner_v2.o
+
+# target to build an object file
+test_scanner_v2.cpp.o:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_scanner_v2.dir/build.make tests/CMakeFiles/test_scanner_v2.dir/test_scanner_v2.cpp.o
+.PHONY : test_scanner_v2.cpp.o
+
+test_scanner_v2.i: test_scanner_v2.cpp.i
+.PHONY : test_scanner_v2.i
+
+# target to preprocess a source file
+test_scanner_v2.cpp.i:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_scanner_v2.dir/build.make tests/CMakeFiles/test_scanner_v2.dir/test_scanner_v2.cpp.i
+.PHONY : test_scanner_v2.cpp.i
+
+test_scanner_v2.s: test_scanner_v2.cpp.s
+.PHONY : test_scanner_v2.s
+
+# target to generate assembly for a file
+test_scanner_v2.cpp.s:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_scanner_v2.dir/build.make tests/CMakeFiles/test_scanner_v2.dir/test_scanner_v2.cpp.s
+.PHONY : test_scanner_v2.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -301,6 +339,7 @@ help:
 	@echo "... test_chtl_compiler"
 	@echo "... test_integration"
 	@echo "... test_scanner"
+	@echo "... test_scanner_v2"
 	@echo "... test_chtl_compiler.o"
 	@echo "... test_chtl_compiler.i"
 	@echo "... test_chtl_compiler.s"
@@ -310,6 +349,9 @@ help:
 	@echo "... test_scanner.o"
 	@echo "... test_scanner.i"
 	@echo "... test_scanner.s"
+	@echo "... test_scanner_v2.o"
+	@echo "... test_scanner_v2.i"
+	@echo "... test_scanner_v2.s"
 .PHONY : help
 
 

@@ -34,6 +34,8 @@ endif()
 # 源文件
 set(SCANNER_SOURCES
     src/scanner/chtl_unified_scanner.cpp
+    src/scanner/chtl_unified_scanner_v2.cpp
+    src/scanner/slice_buffer.cpp
     src/scanner/token.cpp
     src/scanner/scanner_context.cpp
 )

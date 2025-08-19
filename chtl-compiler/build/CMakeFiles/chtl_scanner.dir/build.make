@@ -86,10 +86,38 @@ CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/scanner/chtl_unified_scanner.cpp -o CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner.cpp.s
 
+CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o: CMakeFiles/chtl_scanner.dir/flags.make
+CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o: /workspace/chtl-compiler/src/scanner/chtl_unified_scanner_v2.cpp
+CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o: CMakeFiles/chtl_scanner.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o -MF CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o.d -o CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o -c /workspace/chtl-compiler/src/scanner/chtl_unified_scanner_v2.cpp
+
+CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/scanner/chtl_unified_scanner_v2.cpp > CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.i
+
+CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/scanner/chtl_unified_scanner_v2.cpp -o CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.s
+
+CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o: CMakeFiles/chtl_scanner.dir/flags.make
+CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o: /workspace/chtl-compiler/src/scanner/slice_buffer.cpp
+CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o: CMakeFiles/chtl_scanner.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o -MF CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o.d -o CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o -c /workspace/chtl-compiler/src/scanner/slice_buffer.cpp
+
+CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/scanner/slice_buffer.cpp > CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.i
+
+CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/scanner/slice_buffer.cpp -o CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.s
+
 CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o: CMakeFiles/chtl_scanner.dir/flags.make
 CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o: /workspace/chtl-compiler/src/scanner/token.cpp
 CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o: CMakeFiles/chtl_scanner.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o -MF CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o.d -o CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o -c /workspace/chtl-compiler/src/scanner/token.cpp
 
 CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.i: cmake_force
@@ -103,7 +131,7 @@ CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.s: cmake_force
 CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o: CMakeFiles/chtl_scanner.dir/flags.make
 CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o: /workspace/chtl-compiler/src/scanner/scanner_context.cpp
 CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o: CMakeFiles/chtl_scanner.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o -MF CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o.d -o CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o -c /workspace/chtl-compiler/src/scanner/scanner_context.cpp
 
 CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.i: cmake_force
@@ -117,6 +145,8 @@ CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.s: cmake_force
 # Object files for target chtl_scanner
 chtl_scanner_OBJECTS = \
 "CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner.cpp.o" \
+"CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o" \
+"CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o" \
 "CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o" \
 "CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o"
 
@@ -124,11 +154,13 @@ chtl_scanner_OBJECTS = \
 chtl_scanner_EXTERNAL_OBJECTS =
 
 libchtl_scanner.a: CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner.cpp.o
+libchtl_scanner.a: CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner_v2.cpp.o
+libchtl_scanner.a: CMakeFiles/chtl_scanner.dir/src/scanner/slice_buffer.cpp.o
 libchtl_scanner.a: CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o
 libchtl_scanner.a: CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o
 libchtl_scanner.a: CMakeFiles/chtl_scanner.dir/build.make
 libchtl_scanner.a: CMakeFiles/chtl_scanner.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library libchtl_scanner.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libchtl_scanner.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/chtl_scanner.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtl_scanner.dir/link.txt --verbose=$(VERBOSE)
 
