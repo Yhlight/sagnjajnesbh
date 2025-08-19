@@ -60,11 +60,11 @@ int main() {
     
     chtl::common::ModulePathManager manager;
     
-    // 添加所有搜索路径
+    // 添加正确的搜索路径（不包括源码目录）
     manager.addSearchPath("./module", "official");          // 官方模块目录
     manager.addSearchPath("../module", "official");         // 官方模块目录（相对路径）
     manager.addSearchPath("./module", "user");              // 用户模块目录
-    manager.addSearchPath("../src/Module", "development");  // 开发模块目录
+    // 注意：源码目录 (src/Module) 不参与运行时搜索，只用于开发分类
     
     // 扫描所有模块
     manager.scanModules();
