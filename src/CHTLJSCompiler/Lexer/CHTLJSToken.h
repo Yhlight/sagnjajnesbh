@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 namespace chtl {
+namespace chtljs {
 
 // Token位置信息
 struct TokenPosition {
@@ -98,4 +99,5 @@ private:
     static void initializeTypeNames();
 };
 
+} // namespace chtljs
 } // namespace chtl

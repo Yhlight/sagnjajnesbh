@@ -259,7 +259,7 @@ void HTMLGenerator::visit(ast::OriginNode& node) {
 
 void HTMLGenerator::visit(ast::ConfigurationNode& node) {
     // 配置节点不生成HTML，只是编译时配置
-    writeLine("<!-- Configuration: " + node.configName + " -->");
+    writeLine("<!-- Configuration: " + node.name + " -->");
 }
 
 void HTMLGenerator::visit(ast::ConstraintNode& node) {
@@ -279,7 +279,7 @@ void HTMLGenerator::visit(ast::IndexAccessNode& node) {
 
 void HTMLGenerator::visit(ast::VariableGroupNode& node) {
     // 变量组节点不直接生成HTML，而是在使用时替换
-    writeLine("<!-- VariableGroup: " + node.groupName + " -->");
+    writeLine("<!-- VariableGroup: " + node.name + " -->");
 }
 
 } // namespace generator

@@ -114,6 +114,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/chtl_common.dir/DependInfo.cmake"
   "CMakeFiles/chtl_scanner.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_managers.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_compiler_basic.dir/DependInfo.cmake"
   "CMakeFiles/chtl_main.dir/DependInfo.cmake"
-  "CMakeFiles/chtl_alt.dir/DependInfo.cmake"
+  "CMakeFiles/test_minimal.dir/DependInfo.cmake"
   )

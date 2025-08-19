@@ -117,795 +117,706 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named chtl_shared_min
+# Target rules for targets named chtl_common
 
 # Build rule for target.
-chtl_shared_min: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_shared_min
-.PHONY : chtl_shared_min
+chtl_common: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_common
+.PHONY : chtl_common
 
 # fast build rule for target.
-chtl_shared_min/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/build
-.PHONY : chtl_shared_min/fast
+chtl_common/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/build
+.PHONY : chtl_common/fast
 
 #=============================================================================
-# Target rules for targets named chtl_css_compiler
+# Target rules for targets named chtl_scanner
 
 # Build rule for target.
-chtl_css_compiler: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_css_compiler
-.PHONY : chtl_css_compiler
+chtl_scanner: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_scanner
+.PHONY : chtl_scanner
 
 # fast build rule for target.
-chtl_css_compiler/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/build
-.PHONY : chtl_css_compiler/fast
+chtl_scanner/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/build
+.PHONY : chtl_scanner/fast
 
 #=============================================================================
-# Target rules for targets named chtl_js_compiler_antlr
+# Target rules for targets named chtl_managers
 
 # Build rule for target.
-chtl_js_compiler_antlr: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_js_compiler_antlr
-.PHONY : chtl_js_compiler_antlr
+chtl_managers: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_managers
+.PHONY : chtl_managers
 
 # fast build rule for target.
-chtl_js_compiler_antlr/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/build
-.PHONY : chtl_js_compiler_antlr/fast
+chtl_managers/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/build
+.PHONY : chtl_managers/fast
 
 #=============================================================================
-# Target rules for targets named test_antlr_compilers
+# Target rules for targets named chtl_compiler_basic
 
 # Build rule for target.
-test_antlr_compilers: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_antlr_compilers
-.PHONY : test_antlr_compilers
+chtl_compiler_basic: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_compiler_basic
+.PHONY : chtl_compiler_basic
 
 # fast build rule for target.
-test_antlr_compilers/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_compilers.dir/build.make CMakeFiles/test_antlr_compilers.dir/build
-.PHONY : test_antlr_compilers/fast
+chtl_compiler_basic/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/build
+.PHONY : chtl_compiler_basic/fast
 
 #=============================================================================
-# Target rules for targets named test_antlr_basic
+# Target rules for targets named chtl_main
 
 # Build rule for target.
-test_antlr_basic: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_antlr_basic
-.PHONY : test_antlr_basic
+chtl_main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_main
+.PHONY : chtl_main
 
 # fast build rule for target.
-test_antlr_basic/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_basic.dir/build.make CMakeFiles/test_antlr_basic.dir/build
-.PHONY : test_antlr_basic/fast
+chtl_main/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_main.dir/build.make CMakeFiles/chtl_main.dir/build
+.PHONY : chtl_main/fast
 
 #=============================================================================
-# Target rules for targets named test_minimal_css
+# Target rules for targets named test_minimal
 
 # Build rule for target.
-test_minimal_css: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_minimal_css
-.PHONY : test_minimal_css
+test_minimal: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_minimal
+.PHONY : test_minimal
 
 # fast build rule for target.
-test_minimal_css/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_css.dir/build.make CMakeFiles/test_minimal_css.dir/build
-.PHONY : test_minimal_css/fast
+test_minimal/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal.dir/build.make CMakeFiles/test_minimal.dir/build
+.PHONY : test_minimal/fast
 
-#=============================================================================
-# Target rules for targets named test_css_validation_only
-
-# Build rule for target.
-test_css_validation_only: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_css_validation_only
-.PHONY : test_css_validation_only
-
-# fast build rule for target.
-test_css_validation_only/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_css_validation_only.dir/build.make CMakeFiles/test_css_validation_only.dir/build
-.PHONY : test_css_validation_only/fast
-
-#=============================================================================
-# Target rules for targets named test_complex_syntax_errors
-
-# Build rule for target.
-test_complex_syntax_errors: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_complex_syntax_errors
-.PHONY : test_complex_syntax_errors
-
-# fast build rule for target.
-test_complex_syntax_errors/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complex_syntax_errors.dir/build.make CMakeFiles/test_complex_syntax_errors.dir/build
-.PHONY : test_complex_syntax_errors/fast
-
-#=============================================================================
-# Target rules for targets named chtl_test_framework
-
-# Build rule for target.
-chtl_test_framework: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_test_framework
-.PHONY : chtl_test_framework
-
-# fast build rule for target.
-chtl_test_framework/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/build
-.PHONY : chtl_test_framework/fast
-
-#=============================================================================
-# Target rules for targets named SimpleTestRunner
-
-# Build rule for target.
-SimpleTestRunner: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SimpleTestRunner
-.PHONY : SimpleTestRunner
-
-# fast build rule for target.
-SimpleTestRunner/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SimpleTestRunner.dir/build.make CMakeFiles/SimpleTestRunner.dir/build
-.PHONY : SimpleTestRunner/fast
-
-#=============================================================================
-# Target rules for targets named ComprehensiveTestRunner
-
-# Build rule for target.
-ComprehensiveTestRunner: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ComprehensiveTestRunner
-.PHONY : ComprehensiveTestRunner
-
-# fast build rule for target.
-ComprehensiveTestRunner/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/build
-.PHONY : ComprehensiveTestRunner/fast
-
-src/CSSCompiler/Core/CSSCompilerCore.o: src/CSSCompiler/Core/CSSCompilerCore.cpp.o
-.PHONY : src/CSSCompiler/Core/CSSCompilerCore.o
+src/CHTLCompiler/AST/CHTLNodes.o: src/CHTLCompiler/AST/CHTLNodes.cpp.o
+.PHONY : src/CHTLCompiler/AST/CHTLNodes.o
 
 # target to build an object file
-src/CSSCompiler/Core/CSSCompilerCore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.o
-.PHONY : src/CSSCompiler/Core/CSSCompilerCore.cpp.o
+src/CHTLCompiler/AST/CHTLNodes.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.o
+.PHONY : src/CHTLCompiler/AST/CHTLNodes.cpp.o
 
-src/CSSCompiler/Core/CSSCompilerCore.i: src/CSSCompiler/Core/CSSCompilerCore.cpp.i
-.PHONY : src/CSSCompiler/Core/CSSCompilerCore.i
+src/CHTLCompiler/AST/CHTLNodes.i: src/CHTLCompiler/AST/CHTLNodes.cpp.i
+.PHONY : src/CHTLCompiler/AST/CHTLNodes.i
 
 # target to preprocess a source file
-src/CSSCompiler/Core/CSSCompilerCore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.i
-.PHONY : src/CSSCompiler/Core/CSSCompilerCore.cpp.i
+src/CHTLCompiler/AST/CHTLNodes.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.i
+.PHONY : src/CHTLCompiler/AST/CHTLNodes.cpp.i
 
-src/CSSCompiler/Core/CSSCompilerCore.s: src/CSSCompiler/Core/CSSCompilerCore.cpp.s
-.PHONY : src/CSSCompiler/Core/CSSCompilerCore.s
+src/CHTLCompiler/AST/CHTLNodes.s: src/CHTLCompiler/AST/CHTLNodes.cpp.s
+.PHONY : src/CHTLCompiler/AST/CHTLNodes.s
 
 # target to generate assembly for a file
-src/CSSCompiler/Core/CSSCompilerCore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Core/CSSCompilerCore.cpp.s
-.PHONY : src/CSSCompiler/Core/CSSCompilerCore.cpp.s
+src/CHTLCompiler/AST/CHTLNodes.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.s
+.PHONY : src/CHTLCompiler/AST/CHTLNodes.cpp.s
 
-src/CSSCompiler/Parser/css3Lexer.o: src/CSSCompiler/Parser/css3Lexer.cpp.o
-.PHONY : src/CSSCompiler/Parser/css3Lexer.o
+src/CHTLCompiler/CHTLCompilerCore.o: src/CHTLCompiler/CHTLCompilerCore.cpp.o
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.o
 
 # target to build an object file
-src/CSSCompiler/Parser/css3Lexer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Lexer.cpp.o
-.PHONY : src/CSSCompiler/Parser/css3Lexer.cpp.o
+src/CHTLCompiler/CHTLCompilerCore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.cpp.o
 
-src/CSSCompiler/Parser/css3Lexer.i: src/CSSCompiler/Parser/css3Lexer.cpp.i
-.PHONY : src/CSSCompiler/Parser/css3Lexer.i
+src/CHTLCompiler/CHTLCompilerCore.i: src/CHTLCompiler/CHTLCompilerCore.cpp.i
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.i
 
 # target to preprocess a source file
-src/CSSCompiler/Parser/css3Lexer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Lexer.cpp.i
-.PHONY : src/CSSCompiler/Parser/css3Lexer.cpp.i
+src/CHTLCompiler/CHTLCompilerCore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.i
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.cpp.i
 
-src/CSSCompiler/Parser/css3Lexer.s: src/CSSCompiler/Parser/css3Lexer.cpp.s
-.PHONY : src/CSSCompiler/Parser/css3Lexer.s
+src/CHTLCompiler/CHTLCompilerCore.s: src/CHTLCompiler/CHTLCompilerCore.cpp.s
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.s
 
 # target to generate assembly for a file
-src/CSSCompiler/Parser/css3Lexer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Lexer.cpp.s
-.PHONY : src/CSSCompiler/Parser/css3Lexer.cpp.s
+src/CHTLCompiler/CHTLCompilerCore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.s
+.PHONY : src/CHTLCompiler/CHTLCompilerCore.cpp.s
 
-src/CSSCompiler/Parser/css3Parser.o: src/CSSCompiler/Parser/css3Parser.cpp.o
-.PHONY : src/CSSCompiler/Parser/css3Parser.o
+src/CHTLCompiler/Constraint/ConstraintManager.o: src/CHTLCompiler/Constraint/ConstraintManager.cpp.o
+.PHONY : src/CHTLCompiler/Constraint/ConstraintManager.o
 
 # target to build an object file
-src/CSSCompiler/Parser/css3Parser.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Parser.cpp.o
-.PHONY : src/CSSCompiler/Parser/css3Parser.cpp.o
+src/CHTLCompiler/Constraint/ConstraintManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o
+.PHONY : src/CHTLCompiler/Constraint/ConstraintManager.cpp.o
 
-src/CSSCompiler/Parser/css3Parser.i: src/CSSCompiler/Parser/css3Parser.cpp.i
-.PHONY : src/CSSCompiler/Parser/css3Parser.i
+src/CHTLCompiler/Constraint/ConstraintManager.i: src/CHTLCompiler/Constraint/ConstraintManager.cpp.i
+.PHONY : src/CHTLCompiler/Constraint/ConstraintManager.i
 
 # target to preprocess a source file
-src/CSSCompiler/Parser/css3Parser.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Parser.cpp.i
-.PHONY : src/CSSCompiler/Parser/css3Parser.cpp.i
+src/CHTLCompiler/Constraint/ConstraintManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.i
+.PHONY : src/CHTLCompiler/Constraint/ConstraintManager.cpp.i
 
-src/CSSCompiler/Parser/css3Parser.s: src/CSSCompiler/Parser/css3Parser.cpp.s
-.PHONY : src/CSSCompiler/Parser/css3Parser.s
+src/CHTLCompiler/Constraint/ConstraintManager.s: src/CHTLCompiler/Constraint/ConstraintManager.cpp.s
+.PHONY : src/CHTLCompiler/Constraint/ConstraintManager.s
 
 # target to generate assembly for a file
-src/CSSCompiler/Parser/css3Parser.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3Parser.cpp.s
-.PHONY : src/CSSCompiler/Parser/css3Parser.cpp.s
+src/CHTLCompiler/Constraint/ConstraintManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.s
+.PHONY : src/CHTLCompiler/Constraint/ConstraintManager.cpp.s
 
-src/CSSCompiler/Parser/css3ParserBaseListener.o: src/CSSCompiler/Parser/css3ParserBaseListener.cpp.o
-.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.o
+src/CHTLCompiler/Custom/CustomManager.o: src/CHTLCompiler/Custom/CustomManager.cpp.o
+.PHONY : src/CHTLCompiler/Custom/CustomManager.o
 
 # target to build an object file
-src/CSSCompiler/Parser/css3ParserBaseListener.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserBaseListener.cpp.o
-.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.cpp.o
+src/CHTLCompiler/Custom/CustomManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o
+.PHONY : src/CHTLCompiler/Custom/CustomManager.cpp.o
 
-src/CSSCompiler/Parser/css3ParserBaseListener.i: src/CSSCompiler/Parser/css3ParserBaseListener.cpp.i
-.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.i
+src/CHTLCompiler/Custom/CustomManager.i: src/CHTLCompiler/Custom/CustomManager.cpp.i
+.PHONY : src/CHTLCompiler/Custom/CustomManager.i
 
 # target to preprocess a source file
-src/CSSCompiler/Parser/css3ParserBaseListener.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserBaseListener.cpp.i
-.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.cpp.i
+src/CHTLCompiler/Custom/CustomManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Custom/CustomManager.cpp.i
+.PHONY : src/CHTLCompiler/Custom/CustomManager.cpp.i
 
-src/CSSCompiler/Parser/css3ParserBaseListener.s: src/CSSCompiler/Parser/css3ParserBaseListener.cpp.s
-.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.s
+src/CHTLCompiler/Custom/CustomManager.s: src/CHTLCompiler/Custom/CustomManager.cpp.s
+.PHONY : src/CHTLCompiler/Custom/CustomManager.s
 
 # target to generate assembly for a file
-src/CSSCompiler/Parser/css3ParserBaseListener.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserBaseListener.cpp.s
-.PHONY : src/CSSCompiler/Parser/css3ParserBaseListener.cpp.s
+src/CHTLCompiler/Custom/CustomManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Custom/CustomManager.cpp.s
+.PHONY : src/CHTLCompiler/Custom/CustomManager.cpp.s
 
-src/CSSCompiler/Parser/css3ParserListener.o: src/CSSCompiler/Parser/css3ParserListener.cpp.o
-.PHONY : src/CSSCompiler/Parser/css3ParserListener.o
+src/CHTLCompiler/Generator/CHTLGenerator.o: src/CHTLCompiler/Generator/CHTLGenerator.cpp.o
+.PHONY : src/CHTLCompiler/Generator/CHTLGenerator.o
 
 # target to build an object file
-src/CSSCompiler/Parser/css3ParserListener.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserListener.cpp.o
-.PHONY : src/CSSCompiler/Parser/css3ParserListener.cpp.o
+src/CHTLCompiler/Generator/CHTLGenerator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.o
+.PHONY : src/CHTLCompiler/Generator/CHTLGenerator.cpp.o
 
-src/CSSCompiler/Parser/css3ParserListener.i: src/CSSCompiler/Parser/css3ParserListener.cpp.i
-.PHONY : src/CSSCompiler/Parser/css3ParserListener.i
+src/CHTLCompiler/Generator/CHTLGenerator.i: src/CHTLCompiler/Generator/CHTLGenerator.cpp.i
+.PHONY : src/CHTLCompiler/Generator/CHTLGenerator.i
 
 # target to preprocess a source file
-src/CSSCompiler/Parser/css3ParserListener.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserListener.cpp.i
-.PHONY : src/CSSCompiler/Parser/css3ParserListener.cpp.i
+src/CHTLCompiler/Generator/CHTLGenerator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.i
+.PHONY : src/CHTLCompiler/Generator/CHTLGenerator.cpp.i
 
-src/CSSCompiler/Parser/css3ParserListener.s: src/CSSCompiler/Parser/css3ParserListener.cpp.s
-.PHONY : src/CSSCompiler/Parser/css3ParserListener.s
+src/CHTLCompiler/Generator/CHTLGenerator.s: src/CHTLCompiler/Generator/CHTLGenerator.cpp.s
+.PHONY : src/CHTLCompiler/Generator/CHTLGenerator.s
 
 # target to generate assembly for a file
-src/CSSCompiler/Parser/css3ParserListener.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_css_compiler.dir/build.make CMakeFiles/chtl_css_compiler.dir/src/CSSCompiler/Parser/css3ParserListener.cpp.s
-.PHONY : src/CSSCompiler/Parser/css3ParserListener.cpp.s
+src/CHTLCompiler/Generator/CHTLGenerator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.s
+.PHONY : src/CHTLCompiler/Generator/CHTLGenerator.cpp.s
 
-src/JavaScriptCompiler/Core/JavaScriptCompilerCore.o: src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o
-.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.o
+src/CHTLCompiler/Import/ImportManager.o: src/CHTLCompiler/Import/ImportManager.cpp.o
+.PHONY : src/CHTLCompiler/Import/ImportManager.o
 
 # target to build an object file
-src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o
-.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.o
+src/CHTLCompiler/Import/ImportManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Import/ImportManager.cpp.o
+.PHONY : src/CHTLCompiler/Import/ImportManager.cpp.o
 
-src/JavaScriptCompiler/Core/JavaScriptCompilerCore.i: src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.i
-.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.i
+src/CHTLCompiler/Import/ImportManager.i: src/CHTLCompiler/Import/ImportManager.cpp.i
+.PHONY : src/CHTLCompiler/Import/ImportManager.i
 
 # target to preprocess a source file
-src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.i
-.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.i
+src/CHTLCompiler/Import/ImportManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Import/ImportManager.cpp.i
+.PHONY : src/CHTLCompiler/Import/ImportManager.cpp.i
 
-src/JavaScriptCompiler/Core/JavaScriptCompilerCore.s: src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s
-.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.s
+src/CHTLCompiler/Import/ImportManager.s: src/CHTLCompiler/Import/ImportManager.cpp.s
+.PHONY : src/CHTLCompiler/Import/ImportManager.s
 
 # target to generate assembly for a file
-src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s
-.PHONY : src/JavaScriptCompiler/Core/JavaScriptCompilerCore.cpp.s
+src/CHTLCompiler/Import/ImportManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Import/ImportManager.cpp.s
+.PHONY : src/CHTLCompiler/Import/ImportManager.cpp.s
 
-src/JavaScriptCompiler/Parser/JavaScriptLexerBase.o: src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.o
+src/CHTLCompiler/Lexer/CHTLLexer.o: src/CHTLCompiler/Lexer/CHTLLexer.cpp.o
+.PHONY : src/CHTLCompiler/Lexer/CHTLLexer.o
 
 # target to build an object file
-src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.o
+src/CHTLCompiler/Lexer/CHTLLexer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.o
+.PHONY : src/CHTLCompiler/Lexer/CHTLLexer.cpp.o
 
-src/JavaScriptCompiler/Parser/JavaScriptLexerBase.i: src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.i
+src/CHTLCompiler/Lexer/CHTLLexer.i: src/CHTLCompiler/Lexer/CHTLLexer.cpp.i
+.PHONY : src/CHTLCompiler/Lexer/CHTLLexer.i
 
 # target to preprocess a source file
-src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.i
+src/CHTLCompiler/Lexer/CHTLLexer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.i
+.PHONY : src/CHTLCompiler/Lexer/CHTLLexer.cpp.i
 
-src/JavaScriptCompiler/Parser/JavaScriptLexerBase.s: src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.s
+src/CHTLCompiler/Lexer/CHTLLexer.s: src/CHTLCompiler/Lexer/CHTLLexer.cpp.s
+.PHONY : src/CHTLCompiler/Lexer/CHTLLexer.s
 
 # target to generate assembly for a file
-src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp.s
+src/CHTLCompiler/Lexer/CHTLLexer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.s
+.PHONY : src/CHTLCompiler/Lexer/CHTLLexer.cpp.s
 
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.o: src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.o
+src/CHTLCompiler/Lexer/CHTLToken.o: src/CHTLCompiler/Lexer/CHTLToken.cpp.o
+.PHONY : src/CHTLCompiler/Lexer/CHTLToken.o
 
 # target to build an object file
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.o
+src/CHTLCompiler/Lexer/CHTLToken.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.o
+.PHONY : src/CHTLCompiler/Lexer/CHTLToken.cpp.o
 
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.i: src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.i
+src/CHTLCompiler/Lexer/CHTLToken.i: src/CHTLCompiler/Lexer/CHTLToken.cpp.i
+.PHONY : src/CHTLCompiler/Lexer/CHTLToken.i
 
 # target to preprocess a source file
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.i
+src/CHTLCompiler/Lexer/CHTLToken.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.i
+.PHONY : src/CHTLCompiler/Lexer/CHTLToken.cpp.i
 
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.s: src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.s
+src/CHTLCompiler/Lexer/CHTLToken.s: src/CHTLCompiler/Lexer/CHTLToken.cpp.s
+.PHONY : src/CHTLCompiler/Lexer/CHTLToken.s
 
 # target to generate assembly for a file
-src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp.s
+src/CHTLCompiler/Lexer/CHTLToken.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.s
+.PHONY : src/CHTLCompiler/Lexer/CHTLToken.cpp.s
 
-src/JavaScriptCompiler/Parser/JavaScriptParserBase.o: src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.o
+src/CHTLCompiler/Module/CmodManager.o: src/CHTLCompiler/Module/CmodManager.cpp.o
+.PHONY : src/CHTLCompiler/Module/CmodManager.o
 
 # target to build an object file
-src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.o
+src/CHTLCompiler/Module/CmodManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Module/CmodManager.cpp.o
+.PHONY : src/CHTLCompiler/Module/CmodManager.cpp.o
 
-src/JavaScriptCompiler/Parser/JavaScriptParserBase.i: src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.i
+src/CHTLCompiler/Module/CmodManager.i: src/CHTLCompiler/Module/CmodManager.cpp.i
+.PHONY : src/CHTLCompiler/Module/CmodManager.i
 
 # target to preprocess a source file
-src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.i
+src/CHTLCompiler/Module/CmodManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Module/CmodManager.cpp.i
+.PHONY : src/CHTLCompiler/Module/CmodManager.cpp.i
 
-src/JavaScriptCompiler/Parser/JavaScriptParserBase.s: src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.s
+src/CHTLCompiler/Module/CmodManager.s: src/CHTLCompiler/Module/CmodManager.cpp.s
+.PHONY : src/CHTLCompiler/Module/CmodManager.s
 
 # target to generate assembly for a file
-src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp.s
+src/CHTLCompiler/Module/CmodManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Module/CmodManager.cpp.s
+.PHONY : src/CHTLCompiler/Module/CmodManager.cpp.s
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.o: src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.o
+src/CHTLCompiler/Origin/OriginManager.o: src/CHTLCompiler/Origin/OriginManager.cpp.o
+.PHONY : src/CHTLCompiler/Origin/OriginManager.o
 
 # target to build an object file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.o
+src/CHTLCompiler/Origin/OriginManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o
+.PHONY : src/CHTLCompiler/Origin/OriginManager.cpp.o
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.i: src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.i
+src/CHTLCompiler/Origin/OriginManager.i: src/CHTLCompiler/Origin/OriginManager.cpp.i
+.PHONY : src/CHTLCompiler/Origin/OriginManager.i
 
 # target to preprocess a source file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.i
+src/CHTLCompiler/Origin/OriginManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Origin/OriginManager.cpp.i
+.PHONY : src/CHTLCompiler/Origin/OriginManager.cpp.i
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.s: src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.s
+src/CHTLCompiler/Origin/OriginManager.s: src/CHTLCompiler/Origin/OriginManager.cpp.s
+.PHONY : src/CHTLCompiler/Origin/OriginManager.s
 
 # target to generate assembly for a file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp.s
+src/CHTLCompiler/Origin/OriginManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Origin/OriginManager.cpp.s
+.PHONY : src/CHTLCompiler/Origin/OriginManager.cpp.s
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.o: src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.o
+src/CHTLCompiler/Parser/CHTLContext.o: src/CHTLCompiler/Parser/CHTLContext.cpp.o
+.PHONY : src/CHTLCompiler/Parser/CHTLContext.o
 
 # target to build an object file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.o
+src/CHTLCompiler/Parser/CHTLContext.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.o
+.PHONY : src/CHTLCompiler/Parser/CHTLContext.cpp.o
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.i: src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.i
+src/CHTLCompiler/Parser/CHTLContext.i: src/CHTLCompiler/Parser/CHTLContext.cpp.i
+.PHONY : src/CHTLCompiler/Parser/CHTLContext.i
 
 # target to preprocess a source file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.i
+src/CHTLCompiler/Parser/CHTLContext.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.i
+.PHONY : src/CHTLCompiler/Parser/CHTLContext.cpp.i
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.s: src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.s
+src/CHTLCompiler/Parser/CHTLContext.s: src/CHTLCompiler/Parser/CHTLContext.cpp.s
+.PHONY : src/CHTLCompiler/Parser/CHTLContext.s
 
 # target to generate assembly for a file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp.s
+src/CHTLCompiler/Parser/CHTLContext.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.s
+.PHONY : src/CHTLCompiler/Parser/CHTLContext.cpp.s
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.o: src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.o
+src/CHTLCompiler/Parser/CHTLParser.o: src/CHTLCompiler/Parser/CHTLParser.cpp.o
+.PHONY : src/CHTLCompiler/Parser/CHTLParser.o
 
 # target to build an object file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.o
+src/CHTLCompiler/Parser/CHTLParser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Parser/CHTLParser.cpp.o
+.PHONY : src/CHTLCompiler/Parser/CHTLParser.cpp.o
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.i: src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.i
+src/CHTLCompiler/Parser/CHTLParser.i: src/CHTLCompiler/Parser/CHTLParser.cpp.i
+.PHONY : src/CHTLCompiler/Parser/CHTLParser.i
 
 # target to preprocess a source file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.i
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.i
+src/CHTLCompiler/Parser/CHTLParser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Parser/CHTLParser.cpp.i
+.PHONY : src/CHTLCompiler/Parser/CHTLParser.cpp.i
 
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.s: src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.s
+src/CHTLCompiler/Parser/CHTLParser.s: src/CHTLCompiler/Parser/CHTLParser.cpp.s
+.PHONY : src/CHTLCompiler/Parser/CHTLParser.s
 
 # target to generate assembly for a file
-src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_compiler_antlr.dir/build.make CMakeFiles/chtl_js_compiler_antlr.dir/src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s
-.PHONY : src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp.s
+src/CHTLCompiler/Parser/CHTLParser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Parser/CHTLParser.cpp.s
+.PHONY : src/CHTLCompiler/Parser/CHTLParser.cpp.s
 
-src/Shared/Core/ErrorHandler.o: src/Shared/Core/ErrorHandler.cpp.o
-.PHONY : src/Shared/Core/ErrorHandler.o
+src/CHTLCompiler/State/CHTLGlobalMap.o: src/CHTLCompiler/State/CHTLGlobalMap.cpp.o
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.o
 
 # target to build an object file
-src/Shared/Core/ErrorHandler.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.o
-.PHONY : src/Shared/Core/ErrorHandler.cpp.o
+src/CHTLCompiler/State/CHTLGlobalMap.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.cpp.o
 
-src/Shared/Core/ErrorHandler.i: src/Shared/Core/ErrorHandler.cpp.i
-.PHONY : src/Shared/Core/ErrorHandler.i
+src/CHTLCompiler/State/CHTLGlobalMap.i: src/CHTLCompiler/State/CHTLGlobalMap.cpp.i
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.i
 
 # target to preprocess a source file
-src/Shared/Core/ErrorHandler.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.i
-.PHONY : src/Shared/Core/ErrorHandler.cpp.i
+src/CHTLCompiler/State/CHTLGlobalMap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.i
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.cpp.i
 
-src/Shared/Core/ErrorHandler.s: src/Shared/Core/ErrorHandler.cpp.s
-.PHONY : src/Shared/Core/ErrorHandler.s
+src/CHTLCompiler/State/CHTLGlobalMap.s: src/CHTLCompiler/State/CHTLGlobalMap.cpp.s
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.s
 
 # target to generate assembly for a file
-src/Shared/Core/ErrorHandler.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/ErrorHandler.cpp.s
-.PHONY : src/Shared/Core/ErrorHandler.cpp.s
+src/CHTLCompiler/State/CHTLGlobalMap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.s
+.PHONY : src/CHTLCompiler/State/CHTLGlobalMap.cpp.s
 
-src/Shared/Core/NamespaceAlgorithms.o: src/Shared/Core/NamespaceAlgorithms.cpp.o
-.PHONY : src/Shared/Core/NamespaceAlgorithms.o
+src/CHTLCompiler/State/CHTLState.o: src/CHTLCompiler/State/CHTLState.cpp.o
+.PHONY : src/CHTLCompiler/State/CHTLState.o
 
 # target to build an object file
-src/Shared/Core/NamespaceAlgorithms.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.o
-.PHONY : src/Shared/Core/NamespaceAlgorithms.cpp.o
+src/CHTLCompiler/State/CHTLState.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/State/CHTLState.cpp.o
+.PHONY : src/CHTLCompiler/State/CHTLState.cpp.o
 
-src/Shared/Core/NamespaceAlgorithms.i: src/Shared/Core/NamespaceAlgorithms.cpp.i
-.PHONY : src/Shared/Core/NamespaceAlgorithms.i
+src/CHTLCompiler/State/CHTLState.i: src/CHTLCompiler/State/CHTLState.cpp.i
+.PHONY : src/CHTLCompiler/State/CHTLState.i
 
 # target to preprocess a source file
-src/Shared/Core/NamespaceAlgorithms.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.i
-.PHONY : src/Shared/Core/NamespaceAlgorithms.cpp.i
+src/CHTLCompiler/State/CHTLState.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/State/CHTLState.cpp.i
+.PHONY : src/CHTLCompiler/State/CHTLState.cpp.i
 
-src/Shared/Core/NamespaceAlgorithms.s: src/Shared/Core/NamespaceAlgorithms.cpp.s
-.PHONY : src/Shared/Core/NamespaceAlgorithms.s
+src/CHTLCompiler/State/CHTLState.s: src/CHTLCompiler/State/CHTLState.cpp.s
+.PHONY : src/CHTLCompiler/State/CHTLState.s
 
 # target to generate assembly for a file
-src/Shared/Core/NamespaceAlgorithms.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Core/NamespaceAlgorithms.cpp.s
-.PHONY : src/Shared/Core/NamespaceAlgorithms.cpp.s
+src/CHTLCompiler/State/CHTLState.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/State/CHTLState.cpp.s
+.PHONY : src/CHTLCompiler/State/CHTLState.cpp.s
 
-src/Shared/Utils/FileUtils.o: src/Shared/Utils/FileUtils.cpp.o
-.PHONY : src/Shared/Utils/FileUtils.o
+src/CHTLCompiler/Template/TemplateManager.o: src/CHTLCompiler/Template/TemplateManager.cpp.o
+.PHONY : src/CHTLCompiler/Template/TemplateManager.o
 
 # target to build an object file
-src/Shared/Utils/FileUtils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.o
-.PHONY : src/Shared/Utils/FileUtils.cpp.o
+src/CHTLCompiler/Template/TemplateManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o
+.PHONY : src/CHTLCompiler/Template/TemplateManager.cpp.o
 
-src/Shared/Utils/FileUtils.i: src/Shared/Utils/FileUtils.cpp.i
-.PHONY : src/Shared/Utils/FileUtils.i
+src/CHTLCompiler/Template/TemplateManager.i: src/CHTLCompiler/Template/TemplateManager.cpp.i
+.PHONY : src/CHTLCompiler/Template/TemplateManager.i
 
 # target to preprocess a source file
-src/Shared/Utils/FileUtils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.i
-.PHONY : src/Shared/Utils/FileUtils.cpp.i
+src/CHTLCompiler/Template/TemplateManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Template/TemplateManager.cpp.i
+.PHONY : src/CHTLCompiler/Template/TemplateManager.cpp.i
 
-src/Shared/Utils/FileUtils.s: src/Shared/Utils/FileUtils.cpp.s
-.PHONY : src/Shared/Utils/FileUtils.s
+src/CHTLCompiler/Template/TemplateManager.s: src/CHTLCompiler/Template/TemplateManager.cpp.s
+.PHONY : src/CHTLCompiler/Template/TemplateManager.s
 
 # target to generate assembly for a file
-src/Shared/Utils/FileUtils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_shared_min.dir/build.make CMakeFiles/chtl_shared_min.dir/src/Shared/Utils/FileUtils.cpp.s
-.PHONY : src/Shared/Utils/FileUtils.cpp.s
+src/CHTLCompiler/Template/TemplateManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_managers.dir/build.make CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Template/TemplateManager.cpp.s
+.PHONY : src/CHTLCompiler/Template/TemplateManager.cpp.s
 
-src/Test/ComprehensiveTestRunner.o: src/Test/ComprehensiveTestRunner.cpp.o
-.PHONY : src/Test/ComprehensiveTestRunner.o
+src/Common/AST/CommentGenerator.o: src/Common/AST/CommentGenerator.cpp.o
+.PHONY : src/Common/AST/CommentGenerator.o
 
 # target to build an object file
-src/Test/ComprehensiveTestRunner.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/ComprehensiveTestRunner.cpp.o
-.PHONY : src/Test/ComprehensiveTestRunner.cpp.o
+src/Common/AST/CommentGenerator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.o
+.PHONY : src/Common/AST/CommentGenerator.cpp.o
 
-src/Test/ComprehensiveTestRunner.i: src/Test/ComprehensiveTestRunner.cpp.i
-.PHONY : src/Test/ComprehensiveTestRunner.i
+src/Common/AST/CommentGenerator.i: src/Common/AST/CommentGenerator.cpp.i
+.PHONY : src/Common/AST/CommentGenerator.i
 
 # target to preprocess a source file
-src/Test/ComprehensiveTestRunner.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/ComprehensiveTestRunner.cpp.i
-.PHONY : src/Test/ComprehensiveTestRunner.cpp.i
+src/Common/AST/CommentGenerator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.i
+.PHONY : src/Common/AST/CommentGenerator.cpp.i
 
-src/Test/ComprehensiveTestRunner.s: src/Test/ComprehensiveTestRunner.cpp.s
-.PHONY : src/Test/ComprehensiveTestRunner.s
+src/Common/AST/CommentGenerator.s: src/Common/AST/CommentGenerator.cpp.s
+.PHONY : src/Common/AST/CommentGenerator.s
 
 # target to generate assembly for a file
-src/Test/ComprehensiveTestRunner.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/ComprehensiveTestRunner.cpp.s
-.PHONY : src/Test/ComprehensiveTestRunner.cpp.s
+src/Common/AST/CommentGenerator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.s
+.PHONY : src/Common/AST/CommentGenerator.cpp.s
 
-src/Test/Framework/TestBase.o: src/Test/Framework/TestBase.cpp.o
-.PHONY : src/Test/Framework/TestBase.o
+src/Common/AST/CommentNode.o: src/Common/AST/CommentNode.cpp.o
+.PHONY : src/Common/AST/CommentNode.o
 
 # target to build an object file
-src/Test/Framework/TestBase.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestBase.cpp.o
-.PHONY : src/Test/Framework/TestBase.cpp.o
+src/Common/AST/CommentNode.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.o
+.PHONY : src/Common/AST/CommentNode.cpp.o
 
-src/Test/Framework/TestBase.i: src/Test/Framework/TestBase.cpp.i
-.PHONY : src/Test/Framework/TestBase.i
+src/Common/AST/CommentNode.i: src/Common/AST/CommentNode.cpp.i
+.PHONY : src/Common/AST/CommentNode.i
 
 # target to preprocess a source file
-src/Test/Framework/TestBase.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestBase.cpp.i
-.PHONY : src/Test/Framework/TestBase.cpp.i
+src/Common/AST/CommentNode.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.i
+.PHONY : src/Common/AST/CommentNode.cpp.i
 
-src/Test/Framework/TestBase.s: src/Test/Framework/TestBase.cpp.s
-.PHONY : src/Test/Framework/TestBase.s
+src/Common/AST/CommentNode.s: src/Common/AST/CommentNode.cpp.s
+.PHONY : src/Common/AST/CommentNode.s
 
 # target to generate assembly for a file
-src/Test/Framework/TestBase.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestBase.cpp.s
-.PHONY : src/Test/Framework/TestBase.cpp.s
+src/Common/AST/CommentNode.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.s
+.PHONY : src/Common/AST/CommentNode.cpp.s
 
-src/Test/Framework/TestRunner.o: src/Test/Framework/TestRunner.cpp.o
-.PHONY : src/Test/Framework/TestRunner.o
+src/Common/AST/OriginEmbedDetector.o: src/Common/AST/OriginEmbedDetector.cpp.o
+.PHONY : src/Common/AST/OriginEmbedDetector.o
 
 # target to build an object file
-src/Test/Framework/TestRunner.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestRunner.cpp.o
-.PHONY : src/Test/Framework/TestRunner.cpp.o
+src/Common/AST/OriginEmbedDetector.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.o
+.PHONY : src/Common/AST/OriginEmbedDetector.cpp.o
 
-src/Test/Framework/TestRunner.i: src/Test/Framework/TestRunner.cpp.i
-.PHONY : src/Test/Framework/TestRunner.i
+src/Common/AST/OriginEmbedDetector.i: src/Common/AST/OriginEmbedDetector.cpp.i
+.PHONY : src/Common/AST/OriginEmbedDetector.i
 
 # target to preprocess a source file
-src/Test/Framework/TestRunner.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestRunner.cpp.i
-.PHONY : src/Test/Framework/TestRunner.cpp.i
+src/Common/AST/OriginEmbedDetector.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.i
+.PHONY : src/Common/AST/OriginEmbedDetector.cpp.i
 
-src/Test/Framework/TestRunner.s: src/Test/Framework/TestRunner.cpp.s
-.PHONY : src/Test/Framework/TestRunner.s
+src/Common/AST/OriginEmbedDetector.s: src/Common/AST/OriginEmbedDetector.cpp.s
+.PHONY : src/Common/AST/OriginEmbedDetector.s
 
 # target to generate assembly for a file
-src/Test/Framework/TestRunner.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Framework/TestRunner.cpp.s
-.PHONY : src/Test/Framework/TestRunner.cpp.s
+src/Common/AST/OriginEmbedDetector.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.s
+.PHONY : src/Common/AST/OriginEmbedDetector.cpp.s
 
-src/Test/Mocks/MockFileSystem.o: src/Test/Mocks/MockFileSystem.cpp.o
-.PHONY : src/Test/Mocks/MockFileSystem.o
+src/Common/Core/ErrorHandler.o: src/Common/Core/ErrorHandler.cpp.o
+.PHONY : src/Common/Core/ErrorHandler.o
 
 # target to build an object file
-src/Test/Mocks/MockFileSystem.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Mocks/MockFileSystem.cpp.o
-.PHONY : src/Test/Mocks/MockFileSystem.cpp.o
+src/Common/Core/ErrorHandler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o
+.PHONY : src/Common/Core/ErrorHandler.cpp.o
 
-src/Test/Mocks/MockFileSystem.i: src/Test/Mocks/MockFileSystem.cpp.i
-.PHONY : src/Test/Mocks/MockFileSystem.i
+src/Common/Core/ErrorHandler.i: src/Common/Core/ErrorHandler.cpp.i
+.PHONY : src/Common/Core/ErrorHandler.i
 
 # target to preprocess a source file
-src/Test/Mocks/MockFileSystem.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Mocks/MockFileSystem.cpp.i
-.PHONY : src/Test/Mocks/MockFileSystem.cpp.i
+src/Common/Core/ErrorHandler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.i
+.PHONY : src/Common/Core/ErrorHandler.cpp.i
 
-src/Test/Mocks/MockFileSystem.s: src/Test/Mocks/MockFileSystem.cpp.s
-.PHONY : src/Test/Mocks/MockFileSystem.s
+src/Common/Core/ErrorHandler.s: src/Common/Core/ErrorHandler.cpp.s
+.PHONY : src/Common/Core/ErrorHandler.s
 
 # target to generate assembly for a file
-src/Test/Mocks/MockFileSystem.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Mocks/MockFileSystem.cpp.s
-.PHONY : src/Test/Mocks/MockFileSystem.cpp.s
+src/Common/Core/ErrorHandler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.s
+.PHONY : src/Common/Core/ErrorHandler.cpp.s
 
-src/Test/SimpleTestRunner.o: src/Test/SimpleTestRunner.cpp.o
-.PHONY : src/Test/SimpleTestRunner.o
+src/Common/Core/NamespaceAlgorithms.o: src/Common/Core/NamespaceAlgorithms.cpp.o
+.PHONY : src/Common/Core/NamespaceAlgorithms.o
 
 # target to build an object file
-src/Test/SimpleTestRunner.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SimpleTestRunner.dir/build.make CMakeFiles/SimpleTestRunner.dir/src/Test/SimpleTestRunner.cpp.o
-.PHONY : src/Test/SimpleTestRunner.cpp.o
+src/Common/Core/NamespaceAlgorithms.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o
+.PHONY : src/Common/Core/NamespaceAlgorithms.cpp.o
 
-src/Test/SimpleTestRunner.i: src/Test/SimpleTestRunner.cpp.i
-.PHONY : src/Test/SimpleTestRunner.i
+src/Common/Core/NamespaceAlgorithms.i: src/Common/Core/NamespaceAlgorithms.cpp.i
+.PHONY : src/Common/Core/NamespaceAlgorithms.i
 
 # target to preprocess a source file
-src/Test/SimpleTestRunner.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SimpleTestRunner.dir/build.make CMakeFiles/SimpleTestRunner.dir/src/Test/SimpleTestRunner.cpp.i
-.PHONY : src/Test/SimpleTestRunner.cpp.i
+src/Common/Core/NamespaceAlgorithms.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.i
+.PHONY : src/Common/Core/NamespaceAlgorithms.cpp.i
 
-src/Test/SimpleTestRunner.s: src/Test/SimpleTestRunner.cpp.s
-.PHONY : src/Test/SimpleTestRunner.s
+src/Common/Core/NamespaceAlgorithms.s: src/Common/Core/NamespaceAlgorithms.cpp.s
+.PHONY : src/Common/Core/NamespaceAlgorithms.s
 
 # target to generate assembly for a file
-src/Test/SimpleTestRunner.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SimpleTestRunner.dir/build.make CMakeFiles/SimpleTestRunner.dir/src/Test/SimpleTestRunner.cpp.s
-.PHONY : src/Test/SimpleTestRunner.cpp.s
+src/Common/Core/NamespaceAlgorithms.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.s
+.PHONY : src/Common/Core/NamespaceAlgorithms.cpp.s
 
-src/Test/Utils/CHTLSyntaxValidator.o: src/Test/Utils/CHTLSyntaxValidator.cpp.o
-.PHONY : src/Test/Utils/CHTLSyntaxValidator.o
+src/Common/ModulePathManager.o: src/Common/ModulePathManager.cpp.o
+.PHONY : src/Common/ModulePathManager.o
 
 # target to build an object file
-src/Test/Utils/CHTLSyntaxValidator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o
-.PHONY : src/Test/Utils/CHTLSyntaxValidator.cpp.o
+src/Common/ModulePathManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o
+.PHONY : src/Common/ModulePathManager.cpp.o
 
-src/Test/Utils/CHTLSyntaxValidator.i: src/Test/Utils/CHTLSyntaxValidator.cpp.i
-.PHONY : src/Test/Utils/CHTLSyntaxValidator.i
+src/Common/ModulePathManager.i: src/Common/ModulePathManager.cpp.i
+.PHONY : src/Common/ModulePathManager.i
 
 # target to preprocess a source file
-src/Test/Utils/CHTLSyntaxValidator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.i
-.PHONY : src/Test/Utils/CHTLSyntaxValidator.cpp.i
+src/Common/ModulePathManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.i
+.PHONY : src/Common/ModulePathManager.cpp.i
 
-src/Test/Utils/CHTLSyntaxValidator.s: src/Test/Utils/CHTLSyntaxValidator.cpp.s
-.PHONY : src/Test/Utils/CHTLSyntaxValidator.s
+src/Common/ModulePathManager.s: src/Common/ModulePathManager.cpp.s
+.PHONY : src/Common/ModulePathManager.s
 
 # target to generate assembly for a file
-src/Test/Utils/CHTLSyntaxValidator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ComprehensiveTestRunner.dir/build.make CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.s
-.PHONY : src/Test/Utils/CHTLSyntaxValidator.cpp.s
+src/Common/ModulePathManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.s
+.PHONY : src/Common/ModulePathManager.cpp.s
 
-src/Test/Utils/TestUtils.o: src/Test/Utils/TestUtils.cpp.o
-.PHONY : src/Test/Utils/TestUtils.o
+src/Common/SimpleZip/SimpleZip.o: src/Common/SimpleZip/SimpleZip.cpp.o
+.PHONY : src/Common/SimpleZip/SimpleZip.o
 
 # target to build an object file
-src/Test/Utils/TestUtils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Utils/TestUtils.cpp.o
-.PHONY : src/Test/Utils/TestUtils.cpp.o
+src/Common/SimpleZip/SimpleZip.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o
+.PHONY : src/Common/SimpleZip/SimpleZip.cpp.o
 
-src/Test/Utils/TestUtils.i: src/Test/Utils/TestUtils.cpp.i
-.PHONY : src/Test/Utils/TestUtils.i
+src/Common/SimpleZip/SimpleZip.i: src/Common/SimpleZip/SimpleZip.cpp.i
+.PHONY : src/Common/SimpleZip/SimpleZip.i
 
 # target to preprocess a source file
-src/Test/Utils/TestUtils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Utils/TestUtils.cpp.i
-.PHONY : src/Test/Utils/TestUtils.cpp.i
+src/Common/SimpleZip/SimpleZip.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.i
+.PHONY : src/Common/SimpleZip/SimpleZip.cpp.i
 
-src/Test/Utils/TestUtils.s: src/Test/Utils/TestUtils.cpp.s
-.PHONY : src/Test/Utils/TestUtils.s
+src/Common/SimpleZip/SimpleZip.s: src/Common/SimpleZip/SimpleZip.cpp.s
+.PHONY : src/Common/SimpleZip/SimpleZip.s
 
 # target to generate assembly for a file
-src/Test/Utils/TestUtils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_test_framework.dir/build.make CMakeFiles/chtl_test_framework.dir/src/Test/Utils/TestUtils.cpp.s
-.PHONY : src/Test/Utils/TestUtils.cpp.s
+src/Common/SimpleZip/SimpleZip.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.s
+.PHONY : src/Common/SimpleZip/SimpleZip.cpp.s
 
-test/test_antlr_basic.o: test/test_antlr_basic.cpp.o
-.PHONY : test/test_antlr_basic.o
+src/Common/Utils/FileUtils.o: src/Common/Utils/FileUtils.cpp.o
+.PHONY : src/Common/Utils/FileUtils.o
 
 # target to build an object file
-test/test_antlr_basic.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_basic.dir/build.make CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.o
-.PHONY : test/test_antlr_basic.cpp.o
+src/Common/Utils/FileUtils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o
+.PHONY : src/Common/Utils/FileUtils.cpp.o
 
-test/test_antlr_basic.i: test/test_antlr_basic.cpp.i
-.PHONY : test/test_antlr_basic.i
+src/Common/Utils/FileUtils.i: src/Common/Utils/FileUtils.cpp.i
+.PHONY : src/Common/Utils/FileUtils.i
 
 # target to preprocess a source file
-test/test_antlr_basic.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_basic.dir/build.make CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.i
-.PHONY : test/test_antlr_basic.cpp.i
+src/Common/Utils/FileUtils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.i
+.PHONY : src/Common/Utils/FileUtils.cpp.i
 
-test/test_antlr_basic.s: test/test_antlr_basic.cpp.s
-.PHONY : test/test_antlr_basic.s
+src/Common/Utils/FileUtils.s: src/Common/Utils/FileUtils.cpp.s
+.PHONY : src/Common/Utils/FileUtils.s
 
 # target to generate assembly for a file
-test/test_antlr_basic.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_basic.dir/build.make CMakeFiles/test_antlr_basic.dir/test/test_antlr_basic.cpp.s
-.PHONY : test/test_antlr_basic.cpp.s
+src/Common/Utils/FileUtils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.s
+.PHONY : src/Common/Utils/FileUtils.cpp.s
 
-test/test_antlr_compilers.o: test/test_antlr_compilers.cpp.o
-.PHONY : test/test_antlr_compilers.o
+src/Scanner/CHTLUnifiedScanner.o: src/Scanner/CHTLUnifiedScanner.cpp.o
+.PHONY : src/Scanner/CHTLUnifiedScanner.o
 
 # target to build an object file
-test/test_antlr_compilers.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_compilers.dir/build.make CMakeFiles/test_antlr_compilers.dir/test/test_antlr_compilers.cpp.o
-.PHONY : test/test_antlr_compilers.cpp.o
+src/Scanner/CHTLUnifiedScanner.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/Scanner/CHTLUnifiedScanner.cpp.o
+.PHONY : src/Scanner/CHTLUnifiedScanner.cpp.o
 
-test/test_antlr_compilers.i: test/test_antlr_compilers.cpp.i
-.PHONY : test/test_antlr_compilers.i
+src/Scanner/CHTLUnifiedScanner.i: src/Scanner/CHTLUnifiedScanner.cpp.i
+.PHONY : src/Scanner/CHTLUnifiedScanner.i
 
 # target to preprocess a source file
-test/test_antlr_compilers.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_compilers.dir/build.make CMakeFiles/test_antlr_compilers.dir/test/test_antlr_compilers.cpp.i
-.PHONY : test/test_antlr_compilers.cpp.i
+src/Scanner/CHTLUnifiedScanner.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/Scanner/CHTLUnifiedScanner.cpp.i
+.PHONY : src/Scanner/CHTLUnifiedScanner.cpp.i
 
-test/test_antlr_compilers.s: test/test_antlr_compilers.cpp.s
-.PHONY : test/test_antlr_compilers.s
+src/Scanner/CHTLUnifiedScanner.s: src/Scanner/CHTLUnifiedScanner.cpp.s
+.PHONY : src/Scanner/CHTLUnifiedScanner.s
 
 # target to generate assembly for a file
-test/test_antlr_compilers.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_antlr_compilers.dir/build.make CMakeFiles/test_antlr_compilers.dir/test/test_antlr_compilers.cpp.s
-.PHONY : test/test_antlr_compilers.cpp.s
+src/Scanner/CHTLUnifiedScanner.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_scanner.dir/build.make CMakeFiles/chtl_scanner.dir/src/Scanner/CHTLUnifiedScanner.cpp.s
+.PHONY : src/Scanner/CHTLUnifiedScanner.cpp.s
 
-test/test_complex_syntax_errors.o: test/test_complex_syntax_errors.cpp.o
-.PHONY : test/test_complex_syntax_errors.o
+src/Test/Simple/QuickSyntaxTest.o: src/Test/Simple/QuickSyntaxTest.cpp.o
+.PHONY : src/Test/Simple/QuickSyntaxTest.o
 
 # target to build an object file
-test/test_complex_syntax_errors.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complex_syntax_errors.dir/build.make CMakeFiles/test_complex_syntax_errors.dir/test/test_complex_syntax_errors.cpp.o
-.PHONY : test/test_complex_syntax_errors.cpp.o
+src/Test/Simple/QuickSyntaxTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal.dir/build.make CMakeFiles/test_minimal.dir/src/Test/Simple/QuickSyntaxTest.cpp.o
+.PHONY : src/Test/Simple/QuickSyntaxTest.cpp.o
 
-test/test_complex_syntax_errors.i: test/test_complex_syntax_errors.cpp.i
-.PHONY : test/test_complex_syntax_errors.i
+src/Test/Simple/QuickSyntaxTest.i: src/Test/Simple/QuickSyntaxTest.cpp.i
+.PHONY : src/Test/Simple/QuickSyntaxTest.i
 
 # target to preprocess a source file
-test/test_complex_syntax_errors.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complex_syntax_errors.dir/build.make CMakeFiles/test_complex_syntax_errors.dir/test/test_complex_syntax_errors.cpp.i
-.PHONY : test/test_complex_syntax_errors.cpp.i
+src/Test/Simple/QuickSyntaxTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal.dir/build.make CMakeFiles/test_minimal.dir/src/Test/Simple/QuickSyntaxTest.cpp.i
+.PHONY : src/Test/Simple/QuickSyntaxTest.cpp.i
 
-test/test_complex_syntax_errors.s: test/test_complex_syntax_errors.cpp.s
-.PHONY : test/test_complex_syntax_errors.s
+src/Test/Simple/QuickSyntaxTest.s: src/Test/Simple/QuickSyntaxTest.cpp.s
+.PHONY : src/Test/Simple/QuickSyntaxTest.s
 
 # target to generate assembly for a file
-test/test_complex_syntax_errors.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_complex_syntax_errors.dir/build.make CMakeFiles/test_complex_syntax_errors.dir/test/test_complex_syntax_errors.cpp.s
-.PHONY : test/test_complex_syntax_errors.cpp.s
+src/Test/Simple/QuickSyntaxTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal.dir/build.make CMakeFiles/test_minimal.dir/src/Test/Simple/QuickSyntaxTest.cpp.s
+.PHONY : src/Test/Simple/QuickSyntaxTest.cpp.s
 
-test/test_css_validation_only.o: test/test_css_validation_only.cpp.o
-.PHONY : test/test_css_validation_only.o
+src/main_simple.o: src/main_simple.cpp.o
+.PHONY : src/main_simple.o
 
 # target to build an object file
-test/test_css_validation_only.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_css_validation_only.dir/build.make CMakeFiles/test_css_validation_only.dir/test/test_css_validation_only.cpp.o
-.PHONY : test/test_css_validation_only.cpp.o
+src/main_simple.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_main.dir/build.make CMakeFiles/chtl_main.dir/src/main_simple.cpp.o
+.PHONY : src/main_simple.cpp.o
 
-test/test_css_validation_only.i: test/test_css_validation_only.cpp.i
-.PHONY : test/test_css_validation_only.i
-
-# target to preprocess a source file
-test/test_css_validation_only.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_css_validation_only.dir/build.make CMakeFiles/test_css_validation_only.dir/test/test_css_validation_only.cpp.i
-.PHONY : test/test_css_validation_only.cpp.i
-
-test/test_css_validation_only.s: test/test_css_validation_only.cpp.s
-.PHONY : test/test_css_validation_only.s
-
-# target to generate assembly for a file
-test/test_css_validation_only.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_css_validation_only.dir/build.make CMakeFiles/test_css_validation_only.dir/test/test_css_validation_only.cpp.s
-.PHONY : test/test_css_validation_only.cpp.s
-
-test/test_minimal_css.o: test/test_minimal_css.cpp.o
-.PHONY : test/test_minimal_css.o
-
-# target to build an object file
-test/test_minimal_css.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_css.dir/build.make CMakeFiles/test_minimal_css.dir/test/test_minimal_css.cpp.o
-.PHONY : test/test_minimal_css.cpp.o
-
-test/test_minimal_css.i: test/test_minimal_css.cpp.i
-.PHONY : test/test_minimal_css.i
+src/main_simple.i: src/main_simple.cpp.i
+.PHONY : src/main_simple.i
 
 # target to preprocess a source file
-test/test_minimal_css.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_css.dir/build.make CMakeFiles/test_minimal_css.dir/test/test_minimal_css.cpp.i
-.PHONY : test/test_minimal_css.cpp.i
+src/main_simple.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_main.dir/build.make CMakeFiles/chtl_main.dir/src/main_simple.cpp.i
+.PHONY : src/main_simple.cpp.i
 
-test/test_minimal_css.s: test/test_minimal_css.cpp.s
-.PHONY : test/test_minimal_css.s
+src/main_simple.s: src/main_simple.cpp.s
+.PHONY : src/main_simple.s
 
 # target to generate assembly for a file
-test/test_minimal_css.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal_css.dir/build.make CMakeFiles/test_minimal_css.dir/test/test_minimal_css.cpp.s
-.PHONY : test/test_minimal_css.cpp.s
+src/main_simple.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_main.dir/build.make CMakeFiles/chtl_main.dir/src/main_simple.cpp.s
+.PHONY : src/main_simple.cpp.s
 
 # Help Target
 help:
@@ -915,98 +826,90 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... ComprehensiveTestRunner"
-	@echo "... SimpleTestRunner"
-	@echo "... chtl_css_compiler"
-	@echo "... chtl_js_compiler_antlr"
-	@echo "... chtl_shared_min"
-	@echo "... chtl_test_framework"
-	@echo "... test_antlr_basic"
-	@echo "... test_antlr_compilers"
-	@echo "... test_complex_syntax_errors"
-	@echo "... test_css_validation_only"
-	@echo "... test_minimal_css"
-	@echo "... src/CSSCompiler/Core/CSSCompilerCore.o"
-	@echo "... src/CSSCompiler/Core/CSSCompilerCore.i"
-	@echo "... src/CSSCompiler/Core/CSSCompilerCore.s"
-	@echo "... src/CSSCompiler/Parser/css3Lexer.o"
-	@echo "... src/CSSCompiler/Parser/css3Lexer.i"
-	@echo "... src/CSSCompiler/Parser/css3Lexer.s"
-	@echo "... src/CSSCompiler/Parser/css3Parser.o"
-	@echo "... src/CSSCompiler/Parser/css3Parser.i"
-	@echo "... src/CSSCompiler/Parser/css3Parser.s"
-	@echo "... src/CSSCompiler/Parser/css3ParserBaseListener.o"
-	@echo "... src/CSSCompiler/Parser/css3ParserBaseListener.i"
-	@echo "... src/CSSCompiler/Parser/css3ParserBaseListener.s"
-	@echo "... src/CSSCompiler/Parser/css3ParserListener.o"
-	@echo "... src/CSSCompiler/Parser/css3ParserListener.i"
-	@echo "... src/CSSCompiler/Parser/css3ParserListener.s"
-	@echo "... src/JavaScriptCompiler/Core/JavaScriptCompilerCore.o"
-	@echo "... src/JavaScriptCompiler/Core/JavaScriptCompilerCore.i"
-	@echo "... src/JavaScriptCompiler/Core/JavaScriptCompilerCore.s"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexerBase.o"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexerBase.i"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexerBase.s"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.o"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.i"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.s"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBase.o"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBase.i"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParserBase.s"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.o"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.i"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.s"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.o"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.i"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.s"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.o"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.i"
-	@echo "... src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.s"
-	@echo "... src/Shared/Core/ErrorHandler.o"
-	@echo "... src/Shared/Core/ErrorHandler.i"
-	@echo "... src/Shared/Core/ErrorHandler.s"
-	@echo "... src/Shared/Core/NamespaceAlgorithms.o"
-	@echo "... src/Shared/Core/NamespaceAlgorithms.i"
-	@echo "... src/Shared/Core/NamespaceAlgorithms.s"
-	@echo "... src/Shared/Utils/FileUtils.o"
-	@echo "... src/Shared/Utils/FileUtils.i"
-	@echo "... src/Shared/Utils/FileUtils.s"
-	@echo "... src/Test/ComprehensiveTestRunner.o"
-	@echo "... src/Test/ComprehensiveTestRunner.i"
-	@echo "... src/Test/ComprehensiveTestRunner.s"
-	@echo "... src/Test/Framework/TestBase.o"
-	@echo "... src/Test/Framework/TestBase.i"
-	@echo "... src/Test/Framework/TestBase.s"
-	@echo "... src/Test/Framework/TestRunner.o"
-	@echo "... src/Test/Framework/TestRunner.i"
-	@echo "... src/Test/Framework/TestRunner.s"
-	@echo "... src/Test/Mocks/MockFileSystem.o"
-	@echo "... src/Test/Mocks/MockFileSystem.i"
-	@echo "... src/Test/Mocks/MockFileSystem.s"
-	@echo "... src/Test/SimpleTestRunner.o"
-	@echo "... src/Test/SimpleTestRunner.i"
-	@echo "... src/Test/SimpleTestRunner.s"
-	@echo "... src/Test/Utils/CHTLSyntaxValidator.o"
-	@echo "... src/Test/Utils/CHTLSyntaxValidator.i"
-	@echo "... src/Test/Utils/CHTLSyntaxValidator.s"
-	@echo "... src/Test/Utils/TestUtils.o"
-	@echo "... src/Test/Utils/TestUtils.i"
-	@echo "... src/Test/Utils/TestUtils.s"
-	@echo "... test/test_antlr_basic.o"
-	@echo "... test/test_antlr_basic.i"
-	@echo "... test/test_antlr_basic.s"
-	@echo "... test/test_antlr_compilers.o"
-	@echo "... test/test_antlr_compilers.i"
-	@echo "... test/test_antlr_compilers.s"
-	@echo "... test/test_complex_syntax_errors.o"
-	@echo "... test/test_complex_syntax_errors.i"
-	@echo "... test/test_complex_syntax_errors.s"
-	@echo "... test/test_css_validation_only.o"
-	@echo "... test/test_css_validation_only.i"
-	@echo "... test/test_css_validation_only.s"
-	@echo "... test/test_minimal_css.o"
-	@echo "... test/test_minimal_css.i"
-	@echo "... test/test_minimal_css.s"
+	@echo "... chtl_common"
+	@echo "... chtl_compiler_basic"
+	@echo "... chtl_main"
+	@echo "... chtl_managers"
+	@echo "... chtl_scanner"
+	@echo "... test_minimal"
+	@echo "... src/CHTLCompiler/AST/CHTLNodes.o"
+	@echo "... src/CHTLCompiler/AST/CHTLNodes.i"
+	@echo "... src/CHTLCompiler/AST/CHTLNodes.s"
+	@echo "... src/CHTLCompiler/CHTLCompilerCore.o"
+	@echo "... src/CHTLCompiler/CHTLCompilerCore.i"
+	@echo "... src/CHTLCompiler/CHTLCompilerCore.s"
+	@echo "... src/CHTLCompiler/Constraint/ConstraintManager.o"
+	@echo "... src/CHTLCompiler/Constraint/ConstraintManager.i"
+	@echo "... src/CHTLCompiler/Constraint/ConstraintManager.s"
+	@echo "... src/CHTLCompiler/Custom/CustomManager.o"
+	@echo "... src/CHTLCompiler/Custom/CustomManager.i"
+	@echo "... src/CHTLCompiler/Custom/CustomManager.s"
+	@echo "... src/CHTLCompiler/Generator/CHTLGenerator.o"
+	@echo "... src/CHTLCompiler/Generator/CHTLGenerator.i"
+	@echo "... src/CHTLCompiler/Generator/CHTLGenerator.s"
+	@echo "... src/CHTLCompiler/Import/ImportManager.o"
+	@echo "... src/CHTLCompiler/Import/ImportManager.i"
+	@echo "... src/CHTLCompiler/Import/ImportManager.s"
+	@echo "... src/CHTLCompiler/Lexer/CHTLLexer.o"
+	@echo "... src/CHTLCompiler/Lexer/CHTLLexer.i"
+	@echo "... src/CHTLCompiler/Lexer/CHTLLexer.s"
+	@echo "... src/CHTLCompiler/Lexer/CHTLToken.o"
+	@echo "... src/CHTLCompiler/Lexer/CHTLToken.i"
+	@echo "... src/CHTLCompiler/Lexer/CHTLToken.s"
+	@echo "... src/CHTLCompiler/Module/CmodManager.o"
+	@echo "... src/CHTLCompiler/Module/CmodManager.i"
+	@echo "... src/CHTLCompiler/Module/CmodManager.s"
+	@echo "... src/CHTLCompiler/Origin/OriginManager.o"
+	@echo "... src/CHTLCompiler/Origin/OriginManager.i"
+	@echo "... src/CHTLCompiler/Origin/OriginManager.s"
+	@echo "... src/CHTLCompiler/Parser/CHTLContext.o"
+	@echo "... src/CHTLCompiler/Parser/CHTLContext.i"
+	@echo "... src/CHTLCompiler/Parser/CHTLContext.s"
+	@echo "... src/CHTLCompiler/Parser/CHTLParser.o"
+	@echo "... src/CHTLCompiler/Parser/CHTLParser.i"
+	@echo "... src/CHTLCompiler/Parser/CHTLParser.s"
+	@echo "... src/CHTLCompiler/State/CHTLGlobalMap.o"
+	@echo "... src/CHTLCompiler/State/CHTLGlobalMap.i"
+	@echo "... src/CHTLCompiler/State/CHTLGlobalMap.s"
+	@echo "... src/CHTLCompiler/State/CHTLState.o"
+	@echo "... src/CHTLCompiler/State/CHTLState.i"
+	@echo "... src/CHTLCompiler/State/CHTLState.s"
+	@echo "... src/CHTLCompiler/Template/TemplateManager.o"
+	@echo "... src/CHTLCompiler/Template/TemplateManager.i"
+	@echo "... src/CHTLCompiler/Template/TemplateManager.s"
+	@echo "... src/Common/AST/CommentGenerator.o"
+	@echo "... src/Common/AST/CommentGenerator.i"
+	@echo "... src/Common/AST/CommentGenerator.s"
+	@echo "... src/Common/AST/CommentNode.o"
+	@echo "... src/Common/AST/CommentNode.i"
+	@echo "... src/Common/AST/CommentNode.s"
+	@echo "... src/Common/AST/OriginEmbedDetector.o"
+	@echo "... src/Common/AST/OriginEmbedDetector.i"
+	@echo "... src/Common/AST/OriginEmbedDetector.s"
+	@echo "... src/Common/Core/ErrorHandler.o"
+	@echo "... src/Common/Core/ErrorHandler.i"
+	@echo "... src/Common/Core/ErrorHandler.s"
+	@echo "... src/Common/Core/NamespaceAlgorithms.o"
+	@echo "... src/Common/Core/NamespaceAlgorithms.i"
+	@echo "... src/Common/Core/NamespaceAlgorithms.s"
+	@echo "... src/Common/ModulePathManager.o"
+	@echo "... src/Common/ModulePathManager.i"
+	@echo "... src/Common/ModulePathManager.s"
+	@echo "... src/Common/SimpleZip/SimpleZip.o"
+	@echo "... src/Common/SimpleZip/SimpleZip.i"
+	@echo "... src/Common/SimpleZip/SimpleZip.s"
+	@echo "... src/Common/Utils/FileUtils.o"
+	@echo "... src/Common/Utils/FileUtils.i"
+	@echo "... src/Common/Utils/FileUtils.s"
+	@echo "... src/Scanner/CHTLUnifiedScanner.o"
+	@echo "... src/Scanner/CHTLUnifiedScanner.i"
+	@echo "... src/Scanner/CHTLUnifiedScanner.s"
+	@echo "... src/Test/Simple/QuickSyntaxTest.o"
+	@echo "... src/Test/Simple/QuickSyntaxTest.i"
+	@echo "... src/Test/Simple/QuickSyntaxTest.s"
+	@echo "... src/main_simple.o"
+	@echo "... src/main_simple.i"
+	@echo "... src/main_simple.s"
 .PHONY : help
 
 

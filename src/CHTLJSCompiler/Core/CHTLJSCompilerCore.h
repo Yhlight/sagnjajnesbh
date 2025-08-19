@@ -25,7 +25,7 @@ public:
     void cleanup();
     
     // 组件访问
-    CHTLJSLexer& getLexer() { return *lexer_; }
+    chtljs::CHTLJSLexer& getLexer() { return *lexer_; }
     ast::VirtualObjectManager& getVirtualObjectManager() { return *virtual_object_manager_; }
     CJmodManager& getModuleManager() { return *module_manager_; }
     
@@ -39,7 +39,7 @@ public:
     void clearErrors() { errors_.clear(); warnings_.clear(); }
     
 private:
-    std::unique_ptr<CHTLJSLexer> lexer_;
+    std::unique_ptr<chtljs::CHTLJSLexer> lexer_;
     std::unique_ptr<ast::VirtualObjectManager> virtual_object_manager_;
     std::unique_ptr<CJmodManager> module_manager_;
     

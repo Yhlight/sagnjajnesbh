@@ -256,6 +256,32 @@ bool CHTLLexer::isAlphaNumeric(char c) const {
     return isAlpha(c) || isDigit(c);
 }
 
+std::string CHTLLexer::peekNextWord() {
+    // 保存当前位置
+    size_t saved_pos = position_;
+    size_t saved_line = line_;
+    size_t saved_column = column_;
+    
+    // 跳过空白字符
+    while (!isAtEnd() && std::isspace(currentChar())) {
+        advance();
+    }
+    
+    // 读取下一个单词
+    std::string word;
+    while (!isAtEnd() && isAlphaNumeric(currentChar())) {
+        word += currentChar();
+        advance();
+    }
+    
+    // 恢复位置
+    position_ = saved_pos;
+    line_ = saved_line;
+    column_ = saved_column;
+    
+    return word;
+}
+
 void CHTLLexer::addError(const std::string& message) {
     errors_.push_back("行 " + std::to_string(line_) + ", 列 " + std::to_string(column_) + ": " + message);
 }

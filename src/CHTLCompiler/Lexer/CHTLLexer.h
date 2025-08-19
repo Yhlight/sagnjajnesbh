@@ -58,6 +58,7 @@ private:
     bool isAlpha(char c) const;
     bool isDigit(char c) const;
     bool isAlphaNumeric(char c) const;
+    std::string peekNextWord();  // 预览下一个单词
     void addError(const std::string& message);
 };
 

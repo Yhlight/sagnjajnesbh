@@ -16,10 +16,9 @@ endif()
 include_directories(src)
 
 # ============================================================================
-# Minimal Working Build (Only verified compiling core files)
+# Step 1: Build Core Common Library (absolutely essential)
 # ============================================================================
 
-# Core common library (absolutely essential files only)
 add_library(chtl_common STATIC
     src/Common/Core/ErrorHandler.cpp
     src/Common/Core/NamespaceAlgorithms.cpp
@@ -31,21 +30,60 @@ add_library(chtl_common STATIC
     src/Common/AST/OriginEmbedDetector.cpp
 )
 
-# Scanner (core functionality)
+# ============================================================================
+# Step 2: Build Scanner (depends on common)
+# ============================================================================
+
 add_library(chtl_scanner STATIC
     src/Scanner/CHTLUnifiedScanner.cpp
 )
 target_link_libraries(chtl_scanner chtl_common)
 
-# Main executable (minimal version)
-add_executable(chtl_main src/main.cpp)
-target_link_libraries(chtl_main chtl_scanner chtl_common)
+# ============================================================================
+# Step 3: Add Core Managers (needed by tests)
+# ============================================================================
+
+add_library(chtl_managers STATIC
+    src/CHTLCompiler/Template/TemplateManager.cpp
+    src/CHTLCompiler/Custom/CustomManager.cpp
+    src/CHTLCompiler/Origin/OriginManager.cpp
+    src/CHTLCompiler/Constraint/ConstraintManager.cpp
+)
+target_link_libraries(chtl_managers chtl_common)
+
+# ============================================================================
+# Step 4: Add CHTL Compiler Core (basic components)
+# ============================================================================
+
+add_library(chtl_compiler_basic STATIC
+    src/CHTLCompiler/CHTLCompilerCore.cpp
+    src/CHTLCompiler/AST/CHTLNodes.cpp
+    src/CHTLCompiler/Lexer/CHTLLexer.cpp
+    src/CHTLCompiler/Lexer/CHTLToken.cpp
+    src/CHTLCompiler/Parser/CHTLContext.cpp
+    src/CHTLCompiler/Parser/CHTLParser.cpp
+    src/CHTLCompiler/State/CHTLGlobalMap.cpp
+    src/CHTLCompiler/State/CHTLState.cpp
+    src/CHTLCompiler/Generator/CHTLGenerator.cpp
+    src/CHTLCompiler/Import/ImportManager.cpp
+    src/CHTLCompiler/Module/CmodManager.cpp
+)
+target_link_libraries(chtl_compiler_basic chtl_managers chtl_scanner chtl_common)
+
+# ============================================================================
+# Step 5: Test with basic compiler
+# ============================================================================
+
+# Main CHTL Compiler executable (simplified version)
+add_executable(chtl_main src/main_simple.cpp)
+target_link_libraries(chtl_main chtl_managers chtl_scanner chtl_common)
 set_target_properties(chtl_main PROPERTIES OUTPUT_NAME "chtl_compiler")
 
-# Alternative executable name
-add_executable(chtl_alt src/main.cpp)
-target_link_libraries(chtl_alt chtl_scanner chtl_common)
-set_target_properties(chtl_alt PROPERTIES OUTPUT_NAME "chtl")
+# Test executable
+add_executable(test_minimal
+    src/Test/Simple/QuickSyntaxTest.cpp
+)
+target_link_libraries(test_minimal chtl_compiler_basic chtl_managers chtl_scanner chtl_common)
 
 # ============================================================================
 # Output Directories
@@ -54,7 +92,6 @@ set_target_properties(chtl_alt PROPERTIES OUTPUT_NAME "chtl")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-# For Visual Studio
 foreach(CONFIG ${CMAKE_CONFIGURATION_TYPES})
     string(TOUPPER ${CONFIG} CONFIG_UPPER)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG_UPPER} ${CMAKE_BINARY_DIR}/bin/${CONFIG})
@@ -62,30 +99,28 @@ foreach(CONFIG ${CMAKE_CONFIGURATION_TYPES})
 endforeach()
 
 # ============================================================================
-# Installation
-# ============================================================================
-
-install(TARGETS chtl_main chtl_alt RUNTIME DESTINATION bin)
-install(TARGETS chtl_common chtl_scanner ARCHIVE DESTINATION lib)
-
-# ============================================================================
 # Summary
 # ============================================================================
 
 message(STATUS "")
-message(STATUS "CHTL Minimal Working Build")
-message(STATUS "===========================")
+message(STATUS "CHTL Working Build Configuration")
+message(STATUS "=================================")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
-message(STATUS "")
-message(STATUS "This is an ultra-minimal build for development")
-message(STATUS "Only includes core files that compile successfully")
-message(STATUS "Perfect for VSCode + CMake workflow")
+if(ANTLR4_FOUND)
+    message(STATUS "ANTLR4: Found (${ANTLR4_ROOT})")
+else()
+    message(STATUS "ANTLR4: Not found")
+endif()
 message(STATUS "")
 message(STATUS "Build targets:")
-message(STATUS "  - chtl_main -> chtl_compiler")
-message(STATUS "  - chtl_alt -> chtl")
-message(STATUS "  - Libraries: chtl_common, chtl_scanner")
+message(STATUS "  - chtl_main -> chtl_compiler (main executable)")
+message(STATUS "  - Libraries: chtl_common, chtl_scanner, chtl_managers")
+message(STATUS "  - test_minimal (functionality test)")
+message(STATUS "")
+message(STATUS "This is a working build with core CHTL functionality")
+message(STATUS "Some advanced features are temporarily disabled due to code issues")
 message(STATUS "")
 message(STATUS "To build: cmake --build . --parallel")
+message(STATUS "To test: ./chtl_compiler")
 message(STATUS "")

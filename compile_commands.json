@@ -1,0 +1,158 @@
+[
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o -c /workspace/src/Common/Core/ErrorHandler.cpp",
+  "file": "/workspace/src/Common/Core/ErrorHandler.cpp",
+  "output": "CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o -c /workspace/src/Common/Core/NamespaceAlgorithms.cpp",
+  "file": "/workspace/src/Common/Core/NamespaceAlgorithms.cpp",
+  "output": "CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o -c /workspace/src/Common/Utils/FileUtils.cpp",
+  "file": "/workspace/src/Common/Utils/FileUtils.cpp",
+  "output": "CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o -c /workspace/src/Common/ModulePathManager.cpp",
+  "file": "/workspace/src/Common/ModulePathManager.cpp",
+  "output": "CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o -c /workspace/src/Common/SimpleZip/SimpleZip.cpp",
+  "file": "/workspace/src/Common/SimpleZip/SimpleZip.cpp",
+  "output": "CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.o -c /workspace/src/Common/AST/CommentGenerator.cpp",
+  "file": "/workspace/src/Common/AST/CommentGenerator.cpp",
+  "output": "CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.o -c /workspace/src/Common/AST/CommentNode.cpp",
+  "file": "/workspace/src/Common/AST/CommentNode.cpp",
+  "output": "CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.o -c /workspace/src/Common/AST/OriginEmbedDetector.cpp",
+  "file": "/workspace/src/Common/AST/OriginEmbedDetector.cpp",
+  "output": "CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_scanner.dir/src/Scanner/CHTLUnifiedScanner.cpp.o -c /workspace/src/Scanner/CHTLUnifiedScanner.cpp",
+  "file": "/workspace/src/Scanner/CHTLUnifiedScanner.cpp",
+  "output": "CMakeFiles/chtl_scanner.dir/src/Scanner/CHTLUnifiedScanner.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o -c /workspace/src/CHTLCompiler/Template/TemplateManager.cpp",
+  "file": "/workspace/src/CHTLCompiler/Template/TemplateManager.cpp",
+  "output": "CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o -c /workspace/src/CHTLCompiler/Custom/CustomManager.cpp",
+  "file": "/workspace/src/CHTLCompiler/Custom/CustomManager.cpp",
+  "output": "CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o -c /workspace/src/CHTLCompiler/Origin/OriginManager.cpp",
+  "file": "/workspace/src/CHTLCompiler/Origin/OriginManager.cpp",
+  "output": "CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o -c /workspace/src/CHTLCompiler/Constraint/ConstraintManager.cpp",
+  "file": "/workspace/src/CHTLCompiler/Constraint/ConstraintManager.cpp",
+  "output": "CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o -c /workspace/src/CHTLCompiler/CHTLCompilerCore.cpp",
+  "file": "/workspace/src/CHTLCompiler/CHTLCompilerCore.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.o -c /workspace/src/CHTLCompiler/AST/CHTLNodes.cpp",
+  "file": "/workspace/src/CHTLCompiler/AST/CHTLNodes.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.o -c /workspace/src/CHTLCompiler/Lexer/CHTLLexer.cpp",
+  "file": "/workspace/src/CHTLCompiler/Lexer/CHTLLexer.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.o -c /workspace/src/CHTLCompiler/Lexer/CHTLToken.cpp",
+  "file": "/workspace/src/CHTLCompiler/Lexer/CHTLToken.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.o -c /workspace/src/CHTLCompiler/Parser/CHTLContext.cpp",
+  "file": "/workspace/src/CHTLCompiler/Parser/CHTLContext.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Parser/CHTLParser.cpp.o -c /workspace/src/CHTLCompiler/Parser/CHTLParser.cpp",
+  "file": "/workspace/src/CHTLCompiler/Parser/CHTLParser.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Parser/CHTLParser.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o -c /workspace/src/CHTLCompiler/State/CHTLGlobalMap.cpp",
+  "file": "/workspace/src/CHTLCompiler/State/CHTLGlobalMap.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/State/CHTLGlobalMap.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/State/CHTLState.cpp.o -c /workspace/src/CHTLCompiler/State/CHTLState.cpp",
+  "file": "/workspace/src/CHTLCompiler/State/CHTLState.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/State/CHTLState.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.o -c /workspace/src/CHTLCompiler/Generator/CHTLGenerator.cpp",
+  "file": "/workspace/src/CHTLCompiler/Generator/CHTLGenerator.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Import/ImportManager.cpp.o -c /workspace/src/CHTLCompiler/Import/ImportManager.cpp",
+  "file": "/workspace/src/CHTLCompiler/Import/ImportManager.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Import/ImportManager.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Module/CmodManager.cpp.o -c /workspace/src/CHTLCompiler/Module/CmodManager.cpp",
+  "file": "/workspace/src/CHTLCompiler/Module/CmodManager.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Module/CmodManager.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_main.dir/src/main_simple.cpp.o -c /workspace/src/main_simple.cpp",
+  "file": "/workspace/src/main_simple.cpp",
+  "output": "CMakeFiles/chtl_main.dir/src/main_simple.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/test_minimal.dir/src/Test/Simple/QuickSyntaxTest.cpp.o -c /workspace/src/Test/Simple/QuickSyntaxTest.cpp",
+  "file": "/workspace/src/Test/Simple/QuickSyntaxTest.cpp",
+  "output": "CMakeFiles/test_minimal.dir/src/Test/Simple/QuickSyntaxTest.cpp.o"
+}
+]

@@ -5,6 +5,7 @@
 #include <memory>
 
 namespace chtl {
+namespace chtljs {
 
 /**
  * CHTL JS词法分析器
@@ -72,4 +73,5 @@ private:
     bool isUndecoratedContext() const;
 };
 
+} // namespace chtljs
 } // namespace chtl

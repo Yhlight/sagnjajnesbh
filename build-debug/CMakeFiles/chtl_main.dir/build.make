@@ -72,30 +72,31 @@ include CMakeFiles/chtl_main.dir/flags.make
 CMakeFiles/chtl_main.dir/codegen:
 .PHONY : CMakeFiles/chtl_main.dir/codegen
 
-CMakeFiles/chtl_main.dir/src/main.cpp.o: CMakeFiles/chtl_main.dir/flags.make
-CMakeFiles/chtl_main.dir/src/main.cpp.o: /workspace/src/main.cpp
-CMakeFiles/chtl_main.dir/src/main.cpp.o: CMakeFiles/chtl_main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/chtl_main.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_main.dir/src/main.cpp.o -MF CMakeFiles/chtl_main.dir/src/main.cpp.o.d -o CMakeFiles/chtl_main.dir/src/main.cpp.o -c /workspace/src/main.cpp
+CMakeFiles/chtl_main.dir/src/main_simple.cpp.o: CMakeFiles/chtl_main.dir/flags.make
+CMakeFiles/chtl_main.dir/src/main_simple.cpp.o: /workspace/src/main_simple.cpp
+CMakeFiles/chtl_main.dir/src/main_simple.cpp.o: CMakeFiles/chtl_main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/chtl_main.dir/src/main_simple.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_main.dir/src/main_simple.cpp.o -MF CMakeFiles/chtl_main.dir/src/main_simple.cpp.o.d -o CMakeFiles/chtl_main.dir/src/main_simple.cpp.o -c /workspace/src/main_simple.cpp
 
-CMakeFiles/chtl_main.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_main.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/main.cpp > CMakeFiles/chtl_main.dir/src/main.cpp.i
+CMakeFiles/chtl_main.dir/src/main_simple.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_main.dir/src/main_simple.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/main_simple.cpp > CMakeFiles/chtl_main.dir/src/main_simple.cpp.i
 
-CMakeFiles/chtl_main.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_main.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/main.cpp -o CMakeFiles/chtl_main.dir/src/main.cpp.s
+CMakeFiles/chtl_main.dir/src/main_simple.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_main.dir/src/main_simple.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/main_simple.cpp -o CMakeFiles/chtl_main.dir/src/main_simple.cpp.s
 
 # Object files for target chtl_main
 chtl_main_OBJECTS = \
-"CMakeFiles/chtl_main.dir/src/main.cpp.o"
+"CMakeFiles/chtl_main.dir/src/main_simple.cpp.o"
 
 # External object files for target chtl_main
 chtl_main_EXTERNAL_OBJECTS =
 
-chtl_compiler: CMakeFiles/chtl_main.dir/src/main.cpp.o
+chtl_compiler: CMakeFiles/chtl_main.dir/src/main_simple.cpp.o
 chtl_compiler: CMakeFiles/chtl_main.dir/build.make
 chtl_compiler: CMakeFiles/chtl_main.dir/compiler_depend.ts
+chtl_compiler: libchtl_managers.a
 chtl_compiler: libchtl_scanner.a
 chtl_compiler: libchtl_common.a
 chtl_compiler: CMakeFiles/chtl_main.dir/link.txt

@@ -2,7 +2,7 @@
 #include "../Scanner/CHTLUnifiedScanner.h"
 #include "../CHTLCompiler/CHTLCompilerCore.h"
 #include "../CHTLJSCompiler/Core/CHTLJSCompilerCore.h"
-#include "../CHTLJSCompiler/Core/CHTLJSProcessor.h"
+// #include "../CHTLJSCompiler/Core/CHTLJSProcessor.h"  // File does not exist
 #include "../CHTLJSCompiler/Module/YourCJMODDesign.h"
 #include "../CHTLCompiler/Module/ModulePackager.h"
 #include "../CSSCompiler/CSSCompilerCore.h"
