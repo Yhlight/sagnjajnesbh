@@ -1,0 +1,353 @@
+// ========================================
+// 课程模板集合 - 验证模板系统
+// ========================================
+
+// 样式组模板
+[Template] @Style CourseBaseStyles {
+    container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 24px;
+        margin-bottom: 16px;
+        transition: all 0.3s ease;
+    }
+    
+    header {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: #1f2937;
+    }
+    
+    content {
+        color: #4b5563;
+        line-height: 1.6;
+    }
+    
+    footer {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #e5e7eb;
+    }
+}
+
+[Template] @Style InteractionStyles {
+    button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+    }
+    
+    input {
+        padding: 12px 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+        
+        &:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+    }
+    
+    link {
+        color: #3b82f6;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        
+        &:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+    }
+}
+
+// 元素模板
+[Template] @Element CourseHeader {
+    header {
+        class: course-header;
+        
+        style {
+            inherit CourseBaseStyles(header);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
+            .course-title {
+                font-size: 2rem;
+                margin: 0;
+            }
+            
+            .course-meta {
+                display: flex;
+                gap: 16px;
+                align-items: center;
+                font-size: 0.875rem;
+                color: #6b7280;
+            }
+        }
+        
+        h1 { 
+            class: course-title;
+            text { 课程标题 }
+        }
+        
+        div {
+            class: course-meta;
+            
+            span { text { 难度：初级 } }
+            span { text { 时长：2小时 } }
+            span { text { 学员：1,234人 } }
+        }
+    }
+}
+
+[Template] @Element CourseProgress {
+    div {
+        class: course-progress;
+        
+        style {
+            inherit CourseBaseStyles(container);
+            
+            .progress-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 12px;
+            }
+            
+            .progress-bar {
+                height: 8px;
+                background: #e5e7eb;
+                border-radius: 4px;
+                overflow: hidden;
+                
+                .progress-fill {
+                    height: 100%;
+                    background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+                    transition: width 0.5s ease;
+                }
+            }
+            
+            .progress-stats {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 8px;
+                font-size: 0.875rem;
+                color: #6b7280;
+            }
+        }
+        
+        div {
+            class: progress-header;
+            
+            h3 { text { 学习进度 } }
+            span { class: progress-percentage; text { 65% } }
+        }
+        
+        div {
+            class: progress-bar;
+            
+            div { 
+                class: progress-fill;
+                style { width: 65%; }
+            }
+        }
+        
+        div {
+            class: progress-stats;
+            
+            span { text { 已完成 13/20 章节 } }
+            span { text { 剩余时间：45分钟 } }
+        }
+    }
+}
+
+[Template] @Element LessonList {
+    div {
+        class: lesson-list;
+        
+        style {
+            inherit CourseBaseStyles(container);
+            
+            .lesson-item {
+                display: flex;
+                align-items: center;
+                padding: 16px;
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                margin-bottom: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                
+                &:hover {
+                    background: #f9fafb;
+                    border-color: #3b82f6;
+                }
+                
+                &.completed {
+                    background: #ecfdf5;
+                    border-color: #10b981;
+                    
+                    .lesson-status {
+                        color: #10b981;
+                    }
+                }
+                
+                &.current {
+                    background: #eff6ff;
+                    border-color: #3b82f6;
+                    
+                    .lesson-status {
+                        color: #3b82f6;
+                    }
+                }
+            }
+            
+            .lesson-status {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 600;
+                margin-right: 16px;
+            }
+            
+            .lesson-content {
+                flex: 1;
+                
+                .lesson-title {
+                    font-weight: 600;
+                    margin-bottom: 4px;
+                }
+                
+                .lesson-duration {
+                    font-size: 0.875rem;
+                    color: #6b7280;
+                }
+            }
+            
+            .lesson-actions {
+                display: flex;
+                gap: 8px;
+            }
+        }
+        
+        h3 { 
+            inherit CourseBaseStyles(header);
+            text { 课程章节 }
+        }
+        
+        div {
+            class: lesson-item completed;
+            
+            div { 
+                class: lesson-status;
+                text { ✓ }
+            }
+            
+            div {
+                class: lesson-content;
+                
+                div { 
+                    class: lesson-title;
+                    text { 第1章：HTML基础 }
+                }
+                
+                div { 
+                    class: lesson-duration;
+                    text { 15分钟 }
+                }
+            }
+        }
+        
+        div {
+            class: lesson-item current;
+            
+            div { 
+                class: lesson-status;
+                text { ▶ }
+            }
+            
+            div {
+                class: lesson-content;
+                
+                div { 
+                    class: lesson-title;
+                    text { 第2章：CSS样式设计 }
+                }
+                
+                div { 
+                    class: lesson-duration;
+                    text { 25分钟 }
+                }
+            }
+        }
+        
+        div {
+            class: lesson-item;
+            
+            div { 
+                class: lesson-status;
+                text { 3 }
+            }
+            
+            div {
+                class: lesson-content;
+                
+                div { 
+                    class: lesson-title;
+                    text { 第3章：JavaScript交互 }
+                }
+                
+                div { 
+                    class: lesson-duration;
+                    text { 35分钟 }
+                }
+            }
+        }
+    }
+}
+
+// 变量组模板
+[Template] @Var CourseColors {
+    primaryColor = #3b82f6;
+    secondaryColor = #6366f1;
+    successColor = #10b981;
+    warningColor = #f59e0b;
+    errorColor = #ef4444;
+    backgroundColor = #ffffff;
+    textColor = #1f2937;
+    borderColor = #e5e7eb;
+}
+
+[Template] @Var CourseSizes {
+    containerWidth = 1200px;
+    sidebarWidth = 300px;
+    headerHeight = 80px;
+    cardPadding = 24px;
+    borderRadius = 12px;
+    fontSize = 16px;
+    lineHeight = 1.6;
+}
+
+[Template] @Var CourseAnimations {
+    transitionDuration = 0.3s;
+    hoverScale = 1.02;
+    fadeInDuration = 0.5s;
+    slideDistance = 16px;
+    bounceHeight = 4px;
+}
