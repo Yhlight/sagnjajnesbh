@@ -1,6 +1,8 @@
-CMakeFiles/chtl_main.dir/src/main_simple.cpp.o: \
-  /workspace/src/main_simple.cpp \
-  /workspace/src/Scanner/CHTLUnifiedScanner.h \
+CMakeFiles/chtl_generator.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.o: \
+  /workspace/src/CHTLCompiler/Generator/CHTLGenerator.cpp \
+  /workspace/src/CHTLCompiler/Generator/CHTLGenerator.h \
+  /workspace/src/CHTLCompiler/Generator/../AST/CHTLNodes.h \
+  /workspace/src/CHTLCompiler/Generator/../AST/../Lexer/CHTLToken.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/string \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++config.h \
@@ -154,8 +156,6 @@ CMakeFiles/chtl_main.dir/src/main_simple.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/memory \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tempbuf.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_raw_storage_iter.h \
@@ -205,18 +205,8 @@ CMakeFiles/chtl_main.dir/src/main_simple.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/auto_ptr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_memory_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/execution_defs.h \
-  /workspace/src/CHTLCompiler/Template/TemplateManager.h \
-  /workspace/src/CHTLCompiler/Template/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Template/../AST/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Custom/CustomManager.h \
-  /workspace/src/CHTLCompiler/Custom/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Custom/../Template/TemplateManager.h \
-  /workspace/src/CHTLCompiler/Origin/OriginManager.h \
-  /workspace/src/CHTLCompiler/Origin/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Constraint/ConstraintManager.h \
-  /workspace/src/CHTLCompiler/Constraint/../AST/CHTLNodes.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ostream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/istream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ios \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/ios_base.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_classes.h \
@@ -236,6 +226,8 @@ CMakeFiles/chtl_main.dir/src/main_simple.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/ctype_inline.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_facets.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/basic_ios.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/ostream.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/istream \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/istream.tcc
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/istream.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream

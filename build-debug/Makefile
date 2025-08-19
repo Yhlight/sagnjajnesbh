@@ -182,6 +182,32 @@ chtl_main/fast:
 .PHONY : chtl_main/fast
 
 #=============================================================================
+# Target rules for targets named chtl_lexer
+
+# Build rule for target.
+chtl_lexer: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_lexer
+.PHONY : chtl_lexer
+
+# fast build rule for target.
+chtl_lexer/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_lexer.dir/build.make CMakeFiles/chtl_lexer.dir/build
+.PHONY : chtl_lexer/fast
+
+#=============================================================================
+# Target rules for targets named chtl_generator
+
+# Build rule for target.
+chtl_generator: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_generator
+.PHONY : chtl_generator
+
+# fast build rule for target.
+chtl_generator/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_generator.dir/build.make CMakeFiles/chtl_generator.dir/build
+.PHONY : chtl_generator/fast
+
+#=============================================================================
 # Target rules for targets named test_minimal
 
 # Build rule for target.
@@ -296,6 +322,7 @@ src/CHTLCompiler/Generator/CHTLGenerator.o: src/CHTLCompiler/Generator/CHTLGener
 # target to build an object file
 src/CHTLCompiler/Generator/CHTLGenerator.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_generator.dir/build.make CMakeFiles/chtl_generator.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.o
 .PHONY : src/CHTLCompiler/Generator/CHTLGenerator.cpp.o
 
 src/CHTLCompiler/Generator/CHTLGenerator.i: src/CHTLCompiler/Generator/CHTLGenerator.cpp.i
@@ -304,6 +331,7 @@ src/CHTLCompiler/Generator/CHTLGenerator.i: src/CHTLCompiler/Generator/CHTLGener
 # target to preprocess a source file
 src/CHTLCompiler/Generator/CHTLGenerator.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_generator.dir/build.make CMakeFiles/chtl_generator.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.i
 .PHONY : src/CHTLCompiler/Generator/CHTLGenerator.cpp.i
 
 src/CHTLCompiler/Generator/CHTLGenerator.s: src/CHTLCompiler/Generator/CHTLGenerator.cpp.s
@@ -312,6 +340,7 @@ src/CHTLCompiler/Generator/CHTLGenerator.s: src/CHTLCompiler/Generator/CHTLGener
 # target to generate assembly for a file
 src/CHTLCompiler/Generator/CHTLGenerator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_generator.dir/build.make CMakeFiles/chtl_generator.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.s
 .PHONY : src/CHTLCompiler/Generator/CHTLGenerator.cpp.s
 
 src/CHTLCompiler/Import/ImportManager.o: src/CHTLCompiler/Import/ImportManager.cpp.o
@@ -344,6 +373,7 @@ src/CHTLCompiler/Lexer/CHTLLexer.o: src/CHTLCompiler/Lexer/CHTLLexer.cpp.o
 # target to build an object file
 src/CHTLCompiler/Lexer/CHTLLexer.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_lexer.dir/build.make CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.o
 .PHONY : src/CHTLCompiler/Lexer/CHTLLexer.cpp.o
 
 src/CHTLCompiler/Lexer/CHTLLexer.i: src/CHTLCompiler/Lexer/CHTLLexer.cpp.i
@@ -352,6 +382,7 @@ src/CHTLCompiler/Lexer/CHTLLexer.i: src/CHTLCompiler/Lexer/CHTLLexer.cpp.i
 # target to preprocess a source file
 src/CHTLCompiler/Lexer/CHTLLexer.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_lexer.dir/build.make CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.i
 .PHONY : src/CHTLCompiler/Lexer/CHTLLexer.cpp.i
 
 src/CHTLCompiler/Lexer/CHTLLexer.s: src/CHTLCompiler/Lexer/CHTLLexer.cpp.s
@@ -360,6 +391,7 @@ src/CHTLCompiler/Lexer/CHTLLexer.s: src/CHTLCompiler/Lexer/CHTLLexer.cpp.s
 # target to generate assembly for a file
 src/CHTLCompiler/Lexer/CHTLLexer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_lexer.dir/build.make CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.s
 .PHONY : src/CHTLCompiler/Lexer/CHTLLexer.cpp.s
 
 src/CHTLCompiler/Lexer/CHTLToken.o: src/CHTLCompiler/Lexer/CHTLToken.cpp.o
@@ -368,6 +400,7 @@ src/CHTLCompiler/Lexer/CHTLToken.o: src/CHTLCompiler/Lexer/CHTLToken.cpp.o
 # target to build an object file
 src/CHTLCompiler/Lexer/CHTLToken.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_lexer.dir/build.make CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.o
 .PHONY : src/CHTLCompiler/Lexer/CHTLToken.cpp.o
 
 src/CHTLCompiler/Lexer/CHTLToken.i: src/CHTLCompiler/Lexer/CHTLToken.cpp.i
@@ -376,6 +409,7 @@ src/CHTLCompiler/Lexer/CHTLToken.i: src/CHTLCompiler/Lexer/CHTLToken.cpp.i
 # target to preprocess a source file
 src/CHTLCompiler/Lexer/CHTLToken.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_lexer.dir/build.make CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.i
 .PHONY : src/CHTLCompiler/Lexer/CHTLToken.cpp.i
 
 src/CHTLCompiler/Lexer/CHTLToken.s: src/CHTLCompiler/Lexer/CHTLToken.cpp.s
@@ -384,6 +418,7 @@ src/CHTLCompiler/Lexer/CHTLToken.s: src/CHTLCompiler/Lexer/CHTLToken.cpp.s
 # target to generate assembly for a file
 src/CHTLCompiler/Lexer/CHTLToken.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_basic.dir/build.make CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_lexer.dir/build.make CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.s
 .PHONY : src/CHTLCompiler/Lexer/CHTLToken.cpp.s
 
 src/CHTLCompiler/Module/CmodManager.o: src/CHTLCompiler/Module/CmodManager.cpp.o
@@ -794,29 +829,29 @@ src/Test/Simple/QuickSyntaxTest.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_minimal.dir/build.make CMakeFiles/test_minimal.dir/src/Test/Simple/QuickSyntaxTest.cpp.s
 .PHONY : src/Test/Simple/QuickSyntaxTest.cpp.s
 
-src/main_simple.o: src/main_simple.cpp.o
-.PHONY : src/main_simple.o
+src/main_working.o: src/main_working.cpp.o
+.PHONY : src/main_working.o
 
 # target to build an object file
-src/main_simple.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_main.dir/build.make CMakeFiles/chtl_main.dir/src/main_simple.cpp.o
-.PHONY : src/main_simple.cpp.o
+src/main_working.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_main.dir/build.make CMakeFiles/chtl_main.dir/src/main_working.cpp.o
+.PHONY : src/main_working.cpp.o
 
-src/main_simple.i: src/main_simple.cpp.i
-.PHONY : src/main_simple.i
+src/main_working.i: src/main_working.cpp.i
+.PHONY : src/main_working.i
 
 # target to preprocess a source file
-src/main_simple.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_main.dir/build.make CMakeFiles/chtl_main.dir/src/main_simple.cpp.i
-.PHONY : src/main_simple.cpp.i
+src/main_working.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_main.dir/build.make CMakeFiles/chtl_main.dir/src/main_working.cpp.i
+.PHONY : src/main_working.cpp.i
 
-src/main_simple.s: src/main_simple.cpp.s
-.PHONY : src/main_simple.s
+src/main_working.s: src/main_working.cpp.s
+.PHONY : src/main_working.s
 
 # target to generate assembly for a file
-src/main_simple.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_main.dir/build.make CMakeFiles/chtl_main.dir/src/main_simple.cpp.s
-.PHONY : src/main_simple.cpp.s
+src/main_working.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_main.dir/build.make CMakeFiles/chtl_main.dir/src/main_working.cpp.s
+.PHONY : src/main_working.cpp.s
 
 # Help Target
 help:
@@ -828,6 +863,8 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... chtl_common"
 	@echo "... chtl_compiler_basic"
+	@echo "... chtl_generator"
+	@echo "... chtl_lexer"
 	@echo "... chtl_main"
 	@echo "... chtl_managers"
 	@echo "... chtl_scanner"
@@ -907,9 +944,9 @@ help:
 	@echo "... src/Test/Simple/QuickSyntaxTest.o"
 	@echo "... src/Test/Simple/QuickSyntaxTest.i"
 	@echo "... src/Test/Simple/QuickSyntaxTest.s"
-	@echo "... src/main_simple.o"
-	@echo "... src/main_simple.i"
-	@echo "... src/main_simple.s"
+	@echo "... src/main_working.o"
+	@echo "... src/main_working.i"
+	@echo "... src/main_working.s"
 .PHONY : help
 
 

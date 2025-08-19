@@ -117,5 +117,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/chtl_managers.dir/DependInfo.cmake"
   "CMakeFiles/chtl_compiler_basic.dir/DependInfo.cmake"
   "CMakeFiles/chtl_main.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_lexer.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_generator.dir/DependInfo.cmake"
   "CMakeFiles/test_minimal.dir/DependInfo.cmake"
   )

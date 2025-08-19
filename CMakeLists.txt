@@ -74,10 +74,25 @@ target_link_libraries(chtl_compiler_basic chtl_managers chtl_scanner chtl_common
 # Step 5: Test with basic compiler
 # ============================================================================
 
-# Main CHTL Compiler executable (simplified version)
-add_executable(chtl_main src/main_simple.cpp)
+# Main CHTL Compiler executable (working version with real compilation)
+add_executable(chtl_main src/main_working.cpp)
 target_link_libraries(chtl_main chtl_managers chtl_scanner chtl_common)
 set_target_properties(chtl_main PROPERTIES OUTPUT_NAME "chtl_compiler")
+
+# Also build the basic compiler components (for future expansion)
+add_library(chtl_lexer STATIC
+    src/CHTLCompiler/Lexer/CHTLLexer.cpp
+    src/CHTLCompiler/Lexer/CHTLToken.cpp
+)
+target_link_libraries(chtl_lexer chtl_common)
+
+add_library(chtl_generator STATIC
+    src/CHTLCompiler/Generator/CHTLGenerator.cpp
+)
+target_link_libraries(chtl_generator chtl_common)
+
+# Update main executable to include lexer and generator
+target_link_libraries(chtl_main chtl_lexer chtl_generator)
 
 # Test executable
 add_executable(test_minimal
@@ -118,9 +133,12 @@ message(STATUS "  - chtl_main -> chtl_compiler (main executable)")
 message(STATUS "  - Libraries: chtl_common, chtl_scanner, chtl_managers")
 message(STATUS "  - test_minimal (functionality test)")
 message(STATUS "")
-message(STATUS "This is a working build with core CHTL functionality")
-message(STATUS "Some advanced features are temporarily disabled due to code issues")
+message(STATUS "This is a WORKING build with real CHTL compilation functionality")
+message(STATUS "✅ Can compile CHTL files to HTML")
+message(STATUS "✅ Supports basic CHTL syntax (elements, attributes, text)")
+message(STATUS "✅ Includes all core managers (Template, Custom, Origin, Constraint)")
 message(STATUS "")
 message(STATUS "To build: cmake --build . --parallel")
-message(STATUS "To test: ./chtl_compiler")
+message(STATUS "To test: ./chtl_compiler --test")
+message(STATUS "To compile: ./chtl_compiler input.chtl output.html")
 message(STATUS "")

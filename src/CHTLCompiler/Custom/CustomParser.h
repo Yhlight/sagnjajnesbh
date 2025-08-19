@@ -55,9 +55,12 @@ public:
     std::unique_ptr<ast::CustomNode> parseCustomUsage(const std::vector<Token>& tokens, size_t& position);
     
     // 分类型解析
-    std::unique_ptr<ast::CustomNode> parseCustomStyle(const std::vector<Token>& tokens, size_t& position);
-    std::unique_ptr<ast::CustomNode> parseCustomElement(const std::vector<Token>& tokens, size_t& position);
-    std::unique_ptr<ast::CustomNode> parseCustomVariable(const std::vector<Token>& tokens, size_t& position);
+    std::unique_ptr<ast::CustomNode> parseCustomStyle(const std::vector<Token>& tokens, size_t& position, 
+                                                      std::unique_ptr<ast::CustomNode> customNode);
+    std::unique_ptr<ast::CustomNode> parseCustomElement(const std::vector<Token>& tokens, size_t& position, 
+                                                       std::unique_ptr<ast::CustomNode> customNode);
+    std::unique_ptr<ast::CustomNode> parseCustomVariable(const std::vector<Token>& tokens, size_t& position, 
+                                                        std::unique_ptr<ast::CustomNode> customNode);
     
     // 特例化操作解析
     bool parseSpecializationOperation(const std::vector<Token>& tokens, size_t& position,
@@ -138,6 +141,7 @@ private:
     // Token处理（复用TemplateParser的方法）
     bool expectToken(const std::vector<Token>& tokens, size_t& position, TokenType expectedType,
                     const std::string& errorMessage = "");
+    bool expectKeyword(const std::vector<Token>& tokens, size_t& position, const std::string& keyword);
     bool consumeToken(const std::vector<Token>& tokens, size_t& position, TokenType tokenType);
     Token getCurrentToken(const std::vector<Token>& tokens, size_t position) const;
     Token peekToken(const std::vector<Token>& tokens, size_t position, size_t offset = 1) const;

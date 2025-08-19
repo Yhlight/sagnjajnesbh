@@ -11,7 +11,7 @@ CustomParser::CustomParser() {
 
 CustomParser::~CustomParser() = default;
 
-std::unique_ptr<ast::CustomNode> CustomParser::parseCustomBlock(const std::vector<Token>& tokens, size_t& position) {
+std::unique_ptr<ast::CustomNode> CustomParser::parseCustom(const std::vector<Token>& tokens, size_t& position) {
     // 按语法文档解析 [Custom] @Style/@Element/@Var 块
     
     if (!expectToken(tokens, position, TokenType::LEFT_BRACKET)) {

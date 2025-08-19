@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/workspace/src/main_working.cpp" "CMakeFiles/chtl_main.dir/src/main_working.cpp.o" "gcc" "CMakeFiles/chtl_main.dir/src/main_working.cpp.o.d"
-  "" "chtl_compiler" "gcc" "CMakeFiles/chtl_main.dir/link.d"
+  "/workspace/src/CHTLCompiler/Lexer/CHTLLexer.cpp" "CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.o" "gcc" "CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.o.d"
+  "/workspace/src/CHTLCompiler/Lexer/CHTLToken.cpp" "CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.o" "gcc" "CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

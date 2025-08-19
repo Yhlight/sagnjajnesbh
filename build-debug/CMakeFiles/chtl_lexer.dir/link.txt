@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchtl_lexer.a CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.o CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLToken.cpp.o
+/usr/bin/ranlib libchtl_lexer.a
