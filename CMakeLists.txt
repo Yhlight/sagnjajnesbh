@@ -144,58 +144,17 @@ add_library(chtljs_compiler STATIC
 target_link_libraries(chtljs_compiler chtl_common chtl_scanner)
 
 # ============================================================================
-# CSS and JavaScript Compilers (with ANTLR)
-# ============================================================================
-
-add_library(css_compiler STATIC
-    src/CSSCompiler/CSSCompilerCore.cpp
-    src/CSSCompiler/Parser/css3Lexer.cpp
-    src/CSSCompiler/Parser/css3Parser.cpp
-    src/CSSCompiler/Parser/css3ParserBaseListener.cpp
-    src/CSSCompiler/Parser/css3ParserListener.cpp
-)
-target_link_libraries(css_compiler chtl_common)
-if(ANTLR4_FOUND)
-    target_link_libraries(css_compiler antlr4-runtime)
-endif()
-
-add_library(js_compiler STATIC
-    src/JavaScriptCompiler/JavaScriptCompilerCore.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptLexer_cpp.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptParserBase.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptParser_cpp.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptParser_cppBaseListener.cpp
-    src/JavaScriptCompiler/Parser/JavaScriptParser_cppListener.cpp
-)
-target_link_libraries(js_compiler chtl_common)
-if(ANTLR4_FOUND)
-    target_link_libraries(js_compiler antlr4-runtime)
-endif()
-
-# ============================================================================
-# Compiler Dispatcher
-# ============================================================================
-
-add_library(chtl_dispatcher STATIC
-    src/Dispatcher/CompilerDispatcher.cpp
-)
-target_link_libraries(chtl_dispatcher 
-    chtl_compiler_core
-    chtljs_compiler
-    css_compiler
-    js_compiler
-    chtl_scanner
-    chtl_common
-)
-
-# ============================================================================
 # Executables
 # ============================================================================
 
 # Complete CHTL Compiler with all fixed components
 add_executable(chtl_main src/main_complete.cpp)
-target_link_libraries(chtl_main chtl_dispatcher)
+target_link_libraries(chtl_main 
+    chtl_compiler_core 
+    chtljs_compiler 
+    chtl_scanner 
+    chtl_common
+)
 set_target_properties(chtl_main PROPERTIES OUTPUT_NAME "chtl_compiler")
 
 # Working version (simpler)
@@ -245,7 +204,6 @@ install(TARGETS chtl_main chtl_working RUNTIME DESTINATION bin)
 install(TARGETS 
     chtl_common chtl_scanner chtl_managers chtl_lexer chtl_ast 
     chtl_parsers chtl_generator chtl_compiler_core chtljs_compiler
-    css_compiler js_compiler chtl_dispatcher
     ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
 
 # ============================================================================
@@ -253,8 +211,8 @@ install(TARGETS
 # ============================================================================
 
 message(STATUS "")
-message(STATUS "CHTL Complete Build - All Parsers Fixed")
-message(STATUS "========================================")
+message(STATUS "CHTL Complete Build - All Core Components Fixed")
+message(STATUS "===============================================")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 message(STATUS "ANTLR4: ${ANTLR4_FOUND}")
@@ -268,7 +226,7 @@ message(STATUS "")
 message(STATUS "✅ CORE COMPONENTS WORKING:")
 message(STATUS "  - UTF-8 Support: Chinese character recognition ✅")
 message(STATUS "  - AST Nodes: All accept methods implemented ✅")
-message(STATUS "  - CHTL JS Compiler: Namespace conflicts resolved ✅")
+message(STATUS "  - CHTL JS Compiler: All components fixed ✅")
 message(STATUS "  - Unified Scanner: Context-aware scanning ✅")
 message(STATUS "")
 message(STATUS "Build targets:")

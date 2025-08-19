@@ -3,9 +3,13 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <memory>
 
 namespace chtl {
 namespace chtljs {
+
+// 前向声明
+class EnhancedSelectorProcessor;
 
 /**
  * 虚对象处理器
@@ -174,6 +178,18 @@ public:
      * 验证虚对象名称
      */
     bool isValidVirName(const std::string& name);
+    
+    /**
+     * 解析配置键值对
+     * 从配置对象中解析键值对
+     */
+    std::vector<std::pair<std::string, std::string>> parseConfigKeyValuePairs(const std::string& configObject);
+    
+    /**
+     * 分割配置条目
+     * 将配置内容分割为独立条目
+     */
+    std::vector<std::string> splitConfigEntries(const std::string& content);
     
     /**
      * 验证函数键名称

@@ -7,9 +7,6 @@
 /workspace/build-debug/CMakeFiles/chtl_generator.dir
 /workspace/build-debug/CMakeFiles/chtl_compiler_core.dir
 /workspace/build-debug/CMakeFiles/chtljs_compiler.dir
-/workspace/build-debug/CMakeFiles/css_compiler.dir
-/workspace/build-debug/CMakeFiles/js_compiler.dir
-/workspace/build-debug/CMakeFiles/chtl_dispatcher.dir
 /workspace/build-debug/CMakeFiles/chtl_main.dir
 /workspace/build-debug/CMakeFiles/chtl_working.dir
 /workspace/build-debug/CMakeFiles/test_minimal.dir

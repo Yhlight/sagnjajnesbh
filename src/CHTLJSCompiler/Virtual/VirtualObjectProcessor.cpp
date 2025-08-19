@@ -1,4 +1,5 @@
 #include "VirtualObjectProcessor.h"
+#include "../Selector/EnhancedSelectorProcessor.h"
 #include <iostream>
 #include <regex>
 #include <algorithm>
