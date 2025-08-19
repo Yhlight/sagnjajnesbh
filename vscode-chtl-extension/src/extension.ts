@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log('🎉 CHTL IDE扩展已激活');
+    console.log('🎉 CHTL IDE扩展已激活 - 基于最新语法文档');
     
     // 注册代码补全
     const completionProvider = vscode.languages.registerCompletionItemProvider(
@@ -10,11 +10,20 @@ export function activate(context: vscode.ExtensionContext) {
             provideCompletionItems(document, position) {
                 const completions: vscode.CompletionItem[] = [];
                 
-                // 段落补全
-                const sections = ['Info', 'Export', 'Style', 'Component', 'Script', 'Import'];
+                // 正确的段落补全
+                const sections = [
+                    { name: 'Info', desc: '模块信息段' },
+                    { name: 'Export', desc: '导出信息段' },
+                    { name: 'Import', desc: '导入段' },
+                    { name: 'Namespace', desc: '命名空间段' },
+                    { name: 'Template', desc: '模板段' },
+                    { name: 'Custom', desc: '自定义段' },
+                    { name: 'Origin', desc: '原始嵌入段' },
+                    { name: 'Configuration', desc: '配置段' }
+                ];
                 sections.forEach(section => {
-                    const item = new vscode.CompletionItem(`[${section}]`, vscode.CompletionItemKind.Keyword);
-                    item.detail = `CHTL ${section} 段落`;
+                    const item = new vscode.CompletionItem(`[${section.name}]`, vscode.CompletionItemKind.Keyword);
+                    item.detail = section.desc;
                     completions.push(item);
                 });
                 
