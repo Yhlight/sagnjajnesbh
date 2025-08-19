@@ -191,6 +191,26 @@ Token CHTLLexer::readOperator() {
             }
             return Token(TokenType::MINUS, "-", pos);
         case '=': advance(); return Token(TokenType::ASSIGN, "=", pos);
+        case '.': advance(); return Token(TokenType::DOT, ".", pos);
+        case '#': advance(); return Token(TokenType::HASH, "#", pos);
+        case '%': advance(); return Token(TokenType::PERCENT, "%", pos);
+        case '/':
+            advance();
+            if (currentChar() == '/') {
+                advance();
+                return Token(TokenType::COMMENT_LINE, "//", pos);
+            }
+            return Token(TokenType::SLASH, "/", pos);
+        case '*': advance(); return Token(TokenType::ASTERISK, "*", pos);
+        case '+': advance(); return Token(TokenType::PLUS, "+", pos);
+        case '<': advance(); return Token(TokenType::LESS_THAN, "<", pos);
+        case '>': advance(); return Token(TokenType::GREATER_THAN, ">", pos);
+        case '!': advance(); return Token(TokenType::EXCLAMATION, "!", pos);
+        case '|': advance(); return Token(TokenType::PIPE, "|", pos);
+        case '&': advance(); return Token(TokenType::AMPERSAND, "&", pos);
+        case '^': advance(); return Token(TokenType::CARET, "^", pos);
+        case '$': advance(); return Token(TokenType::DOLLAR, "$", pos);
+        case '\\': advance(); return Token(TokenType::BACKSLASH, "\\", pos);
         default:
             advance();
             addError("未知字符: " + std::string(1, c));

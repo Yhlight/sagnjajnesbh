@@ -1,0 +1,15 @@
+html {
+    head {
+        title { text { Simple Test } }
+    }
+    
+    body {
+        div {
+            class: container;
+            
+            h1 { text { Hello World } }
+            
+            p { text { This is a paragraph } }
+        }
+    }
+}

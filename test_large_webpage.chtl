@@ -1,0 +1,678 @@
+// CHTL大型网页测试 - 严格按照语法文档
+// 测试所有CHTL功能：模板、自定义、原始嵌入、约束、导入等
+
+[Template] @Style MainLayout {
+    container: {
+        width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    header: {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px 0;
+        text-align: center;
+    }
+    
+    navigation: {
+        background: #2c3e50;
+        padding: 15px 0;
+    }
+    
+    content: {
+        min-height: 600px;
+        padding: 40px 0;
+    }
+    
+    footer: {
+        background: #34495e;
+        color: white;
+        text-align: center;
+        padding: 30px 0;
+    }
+}
+
+[Template] @Style ComponentStyles {
+    button: {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    card: {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        margin: 16px 0;
+    }
+    
+    form-group: {
+        margin-bottom: 20px;
+    }
+    
+    input: {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+}
+
+[Custom] @Style ResponsiveGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+[Custom] @Element ProductCard {
+    class: card;
+    
+    inherit: ComponentStyles.card;
+    
+    specialization {
+        .featured {
+            border: 3px solid #f39c12;
+            transform: scale(1.02);
+        }
+        
+        .on-sale {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .on-sale::before {
+            content: "特价";
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 12px;
+        }
+    }
+}
+
+[Custom] @Element NavigationMenu {
+    inherit: MainLayout.navigation;
+    
+    specialization {
+        .mobile {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .desktop { display: none; }
+            .mobile { 
+                display: block;
+                position: fixed;
+                top: 0;
+                left: -250px;
+                width: 250px;
+                height: 100vh;
+                background: #2c3e50;
+                transition: left 0.3s ease;
+            }
+            
+            .mobile.active {
+                left: 0;
+            }
+        }
+    }
+}
+
+[Origin] @Style AdvancedAnimations {
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+        }
+        to {
+            transform: translateX(0);
+        }
+    }
+    
+    .animate-fade-in {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .animate-slide-in {
+        animation: slideInRight 0.5s ease-out;
+    }
+}
+
+[Origin] @JavaScript InteractiveFeatures {
+    // 产品卡片交互
+    function initProductCards() {
+        const cards = document.querySelectorAll('.product-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+            });
+        });
+    }
+    
+    // 导航菜单切换
+    function toggleMobileMenu() {
+        const mobileMenu = document.querySelector('.navigation.mobile');
+        mobileMenu.classList.toggle('active');
+    }
+    
+    // 表单验证
+    function validateContactForm() {
+        const form = document.getElementById('contact-form');
+        const name = form.querySelector('#name').value;
+        const email = form.querySelector('#email').value;
+        const message = form.querySelector('#message').value;
+        
+        if (!name || !email || !message) {
+            alert('请填写所有必填字段');
+            return false;
+        }
+        
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert('请输入有效的邮箱地址');
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        initProductCards();
+        
+        // 绑定移动菜单按钮
+        const menuToggle = document.querySelector('.menu-toggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', toggleMobileMenu);
+        }
+        
+        // 绑定表单提交
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                if (!validateContactForm()) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+}
+
+except span, [Custom] @Element ProductCard;
+except div.container, [Template] @Style MainLayout;
+
+html {
+    lang: zh-CN;
+    
+    head {
+        meta {
+            charset: UTF-8;
+        }
+        
+        meta {
+            name: viewport;
+            content: width=device-width, initial-scale=1.0;
+        }
+        
+        title { 
+            text { CHTL大型网页测试 - 完整功能演示 } 
+        }
+        
+        // 引入原始样式
+        @AdvancedAnimations
+    }
+    
+    body {
+        inherit: MainLayout.container;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        
+        header {
+            inherit: MainLayout.header;
+            
+            div {
+                class: container;
+                
+                h1 {
+                    class: animate-fade-in;
+                    text { CHTL编程语言 }
+                    margin: 0 0 10px 0;
+                    font-size: 3rem;
+                }
+                
+                p {
+                    class: animate-fade-in;
+                    text { 直观的超文本模板语言，让网页开发更简单 }
+                    font-size: 1.2rem;
+                    margin: 0;
+                    opacity: 0.9;
+                }
+            }
+        }
+        
+        nav {
+            use: NavigationMenu;
+            
+            div {
+                class: container;
+                
+                ul {
+                    class: desktop;
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    
+                    li {
+                        margin: 0 20px;
+                        
+                        a {
+                            color: white;
+                            text-decoration: none;
+                            font-weight: 500;
+                            transition: color 0.3s ease;
+                            
+                            text { 首页 }
+                        }
+                    }
+                    
+                    li {
+                        a {
+                            text { 功能特性 }
+                        }
+                    }
+                    
+                    li {
+                        a {
+                            text { 文档 }
+                        }
+                    }
+                    
+                    li {
+                        a {
+                            text { 示例 }
+                        }
+                    }
+                    
+                    li {
+                        a {
+                            text { 联系我们 }
+                        }
+                    }
+                }
+                
+                button {
+                    class: menu-toggle mobile;
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    
+                    text { ☰ }
+                }
+            }
+        }
+        
+        main {
+            inherit: MainLayout.content;
+            
+            section {
+                class: hero-section;
+                
+                div {
+                    class: container;
+                    
+                    h2 {
+                        text { 主要特性 }
+                        text-align: center;
+                        font-size: 2.5rem;
+                        margin-bottom: 50px;
+                        color: #2c3e50;
+                    }
+                    
+                    div {
+                        use: ResponsiveGrid;
+                        
+                        div {
+                            use: ProductCard;
+                            class: featured;
+                            
+                            h3 {
+                                text { 直观语法 }
+                                color: #3498db;
+                                margin-bottom: 15px;
+                            }
+                            
+                            p {
+                                text { CHTL使用类似CSS的嵌套语法，让HTML结构一目了然，大大提高开发效率。 }
+                                line-height: 1.6;
+                            }
+                            
+                            button {
+                                inherit: ComponentStyles.button;
+                                text { 了解更多 }
+                                margin-top: 15px;
+                            }
+                        }
+                        
+                        div {
+                            use: ProductCard;
+                            class: on-sale;
+                            
+                            h3 {
+                                text { 模板系统 }
+                                color: #e74c3c;
+                                margin-bottom: 15px;
+                            }
+                            
+                            p {
+                                text { 强大的模板系统支持样式模板和元素模板，实现代码复用和一致性设计。 }
+                                line-height: 1.6;
+                            }
+                            
+                            button {
+                                inherit: ComponentStyles.button;
+                                background: #e74c3c;
+                                text { 查看示例 }
+                                margin-top: 15px;
+                            }
+                        }
+                        
+                        div {
+                            use: ProductCard;
+                            
+                            h3 {
+                                text { 自定义组件 }
+                                color: #27ae60;
+                                margin-bottom: 15px;
+                            }
+                            
+                            p {
+                                text { 支持自定义样式、元素和变量，通过继承和特例化实现灵活的组件设计。 }
+                                line-height: 1.6;
+                            }
+                            
+                            button {
+                                inherit: ComponentStyles.button;
+                                background: #27ae60;
+                                text { 开始使用 }
+                                margin-top: 15px;
+                            }
+                        }
+                        
+                        div {
+                            use: ProductCard;
+                            
+                            h3 {
+                                text { 原始嵌入 }
+                                color: #f39c12;
+                                margin-bottom: 15px;
+                            }
+                            
+                            p {
+                                text { 无缝集成原始HTML、CSS和JavaScript代码，保持最大的灵活性。 }
+                                line-height: 1.6;
+                            }
+                            
+                            button {
+                                inherit: ComponentStyles.button;
+                                background: #f39c12;
+                                text { 探索功能 }
+                                margin-top: 15px;
+                            }
+                        }
+                        
+                        div {
+                            use: ProductCard;
+                            
+                            h3 {
+                                text { 约束系统 }
+                                color: #9b59b6;
+                                margin-bottom: 15px;
+                            }
+                            
+                            p {
+                                text { 智能约束系统确保代码质量，防止不当使用模板和组件。 }
+                                line-height: 1.6;
+                            }
+                            
+                            button {
+                                inherit: ComponentStyles.button;
+                                background: #9b59b6;
+                                text { 学习约束 }
+                                margin-top: 15px;
+                            }
+                        }
+                        
+                        div {
+                            use: ProductCard;
+                            
+                            h3 {
+                                text { 跨平台支持 }
+                                color: #1abc9c;
+                                margin-bottom: 15px;
+                            }
+                            
+                            p {
+                                text { 支持Windows、Linux、macOS，提供完整的构建工具链和VSCode插件。 }
+                                line-height: 1.6;
+                            }
+                            
+                            button {
+                                inherit: ComponentStyles.button;
+                                background: #1abc9c;
+                                text { 下载工具 }
+                                margin-top: 15px;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            section {
+                class: demo-section;
+                background: #f8f9fa;
+                padding: 60px 0;
+                
+                div {
+                    class: container;
+                    
+                    h2 {
+                        text { 代码示例 }
+                        text-align: center;
+                        font-size: 2.5rem;
+                        margin-bottom: 40px;
+                        color: #2c3e50;
+                    }
+                    
+                    div {
+                        class: code-example;
+                        background: white;
+                        border-radius: 8px;
+                        padding: 30px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        
+                        h3 {
+                            text { CHTL语法示例 }
+                            color: #3498db;
+                            margin-bottom: 20px;
+                        }
+                        
+                        [Origin] @Html CodeBlock {
+                            <pre><code class="language-chtl">
+[Template] @Style ButtonTheme {
+    primary: {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+    }
+}
+
+[Custom] @Element ActionButton {
+    inherit: ButtonTheme.primary;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    specialization {
+        :hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+    }
+}
+
+button {
+    use: ActionButton;
+    text { 点击我 }
+}
+                            </code></pre>
+                        }
+                    }
+                }
+            }
+            
+            section {
+                class: contact-section;
+                padding: 60px 0;
+                
+                div {
+                    class: container;
+                    
+                    h2 {
+                        text { 联系我们 }
+                        text-align: center;
+                        font-size: 2.5rem;
+                        margin-bottom: 40px;
+                        color: #2c3e50;
+                    }
+                    
+                    form {
+                        id: contact-form;
+                        max-width: 600px;
+                        margin: 0 auto;
+                        
+                        div {
+                            inherit: ComponentStyles.form-group;
+                            
+                            label {
+                                text { 姓名 }
+                                display: block;
+                                margin-bottom: 5px;
+                                font-weight: 500;
+                            }
+                            
+                            input {
+                                inherit: ComponentStyles.input;
+                                id: name;
+                                type: text;
+                                required: true;
+                            }
+                        }
+                        
+                        div {
+                            inherit: ComponentStyles.form-group;
+                            
+                            label {
+                                text { 邮箱 }
+                                display: block;
+                                margin-bottom: 5px;
+                                font-weight: 500;
+                            }
+                            
+                            input {
+                                inherit: ComponentStyles.input;
+                                id: email;
+                                type: email;
+                                required: true;
+                            }
+                        }
+                        
+                        div {
+                            inherit: ComponentStyles.form-group;
+                            
+                            label {
+                                text { 消息 }
+                                display: block;
+                                margin-bottom: 5px;
+                                font-weight: 500;
+                            }
+                            
+                            textarea {
+                                inherit: ComponentStyles.input;
+                                id: message;
+                                rows: 5;
+                                required: true;
+                            }
+                        }
+                        
+                        button {
+                            inherit: ComponentStyles.button;
+                            type: submit;
+                            width: 100%;
+                            background: #27ae60;
+                            font-size: 1.1rem;
+                            
+                            text { 发送消息 }
+                        }
+                    }
+                }
+            }
+        }
+        
+        footer {
+            inherit: MainLayout.footer;
+            
+            div {
+                class: container;
+                
+                p {
+                    text { © 2024 CHTL编程语言. 保留所有权利. }
+                    margin: 0;
+                }
+                
+                p {
+                    text { 使用CHTL构建，展示模板、自定义、原始嵌入和约束系统的强大功能。 }
+                    margin: 10px 0 0 0;
+                    opacity: 0.8;
+                    font-size: 0.9rem;
+                }
+            }
+        }
+        
+        // 引入交互功能
+        @InteractiveFeatures
+    }
+}

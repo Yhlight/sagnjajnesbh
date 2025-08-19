@@ -59,6 +59,21 @@ enum class TokenType {
     ARROW,          // ->
     ASSIGN,         // =
     MINUS,          // -
+    DOT,            // .
+    HASH,           // #
+    PERCENT,        // %
+    SLASH,          // /
+    COMMENT_LINE,   // //
+    ASTERISK,       // *
+    PLUS,           // +
+    LESS_THAN,      // <
+    GREATER_THAN,   // >
+    EXCLAMATION,    // !
+    PIPE,           // |
+    AMPERSAND,      // &
+    CARET,          // ^
+    DOLLAR,         // $
+    BACKSLASH,      // \
     
     // CHTL JS特殊
     SELECTOR_START, // {{
