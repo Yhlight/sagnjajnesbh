@@ -24,6 +24,19 @@ CHTL JS源码 -> CJMOD扩展处理 -> 标准JavaScript代码
 
 CJMOD本质上是一个语法转换器，将自定义的CHTL JS语法转换为浏览器可执行的JavaScript代码。
 
+### ⚠️ 重要区别：CJMOD vs CMOD
+
+**CMOD模块**：
+- 使用CHTL语法编写
+- 使用`[Export]`语法导出组件
+- 包含模板、自定义、样式组等
+
+**CJMOD扩展**：
+- 使用C++编写
+- **不使用**`[Export]`语法
+- 通过C++导出机制导出函数：`extern "C"` 或 `__declspec(dllexport)`
+- 扩展CHTL JS语法功能
+
 ---
 
 ## 开发环境设置
@@ -363,9 +376,10 @@ extern "C" void initializeExtension() {
     cjmodInterfaceVersion = "2.0.0";
 }
 
-[Export] {
-    [Function] printMylove;
-}
+// 注意：CJMOD不使用[Export]语法
+// CJMOD通过C++的导出机制导出函数：
+// extern "C" void printMylove();
+// 或使用 __declspec(dllexport) (Windows)
 ```
 
 ---

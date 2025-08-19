@@ -374,13 +374,13 @@ if "!COMPILE!"=="true" (
     rmdir /s /q "!BUILD_DIR!"
 )
 
-REM Analyze C++ sources for function exports (simplified)
-echo [INFO] Analyzing C++ sources for exports...
+REM Analyze C++ sources for function information (for documentation only)
+echo [INFO] Analyzing C++ sources for documentation...
 
 set "EXPORT_COUNT=0"
 set "EXPORT_FUNCTIONS="
 
-REM This is a simplified analysis - real implementation would need more sophisticated parsing
+REM This is for documentation purposes only - CJMOD uses C++ export mechanisms
 for %%f in ("!PACKAGE_DIR!\src\*.cpp") do (
     if exist "%%f" (
         for /f "tokens=*" %%l in ('findstr /R "^void.*(" "%%f" 2^>nul') do (
@@ -396,25 +396,14 @@ for %%f in ("!PACKAGE_DIR!\src\*.cpp") do (
     )
 )
 
-REM Generate or update [Export] section in info file
-set "INFO_FILE_TEMP=!PACKAGE_DIR!\info\!MODULE_NAME!.chtl"
+REM Note: CJMOD does NOT use [Export] syntax - it uses C++ export mechanisms
+REM The info file should only contain [Info] section for CJMOD modules
+echo [INFO] CJMOD modules use C++ export mechanisms, not CHTL [Export] syntax
 
 if !EXPORT_COUNT! gtr 0 (
-    REM Remove existing [Export] section if present (simplified)
-    copy "!INFO_FILE_TEMP!" "!INFO_FILE_TEMP!.backup" >nul
-    
-    REM Add new [Export] section
-    echo. >> "!INFO_FILE_TEMP!"
-    echo [Export] >> "!INFO_FILE_TEMP!"
-    echo { >> "!INFO_FILE_TEMP!"
-    for %%f in (!EXPORT_FUNCTIONS!) do (
-        echo     @Function %%f; >> "!INFO_FILE_TEMP!"
-    )
-    echo } >> "!INFO_FILE_TEMP!"
-    
-    echo [SUCCESS] Generated export section with !EXPORT_COUNT! function(s)
+    echo [SUCCESS] Found !EXPORT_COUNT! C++ function(s) for documentation
 ) else (
-    echo [WARNING] No exportable functions found
+    echo [WARNING] No C++ functions found for documentation
 )
 
 REM Create package archive
@@ -483,16 +472,19 @@ if exist "!PACKAGE_PATH!" (
     echo.
     echo C++ Sources: !CPP_COUNT!
     echo Header Files: !H_COUNT!
-    echo Exported Functions: !EXPORT_COUNT!
+    echo Documented Functions: !EXPORT_COUNT!
     echo.
     echo Structure Validation: PASSED
-    echo Export Generation: %if !EXPORT_COUNT! gtr 0 (SUCCESS^) else (NO EXPORTS^)%
+    echo Function Analysis: %if !EXPORT_COUNT! gtr 0 (SUCCESS^) else (NO FUNCTIONS FOUND^)%
     echo.
     echo Installation:
     echo   1. Copy !PACKAGE_NAME! to your CHTL module directory
     echo   2. Use CHTL compiler to unpack: chtl --unpack-cjmod !PACKAGE_NAME!
     echo   3. The module will be compiled and linked automatically
-    echo   4. Import functions in your CHTL JS code: !EXPORT_FUNCTIONS!
+    echo   4. Import in your CHTL files: [Import] @CJmod from !MODULE_INFO_NAME!
+    echo.
+    echo Note: CJMOD uses C++ export mechanisms (extern "C", __declspec(dllexport)^)
+    echo       Functions available: !EXPORT_FUNCTIONS!
     echo.
     echo Requirements:
     echo   - C++ compiler (MSVC, g++, or clang++^)
@@ -549,7 +541,8 @@ if exist "!PACKAGE_PATH!" (
 echo [SUCCESS] CJMOD packaging completed successfully
 
 if !EXPORT_COUNT! gtr 0 (
-    echo [INFO] Exported functions: !EXPORT_FUNCTIONS!
+    echo [INFO] Documented C++ functions: !EXPORT_FUNCTIONS!
+    echo [INFO] Note: CJMOD uses C++ export mechanisms, not CHTL [Export] syntax
 )
 
 exit /b 0

@@ -329,8 +329,8 @@ EOF
     rm -rf "$BUILD_DIR"
 fi
 
-# Analyze C++ sources for function exports
-print_status "Analyzing C++ sources for exports..."
+# Analyze C++ sources for function information (for documentation only)
+print_status "Analyzing C++ sources for documentation..."
 
 EXPORT_FUNCTIONS=()
 
@@ -342,8 +342,8 @@ for cpp_file in "${CPP_FILES[@]}"; do
         print_status "Analyzing: $RELATIVE_PATH"
     fi
     
-    # Look for CJMOD function definitions (simplified pattern matching)
-    # This would need more sophisticated parsing in a real implementation
+    # Look for CJMOD function definitions (for documentation purposes only)
+    # CJMOD uses C++ export mechanisms, not CHTL [Export] syntax
     FUNCTIONS=$(grep -n "void\s\+\w\+\s*(" "$TEMP_CPP_FILE" | sed 's/.*void\s\+\(\w\+\)\s*(.*/\1/' || true)
     
     for func in $FUNCTIONS; do
@@ -353,28 +353,14 @@ for cpp_file in "${CPP_FILES[@]}"; do
     done
 done
 
-# Generate or update [Export] section in info file
-INFO_FILE_TEMP="$PACKAGE_DIR/info/$MODULE_NAME.chtl"
-EXPORT_CONTENT=""
+# Note: CJMOD does NOT use [Export] syntax - it uses C++ export mechanisms
+# The info file should only contain [Info] section for CJMOD modules
+print_status "CJMOD modules use C++ export mechanisms, not CHTL [Export] syntax"
 
 if [ ${#EXPORT_FUNCTIONS[@]} -gt 0 ]; then
-    for func in "${EXPORT_FUNCTIONS[@]}"; do
-        EXPORT_CONTENT="$EXPORT_CONTENT    @Function $func;"$'\n'
-    done
-    
-    # Remove existing [Export] section if present
-    sed -i '/^\[Export\]/,/^$/d' "$INFO_FILE_TEMP" 2>/dev/null || true
-    
-    # Add new [Export] section
-    echo "" >> "$INFO_FILE_TEMP"
-    echo "[Export]" >> "$INFO_FILE_TEMP"
-    echo "{" >> "$INFO_FILE_TEMP"
-    echo "$EXPORT_CONTENT" >> "$INFO_FILE_TEMP"
-    echo "}" >> "$INFO_FILE_TEMP"
-    
-    print_success "Generated export section with ${#EXPORT_FUNCTIONS[@]} function(s)"
+    print_success "Found ${#EXPORT_FUNCTIONS[@]} C++ function(s) for documentation"
 else
-    print_warning "No exportable functions found"
+    print_warning "No C++ functions found for documentation"
 fi
 
 # Create package archive
@@ -427,16 +413,19 @@ Created: $(date)
 
 C++ Sources: ${#CPP_FILES[@]}
 Header Files: ${#H_FILES[@]}
-Exported Functions: ${#EXPORT_FUNCTIONS[@]}
+Documented Functions: ${#EXPORT_FUNCTIONS[@]}
 
 Structure Validation: PASSED
-Export Generation: $([ ${#EXPORT_FUNCTIONS[@]} -gt 0 ] && echo "SUCCESS" || echo "NO EXPORTS")
+Function Analysis: $([ ${#EXPORT_FUNCTIONS[@]} -gt 0 ] && echo "SUCCESS" || echo "NO FUNCTIONS FOUND")
 
 Installation:
   1. Copy $PACKAGE_NAME to your CHTL module directory
   2. Use CHTL compiler to unpack: chtl --unpack-cjmod $PACKAGE_NAME
   3. The module will be compiled and linked automatically
-  4. Import functions in your CHTL JS code: ${EXPORT_FUNCTIONS[*]}
+  4. Import in your CHTL files: [Import] @CJmod from $MODULE_INFO_NAME
+  
+Note: CJMOD uses C++ export mechanisms (extern "C", __declspec(dllexport))
+      Functions available: ${EXPORT_FUNCTIONS[*]}
 
 Requirements:
   - C++ compiler (g++ or clang++)
@@ -493,10 +482,11 @@ fi
 print_success "CJMOD packaging completed successfully"
 
 if [ ${#EXPORT_FUNCTIONS[@]} -gt 0 ]; then
-    print_status "Exported functions:"
+    print_status "Documented C++ functions:"
     for func in "${EXPORT_FUNCTIONS[@]}"; do
         print_status "  - $func"
     done
+    print_status "Note: CJMOD uses C++ export mechanisms, not CHTL [Export] syntax"
 fi
 
 exit 0
