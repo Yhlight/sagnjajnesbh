@@ -1,0 +1,704 @@
+// ========================================
+// 由比滨结衣CMOD主模块 - 严格按照CHTL语法文档
+// 7个UI组件的完整实现 - 温暖阳光风格
+// ========================================
+
+// 由比滨结衣主题色彩变量组
+[Custom] @Var YuigahamaColorPalette
+{
+    primaryColor: "#FFE4B5";     // 鹿皮色 - 由比滨的温暖
+    secondaryColor: "#FFEFD5";   // 纸白色 - 由比滨的纯真
+    accentColor: "#FF7F50";      // 珊瑚色 - 由比滨的活力
+    backgroundColor: "#FFF8DC";   // 玉米丝色 - 温暖背景
+    textColor: "#8B4513";        // 马鞍棕色 - 温暖文字
+    borderColor: "#DEB887";      // 硬木色 - 自然边框
+    shadowColor: "#F5DEB3";      // 小麦色 - 柔和阴影
+}
+
+[Custom] @Var YuigahamaSpacing
+{
+    xs: "4px";
+    sm: "8px";
+    md: "16px";
+    lg: "24px";
+    xl: "32px";
+    xxl: "48px";
+}
+
+[Custom] @Var YuigahamaFonts
+{
+    primaryFont: "'Hiragino Sans GB', 'Microsoft YaHei', sans-serif";
+    headingFont: "'Georgia', 'Times New Roman', serif";
+    codeFont: "'Consolas', 'Monaco', monospace";
+}
+
+// 1. 音乐播放器组件
+[Custom] @Element YuigahamaMusicPlayer
+{
+    div
+    {
+        class: "yuigahama-music-player";
+        
+        style
+        {
+            .yuigahama-music-player
+            {
+                background: linear-gradient(135deg, YuigahamaColorPalette(primaryColor), YuigahamaColorPalette(secondaryColor));
+                border-radius: 20px;
+                padding: YuigahamaSpacing(lg);
+                box-shadow: 0 8px 32px YuigahamaColorPalette(shadowColor);
+                font-family: YuigahamaFonts(primaryFont);
+                max-width: 400px;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .music-cover
+            {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                margin: 0 auto YuigahamaSpacing(md);
+                background: linear-gradient(45deg, YuigahamaColorPalette(accentColor), YuigahamaColorPalette(primaryColor));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 3em;
+                color: white;
+                animation: musicRotate 10s linear infinite paused;
+                box-shadow: 0 4px 16px YuigahamaColorPalette(shadowColor);
+            }
+            
+            @keyframes musicRotate
+            {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            .music-cover.playing
+            {
+                animation-play-state: running;
+            }
+            
+            .music-info
+            {
+                text-align: center;
+                margin-bottom: YuigahamaSpacing(md);
+            }
+            
+            .music-title
+            {
+                font-size: 1.3em;
+                font-weight: 700;
+                color: YuigahamaColorPalette(textColor);
+                margin-bottom: YuigahamaSpacing(xs);
+            }
+            
+            .music-artist
+            {
+                font-size: 1em;
+                color: YuigahamaColorPalette(accentColor);
+                opacity: 0.8;
+            }
+            
+            .music-controls
+            {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: YuigahamaSpacing(md);
+            }
+            
+            .control-btn
+            {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                border: none;
+                background: YuigahamaColorPalette(accentColor);
+                color: white;
+                font-size: 1.2em;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .control-btn:hover
+            {
+                transform: scale(1.1);
+                box-shadow: 0 4px 12px YuigahamaColorPalette(accentColor);
+            }
+            
+            .play-btn
+            {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5em;
+            }
+        }
+        
+        script
+        {
+            let isPlaying = false;
+            
+            {{.yuigahama-music-player}}->listen({
+                click: function(event) {
+                    if (event.target.classList.contains('play-btn')) {
+                        isPlaying = !isPlaying;
+                        const cover = {{.music-cover}};
+                        
+                        if (isPlaying) {
+                            cover.classList.add('playing');
+                            event.target.textContent = '⏸️';
+                            console.log('🎵 由比滨的音乐开始播放');
+                        } else {
+                            cover.classList.remove('playing');
+                            event.target.textContent = '▶️';
+                            console.log('⏸️ 由比滨的音乐暂停');
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "music-cover";
+        text { 🎵 }
+    }
+    
+    div
+    {
+        class: "music-info";
+        
+        div
+        {
+            class: "music-title";
+            text { 由比滨结衣的温暖旋律 }
+        }
+        
+        div
+        {
+            class: "music-artist";
+            text { Yuigahama Yui }
+        }
+    }
+    
+    div
+    {
+        class: "music-controls";
+        
+        button
+        {
+            class: "control-btn";
+            text { ⏮️ }
+        }
+        
+        button
+        {
+            class: "control-btn play-btn";
+            text { ▶️ }
+        }
+        
+        button
+        {
+            class: "control-btn";
+            text { ⏭️ }
+        }
+    }
+}
+
+// 2. 手风琴组件
+[Custom] @Element YuigahamaAccordion
+{
+    div
+    {
+        class: "yuigahama-accordion";
+        
+        style
+        {
+            .yuigahama-accordion
+            {
+                background: YuigahamaColorPalette(backgroundColor);
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 6px 20px YuigahamaColorPalette(shadowColor);
+                font-family: YuigahamaFonts(primaryFont);
+                border: 2px solid YuigahamaColorPalette(borderColor);
+            }
+            
+            .accordion-header
+            {
+                background: linear-gradient(135deg, YuigahamaColorPalette(primaryColor), YuigahamaColorPalette(secondaryColor));
+                padding: YuigahamaSpacing(lg);
+                cursor: pointer;
+                transition: all 0.3s ease;
+                color: YuigahamaColorPalette(textColor);
+                font-weight: 600;
+            }
+            
+            .accordion-header:hover
+            {
+                background: linear-gradient(135deg, YuigahamaColorPalette(accentColor), YuigahamaColorPalette(primaryColor));
+            }
+            
+            .accordion-content
+            {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease;
+                background: YuigahamaColorPalette(backgroundColor);
+            }
+            
+            .accordion-content.active
+            {
+                max-height: 300px;
+            }
+            
+            .accordion-body
+            {
+                padding: YuigahamaSpacing(lg);
+                color: YuigahamaColorPalette(textColor);
+                line-height: 1.7;
+            }
+        }
+        
+        script
+        {
+            {{.yuigahama-accordion}}->listen({
+                click: function(event) {
+                    if (event.target.classList.contains('accordion-header')) {
+                        const content = event.target.nextElementSibling;
+                        const isActive = content.classList.contains('active');
+                        
+                        // 关闭所有其他项
+                        {{.accordion-content}}.forEach(item => {
+                            item.classList.remove('active');
+                        });
+                        
+                        // 切换当前项
+                        if (!isActive) {
+                            content.classList.add('active');
+                        }
+                        
+                        console.log('🌻 由比滨手风琴展开/收起');
+                    }
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "accordion-header";
+        text { 由比滨的温暖回忆 }
+    }
+    
+    div
+    {
+        class: "accordion-content";
+        
+        div
+        {
+            class: "accordion-body";
+            text { 这里是由比滨结衣温暖阳光般的美好回忆... }
+        }
+    }
+}
+
+// 3. 四叶窗相册组件
+[Custom] @Element YuigahamaGallery
+{
+    div
+    {
+        class: "yuigahama-gallery";
+        
+        style
+        {
+            .yuigahama-gallery
+            {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: YuigahamaSpacing(lg);
+                padding: YuigahamaSpacing(xl);
+                background: linear-gradient(45deg, YuigahamaColorPalette(backgroundColor), YuigahamaColorPalette(secondaryColor));
+                border-radius: 20px;
+            }
+            
+            .gallery-item
+            {
+                position: relative;
+                overflow: hidden;
+                border-radius: 16px;
+                box-shadow: 0 8px 24px YuigahamaColorPalette(shadowColor);
+                transition: transform 0.3s ease;
+                background: white;
+            }
+            
+            .gallery-item:hover
+            {
+                transform: translateY(-12px) scale(1.03);
+            }
+            
+            .gallery-image
+            {
+                width: 100%;
+                height: 220px;
+                background: linear-gradient(135deg, YuigahamaColorPalette(primaryColor), YuigahamaColorPalette(accentColor));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 3em;
+                color: white;
+                transition: transform 0.3s ease;
+            }
+            
+            .gallery-item:hover .gallery-image
+            {
+                transform: scale(1.1);
+            }
+        }
+        
+        script
+        {
+            {{.yuigahama-gallery}}->listen({
+                click: function(event) {
+                    const item = event.target.closest('.gallery-item');
+                    if (item) {
+                        console.log('🌻 由比滨相册图片点击');
+                        
+                        animate({
+                            target: item,
+                            duration: 300,
+                            begin: { transform: 'scale(1)' },
+                            end: { transform: 'scale(1.05)' }
+                        });
+                    }
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "gallery-item";
+        
+        div
+        {
+            class: "gallery-image";
+            text { 🌻 }
+        }
+    }
+    
+    div
+    {
+        class: "gallery-item";
+        
+        div
+        {
+            class: "gallery-image";
+            text { 🌞 }
+        }
+    }
+}
+
+// 4. 备忘录组件
+[Custom] @Element YuigahamaMemo
+{
+    div
+    {
+        class: "yuigahama-memo";
+        
+        style
+        {
+            .yuigahama-memo
+            {
+                background: YuigahamaColorPalette(backgroundColor);
+                border: 3px solid YuigahamaColorPalette(primaryColor);
+                border-radius: 20px;
+                padding: YuigahamaSpacing(xl);
+                box-shadow: 0 10px 30px YuigahamaColorPalette(shadowColor);
+                font-family: YuigahamaFonts(primaryFont);
+            }
+            
+            .memo-header
+            {
+                color: YuigahamaColorPalette(accentColor);
+                font-size: 1.3em;
+                font-weight: 700;
+                margin-bottom: YuigahamaSpacing(md);
+            }
+            
+            .memo-content
+            {
+                color: YuigahamaColorPalette(textColor);
+                line-height: 1.8;
+                font-size: 1.1em;
+            }
+        }
+        
+        script
+        {
+            {{.yuigahama-memo}}->listen({
+                mouseenter: function() {
+                    animate({
+                        target: this,
+                        duration: 300,
+                        begin: { transform: 'scale(1)' },
+                        end: { transform: 'scale(1.02)' }
+                    });
+                },
+                
+                mouseleave: function() {
+                    animate({
+                        target: this,
+                        duration: 300,
+                        begin: { transform: 'scale(1.02)' },
+                        end: { transform: 'scale(1)' }
+                    });
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "memo-header";
+        text { 🌻 由比滨的温暖备忘录 }
+    }
+    
+    div
+    {
+        class: "memo-content";
+        text { 记录每一个阳光般的美好瞬间，就像由比滨结衣总是能够带给身边的人无尽的温暖和快乐... }
+    }
+}
+
+// 5. 暖色笔记组件
+[Custom] @Element YuigahamaNote
+{
+    div
+    {
+        class: "yuigahama-note";
+        
+        style
+        {
+            .yuigahama-note
+            {
+                background: linear-gradient(135deg, YuigahamaColorPalette(backgroundColor), white);
+                border-left: 8px solid YuigahamaColorPalette(accentColor);
+                border-radius: 0 16px 16px 0;
+                padding: YuigahamaSpacing(xl);
+                box-shadow: 0 8px 24px YuigahamaColorPalette(shadowColor);
+                font-family: YuigahamaFonts(primaryFont);
+                position: relative;
+            }
+            
+            .note-title
+            {
+                color: YuigahamaColorPalette(accentColor);
+                font-size: 1.5em;
+                font-weight: 700;
+                margin-bottom: YuigahamaSpacing(md);
+                font-family: YuigahamaFonts(headingFont);
+            }
+            
+            .note-content
+            {
+                color: YuigahamaColorPalette(textColor);
+                line-height: 1.8;
+                font-size: 1.1em;
+                text-indent: 2em;
+            }
+            
+            .note-signature
+            {
+                margin-top: YuigahamaSpacing(lg);
+                text-align: right;
+                font-style: italic;
+                color: YuigahamaColorPalette(accentColor);
+            }
+        }
+        
+        script
+        {
+            {{.yuigahama-note}}->listen({
+                click: function() {
+                    console.log('🌻 由比滨笔记被温暖地点击');
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "note-title";
+        text { 由比滨结衣的温暖日记 }
+    }
+    
+    div
+    {
+        class: "note-content";
+        text { 今天又是充满阳光的一天！和大家一起度过的时光总是那么快乐和温暖... }
+    }
+    
+    div
+    {
+        class: "note-signature";
+        text { —— 永远温暖的由比滨结衣 }
+    }
+}
+
+// 6. 樱花雨组件
+[Custom] @Element YuigahamaSakura
+{
+    div
+    {
+        class: "yuigahama-sakura";
+        
+        style
+        {
+            .yuigahama-sakura
+            {
+                position: relative;
+                width: 100%;
+                height: 400px;
+                background: linear-gradient(to bottom, YuigahamaColorPalette(backgroundColor), YuigahamaColorPalette(primaryColor));
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: inset 0 0 60px YuigahamaColorPalette(shadowColor);
+            }
+            
+            .sakura-title
+            {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: YuigahamaColorPalette(accentColor);
+                font-size: 2.5em;
+                font-weight: 700;
+                text-align: center;
+                text-shadow: 2px 2px 8px YuigahamaColorPalette(shadowColor);
+                font-family: YuigahamaFonts(headingFont);
+                z-index: 10;
+            }
+        }
+        
+        script
+        {
+            console.log('🌸 由比滨的温暖樱花雨开始飘落');
+        }
+    }
+    
+    div
+    {
+        class: "sakura-title";
+        text { 由比滨的温暖樱花雨 }
+    }
+}
+
+// 7. 鼠标特效组件
+[Custom] @Element YuigahamaMouseEffect
+{
+    div
+    {
+        class: "yuigahama-mouse-effect";
+        
+        style
+        {
+            .yuigahama-mouse-effect
+            {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9999;
+            }
+            
+            .mouse-sunlight
+            {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background: YuigahamaColorPalette(accentColor);
+                border-radius: 50%;
+                animation: sunlightSparkle 1.5s ease-out forwards;
+                pointer-events: none;
+                box-shadow: 0 0 12px YuigahamaColorPalette(accentColor);
+            }
+            
+            @keyframes sunlightSparkle
+            {
+                0% {
+                    transform: scale(0);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(2);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: scale(0);
+                    opacity: 0;
+                }
+            }
+        }
+        
+        script
+        {
+            {{document}}->listen({
+                mousemove: function(event) {
+                    if (Math.random() > 0.9) { // 10%概率触发特效
+                        const effect = document.createElement('div');
+                        effect.className = 'mouse-sunlight';
+                        
+                        effect.style.left = event.clientX + 'px';
+                        effect.style.top = event.clientY + 'px';
+                        
+                        {{.yuigahama-mouse-effect}}->appendChild(effect);
+                        
+                        setTimeout(() => {
+                            if (effect.parentNode) {
+                                effect.parentNode.removeChild(effect);
+                            }
+                        }, 1500);
+                    }
+                },
+                
+                click: function(event) {
+                    console.log('🌻 由比滨温暖鼠标特效');
+                    
+                    // 点击时创建温暖的特效
+                    for (let i = 0; i < 4; i++) {
+                        setTimeout(() => {
+                            const effect = document.createElement('div');
+                            effect.className = 'mouse-sunlight';
+                            
+                            const angle = (i * 90) * Math.PI / 180;
+                            const distance = 30;
+                            
+                            effect.style.left = (event.clientX + Math.cos(angle) * distance) + 'px';
+                            effect.style.top = (event.clientY + Math.sin(angle) * distance) + 'px';
+                            
+                            {{.yuigahama-mouse-effect}}->appendChild(effect);
+                            
+                            setTimeout(() => {
+                                if (effect.parentNode) {
+                                    effect.parentNode.removeChild(effect);
+                                }
+                            }, 1500);
+                        }, i * 100);
+                    }
+                }
+            });
+            
+            console.log('🌻 由比滨温暖鼠标特效已激活');
+        }
+    }
+}

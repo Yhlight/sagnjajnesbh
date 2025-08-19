@@ -3,7 +3,8 @@
 /workspace/build/CMakeFiles/chtl_compiler.dir
 /workspace/build/CMakeFiles/chtljs_compiler.dir
 /workspace/build/CMakeFiles/test_existing_features.dir
-/workspace/build/CMakeFiles/test_chtl_js_cjmod.dir
+/workspace/build/CMakeFiles/test_chtl_js_features.dir
+/workspace/build/CMakeFiles/test_cjmod_design.dir
 /workspace/build/CMakeFiles/test_chtholly_module.dir
 /workspace/build/CMakeFiles/test_complete_chtl_compliance.dir
 /workspace/build/CMakeFiles/test_variable_length_slicing.dir

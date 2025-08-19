@@ -21,7 +21,7 @@ add_library(chtl_common STATIC
     src/Common/Utils/FileUtils.cpp
     src/Common/ModulePathManager.cpp
     src/Common/SimpleZip/SimpleZip.cpp
-    src/Common/RAIIStateGuard.cpp
+    # src/Common/RAIIStateGuard.cpp  # 暂时移除，存在编译错误
 )
 
 # CHTL编译器（包含已有的完整功能）
@@ -50,12 +50,13 @@ target_link_libraries(chtljs_compiler chtl_common)
 # 测试现有功能
 add_executable(test_existing_features test/test_existing_features.cpp)
 
-# 测试新的CHTL JS和CJMOD功能
-add_executable(test_chtl_js_cjmod 
-    test/test_chtl_js_features.cpp
-    test/test_cjmod_design.cpp
-)
-target_link_libraries(test_chtl_js_cjmod chtljs_compiler chtl_scanner chtl_common)
+# 测试CHTL JS功能
+add_executable(test_chtl_js_features test/test_chtl_js_features.cpp)
+target_link_libraries(test_chtl_js_features chtljs_compiler chtl_scanner chtl_common)
+
+# 测试CJMOD设计
+add_executable(test_cjmod_design test/test_cjmod_design.cpp)
+target_link_libraries(test_cjmod_design chtljs_compiler chtl_scanner chtl_common)
 
 # 测试珂朵莉模块
 add_executable(test_chtholly_module test/test_chtholly_complete.cpp)

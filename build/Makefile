@@ -182,17 +182,30 @@ test_existing_features/fast:
 .PHONY : test_existing_features/fast
 
 #=============================================================================
-# Target rules for targets named test_chtl_js_cjmod
+# Target rules for targets named test_chtl_js_features
 
 # Build rule for target.
-test_chtl_js_cjmod: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtl_js_cjmod
-.PHONY : test_chtl_js_cjmod
+test_chtl_js_features: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtl_js_features
+.PHONY : test_chtl_js_features
 
 # fast build rule for target.
-test_chtl_js_cjmod/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/build
-.PHONY : test_chtl_js_cjmod/fast
+test_chtl_js_features/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_features.dir/build.make CMakeFiles/test_chtl_js_features.dir/build
+.PHONY : test_chtl_js_features/fast
+
+#=============================================================================
+# Target rules for targets named test_cjmod_design
+
+# Build rule for target.
+test_cjmod_design: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_cjmod_design
+.PHONY : test_cjmod_design
+
+# fast build rule for target.
+test_cjmod_design/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cjmod_design.dir/build.make CMakeFiles/test_cjmod_design.dir/build
+.PHONY : test_cjmod_design/fast
 
 #=============================================================================
 # Target rules for targets named test_chtholly_module
@@ -617,30 +630,6 @@ src/Common/ModulePathManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.s
 .PHONY : src/Common/ModulePathManager.cpp.s
 
-src/Common/RAIIStateGuard.o: src/Common/RAIIStateGuard.cpp.o
-.PHONY : src/Common/RAIIStateGuard.o
-
-# target to build an object file
-src/Common/RAIIStateGuard.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/RAIIStateGuard.cpp.o
-.PHONY : src/Common/RAIIStateGuard.cpp.o
-
-src/Common/RAIIStateGuard.i: src/Common/RAIIStateGuard.cpp.i
-.PHONY : src/Common/RAIIStateGuard.i
-
-# target to preprocess a source file
-src/Common/RAIIStateGuard.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/RAIIStateGuard.cpp.i
-.PHONY : src/Common/RAIIStateGuard.cpp.i
-
-src/Common/RAIIStateGuard.s: src/Common/RAIIStateGuard.cpp.s
-.PHONY : src/Common/RAIIStateGuard.s
-
-# target to generate assembly for a file
-src/Common/RAIIStateGuard.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_common.dir/build.make CMakeFiles/chtl_common.dir/src/Common/RAIIStateGuard.cpp.s
-.PHONY : src/Common/RAIIStateGuard.cpp.s
-
 src/Common/SimpleZip/SimpleZip.o: src/Common/SimpleZip/SimpleZip.cpp.o
 .PHONY : src/Common/SimpleZip/SimpleZip.o
 
@@ -742,7 +731,7 @@ test/test_chtl_js_features.o: test/test_chtl_js_features.cpp.o
 
 # target to build an object file
 test/test_chtl_js_features.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_chtl_js_features.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_features.dir/build.make CMakeFiles/test_chtl_js_features.dir/test/test_chtl_js_features.cpp.o
 .PHONY : test/test_chtl_js_features.cpp.o
 
 test/test_chtl_js_features.i: test/test_chtl_js_features.cpp.i
@@ -750,7 +739,7 @@ test/test_chtl_js_features.i: test/test_chtl_js_features.cpp.i
 
 # target to preprocess a source file
 test/test_chtl_js_features.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_chtl_js_features.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_features.dir/build.make CMakeFiles/test_chtl_js_features.dir/test/test_chtl_js_features.cpp.i
 .PHONY : test/test_chtl_js_features.cpp.i
 
 test/test_chtl_js_features.s: test/test_chtl_js_features.cpp.s
@@ -758,7 +747,7 @@ test/test_chtl_js_features.s: test/test_chtl_js_features.cpp.s
 
 # target to generate assembly for a file
 test/test_chtl_js_features.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_chtl_js_features.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_features.dir/build.make CMakeFiles/test_chtl_js_features.dir/test/test_chtl_js_features.cpp.s
 .PHONY : test/test_chtl_js_features.cpp.s
 
 test/test_cjmod_design.o: test/test_cjmod_design.cpp.o
@@ -766,7 +755,7 @@ test/test_cjmod_design.o: test/test_cjmod_design.cpp.o
 
 # target to build an object file
 test/test_cjmod_design.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_cjmod_design.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cjmod_design.dir/build.make CMakeFiles/test_cjmod_design.dir/test/test_cjmod_design.cpp.o
 .PHONY : test/test_cjmod_design.cpp.o
 
 test/test_cjmod_design.i: test/test_cjmod_design.cpp.i
@@ -774,7 +763,7 @@ test/test_cjmod_design.i: test/test_cjmod_design.cpp.i
 
 # target to preprocess a source file
 test/test_cjmod_design.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_cjmod_design.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cjmod_design.dir/build.make CMakeFiles/test_cjmod_design.dir/test/test_cjmod_design.cpp.i
 .PHONY : test/test_cjmod_design.cpp.i
 
 test/test_cjmod_design.s: test/test_cjmod_design.cpp.s
@@ -782,7 +771,7 @@ test/test_cjmod_design.s: test/test_cjmod_design.cpp.s
 
 # target to generate assembly for a file
 test/test_cjmod_design.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_chtl_js_cjmod.dir/build.make CMakeFiles/test_chtl_js_cjmod.dir/test/test_cjmod_design.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_cjmod_design.dir/build.make CMakeFiles/test_cjmod_design.dir/test/test_cjmod_design.cpp.s
 .PHONY : test/test_cjmod_design.cpp.s
 
 test/test_complete_chtl_compliance.o: test/test_complete_chtl_compliance.cpp.o
@@ -870,7 +859,8 @@ help:
 	@echo "... chtl_scanner"
 	@echo "... chtljs_compiler"
 	@echo "... test_chtholly_module"
-	@echo "... test_chtl_js_cjmod"
+	@echo "... test_chtl_js_features"
+	@echo "... test_cjmod_design"
 	@echo "... test_complete_chtl_compliance"
 	@echo "... test_existing_features"
 	@echo "... test_variable_length_slicing"
@@ -922,9 +912,6 @@ help:
 	@echo "... src/Common/ModulePathManager.o"
 	@echo "... src/Common/ModulePathManager.i"
 	@echo "... src/Common/ModulePathManager.s"
-	@echo "... src/Common/RAIIStateGuard.o"
-	@echo "... src/Common/RAIIStateGuard.i"
-	@echo "... src/Common/RAIIStateGuard.s"
 	@echo "... src/Common/SimpleZip/SimpleZip.o"
 	@echo "... src/Common/SimpleZip/SimpleZip.i"
 	@echo "... src/Common/SimpleZip/SimpleZip.s"

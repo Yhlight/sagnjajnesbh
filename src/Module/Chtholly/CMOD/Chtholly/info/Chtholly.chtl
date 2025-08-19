@@ -1,0 +1,31 @@
+// ========================================
+// 珂朵莉CMOD子模块信息文件 - 严格按照CHTL语法文档
+// ========================================
+
+[Info]
+{
+    name = "Chtholly";
+    version = "1.0.0";
+    description = "珂朵莉CMOD组件 - 10个UI组件";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "ui-components";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export]
+{
+    // 10个CMOD UI组件
+    [Custom] @Element ChthollyAccordion, ChthollyGallery, ChthollyMemo, 
+             ChthollyNote, ChthollySakura, ChthollyMouseEffect,
+             ChthollyMouseTrail, ChthollyParallax, ChthollyContextMenu, 
+             ChthollyProgressBar;
+    
+    [Custom] @Style ChthollyTheme, ChthollyColors, ChthollyAnimations,
+             ChthollyEffects, ChthollyTransitions;
+    
+    [Custom] @Var ChthollyColorPalette, ChthollySpacing, ChthollyFonts,
+             ChthollyBreakpoints, ChthollyTimings;
+}

@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <utility>
 #include <cassert>
 
 // 模拟测试CHTL JS处理器

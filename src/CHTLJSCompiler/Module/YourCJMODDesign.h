@@ -185,14 +185,14 @@ using AdvancedParamProcessor = std::function<std::string(const AdvancedParamValu
  */
 class ArgsManager {
 public:
-    std::vector<Keyword> keywords;          // 所有关键字
-    std::unordered_map<std::string, std::function<std::string(const std::string&)>> bindFunctions; // 简单绑定函数
-    std::unordered_map<std::string, AdvancedParamProcessor> advancedBindFunctions; // 高级绑定函数
+    mutable std::vector<Keyword> keywords;          // 所有关键字
+    mutable std::unordered_map<std::string, std::function<std::string(const std::string&)>> bindFunctions; // 简单绑定函数
+    mutable std::unordered_map<std::string, AdvancedParamProcessor> advancedBindFunctions; // 高级绑定函数
     
     /**
      * 绑定采集函数 - args.bind("url", lambda)
      */
-    void bind(const std::string& keywordName, std::function<std::string(const std::string&)> processor) {
+    void bind(const std::string& keywordName, std::function<std::string(const std::string&)> processor) const {
         bindFunctions[keywordName] = processor;
         std::cout << "🔗 绑定关键字: " << keywordName << std::endl;
     }
@@ -201,7 +201,7 @@ public:
      * 高级绑定 - 支持函数和复杂对象处理
      * args.bindAdvanced("callback", [](const AdvancedParamValue& param) { ... })
      */
-    void bindAdvanced(const std::string& keywordName, AdvancedParamProcessor processor) {
+    void bindAdvanced(const std::string& keywordName, AdvancedParamProcessor processor) const {
         advancedBindFunctions[keywordName] = processor;
         std::cout << "🚀 绑定高级处理器: " << keywordName << std::endl;
     }
@@ -210,7 +210,7 @@ public:
      * slice功能 - 切片处理复杂参数
      * args.slice("functionParam", start, end, processor)
      */
-    void slice(const std::string& keywordName, int start, int end, std::function<std::string(const std::string&)> processor) {
+    void slice(const std::string& keywordName, int start, int end, std::function<std::string(const std::string&)> processor) const {
         bindAdvanced(keywordName, [start, end, processor](const AdvancedParamValue& param) -> std::string {
             if (param.type == AdvancedParamType::FUNCTION) {
                 // 对函数体进行切片处理
@@ -243,7 +243,7 @@ public:
      * 匹配参数 - args.match("url", peekKeyword(1))
      * 如果匹配到参数是这个时，就执行参数的绑定函数
      */
-    void match(const std::string& keywordName, const Keyword& keywordValue) {
+    void match(const std::string& keywordName, const Keyword& keywordValue) const {
         std::cout << "🎯 匹配参数: " << keywordName << " = " << keywordValue.value << std::endl;
         
         // 查找对应的关键字
@@ -274,7 +274,7 @@ public:
     /**
      * 按索引访问关键字 - args[0]
      */
-    Keyword& operator[](size_t index) {
+    Keyword& operator[](size_t index) const {
         if (index < keywords.size()) {
             return keywords[index];
         }
@@ -503,7 +503,7 @@ public:
     /**
      * 执行扫描过程
      */
-    void executeScan(const std::string& chtljsCode, SyntaxKeywordObject& keywordObj) {
+    void executeScan(const std::string& chtljsCode, const SyntaxKeywordObject& keywordObj) {
         std::cout << "🔍 开始扫描CHTL JS代码..." << std::endl;
         
         // 构建扫描的关键字列表

@@ -5,8 +5,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o"
   "CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o.d"
-  "CMakeFiles/chtl_common.dir/src/Common/RAIIStateGuard.cpp.o"
-  "CMakeFiles/chtl_common.dir/src/Common/RAIIStateGuard.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o"
   "CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o"
