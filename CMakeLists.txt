@@ -30,7 +30,7 @@ add_library(chtl_compiler STATIC
     # 逐步添加管理器，先修复基础问题
     src/CHTLCompiler/Import/ImportManager.cpp
     src/CHTLCompiler/Namespace/NamespaceManager.cpp  
-    # src/CHTLCompiler/Module/CmodManager.cpp
+    src/CHTLCompiler/Module/CmodManager.cpp
     src/CHTLCompiler/State/CHTLState.cpp
     src/CHTLCompiler/State/CHTLGlobalMap.cpp
 )

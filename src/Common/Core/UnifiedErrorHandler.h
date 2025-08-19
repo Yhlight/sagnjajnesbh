@@ -1,23 +1,25 @@
 // ========================================
-// 统一错误处理接口 - 让所有管理器都能正常工作
-// 兼容新旧两种错误处理接口
+// 统一错误处理接口 - 完全兼容所有管理器
+// 解决新旧接口不兼容问题
 // ========================================
 
 #pragma once
 #include "ErrorHandler.h"
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace chtl {
 namespace common {
 
-// 错误级别别名 - 兼容管理器使用
+// 错误级别和类型别名 - 兼容管理器使用
 using ErrorLevel = chtl::shared::core::ErrorLevel;
 using ErrorType = chtl::shared::core::ErrorType;
 using ErrorInfo = chtl::shared::core::ErrorInfo;
 
 /**
- * 统一错误处理器 - 兼容所有管理器的接口需求
+ * 统一错误处理器 - 完全兼容所有管理器的接口需求
+ * 支持所有可能的调用方式和参数组合
  */
 class UnifiedErrorHandler {
 public:
@@ -25,8 +27,38 @@ public:
         return std::make_shared<UnifiedErrorHandler>();
     }
     
+    // ========================================
+    // 兼容ImportManager的调用方式
+    // ========================================
+    
     /**
-     * 兼容管理器的reportError接口 (ErrorLevel, ErrorType, message, context)
+     * ImportManager使用的6参数接口 (ErrorLevel, ErrorType, message, context, line, column)
+     */
+    void reportError(ErrorLevel level, ErrorType type, const std::string& message, 
+                    const std::string& context, int line, int column) {
+        auto& handler = chtl::shared::core::ErrorHandler::getInstance();
+        
+        std::string code = errorTypeToCode(type);
+        std::string fullMessage = message;
+        if (!context.empty()) {
+            fullMessage += " (" + context + ")";
+        }
+        
+        if (level == ErrorLevel::ERROR || level == ErrorLevel::CRITICAL) {
+            handler.reportError(type, code, fullMessage, "", line, column);
+        } else if (level == ErrorLevel::WARNING) {
+            handler.reportWarning(fullMessage, code);
+        } else {
+            handler.reportInfo(fullMessage);
+        }
+    }
+    
+    // ========================================
+    // 兼容NamespaceManager的调用方式
+    // ========================================
+    
+    /**
+     * NamespaceManager使用的4参数接口 (ErrorLevel, ErrorType, message, context)
      */
     void reportError(ErrorLevel level, ErrorType type, const std::string& message, const std::string& context = "") {
         auto& handler = chtl::shared::core::ErrorHandler::getInstance();
@@ -46,6 +78,10 @@ public:
         }
     }
     
+    // ========================================
+    // 标准错误处理接口
+    // ========================================
+    
     /**
      * 标准错误报告接口 (ErrorType, code, message)
      */
@@ -53,28 +89,6 @@ public:
                     const std::string& file = "", int line = 0, int column = 0) {
         auto& handler = chtl::shared::core::ErrorHandler::getInstance();
         handler.reportError(type, code, message, file, line, column);
-    }
-    
-    /**
-     * 兼容ImportManager的6参数接口 (ErrorLevel, ErrorType, message, context, line, column)
-     */
-    void reportError(ErrorLevel level, ErrorType type, const std::string& message, 
-                    const std::string& context, int line, int column) {
-        auto& handler = chtl::shared::core::ErrorHandler::getInstance();
-        
-        std::string code = errorTypeToCode(type);
-        std::string fullMessage = message;
-        if (!context.empty()) {
-            fullMessage += " (" + context + ")";
-        }
-        
-        if (level == ErrorLevel::ERROR || level == ErrorLevel::CRITICAL) {
-            handler.reportError(type, code, fullMessage, "", line, column);
-        } else if (level == ErrorLevel::WARNING) {
-            handler.reportWarning(fullMessage, code);
-        } else {
-            handler.reportInfo(fullMessage);
-        }
     }
     
     /**
@@ -98,6 +112,10 @@ public:
         auto& handler = chtl::shared::core::ErrorHandler::getInstance();
         handler.reportInfo(message);
     }
+    
+    // ========================================
+    // 查询接口
+    // ========================================
     
     /**
      * 获取错误信息

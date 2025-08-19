@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Common/SimpleZip/SimpleZip.h"
-#include "../../Common/Core/ErrorHandler.h"
+#include "../../Common/Core/UnifiedErrorHandler.h"
 #include <string>
 #include <vector>
 #include <memory>
