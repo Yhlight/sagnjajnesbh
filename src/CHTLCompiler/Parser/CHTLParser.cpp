@@ -72,8 +72,8 @@ std::unique_ptr<ast::ASTNode> CHTLParser::parseProgram() {
 std::unique_ptr<ast::ASTNode> CHTLParser::parseStatement() {
     Token token = getCurrentToken();
     
-    // 更新状态机
-    if (!state_manager_->isInState(CompilerState::PARSING_CHTL)) {
+    // 更新状态机 - 添加安全检查
+    if (state_manager_ && !state_manager_->isInState(CompilerState::PARSING_CHTL)) {
         state_manager_->transition(CompilerState::PARSING_CHTL, SyntaxContext::GLOBAL);
     }
     
