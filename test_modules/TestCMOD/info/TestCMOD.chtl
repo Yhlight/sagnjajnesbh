@@ -1,0 +1,52 @@
+// ============================================================================
+// CMOD模块信息文件测试
+// 测试三同名规则：模块文件夹名、主模块文件名、模块信息文件名必须相同
+// ============================================================================
+
+[Info] {
+    name = "TestCMOD";
+    version = "1.0.0";
+    description = "CHTL模块系统测试用CMOD模块";
+    author = "CHTL测试团队";
+    license = "MIT";
+    category = "测试模块";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+    keywords = "test,module,cmod";
+    homepage = "https://chtl-lang.org/modules/test-cmod";
+    repository = "https://github.com/chtl-lang/test-modules";
+    
+    // 模块依赖
+    dependencies = {
+        "CoreModule": "^1.0.0",
+        "UIComponents": ">=1.2.0"
+    };
+    
+    // 模块配置
+    config = {
+        enableDebug: true,
+        enableOptimization: false,
+        targetBrowser: "modern"
+    };
+}
+
+[Export] {
+    // 导出模板
+    [Template] @Element TestCard;
+    [Template] @Style TestTheme;
+    [Template] @Var TestColors;
+    
+    // 导出自定义
+    [Custom] @Element InteractiveTestCard;
+    [Custom] @Style ResponsiveLayout;
+    [Custom] @Var AppConfiguration;
+    
+    // 导出原始嵌入
+    [Origin] @Html TestHeader;
+    [Origin] @JavaScript TestUtils;
+    [Origin] @Style TestAnimations;
+    
+    // 导出命名空间
+    TestUI::Components::*;
+    TestUI::Themes::*;
+}

@@ -1,0 +1,1108 @@
+// ============================================================================
+// 珂朵莉模块特有功能全面测试
+// 测试printMylove和iNeverAway等珂朵莉模块的独特功能
+// 严格根据语法文档，不私自扩展
+// ============================================================================
+
+// 导入珂朵莉模块（概念演示）
+// [Import] @Chtl from Chtholly
+// [Import] @CJmod from Chtholly
+
+html {
+    lang: "zh-CN";
+    
+    head {
+        meta { charset: "UTF-8"; }
+        meta { 
+            name: "viewport"; 
+            content: "width=device-width, initial-scale=1.0"; 
+        }
+        
+        title { 
+            text { 珂朵莉模块功能全面测试 } 
+        }
+        
+        style {
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%);
+                min-height: 100vh;
+                color: #374151;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .chtholly-section {
+                background: rgba(255, 255, 255, 0.9);
+                border: 2px solid #ec4899;
+                border-radius: 15px;
+                padding: 30px;
+                margin: 30px 0;
+                box-shadow: 0 8px 25px rgba(236, 72, 153, 0.15);
+                backdrop-filter: blur(10px);
+            }
+            
+            .chtholly-button {
+                background: linear-gradient(135deg, #ec4899, #be185d);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                cursor: pointer;
+                margin: 10px;
+                transition: all 0.3s ease;
+                font-weight: 600;
+                box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+            }
+            
+            .chtholly-button:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
+            }
+            
+            .output-display {
+                background: #1a1a2e;
+                color: #eee;
+                padding: 20px;
+                border-radius: 10px;
+                font-family: 'Courier New', monospace;
+                white-space: pre-wrap;
+                overflow-x: auto;
+                margin: 20px 0;
+                min-height: 200px;
+                border: 2px solid #16213e;
+                box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+            }
+            
+            .state-indicator {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                margin-right: 10px;
+                transition: all 0.4s ease;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            }
+            
+            .state-a { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+            .state-b { background: linear-gradient(135deg, #10b981, #059669); }
+            .state-init { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+            .state-running { background: linear-gradient(135deg, #f59e0b, #d97706); }
+            .state-complete { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        }
+    }
+    
+    body {
+        div {
+            class: container;
+            
+            header {
+                style {
+                    text-align: "center";
+                    padding: "50px 0";
+                    background: "rgba(255, 255, 255, 0.8)";
+                    border-radius: "15px";
+                    margin-bottom: "40px";
+                    backdrop-filter: "blur(15px)";
+                    border: "1px solid rgba(236, 72, 153, 0.2)";
+                }
+                
+                h1 {
+                    text { 珂朵莉模块功能测试 }
+                    color: "#be185d";
+                    margin: 0;
+                    font-size: "3.5rem";
+                    font-weight: "800";
+                    text-shadow: "2px 2px 4px rgba(236, 72, 153, 0.3)";
+                }
+                
+                p {
+                    text { "世界上最幸福的女孩" - 珂朵莉 }
+                    color: "#831843";
+                    margin: "20px 0 10px 0";
+                    font-size: "1.5rem";
+                    font-style: "italic";
+                    opacity: 0.8;
+                }
+                
+                p {
+                    text { 测试printMylove图片转换和iNeverAway状态重载功能 }
+                    color: "#be185d";
+                    margin: "10px 0 0 0";
+                    font-size: "1.2rem";
+                    opacity: 0.7;
+                }
+            }
+            
+            main {
+                // ================================================================
+                // printMylove功能全面测试
+                // ================================================================
+                
+                section {
+                    class: chtholly-section;
+                    
+                    h2 {
+                        text { printMylove图片转换功能 }
+                        color: "#be185d";
+                        margin-bottom: "25px";
+                        font-size: "2.2rem";
+                        font-weight: "700";
+                    }
+                    
+                    p {
+                        text { printMylove可以将图片转换成字符像素块或ASCII艺术形式 }
+                        margin-bottom: "20px";
+                        font-size: "1.1rem";
+                        line-height: "1.7";
+                    }
+                    
+                    div {
+                        class: printmylove-controls;
+                        
+                        style {
+                            .printmylove-controls {
+                                background: "rgba(236, 72, 153, 0.05)";
+                                border: "1px solid rgba(236, 72, 153, 0.2)";
+                                border-radius: "10px";
+                                padding: "20px";
+                                margin: "20px 0";
+                            }
+                            
+                            .control-row {
+                                display: "flex";
+                                align-items: "center";
+                                margin: "15px 0";
+                                gap: "15px";
+                                flex-wrap: "wrap";
+                            }
+                            
+                            .control-label {
+                                font-weight: "600";
+                                color: "#be185d";
+                                min-width: "80px";
+                            }
+                            
+                            .control-input {
+                                flex: "1";
+                                min-width: "200px";
+                                padding: "10px";
+                                border: "2px solid #ec4899";
+                                border-radius: "6px";
+                                font-size: "14px";
+                            }
+                            
+                            .control-select {
+                                padding: "10px";
+                                border: "2px solid #ec4899";
+                                border-radius: "6px";
+                                background: "white";
+                                font-size: "14px";
+                                min-width: "120px";
+                            }
+                        }
+                        
+                        h4 {
+                            text { printMylove参数配置 }
+                            color: "#be185d";
+                            margin-bottom: "15px";
+                        }
+                        
+                        div {
+                            class: control-row;
+                            
+                            label {
+                                class: control-label;
+                                text { 图片URL: }
+                            }
+                            
+                            input {
+                                class: control-input;
+                                id: image-url-input;
+                                type: "url";
+                                placeholder: "输入图片URL";
+                                value: "https://example.com/chtholly-portrait.jpg";
+                            }
+                        }
+                        
+                        div {
+                            class: control-row;
+                            
+                            label {
+                                class: control-label;
+                                text { 转换模式: }
+                            }
+                            
+                            select {
+                                class: control-select;
+                                id: conversion-mode;
+                                
+                                option {
+                                    value: "ASCII";
+                                    text { ASCII艺术 }
+                                }
+                                
+                                option {
+                                    value: "Pixel";
+                                    text { 字符像素块 }
+                                }
+                            }
+                        }
+                        
+                        div {
+                            class: control-row;
+                            
+                            label {
+                                class: control-label;
+                                text { 宽度: }
+                            }
+                            
+                            input {
+                                class: control-input;
+                                id: width-input;
+                                type: "text";
+                                placeholder: "支持CSS单位、百分比、数字";
+                                value: "60%";
+                            }
+                            
+                            label {
+                                class: control-label;
+                                text { 高度: }
+                            }
+                            
+                            input {
+                                class: control-input;
+                                id: height-input;
+                                type: "text";
+                                placeholder: "auto或具体值";
+                                value: "auto";
+                            }
+                        }
+                        
+                        div {
+                            class: control-row;
+                            
+                            label {
+                                class: control-label;
+                                text { 缩放: }
+                            }
+                            
+                            input {
+                                class: control-input;
+                                id: scale-input;
+                                type: "number";
+                                min: "0.1";
+                                max: "3.0";
+                                step: "0.1";
+                                value: "1.0";
+                                placeholder: "等比缩放倍数";
+                            }
+                        }
+                        
+                        div {
+                            class: control-row;
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            const url = {{#image-url-input}}->value;
+                                            const mode = {{#conversion-mode}}->value;
+                                            const width = {{#width-input}}->value;
+                                            const height = {{#height-input}}->value;
+                                            const scale = parseFloat({{#scale-input}}->value);
+                                            
+                                            {{.ascii-output}}->textContent = '正在处理图片，请稍候...';
+                                            
+                                            // 使用珂朵莉模块的printMylove功能
+                                            try {
+                                                const str = printMylove({
+                                                    url: url,
+                                                    mode: mode,  // 模式可以选择ASCII或Pixel
+                                                    width: width, // 支持的单位有CSS单位以及百分比、小数、纯数字(像素)
+                                                    height: height,
+                                                    scale: scale   // 缩放倍数，限定为等比缩放策略
+                                                });
+                                                
+                                                {{.ascii-output}}->textContent = str;
+                                                console.log('printMylove转换完成');
+                                                
+                                                // 显示成功状态
+                                                {{.conversion-status}}->textContent = '转换成功！';
+                                                {{.conversion-status}}->style->color = '#059669';
+                                            } catch (error) {
+                                                {{.ascii-output}}->textContent = '转换失败: ' + error.message;
+                                                {{.conversion-status}}->textContent = '转换失败';
+                                                {{.conversion-status}}->style->color = '#dc2626';
+                                                console.error('printMylove转换失败:', error);
+                                            }
+                                        }
+                                    });
+                                }
+                                
+                                text { 🎨 转换图片 }
+                            }
+                            
+                            span {
+                                class: conversion-status;
+                                
+                                style {
+                                    margin-left: "15px";
+                                    font-weight: "600";
+                                    padding: "5px 10px";
+                                    border-radius: "4px";
+                                    background: "rgba(255, 255, 255, 0.7)";
+                                }
+                                
+                                text { 等待转换... }
+                            }
+                        }
+                    }
+                    
+                    div {
+                        class: output-display ascii-output;
+                        text { ASCII艺术输出将显示在这里...
+                        
+示例ASCII艺术：
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣶⣶⣶⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠛⠛⠛⠛⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                    
+                    💫 珂朵莉的ASCII艺术将在这里显示 💫 }
+                    }
+                }
+                
+                // ================================================================
+                // iNeverAway状态重载功能全面测试
+                // ================================================================
+                
+                section {
+                    class: chtholly-section;
+                    
+                    h2 {
+                        text { iNeverAway状态重载功能 }
+                        color: "#be185d";
+                        margin-bottom: "25px";
+                        font-size: "2.2rem";
+                        font-weight: "700";
+                    }
+                    
+                    p {
+                        text { iNeverAway是珂朵莉模块的独特功能，允许开发者定义键，并使用状态区分同名的键 }
+                        margin-bottom: "20px";
+                        font-size: "1.1rem";
+                        line-height: "1.7";
+                    }
+                    
+                    // 基础状态重载测试
+                    div {
+                        class: basic-ineveraway-test;
+                        
+                        style {
+                            .basic-ineveraway-test {
+                                border: "3px solid #ec4899";
+                                border-radius: "12px";
+                                padding: "25px";
+                                margin: "25px 0";
+                                background: "rgba(236, 72, 153, 0.03)";
+                            }
+                            
+                            .state-display {
+                                background: "#1a1a2e";
+                                color: "#eee";
+                                padding: "20px";
+                                border-radius: "8px";
+                                margin: "20px 0";
+                                font-family: "'Courier New', monospace";
+                                border-left: "5px solid #ec4899";
+                                box-shadow: "inset 0 2px 10px rgba(0, 0, 0, 0.2)";
+                            }
+                        }
+                        
+                        script {
+                            vir ProcessManager = iNeverAway({
+                                "Execute<Initialize>": function(config) {
+                                    console.log('执行初始化状态');
+                                    const timestamp = new Date().toLocaleString('zh-CN');
+                                    const statusText = `
+🚀 状态: Initialize
+⏰ 时间: ${timestamp}
+⚙️  配置: ${JSON.stringify(config, null, 2)}
+📝 描述: 系统正在初始化...
+💫 珂朵莉的祝福：愿你永远幸福`;
+                                    
+                                    {{.state-display}}->textContent = statusText;
+                                    {{.state-indicator}}->className = 'state-indicator state-init';
+                                    {{.basic-ineveraway-test}}->style->borderColor = '#8b5cf6';
+                                },
+
+                                "Execute<Process>": function(config) {  // 通过状态同名同参重载
+                                    console.log('执行处理状态');
+                                    const timestamp = new Date().toLocaleString('zh-CN');
+                                    const statusText = `
+⚡ 状态: Process
+⏰ 时间: ${timestamp}
+⚙️  配置: ${JSON.stringify(config, null, 2)}
+📝 描述: 系统正在处理数据...
+🌟 处理进度: ${Math.floor(Math.random() * 100)}%`;
+                                    
+                                    {{.state-display}}->textContent = statusText;
+                                    {{.state-indicator}}->className = 'state-indicator state-running';
+                                    {{.basic-ineveraway-test}}->style->borderColor = '#f59e0b';
+                                },
+                                
+                                "Execute<Finalize>": function(config) {
+                                    console.log('执行完成状态');
+                                    const timestamp = new Date().toLocaleString('zh-CN');
+                                    const statusText = `
+✅ 状态: Finalize
+⏰ 时间: ${timestamp}
+⚙️  配置: ${JSON.stringify(config, null, 2)}
+📝 描述: 系统处理完成！
+🎉 结果: 所有任务成功完成`;
+                                    
+                                    {{.state-display}}->textContent = statusText;
+                                    {{.state-indicator}}->className = 'state-indicator state-complete';
+                                    {{.basic-ineveraway-test}}->style->borderColor = '#10b981';
+                                },
+                                
+                                "Monitor<System>": function(details) {
+                                    console.log('监控系统状态');
+                                    const timestamp = new Date().toLocaleString('zh-CN');
+                                    const statusText = `
+📊 监控类型: System
+⏰ 时间: ${timestamp}
+💻 CPU使用率: ${(Math.random() * 100).toFixed(1)}%
+🧠 内存使用: ${(Math.random() * 8).toFixed(1)}GB / 16GB
+🌐 网络连接: ${Math.floor(Math.random() * 1000)} active
+📦 处理队列: ${Math.floor(Math.random() * 50)} pending
+🔄 运行时间: ${Math.floor(Math.random() * 24)}小时${Math.floor(Math.random() * 60)}分钟`;
+                                    
+                                    {{.state-display}}->textContent = statusText;
+                                    {{.state-indicator}}->className = 'state-indicator state-running';
+                                },
+                                
+                                "Monitor<Performance>": function(details) {
+                                    console.log('监控系统性能');
+                                    const timestamp = new Date().toLocaleString('zh-CN');
+                                    const statusText = `
+⚡ 监控类型: Performance  
+⏰ 时间: ${timestamp}
+🚀 响应时间: ${(Math.random() * 100).toFixed(1)}ms
+📈 吞吐量: ${Math.floor(Math.random() * 1000)}/秒
+❌ 错误率: ${(Math.random() * 5).toFixed(2)}%
+✅ 可用性: ${(95 + Math.random() * 5).toFixed(2)}%
+📊 QPS: ${Math.floor(Math.random() * 5000)}
+💾 缓存命中率: ${(80 + Math.random() * 20).toFixed(1)}%`;
+                                    
+                                    {{.state-display}}->textContent = statusText;
+                                    {{.state-indicator}}->className = 'state-indicator state-running';
+                                }
+                            });
+                        }
+                        
+                        h4 {
+                            text { 状态管理演示 }
+                            color: "#be185d";
+                            margin: "25px 0 15px 0";
+                        }
+                        
+                        div {
+                            class: state-info;
+                            
+                            style {
+                                .state-info {
+                                    display: "flex";
+                                    align-items: "center";
+                                    margin: "15px 0";
+                                    padding: "10px";
+                                    background: "rgba(255, 255, 255, 0.5)";
+                                    border-radius: "6px";
+                                }
+                            }
+                            
+                            span {
+                                text { 当前状态: }
+                                font-weight: "600";
+                            }
+                            
+                            span {
+                                class: state-indicator state-init;
+                            }
+                            
+                            span {
+                                class: current-state-text;
+                                
+                                style {
+                                    font-weight: "700";
+                                    color: "#be185d";
+                                    margin-left: "5px";
+                                }
+                                
+                                text { 未初始化 }
+                            }
+                        }
+                        
+                        div {
+                            class: state-controls;
+                            
+                            style {
+                                .state-controls {
+                                    display: "flex";
+                                    gap: "10px";
+                                    margin: "20px 0";
+                                    flex-wrap: "wrap";
+                                }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            ProcessManager->"Execute<Initialize>"({
+                                                mode: 'production',
+                                                debug: true,
+                                                version: '1.0.0',
+                                                timestamp: Date.now(),
+                                                user: 'chtholly_tester'
+                                            });
+                                            {{.current-state-text}}->textContent = 'Initialize';
+                                        }
+                                    });
+                                }
+                                
+                                text { 🚀 初始化 }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            ProcessManager->"Execute<Process>"({
+                                                batchSize: 100,
+                                                parallel: true,
+                                                timeout: 30000,
+                                                priority: 'high',
+                                                retries: 3
+                                            });
+                                            {{.current-state-text}}->textContent = 'Process';
+                                        }
+                                    });
+                                }
+                                
+                                text { ⚡ 处理 }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            ProcessManager->"Execute<Finalize>"({
+                                                cleanup: true,
+                                                report: true,
+                                                notify: true,
+                                                archive: true,
+                                                summary: 'All tasks completed successfully'
+                                            });
+                                            {{.current-state-text}}->textContent = 'Finalize';
+                                        }
+                                    });
+                                }
+                                
+                                text { ✅ 完成 }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            ProcessManager->"Monitor<System>"({
+                                                detailed: true,
+                                                realtime: true,
+                                                interval: 1000
+                                            });
+                                            {{.current-state-text}}->textContent = 'Monitor System';
+                                        }
+                                    });
+                                }
+                                
+                                text { 📊 系统监控 }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            ProcessManager->"Monitor<Performance>"({
+                                                metrics: ['cpu', 'memory', 'network', 'disk'],
+                                                duration: 5000,
+                                                format: 'detailed'
+                                            });
+                                            {{.current-state-text}}->textContent = 'Monitor Performance';
+                                        }
+                                    });
+                                }
+                                
+                                text { ⚡ 性能监控 }
+                            }
+                        }
+                        
+                        div {
+                            class: state-display;
+                            text { 状态信息将显示在这里... }
+                        }
+                    }
+                    
+                    // 复杂状态重载测试
+                    div {
+                        class: complex-ineveraway-test;
+                        
+                        style {
+                            .complex-ineveraway-test {
+                                border: "3px solid #be185d";
+                                border-radius: "12px";
+                                padding: "25px";
+                                margin: "30px 0";
+                                background: "rgba(190, 24, 93, 0.05)";
+                            }
+                        }
+                        
+                        h4 {
+                            text { 复杂状态重载测试 }
+                            color: "#be185d";
+                            margin-bottom: "20px";
+                        }
+                        
+                        script {
+                            vir DataProcessor = iNeverAway({
+                                "Transform<JSON>": function(data, options) {
+                                    console.log('JSON转换处理');
+                                    const result = {
+                                        type: 'JSON',
+                                        timestamp: new Date().toISOString(),
+                                        data: JSON.stringify(data, null, options?.indent || 2),
+                                        size: JSON.stringify(data).length,
+                                        formatted: true
+                                    };
+                                    
+                                    {{.transform-output}}->textContent = `JSON转换结果:\n${result.data}\n\n元数据:\n- 大小: ${result.size} 字符\n- 时间: ${result.timestamp}`;
+                                    return result;
+                                },
+                                
+                                "Transform<XML>": function(data, options) {
+                                    console.log('XML转换处理');
+                                    const xmlData = `<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <metadata>
+        <timestamp>${new Date().toISOString()}</timestamp>
+        <type>XML</type>
+    </metadata>
+    <data>${JSON.stringify(data)}</data>
+</root>`;
+                                    
+                                    {{.transform-output}}->textContent = `XML转换结果:\n${xmlData}`;
+                                    return xmlData;
+                                },
+                                
+                                "Transform<CSV>": function(data, options) {
+                                    console.log('CSV转换处理');
+                                    let csvData = '';
+                                    
+                                    if (Array.isArray(data) && data.length > 0) {
+                                        // 获取表头
+                                        const headers = Object.keys(data[0]);
+                                        csvData = headers.join(',') + '\n';
+                                        
+                                        // 添加数据行
+                                        data.forEach(row => {
+                                            const values = headers.map(header => `"${row[header] || ''}"`);
+                                            csvData += values.join(',') + '\n';
+                                        });
+                                    } else {
+                                        csvData = 'Invalid data format for CSV conversion';
+                                    }
+                                    
+                                    {{.transform-output}}->textContent = `CSV转换结果:\n${csvData}`;
+                                    return csvData;
+                                },
+                                
+                                "Analyze<Structure>": function(data) {
+                                    console.log('结构分析处理');
+                                    const analysis = {
+                                        type: typeof data,
+                                        isArray: Array.isArray(data),
+                                        keys: Object.keys(data || {}),
+                                        depth: this.calculateDepth(data),
+                                        size: JSON.stringify(data).length
+                                    };
+                                    
+                                    const analysisText = `
+🔍 数据结构分析:
+📊 类型: ${analysis.type}
+📋 是否数组: ${analysis.isArray}
+🔑 键数量: ${analysis.keys.length}
+📏 嵌套深度: ${analysis.depth}
+📦 数据大小: ${analysis.size} 字符
+🗝️  键列表: ${analysis.keys.join(', ')}`;
+                                    
+                                    {{.transform-output}}->textContent = analysisText;
+                                    return analysis;
+                                },
+                                
+                                "Analyze<Performance>": function(data) {
+                                    console.log('性能分析处理');
+                                    const startTime = performance.now();
+                                    
+                                    // 模拟性能分析
+                                    let operations = 0;
+                                    for (let i = 0; i < 10000; i++) {
+                                        JSON.stringify(data);
+                                        operations++;
+                                    }
+                                    
+                                    const endTime = performance.now();
+                                    const duration = endTime - startTime;
+                                    
+                                    const perfText = `
+⚡ 性能分析结果:
+⏱️  执行时间: ${duration.toFixed(2)}ms
+🔄 操作次数: ${operations}
+📈 操作/秒: ${(operations / (duration / 1000)).toFixed(0)}
+💾 内存使用: ~${(JSON.stringify(data).length * operations / 1024).toFixed(2)}KB
+🎯 效率评级: ${duration < 100 ? '优秀' : duration < 500 ? '良好' : '需优化'}`;
+                                    
+                                    {{.transform-output}}->textContent = perfText;
+                                    return { duration, operations, efficiency: duration / operations };
+                                },
+                                
+                                calculateDepth: function(obj, depth = 0) {
+                                    if (obj === null || typeof obj !== 'object') {
+                                        return depth;
+                                    }
+                                    
+                                    let maxDepth = depth;
+                                    for (const key in obj) {
+                                        if (obj.hasOwnProperty(key)) {
+                                            const currentDepth = this.calculateDepth(obj[key], depth + 1);
+                                            maxDepth = Math.max(maxDepth, currentDepth);
+                                        }
+                                    }
+                                    
+                                    return maxDepth;
+                                }
+                            });
+                        }
+                        
+                        div {
+                            class: state-info;
+                            
+                            style {
+                                .state-info {
+                                    display: "flex";
+                                    align-items: "center";
+                                    margin: "15px 0";
+                                    padding: "15px";
+                                    background: "rgba(255, 255, 255, 0.7)";
+                                    border-radius: "8px";
+                                    border: "1px solid rgba(236, 72, 153, 0.2)";
+                                }
+                            }
+                            
+                            span {
+                                text { 当前状态: }
+                                font-weight: "600";
+                                color: "#374151";
+                            }
+                            
+                            span {
+                                class: state-indicator state-init;
+                            }
+                            
+                            span {
+                                class: current-state-text;
+                                
+                                style {
+                                    font-weight: "700";
+                                    color: "#be185d";
+                                    margin-left: "8px";
+                                }
+                                
+                                text { 未初始化 }
+                            }
+                        }
+                        
+                        div {
+                            class: state-controls;
+                            
+                            style {
+                                .state-controls {
+                                    display: "grid";
+                                    grid-template-columns: "repeat(auto-fit, minmax(150px, 1fr))";
+                                    gap: "10px";
+                                    margin: "20px 0";
+                                }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            ProcessManager->"Execute<Initialize>"({
+                                                environment: 'test',
+                                                features: ['logging', 'monitoring', 'caching'],
+                                                security: { level: 'high', encryption: true }
+                                            });
+                                            {{.current-state-text}}->textContent = 'Initialize';
+                                        }
+                                    });
+                                }
+                                
+                                text { 🚀 初始化系统 }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            ProcessManager->"Execute<Process>"({
+                                                algorithm: 'advanced',
+                                                optimization: true,
+                                                parallel: true,
+                                                maxThreads: 8
+                                            });
+                                            {{.current-state-text}}->textContent = 'Process';
+                                        }
+                                    });
+                                }
+                                
+                                text { ⚡ 执行处理 }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            ProcessManager->"Execute<Finalize>"({
+                                                generateReport: true,
+                                                sendNotification: true,
+                                                cleanup: true,
+                                                backup: true
+                                            });
+                                            {{.current-state-text}}->textContent = 'Finalize';
+                                        }
+                                    });
+                                }
+                                
+                                text { ✅ 完成任务 }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            ProcessManager->"Monitor<System>"({
+                                                components: ['cpu', 'memory', 'network', 'storage'],
+                                                alertThreshold: 80,
+                                                autoScale: true
+                                            });
+                                            {{.current-state-text}}->textContent = 'System Monitor';
+                                        }
+                                    });
+                                }
+                                
+                                text { 📊 系统监控 }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            ProcessManager->"Monitor<Performance>"({
+                                                benchmarks: ['latency', 'throughput', 'errorRate'],
+                                                duration: 60000,
+                                                samples: 1000
+                                            });
+                                            {{.current-state-text}}->textContent = 'Performance Monitor';
+                                        }
+                                    });
+                                }
+                                
+                                text { ⚡ 性能监控 }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            const testData = {
+                                                character: '珂朵莉',
+                                                series: '末日时在做什么？有没有空？可以来拯救吗？',
+                                                weapon: '塞尼欧里斯',
+                                                age: 15,
+                                                status: '世界上最幸福的女孩',
+                                                abilities: ['剑术', '魔法', '料理'],
+                                                memories: {
+                                                    happy: ['与威廉的相遇', '大家一起的日常'],
+                                                    precious: ['第一次做苹果派', '星空下的约定']
+                                                }
+                                            };
+                                            
+                                            DataProcessor->"Transform<JSON>"(testData, { indent: 4 });
+                                            {{.current-state-text}}->textContent = 'Transform JSON';
+                                        }
+                                    });
+                                }
+                                
+                                text { 📄 JSON转换 }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            const testData = [
+                                                { name: '珂朵莉', weapon: '塞尼欧里斯', status: '最幸福' },
+                                                { name: '奈芙莲', weapon: '德斯佩拉蒂奥', status: '坚强' },
+                                                { name: '艾瑟雅', weapon: '拉克利莫萨', status: '温柔' },
+                                                { name: '诺菲', weapon: '未知', status: '神秘' }
+                                            ];
+                                            
+                                            DataProcessor->"Transform<CSV>"(testData);
+                                            {{.current-state-text}}->textContent = 'Transform CSV';
+                                        }
+                                    });
+                                }
+                                
+                                text { 📊 CSV转换 }
+                            }
+                            
+                            button {
+                                class: chtholly-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            const complexData = {
+                                                level1: {
+                                                    level2: {
+                                                        level3: {
+                                                            level4: {
+                                                                deepValue: '深层数据',
+                                                                array: [1, 2, 3, { nested: true }]
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                metadata: {
+                                                    created: new Date().toISOString(),
+                                                    version: '2.0.0'
+                                                }
+                                            };
+                                            
+                                            DataProcessor->"Analyze<Structure>"(complexData);
+                                            {{.current-state-text}}->textContent = 'Analyze Structure';
+                                        }
+                                    });
+                                }
+                                
+                                text { 🔍 结构分析 }
+                            }
+                        }
+                        
+                        div {
+                            class: output-display transform-output;
+                            text { 数据转换和分析结果将显示在这里... }
+                        }
+                    }
+                }
+            }
+            
+            footer {
+                style {
+                    background: "linear-gradient(135deg, #be185d 0%, #831843 50%, #7e1d3f 100%)";
+                    color: "white";
+                    text-align: "center";
+                    padding: "50px 20px";
+                    margin-top: "60px";
+                    border-radius: "15px";
+                    box-shadow: "0 10px 30px rgba(190, 24, 93, 0.3)";
+                }
+                
+                div {
+                    style {
+                        max-width: "800px";
+                        margin: "0 auto";
+                    }
+                    
+                    h2 {
+                        text { 珂朵莉模块测试完成 }
+                        margin-bottom: "20px";
+                        font-size: "2.5rem";
+                        font-weight: "800";
+                        text-shadow: "2px 2px 4px rgba(0, 0, 0, 0.3)";
+                    }
+                    
+                    p {
+                        text { "即使忘记了自己的名字，我也不会忘记重要的事情" }
+                        font-size: "1.3rem";
+                        font-style: "italic";
+                        margin-bottom: "15px";
+                        opacity: 0.9;
+                    }
+                    
+                    p {
+                        text { 成功测试了printMylove图片转换和iNeverAway状态重载的所有功能 }
+                        opacity: 0.8;
+                        font-size: "1.1rem";
+                        margin-bottom: "10px";
+                    }
+                    
+                    p {
+                        text { 珂朵莉模块 - 让编程充满爱与希望 💕 }
+                        opacity: 0.7;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}

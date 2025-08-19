@@ -1,3 +1,3 @@
 file(REMOVE_RECURSE
-  "lib/libcss_compiler.a"
+  "libcss_compiler.a"
 )

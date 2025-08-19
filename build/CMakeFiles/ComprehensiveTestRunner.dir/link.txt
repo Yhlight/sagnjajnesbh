@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/ComprehensiveTestRunner.dir/link.d CMakeFiles/ComprehensiveTestRunner.dir/src/Test/ComprehensiveTestRunner.cpp.o CMakeFiles/ComprehensiveTestRunner.dir/src/Test/Utils/CHTLSyntaxValidator.cpp.o -o bin/ComprehensiveTestRunner  lib/libchtl_shared_min.a

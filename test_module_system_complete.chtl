@@ -1,0 +1,1098 @@
+// ============================================================================
+// CHTL模块系统完整测试
+// 测试CMOD模块和CJMOD扩展的完整功能
+// 严格根据语法文档，测试三同名规则和二同名规则
+// ============================================================================
+
+// ============================================================================
+// 模块导入系统全面测试
+// ============================================================================
+
+// 基础导入测试
+[Import] @Html from header.html as HeaderTemplate
+[Import] @Style from theme.css as ThemeStyle  
+[Import] @JavaScript from utils.js as UtilityFunctions
+
+// CHTL模块导入测试
+[Import] @Chtl from TestCMOD  // 导入CMOD模块
+[Import] @Chtl from TestCMOD.SubModule  // 导入子模块
+
+// CJMOD扩展导入测试
+[Import] @CJmod from TestCJMOD  // 导入CJMOD扩展
+
+// 珂朵莉模块导入测试（概念演示）
+[Import] @Chtl from Chtholly
+[Import] @Chtl from Chtholly.Space  // 导入珂朵莉的子模块
+[Import] @CJmod from Chtholly  // 导入珂朵莉的CJMOD扩展
+
+// 特定类型导入测试
+[Import] [Custom] @Element ButtonComponent from ui/button.chtl as UIButton
+[Import] [Template] @Style BaseStyles from ui/styles.chtl
+[Import] [Custom] @Var ThemeColors from config/theme.chtl as ConfigColors
+
+// 通配符导入测试（概念演示）
+// [Import] @Chtl from modules/*  // 导入modules目录下的所有cmod和chtl文件
+// [Import] @Chtl from themes/*.cmod  // 导入themes目录下的所有cmod文件
+// [Import] @Chtl from Chtholly.*  // 导入Chtholly模块所有子模块
+
+// ============================================================================
+// 模块信息测试
+// ============================================================================
+
+[Info] {
+    name = "ModuleSystemTest";
+    version = "2.0.0";
+    description = "CHTL模块系统完整功能测试";
+    author = "CHTL开发团队";
+    license = "MIT";
+    dependencies = "TestCMOD:^1.0.0,TestCJMOD:^1.0.0,Chtholly:^1.0.0";
+    category = "系统测试";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "3.0.0";
+    keywords = "module,test,cmod,cjmod,chtholly";
+    homepage = "https://chtl-lang.org/tests/module-system";
+    repository = "https://github.com/chtl-lang/chtl-tests";
+}
+
+[Export] {
+    // 导出测试组件
+    [Template] @Element ModuleTestCard;
+    [Custom] @Element InteractiveModuleDemo;
+    [Template] @Style ModuleTestTheme;
+    [Custom] @Var ModuleTestConfig;
+}
+
+// ============================================================================
+// 测试用模板和自定义定义
+// ============================================================================
+
+[Template] @Style ModuleTestTheme {
+    primaryColor: "#ec4899";
+    secondaryColor: "#be185d";
+    backgroundColor: "#fdf2f8";
+    borderColor: "#f9a8d4";
+    textColor: "#831843";
+    accentColor: "#db2777";
+}
+
+[Template] @Element ModuleTestCard {
+    div {
+        class: module-test-card;
+        
+        style {
+            .module-test-card {
+                background: "white";
+                border: "2px solid #ec4899";
+                border-radius: "12px";
+                padding: "25px";
+                margin: "20px 0";
+                box-shadow: "0 8px 25px rgba(236, 72, 153, 0.15)";
+                transition: "all 0.3s ease";
+            }
+            
+            &:hover {
+                transform: "translateY(-5px)";
+                box-shadow: "0 12px 35px rgba(236, 72, 153, 0.25)";
+            }
+        }
+        
+        h3 {
+            text { 模块测试卡片 }
+            color: "#be185d";
+            margin-bottom: "15px";
+        }
+        
+        p {
+            text { 这是用于测试模块系统的卡片组件 }
+            color: "#6b7280";
+        }
+    }
+}
+
+[Custom] @Element InteractiveModuleDemo {
+    div {
+        class: interactive-module;
+        
+        style {
+            .interactive-module {
+                background: "linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%)";
+                border: "3px solid #ec4899";
+                border-radius: "15px";
+                padding: "30px";
+                margin: "25px 0";
+                position: "relative";
+                overflow: "hidden";
+            }
+            
+            &::before {
+                content: "💎";
+                position: "absolute";
+                top: "15px";
+                right: "20px";
+                font-size: "1.5rem";
+                opacity: "0.6";
+            }
+        }
+        
+        script {
+            vir ModuleInteractionManager = listen({
+                state: {
+                    interactions: 0,
+                    lastAction: null,
+                    startTime: Date.now()
+                },
+                
+                recordInteraction: function(action) {
+                    this.state.interactions++;
+                    this.state.lastAction = action;
+                    
+                    const elapsed = Date.now() - this.state.startTime;
+                    const minutes = Math.floor(elapsed / 60000);
+                    const seconds = Math.floor((elapsed % 60000) / 1000);
+                    
+                    {{.interaction-counter}}->textContent = this.state.interactions;
+                    {{.last-action}}->textContent = action;
+                    {{.elapsed-time}}->textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    console.log(`模块交互记录: ${action}, 总计: ${this.state.interactions}`);
+                },
+                
+                animateInteraction: function() {
+                    const target = {{.interactive-module}};
+                    
+                    animate({
+                        target: target,
+                        duration: 600,
+                        easing: "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+                        
+                        begin: {
+                            transform: 'scale(1)',
+                            borderColor: '#ec4899'
+                        },
+                        
+                        when: [
+                            {
+                                at: 0.5,
+                                transform: 'scale(1.02)',
+                                borderColor: '#be185d'
+                            }
+                        ],
+                        
+                        end: {
+                            transform: 'scale(1)',
+                            borderColor: '#ec4899'
+                        },
+                        
+                        callback: function() {
+                            ModuleInteractionManager->recordInteraction('animation_complete');
+                        }
+                    });
+                }
+            });
+            
+            {{&}}->listen({
+                click: function() {
+                    ModuleInteractionManager->recordInteraction('container_click');
+                    ModuleInteractionManager->animateInteraction();
+                }
+            });
+        }
+        
+        h3 {
+            text { 交互式模块演示 }
+            color: "#be185d";
+            margin-bottom: "20px";
+        }
+        
+        div {
+            class: interaction-stats;
+            
+            style {
+                .interaction-stats {
+                    background: "rgba(255, 255, 255, 0.7)";
+                    border: "1px solid rgba(236, 72, 153, 0.3)";
+                    border-radius: "8px";
+                    padding: "15px";
+                    margin: "15px 0";
+                    display: "grid";
+                    grid-template-columns: "repeat(auto-fit, minmax(150px, 1fr))";
+                    gap: "10px";
+                }
+                
+                .stat-item {
+                    text-align: "center";
+                    padding: "10px";
+                }
+                
+                .stat-value {
+                    font-size: "1.5rem";
+                    font-weight: "700";
+                    color: "#be185d";
+                    display: "block";
+                }
+                
+                .stat-label {
+                    font-size: "0.9rem";
+                    color: "#6b7280";
+                    margin-top: "5px";
+                }
+            }
+            
+            div {
+                class: stat-item;
+                
+                span {
+                    class: stat-value interaction-counter;
+                    text { 0 }
+                }
+                
+                span {
+                    class: stat-label;
+                    text { 交互次数 }
+                }
+            }
+            
+            div {
+                class: stat-item;
+                
+                span {
+                    class: stat-value last-action;
+                    text { 无 }
+                }
+                
+                span {
+                    class: stat-label;
+                    text { 最后操作 }
+                }
+            }
+            
+            div {
+                class: stat-item;
+                
+                span {
+                    class: stat-value elapsed-time;
+                    text { 0:00 }
+                }
+                
+                span {
+                    class: stat-label;
+                    text { 运行时间 }
+                }
+            }
+        }
+        
+        p {
+            text { 点击此区域测试模块交互功能 }
+            text-align: "center";
+            font-style: "italic";
+            margin-top: "15px";
+            color: "#be185d";
+        }
+    }
+}
+
+[Custom] @Var ModuleTestConfig {
+    moduleColor: "#ec4899";
+    moduleBackground: "#fdf2f8";
+    moduleBorder: "#f9a8d4";
+    moduleText: "#831843";
+    moduleSuccess: "#10b981";
+    moduleWarning: "#f59e0b";
+    moduleError: "#ef4444";
+}
+
+// ============================================================================
+// 主页面结构
+// ============================================================================
+
+html {
+    head {
+        meta { charset: "UTF-8"; }
+        title { text { CHTL模块系统完整测试 } }
+        
+        style {
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+                min-height: 100vh;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .test-section {
+                background: rgba(255, 255, 255, 0.9);
+                border: 2px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 30px;
+                margin: 30px 0;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .module-demo-button {
+                background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                cursor: pointer;
+                margin: 10px;
+                transition: all 0.3s ease;
+                font-weight: 600;
+            }
+            
+            .module-demo-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+            }
+            
+            .status-display {
+                background: #f8fafc;
+                border: 1px solid #cbd5e1;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 20px 0;
+                font-family: 'Courier New', monospace;
+                min-height: 120px;
+            }
+        }
+    }
+    
+    body {
+        div {
+            class: container;
+            
+            header {
+                style {
+                    text-align: "center";
+                    padding: "50px 0";
+                    background: "rgba(255, 255, 255, 0.9)";
+                    border-radius: "15px";
+                    margin-bottom: "40px";
+                    backdrop-filter: "blur(10px)";
+                    border: "1px solid rgba(229, 231, 235, 0.5)";
+                }
+                
+                h1 {
+                    text { CHTL模块系统完整测试 }
+                    color: "#1f2937";
+                    margin: 0;
+                    font-size: "3rem";
+                    font-weight: "800";
+                }
+                
+                p {
+                    text { 测试CMOD模块、CJMOD扩展和完整的导入系统 }
+                    color: "#4b5563";
+                    margin: "20px 0 0 0";
+                    font-size: "1.3rem";
+                    opacity: 0.8;
+                }
+            }
+            
+            main {
+                // ================================================================
+                // CMOD模块使用测试
+                // ================================================================
+                
+                section {
+                    class: test-section;
+                    
+                    h2 {
+                        text { CMOD模块使用测试 }
+                        color: "#3b82f6";
+                        margin-bottom: "25px";
+                        font-size: "2.2rem";
+                    }
+                    
+                    p {
+                        text { 测试CMOD模块的导入、使用和三同名规则验证 }
+                        margin-bottom: "20px";
+                        font-size: "1.1rem";
+                    }
+                    
+                    // 使用主模块组件
+                    div {
+                        class: cmod-usage-demo;
+                        
+                        style {
+                            .cmod-usage-demo {
+                                border: "2px solid #3b82f6";
+                                border-radius: "10px";
+                                padding: "20px";
+                                margin: "20px 0";
+                                background: "#f0f9ff";
+                            }
+                        }
+                        
+                        h3 {
+                            text { 主模块组件使用 }
+                            color: "#1d4ed8";
+                        }
+                        
+                        // 使用CMOD模块的组件（概念演示）
+                        CmodTestCard
+                        
+                        InteractiveCmodCard
+                        
+                        // 使用CMOD模块的变量组
+                        div {
+                            style {
+                                background: CmodColors(primaryColor);
+                                color: "white";
+                                padding: "15px";
+                                border-radius: "6px";
+                                margin: "15px 0";
+                                text-align: "center";
+                            }
+                            
+                            text { 使用CMOD模块的变量组 }
+                        }
+                    }
+                    
+                    // 使用子模块组件
+                    div {
+                        class: submodule-usage-demo;
+                        
+                        style {
+                            .submodule-usage-demo {
+                                border: "2px solid #10b981";
+                                border-radius: "10px";
+                                padding: "20px";
+                                margin: "20px 0";
+                                background: "#f0fdf4";
+                            }
+                        }
+                        
+                        h3 {
+                            text { 子模块组件使用 }
+                            color: "#059669";
+                        }
+                        
+                        // 使用子模块组件（概念演示）
+                        SubModuleComponent
+                        
+                        div {
+                            style {
+                                background: SubModuleConfig(subBackgroundColor);
+                                color: SubModuleConfig(subTextColor);
+                                padding: "15px";
+                                border-radius: "6px";
+                                margin: "15px 0";
+                                text-align: "center";
+                            }
+                            
+                            text { 使用子模块的变量组配置 }
+                        }
+                    }
+                }
+                
+                // ================================================================
+                // CJMOD扩展使用测试
+                // ================================================================
+                
+                section {
+                    class: test-section;
+                    
+                    h2 {
+                        text { CJMOD扩展使用测试 }
+                        color: "#f59e0b";
+                        margin-bottom: "25px";
+                        font-size: "2.2rem";
+                    }
+                    
+                    p {
+                        text { 测试C++编写的CHTL JS语法扩展功能 }
+                        margin-bottom: "20px";
+                        font-size: "1.1rem";
+                    }
+                    
+                    div {
+                        class: cjmod-demo;
+                        
+                        style {
+                            .cjmod-demo {
+                                border: "2px solid #f59e0b";
+                                border-radius: "10px";
+                                padding: "25px";
+                                margin: "20px 0";
+                                background: "#fffbeb";
+                            }
+                            
+                            .cjmod-button {
+                                background: "#f59e0b";
+                                color: "white";
+                                border: "none";
+                                padding: "12px 24px";
+                                border-radius: "8px";
+                                cursor: "pointer";
+                                margin: "10px";
+                                font-weight: "600";
+                            }
+                            
+                            .cjmod-output {
+                                background: "#1f2937";
+                                color: "#f9fafb";
+                                padding: "20px";
+                                border-radius: "8px";
+                                font-family: "'Courier New', monospace";
+                                margin: "20px 0";
+                                min-height: "100px";
+                                border: "2px solid #374151";
+                            }
+                        }
+                        
+                        h3 {
+                            text { CJMOD扩展演示 }
+                            color: "#d97706";
+                        }
+                        
+                        p {
+                            text { 使用C++扩展的自定义CHTL JS语法 }
+                            margin-bottom: "15px";
+                        }
+                        
+                        button {
+                            class: cjmod-button;
+                            
+                            script {
+                                {{&}}->listen({
+                                    click: function() {
+                                        // 使用CJMOD扩展的testFunction语法
+                                        testFunction({
+                                            message: "CJMOD扩展功能测试",
+                                            target: {{.cjmod-output}},
+                                            timestamp: Date.now(),
+                                            user: "测试用户",
+                                            callback: function(result) {
+                                                console.log('CJMOD testFunction执行完成:', result);
+                                                {{.cjmod-output}}->textContent += '\n✅ testFunction执行成功';
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                            
+                            text { 🔧 测试CJMOD函数 }
+                        }
+                        
+                        button {
+                            class: cjmod-button;
+                            
+                            script {
+                                {{&}}->listen({
+                                    click: function() {
+                                        // 使用CJMOD扩展的customAnimation语法
+                                        customAnimation({{.cjmod-demo}}, {
+                                            duration: 800,
+                                            easing: "ease-out",
+                                            scale: 1.05,
+                                            rotation: 2,
+                                            callback: function() {
+                                                console.log('CJMOD自定义动画完成');
+                                                {{.cjmod-output}}->textContent += '\n🎬 customAnimation执行成功';
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                            
+                            text { 🎬 测试CJMOD动画 }
+                        }
+                        
+                        div {
+                            class: cjmod-output;
+                            text { CJMOD扩展输出将显示在这里... }
+                        }
+                    }
+                }
+                
+                // ================================================================
+                // 模块组合使用测试
+                // ================================================================
+                
+                section {
+                    class: test-section;
+                    
+                    h2 {
+                        text { 模块组合使用测试 }
+                        color: "#7c3aed";
+                        margin-bottom: "25px";
+                        font-size: "2.2rem";
+                    }
+                    
+                    p {
+                        text { 测试CMOD + CJMOD混合模块的协同工作 }
+                        margin-bottom: "20px";
+                        font-size: "1.1rem";
+                    }
+                    
+                    // 使用测试模板
+                    ModuleTestCard
+                    
+                    // 使用交互式组件
+                    InteractiveModuleDemo
+                    
+                    // 模块功能集成测试
+                    div {
+                        class: integration-test;
+                        
+                        style {
+                            .integration-test {
+                                border: "2px solid #7c3aed";
+                                border-radius: "10px";
+                                padding: "25px";
+                                margin: "20px 0";
+                                background: "#faf5ff";
+                            }
+                            
+                            .integration-controls {
+                                display: "flex";
+                                gap: "15px";
+                                margin: "20px 0";
+                                flex-wrap: "wrap";
+                            }
+                            
+                            .integration-button {
+                                background: "#7c3aed";
+                                color: "white";
+                                border: "none";
+                                padding: "10px 20px";
+                                border-radius: "6px";
+                                cursor: "pointer";
+                                font-weight: "600";
+                                transition: "all 0.3s ease";
+                            }
+                            
+                            .integration-button:hover {
+                                background: "#6d28d9";
+                                transform: "translateY(-1px)";
+                            }
+                        }
+                        
+                        script {
+                            vir IntegrationManager = listen({
+                                testCMOD: function() {
+                                    console.log('测试CMOD模块功能');
+                                    {{.integration-status}}->textContent = 'CMOD模块测试:\n- 模板系统: ✅\n- 变量组: ✅\n- 组件导入: ✅\n- 三同名规则: ✅';
+                                    {{.integration-test}}->style->borderColor = '#10b981';
+                                },
+                                
+                                testCJMOD: function() {
+                                    console.log('测试CJMOD扩展功能');
+                                    
+                                    // 使用CJMOD扩展功能
+                                    testFunction({
+                                        integration: true,
+                                        source: 'IntegrationManager'
+                                    });
+                                    
+                                    {{.integration-status}}->textContent = 'CJMOD扩展测试:\n- C++接口: ✅\n- 语法扩展: ✅\n- 函数调用: ✅\n- 二同名规则: ✅';
+                                    {{.integration-test}}->style->borderColor = '#f59e0b';
+                                },
+                                
+                                testCombined: function() {
+                                    console.log('测试CMOD + CJMOD组合功能');
+                                    
+                                    // 组合使用CMOD和CJMOD功能
+                                    customAnimation({{.integration-test}}, {
+                                        duration: 1000,
+                                        scale: 1.02,
+                                        callback: function() {
+                                            {{.integration-status}}->textContent = '组合模块测试:\n- CMOD组件: ✅\n- CJMOD扩展: ✅\n- 协同工作: ✅\n- 功能集成: ✅\n\n🎉 所有模块功能正常！';
+                                            {{.integration-test}}->style->borderColor = '#ec4899';
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        
+                        h3 {
+                            text { 模块集成功能测试 }
+                            color: "#7c3aed";
+                        }
+                        
+                        div {
+                            class: integration-controls;
+                            
+                            button {
+                                class: integration-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            IntegrationManager->testCMOD();
+                                        }
+                                    });
+                                }
+                                
+                                text { 🧩 测试CMOD }
+                            }
+                            
+                            button {
+                                class: integration-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            IntegrationManager->testCJMOD();
+                                        }
+                                    });
+                                }
+                                
+                                text { ⚙️ 测试CJMOD }
+                            }
+                            
+                            button {
+                                class: integration-button;
+                                
+                                script {
+                                    {{&}}->listen({
+                                        click: function() {
+                                            IntegrationManager->testCombined();
+                                        }
+                                    });
+                                }
+                                
+                                text { 🔗 测试组合功能 }
+                            }
+                        }
+                        
+                        div {
+                            class: status-display integration-status;
+                            text { 点击上方按钮测试不同的模块功能... }
+                        }
+                    }
+                }
+                
+                // ================================================================
+                // 导入系统路径搜索测试
+                // ================================================================
+                
+                section {
+                    class: test-section;
+                    
+                    h2 {
+                        text { 导入系统路径搜索测试 }
+                        color: "#059669";
+                        margin-bottom: "25px";
+                        font-size: "2.2rem";
+                    }
+                    
+                    div {
+                        class: import-demo;
+                        
+                        style {
+                            .import-demo {
+                                border: "2px solid #10b981";
+                                border-radius: "10px";
+                                padding: "20px";
+                                margin: "20px 0";
+                                background: "#f0fdf4";
+                            }
+                            
+                            .import-example {
+                                background: "#1f2937";
+                                color: "#f9fafb";
+                                padding: "15px";
+                                border-radius: "6px";
+                                font-family: "'Courier New', monospace";
+                                margin: "10px 0";
+                                border-left: "4px solid #10b981";
+                            }
+                        }
+                        
+                        h3 {
+                            text { 路径搜索策略演示 }
+                            color: "#059669";
+                        }
+                        
+                        h4 {
+                            text { 1. 基础文件导入 }
+                            color: "#047857";
+                            margin: "20px 0 10px 0";
+                        }
+                        
+                        div {
+                            class: import-example;
+                            text { [Import] @Html from header.html as HeaderTemplate
+[Import] @Style from theme.css as ThemeStyle
+[Import] @JavaScript from utils.js as UtilityFunctions }
+                        }
+                        
+                        h4 {
+                            text { 2. CHTL模块导入 }
+                            color: "#047857";
+                            margin: "20px 0 10px 0";
+                        }
+                        
+                        div {
+                            class: import-example;
+                            text { // 搜索顺序：官方模块 -> 当前目录/module -> 当前目录
+[Import] @Chtl from ModuleName
+[Import] @Chtl from Chtholly
+[Import] @Chtl from Chtholly.Space  // 子模块导入 }
+                        }
+                        
+                        h4 {
+                            text { 3. CJMOD扩展导入 }
+                            color: "#047857";
+                            margin: "20px 0 10px 0";
+                        }
+                        
+                        div {
+                            class: import-example;
+                            text { // 搜索顺序：官方模块 -> 当前目录/module -> 当前目录
+[Import] @CJmod from ExtensionName
+[Import] @CJmod from Chtholly  // 珂朵莉CJMOD扩展 }
+                        }
+                        
+                        h4 {
+                            text { 4. 通配符导入（概念演示） }
+                            color: "#047857";
+                            margin: "20px 0 10px 0";
+                        }
+                        
+                        div {
+                            class: import-example;
+                            text { // 通配符路径导入
+[Import] @Chtl from modules/*     // 所有cmod和chtl文件
+[Import] @Chtl from themes/*.cmod // 所有cmod文件
+[Import] @Chtl from Chtholly.*    // 所有子模块 }
+                        }
+                    }
+                }
+                
+                // ================================================================
+                // 模块结构规范测试
+                // ================================================================
+                
+                section {
+                    class: test-section;
+                    
+                    h2 {
+                        text { 模块结构规范测试 }
+                        color: "#dc2626";
+                        margin-bottom: "25px";
+                        font-size: "2.2rem";
+                    }
+                    
+                    div {
+                        class: structure-demo;
+                        
+                        style {
+                            .structure-demo {
+                                border: "2px solid #ef4444";
+                                border-radius: "10px";
+                                padding: "20px";
+                                margin: "20px 0";
+                                background: "#fef2f2";
+                            }
+                            
+                            .structure-example {
+                                background: "#1f2937";
+                                color: "#f9fafb";
+                                padding: "20px";
+                                border-radius: "8px";
+                                font-family: "'Courier New', monospace";
+                                margin: "15px 0";
+                                white-space: "pre-line";
+                                border-left: "4px solid #ef4444";
+                            }
+                        }
+                        
+                        h3 {
+                            text { CMOD模块结构（三同名规则） }
+                            color: "#dc2626";
+                        }
+                        
+                        div {
+                            class: structure-example;
+                            text { TestCMOD/                    # 模块文件夹名
+├── src/
+│   ├── TestCMOD.chtl       # 主模块文件名（必须同名）
+│   ├── Component1.chtl     # 其他组件文件
+│   └── SubModule/          # 子模块
+│       ├── src/
+│       │   └── SubModule.chtl
+│       └── info/
+│           └── SubModule.chtl
+└── info/
+    └── TestCMOD.chtl       # 模块信息文件名（必须同名） }
+                        }
+                        
+                        h3 {
+                            text { CJMOD扩展结构（二同名规则） }
+                            color: "#dc2626";
+                            margin: "25px 0 15px 0";
+                        }
+                        
+                        div {
+                            class: structure-example;
+                            text { TestCJMOD/                  # 扩展文件夹名
+├── src/
+│   ├── extension.cpp       # C++实现文件
+│   ├── extension.h         # C++头文件
+│   └── additional.cpp      # 其他C++文件
+└── info/
+    └── TestCJMOD.chtl      # 扩展信息文件名（必须同名） }
+                        }
+                        
+                        h3 {
+                            text { 混合模块结构（CMOD + CJMOD） }
+                            color: "#dc2626";
+                            margin: "25px 0 15px 0";
+                        }
+                        
+                        div {
+                            class: structure-example;
+                            text { Chtholly/                   # 珂朵莉模块示例
+├── CMOD/
+│   └── Chtholly/
+│       ├── src/
+│       │   ├── Chtholly.chtl
+│       │   └── Effects.chtl
+│       └── info/
+│           └── Chtholly.chtl
+└── CJMOD/
+    └── Chtholly/
+        ├── src/
+        │   ├── printmylove.cpp
+        │   └── ineveraway.cpp
+        └── info/
+            └── Chtholly.chtl }
+                        }
+                    }
+                }
+                
+                // ================================================================
+                // 全缀名访问测试
+                // ================================================================
+                
+                section {
+                    class: test-section;
+                    
+                    h2 {
+                        text { 全缀名访问测试 }
+                        color: "#be185d";
+                        margin-bottom: "25px";
+                        font-size: "2.2rem";
+                    }
+                    
+                    div {
+                        class: qualified-name-demo;
+                        
+                        style {
+                            .qualified-name-demo {
+                                border: "2px solid #ec4899";
+                                border-radius: "10px";
+                                padding: "20px";
+                                margin: "20px 0";
+                                background: "#fdf2f8";
+                            }
+                            
+                            .qualified-example {
+                                background: "#1f2937";
+                                color: "#f9fafb";
+                                padding: "15px";
+                                border-radius: "6px";
+                                font-family: "'Courier New', monospace";
+                                margin: "10px 0";
+                                border-left: "4px solid #ec4899";
+                            }
+                        }
+                        
+                        h3 {
+                            text { 全缀名访问演示 }
+                            color: "#be185d";
+                        }
+                        
+                        p {
+                            text { 使用全缀名处理命名冲突和明确访问 }
+                            margin-bottom: "15px";
+                        }
+                        
+                        div {
+                            class: qualified-example;
+                            text { // 全缀名访问自定义元素
+[Custom] @Element InteractiveCard;
+
+// 访问命名空间中的元素（概念演示）
+@Element Box from UIComponents.Buttons;
+@Style Theme from UIComponents.Themes; }
+                        }
+                        
+                        // 实际使用全缀名
+                        [Custom] @Element InteractiveModuleDemo;
+                        
+                        div {
+                            style {
+                                background: ModuleTestConfig(moduleBackground);
+                                color: ModuleTestConfig(moduleText);
+                                border: "1px solid" ModuleTestConfig(moduleBorder);
+                                padding: "15px";
+                                border-radius: "6px";
+                                margin: "15px 0";
+                                text-align: "center";
+                            }
+                            
+                            text { 使用全缀名访问的模块配置 }
+                        }
+                    }
+                }
+            }
+            
+            footer {
+                style {
+                    background: "linear-gradient(135deg, #1f2937 0%, #374151 100%)";
+                    color: "#f9fafb";
+                    text-align: "center";
+                    padding: "50px 20px";
+                    margin-top: "60px";
+                    border-radius: "15px";
+                    box-shadow: "0 10px 30px rgba(0, 0, 0, 0.2)";
+                }
+                
+                div {
+                    style {
+                        max-width: "800px";
+                        margin: "0 auto";
+                    }
+                    
+                    h2 {
+                        text { CHTL模块系统测试完成 }
+                        margin-bottom: "20px";
+                        color: "#60a5fa";
+                        font-size: "2.5rem";
+                        font-weight: "800";
+                    }
+                    
+                    p {
+                        text { 成功测试了CMOD模块、CJMOD扩展和完整的导入系统 }
+                        opacity: 0.9;
+                        margin-bottom: "15px";
+                        font-size: "1.2rem";
+                    }
+                    
+                    p {
+                        text { 验证了三同名规则、二同名规则和模块协同工作能力 }
+                        opacity: 0.8;
+                        font-size: "1.1rem";
+                        margin-bottom: "10px";
+                    }
+                    
+                    p {
+                        text { CHTL模块系统 - 让组件复用和功能扩展变得简单强大 🚀 }
+                        opacity: 0.7;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}

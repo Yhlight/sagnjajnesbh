@@ -1,0 +1,2205 @@
+// ============================================================================
+// CHTL语法全面测试文件
+// 严格根据main分支的准确CHTL语法文档进行全面测试
+// 不私自扩展，不出现语法偏差
+// ============================================================================
+
+// ============================================================================
+// 1. 注释系统全面测试
+// ============================================================================
+
+// 单行注释 - 不会被生成器识别，生成的HTML不会带有这些注释
+/* 
+ * 多行注释 - 不会被生成器识别，生成的HTML不会带有这些注释
+ * 可以跨越多行
+ * 支持复杂内容
+ */
+-- 生成器注释 - 会被生成器识别的注释，保留在HTML中
+
+// ============================================================================
+// 2. 模板系统全面测试
+// ============================================================================
+
+// 2.1 样式组模板
+[Template] @Style DefaultText {
+    color: "black";
+    line-height: 1.6;
+    font-family: "Arial, sans-serif";
+    margin: 0;
+    padding: 0;
+}
+
+[Template] @Style ButtonBase {
+    background-color: "#3b82f6";
+    color: "white";
+    border: "none";
+    padding: "12px 24px";
+    border-radius: "6px";
+    cursor: "pointer";
+    transition: "all 0.3s ease";
+}
+
+[Template] @Style CardLayout {
+    background: "white";
+    border: "1px solid #e2e8f0";
+    border-radius: "8px";
+    padding: "20px";
+    margin: "10px 0";
+    box-shadow: "0 2px 4px rgba(0,0,0,0.1)";
+}
+
+// 2.2 元素模板
+[Template] @Element Box {
+    span {
+        text {
+            这是一组div
+        }
+    }
+
+    div {
+        style {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+    }
+
+    div {
+        style {
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+        }
+    }
+}
+
+[Template] @Element Card {
+    div {
+        class: card-container;
+        
+        style {
+            .card-container {
+                background: white;
+                border-radius: 8px;
+                padding: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                margin: 15px 0;
+            }
+        }
+        
+        div {
+            class: card-header;
+            
+            style {
+                .card-header {
+                    border-bottom: 1px solid #e2e8f0;
+                    padding-bottom: 15px;
+                    margin-bottom: 15px;
+                }
+            }
+            
+            text { 卡片标题 }
+        }
+        
+        div {
+            class: card-content;
+            text { 卡片内容 }
+        }
+    }
+}
+
+// 2.3 变量组模板
+[Template] @Var ThemeColor {
+    // 无需像CSS一样以--为前缀，因为变量组本质上不是CSS变量，而是值的替换
+    tableColor: "rgb(255, 192, 203)";
+    primaryColor: "#3b82f6";
+    secondaryColor: "#64748b";
+    accentColor: "#f59e0b";
+    dangerColor: "#ef4444";
+    successColor: "#10b981";
+}
+
+[Template] @Var Spacing {
+    tiny: "4px";
+    small: "8px";
+    medium: "16px";
+    large: "24px";
+    xlarge: "32px";
+    xxlarge: "48px";
+}
+
+// 2.4 模板继承测试
+// 组合式继承
+[Template] @Style ThemeColorExtended {
+    background-color: yellow;  // 重复的元素，根据书写的顺序进行值的替换
+    @Style DefaultText;  // 样式组模板继承，获得DefaultText所有的属性
+}
+
+// 显性继承
+[Template] @Style ExplicitInheritStyle {
+    background-color: green;
+    inherit @Style DefaultText;
+}
+
+[Template] @Style ChainedInheritance {
+    border: "2px solid #3b82f6";
+    inherit @Style ButtonBase;
+}
+
+// ============================================================================
+// 3. 自定义系统全面测试
+// ============================================================================
+
+// 3.1 无值样式组
+[Custom] @Style FlexSet {
+    display,
+    justify-content,
+    align-items;
+}
+
+[Custom] @Style GridSet {
+    display,
+    grid-template-columns,
+    grid-gap,
+    grid-auto-rows;
+}
+
+// 3.2 样式组特例化 - 删除属性
+[Template] @Style CompleteButtonStyle {
+    color: white;
+    font-size: 16px;
+    line-height: 1.6;
+    border: 1px black solid;
+    margin: 10px;
+    padding: 15px;
+    background: "#3b82f6";
+    border-radius: "6px";
+    cursor: "pointer";
+}
+
+[Custom] @Style MinimalButton {
+    @Style CompleteButtonStyle {
+        delete line-height, border, margin;  // 删除多个属性
+    }
+    background: "#10b981";
+}
+
+// 3.3 删除样式组继承
+[Template] @Style BaseComponentStyle {
+    padding: "20px";
+    margin: "10px";
+    border: "1px solid #ccc";
+    background: "#f9fafb";
+}
+
+[Custom] @Style IndependentStyle {
+    @Style BaseComponentStyle;
+    color: "#1f2937";
+}
+
+// 3.4 自定义元素
+[Custom] @Element InteractiveCard {
+    div {
+        class: interactive-container;
+        
+        style {
+            .interactive-container {
+                background: "#f0f9ff";
+                border: "2px solid #3b82f6";
+                border-radius: "10px";
+                padding: "20px";
+                cursor: "pointer";
+                transition: "all 0.3s ease";
+            }
+        }
+    }
+
+    div {
+        class: content-area;
+        
+        style {
+            .content-area {
+                padding: "15px";
+                background: "#dbeafe";
+                border-radius: "6px";
+                margin: "10px 0";
+            }
+        }
+    }
+
+    span {
+        class: label-text;
+        
+        style {
+            .label-text {
+                font-weight: "bold";
+                color: "#1d4ed8";
+            }
+        }
+    }
+}
+
+// 3.5 自定义变量组
+[Custom] @Var AppConfiguration {
+    primaryColor: "#2563eb";
+    textColor: "#1f2937";
+    backgroundColor: "#f9fafb";
+    borderColor: "#d1d5db";
+    successColor: "#059669";
+    warningColor: "#d97706";
+    errorColor: "#dc2626";
+}
+
+// ============================================================================
+// 4. 原始嵌入系统全面测试
+// ============================================================================
+
+// 4.1 基础原始嵌入
+[Origin] @Html {
+    <div class="raw-html-content">
+        <h3>原始HTML嵌入测试</h3>
+        <p>这段HTML代码不会被CHTL处理，直接生成到输出中</p>
+        <ul>
+            <li>支持任意HTML结构</li>
+            <li>保持原始格式</li>
+            <li>兼容性处理机制</li>
+        </ul>
+    </div>
+}
+
+[Origin] @Style {
+    /* 原始CSS嵌入测试 */
+    @keyframes fadeInUp {
+        from { 
+            opacity: 0; 
+            transform: translateY(30px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+    }
+    
+    @keyframes slideInLeft {
+        from { transform: translateX(-100%); }
+        to { transform: translateX(0); }
+    }
+    
+    .fade-in-up {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .slide-in-left {
+        animation: slideInLeft 0.4s ease-out;
+    }
+    
+    @media (max-width: 768px) {
+        .responsive-hide {
+            display: none;
+        }
+    }
+}
+
+[Origin] @JavaScript {
+    // 原始JavaScript嵌入测试
+    function globalUtility() {
+        console.log('原始JavaScript函数被调用');
+        return {
+            version: '1.0.0',
+            author: 'CHTL Team'
+        };
+    }
+    
+    const globalConfig = {
+        apiEndpoint: 'https://api.example.com',
+        timeout: 5000,
+        retries: 3,
+        debug: true
+    };
+    
+    // 工具函数
+    function formatDate(date) {
+        return new Intl.DateTimeFormat('zh-CN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }).format(date);
+    }
+}
+
+// 4.2 带名原始嵌入
+[Origin] @Html NavigationHeader {
+    <header class="site-navigation">
+        <nav class="main-nav">
+            <div class="nav-brand">
+                <h2>CHTL测试站点</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#basic">基础语法</a></li>
+                <li><a href="#templates">模板系统</a></li>
+                <li><a href="#custom">自定义系统</a></li>
+                <li><a href="#chtljs">CHTL JS</a></li>
+                <li><a href="#modules">模块系统</a></li>
+            </ul>
+        </nav>
+    </header>
+}
+
+[Origin] @Style NavigationStyles {
+    .site-navigation {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 15px 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .main-nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
+    
+    .nav-brand h2 {
+        color: white;
+        margin: 0;
+        font-size: 1.5rem;
+    }
+    
+    .nav-links {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 30px;
+    }
+    
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+        color: #fbbf24;
+    }
+}
+
+[Origin] @JavaScript InteractionUtils {
+    // 交互工具函数
+    function smoothScrollTo(elementId) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }
+    
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+    
+    // 页面加载完成后的初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('页面加载完成，交互工具已就绪');
+        globalUtility();
+    });
+}
+
+// 4.3 自定义类型系统
+[Origin] @Vue TestVueComponent {
+    <template>
+        <div class="vue-test-component">
+            <h3>{{ title }}</h3>
+            <p>{{ description }}</p>
+            <div class="counter-section">
+                <p>计数器: {{ count }}</p>
+                <button @click="increment">增加</button>
+                <button @click="decrement">减少</button>
+                <button @click="reset">重置</button>
+            </div>
+            <div class="list-section">
+                <h4>项目列表:</h4>
+                <ul>
+                    <li v-for="(item, index) in items" :key="index">
+                        {{ item.name }} - {{ item.value }}
+                    </li>
+                </ul>
+                <button @click="addItem">添加项目</button>
+            </div>
+        </div>
+    </template>
+    
+    <script>
+    export default {
+        name: 'TestVueComponent',
+        props: {
+            title: {
+                type: String,
+                default: 'Vue组件测试'
+            },
+            description: {
+                type: String,
+                default: 'CHTL中的Vue组件嵌入测试'
+            }
+        },
+        data() {
+            return {
+                count: 0,
+                items: [
+                    { name: '项目1', value: 100 },
+                    { name: '项目2', value: 200 }
+                ]
+            };
+        },
+        methods: {
+            increment() {
+                this.count++;
+            },
+            decrement() {
+                this.count--;
+            },
+            reset() {
+                this.count = 0;
+            },
+            addItem() {
+                const newItem = {
+                    name: `项目${this.items.length + 1}`,
+                    value: Math.floor(Math.random() * 1000)
+                };
+                this.items.push(newItem);
+            }
+        }
+    };
+    </script>
+    
+    <style scoped>
+    .vue-test-component {
+        border: 2px solid #42b883;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        background: #f0f9ff;
+    }
+    
+    .counter-section, .list-section {
+        margin: 15px 0;
+        padding: 15px;
+        background: white;
+        border-radius: 6px;
+    }
+    
+    button {
+        background: #42b883;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        margin: 5px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background: #369870;
+    }
+    </style>
+}
+
+[Origin] @React TestReactComponent {
+    import React, { useState, useEffect } from 'react';
+    
+    function TestReactComponent({ title = 'React组件测试', description = 'CHTL中的React组件嵌入测试' }) {
+        const [count, setCount] = useState(0);
+        const [items, setItems] = useState([
+            { id: 1, name: '任务1', completed: false },
+            { id: 2, name: '任务2', completed: true }
+        ]);
+        const [newItemName, setNewItemName] = useState('');
+        
+        useEffect(() => {
+            console.log('React组件已挂载');
+        }, []);
+        
+        const addItem = () => {
+            if (newItemName.trim()) {
+                const newItem = {
+                    id: Date.now(),
+                    name: newItemName,
+                    completed: false
+                };
+                setItems([...items, newItem]);
+                setNewItemName('');
+            }
+        };
+        
+        const toggleItem = (id) => {
+            setItems(items.map(item => 
+                item.id === id ? { ...item, completed: !item.completed } : item
+            ));
+        };
+        
+        const removeItem = (id) => {
+            setItems(items.filter(item => item.id !== id));
+        };
+        
+        return (
+            <div className="react-test-component">
+                <h3>{title}</h3>
+                <p>{description}</p>
+                
+                <div className="counter-section">
+                    <p>计数器: {count}</p>
+                    <button onClick={() => setCount(count + 1)}>增加</button>
+                    <button onClick={() => setCount(count - 1)}>减少</button>
+                    <button onClick={() => setCount(0)}>重置</button>
+                </div>
+                
+                <div className="todo-section">
+                    <h4>待办事项:</h4>
+                    <div className="add-item">
+                        <input 
+                            type="text" 
+                            value={newItemName}
+                            onChange={(e) => setNewItemName(e.target.value)}
+                            placeholder="输入新任务"
+                            onKeyPress={(e) => e.key === 'Enter' && addItem()}
+                        />
+                        <button onClick={addItem}>添加</button>
+                    </div>
+                    <ul className="todo-list">
+                        {items.map(item => (
+                            <li key={item.id} className={item.completed ? 'completed' : ''}>
+                                <input 
+                                    type="checkbox" 
+                                    checked={item.completed}
+                                    onChange={() => toggleItem(item.id)}
+                                />
+                                <span>{item.name}</span>
+                                <button onClick={() => removeItem(item.id)}>删除</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        );
+    }
+    
+    export default TestReactComponent;
+}
+
+// ============================================================================
+// 5. 配置组全面测试
+// ============================================================================
+
+[Configuration] {
+    // 索引的起始计数
+    INDEX_INITIAL_COUNT = 0;
+    // 是否禁用Name配置组(即是否允许自定义关键字名称)
+    DISABLE_NAME_GROUP = false;
+    // 是否禁用自定义原始嵌入类型
+    DISABLE_CUSTOM_ORIGIN_TYPE = false;
+    
+    // DEBUG模式
+    DEBUG_MODE = true;
+    
+    // Name配置块，存放关键字名称用
+    [Name] {
+        // 组选项，即CUSTOM_STYLE具有多个值
+        CUSTOM_STYLE = [@Style, @style, @CSS, @Css, @css];
+        CUSTOM_ELEMENT = @Element;
+        CUSTOM_VAR = @Var;
+        TEMPLATE_STYLE = @Style;
+        TEMPLATE_ELEMENT = @Element;
+        TEMPLATE_VAR = @Var;
+        ORIGIN_HTML = @Html;
+        ORIGIN_STYLE = @Style;
+        ORIGIN_JAVASCRIPT = @JavaScript;
+        IMPORT_HTML = @Html;
+        IMPORT_STYLE = @Style;
+        IMPORT_JAVASCRIPT = @JavaScript;
+        IMPORT_CHTL = @Chtl;
+        IMPORT_CJMOD = @CJmod;
+        KEYWORD_INHERIT = inherit;
+        KEYWORD_DELETE = delete;
+        KEYWORD_INSERT = insert;
+        KEYWORD_AFTER = after;
+        KEYWORD_BEFORE = before;
+        KEYWORD_REPLACE = replace;
+        KEYWORD_ATTOP = "at top";
+        KEYWORD_ATBOTTOM = "at bottom";
+        KEYWORD_FROM = from;
+        KEYWORD_AS = as;
+        KEYWORD_EXCEPT = except;
+        KEYWORD_TEXT = text;
+        KEYWORD_STYLE = style;  // 局部样式块
+        KEYWORD_SCRIPT = script;  // 局部脚本块
+        KEYWORD_CUSTOM = [Custom];
+        KEYWORD_TEMPLATE = [Template];
+        KEYWORD_ORIGIN = [Origin];
+        KEYWORD_IMPORT = [Import];
+        KEYWORD_NAMESPACE = [Namespace];
+        
+        // 组选项的数量限制，避免在大型项目中对性能的过高消耗
+        OPTION_COUNT = 3;
+    }
+    
+    [OriginType] {  // 定义Origin具有什么自定义类型
+        ORIGINTYPE_VUE = @Vue;
+        ORIGINTYPE_REACT = @React;
+        ORIGINTYPE_ANGULAR = @Angular;
+        ORIGINTYPE_SVELTE = @Svelte;
+        ORIGINTYPE_MARKDOWN = @Markdown;
+    }
+}
+
+// ============================================================================
+// 6. 导入系统全面测试
+// ============================================================================
+
+// 6.1 基础导入
+[Import] @Html from header.html as HeaderTemplate
+[Import] @Style from theme.css as ThemeStyle  
+[Import] @JavaScript from utils.js as UtilityFunctions
+
+// 6.2 CHTL和CJMOD导入
+[Import] @Chtl from ModuleName
+[Import] @CJmod from ExtensionName
+
+// 6.3 特定类型导入
+[Import] [Custom] @Element ButtonComponent from ui/button.chtl as UIButton
+[Import] [Template] @Style BaseStyles from ui/styles.chtl
+[Import] [Custom] @Var ThemeColors from config/theme.chtl as ConfigColors
+
+// 6.4 子模块导入（使用点号语法）
+[Import] @Chtl from Chtholly.Space
+[Import] @Chtl from ModuleName.SubModule
+[Import] @Chtl from Chtholly.Effects
+
+// ============================================================================
+// 7. 命名空间系统全面测试
+// ============================================================================
+
+[Namespace] UIComponents {
+    [Namespace] Buttons {
+        [Template] @Element PrimaryButton {
+            button {
+                class: primary-btn;
+                
+                style {
+                    .primary-btn {
+                        background: "#3b82f6";
+                        color: "white";
+                        border: "none";
+                        padding: "12px 24px";
+                        border-radius: "6px";
+                        cursor: "pointer";
+                    }
+                }
+                
+                text { 主要按钮 }
+            }
+        }
+        
+        [Template] @Element SecondaryButton {
+            button {
+                class: secondary-btn;
+                
+                style {
+                    .secondary-btn {
+                        background: "#6b7280";
+                        color: "white";
+                        border: "none";
+                        padding: "10px 20px";
+                        border-radius: "4px";
+                        cursor: "pointer";
+                    }
+                }
+                
+                text { 次要按钮 }
+            }
+        }
+    }
+    
+    [Namespace] Forms {
+        [Template] @Element InputField {
+            div {
+                class: input-field;
+                
+                style {
+                    .input-field {
+                        margin: "15px 0";
+                    }
+                    
+                    .input-field label {
+                        display: "block";
+                        margin-bottom: "5px";
+                        font-weight: "500";
+                        color: "#374151";
+                    }
+                    
+                    .input-field input {
+                        width: "100%";
+                        padding: "10px";
+                        border: "2px solid #d1d5db";
+                        border-radius: "6px";
+                        font-size: "16px";
+                    }
+                    
+                    .input-field input:focus {
+                        outline: "none";
+                        border-color: "#3b82f6";
+                        box-shadow: "0 0 0 3px rgba(59, 130, 246, 0.1)";
+                    }
+                }
+                
+                label {
+                    text { 输入字段 }
+                }
+                
+                input {
+                    type: "text";
+                    placeholder: "请输入内容";
+                }
+            }
+        }
+    }
+}
+
+// 简化命名空间语法测试
+[Namespace] SimpleSpace
+[Namespace] SimpleRoom  // 嵌套命名空间时，如果仅仅是只有一层关系或只有一层平级，可以不用写花括号
+
+[Custom] @Element SimpleComponent {
+    div {
+        class: simple-component;
+        
+        style {
+            .simple-component {
+                background: "#ecfdf5";
+                border: "1px solid #10b981";
+                padding: "15px";
+                border-radius: "6px";
+            }
+        }
+        
+        text { 简化命名空间中的组件 }
+    }
+}
+
+// ============================================================================
+// 8. 约束系统全面测试
+// ============================================================================
+
+// 精确约束
+[Custom] @Element RestrictedContainer {
+    div {
+        class: restricted-area;
+        
+        // 禁止使用span和特定自定义元素
+        except span, [Custom] @Element InteractiveCard;
+        
+        style {
+            .restricted-area {
+                background: "#fef2f2";
+                border: "2px solid #ef4444";
+                padding: "20px";
+                border-radius: "8px";
+                margin: "15px 0";
+            }
+        }
+        
+        h3 {
+            text { 受约束的容器 }
+            color: "#dc2626";
+        }
+        
+        // 只能使用允许的元素
+        p { text { 这里只能使用基础HTML元素 } }
+        div { 
+            text { 允许的div元素 } 
+            style {
+                padding: "10px";
+                background: "#fee2e2";
+                border-radius: "4px";
+            }
+        }
+    }
+}
+
+// 类型约束
+[Template] @Element TypeRestrictedArea {
+    section {
+        class: type-restricted;
+        
+        except @Html;  // 禁止HTML元素
+        
+        style {
+            .type-restricted {
+                background: "#fffbeb";
+                border: "2px solid #f59e0b";
+                padding: "20px";
+                border-radius: "8px";
+            }
+        }
+        
+        article {
+            except [Template] @Var; // 禁止在article内部使用变量组模板的对象
+            
+            div {
+                except [Custom];  // 禁止出现[Custom]类型的对象
+                
+                text { 多层类型约束测试 }
+            }
+        }
+    }
+}
+
+// 全局约束
+[Namespace] RestrictedNamespace {
+    except [Template];
+    
+    // 在这个命名空间中不能定义模板，只能定义自定义
+    [Custom] @Element AllowedCustomElement {
+        div {
+            class: allowed-element;
+            text { 在约束命名空间中允许的自定义元素 }
+        }
+    }
+}
+
+// ============================================================================
+// 9. 主HTML结构和完整语法测试
+// ============================================================================
+
+html {
+    head {
+        meta {
+            charset: UTF-8;
+        }
+        
+        meta {
+            name: viewport;
+            content: "width=device-width, initial-scale=1.0";
+        }
+        
+        title { 
+            text { CHTL语法全面测试页面 } 
+        }
+        
+        // 全局样式
+        style {
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                line-height: 1.6;
+                color: #374151;
+                background: #f9fafb;
+            }
+            
+            .main-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .section-spacing {
+                margin: 40px 0;
+            }
+        }
+    }
+    
+    body {
+        // 使用带名原始嵌入
+        [Origin] @Html NavigationHeader;
+        
+        div {
+            class: main-container;
+            
+            // ================================================================
+            // 基础语法特性测试
+            // ================================================================
+            
+            section {
+                id: basic;
+                class: section-spacing;
+                
+                h1 {
+                    text { 基础语法测试 }
+                    color: "#1f2937";
+                    margin-bottom: "30px";
+                    font-size: "2.5rem";
+                }
+                
+                // 文本节点测试
+                div {
+                    class: text-node-demo;
+                    
+                    style {
+                        .text-node-demo {
+                            background: "white";
+                            border: "1px solid #e5e7eb";
+                            border-radius: "8px";
+                            padding: "20px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 文本节点测试 }
+                        color: "#3b82f6";
+                    }
+                    
+                    p {
+                        text {
+                            "这是带双引号的文本"
+                        }
+                    }
+                    
+                    p {
+                        text {
+                            '这是带单引号的文本'
+                        }
+                    }
+                    
+                    p {
+                        text {
+                            这是无修饰字面量文本
+                        }
+                    }
+                }
+                
+                // CE对等式测试
+                div {
+                    class: ce-equality-demo;
+                    
+                    style {
+                        .ce-equality-demo {
+                            background: "#f0f9ff";
+                            border: "2px solid #3b82f6";
+                            padding: "20px";
+                            border-radius: "8px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { CE对等式测试 }
+                        color: "#1d4ed8";
+                    }
+                    
+                    div {
+                        id: colon-test;      // 使用冒号
+                        class = equal-test;  // 使用等号，完全等价
+                        data-demo: "ce-equality";
+                        
+                        style {
+                            background: "#dbeafe";
+                            padding: "15px";
+                            border-radius: "6px";
+                            margin: "10px 0";
+                        }
+                        
+                        text { 冒号和等号完全等价演示 }
+                    }
+                }
+                
+                // 属性系统测试
+                div {
+                    class: attributes-demo;
+                    
+                    style {
+                        .attributes-demo {
+                            background: "#ecfdf5";
+                            border: "2px solid #10b981";
+                            padding: "20px";
+                            border-radius: "8px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 属性系统测试 }
+                        color: "#059669";
+                    }
+                    
+                    div {
+                        id: box;
+                        class: welcome;
+                        data-value: 123;
+                        data-string: "测试字符串";
+                        data-boolean: true;
+                        aria-label: "属性测试元素";
+                        role: "region";
+                        tabindex: 0;
+                        
+                        style {
+                            background: "#d1fae5";
+                            padding: "15px";
+                            border-radius: "6px";
+                            border: "1px solid #10b981";
+                        }
+                        
+                        text {
+                            HelloWorld
+                        }
+                    }
+                }
+            }
+            
+            // ================================================================
+            // 样式系统测试
+            // ================================================================
+            
+            section {
+                id: styles;
+                class: section-spacing;
+                
+                h1 {
+                    text { 样式系统测试 }
+                    color: "#7c3aed";
+                    margin-bottom: "30px";
+                    font-size: "2.5rem";
+                }
+                
+                // 局部样式块测试
+                div {
+                    class: local-style-demo;
+                    
+                    h3 {
+                        text { 局部样式块测试 }
+                        color: "#7c3aed";
+                    }
+                    
+                    // 内联样式测试
+                    div {
+                        style {
+                            width: 100px;
+                            height: 200px;
+                            background: "#faf5ff";
+                            border: "2px solid #a855f7";
+                            border-radius: "8px";
+                            padding: "15px";
+                            margin: "15px 0";
+                        }
+                        
+                        text { 内联样式测试 }
+                    }
+                    
+                    // 自动化类名测试（推荐方式）
+                    div {
+                        style {
+                            .auto-class {  // 自动添加类名auto-class给元素
+                                width: 300px;
+                                height: 150px;
+                                background: "#ddd6fe";
+                                border-radius: "8px";
+                                padding: "20px";
+                                margin: "15px 0";
+                            }
+                            
+                            &:hover {  // 使用&简化伪类的使用
+                                background: "#c4b5fd";
+                                transform: "translateY(-2px)";
+                                transition: "all 0.3s ease";
+                            }
+                            
+                            &::before {  // 伪元素选择器
+                                content: "🎯 ";
+                            }
+                            
+                            &::after {
+                                content: " ✨";
+                            }
+                        }
+                        
+                        text { 自动化类名测试（推荐方式） }
+                    }
+                    
+                    // 自动化ID测试
+                    div {
+                        style {
+                            #auto-id {  // 自动添加ID
+                                background: "#fef3c7";
+                                padding: "20px";
+                                border: "2px solid #f59e0b";
+                                border-radius: "8px";
+                                margin: "15px 0";
+                            }
+                        }
+                        
+                        text { 自动化ID测试 }
+                    }
+                    
+                    // 上下文推导测试（不推荐方式）
+                    div {
+                        class: explicit-context;
+                        id: explicit-id;
+                        
+                        style {
+                            .explicit-context {
+                                background: "#fecaca";
+                                padding: "15px";
+                                border-radius: "6px";
+                                margin: "15px 0";
+                            }
+                            
+                            &:hover {  // &将会根据上下文来推导成类名/id（优先类名）
+                                background: "#fca5a5";
+                            }
+                            
+                            &::before {
+                                content: "⚠️ ";
+                            }
+                        }
+                        
+                        text { 上下文推导测试（不推荐方式） }
+                    }
+                }
+            }
+            
+            // ================================================================
+            // 模板系统使用测试
+            // ================================================================
+            
+            section {
+                id: templates;
+                class: section-spacing;
+                
+                h1 {
+                    text { 模板系统测试 }
+                    color: "#059669";
+                    margin-bottom: "30px";
+                    font-size: "2.5rem";
+                }
+                
+                // 样式组模板使用
+                div {
+                    class: template-demo;
+                    
+                    style {
+                        .template-demo {
+                            background: "white";
+                            border: "1px solid #d1d5db";
+                            border-radius: "8px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 样式组模板使用 }
+                        color: "#059669";
+                    }
+                    
+                    div {
+                        style {
+                            @Style DefaultText;  // 使用样式组模板，模板中所有的属性都会被添加
+                            background: "#f0fdf4";
+                            padding: "15px";
+                            border-radius: "6px";
+                        }
+                        
+                        text { 使用DefaultText样式组模板 }
+                    }
+                    
+                    div {
+                        style {
+                            @Style ThemeColorExtended;  // 使用继承的样式组
+                            padding: "15px";
+                            border-radius: "6px";
+                            margin: "10px 0";
+                        }
+                        
+                        text { 使用组合式继承的样式组 }
+                    }
+                    
+                    div {
+                        style {
+                            @Style ExplicitInheritStyle;  // 使用显性继承的样式组
+                            padding: "15px";
+                            border-radius: "6px";
+                            margin: "10px 0";
+                        }
+                        
+                        text { 使用显性继承的样式组 }
+                    }
+                }
+                
+                // 元素模板使用
+                div {
+                    class: element-template-demo;
+                    
+                    style {
+                        .element-template-demo {
+                            background: "white";
+                            border: "1px solid #d1d5db";
+                            border-radius: "8px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 元素模板使用 }
+                        color: "#059669";
+                    }
+                    
+                    @Element Box;  // 使用元素模板
+                    
+                    @Element Card;  // 使用卡片模板
+                }
+                
+                // 变量组模板使用
+                div {
+                    class: variable-demo;
+                    
+                    style {
+                        .variable-demo {
+                            background: "white";
+                            border: "1px solid #d1d5db";
+                            border-radius: "8px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 变量组模板使用 }
+                        color: "#059669";
+                    }
+                    
+                    div {
+                        style {
+                            color: ThemeColor(tableColor);  // 使用模板变量组，无需以@Var为前缀
+                            background-color: ThemeColor(primaryColor);
+                            padding: Spacing(medium);
+                            margin: Spacing(small) 0;
+                            border-radius: "6px";
+                        }
+                        
+                        text { 使用ThemeColor和Spacing变量组 }
+                    }
+                }
+            }
+            
+            // ================================================================
+            // 自定义系统使用测试
+            // ================================================================
+            
+            section {
+                id: custom;
+                class: section-spacing;
+                
+                h1 {
+                    text { 自定义系统测试 }
+                    color: "#dc2626";
+                    margin-bottom: "30px";
+                    font-size: "2.5rem";
+                }
+                
+                // 无值样式组使用
+                div {
+                    class: custom-demo;
+                    
+                    style {
+                        .custom-demo {
+                            background: "white";
+                            border: "1px solid #d1d5db";
+                            border-radius: "8px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 无值样式组使用 }
+                        color: "#dc2626";
+                    }
+                    
+                    div {
+                        style {
+                            @Style FlexSet {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            }
+                            
+                            height: "100px";
+                            background: "#fef2f2";
+                            border: "1px solid #ef4444";
+                            border-radius: "6px";
+                            margin: "15px 0";
+                        }
+                        
+                        text { 使用FlexSet无值样式组 }
+                    }
+                    
+                    div {
+                        style {
+                            @Style GridSet {
+                                display: grid;
+                                grid-template-columns: "repeat(3, 1fr)";
+                                grid-gap: "10px";
+                                grid-auto-rows: "minmax(50px, auto)";
+                            }
+                            
+                            background: "#fef2f2";
+                            border: "1px solid #ef4444";
+                            border-radius: "6px";
+                            padding: "15px";
+                            margin: "15px 0";
+                        }
+                        
+                        div { 
+                            style { background: "#fee2e2"; padding: "10px"; text-align: "center"; }
+                            text { 网格1 } 
+                        }
+                        div { 
+                            style { background: "#fee2e2"; padding: "10px"; text-align: "center"; }
+                            text { 网格2 } 
+                        }
+                        div { 
+                            style { background: "#fee2e2"; padding: "10px"; text-align: "center"; }
+                            text { 网格3 } 
+                        }
+                    }
+                }
+                
+                // 样式组特例化使用
+                div {
+                    class: specialization-demo;
+                    
+                    style {
+                        .specialization-demo {
+                            background: "white";
+                            border: "1px solid #d1d5db";
+                            border-radius: "8px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 样式组特例化测试 }
+                        color: "#dc2626";
+                    }
+                    
+                    div {
+                        style {
+                            @Style MinimalButton;  // 使用删除了属性的样式组
+                            margin: "10px 0";
+                        }
+                        
+                        text { 使用删除属性的样式组 }
+                    }
+                    
+                    div {
+                        style {
+                            @Style MinimalButton {
+                                delete background;  // 在使用时删除属性
+                            }
+                            background: "#fbbf24";
+                            margin: "10px 0";
+                        }
+                        
+                        text { 在使用时删除属性 }
+                    }
+                    
+                    div {
+                        style {
+                            @Style IndependentStyle {
+                                delete @Style BaseComponentStyle;  // 删除样式组继承
+                            }
+                            background: "#a78bfa";
+                            color: "white";
+                            padding: "15px";
+                            border-radius: "6px";
+                            margin: "10px 0";
+                        }
+                        
+                        text { 删除样式组继承测试 }
+                    }
+                }
+                
+                // 自定义元素特例化
+                div {
+                    class: element-custom-demo;
+                    
+                    style {
+                        .element-custom-demo {
+                            background: "white";
+                            border: "1px solid #d1d5db";
+                            border-radius: "8px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 自定义元素特例化测试 }
+                        color: "#dc2626";
+                    }
+                    
+                    @Element InteractiveCard {
+                        span {
+                            // 为span添加样式
+                            style {
+                                color: "#dc2626";
+                                font-weight: "bold";
+                                background: "#fee2e2";
+                                padding: "5px 10px";
+                                border-radius: "4px";
+                            }
+                        }
+
+                        div[1] {  // 索引访问第二个div
+                            // 为第二个div添加样式
+                            style {
+                                background: "#dbeafe";
+                                border: "2px solid #3b82f6";
+                                padding: "15px";
+                                border-radius: "8px";
+                            }
+                        }
+                    }
+                    
+                    // 插入元素测试
+                    @Element InteractiveCard {
+                        // 在第一个div后面插入内容
+                        insert after div[0] {
+                            div {
+                                style {
+                                    background: "#dcfce7";
+                                    padding: "15px";
+                                    margin: "10px 0";
+                                    border-radius: "6px";
+                                    border: "1px solid #10b981";
+                                }
+                                
+                                text { 这是插入的新元素 }
+                            }
+                            
+                            button {
+                                style {
+                                    @Style ButtonBase;
+                                    background: "#10b981";
+                                }
+                                
+                                text { 插入的按钮 }
+                            }
+                        }
+                    }
+                    
+                    // 删除元素测试
+                    @Element InteractiveCard {
+                        delete span;     // 删除span元素
+                        delete div[1];   // 删除第二个div元素
+                    }
+                }
+                
+                // 变量组特例化测试
+                div {
+                    class: variable-specialization-demo;
+                    
+                    style {
+                        .variable-specialization-demo {
+                            background: "white";
+                            border: "1px solid #d1d5db";
+                            border-radius: "8px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 变量组特例化测试 }
+                        color: "#dc2626";
+                    }
+                    
+                    div {
+                        style {
+                            color: AppConfiguration(textColor);
+                            background: AppConfiguration(backgroundColor);
+                            border: "1px solid" AppConfiguration(borderColor);
+                            padding: "20px";
+                            border-radius: "8px";
+                            margin: "15px 0";
+                        }
+                        
+                        text { 变量组使用演示 }
+                    }
+                    
+                    // 正确的变量组特例化使用
+                    div {
+                        style {
+                            color: AppConfiguration(textColor);
+                        }
+                        
+                        text { 变量组特例化演示 }
+                    }
+                }
+            }
+            
+            // ================================================================
+            // CHTL JS扩展语法测试
+            // ================================================================
+            
+            section {
+                id: chtljs;
+                class: section-spacing;
+                
+                h1 {
+                    text { CHTL JS扩展语法测试 }
+                    color: "#1d4ed8";
+                    margin-bottom: "30px";
+                    font-size: "2.5rem";
+                }
+                
+                // 增强选择器测试
+                div {
+                    class: selector-test;
+                    
+                    style {
+                        .selector-test {
+                            background: "white";
+                            border: "2px solid #3b82f6";
+                            border-radius: "10px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                        
+                        .test-button {
+                            background: "#3b82f6";
+                            color: "white";
+                            border: "none";
+                            padding: "10px 20px";
+                            border-radius: "6px";
+                            cursor: "pointer";
+                            margin: "10px";
+                        }
+                        
+                        .selector-demo {
+                            background: "#f0f9ff";
+                            padding: "15px";
+                            border-radius: "6px";
+                            margin: "10px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 增强选择器测试 }
+                        color: "#1d4ed8";
+                    }
+                    
+                    button {
+                        class: test-button;
+                        id: selector-test-btn;
+                        
+                        script {
+                            // 测试各种增强选择器
+                            {{box}}.textContent;  // 先判断是否为tag，然后查找类名/id=box(id优先)的元素
+                            {{.test-button}};     // 查找类名为test-button的元素
+                            {{#selector-test-btn}};  // 查找id为selector-test-btn的元素
+                            {{button}};           // 所有的button元素
+                            {{.selector-test button}};  // 查找类名为selector-test的元素的所有button后代
+                            
+                            // 精确访问
+                            {{button[0]}};  // 第一个button元素
+                            
+                            // 明确使用CHTL JS语法（推荐使用->代替.）
+                            {{&}}->textContent = "增强选择器测试";
+                        }
+                        
+                        text { 增强选择器测试 }
+                    }
+                    
+                    div {
+                        class: selector-demo;
+                        text { 选择器测试演示区域 }
+                    }
+                }
+                
+                // 增强监听器测试
+                div {
+                    class: listener-test;
+                    
+                    style {
+                        .listener-test {
+                            background: "white";
+                            border: "2px solid #10b981";
+                            border-radius: "10px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 增强监听器测试 }
+                        color: "#059669";
+                    }
+                    
+                    button {
+                        class: test-button;
+                        id: listener-demo-btn;
+                        
+                        script {
+                            {{#listener-demo-btn}}->listen({
+                                click: () => {
+                                    console.log('按钮被点击');
+                                    {{&}}->style->background = '#059669';
+                                },
+
+                                mouseenter: function() {
+                                    {{&}}->style->transform = 'scale(1.05)';
+                                    {{&}}->style->boxShadow = '0 4px 8px rgba(16, 185, 129, 0.3)';
+                                },
+
+                                mouseleave: function() {
+                                    {{&}}->style->transform = 'scale(1)';
+                                    {{&}}->style->boxShadow = 'none';
+                                },
+                                
+                                focus: function() {
+                                    {{&}}->style->outline = '2px solid #10b981';
+                                },
+                                
+                                blur: function() {
+                                    {{&}}->style->outline = 'none';
+                                }
+                            });
+                        }
+                        
+                        text { 增强监听器测试 }
+                    }
+                }
+                
+                // 事件委托测试
+                div {
+                    class: delegation-test;
+                    
+                    style {
+                        .delegation-test {
+                            background: "white";
+                            border: "2px solid #f59e0b";
+                            border-radius: "10px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                        
+                        .delegation-container {
+                            border: "2px dashed #f59e0b";
+                            padding: "20px";
+                            border-radius: "8px";
+                            margin: "15px 0";
+                        }
+                        
+                        .delegated-item {
+                            background: "#fef3c7";
+                            border: "1px solid #f59e0b";
+                            padding: "10px";
+                            margin: "8px";
+                            border-radius: "4px";
+                            cursor: "pointer";
+                            display: "inline-block";
+                            min-width: "100px";
+                            text-align: "center";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 事件委托测试 }
+                        color: "#d97706";
+                    }
+                    
+                    div {
+                        class: delegation-container;
+                        
+                        script {
+                            {{&}}->delegate({
+                                target: {{.delegated-item}},
+                                click: function() {
+                                    console.log('委托点击事件触发');
+                                    {{this}}->style->background = '#fbbf24';
+                                    {{this}}->style->transform = 'scale(1.1)';
+                                    
+                                    setTimeout(() => {
+                                        {{this}}->style->background = '#fef3c7';
+                                        {{this}}->style->transform = 'scale(1)';
+                                    }, 300);
+                                },
+                                
+                                mouseenter: function() {
+                                    {{this}}->style->transform = 'translateY(-2px)';
+                                    {{this}}->style->boxShadow = '0 4px 8px rgba(245, 158, 11, 0.3)';
+                                },
+                                
+                                mouseleave: function() {
+                                    {{this}}->style->transform = 'translateY(0)';
+                                    {{this}}->style->boxShadow = 'none';
+                                }
+                            });
+                        }
+                        
+                        p {
+                            text { 点击下面的委托项目测试事件委托功能： }
+                            margin-bottom: "15px";
+                        }
+                        
+                        div {
+                            class: delegated-item;
+                            text { 委托项目 1 }
+                        }
+                        
+                        div {
+                            class: delegated-item;
+                            text { 委托项目 2 }
+                        }
+                        
+                        div {
+                            class: delegated-item;
+                            text { 委托项目 3 }
+                        }
+                        
+                        div {
+                            class: delegated-item;
+                            text { 委托项目 4 }
+                        }
+                    }
+                }
+                
+                // 动画系统测试
+                div {
+                    class: animation-test;
+                    
+                    style {
+                        .animation-test {
+                            background: "white";
+                            border: "2px solid #8b5cf6";
+                            border-radius: "10px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                        
+                        .animation-target {
+                            width: "120px";
+                            height: "120px";
+                            background: "#8b5cf6";
+                            border-radius: "50%";
+                            margin: "20px auto";
+                            display: "flex";
+                            align-items: "center";
+                            justify-content: "center";
+                            color: "white";
+                            font-weight: "bold";
+                            cursor: "pointer";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 动画系统测试 }
+                        color: "#7c3aed";
+                    }
+                    
+                    div {
+                        class: animation-target;
+                        text { 点击我 }
+                    }
+                    
+                    button {
+                        class: test-button;
+                        
+                        script {
+                            {{&}}->listen({
+                                click: function() {
+                                    const anim = animate({
+                                        target: {{.animation-target}},
+                                        duration: 1500,  // 动画持续时间，ms
+                                        easing: "cubic-bezier(0.68, -0.55, 0.265, 1.55)",  // 缓动函数
+                                        
+                                        begin: {  // 起始状态，写css代码
+                                            opacity: 1,
+                                            transform: 'scale(1) rotate(0deg)',
+                                            background: '#8b5cf6'
+                                        },
+                                        
+                                        when: [
+                                            {
+                                                at: 0.3,  // 动画播放到30%时刻
+                                                opacity: 0.7,
+                                                transform: 'scale(1.3) rotate(120deg)',
+                                                background: '#10b981'
+                                            },
+                                            {
+                                                at: 0.6,  // 动画播放到60%时刻
+                                                opacity: 0.9,
+                                                transform: 'scale(0.8) rotate(240deg)',
+                                                background: '#f59e0b'
+                                            },
+                                            {
+                                                at: 0.8,  // 动画播放到80%时刻
+                                                opacity: 0.5,
+                                                transform: 'scale(1.1) rotate(300deg)',
+                                                background: '#ef4444'
+                                            }
+                                        ],
+                                        
+                                        end: {  // 终止状态，写css代码
+                                            opacity: 1,
+                                            transform: 'scale(1) rotate(360deg)',
+                                            background: '#8b5cf6'
+                                        },
+                                        
+                                        loop: 1,  // 循环次数
+                                        delay: 0,  // 开始播放的延迟，ms
+                                        callback: function() {  // 播放完毕后做什么
+                                            console.log('复杂动画播放完成');
+                                            {{.animation-target}}->textContent = '完成！';
+                                            setTimeout(() => {
+                                                {{.animation-target}}->textContent = '点击我';
+                                            }, 1000);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        
+                        text { 启动复杂动画 }
+                    }
+                }
+                
+                // 虚对象测试
+                div {
+                    class: virtual-object-test;
+                    
+                    style {
+                        .virtual-object-test {
+                            background: "white";
+                            border: "2px solid #10b981";
+                            border-radius: "10px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                        
+                        .status-display {
+                            background: "#1f2937";
+                            color: "#f9fafb";
+                            padding: "15px";
+                            border-radius: "6px";
+                            font-family: "'Courier New', monospace";
+                            margin: "15px 0";
+                            min-height: "80px";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 虚对象测试 }
+                        color: "#059669";
+                    }
+                    
+                    p {
+                        text { 虚对象是编译期间的语法糖，不涉及JS运行时对象 }
+                        margin-bottom: "15px";
+                    }
+                    
+                    script {
+                        vir SystemManager = listen({
+                            state: {
+                                initialized: false,
+                                operationCount: 0,
+                                lastOperation: null
+                            },
+                            
+                            initialize: function() {
+                                this.state.initialized = true;
+                                this.state.operationCount = 0;
+                                this.state.lastOperation = 'initialize';
+                                
+                                console.log('系统管理器初始化');
+                                {{.status-display}}->textContent = 'SystemManager initialized\nOperation count: 0\nLast operation: initialize';
+                                {{.virtual-object-test}}->style->borderColor = '#3b82f6';
+                            },
+                            
+                            performOperation: function(operationType) {
+                                if (!this.state.initialized) {
+                                    console.error('系统未初始化');
+                                    return;
+                                }
+                                
+                                this.state.operationCount++;
+                                this.state.lastOperation = operationType;
+                                
+                                const status = `SystemManager status:
+Initialized: ${this.state.initialized}
+Operation count: ${this.state.operationCount}
+Last operation: ${operationType}
+Timestamp: ${new Date().toLocaleTimeString()}`;
+                                
+                                {{.status-display}}->textContent = status;
+                                console.log(`执行操作: ${operationType}`);
+                            },
+                            
+                            reset: function() {
+                                this.state.operationCount = 0;
+                                this.state.lastOperation = 'reset';
+                                
+                                {{.status-display}}->textContent = 'SystemManager reset\nOperation count: 0\nLast operation: reset';
+                                {{.virtual-object-test}}->style->borderColor = '#10b981';
+                                console.log('系统管理器重置');
+                            },
+                            
+                            shutdown: function() {
+                                this.state.initialized = false;
+                                this.state.lastOperation = 'shutdown';
+                                
+                                {{.status-display}}->textContent = 'SystemManager shutdown\nSystem offline';
+                                {{.virtual-object-test}}->style->borderColor = '#6b7280';
+                                console.log('系统管理器关闭');
+                            }
+                        });
+                        
+                        // 初始化虚对象
+                        SystemManager->initialize();
+                    }
+                    
+                    div {
+                        class: status-display;
+                        text { 系统状态将显示在这里... }
+                    }
+                    
+                    div {
+                        class: virtual-controls;
+                        
+                        style {
+                            .virtual-controls {
+                                display: "flex";
+                                gap: "10px";
+                                margin: "20px 0";
+                                flex-wrap: "wrap";
+                            }
+                        }
+                        
+                        button {
+                            class: test-button;
+                            
+                            script {
+                                {{&}}->listen({
+                                    click: function() {
+                                        SystemManager->performOperation('data_processing');
+                                    }
+                                });
+                            }
+                            
+                            text { 数据处理 }
+                        }
+                        
+                        button {
+                            class: test-button;
+                            
+                            script {
+                                {{&}}->listen({
+                                    click: function() {
+                                        SystemManager->performOperation('file_upload');
+                                    }
+                                });
+                            }
+                            
+                            text { 文件上传 }
+                        }
+                        
+                        button {
+                            class: test-button;
+                            
+                            script {
+                                {{&}}->listen({
+                                    click: function() {
+                                        SystemManager->reset();
+                                    }
+                                });
+                            }
+                            
+                            text { 重置系统 }
+                        }
+                        
+                        button {
+                            class: test-button;
+                            
+                            script {
+                                {{&}}->listen({
+                                    click: function() {
+                                        SystemManager->shutdown();
+                                    }
+                                });
+                            }
+                            
+                            text { 关闭系统 }
+                        }
+                    }
+                }
+            }
+            
+            // ================================================================
+            // 约束系统测试
+            // ================================================================
+            
+            section {
+                id: constraints;
+                class: section-spacing;
+                
+                h1 {
+                    text { 约束系统测试 }
+                    color: "#ef4444";
+                    margin-bottom: "30px";
+                    font-size: "2.5rem";
+                }
+                
+                // 精确约束测试
+                div {
+                    class: constraint-demo;
+                    
+                    style {
+                        .constraint-demo {
+                            background: "white";
+                            border: "2px solid #ef4444";
+                            border-radius: "10px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 精确约束测试 }
+                        color: "#dc2626";
+                    }
+                    
+                    @Element RestrictedContainer;
+                }
+                
+                // 类型约束测试
+                div {
+                    class: type-constraint-demo;
+                    
+                    style {
+                        .type-constraint-demo {
+                            background: "white";
+                            border: "2px solid #f59e0b";
+                            border-radius: "10px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 类型约束测试 }
+                        color: "#d97706";
+                    }
+                    
+                    @Element TypeRestrictedArea;
+                }
+            }
+            
+            // ================================================================
+            // 原始嵌入使用测试
+            // ================================================================
+            
+            section {
+                id: origins;
+                class: section-spacing;
+                
+                h1 {
+                    text { 原始嵌入使用测试 }
+                    color: "#6b7280";
+                    margin-bottom: "30px";
+                    font-size: "2.5rem";
+                }
+                
+                div {
+                    class: origin-demo;
+                    
+                    style {
+                        .origin-demo {
+                            background: "white";
+                            border: "2px solid #6b7280";
+                            border-radius: "10px";
+                            padding: "25px";
+                            margin: "20px 0";
+                        }
+                    }
+                    
+                    h3 {
+                        text { 原始嵌入演示 }
+                        color: "#4b5563";
+                    }
+                    
+                    // 使用基础原始嵌入
+                    [Origin] @Html;
+                    
+                    // 使用带名原始嵌入
+                    [Origin] @Html NavigationHeader;
+                    
+                    p {
+                        text { 原始嵌入的HTML、CSS、JavaScript已被加载和执行 }
+                        margin: "15px 0";
+                    }
+                }
+            }
+            
+            footer {
+                style {
+                    background: "linear-gradient(135deg, #1f2937 0%, #374151 100%)";
+                    color: "#f9fafb";
+                    text-align: "center";
+                    padding: "50px 20px";
+                    margin-top: "60px";
+                    border-radius: "12px";
+                }
+                
+                div {
+                    style {
+                        max-width: "800px";
+                        margin: "0 auto";
+                    }
+                    
+                    h2 {
+                        text { CHTL语法全面测试完成 }
+                        margin-bottom: "20px";
+                        color: "#60a5fa";
+                        font-size: "2rem";
+                    }
+                    
+                    p {
+                        text { 基于main分支准确语法文档的完整测试 }
+                        opacity: 0.9;
+                        margin-bottom: "15px";
+                        font-size: "1.2rem";
+                    }
+                    
+                    p {
+                        text { 涵盖：基础语法、样式系统、模板系统、自定义系统、原始嵌入、配置组、导入系统、命名空间、约束系统、CHTL JS扩展 }
+                        opacity: 0.7;
+                        font-size: "1rem";
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}

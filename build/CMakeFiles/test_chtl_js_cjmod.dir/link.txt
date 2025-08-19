@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_chtl_js_cjmod.dir/link.d CMakeFiles/test_chtl_js_cjmod.dir/test/test_chtl_js_features.cpp.o CMakeFiles/test_chtl_js_cjmod.dir/test/test_cjmod_design.cpp.o -o test_chtl_js_cjmod  lib/libchtljs_compiler.a lib/libchtl_scanner.a lib/libchtl_common.a

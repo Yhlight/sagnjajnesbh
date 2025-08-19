@@ -1,0 +1,119 @@
+// 测试编译器对CHTL语法的支持程度
+
+[Template] @Style TestStyle {
+    color: "blue";
+    background: "lightblue";
+}
+
+[Template] @Element TestCard {
+    div {
+        class: card;
+        
+        style {
+            .card {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+            }
+        }
+        
+        h3 {
+            text { 测试卡片 }
+        }
+        
+        p {
+            text { 这是一个测试卡片 }
+        }
+    }
+}
+
+[Template] @Var TestColors {
+    primary: "#3b82f6";
+    secondary: "#64748b";
+}
+
+html {
+    head {
+        title { text { CHTL语法支持测试 } }
+    }
+    
+    body {
+        div {
+            class: container;
+            
+            style {
+                .container {
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+            }
+            
+            h1 {
+                text { CHTL语法支持测试 }
+                style {
+                    color: TestColors(primary);
+                    text-align: center;
+                }
+            }
+            
+            // 使用模板
+            @Element TestCard;
+            
+            // 测试样式组
+            div {
+                style {
+                    @Style TestStyle;
+                    padding: 15px;
+                    margin: 10px 0;
+                }
+                
+                text { 使用样式组模板 }
+            }
+            
+            // 测试自动化类名
+            div {
+                style {
+                    .auto-class {
+                        background: "#f0f9ff";
+                        padding: 15px;
+                        border: "1px solid #3b82f6";
+                    }
+                    
+                    &:hover {
+                        background: "#dbeafe";
+                    }
+                }
+                
+                text { 自动化类名测试 }
+            }
+            
+            // 测试CHTL JS
+            button {
+                class: test-btn;
+                
+                style {
+                    .test-btn {
+                        background: TestColors(primary);
+                        color: white;
+                        border: none;
+                        padding: "10px 20px";
+                        border-radius: "6px";
+                        cursor: pointer;
+                    }
+                }
+                
+                script {
+                    {{&}}->listen({
+                        click: function() {
+                            console.log('CHTL JS测试成功');
+                            {{&}}->style->background = '#059669';
+                        }
+                    });
+                }
+                
+                text { 点击测试CHTL JS }
+            }
+        }
+    }
+}

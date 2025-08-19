@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_unified_scanner.dir/link.d CMakeFiles/test_unified_scanner.dir/test/test_unified_scanner.cpp.o -o bin/test_unified_scanner  lib/libchtl_core.a

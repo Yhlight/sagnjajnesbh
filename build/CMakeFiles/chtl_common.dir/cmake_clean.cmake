@@ -1,4 +1,10 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.o"
+  "CMakeFiles/chtl_common.dir/src/Common/AST/CommentGenerator.cpp.o.d"
+  "CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.o"
+  "CMakeFiles/chtl_common.dir/src/Common/AST/CommentNode.cpp.o.d"
+  "CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.o"
+  "CMakeFiles/chtl_common.dir/src/Common/AST/OriginEmbedDetector.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o"
   "CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o"
@@ -9,8 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o.d"
   "CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o"
   "CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o.d"
-  "lib/libchtl_common.a"
-  "lib/libchtl_common.pdb"
+  "libchtl_common.a"
+  "libchtl_common.pdb"
 )
 
 # Per-language clean rules from dependency scanning.
