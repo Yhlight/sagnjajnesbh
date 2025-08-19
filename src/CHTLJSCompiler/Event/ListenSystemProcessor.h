@@ -132,6 +132,9 @@ private:
     std::vector<std::string> supportedEvents_;
     
     void initializeSupportedEvents();
+    
+    // 缺少的方法声明
+    std::vector<std::string> splitEventEntries(const std::string& content);
 };
 
 } // namespace chtljs
