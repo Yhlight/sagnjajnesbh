@@ -141,7 +141,7 @@
         class: course-card;
         
         style {
-            inherit CardStyles(container);
+            inherit CardStyles(container), ButtonStyles(base);
             
             .course-thumbnail {
                 width: 100%;
@@ -287,14 +287,12 @@
                 margin-top: 16px;
                 
                 .btn-enroll {
-                    inherit ButtonStyles(base);
-                    inherit ButtonStyles(primary);
+                    inherit ButtonStyles(base), ButtonStyles(primary);
                     flex: 1;
                 }
                 
                 .btn-preview {
-                    inherit ButtonStyles(base);
-                    inherit ButtonStyles(secondary);
+                    inherit ButtonStyles(base), ButtonStyles(secondary);
                     flex: 1;
                 }
                 
@@ -551,15 +549,11 @@ html {
                 }
                 
                 .cta-button {
-                    inherit ButtonStyles(base);
+                    inherit ButtonStyles(base), ButtonStyles(hover);
                     background: white;
                     color: ThemeColors(primaryColor);
                     font-size: 1.125rem;
                     padding: 16px 32px;
-                    
-                    &:hover {
-                        inherit ButtonStyles(hover);
-                    }
                 }
             }
             

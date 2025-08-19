@@ -1,0 +1,12 @@
+/workspace/build-complete/CMakeFiles/chtl_scanner.dir
+/workspace/build-complete/CMakeFiles/chtl_common.dir
+/workspace/build-complete/CMakeFiles/chtl_compiler.dir
+/workspace/build-complete/CMakeFiles/chtljs_compiler.dir
+/workspace/build-complete/CMakeFiles/test_existing_features.dir
+/workspace/build-complete/CMakeFiles/test_chtl_js_features.dir
+/workspace/build-complete/CMakeFiles/test_cjmod_design.dir
+/workspace/build-complete/CMakeFiles/test_chtholly_module.dir
+/workspace/build-complete/CMakeFiles/test_complete_chtl_compliance.dir
+/workspace/build-complete/CMakeFiles/test_variable_length_slicing.dir
+/workspace/build-complete/CMakeFiles/edit_cache.dir
+/workspace/build-complete/CMakeFiles/rebuild_cache.dir
