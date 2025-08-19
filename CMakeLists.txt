@@ -88,13 +88,19 @@ add_library(chtl_ast STATIC
 )
 target_link_libraries(chtl_ast chtl_common)
 
+add_library(chtl_context STATIC
+    src/CHTLCompiler/Parser/CHTLContext.cpp
+    src/CHTLCompiler/State/CHTLState.cpp
+)
+target_link_libraries(chtl_context chtl_common chtl_lexer)
+
 add_library(chtl_parsers STATIC
     src/CHTLCompiler/Custom/CustomParser.cpp
     src/CHTLCompiler/Origin/OriginParser.cpp
     src/CHTLCompiler/Template/TemplateParser.cpp
     src/CHTLCompiler/Constraint/ConstraintParser.cpp
 )
-target_link_libraries(chtl_parsers chtl_common chtl_ast)
+target_link_libraries(chtl_parsers chtl_common chtl_ast chtl_context)
 
 add_library(chtl_generator STATIC
     src/CHTLCompiler/Generator/CHTLGenerator.cpp
@@ -103,10 +109,8 @@ target_link_libraries(chtl_generator chtl_common chtl_ast)
 
 add_library(chtl_compiler_core STATIC
     src/CHTLCompiler/CHTLCompilerCore.cpp
-    src/CHTLCompiler/Parser/CHTLContext.cpp
     src/CHTLCompiler/Parser/CHTLParser.cpp
     src/CHTLCompiler/State/CHTLGlobalMap.cpp
-    src/CHTLCompiler/State/CHTLState.cpp
     src/CHTLCompiler/Import/ImportManager.cpp
     src/CHTLCompiler/Module/CmodManager.cpp
 )
@@ -116,6 +120,7 @@ target_link_libraries(chtl_compiler_core
     chtl_lexer
     chtl_managers
     chtl_scanner
+    chtl_context
     chtl_common
     chtl_ast
 )

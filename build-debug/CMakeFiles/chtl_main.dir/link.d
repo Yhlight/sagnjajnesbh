@@ -7,8 +7,9 @@ chtl_compiler: \
   libchtl_compiler_core.a \
   libchtl_parsers.a \
   libchtl_generator.a \
-  libchtl_lexer.a \
   libchtl_managers.a \
+  libchtl_context.a \
+  libchtl_lexer.a \
   libchtl_ast.a \
   libchtljs_compiler.a \
   libcss_compiler.a \
@@ -60,9 +61,11 @@ libchtl_parsers.a:
 
 libchtl_generator.a:
 
-libchtl_lexer.a:
-
 libchtl_managers.a:
+
+libchtl_context.a:
+
+libchtl_lexer.a:
 
 libchtl_ast.a:
 

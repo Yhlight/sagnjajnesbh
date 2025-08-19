@@ -3,6 +3,7 @@
 /workspace/build-debug/CMakeFiles/chtl_managers.dir
 /workspace/build-debug/CMakeFiles/chtl_lexer.dir
 /workspace/build-debug/CMakeFiles/chtl_ast.dir
+/workspace/build-debug/CMakeFiles/chtl_context.dir
 /workspace/build-debug/CMakeFiles/chtl_parsers.dir
 /workspace/build-debug/CMakeFiles/chtl_generator.dir
 /workspace/build-debug/CMakeFiles/chtl_compiler_core.dir

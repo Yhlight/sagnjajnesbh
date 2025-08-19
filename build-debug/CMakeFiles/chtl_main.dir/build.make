@@ -100,8 +100,9 @@ chtl_compiler: libchtl_dispatcher.a
 chtl_compiler: libchtl_compiler_core.a
 chtl_compiler: libchtl_parsers.a
 chtl_compiler: libchtl_generator.a
-chtl_compiler: libchtl_lexer.a
 chtl_compiler: libchtl_managers.a
+chtl_compiler: libchtl_context.a
+chtl_compiler: libchtl_lexer.a
 chtl_compiler: libchtl_ast.a
 chtl_compiler: libchtljs_compiler.a
 chtl_compiler: libcss_compiler.a

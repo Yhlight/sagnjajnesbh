@@ -187,18 +187,6 @@ private:
     bool isValidCustomType(const std::string& type);
     bool isValidPositionSpecifier(const std::string& position);
 
-private:
-    // 按照TemplateParser架构设计的标准成员
-    CHTLContext* context_;
-    StateManager* stateManager_;
-    std::unique_ptr<CHTLContext> ownedContext_;
-    std::unique_ptr<StateManager> ownedStateManager_;
-    
-    CustomParseContext parseContext_;
-    std::shared_ptr<CustomManager> customManager_;
-    
-    std::vector<std::string> errors_;
-    bool debugMode_;
 };
 
 } // namespace custom_system

@@ -160,18 +160,6 @@ private:
     bool isValidOriginType(const std::string& type);
     std::string normalizeOriginTypeName(const std::string& typeName);
 
-private:
-    // 按照TemplateParser架构设计的标准成员
-    CHTLContext* context_;
-    StateManager* stateManager_;
-    std::unique_ptr<CHTLContext> ownedContext_;
-    std::unique_ptr<StateManager> ownedStateManager_;
-    
-    OriginParseContext parseContext_;
-    std::shared_ptr<OriginManager> originManager_;
-    
-    std::vector<std::string> errors_;
-    bool debugMode_;
 };
 
 } // namespace origin_system

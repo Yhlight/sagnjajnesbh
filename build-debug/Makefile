@@ -227,6 +227,19 @@ chtl_ast/fast:
 .PHONY : chtl_ast/fast
 
 #=============================================================================
+# Target rules for targets named chtl_context
+
+# Build rule for target.
+chtl_context: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_context
+.PHONY : chtl_context
+
+# fast build rule for target.
+chtl_context/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_context.dir/build.make CMakeFiles/chtl_context.dir/build
+.PHONY : chtl_context/fast
+
+#=============================================================================
 # Target rules for targets named chtl_parsers
 
 # Build rule for target.
@@ -686,7 +699,7 @@ src/CHTLCompiler/Parser/CHTLContext.o: src/CHTLCompiler/Parser/CHTLContext.cpp.o
 
 # target to build an object file
 src/CHTLCompiler/Parser/CHTLContext.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_core.dir/build.make CMakeFiles/chtl_compiler_core.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_context.dir/build.make CMakeFiles/chtl_context.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.o
 .PHONY : src/CHTLCompiler/Parser/CHTLContext.cpp.o
 
 src/CHTLCompiler/Parser/CHTLContext.i: src/CHTLCompiler/Parser/CHTLContext.cpp.i
@@ -694,7 +707,7 @@ src/CHTLCompiler/Parser/CHTLContext.i: src/CHTLCompiler/Parser/CHTLContext.cpp.i
 
 # target to preprocess a source file
 src/CHTLCompiler/Parser/CHTLContext.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_core.dir/build.make CMakeFiles/chtl_compiler_core.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_context.dir/build.make CMakeFiles/chtl_context.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.i
 .PHONY : src/CHTLCompiler/Parser/CHTLContext.cpp.i
 
 src/CHTLCompiler/Parser/CHTLContext.s: src/CHTLCompiler/Parser/CHTLContext.cpp.s
@@ -702,7 +715,7 @@ src/CHTLCompiler/Parser/CHTLContext.s: src/CHTLCompiler/Parser/CHTLContext.cpp.s
 
 # target to generate assembly for a file
 src/CHTLCompiler/Parser/CHTLContext.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_core.dir/build.make CMakeFiles/chtl_compiler_core.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_context.dir/build.make CMakeFiles/chtl_context.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.s
 .PHONY : src/CHTLCompiler/Parser/CHTLContext.cpp.s
 
 src/CHTLCompiler/Parser/CHTLParser.o: src/CHTLCompiler/Parser/CHTLParser.cpp.o
@@ -758,7 +771,7 @@ src/CHTLCompiler/State/CHTLState.o: src/CHTLCompiler/State/CHTLState.cpp.o
 
 # target to build an object file
 src/CHTLCompiler/State/CHTLState.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_core.dir/build.make CMakeFiles/chtl_compiler_core.dir/src/CHTLCompiler/State/CHTLState.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_context.dir/build.make CMakeFiles/chtl_context.dir/src/CHTLCompiler/State/CHTLState.cpp.o
 .PHONY : src/CHTLCompiler/State/CHTLState.cpp.o
 
 src/CHTLCompiler/State/CHTLState.i: src/CHTLCompiler/State/CHTLState.cpp.i
@@ -766,7 +779,7 @@ src/CHTLCompiler/State/CHTLState.i: src/CHTLCompiler/State/CHTLState.cpp.i
 
 # target to preprocess a source file
 src/CHTLCompiler/State/CHTLState.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_core.dir/build.make CMakeFiles/chtl_compiler_core.dir/src/CHTLCompiler/State/CHTLState.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_context.dir/build.make CMakeFiles/chtl_context.dir/src/CHTLCompiler/State/CHTLState.cpp.i
 .PHONY : src/CHTLCompiler/State/CHTLState.cpp.i
 
 src/CHTLCompiler/State/CHTLState.s: src/CHTLCompiler/State/CHTLState.cpp.s
@@ -774,7 +787,7 @@ src/CHTLCompiler/State/CHTLState.s: src/CHTLCompiler/State/CHTLState.cpp.s
 
 # target to generate assembly for a file
 src/CHTLCompiler/State/CHTLState.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler_core.dir/build.make CMakeFiles/chtl_compiler_core.dir/src/CHTLCompiler/State/CHTLState.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_context.dir/build.make CMakeFiles/chtl_context.dir/src/CHTLCompiler/State/CHTLState.cpp.s
 .PHONY : src/CHTLCompiler/State/CHTLState.cpp.s
 
 src/CHTLCompiler/Template/TemplateManager.o: src/CHTLCompiler/Template/TemplateManager.cpp.o
@@ -1848,6 +1861,7 @@ help:
 	@echo "... chtl_ast"
 	@echo "... chtl_common"
 	@echo "... chtl_compiler_core"
+	@echo "... chtl_context"
 	@echo "... chtl_dispatcher"
 	@echo "... chtl_generator"
 	@echo "... chtl_lexer"

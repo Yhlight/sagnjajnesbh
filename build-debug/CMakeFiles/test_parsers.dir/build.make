@@ -102,6 +102,8 @@ test_parsers: libchtl_managers.a
 test_parsers: libchtl_scanner.a
 test_parsers: libchtl_common.a
 test_parsers: libchtl_ast.a
+test_parsers: libchtl_context.a
+test_parsers: libchtl_lexer.a
 test_parsers: libchtl_common.a
 test_parsers: CMakeFiles/test_parsers.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test_parsers"

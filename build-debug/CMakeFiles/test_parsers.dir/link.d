@@ -9,6 +9,8 @@ test_parsers: \
   libchtl_scanner.a \
   libchtl_common.a \
   libchtl_ast.a \
+  libchtl_context.a \
+  libchtl_lexer.a \
   libchtl_common.a \
   /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
   /lib/x86_64-linux-gnu/libm.so \
@@ -57,6 +59,10 @@ libchtl_scanner.a:
 libchtl_common.a:
 
 libchtl_ast.a:
+
+libchtl_context.a:
+
+libchtl_lexer.a:
 
 libchtl_common.a:
 
