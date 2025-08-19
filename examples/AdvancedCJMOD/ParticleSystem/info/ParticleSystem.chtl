@@ -1,0 +1,12 @@
+[Info]
+{
+    name = "ParticleSystem";
+    version = "1.0.0";
+    description = "高级粒子系统子模块 - 提供复杂的粒子效果";
+    author = "粒子系统开发者";
+    license = "MIT";
+    dependencies = "";
+    category = "visual_effects";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
