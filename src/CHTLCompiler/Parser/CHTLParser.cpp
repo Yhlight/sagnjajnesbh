@@ -258,12 +258,78 @@ std::unique_ptr<ast::ASTNode> CHTLParser::parseElement() {
         std::cout << "解析元素" << std::endl;
     }
     
-    // 简化的元素解析
     auto element_node = std::make_unique<ast::ElementNode>();
     
+    // 1. 解析标签名
     if (check(TokenType::IDENTIFIER)) {
         element_node->tag = getCurrentToken().value;
         advance();
+    } else {
+        addError("期望元素标签名");
+        return nullptr;
+    }
+    
+    // 2. 解析元素体
+    if (check(TokenType::LEFT_BRACE)) {
+        advance(); // 消费 '{'
+        
+        // 解析元素内容（属性和子元素）
+        while (!check(TokenType::RIGHT_BRACE) && !isAtEnd()) {
+            if (check(TokenType::IDENTIFIER)) {
+                Token current = getCurrentToken();
+                Token next = peekToken(1);
+                
+                if (next.type == TokenType::COLON) {
+                    // 这是属性：name: value;
+                    std::string attrName = current.value;
+                    advance(); // 消费属性名
+                    advance(); // 消费 ':'
+                    
+                    if (check(TokenType::IDENTIFIER) || check(TokenType::STRING)) {
+                        std::string attrValue = getCurrentToken().value;
+                        element_node->attributes[attrName] = attrValue;
+                        advance(); // 消费属性值
+                        
+                        if (check(TokenType::SEMICOLON)) {
+                            advance(); // 消费 ';'
+                        }
+                    }
+                } else if (next.type == TokenType::LEFT_BRACE) {
+                    // 这是子元素
+                    auto child = parseElement();
+                    if (child) {
+                        element_node->addChild(std::move(child));
+                    }
+                } else if (current.value == "text" && next.type == TokenType::LEFT_BRACE) {
+                    // 这是文本内容：text { content }
+                    advance(); // 消费 'text'
+                    advance(); // 消费 '{'
+                    
+                    if (check(TokenType::IDENTIFIER) || check(TokenType::STRING)) {
+                        auto text_node = std::make_unique<ast::TextNode>();
+                        text_node->content = getCurrentToken().value;
+                        element_node->addChild(std::move(text_node));
+                        advance(); // 消费文本内容
+                    }
+                    
+                    if (check(TokenType::RIGHT_BRACE)) {
+                        advance(); // 消费 '}'
+                    }
+                } else {
+                    addError("未识别的元素内容: " + current.value);
+                    advance();
+                }
+            } else {
+                addError("期望标识符");
+                advance();
+            }
+        }
+        
+        if (check(TokenType::RIGHT_BRACE)) {
+            advance(); // 消费 '}'
+        } else {
+            addError("期望 '}'");
+        }
     }
     
     return std::move(element_node);
