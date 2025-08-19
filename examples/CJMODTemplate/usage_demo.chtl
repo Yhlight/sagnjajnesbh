@@ -1,0 +1,326 @@
+// ========================================
+// CJMOD使用演示 - 展示如何使用自定义语法扩展
+// ========================================
+
+// 首先导入CJMOD扩展
+[Import] @CJmod from MyCustomExtension
+
+html {
+    head {
+        title { text { 🚀 我的CJMOD语法扩展演示 } }
+        
+        style {
+            body {
+                margin: 0;
+                padding: 20px;
+                font-family: Arial, sans-serif;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                min-height: 100vh;
+            }
+            
+            .demo-container {
+                max-width: 800px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 20px;
+                padding: 30px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            }
+            
+            .demo-section {
+                margin-bottom: 30px;
+                padding: 20px;
+                border: 2px solid #e0e0e0;
+                border-radius: 10px;
+            }
+            
+            .demo-btn {
+                padding: 12px 24px;
+                margin: 10px 5px;
+                background: linear-gradient(45deg, #667eea, #764ba2);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: all 0.3s ease;
+            }
+            
+            .demo-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+            
+            .slide-container {
+                width: 100%;
+                height: 300px;
+                border: 2px solid #ddd;
+                border-radius: 10px;
+                margin: 20px 0;
+            }
+            
+            .countdown-display {
+                font-size: 48px;
+                font-weight: bold;
+                text-align: center;
+                color: #667eea;
+                background: #f0f0f0;
+                padding: 20px;
+                border-radius: 10px;
+                margin: 20px 0;
+            }
+            
+            .parallax-element {
+                width: 100%;
+                height: 200px;
+                background: linear-gradient(45deg, #ff6b6b, #feca57);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 24px;
+                font-weight: bold;
+                margin: 50px 0;
+            }
+            
+            .typewriter-text {
+                font-size: 24px;
+                color: #333;
+                background: #f9f9f9;
+                padding: 20px;
+                border-radius: 10px;
+                border-left: 4px solid #667eea;
+                margin: 20px 0;
+                min-height: 30px;
+            }
+        }
+    }
+    
+    body {
+        div {
+            class: demo-container;
+            
+            h1 { 
+                text { 🚀 我的CJMOD语法扩展演示 }
+                style { text-align: center; color: #667eea; margin-bottom: 30px; }
+            }
+            
+            p {
+                text { 以下演示了用C++编写的自定义CHTL JS语法扩展 }
+                style { text-align: center; color: #666; margin-bottom: 40px; }
+            }
+            
+            // 1. Toast通知演示
+            div {
+                class: demo-section;
+                
+                h3 { text { 🍞 Toast通知扩展 } }
+                p { text { 点击按钮测试不同类型的通知 } }
+                
+                button { id: toast-success; class: demo-btn; text { 成功通知 } }
+                button { id: toast-error; class: demo-btn; text { 错误通知 } }
+                button { id: toast-warning; class: demo-btn; text { 警告通知 } }
+                button { id: toast-info; class: demo-btn; text { 信息通知 } }
+            }
+            
+            // 2. 打字机效果演示
+            div {
+                class: demo-section;
+                
+                h3 { text { ⌨️ 打字机效果扩展 } }
+                p { text { 点击按钮看打字机效果 } }
+                
+                div {
+                    id: typewriter-demo;
+                    class: typewriter-text;
+                    text { 点击下面的按钮开始打字... }
+                }
+                
+                button { id: type-btn1; class: demo-btn; text { 打字示例1 } }
+                button { id: type-btn2; class: demo-btn; text { 打字示例2 } }
+                button { id: type-btn3; class: demo-btn; text { 快速打字 } }
+            }
+            
+            // 3. 倒计时演示
+            div {
+                class: demo-section;
+                
+                h3 { text { ⏰ 倒计时扩展 } }
+                p { text { 点击按钮启动倒计时 } }
+                
+                div {
+                    id: countdown-display;
+                    class: countdown-display;
+                    text { 00:00 }
+                }
+                
+                button { id: countdown-30; class: demo-btn; text { 30秒倒计时 } }
+                button { id: countdown-60; class: demo-btn; text { 1分钟倒计时 } }
+                button { id: countdown-300; class: demo-btn; text { 5分钟倒计时 } }
+            }
+            
+            // 4. 图片轮播演示
+            div {
+                class: demo-section;
+                
+                h3 { text { 🖼️ 图片轮播扩展 } }
+                p { text { 自动轮播图片，支持手动切换 } }
+                
+                div {
+                    id: slide-container;
+                    class: slide-container;
+                }
+                
+                button { id: create-slideshow; class: demo-btn; text { 创建轮播图 } }
+            }
+            
+            // 5. 视差效果演示
+            div {
+                class: demo-section;
+                
+                h3 { text { 🌊 视差效果扩展 } }
+                p { text { 滚动页面查看视差效果 } }
+                
+                div {
+                    id: parallax-element;
+                    class: parallax-element;
+                    text { 🌊 我会跟随滚动移动 }
+                }
+                
+                button { id: enable-parallax; class: demo-btn; text { 启用视差效果 } }
+            }
+            
+            script {
+                // ========================================
+                // 🚀 使用CJMOD扩展的CHTL JS语法！
+                // 这些语法都是用C++编写的扩展
+                // ========================================
+                
+                // 🍞 Toast通知演示
+                {{#toast-success}}->listen({
+                    click: function() {
+                        // 🚀 使用CJMOD的toast语法扩展！
+                        toast('操作成功完成！', 'success');
+                    }
+                });
+                
+                {{#toast-error}}->listen({
+                    click: function() {
+                        // 🚀 使用CJMOD的toast语法扩展！
+                        toast('发生了错误！', 'error');
+                    }
+                });
+                
+                {{#toast-warning}}->listen({
+                    click: function() {
+                        // 🚀 使用CJMOD的toast语法扩展！
+                        toast('这是一个警告！', 'warning');
+                    }
+                });
+                
+                {{#toast-info}}->listen({
+                    click: function() {
+                        // 🚀 使用CJMOD的toast语法扩展！
+                        toast('这是一些信息', 'info');
+                    }
+                });
+                
+                // ⌨️ 打字机效果演示
+                {{#type-btn1}}->listen({
+                    click: function() {
+                        // 🚀 使用CJMOD的typewriter语法扩展！
+                        typewriter({{#typewriter-demo}}, '欢迎使用CJMOD语法扩展！这是一个用C++编写的打字机效果。', 100);
+                    }
+                });
+                
+                {{#type-btn2}}->listen({
+                    click: function() {
+                        // 🚀 使用CJMOD的typewriter语法扩展！
+                        typewriter({{#typewriter-demo}}, 'CJMOD让你可以用C++创造任意的CHTL JS语法，然后编译成JavaScript代码执行。', 80);
+                    }
+                });
+                
+                {{#type-btn3}}->listen({
+                    click: function() {
+                        // 🚀 快速打字效果
+                        typewriter({{#typewriter-demo}}, '快速打字效果！⚡⚡⚡', 50);
+                    }
+                });
+                
+                // ⏰ 倒计时演示
+                {{#countdown-30}}->listen({
+                    click: function() {
+                        // 🚀 使用CJMOD的countdown语法扩展！
+                        countdown({{#countdown-display}}, 30, function() {
+                            toast('30秒倒计时结束！', 'success');
+                        });
+                    }
+                });
+                
+                {{#countdown-60}}->listen({
+                    click: function() {
+                        // 🚀 使用CJMOD的countdown语法扩展！
+                        countdown({{#countdown-display}}, 60, function() {
+                            toast('1分钟倒计时结束！', 'success');
+                        });
+                    }
+                });
+                
+                {{#countdown-300}}->listen({
+                    click: function() {
+                        // 🚀 使用CJMOD的countdown语法扩展！
+                        countdown({{#countdown-display}}, 300, function() {
+                            toast('5分钟倒计时结束！', 'success');
+                        });
+                    }
+                });
+                
+                // 🖼️ 图片轮播演示
+                {{#create-slideshow}}->listen({
+                    click: function() {
+                        // 🚀 使用CJMOD的slideShow语法扩展！
+                        slideShow({{#slide-container}}, [
+                            'https://picsum.photos/800/300?random=1',
+                            'https://picsum.photos/800/300?random=2',
+                            'https://picsum.photos/800/300?random=3',
+                            'https://picsum.photos/800/300?random=4'
+                        ]);
+                        
+                        this.disabled = true;
+                        this.textContent = '✅ 轮播图已创建';
+                        
+                        toast('轮播图创建成功！', 'success');
+                    }
+                });
+                
+                // 🌊 视差效果演示
+                {{#enable-parallax}}->listen({
+                    click: function() {
+                        // 🚀 使用CJMOD的parallax语法扩展！
+                        parallax({{#parallax-element}}, 0.5);
+                        
+                        this.disabled = true;
+                        this.textContent = '✅ 视差效果已启用';
+                        
+                        toast('视差效果已启用，请滚动页面查看！', 'info');
+                    }
+                });
+                
+                // 🎯 初始化演示
+                console.log('🚀 CJMOD语法扩展演示初始化完成！');
+                console.log('💡 支持的语法扩展:');
+                console.log('   - toast(message, type)');
+                console.log('   - typewriter(element, text, speed)');
+                console.log('   - countdown(element, seconds, callback)');
+                console.log('   - slideShow(container, images)');
+                console.log('   - parallax(element, speed)');
+                
+                // 显示欢迎消息
+                setTimeout(() => {
+                    toast('欢迎使用CJMOD语法扩展！', 'success');
+                }, 500);
+            }
+        }
+    }
+}
