@@ -75,7 +75,7 @@ public:
     bool isOriginTypeToken(const Token& token);
     std::string extractRawContent(const std::vector<Token>& tokens, size_t start, size_t end);
     bool expectKeyword(const std::vector<Token>& tokens, size_t& position, const std::string& keyword);
-    Token getCurrentToken(const std::vector<Token>& tokens, size_t position);
+    Token getCurrentToken(const std::vector<Token>& tokens, size_t position) const;
     
     // 自定义类型处理
     bool registerCustomOriginType(const std::string& typeName);
@@ -143,7 +143,6 @@ private:
     bool expectToken(const std::vector<Token>& tokens, size_t& position, TokenType expectedType,
                     const std::string& errorMessage = "");
     bool consumeToken(const std::vector<Token>& tokens, size_t& position, TokenType tokenType);
-    Token getCurrentToken(const std::vector<Token>& tokens, size_t position) const;
     Token peekToken(const std::vector<Token>& tokens, size_t position, size_t offset = 1) const;
     bool isAtEnd(const std::vector<Token>& tokens, size_t position) const;
     

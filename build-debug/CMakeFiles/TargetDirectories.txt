@@ -1,11 +1,12 @@
 /workspace/build-debug/CMakeFiles/chtl_common.dir
 /workspace/build-debug/CMakeFiles/chtl_scanner.dir
 /workspace/build-debug/CMakeFiles/chtl_managers.dir
-/workspace/build-debug/CMakeFiles/chtl_compiler_basic.dir
-/workspace/build-debug/CMakeFiles/chtljs_compiler_full.dir
-/workspace/build-debug/CMakeFiles/chtl_main.dir
 /workspace/build-debug/CMakeFiles/chtl_lexer.dir
+/workspace/build-debug/CMakeFiles/chtl_ast.dir
 /workspace/build-debug/CMakeFiles/chtl_generator.dir
+/workspace/build-debug/CMakeFiles/chtl_parsers_fixed.dir
+/workspace/build-debug/CMakeFiles/chtl_main.dir
 /workspace/build-debug/CMakeFiles/test_minimal.dir
+/workspace/build-debug/CMakeFiles/test_parsers_fixed.dir
 /workspace/build-debug/CMakeFiles/edit_cache.dir
 /workspace/build-debug/CMakeFiles/rebuild_cache.dir

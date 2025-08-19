@@ -3,7 +3,6 @@ test_minimal: \
   /lib/x86_64-linux-gnu/crti.o \
   /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o \
   CMakeFiles/test_minimal.dir/src/Test/Simple/QuickSyntaxTest.cpp.o \
-  libchtl_compiler_basic.a \
   libchtl_managers.a \
   libchtl_scanner.a \
   libchtl_common.a \
@@ -42,8 +41,6 @@ test_minimal: \
 /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o:
 
 CMakeFiles/test_minimal.dir/src/Test/Simple/QuickSyntaxTest.cpp.o:
-
-libchtl_compiler_basic.a:
 
 libchtl_managers.a:
 

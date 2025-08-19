@@ -96,11 +96,13 @@ chtl_main_EXTERNAL_OBJECTS =
 chtl_compiler: CMakeFiles/chtl_main.dir/src/main_working.cpp.o
 chtl_compiler: CMakeFiles/chtl_main.dir/build.make
 chtl_compiler: CMakeFiles/chtl_main.dir/compiler_depend.ts
+chtl_compiler: libchtl_parsers_fixed.a
+chtl_compiler: libchtl_generator.a
+chtl_compiler: libchtl_lexer.a
 chtl_compiler: libchtl_managers.a
 chtl_compiler: libchtl_scanner.a
 chtl_compiler: libchtl_common.a
-chtl_compiler: libchtl_lexer.a
-chtl_compiler: libchtl_generator.a
+chtl_compiler: libchtl_ast.a
 chtl_compiler: libchtl_common.a
 chtl_compiler: CMakeFiles/chtl_main.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable chtl_compiler"

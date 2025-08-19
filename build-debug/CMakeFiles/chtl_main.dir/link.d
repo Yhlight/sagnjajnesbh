@@ -3,11 +3,13 @@ chtl_compiler: \
   /lib/x86_64-linux-gnu/crti.o \
   /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o \
   CMakeFiles/chtl_main.dir/src/main_working.cpp.o \
+  libchtl_parsers_fixed.a \
+  libchtl_generator.a \
+  libchtl_lexer.a \
   libchtl_managers.a \
   libchtl_scanner.a \
   libchtl_common.a \
-  libchtl_lexer.a \
-  libchtl_generator.a \
+  libchtl_ast.a \
   libchtl_common.a \
   /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
   /lib/x86_64-linux-gnu/libm.so \
@@ -45,15 +47,19 @@ chtl_compiler: \
 
 CMakeFiles/chtl_main.dir/src/main_working.cpp.o:
 
+libchtl_parsers_fixed.a:
+
+libchtl_generator.a:
+
+libchtl_lexer.a:
+
 libchtl_managers.a:
 
 libchtl_scanner.a:
 
 libchtl_common.a:
 
-libchtl_lexer.a:
-
-libchtl_generator.a:
+libchtl_ast.a:
 
 libchtl_common.a:
 

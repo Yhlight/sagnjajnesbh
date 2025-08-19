@@ -96,7 +96,6 @@ test_minimal_EXTERNAL_OBJECTS =
 test_minimal: CMakeFiles/test_minimal.dir/src/Test/Simple/QuickSyntaxTest.cpp.o
 test_minimal: CMakeFiles/test_minimal.dir/build.make
 test_minimal: CMakeFiles/test_minimal.dir/compiler_depend.ts
-test_minimal: libchtl_compiler_basic.a
 test_minimal: libchtl_managers.a
 test_minimal: libchtl_scanner.a
 test_minimal: libchtl_common.a

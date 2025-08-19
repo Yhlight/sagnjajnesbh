@@ -452,7 +452,7 @@ bool OriginParser::expectKeyword(const std::vector<Token>& tokens, size_t& posit
     return true;
 }
 
-Token OriginParser::getCurrentToken(const std::vector<Token>& tokens, size_t position) {
+Token OriginParser::getCurrentToken(const std::vector<Token>& tokens, size_t position) const {
     if (position < tokens.size()) {
         return tokens[position];
     }

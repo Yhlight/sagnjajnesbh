@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchtl_ast.a CMakeFiles/chtl_ast.dir/src/CHTLCompiler/AST/CHTLNodes.cpp.o
+/usr/bin/ranlib libchtl_ast.a

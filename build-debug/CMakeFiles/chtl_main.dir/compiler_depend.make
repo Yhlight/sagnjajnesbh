@@ -291,14 +291,18 @@ chtl_compiler: /lib/x86_64-linux-gnu/Scrt1.o \
   /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
   /usr/lib/x86_64-linux-gnu/libc_nonshared.a \
   CMakeFiles/chtl_main.dir/src/main_working.cpp.o \
+  libchtl_ast.a \
   libchtl_common.a \
   libchtl_generator.a \
   libchtl_lexer.a \
   libchtl_managers.a \
+  libchtl_parsers_fixed.a \
   libchtl_scanner.a
 
 
 libchtl_scanner.a:
+
+libchtl_parsers_fixed.a:
 
 libchtl_managers.a:
 
@@ -657,6 +661,8 @@ CMakeFiles/chtl_main.dir/src/main_working.cpp.o:
 /usr/include/c++/14/bits/locale_classes.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
+
+libchtl_ast.a:
 
 /usr/include/c++/14/bits/basic_string.h:
 

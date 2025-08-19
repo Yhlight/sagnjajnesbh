@@ -48,5 +48,35 @@ void NamespaceNode::accept(ASTVisitor& visitor) {
     visitor.visit(*this);
 }
 
+// ConfigurationNode实现
+void ConfigurationNode::accept(ASTVisitor& visitor) {
+    visitor.visit(*this);
+}
+
+// ConstraintNode实现
+void ConstraintNode::accept(ASTVisitor& visitor) {
+    visitor.visit(*this);
+}
+
+// SpecializationNode实现
+void SpecializationNode::accept(ASTVisitor& visitor) {
+    visitor.visit(*this);
+}
+
+// IndexAccessNode实现
+void IndexAccessNode::accept(ASTVisitor& visitor) {
+    visitor.visit(*this);
+}
+
+// OriginNode实现
+void OriginNode::accept(ASTVisitor& visitor) {
+    visitor.visit(*this);
+}
+
+// VariableGroupNode实现
+void VariableGroupNode::accept(ASTVisitor& visitor) {
+    visitor.visit(*this);
+}
+
 } // namespace ast
 } // namespace chtl

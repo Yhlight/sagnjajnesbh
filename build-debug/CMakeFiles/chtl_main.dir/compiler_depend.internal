@@ -293,9 +293,11 @@ chtl_compiler
  /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so
  /usr/lib/x86_64-linux-gnu/libc_nonshared.a
  /workspace/build-debug/CMakeFiles/chtl_main.dir/src/main_working.cpp.o
+ /workspace/build-debug/libchtl_ast.a
  /workspace/build-debug/libchtl_common.a
  /workspace/build-debug/libchtl_generator.a
  /workspace/build-debug/libchtl_lexer.a
  /workspace/build-debug/libchtl_managers.a
+ /workspace/build-debug/libchtl_parsers_fixed.a
  /workspace/build-debug/libchtl_scanner.a
 
