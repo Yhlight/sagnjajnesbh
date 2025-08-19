@@ -36,7 +36,6 @@ show_usage() {
     echo "Build Components:"
     echo "  --compiler          Build CHTL compiler (default: enabled)"
     echo "  --vscode            Build VSCode plugin (default: enabled)"
-    echo "  --antlr             Build ANTLR dependencies (default: enabled)"
     echo "  --modules           Package all modules (default: enabled)"
     echo "  --all               Build all components (default)"
     echo ""
@@ -49,7 +48,6 @@ show_usage() {
     echo "Control Options:"
     echo "  --skip-compiler     Skip compiler build"
     echo "  --skip-vscode       Skip VSCode plugin build"
-    echo "  --skip-antlr        Skip ANTLR build"
     echo "  --skip-modules      Skip module packaging"
     echo "  -j, --jobs N        Number of parallel build jobs (default: auto)"
     echo "  -v, --verbose       Enable verbose output"
@@ -65,7 +63,6 @@ show_usage() {
 # Parse command line arguments
 BUILD_COMPILER=true
 BUILD_VSCODE=true
-BUILD_ANTLR=true
 BUILD_MODULES=true
 BUILD_MODE="debug"
 COMPILE_CJMOD=false
@@ -78,35 +75,24 @@ while [[ $# -gt 0 ]]; do
         --compiler)
             BUILD_COMPILER=true
             BUILD_VSCODE=false
-            BUILD_ANTLR=false
             BUILD_MODULES=false
             shift
             ;;
         --vscode)
             BUILD_COMPILER=false
             BUILD_VSCODE=true
-            BUILD_ANTLR=false
-            BUILD_MODULES=false
-            shift
-            ;;
-        --antlr)
-            BUILD_COMPILER=false
-            BUILD_VSCODE=false
-            BUILD_ANTLR=true
             BUILD_MODULES=false
             shift
             ;;
         --modules)
             BUILD_COMPILER=false
             BUILD_VSCODE=false
-            BUILD_ANTLR=false
             BUILD_MODULES=true
             shift
             ;;
         --all)
             BUILD_COMPILER=true
             BUILD_VSCODE=true
-            BUILD_ANTLR=true
             BUILD_MODULES=true
             shift
             ;;
@@ -132,10 +118,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         --skip-vscode)
             BUILD_VSCODE=false
-            shift
-            ;;
-        --skip-antlr)
-            BUILD_ANTLR=false
             shift
             ;;
         --skip-modules)
@@ -175,7 +157,6 @@ print_status "Starting Complete CHTL Build Process"
 print_status "Project root: $PROJECT_ROOT"
 print_status "Build mode: $BUILD_MODE"
 print_status "Components to build:"
-print_status "  - ANTLR: $BUILD_ANTLR"
 print_status "  - Compiler: $BUILD_COMPILER"
 print_status "  - VSCode Plugin: $BUILD_VSCODE"
 print_status "  - Modules: $BUILD_MODULES"
@@ -237,7 +218,7 @@ run_build_step() {
 if [ "$CLEAN_BUILD" = true ]; then
     print_status "Cleaning build directories..."
     
-    rm -rf build-debug build-release build packages dist external/antlr4-install
+    rm -rf build-debug build-release build packages dist
     
     if [ -d "vscode-chtl-extension/node_modules" ]; then
         rm -rf vscode-chtl-extension/node_modules
@@ -253,18 +234,8 @@ if [ "$CLEAN_BUILD" = true ]; then
     print_success "Build directories cleaned"
 fi
 
-# Build ANTLR if requested
-if [ "$BUILD_ANTLR" = true ]; then
-    ANTLR_ARGS=()
-    if [ "$VERBOSE" = true ]; then
-        ANTLR_ARGS+=("--verbose")
-    fi
-    
-    run_build_step "ANTLR" "$SCRIPT_DIR/../build/build_antlr.sh" "${ANTLR_ARGS[@]}" || {
-        print_error "ANTLR build failed - this may affect compiler functionality"
-        # Continue with other builds as ANTLR is optional for basic functionality
-    }
-fi
+# Note: ANTLR is pre-built and available in external/antlr4-cross-platform/
+print_status "Using pre-built ANTLR from external/antlr4-cross-platform/"
 
 # Build compiler if requested
 if [ "$BUILD_COMPILER" = true ]; then

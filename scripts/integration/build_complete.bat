@@ -11,7 +11,6 @@ if "%~1"=="--help" goto :show_usage
 REM Parse command line arguments
 set "BUILD_COMPILER=true"
 set "BUILD_VSCODE=true"
-set "BUILD_ANTLR=true"
 set "BUILD_MODULES=true"
 set "BUILD_MODE=debug"
 set "COMPILE_CJMOD=false"
@@ -25,7 +24,6 @@ if "%~1"=="" goto :args_done
 if "%~1"=="--compiler" (
     set "BUILD_COMPILER=true"
     set "BUILD_VSCODE=false"
-    set "BUILD_ANTLR=false"
     set "BUILD_MODULES=false"
     shift
     goto :parse_args
@@ -34,16 +32,6 @@ if "%~1"=="--compiler" (
 if "%~1"=="--vscode" (
     set "BUILD_COMPILER=false"
     set "BUILD_VSCODE=true"
-    set "BUILD_ANTLR=false"
-    set "BUILD_MODULES=false"
-    shift
-    goto :parse_args
-)
-
-if "%~1"=="--antlr" (
-    set "BUILD_COMPILER=false"
-    set "BUILD_VSCODE=false"
-    set "BUILD_ANTLR=true"
     set "BUILD_MODULES=false"
     shift
     goto :parse_args
@@ -52,7 +40,6 @@ if "%~1"=="--antlr" (
 if "%~1"=="--modules" (
     set "BUILD_COMPILER=false"
     set "BUILD_VSCODE=false"
-    set "BUILD_ANTLR=false"
     set "BUILD_MODULES=true"
     shift
     goto :parse_args
@@ -61,7 +48,6 @@ if "%~1"=="--modules" (
 if "%~1"=="--all" (
     set "BUILD_COMPILER=true"
     set "BUILD_VSCODE=true"
-    set "BUILD_ANTLR=true"
     set "BUILD_MODULES=true"
     shift
     goto :parse_args
@@ -103,11 +89,7 @@ if "%~1"=="--skip-vscode" (
     goto :parse_args
 )
 
-if "%~1"=="--skip-antlr" (
-    set "BUILD_ANTLR=false"
-    shift
-    goto :parse_args
-)
+
 
 if "%~1"=="--skip-modules" (
     set "BUILD_MODULES=false"
@@ -156,7 +138,6 @@ echo [INFO] Starting Complete CHTL Build Process
 echo [INFO] Project root: %PROJECT_ROOT%
 echo [INFO] Build mode: !BUILD_MODE!
 echo [INFO] Components to build:
-echo [INFO]   - ANTLR: !BUILD_ANTLR!
 echo [INFO]   - Compiler: !BUILD_COMPILER!
 echo [INFO]   - VSCode Plugin: !BUILD_VSCODE!
 echo [INFO]   - Modules: !BUILD_MODULES!
@@ -186,7 +167,7 @@ if "!CLEAN_BUILD!"=="true" (
     if exist "build" rmdir /s /q "build"
     if exist "packages" rmdir /s /q "packages"
     if exist "dist" rmdir /s /q "dist"
-    if exist "external\antlr4-install" rmdir /s /q "external\antlr4-install"
+
     
     if exist "vscode-chtl-extension\node_modules" rmdir /s /q "vscode-chtl-extension\node_modules"
     if exist "vscode-chtl-extension\out" rmdir /s /q "vscode-chtl-extension\out"
@@ -197,27 +178,8 @@ if "!CLEAN_BUILD!"=="true" (
     echo [SUCCESS] Build directories cleaned
 )
 
-REM Build ANTLR if requested
-if "!BUILD_ANTLR!"=="true" (
-    echo [INFO] Building ANTLR...
-    set "START_TIME=!TIME!"
-    
-    if "!VERBOSE!"=="true" (
-        echo [INFO] Running: %SCRIPT_DIR%..\build\build_antlr.bat
-    )
-    
-    call "%PROJECT_ROOT%scripts\build\build_antlr.bat"
-    if %errorlevel%==0 (
-        set "BUILD_RESULTS=!BUILD_RESULTS!ANTLR:SUCCESS;"
-        set /a TOTAL_SUCCESS+=1
-        echo [SUCCESS] ANTLR build completed
-    ) else (
-        set "BUILD_RESULTS=!BUILD_RESULTS!ANTLR:FAILED;"
-        set /a TOTAL_FAILED+=1
-        echo [ERROR] ANTLR build failed - this may affect compiler functionality
-        REM Continue with other builds as ANTLR is optional for basic functionality
-    )
-)
+REM Note: ANTLR is pre-built and available in external/antlr4-cross-platform/
+echo [INFO] Using pre-built ANTLR from external/antlr4-cross-platform/
 
 REM Build compiler if requested
 if "!BUILD_COMPILER!"=="true" (
@@ -463,7 +425,6 @@ echo.
 echo Build Components:
 echo   --compiler          Build CHTL compiler (default: enabled)
 echo   --vscode            Build VSCode plugin (default: enabled)
-echo   --antlr             Build ANTLR dependencies (default: enabled)
 echo   --modules           Package all modules (default: enabled)
 echo   --all               Build all components (default)
 echo.
@@ -476,7 +437,6 @@ echo.
 echo Control Options:
 echo   --skip-compiler     Skip compiler build
 echo   --skip-vscode       Skip VSCode plugin build
-echo   --skip-antlr        Skip ANTLR build
 echo   --skip-modules      Skip module packaging
 echo   -j, --jobs N        Number of parallel build jobs (default: auto)
 echo   -v, --verbose       Enable verbose output

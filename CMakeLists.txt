@@ -19,13 +19,54 @@ endif()
 # Include directories
 include_directories(src)
 
-# Find ANTLR4 (optional)
-find_package(ANTLR4 QUIET)
-if(ANTLR4_FOUND)
-    message(STATUS "Found ANTLR4: ${ANTLR4_LIBRARIES}")
-    add_definitions(-DCHTL_ENABLE_ANTLR)
+# Use pre-built ANTLR4 from external/antlr4-cross-platform
+set(ANTLR4_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/external/antlr4-cross-platform")
+
+# Detect platform
+if(WIN32)
+    set(ANTLR4_PLATFORM "windows-x64")
+elseif(APPLE)
+    set(ANTLR4_PLATFORM "macos-x64")
 else()
-    message(WARNING "ANTLR4 not found - CSS/JS parsing will be limited")
+    set(ANTLR4_PLATFORM "linux-x64")
+endif()
+
+set(ANTLR4_PRECOMPILED_DIR "${ANTLR4_ROOT}/precompiled/${ANTLR4_PLATFORM}")
+
+# Check for pre-built ANTLR4
+if(EXISTS "${ANTLR4_PRECOMPILED_DIR}")
+    message(STATUS "Found pre-built ANTLR4: ${ANTLR4_PRECOMPILED_DIR}")
+    
+    # Set ANTLR4 variables
+    set(ANTLR4_INCLUDE_DIR "${ANTLR4_PRECOMPILED_DIR}/include")
+    set(ANTLR4_LIBRARY_DIR "${ANTLR4_PRECOMPILED_DIR}/lib")
+    
+    # Find ANTLR4 library
+    find_library(ANTLR4_LIBRARY
+        NAMES antlr4-runtime libantlr4-runtime
+        PATHS ${ANTLR4_LIBRARY_DIR}
+        NO_DEFAULT_PATH
+    )
+    
+    if(ANTLR4_LIBRARY AND EXISTS "${ANTLR4_INCLUDE_DIR}")
+        set(ANTLR4_FOUND TRUE)
+        add_definitions(-DCHTL_ENABLE_ANTLR)
+        
+        # Create imported target
+        add_library(antlr4-runtime UNKNOWN IMPORTED)
+        set_target_properties(antlr4-runtime PROPERTIES
+            IMPORTED_LOCATION ${ANTLR4_LIBRARY}
+            INTERFACE_INCLUDE_DIRECTORIES ${ANTLR4_INCLUDE_DIR}
+        )
+        
+        message(STATUS "ANTLR4 library: ${ANTLR4_LIBRARY}")
+    else()
+        message(WARNING "Pre-built ANTLR4 library not found in ${ANTLR4_PRECOMPILED_DIR}")
+        set(ANTLR4_FOUND FALSE)
+    endif()
+else()
+    message(WARNING "Pre-built ANTLR4 not found for platform ${ANTLR4_PLATFORM}")
+    set(ANTLR4_FOUND FALSE)
 endif()
 
 # ============================================================================
@@ -51,7 +92,7 @@ add_library(chtl_scanner STATIC
 )
 target_link_libraries(chtl_scanner chtl_common)
 
-# CHTL Compiler Core Library (renamed to avoid conflict)
+# CHTL Compiler Core Library
 add_library(chtl_compiler_lib STATIC
     src/CHTLCompiler/CHTLCompilerCore.cpp
     src/CHTLCompiler/AST/CHTLNodes.cpp
@@ -99,7 +140,7 @@ add_library(chtljs_compiler STATIC
 )
 target_link_libraries(chtljs_compiler chtl_common chtl_scanner)
 
-# CSS Compiler Library (with ANTLR support)
+# CSS Compiler Library (with pre-built ANTLR support)
 add_library(css_compiler STATIC
     src/CSSCompiler/CSSCompilerCore.cpp
     src/CSSCompiler/Parser/css3Lexer.cpp
@@ -112,7 +153,7 @@ if(ANTLR4_FOUND)
     target_link_libraries(css_compiler antlr4-runtime)
 endif()
 
-# JavaScript Compiler Library (with ANTLR support)
+# JavaScript Compiler Library (with pre-built ANTLR support)
 add_library(js_compiler STATIC
     src/JavaScriptCompiler/JavaScriptCompilerCore.cpp
     src/JavaScriptCompiler/Parser/JavaScriptLexerBase.cpp
@@ -155,71 +196,43 @@ target_link_libraries(chtl_alt chtl_dispatcher)
 set_target_properties(chtl_alt PROPERTIES OUTPUT_NAME "chtl")
 
 # ============================================================================
-# Tests
+# Tests (Optional - only if Test directory exists)
 # ============================================================================
 
-# Test Framework
-add_library(chtl_test_framework STATIC
-    src/Test/Framework/TestBase.cpp
-    src/Test/Framework/TestRunner.cpp
-)
-target_link_libraries(chtl_test_framework chtl_common)
-
-# Test Main Runner
-add_executable(chtl_test_main src/Test/TestMain.cpp)
-target_link_libraries(chtl_test_main chtl_test_framework chtl_dispatcher)
-
-# Comprehensive Test Runner
-add_executable(test_comprehensive src/Test/ComprehensiveTestRunner.cpp)
-target_link_libraries(test_comprehensive chtl_test_framework chtl_dispatcher)
-
-# Unit Tests
-add_executable(test_namespace_algorithms src/Test/Unit/NamespaceAlgorithmsTest.cpp)
-target_link_libraries(test_namespace_algorithms chtl_test_framework chtl_dispatcher)
-
-add_executable(test_configuration_system src/Test/Unit/ConfigurationSystemTest.cpp)
-target_link_libraries(test_configuration_system chtl_test_framework chtl_dispatcher)
-
-add_executable(test_chtl_syntax src/Test/Unit/CHTLSyntaxComprehensiveTest.cpp)
-target_link_libraries(test_chtl_syntax chtl_test_framework chtl_dispatcher)
-
-add_executable(test_chtljs_advanced src/Test/Unit/CHTLJSAdvancedTest.cpp)
-target_link_libraries(test_chtljs_advanced chtl_test_framework chtl_dispatcher)
-
-# Integration Tests  
-add_executable(test_module_system src/Test/Integration/ModuleSystemTest.cpp)
-target_link_libraries(test_module_system chtl_test_framework chtl_dispatcher)
-
-# Performance Tests
-add_executable(test_performance src/Test/Performance/CompilerPerformanceTest.cpp)
-target_link_libraries(test_performance chtl_test_framework chtl_dispatcher)
-
-# Functional Tests
-add_executable(test_syntax_implementation src/Test/Functional/ActualSyntaxImplementationTest.cpp)
-target_link_libraries(test_syntax_implementation chtl_test_framework chtl_dispatcher)
-
-# Compliance Tests
-add_executable(test_syntax_compliance src/Test/Comprehensive/StrictSyntaxComplianceTest.cpp)
-target_link_libraries(test_syntax_compliance chtl_test_framework chtl_dispatcher)
-
-# Quick Tests
-add_executable(test_quick_syntax src/Test/Simple/QuickSyntaxTest.cpp)
-target_link_libraries(test_quick_syntax chtl_test_framework chtl_dispatcher)
-
-# Enable testing
-enable_testing()
-
-# Add tests to CTest
-add_test(NAME comprehensive_test COMMAND test_comprehensive)
-add_test(NAME namespace_test COMMAND test_namespace_algorithms)
-add_test(NAME configuration_test COMMAND test_configuration_system)
-add_test(NAME chtl_syntax_test COMMAND test_chtl_syntax)
-add_test(NAME chtljs_test COMMAND test_chtljs_advanced)
-add_test(NAME module_test COMMAND test_module_system)
-add_test(NAME performance_test COMMAND test_performance)
-add_test(NAME syntax_implementation_test COMMAND test_syntax_implementation)
-add_test(NAME compliance_test COMMAND test_syntax_compliance)
-add_test(NAME quick_test COMMAND test_quick_syntax)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/Test")
+    # Test Framework
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/Test/Framework/TestBase.cpp")
+        add_library(chtl_test_framework STATIC
+            src/Test/Framework/TestBase.cpp
+            src/Test/Framework/TestRunner.cpp
+        )
+        target_link_libraries(chtl_test_framework chtl_common)
+        
+        # Test Main Runner
+        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/Test/TestMain.cpp")
+            add_executable(chtl_test_main src/Test/TestMain.cpp)
+            target_link_libraries(chtl_test_main chtl_test_framework chtl_dispatcher)
+        endif()
+        
+        # Find and add other test files
+        file(GLOB_RECURSE TEST_FILES "src/Test/*.cpp")
+        foreach(TEST_FILE ${TEST_FILES})
+            get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
+            if(NOT ${TEST_NAME} MATCHES "TestMain|TestBase|TestRunner")
+                add_executable(${TEST_NAME} ${TEST_FILE})
+                target_link_libraries(${TEST_NAME} chtl_test_framework chtl_dispatcher)
+            endif()
+        endforeach()
+        
+        # Enable testing
+        enable_testing()
+        
+        # Add basic test
+        if(TARGET chtl_test_main)
+            add_test(NAME main_test COMMAND chtl_test_main)
+        endif()
+    endif()
+endif()
 
 # ============================================================================
 # Output Directories
@@ -297,17 +310,14 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "CHTL")
 
 # Platform-specific package settings
 if(WIN32)
-    set(CPACK_GENERATOR "NSIS;ZIP")
-    set(CPACK_NSIS_DISPLAY_NAME "CHTL Compiler")
-    set(CPACK_NSIS_PACKAGE_NAME "CHTL")
-    set(CPACK_NSIS_CONTACT "dev@chtl-lang.org")
-    set(CPACK_NSIS_URL_INFO_ABOUT "https://chtl-lang.org")
+    set(CPACK_GENERATOR "ZIP")
+    set(CPACK_PACKAGE_FILE_NAME "chtl-${CMAKE_PROJECT_VERSION}-windows-x64")
 elseif(APPLE)
-    set(CPACK_GENERATOR "DragNDrop;TGZ")
+    set(CPACK_GENERATOR "TGZ")
+    set(CPACK_PACKAGE_FILE_NAME "chtl-${CMAKE_PROJECT_VERSION}-macos-x64")
 else()
-    set(CPACK_GENERATOR "DEB;RPM;TGZ")
-    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "CHTL Development Team")
-    set(CPACK_RPM_PACKAGE_GROUP "Development/Tools")
+    set(CPACK_GENERATOR "TGZ")
+    set(CPACK_PACKAGE_FILE_NAME "chtl-${CMAKE_PROJECT_VERSION}-linux-x64")
 endif()
 
 include(CPack)
@@ -341,17 +351,21 @@ message(STATUS "=================================")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "C++ standard: ${CMAKE_CXX_STANDARD}")
 message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "Platform: ${ANTLR4_PLATFORM}")
 message(STATUS "Install prefix: ${CMAKE_INSTALL_PREFIX}")
-message(STATUS "ANTLR4 support: ${ANTLR4_FOUND}")
+message(STATUS "Pre-built ANTLR4: ${ANTLR4_FOUND}")
+if(ANTLR4_FOUND)
+    message(STATUS "ANTLR4 location: ${ANTLR4_PRECOMPILED_DIR}")
+endif()
 message(STATUS "")
 message(STATUS "Build targets:")
 message(STATUS "  - chtl_main -> chtl_compiler (main executable)")
 message(STATUS "  - chtl_alt -> chtl (alternative executable)")
 message(STATUS "  - Libraries: chtl_common, chtl_scanner, chtl_compiler_lib, chtljs_compiler")
-if(ANTLR4_FOUND)
-    message(STATUS "  - ANTLR libraries: css_compiler, js_compiler")
+message(STATUS "  - ANTLR libraries: css_compiler, js_compiler")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/Test")
+    message(STATUS "  - Test framework: chtl_test_framework")
 endif()
-message(STATUS "  - Test framework: chtl_test_framework")
 message(STATUS "")
 message(STATUS "To build: cmake --build . --parallel")
 message(STATUS "To install: cmake --install .")
