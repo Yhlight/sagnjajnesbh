@@ -40,10 +40,19 @@ add_library(chtljs_compiler STATIC
     src/CHTLJSCompiler/CHTLJSCompiler.cpp
     src/CHTLJSCompiler/Core/AutoAdditionManager.cpp
     src/CHTLJSCompiler/Core/JSEventRegistry.cpp
-    src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp
     src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp
     src/CHTLJSCompiler/Parser/SelectorDetector.cpp
     src/CHTLJSCompiler/Module/YourCJMODDesign.cpp
+    # 现有的完整处理器 - 暂时注释，存在编译错误
+    # src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp
+    # src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp
+    # src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp
+    # src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp
+    # src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp
+    # src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp
+    # src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp
+    # src/CHTLJSCompiler/AST/VirtualObjectManager.cpp
+    # src/CHTLJSCompiler/Module/CJmodManager.cpp
 )
 target_link_libraries(chtljs_compiler chtl_common)
 

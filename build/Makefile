@@ -438,30 +438,6 @@ src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.s
 .PHONY : src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.s
 
-src/CHTLJSCompiler/Core/CHTLJSProcessor.o: src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.o
-.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.o
-
-# target to build an object file
-src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.o
-.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.o
-
-src/CHTLJSCompiler/Core/CHTLJSProcessor.i: src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.i
-.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.i
-
-# target to preprocess a source file
-src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.i
-.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.i
-
-src/CHTLJSCompiler/Core/CHTLJSProcessor.s: src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.s
-.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.s
-
-# target to generate assembly for a file
-src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.s
-.PHONY : src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.s
-
 src/CHTLJSCompiler/Core/JSEventRegistry.o: src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o
 .PHONY : src/CHTLJSCompiler/Core/JSEventRegistry.o
 
@@ -888,9 +864,6 @@ help:
 	@echo "... src/CHTLJSCompiler/Core/AutoAdditionManager.o"
 	@echo "... src/CHTLJSCompiler/Core/AutoAdditionManager.i"
 	@echo "... src/CHTLJSCompiler/Core/AutoAdditionManager.s"
-	@echo "... src/CHTLJSCompiler/Core/CHTLJSProcessor.o"
-	@echo "... src/CHTLJSCompiler/Core/CHTLJSProcessor.i"
-	@echo "... src/CHTLJSCompiler/Core/CHTLJSProcessor.s"
 	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.o"
 	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.i"
 	@echo "... src/CHTLJSCompiler/Core/JSEventRegistry.s"

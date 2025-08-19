@@ -3,8 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o.d"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o.d"
-  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.o"
-  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/CHTLJSProcessor.cpp.o.d"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o.d"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o"
