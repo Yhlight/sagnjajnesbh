@@ -1,5 +1,5 @@
 #include "CHTLCompiler/CHTLCompilerCore.h"
-#include "CHTLJSCompiler/CHTLJSCompilerCore.h"
+#include "CHTLJSCompiler/Core/CHTLJSCompilerCore.h"
 #include "Scanner/CHTLUnifiedScanner.h"
 #include "Dispatcher/CompilerDispatcher.h"
 #include <iostream>
