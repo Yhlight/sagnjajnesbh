@@ -10,6 +10,9 @@
 #include <unordered_map>
 #include <memory>
 #include <iostream>
+#include <sstream>
+#include <algorithm>
+#include <cctype>
 
 namespace chtl {
 namespace your_cjmod_design {

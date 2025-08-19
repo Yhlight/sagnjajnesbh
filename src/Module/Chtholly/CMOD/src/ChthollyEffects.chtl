@@ -1,0 +1,749 @@
+// ========================================
+// 珂朵莉特效组件 - 后5个UI组件
+// 严格按照CHTL语法文档实现
+// ========================================
+
+// 6. 鼠标特效组件
+[Custom] @Element ChthollyMouseEffect
+{
+    div
+    {
+        class: "chtholly-mouse-effect";
+        
+        style
+        {
+            .chtholly-mouse-effect
+            {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9999;
+            }
+            
+            .mouse-sparkle
+            {
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                background: ChthollyColorPalette(accentColor);
+                border-radius: 50%;
+                animation: sparkle 1s ease-out forwards;
+                pointer-events: none;
+            }
+            
+            @keyframes sparkle
+            {
+                0% {
+                    transform: scale(0) rotate(0deg);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1.5) rotate(180deg);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: scale(0) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+            
+            .mouse-heart
+            {
+                position: absolute;
+                width: 12px;
+                height: 12px;
+                background: ChthollyColorPalette(primaryColor);
+                transform: rotate(45deg);
+                animation: heartFloat 2s ease-out forwards;
+                pointer-events: none;
+            }
+            
+            .mouse-heart::before,
+            .mouse-heart::after
+            {
+                content: "";
+                position: absolute;
+                width: 12px;
+                height: 12px;
+                background: ChthollyColorPalette(primaryColor);
+                border-radius: 50%;
+            }
+            
+            .mouse-heart::before
+            {
+                top: -6px;
+                left: 0;
+            }
+            
+            .mouse-heart::after
+            {
+                top: 0;
+                left: -6px;
+            }
+            
+            @keyframes heartFloat
+            {
+                0% {
+                    transform: rotate(45deg) translateY(0) scale(0);
+                    opacity: 1;
+                }
+                50% {
+                    transform: rotate(45deg) translateY(-20px) scale(1);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: rotate(45deg) translateY(-40px) scale(0);
+                    opacity: 0;
+                }
+            }
+        }
+        
+        script
+        {
+            let effectType = 'sparkle'; // 'sparkle' or 'heart'
+            
+            {{document}}->listen({
+                mousemove: function(event) {
+                    if (Math.random() > 0.7) { // 30%概率触发特效
+                        const effect = document.createElement('div');
+                        effect.className = effectType === 'sparkle' ? 'mouse-sparkle' : 'mouse-heart';
+                        
+                        effect.style.left = event.clientX + 'px';
+                        effect.style.top = event.clientY + 'px';
+                        
+                        {{.chtholly-mouse-effect}}->appendChild(effect);
+                        
+                        // 2秒后移除特效
+                        setTimeout(() => {
+                            if (effect.parentNode) {
+                                effect.parentNode.removeChild(effect);
+                            }
+                        }, 2000);
+                    }
+                },
+                
+                click: function(event) {
+                    // 点击时切换特效类型
+                    effectType = effectType === 'sparkle' ? 'heart' : 'sparkle';
+                    console.log('✨ 珂朵莉鼠标特效切换为:', effectType);
+                    
+                    // 点击时创建额外特效
+                    for (let i = 0; i < 5; i++) {
+                        setTimeout(() => {
+                            const effect = document.createElement('div');
+                            effect.className = 'mouse-sparkle';
+                            
+                            const angle = (i * 72) * Math.PI / 180;
+                            const distance = 30;
+                            
+                            effect.style.left = (event.clientX + Math.cos(angle) * distance) + 'px';
+                            effect.style.top = (event.clientY + Math.sin(angle) * distance) + 'px';
+                            
+                            {{.chtholly-mouse-effect}}->appendChild(effect);
+                            
+                            setTimeout(() => {
+                                if (effect.parentNode) {
+                                    effect.parentNode.removeChild(effect);
+                                }
+                            }, 1000);
+                        }, i * 100);
+                    }
+                }
+            });
+            
+            console.log('✨ 珂朵莉鼠标特效已激活');
+        }
+    }
+}
+
+// 7. 鼠标拖尾组件
+[Custom] @Element ChthollyMouseTrail
+{
+    div
+    {
+        class: "chtholly-mouse-trail";
+        
+        style
+        {
+            .chtholly-mouse-trail
+            {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9998;
+            }
+            
+            .trail-dot
+            {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                background: ChthollyColorPalette(accentColor);
+                border-radius: 50%;
+                transition: all 0.3s ease;
+                pointer-events: none;
+                box-shadow: 0 0 10px ChthollyColorPalette(accentColor);
+            }
+            
+            .trail-dot.fading
+            {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+        
+        script
+        {
+            const trailDots = [];
+            const maxTrailLength = 15;
+            
+            // 创建拖尾点
+            for (let i = 0; i < maxTrailLength; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'trail-dot';
+                dot.style.opacity = (1 - i / maxTrailLength) * 0.8;
+                dot.style.transform = `scale(${1 - i / maxTrailLength})`;
+                
+                {{.chtholly-mouse-trail}}->appendChild(dot);
+                trailDots.push({
+                    element: dot,
+                    x: 0,
+                    y: 0
+                });
+            }
+            
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            {{document}}->listen({
+                mousemove: function(event) {
+                    mouseX = event.clientX;
+                    mouseY = event.clientY;
+                }
+            });
+            
+            // 更新拖尾位置
+            function updateTrail() {
+                for (let i = trailDots.length - 1; i > 0; i--) {
+                    trailDots[i].x = trailDots[i - 1].x;
+                    trailDots[i].y = trailDots[i - 1].y;
+                    
+                    trailDots[i].element.style.left = trailDots[i].x + 'px';
+                    trailDots[i].element.style.top = trailDots[i].y + 'px';
+                }
+                
+                // 更新第一个点位置
+                trailDots[0].x = mouseX;
+                trailDots[0].y = mouseY;
+                trailDots[0].element.style.left = mouseX + 'px';
+                trailDots[0].element.style.top = mouseY + 'px';
+                
+                requestAnimationFrame(updateTrail);
+            }
+            
+            updateTrail();
+            console.log('🌟 珂朵莉鼠标拖尾效果已激活');
+        }
+    }
+}
+
+// 8. 视差滚动背景组件
+[Custom] @Element ChthollyParallax
+{
+    div
+    {
+        class: "chtholly-parallax";
+        
+        style
+        {
+            .chtholly-parallax
+            {
+                position: relative;
+                height: 100vh;
+                overflow: hidden;
+                background: linear-gradient(135deg, ChthollyColorPalette(backgroundColor), ChthollyColorPalette(primaryColor));
+            }
+            
+            .parallax-layer
+            {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 120%;
+                height: 120%;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                will-change: transform;
+            }
+            
+            .parallax-layer-1
+            {
+                background: radial-gradient(circle at 20% 80%, ChthollyColorPalette(primaryColor) 0%, transparent 50%),
+                           radial-gradient(circle at 80% 20%, ChthollyColorPalette(accentColor) 0%, transparent 50%);
+                animation: float1 20s ease-in-out infinite;
+            }
+            
+            .parallax-layer-2
+            {
+                background: radial-gradient(circle at 60% 60%, ChthollyColorPalette(secondaryColor) 0%, transparent 40%);
+                animation: float2 15s ease-in-out infinite reverse;
+            }
+            
+            .parallax-layer-3
+            {
+                background: radial-gradient(circle at 40% 30%, ChthollyColorPalette(shadowColor) 0%, transparent 30%);
+                animation: float3 25s ease-in-out infinite;
+            }
+            
+            @keyframes float1
+            {
+                0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); }
+                33% { transform: translateX(-10px) translateY(-10px) rotate(1deg); }
+                66% { transform: translateX(10px) translateY(5px) rotate(-1deg); }
+            }
+            
+            @keyframes float2
+            {
+                0%, 100% { transform: translateX(0) translateY(0) scale(1); }
+                50% { transform: translateX(15px) translateY(-15px) scale(1.1); }
+            }
+            
+            @keyframes float3
+            {
+                0%, 100% { transform: translateX(0) translateY(0) rotate(0deg) scale(1); }
+                25% { transform: translateX(-20px) translateY(10px) rotate(0.5deg) scale(1.05); }
+                75% { transform: translateX(20px) translateY(-10px) rotate(-0.5deg) scale(0.95); }
+            }
+            
+            .parallax-content
+            {
+                position: relative;
+                z-index: 10;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                text-align: center;
+                color: ChthollyColorPalette(textColor);
+                font-family: ChthollyFonts(headingFont);
+            }
+            
+            .parallax-title
+            {
+                font-size: 3em;
+                font-weight: 700;
+                text-shadow: 2px 2px 8px ChthollyColorPalette(shadowColor);
+                animation: titlePulse 3s ease-in-out infinite;
+            }
+            
+            @keyframes titlePulse
+            {
+                0%, 100% { transform: scale(1); opacity: 0.9; }
+                50% { transform: scale(1.05); opacity: 1; }
+            }
+        }
+        
+        script
+        {
+            let scrollY = 0;
+            
+            {{window}}->listen({
+                scroll: function() {
+                    scrollY = window.pageYOffset;
+                    
+                    const layers = {{.parallax-layer}};
+                    layers.forEach((layer, index) => {
+                        const speed = (index + 1) * 0.5;
+                        const yPos = -(scrollY * speed);
+                        layer.style.transform = `translateY(${yPos}px)`;
+                    });
+                }
+            });
+            
+            console.log('🌄 珂朵莉视差滚动背景已激活');
+        }
+    }
+    
+    div
+    {
+        class: "parallax-layer parallax-layer-1";
+    }
+    
+    div
+    {
+        class: "parallax-layer parallax-layer-2";
+    }
+    
+    div
+    {
+        class: "parallax-layer parallax-layer-3";
+    }
+    
+    div
+    {
+        class: "parallax-content";
+        
+        div
+        {
+            class: "parallax-title";
+            text { 珂朵莉的梦幻世界 }
+        }
+    }
+}
+
+// 9. 右键菜单栏组件
+[Custom] @Element ChthollyContextMenu
+{
+    div
+    {
+        class: "chtholly-context-menu";
+        
+        style
+        {
+            .chtholly-context-menu
+            {
+                position: fixed;
+                background: ChthollyColorPalette(backgroundColor);
+                border: 2px solid ChthollyColorPalette(primaryColor);
+                border-radius: 12px;
+                box-shadow: 0 8px 24px ChthollyColorPalette(shadowColor);
+                padding: ChthollySpacing(sm);
+                z-index: 10000;
+                opacity: 0;
+                visibility: hidden;
+                transform: scale(0.8);
+                transition: all 0.2s ease;
+                font-family: ChthollyFonts(primaryFont);
+                min-width: 200px;
+            }
+            
+            .chtholly-context-menu.show
+            {
+                opacity: 1;
+                visibility: visible;
+                transform: scale(1);
+            }
+            
+            .context-menu-item
+            {
+                padding: ChthollySpacing(sm) ChthollySpacing(md);
+                cursor: pointer;
+                border-radius: 8px;
+                transition: all 0.2s ease;
+                color: ChthollyColorPalette(textColor);
+                display: flex;
+                align-items: center;
+                gap: ChthollySpacing(sm);
+            }
+            
+            .context-menu-item:hover
+            {
+                background: ChthollyColorPalette(primaryColor);
+                color: white;
+                transform: translateX(4px);
+            }
+            
+            .context-menu-item.disabled
+            {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+            
+            .context-menu-item.disabled:hover
+            {
+                background: none;
+                color: ChthollyColorPalette(textColor);
+                transform: none;
+            }
+            
+            .menu-icon
+            {
+                width: 16px;
+                height: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.9em;
+            }
+            
+            .menu-separator
+            {
+                height: 1px;
+                background: ChthollyColorPalette(borderColor);
+                margin: ChthollySpacing(xs) 0;
+            }
+        }
+        
+        script
+        {
+            let currentMenu = null;
+            
+            {{document}}->listen({
+                contextmenu: function(event) {
+                    event.preventDefault();
+                    
+                    const menu = {{.chtholly-context-menu}};
+                    if (menu) {
+                        // 显示菜单
+                        menu.style.left = event.clientX + 'px';
+                        menu.style.top = event.clientY + 'px';
+                        menu.classList.add('show');
+                        currentMenu = menu;
+                        
+                        // 确保菜单在视口内
+                        const rect = menu.getBoundingClientRect();
+                        if (rect.right > window.innerWidth) {
+                            menu.style.left = (event.clientX - rect.width) + 'px';
+                        }
+                        if (rect.bottom > window.innerHeight) {
+                            menu.style.top = (event.clientY - rect.height) + 'px';
+                        }
+                        
+                        console.log('📋 珂朵莉右键菜单显示');
+                    }
+                },
+                
+                click: function(event) {
+                    // 点击其他地方隐藏菜单
+                    if (currentMenu && !currentMenu.contains(event.target)) {
+                        currentMenu.classList.remove('show');
+                        currentMenu = null;
+                    }
+                }
+            });
+            
+            // 菜单项点击事件
+            {{.chtholly-context-menu}}->delegate({
+                target: {{.context-menu-item}},
+                
+                click: function(event) {
+                    if (!this.classList.contains('disabled')) {
+                        const action = this.dataset.action;
+                        console.log('📋 珂朵莉菜单项点击:', action);
+                        
+                        // 执行对应操作
+                        switch(action) {
+                            case 'copy':
+                                navigator.clipboard.writeText('珂朵莉的温暖问候');
+                                break;
+                            case 'paste':
+                                // 粘贴操作
+                                break;
+                            case 'refresh':
+                                location.reload();
+                                break;
+                        }
+                        
+                        // 隐藏菜单
+                        if (currentMenu) {
+                            currentMenu.classList.remove('show');
+                            currentMenu = null;
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "context-menu-item";
+        data-action: "copy";
+        
+        div
+        {
+            class: "menu-icon";
+            text { 📋 }
+        }
+        
+        text { 复制珂朵莉的祝福 }
+    }
+    
+    div
+    {
+        class: "context-menu-item";
+        data-action: "paste";
+        
+        div
+        {
+            class: "menu-icon";
+            text { 📄 }
+        }
+        
+        text { 粘贴温暖回忆 }
+    }
+    
+    div
+    {
+        class: "menu-separator";
+    }
+    
+    div
+    {
+        class: "context-menu-item";
+        data-action: "refresh";
+        
+        div
+        {
+            class: "menu-icon";
+            text { 🔄 }
+        }
+        
+        text { 刷新珂朵莉的世界 }
+    }
+    
+    div
+    {
+        class: "context-menu-item disabled";
+        data-action: "disabled";
+        
+        div
+        {
+            class: "menu-icon";
+            text { ⚠️ }
+        }
+        
+        text { 暂时不可用 }
+    }
+}
+
+// 10. 进度条组件
+[Custom] @Element ChthollyProgressBar
+{
+    div
+    {
+        class: "chtholly-progress";
+        
+        style
+        {
+            .chtholly-progress
+            {
+                width: 100%;
+                background: ChthollyColorPalette(backgroundColor);
+                border: 2px solid ChthollyColorPalette(borderColor);
+                border-radius: 25px;
+                padding: 4px;
+                box-shadow: inset 0 2px 4px ChthollyColorPalette(shadowColor);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .progress-bar
+            {
+                height: 20px;
+                background: linear-gradient(45deg, ChthollyColorPalette(primaryColor), ChthollyColorPalette(accentColor));
+                border-radius: 20px;
+                transition: width 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 2px 8px ChthollyColorPalette(accentColor);
+            }
+            
+            .progress-bar::before
+            {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                animation: shine 2s infinite;
+            }
+            
+            @keyframes shine
+            {
+                0% { left: -100%; }
+                100% { left: 100%; }
+            }
+            
+            .progress-text
+            {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: ChthollyColorPalette(textColor);
+                font-weight: 600;
+                font-size: 0.9em;
+                text-shadow: 1px 1px 2px white;
+                font-family: ChthollyFonts(primaryFont);
+                z-index: 2;
+            }
+            
+            .progress-label
+            {
+                margin-bottom: ChthollySpacing(sm);
+                color: ChthollyColorPalette(textColor);
+                font-weight: 600;
+                font-family: ChthollyFonts(primaryFont);
+            }
+        }
+        
+        script
+        {
+            let currentProgress = 0;
+            const targetProgress = parseInt(this.dataset.progress) || 0;
+            const progressBar = {{.progress-bar}};
+            const progressText = {{.progress-text}};
+            
+            // 动画更新进度
+            function animateProgress() {
+                if (currentProgress < targetProgress) {
+                    currentProgress += 1;
+                    progressBar.style.width = currentProgress + '%';
+                    progressText.textContent = currentProgress + '%';
+                    
+                    // 根据进度改变颜色
+                    if (currentProgress >= 80) {
+                        progressBar.style.background = `linear-gradient(45deg, ${ChthollyColorPalette(accentColor)}, #32CD32)`;
+                    } else if (currentProgress >= 50) {
+                        progressBar.style.background = `linear-gradient(45deg, ${ChthollyColorPalette(primaryColor)}, ${ChthollyColorPalette(accentColor)})`;
+                    }
+                    
+                    setTimeout(animateProgress, 50);
+                } else {
+                    console.log('📊 珂朵莉进度条动画完成:', currentProgress + '%');
+                }
+            }
+            
+            // 开始动画
+            setTimeout(animateProgress, 500);
+            
+            // 点击重新开始动画
+            {{.chtholly-progress}}->listen({
+                click: function() {
+                    currentProgress = 0;
+                    progressBar.style.width = '0%';
+                    progressText.textContent = '0%';
+                    setTimeout(animateProgress, 100);
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "progress-label";
+        text { 珂朵莉的成长进度 }
+    }
+    
+    div
+    {
+        class: "progress-bar";
+        style: "width: 0%;";
+    }
+    
+    div
+    {
+        class: "progress-text";
+        text { 0% }
+    }
+}

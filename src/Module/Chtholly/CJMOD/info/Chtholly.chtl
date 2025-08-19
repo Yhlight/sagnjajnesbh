@@ -1,0 +1,21 @@
+// ========================================
+// 珂朵莉CJMOD信息文件 - 严格按照CHTL语法文档
+// ========================================
+
+[Info]
+{
+    name = "ChthollyJSExtensions";
+    version = "1.0.0";
+    description = "珂朵莉CHTL JS语法扩展 - printMylove和iNeverAway";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "js-extension";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export]
+{
+    [Origin] @CJmod printMylove, iNeverAway;
+}
