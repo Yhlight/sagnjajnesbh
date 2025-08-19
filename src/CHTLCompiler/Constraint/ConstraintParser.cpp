@@ -10,6 +10,11 @@ ConstraintParser::ConstraintParser() {
     constraintManager_ = g_constraintManager;
 }
 
+ConstraintParser::ConstraintParser(CHTLContext& context, StateManager& stateManager) 
+    : context_(&context), stateManager_(&stateManager) {
+    constraintManager_ = g_constraintManager;
+}
+
 ConstraintParser::~ConstraintParser() = default;
 
 std::unique_ptr<ast::ConstraintNode> ConstraintParser::parseConstraint(const std::vector<Token>& tokens, size_t& position) {

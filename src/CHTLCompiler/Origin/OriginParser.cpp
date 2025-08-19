@@ -9,6 +9,11 @@ OriginParser::OriginParser() {
     originManager_ = g_originManager;
 }
 
+OriginParser::OriginParser(CHTLContext& context, StateManager& stateManager) 
+    : context_(&context), stateManager_(&stateManager) {
+    originManager_ = g_originManager;
+}
+
 OriginParser::~OriginParser() = default;
 
 std::unique_ptr<ast::OriginNode> OriginParser::parseOrigin(const std::vector<Token>& tokens, size_t& position) {

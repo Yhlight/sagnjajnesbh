@@ -114,10 +114,24 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.s: cmake
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.s
 
+CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
+CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o: /workspace/src/CHTLJSCompiler/Module/CJmodManager.cpp
+CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o -c /workspace/src/CHTLJSCompiler/Module/CJmodManager.cpp
+
+CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLJSCompiler/Module/CJmodManager.cpp > CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.i
+
+CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/Module/CJmodManager.cpp -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.s
+
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o: /workspace/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o -c /workspace/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.i: cmake_force
@@ -131,7 +145,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.s
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o: /workspace/src/CHTLJSCompiler/Core/JSEventRegistry.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o -c /workspace/src/CHTLJSCompiler/Core/JSEventRegistry.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.i: cmake_force
@@ -145,7 +159,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.s: cm
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.i: cmake_force
@@ -159,7 +173,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProc
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.i: cmake_force
@@ -173,7 +187,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.i: cmake_force
@@ -187,7 +201,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.i: cmake_force
@@ -201,7 +215,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcesso
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o: /workspace/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o -c /workspace/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.i: cmake_force
@@ -215,7 +229,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o: /workspace/src/CHTLJSCompiler/Parser/SelectorDetector.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o -c /workspace/src/CHTLJSCompiler/Parser/SelectorDetector.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.i: cmake_force
@@ -229,7 +243,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.s:
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.i: cmake_force
@@ -243,7 +257,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.i: cmake_force
@@ -257,7 +271,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProce
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.i: cmake_force
@@ -271,7 +285,7 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o: /workspace/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o -c /workspace/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp
 
 CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.i: cmake_force
@@ -287,6 +301,7 @@ chtljs_compiler_OBJECTS = \
 "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/CHTLJSCompilerCore.cpp.o" \
 "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSLexer.cpp.o" \
 "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.o" \
+"CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o" \
 "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o" \
 "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o" \
 "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o" \
@@ -306,6 +321,7 @@ chtljs_compiler_EXTERNAL_OBJECTS =
 libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/CHTLJSCompilerCore.cpp.o
 libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSLexer.cpp.o
 libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.o
+libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o
 libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o
 libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o
 libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o
@@ -320,7 +336,7 @@ libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Virtual/
 libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o
 libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/build.make
 libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX static library libchtljs_compiler.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX static library libchtljs_compiler.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/chtljs_compiler.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtljs_compiler.dir/link.txt --verbose=$(VERBOSE)
 

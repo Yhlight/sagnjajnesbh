@@ -17,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSLexer.cpp.o.d"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.o"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.o.d"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o.d"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o.d"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o"

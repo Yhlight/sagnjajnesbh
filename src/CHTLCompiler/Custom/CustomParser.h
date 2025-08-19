@@ -186,6 +186,14 @@ private:
     bool isValidIdentifier(const std::string& identifier);
     bool isValidCustomType(const std::string& type);
     bool isValidPositionSpecifier(const std::string& position);
+
+private:
+    // 上下文和状态管理
+    CHTLContext* context_ = nullptr;
+    StateManager* stateManager_ = nullptr;
+    
+    // 错误收集
+    std::vector<std::string> errors_;
 };
 
 } // namespace custom_system

@@ -128,6 +128,7 @@ add_library(chtljs_compiler STATIC
     src/CHTLJSCompiler/Core/CHTLJSCompilerCore.cpp
     src/CHTLJSCompiler/Lexer/CHTLJSLexer.cpp
     src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp
+    src/CHTLJSCompiler/Module/CJmodManager.cpp
     src/CHTLJSCompiler/Core/AutoAdditionManager.cpp
     src/CHTLJSCompiler/Core/JSEventRegistry.cpp
     src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp

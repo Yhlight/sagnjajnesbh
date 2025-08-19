@@ -1041,6 +1041,30 @@ src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.s
 .PHONY : src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.s
 
+src/CHTLJSCompiler/Module/CJmodManager.o: src/CHTLJSCompiler/Module/CJmodManager.cpp.o
+.PHONY : src/CHTLJSCompiler/Module/CJmodManager.o
+
+# target to build an object file
+src/CHTLJSCompiler/Module/CJmodManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.o
+.PHONY : src/CHTLJSCompiler/Module/CJmodManager.cpp.o
+
+src/CHTLJSCompiler/Module/CJmodManager.i: src/CHTLJSCompiler/Module/CJmodManager.cpp.i
+.PHONY : src/CHTLJSCompiler/Module/CJmodManager.i
+
+# target to preprocess a source file
+src/CHTLJSCompiler/Module/CJmodManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.i
+.PHONY : src/CHTLJSCompiler/Module/CJmodManager.cpp.i
+
+src/CHTLJSCompiler/Module/CJmodManager.s: src/CHTLJSCompiler/Module/CJmodManager.cpp.s
+.PHONY : src/CHTLJSCompiler/Module/CJmodManager.s
+
+# target to generate assembly for a file
+src/CHTLJSCompiler/Module/CJmodManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_compiler.dir/build.make CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/CJmodManager.cpp.s
+.PHONY : src/CHTLJSCompiler/Module/CJmodManager.cpp.s
+
 src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.o: src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o
 .PHONY : src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.o
 
@@ -1921,6 +1945,9 @@ help:
 	@echo "... src/CHTLJSCompiler/Lexer/CHTLJSToken.o"
 	@echo "... src/CHTLJSCompiler/Lexer/CHTLJSToken.i"
 	@echo "... src/CHTLJSCompiler/Lexer/CHTLJSToken.s"
+	@echo "... src/CHTLJSCompiler/Module/CJmodManager.o"
+	@echo "... src/CHTLJSCompiler/Module/CJmodManager.i"
+	@echo "... src/CHTLJSCompiler/Module/CJmodManager.s"
 	@echo "... src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.o"
 	@echo "... src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.i"
 	@echo "... src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.s"

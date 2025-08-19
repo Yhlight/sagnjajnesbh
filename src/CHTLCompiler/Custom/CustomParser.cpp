@@ -9,6 +9,11 @@ CustomParser::CustomParser() {
     customManager_ = g_customManager;
 }
 
+CustomParser::CustomParser(CHTLContext& context, StateManager& stateManager) 
+    : context_(&context), stateManager_(&stateManager) {
+    customManager_ = g_customManager;
+}
+
 CustomParser::~CustomParser() = default;
 
 std::unique_ptr<ast::CustomNode> CustomParser::parseCustom(const std::vector<Token>& tokens, size_t& position) {
