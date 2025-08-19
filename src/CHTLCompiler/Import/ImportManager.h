@@ -1,7 +1,7 @@
 #pragma once
 #include "../State/CHTLGlobalMap.h"
 #include "../../Common/ModulePathManager.h"
-#include "../../Common/Core/ErrorHandler.h"
+#include "../../Common/Core/UnifiedErrorHandler.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -121,7 +121,7 @@ public:
     /**
      * 设置错误处理器
      */
-    void setErrorHandler(std::shared_ptr<common::ErrorHandler> errorHandler);
+    void setErrorHandler(std::shared_ptr<chtl::common::ErrorHandler> errorHandler);
     
     // === 导入语句解析 - 严格按照CHTL语法文档 ===
     
@@ -275,7 +275,7 @@ public:
 
 private:
     std::shared_ptr<common::ModulePathManager> pathManager_;
-    std::shared_ptr<common::ErrorHandler> errorHandler_;
+    std::shared_ptr<chtl::common::ErrorHandler> errorHandler_;
     
     std::vector<EnhancedImportStatement> imports_;
     std::vector<EnhancedImportStatement> resolvedImports_;

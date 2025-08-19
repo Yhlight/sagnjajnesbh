@@ -28,7 +28,7 @@ add_library(chtl_common STATIC
 add_library(chtl_compiler STATIC
     src/CHTLCompiler/CHTLCompilerCore.cpp
     # 逐步添加管理器，先修复基础问题
-    # src/CHTLCompiler/Import/ImportManager.cpp
+    src/CHTLCompiler/Import/ImportManager.cpp
     src/CHTLCompiler/Namespace/NamespaceManager.cpp  
     # src/CHTLCompiler/Module/CmodManager.cpp
     src/CHTLCompiler/State/CHTLState.cpp

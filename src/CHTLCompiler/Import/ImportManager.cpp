@@ -129,7 +129,7 @@ void ImportManager::setModulePathManager(std::shared_ptr<common::ModulePathManag
     pathManager_ = pathManager;
 }
 
-void ImportManager::setErrorHandler(std::shared_ptr<common::ErrorHandler> errorHandler) {
+void ImportManager::setErrorHandler(std::shared_ptr<chtl::common::ErrorHandler> errorHandler) {
     errorHandler_ = errorHandler;
 }
 
@@ -858,8 +858,8 @@ void ImportManager::reportError(const std::string& message, int line, int column
     errors_.push_back(error);
     
     if (errorHandler_) {
-        errorHandler_->reportError(common::ErrorLevel::ERROR, 
-                                 common::ErrorType::IMPORT, 
+        errorHandler_->reportError(chtl::common::ErrorLevel::ERROR, 
+                                 chtl::common::ErrorType::IMPORT_ERROR, 
                                  error, "", line, column);
     }
 }

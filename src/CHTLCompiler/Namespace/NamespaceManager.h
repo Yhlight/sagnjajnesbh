@@ -1,6 +1,6 @@
 #pragma once
 #include "../State/CHTLGlobalMap.h"
-#include "../../Common/Core/ErrorHandler.h"
+#include "../../Common/Core/UnifiedErrorHandler.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -162,7 +162,7 @@ public:
     /**
      * 设置错误处理器
      */
-    void setErrorHandler(std::shared_ptr<chtl::shared::core::ErrorHandler> errorHandler);
+    void setErrorHandler(std::shared_ptr<chtl::common::ErrorHandler> errorHandler);
     
     /**
      * 设置合并策略
@@ -343,7 +343,7 @@ public:
 
 private:
     std::unique_ptr<NamespaceNode> rootNamespace_;
-    std::shared_ptr<chtl::shared::core::ErrorHandler> errorHandler_;
+    std::shared_ptr<chtl::common::ErrorHandler> errorHandler_;
     
     MergeStrategy mergeStrategy_ = MergeStrategy::AUTOMATIC;
     ConflictDetectionStrategy conflictStrategy_ = ConflictDetectionStrategy::TYPE_AWARE;

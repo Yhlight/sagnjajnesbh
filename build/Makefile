@@ -270,6 +270,30 @@ src/CHTLCompiler/CHTLCompilerCore.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.s
 .PHONY : src/CHTLCompiler/CHTLCompilerCore.cpp.s
 
+src/CHTLCompiler/Import/ImportManager.o: src/CHTLCompiler/Import/ImportManager.cpp.o
+.PHONY : src/CHTLCompiler/Import/ImportManager.o
+
+# target to build an object file
+src/CHTLCompiler/Import/ImportManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.o
+.PHONY : src/CHTLCompiler/Import/ImportManager.cpp.o
+
+src/CHTLCompiler/Import/ImportManager.i: src/CHTLCompiler/Import/ImportManager.cpp.i
+.PHONY : src/CHTLCompiler/Import/ImportManager.i
+
+# target to preprocess a source file
+src/CHTLCompiler/Import/ImportManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.i
+.PHONY : src/CHTLCompiler/Import/ImportManager.cpp.i
+
+src/CHTLCompiler/Import/ImportManager.s: src/CHTLCompiler/Import/ImportManager.cpp.s
+.PHONY : src/CHTLCompiler/Import/ImportManager.s
+
+# target to generate assembly for a file
+src/CHTLCompiler/Import/ImportManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/Import/ImportManager.cpp.s
+.PHONY : src/CHTLCompiler/Import/ImportManager.cpp.s
+
 src/CHTLCompiler/Namespace/NamespaceManager.o: src/CHTLCompiler/Namespace/NamespaceManager.cpp.o
 .PHONY : src/CHTLCompiler/Namespace/NamespaceManager.o
 
@@ -843,6 +867,9 @@ help:
 	@echo "... src/CHTLCompiler/CHTLCompilerCore.o"
 	@echo "... src/CHTLCompiler/CHTLCompilerCore.i"
 	@echo "... src/CHTLCompiler/CHTLCompilerCore.s"
+	@echo "... src/CHTLCompiler/Import/ImportManager.o"
+	@echo "... src/CHTLCompiler/Import/ImportManager.i"
+	@echo "... src/CHTLCompiler/Import/ImportManager.s"
 	@echo "... src/CHTLCompiler/Namespace/NamespaceManager.o"
 	@echo "... src/CHTLCompiler/Namespace/NamespaceManager.i"
 	@echo "... src/CHTLCompiler/Namespace/NamespaceManager.s"
