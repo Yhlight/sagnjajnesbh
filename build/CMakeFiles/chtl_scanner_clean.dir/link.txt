@@ -1,2 +1,0 @@
-/usr/bin/ar qc lib/libchtl_scanner_clean.a CMakeFiles/chtl_scanner_clean.dir/src/Scanner/CHTLUnifiedScanner.cpp.o
-/usr/bin/ranlib lib/libchtl_scanner_clean.a

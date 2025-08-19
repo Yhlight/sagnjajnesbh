@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_chtl_syntax_compliance.dir/link.d CMakeFiles/test_chtl_syntax_compliance.dir/test/test_chtl_syntax_compliance.cpp.o -o bin/test_chtl_syntax_compliance  lib/libchtl_scanner.a lib/libchtl_common.a lib/libchtljs_compiler.a lib/libchtl_common.a

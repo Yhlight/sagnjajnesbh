@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchtl_managers.a CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Template/TemplateManager.cpp.o CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Custom/CustomManager.cpp.o CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Origin/OriginManager.cpp.o CMakeFiles/chtl_managers.dir/src/CHTLCompiler/Constraint/ConstraintManager.cpp.o
+/usr/bin/ranlib libchtl_managers.a

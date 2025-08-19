@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchtl_context.a CMakeFiles/chtl_context.dir/src/CHTLCompiler/Parser/CHTLContext.cpp.o CMakeFiles/chtl_context.dir/src/CHTLCompiler/State/CHTLState.cpp.o
+/usr/bin/ranlib libchtl_context.a
