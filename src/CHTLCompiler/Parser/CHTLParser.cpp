@@ -125,7 +125,12 @@ std::unique_ptr<ast::ASTNode> CHTLParser::parseTemplate() {
         std::cout << "使用专门的模板解析器解析模板定义" << std::endl;
     }
     
-    // 委托给专门的模板解析器
+    // 委托给专门的模板解析器 - 基于现有架构添加安全检查
+    if (!template_parser_) {
+        addError("模板解析器未初始化");
+        return nullptr;
+    }
+    
     return template_parser_->parseTemplate(tokens_, current_token_);
 }
 
@@ -134,7 +139,12 @@ std::unique_ptr<ast::ASTNode> CHTLParser::parseCustom() {
         std::cout << "使用专门的自定义解析器解析自定义定义" << std::endl;
     }
     
-    // 委托给专门的自定义解析器
+    // 委托给专门的自定义解析器 - 基于现有架构添加安全检查
+    if (!custom_parser_) {
+        addError("自定义解析器未初始化");
+        return nullptr;
+    }
+    
     return custom_parser_->parseCustom(tokens_, current_token_);
 }
 
@@ -143,7 +153,12 @@ std::unique_ptr<ast::ASTNode> CHTLParser::parseOrigin() {
         std::cout << "使用专门的原始嵌入解析器解析原始嵌入" << std::endl;
     }
     
-    // 委托给专门的原始嵌入解析器
+    // 委托给专门的原始嵌入解析器 - 基于现有架构添加安全检查
+    if (!origin_parser_) {
+        addError("原始嵌入解析器未初始化");
+        return nullptr;
+    }
+    
     return origin_parser_->parseOrigin(tokens_, current_token_);
 }
 
@@ -185,7 +200,12 @@ std::unique_ptr<ast::ASTNode> CHTLParser::parseConstraint() {
         std::cout << "使用专门的约束解析器解析约束" << std::endl;
     }
     
-    // 委托给专门的约束解析器
+    // 委托给专门的约束解析器 - 基于现有架构添加安全检查
+    if (!constraint_parser_) {
+        addError("约束解析器未初始化");
+        return nullptr;
+    }
+    
     return constraint_parser_->parseConstraint(tokens_, current_token_);
 }
 
@@ -431,7 +451,9 @@ void CHTLParser::synchronize() {
 }
 
 bool CHTLParser::isAtEnd() const {
-    return current_token_ >= tokens_.size() || getCurrentToken().type == TokenType::EOF_TOKEN;
+    // 避免递归调用getCurrentToken，直接检查
+    return current_token_ >= tokens_.size() || 
+           (current_token_ < tokens_.size() && tokens_[current_token_].type == TokenType::EOF_TOKEN);
 }
 
 std::string CHTLParser::tokenTypeToString(TokenType type) const {
