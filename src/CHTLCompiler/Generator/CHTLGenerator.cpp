@@ -29,45 +29,14 @@ std::string HTMLGenerator::generateHTML(ast::ASTNode* root) {
 }
 
 void HTMLGenerator::visit(ast::ProgramNode& node) {
-    // 智能检测：如果包含html元素，则不添加外层结构
-    bool hasHtmlRoot = false;
-    for (size_t i = 0; i < node.getChildCount(); ++i) {
-        if (auto child = node.getChild(i)) {
-            if (auto elem = dynamic_cast<ast::ElementNode*>(child)) {
-                if (elem->tag == "html") {
-                    hasHtmlRoot = true;
-                    break;
-                }
-            }
-        }
-    }
+    // CHTL纯粹转换：输入什么CHTL代码，就输出对应的HTML
+    // 不自动添加文档结构，支持SPA、组件、片段等任意HTML内容
     
-    if (!hasHtmlRoot) {
-        // 没有html根元素，生成完整HTML文档结构
-        writeLine("<!DOCTYPE html>");
-        writeLine("<html>");
-        writeLine("<head>");
-        indent_level_++;
-        writeLine("<meta charset=\"UTF-8\">");
-        writeLine("<title>CHTL Generated Page</title>");
-        indent_level_--;
-        writeLine("</head>");
-        writeLine("<body>");
-        indent_level_++;
-    }
-    
-    // 访问所有子节点
+    // 直接访问所有子节点，按CHTL代码原样转换
     for (size_t i = 0; i < node.getChildCount(); ++i) {
         if (auto child = node.getChild(i)) {
             child->accept(*this);
         }
-    }
-    
-    if (!hasHtmlRoot) {
-        // 关闭完整HTML文档结构
-        indent_level_--;
-        writeLine("</body>");
-        writeLine("</html>");
     }
 }
 
