@@ -1,0 +1,110 @@
+// 测试HTML生成的简单CHTL文件
+
+[Template] @Style ButtonStyle {
+    background: "#3b82f6";
+    color: "white";
+    padding: "10px 20px";
+    border: "none";
+    border-radius: "6px";
+    cursor: "pointer";
+}
+
+[Template] @Var Colors {
+    primary: "#3b82f6";
+    secondary: "#64748b";
+}
+
+html {
+    head {
+        title { text { CHTL HTML生成测试 } }
+    }
+    
+    body {
+        div {
+            class: container;
+            
+            style {
+                .container {
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    font-family: Arial, sans-serif;
+                }
+            }
+            
+            h1 {
+                text { CHTL语法测试页面 }
+                style {
+                    color: Colors(primary);
+                    text-align: center;
+                    margin-bottom: 30px;
+                }
+            }
+            
+            div {
+                class: card;
+                
+                style {
+                    .card {
+                        background: white;
+                        border: "1px solid #e5e7eb";
+                        border-radius: 8px;
+                        padding: 20px;
+                        margin: 20px 0;
+                        box-shadow: "0 2px 4px rgba(0,0,0,0.1)";
+                    }
+                }
+                
+                h2 {
+                    text { 功能测试 }
+                    style {
+                        color: Colors(secondary);
+                        margin-bottom: 15px;
+                    }
+                }
+                
+                p {
+                    text { 这是一个测试CHTL语法功能的页面 }
+                    style {
+                        line-height: 1.6;
+                        margin-bottom: 15px;
+                    }
+                }
+                
+                button {
+                    style {
+                        @Style ButtonStyle;
+                    }
+                    
+                    script {
+                        {{&}}->listen({
+                            click: function() {
+                                alert('CHTL JS功能正常工作！');
+                                console.log('按钮点击事件触发');
+                            }
+                        });
+                    }
+                    
+                    text { 点击测试 }
+                }
+            }
+            
+            div {
+                style {
+                    .auto-style {
+                        background: "#f0f9ff";
+                        padding: 15px;
+                        border-radius: 6px;
+                        margin: 20px 0;
+                    }
+                    
+                    &:hover {
+                        background: "#dbeafe";
+                    }
+                }
+                
+                text { 自动化样式测试 }
+            }
+        }
+    }
+}
