@@ -170,19 +170,19 @@ CompilerDispatcher::CompilationResult CompilerDispatcher::compileFragment(const 
     } else if (compilerName == "chtljs") {
         // CHTL JS编译器处理 - 集成新的处理器
         
-        // 首先使用新的CHTL JS处理器处理
-        std::string processedCode = chtljs::CHTLJSProcessor::processCHTLJS(fragment.content);
+        // TODO: 实现CHTL JS处理器
+        std::string processedCode = fragment.content; // 暂时直接使用原始代码
         
-        // 然后使用CJMOD管理器处理
-        auto& cjmodManager = your_cjmod_design::CJMODManager::getInstance();
-        processedCode = cjmodManager.processCHTLJS(processedCode);
+        // TODO: 实现CJMOD管理器处理
+        // auto& cjmodManager = your_cjmod_design::CJMODManager::getInstance();
+        // processedCode = cjmodManager.processCHTLJS(processedCode);
         
-        // 最后使用原有编译器编译
-        auto chtljsResult = chtljsCompiler_->compileCode(processedCode);
-        result.compiledCode = chtljsResult.compiledCode;
-        result.success = chtljsResult.success;
-        result.errors = chtljsResult.errors;
-        result.warnings = chtljsResult.warnings;
+        // 使用CHTL JS编译器编译
+        std::string compiledJS = chtljsCompiler_->compile(processedCode);
+        result.compiledCode = compiledJS;
+        result.success = !compiledJS.empty();
+        // result.errors = {}; // TODO: 实现错误收集
+        // result.warnings = {}; // TODO: 实现警告收集
         
     } else if (compilerName == "css") {
         // CSS编译器处理

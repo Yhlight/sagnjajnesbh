@@ -199,9 +199,8 @@ CMakeFiles/chtl_main.dir/src/main_complete.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/basic_file.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++io.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/fstream.tcc \
-  /workspace/src/CHTLCompiler/CHTLCompilerCore.h \
-  /workspace/src/CHTLCompiler/Lexer/CHTLLexer.h \
-  /workspace/src/CHTLCompiler/Lexer/CHTLToken.h \
+  /workspace/src/Dispatcher/CompilerDispatcher.h \
+  /workspace/src/Dispatcher/../Scanner/CHTLUnifiedScanner.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
@@ -215,6 +214,8 @@ CMakeFiles/chtl_main.dir/src/main_complete.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/memory \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tempbuf.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_raw_storage_iter.h \
@@ -234,68 +235,93 @@ CMakeFiles/chtl_main.dir/src/main_complete.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/auto_ptr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_memory_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/execution_defs.h \
-  /workspace/src/CHTLCompiler/Parser/CHTLParser.h \
-  /workspace/src/CHTLCompiler/Parser/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/CHTLContext.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/CHTLCompilerCore.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Lexer/CHTLLexer.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Lexer/CHTLToken.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/CHTLParser.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Lexer/CHTLToken.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/CHTLContext.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
-  /workspace/src/CHTLCompiler/Parser/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Parser/../AST/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/../State/CHTLState.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../AST/CHTLNodes.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../AST/../Lexer/CHTLToken.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../State/CHTLState.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/algorithm \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_algo.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/algorithmfwd.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_heap.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uniform_int_dist.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_algorithm_defs.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/TemplateParser.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/../Parser/CHTLContext.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/../State/CHTLState.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/TemplateManager.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/CustomParser.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/../Parser/CHTLContext.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/../State/CHTLState.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/CustomManager.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/../Template/TemplateManager.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/OriginParser.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/../Parser/CHTLContext.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/../State/CHTLState.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/OriginManager.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/../../Common/AST/OriginEmbedDetector.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Template/TemplateParser.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Template/../Parser/CHTLContext.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Template/../State/CHTLState.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Template/../AST/CHTLNodes.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Template/../Lexer/CHTLToken.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Template/TemplateManager.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Custom/CustomParser.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Custom/../Parser/CHTLContext.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Custom/../State/CHTLState.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Custom/../AST/CHTLNodes.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Custom/../Lexer/CHTLToken.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Custom/CustomManager.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Custom/../Template/TemplateManager.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Origin/OriginParser.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Origin/../Parser/CHTLContext.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Origin/../State/CHTLState.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Origin/../AST/CHTLNodes.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Origin/../Lexer/CHTLToken.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Origin/OriginManager.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Origin/../../Common/AST/OriginEmbedDetector.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/utility \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_relops.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/ConstraintParser.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/../Parser/CHTLContext.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/../State/CHTLState.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/ConstraintManager.h \
-  /workspace/src/CHTLCompiler/Generator/CHTLGenerator.h \
-  /workspace/src/CHTLCompiler/Generator/../AST/CHTLNodes.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Constraint/ConstraintParser.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Constraint/../Parser/CHTLContext.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Constraint/../State/CHTLState.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Constraint/../AST/CHTLNodes.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Constraint/../Lexer/CHTLToken.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Parser/../Constraint/ConstraintManager.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Generator/CHTLGenerator.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Generator/../AST/CHTLNodes.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
-  /workspace/src/CHTLCompiler/State/CHTLGlobalMap.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/State/CHTLGlobalMap.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/functional \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/array \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/compare \
-  /workspace/src/CHTLCompiler/../Common/SimpleZip/SimpleZip.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/../Common/SimpleZip/SimpleZip.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cstdint \
-  /workspace/src/CHTLJSCompiler/Core/CHTLJSCompilerCore.h \
-  /workspace/src/CHTLJSCompiler/Core/../Lexer/CHTLJSLexer.h \
-  /workspace/src/CHTLJSCompiler/Core/../Lexer/CHTLJSToken.h \
-  /workspace/src/CHTLJSCompiler/Core/../AST/VirtualObjectManager.h \
-  /workspace/src/CHTLJSCompiler/Core/../Module/CJmodManager.h \
-  /workspace/src/CHTLJSCompiler/Core/../Module/../../Common/SimpleZip/SimpleZip.h \
-  /workspace/src/Scanner/CHTLUnifiedScanner.h
+  /workspace/src/Dispatcher/../CHTLJSCompiler/Core/CHTLJSCompilerCore.h \
+  /workspace/src/Dispatcher/../CHTLJSCompiler/Core/../Lexer/CHTLJSLexer.h \
+  /workspace/src/Dispatcher/../CHTLJSCompiler/Core/../Lexer/CHTLJSToken.h \
+  /workspace/src/Dispatcher/../CHTLJSCompiler/Core/../AST/VirtualObjectManager.h \
+  /workspace/src/Dispatcher/../CHTLJSCompiler/Core/../Module/CJmodManager.h \
+  /workspace/src/Dispatcher/../CHTLJSCompiler/Core/../Module/../../Common/SimpleZip/SimpleZip.h \
+  /workspace/src/Dispatcher/../CHTLJSCompiler/Module/YourCJMODDesign.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Module/ModulePackager.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/filesystem \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/fs_fwd.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/chrono.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ratio \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/limits \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ctime \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/fs_path.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/locale \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_facets_nonio.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/time_members.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/messages_members.h \
+  /usr/include/libintl.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_facets_nonio.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_conv.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iomanip \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/quoted_string.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/codecvt \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/fs_dir.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/fs_ops.h \
+  /workspace/src/Dispatcher/../CHTLCompiler/Module/../../Common/SimpleZip/SimpleZip.h \
+  /workspace/src/Dispatcher/../CSSCompiler/CSSCompilerCore.h \
+  /workspace/src/Dispatcher/../JavaScriptCompiler/JavaScriptCompilerCore.h
