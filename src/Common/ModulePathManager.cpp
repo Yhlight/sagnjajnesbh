@@ -1,6 +1,7 @@
 #include "ModulePathManager.h"
 #include <algorithm>
 #include <iostream>
+#include <cctype>
 
 namespace chtl {
 namespace common {
@@ -76,13 +77,23 @@ bool ModulePathManager::moduleExists(const std::string& name, ModuleType type) c
 }
 
 std::vector<std::string> ModulePathManager::getFolderVariants(ModuleType type) {
-    std::string baseType = typeToString(type);
-    std::transform(baseType.begin(), baseType.end(), baseType.begin(), ::tolower);
+    std::string baseType = typeToString(type);  // CMOD, CJMOD
+    
+    // 生成所有三种格式
+    std::string lowercase = baseType;
+    std::transform(lowercase.begin(), lowercase.end(), lowercase.begin(), ::tolower);  // cmod, cjmod
+    
+    std::string titlecase = lowercase;
+    if (!titlecase.empty()) {
+        titlecase[0] = std::toupper(titlecase[0]);  // Cmod, Cjmod
+    }
+    
+    std::string uppercase = baseType;  // CMOD, CJMOD (保持原样)
     
     return {
-        baseType,                                    // cmod, cjmod
-        baseType.substr(0, 1) + baseType.substr(1), // Cmod, Cjmod (首字母大写)
-        baseType                                     // CMOD, CJMOD (全大写)
+        lowercase,   // cmod, cjmod
+        titlecase,   // Cmod, Cjmod
+        uppercase    // CMOD, CJMOD
     };
 }
 

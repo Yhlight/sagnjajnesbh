@@ -1,0 +1,25 @@
+// 测试模块 - Cmod格式
+[Custom] @Element TestButton {
+    button {
+        style {
+            .test-btn {
+                background: #3b82f6;
+                color: white;
+                padding: 12px 24px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+            }
+        }
+        
+        script {
+            {{&}}->listen({
+                click: function() {
+                    console.log('Cmod格式按钮被点击');
+                }
+            });
+        }
+        
+        text { Cmod测试按钮 }
+    }
+}

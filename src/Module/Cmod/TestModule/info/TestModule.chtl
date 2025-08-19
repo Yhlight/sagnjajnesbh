@@ -1,0 +1,12 @@
+[Info] {
+    name = "TestModule";
+    version = "1.0.0";
+    description = "Cmod格式测试模块";
+    author = "CHTL Team";
+    license = "MIT";
+    category = "test";
+}
+
+[Export] {
+    [Custom] @Element TestButton;
+}
