@@ -172,6 +172,10 @@ private:
     std::vector<std::string> supportedEvents_;
     
     void initializeSupportedEvents();
+    
+    // 缺失的方法声明
+    std::vector<std::pair<std::string, std::string>> parseEventKeyValuePairs(const std::string& delegateObject);
+    std::vector<std::string> splitDelegateEntries(const std::string& content);
 };
 
 } // namespace chtljs

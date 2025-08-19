@@ -45,7 +45,7 @@ add_library(chtljs_compiler STATIC
     src/CHTLJSCompiler/Module/YourCJMODDesign.cpp
     # 现有的完整处理器
     src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp
-    # src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp  # 头文件声明不匹配
+    src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp
     # src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp
     # src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp
     # src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp
