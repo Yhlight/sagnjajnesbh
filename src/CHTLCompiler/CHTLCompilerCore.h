@@ -3,7 +3,7 @@
 #include "Parser/CHTLParser.h"
 #include "Generator/CHTLGenerator.h"
 #include "State/CHTLGlobalMap.h"
-#include "Module/CmodManager.h"
+// #include "Module/CmodManager.h"  // 暂时注释，修复依赖问题
 #include "../Common/SimpleZip/SimpleZip.h"
 #include <string>
 #include <memory>
@@ -32,7 +32,7 @@ public:
     CHTLLexer& getLexer() { return *lexer_; }
     parser::CHTLParser& getParser() { return *parser_; }
     generator::HTMLGenerator& getGenerator() { return *generator_; }
-    CmodManager& getModuleManager() { return *module_manager_; }
+    // module::CmodManager& getModuleManager() { return *module_manager_; }  // 暂时注释
     
     // 配置管理
     void setDebugMode(bool debug) { debug_mode_ = debug; }
@@ -47,7 +47,7 @@ private:
     std::unique_ptr<CHTLLexer> lexer_;
     std::unique_ptr<parser::CHTLParser> parser_;
     std::unique_ptr<generator::HTMLGenerator> generator_;
-    std::unique_ptr<CmodManager> module_manager_;
+    // std::unique_ptr<module::CmodManager> module_manager_;  // 暂时注释
     
     bool debug_mode_;
     std::vector<std::string> errors_;

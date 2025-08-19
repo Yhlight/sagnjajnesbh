@@ -304,7 +304,7 @@ NamespaceManager::NamespaceManager() {
 
 NamespaceManager::~NamespaceManager() = default;
 
-void NamespaceManager::setErrorHandler(std::shared_ptr<common::ErrorHandler> errorHandler) {
+void NamespaceManager::setErrorHandler(std::shared_ptr<chtl::shared::core::ErrorHandler> errorHandler) {
     errorHandler_ = errorHandler;
 }
 
@@ -731,14 +731,14 @@ bool NamespaceManager::isConflictResolvable(const NamespaceConflict& conflict) c
 
 void NamespaceManager::reportError(const std::string& message, const std::string& context) {
     if (errorHandler_) {
-        errorHandler_->reportError(common::ErrorLevel::ERROR, common::ErrorType::NAMESPACE, 
+        errorHandler_->reportError(chtl::shared::core::ErrorLevel::ERROR, chtl::shared::core::ErrorType::NAMESPACE_ERROR, 
                                  message, context);
     }
 }
 
 void NamespaceManager::reportWarning(const std::string& message, const std::string& context) {
     if (errorHandler_) {
-        errorHandler_->reportError(common::ErrorLevel::WARNING, common::ErrorType::NAMESPACE, 
+        errorHandler_->reportError(chtl::shared::core::ErrorLevel::WARNING, chtl::shared::core::ErrorType::NAMESPACE_ERROR, 
                                  message, context);
     }
 }

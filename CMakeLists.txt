@@ -27,16 +27,12 @@ add_library(chtl_common STATIC
 # CHTL编译器（包含已有的完整功能）
 add_library(chtl_compiler STATIC
     src/CHTLCompiler/CHTLCompilerCore.cpp
-    src/CHTLCompiler/Import/ImportManager.cpp
-    src/CHTLCompiler/Namespace/NamespaceManager.cpp
-    src/CHTLCompiler/Module/CmodManager.cpp
+    # 逐步添加管理器，先修复基础问题
+    # src/CHTLCompiler/Import/ImportManager.cpp
+    src/CHTLCompiler/Namespace/NamespaceManager.cpp  
+    # src/CHTLCompiler/Module/CmodManager.cpp
     src/CHTLCompiler/State/CHTLState.cpp
     src/CHTLCompiler/State/CHTLGlobalMap.cpp
-    # 完整的管理器实现 - 按语法文档要求
-    src/CHTLCompiler/Template/TemplateManager.cpp
-    src/CHTLCompiler/Custom/CustomManager.cpp
-    src/CHTLCompiler/Origin/OriginManager.cpp
-    src/CHTLCompiler/Constraint/ConstraintManager.cpp
 )
 target_link_libraries(chtl_compiler chtl_common)
 

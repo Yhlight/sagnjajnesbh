@@ -94,7 +94,7 @@ public:
     /**
      * 设置错误处理器
      */
-    void setErrorHandler(std::shared_ptr<common::ErrorHandler> errorHandler);
+    void setErrorHandler(std::shared_ptr<chtl::common::ErrorHandler> errorHandler);
     
     // === CMOD验证 ===
     
@@ -276,7 +276,7 @@ public:
     void clearErrors() { errors_.clear(); }
 
 private:
-    std::shared_ptr<common::ErrorHandler> errorHandler_;
+    std::shared_ptr<chtl::common::ErrorHandler> errorHandler_;
     std::vector<std::string> errors_;
     
     // 私有辅助方法

@@ -19,7 +19,7 @@ bool CHTLCompilerCore::initialize() {
         lexer_ = std::make_unique<CHTLLexer>();
         parser_ = std::make_unique<parser::CHTLParser>();
         generator_ = std::make_unique<generator::HTMLGenerator>();
-        module_manager_ = std::make_unique<CmodManager>();
+        // module_manager_ = std::make_unique<module::CmodManager>();  // 暂时注释
         
         if (debug_mode_) {
             std::cout << "CHTL编译器核心初始化成功" << std::endl;
@@ -36,7 +36,7 @@ void CHTLCompilerCore::cleanup() {
     lexer_.reset();
     parser_.reset();
     generator_.reset();
-    module_manager_.reset();
+    // module_manager_.reset();  // 暂时注释
     
     if (debug_mode_) {
         std::cout << "CHTL编译器核心已清理" << std::endl;

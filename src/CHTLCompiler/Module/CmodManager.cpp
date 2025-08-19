@@ -73,7 +73,7 @@ CmodManager::CmodManager() = default;
 
 CmodManager::~CmodManager() = default;
 
-void CmodManager::setErrorHandler(std::shared_ptr<common::ErrorHandler> errorHandler) {
+void CmodManager::setErrorHandler(std::shared_ptr<chtl::common::ErrorHandler> errorHandler) {
     errorHandler_ = errorHandler;
 }
 
@@ -597,14 +597,14 @@ void CmodManager::reportError(const std::string& message, const std::string& con
     errors_.push_back(fullMessage);
     
     if (errorHandler_) {
-        errorHandler_->reportError(common::ErrorLevel::ERROR, common::ErrorType::MODULE, 
+        errorHandler_->reportError(chtl::common::ErrorLevel::ERROR, chtl::common::ErrorType::MODULE, 
                                  fullMessage, context);
     }
 }
 
 void CmodManager::reportWarning(const std::string& message, const std::string& context) {
     if (errorHandler_) {
-        errorHandler_->reportError(common::ErrorLevel::WARNING, common::ErrorType::MODULE, 
+        errorHandler_->reportError(chtl::common::ErrorLevel::WARNING, chtl::common::ErrorType::MODULE, 
                                  message, context);
     }
 }

@@ -1,8 +1,6 @@
-CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o: \
-  /workspace/src/CHTLCompiler/CHTLCompilerCore.cpp \
-  /workspace/src/CHTLCompiler/CHTLCompilerCore.h \
-  /workspace/src/CHTLCompiler/Lexer/CHTLLexer.h \
-  /workspace/src/CHTLCompiler/Lexer/CHTLToken.h \
+CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/State/CHTLState.cpp.o: \
+  /workspace/src/CHTLCompiler/State/CHTLState.cpp \
+  /workspace/src/CHTLCompiler/State/CHTLState.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/string \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++config.h \
@@ -145,11 +143,12 @@ CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator_args.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tuple \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
@@ -158,6 +157,10 @@ CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/memory \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tempbuf.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_raw_storage_iter.h \
@@ -207,57 +210,14 @@ CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/auto_ptr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_memory_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/execution_defs.h \
-  /workspace/src/CHTLCompiler/Parser/CHTLParser.h \
-  /workspace/src/CHTLCompiler/Parser/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/CHTLContext.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
-  /workspace/src/CHTLCompiler/Parser/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Parser/../AST/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/../State/CHTLState.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/algorithm \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_algo.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/algorithmfwd.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_heap.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uniform_int_dist.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_algorithm_defs.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/TemplateParser.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/../Parser/CHTLContext.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/../State/CHTLState.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/../Template/TemplateManager.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/CustomParser.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/../Parser/CHTLContext.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/../State/CHTLState.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/CustomManager.h \
-  /workspace/src/CHTLCompiler/Parser/../Custom/../Template/TemplateManager.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/OriginParser.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/../Parser/CHTLContext.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/../State/CHTLState.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/OriginManager.h \
-  /workspace/src/CHTLCompiler/Parser/../Origin/../../Common/AST/OriginEmbedDetector.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/utility \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_relops.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/ConstraintParser.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/../Parser/CHTLContext.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/../State/CHTLState.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/../AST/CHTLNodes.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/../Lexer/CHTLToken.h \
-  /workspace/src/CHTLCompiler/Parser/../Constraint/ConstraintManager.h \
-  /workspace/src/CHTLCompiler/Generator/CHTLGenerator.h \
-  /workspace/src/CHTLCompiler/Generator/../AST/CHTLNodes.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/istream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ios \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/ios_base.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_classes.h \
@@ -277,20 +237,8 @@ CMakeFiles/chtl_compiler.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/ctype_inline.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_facets.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/basic_ios.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/ostream.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/istream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/istream.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
-  /workspace/src/CHTLCompiler/State/CHTLGlobalMap.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/functional \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/array \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/compare \
-  /workspace/src/CHTLCompiler/../Common/SimpleZip/SimpleZip.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/fstream \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/codecvt.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/basic_file.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++io.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/fstream.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cstdint \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc

@@ -455,7 +455,7 @@ bool ImportManager::parseImportStatement(const std::string& statement, EnhancedI
 
 // === 路径处理规则 - 严格按照您的要求 ===
 
-PathResolutionRule EnhancedImportManager::resolveStaticFileImportPath(const EnhancedImportStatement& import) {
+PathResolutionRule ImportManager::resolveStaticFileImportPath(const EnhancedImportStatement& import) {
     PathResolutionRule rule;
     rule.originalPath = import.sourcePath;
     
@@ -510,7 +510,7 @@ PathResolutionRule EnhancedImportManager::resolveStaticFileImportPath(const Enha
     return rule;
 }
 
-PathResolutionRule EnhancedImportManager::resolveChtlImportPath(const EnhancedImportStatement& import) {
+PathResolutionRule ImportManager::resolveChtlImportPath(const EnhancedImportStatement& import) {
     PathResolutionRule rule;
     rule.originalPath = import.sourcePath;
     
@@ -559,7 +559,7 @@ PathResolutionRule EnhancedImportManager::resolveChtlImportPath(const EnhancedIm
     return rule;
 }
 
-PathResolutionRule EnhancedImportManager::resolveCJmodImportPath(const EnhancedImportStatement& import) {
+PathResolutionRule ImportManager::resolveCJmodImportPath(const EnhancedImportStatement& import) {
     PathResolutionRule rule;
     rule.originalPath = import.sourcePath;
     
@@ -602,7 +602,7 @@ PathResolutionRule EnhancedImportManager::resolveCJmodImportPath(const EnhancedI
     return rule;
 }
 
-std::vector<PathResolutionRule> EnhancedImportManager::resolveWildcardImport(const EnhancedImportStatement& import) {
+std::vector<PathResolutionRule> ImportManager::resolveWildcardImport(const EnhancedImportStatement& import) {
     std::vector<PathResolutionRule> rules;
     
     std::vector<std::string> expandedPaths = expandWildcardPath(import.sourcePath);
@@ -618,7 +618,7 @@ std::vector<PathResolutionRule> EnhancedImportManager::resolveWildcardImport(con
     return rules;
 }
 
-PathResolutionRule EnhancedImportManager::resolveSubmoduleImport(const EnhancedImportStatement& import) {
+PathResolutionRule ImportManager::resolveSubmoduleImport(const EnhancedImportStatement& import) {
     PathResolutionRule rule;
     rule.originalPath = import.sourcePath;
     rule.isSubmodule = true;
@@ -744,11 +744,11 @@ bool ImportManager::resolveAllDependencies() {
     return errors_.empty();
 }
 
-const std::vector<EnhancedImportStatement>& EnhancedImportManager::getResolvedImports() const {
+const std::vector<EnhancedImportStatement>& ImportManager::getResolvedImports() const {
     return resolvedImports_;
 }
 
-std::vector<std::string> EnhancedImportManager::getErrors() const {
+std::vector<std::string> ImportManager::getErrors() const {
     return errors_;
 }
 
@@ -788,13 +788,13 @@ bool ImportManager::isValidPath(const std::string& path) {
     return !path.empty() && path.find("..") == std::string::npos;
 }
 
-std::string EnhancedImportManager::normalizePathSeparators(const std::string& path) {
+std::string ImportManager::normalizePathSeparators(const std::string& path) {
     std::string result = path;
     std::replace(result.begin(), result.end(), '.', '/');
     return result;
 }
 
-std::vector<std::string> EnhancedImportManager::expandWildcardPath(const std::string& wildcardPath) {
+std::vector<std::string> ImportManager::expandWildcardPath(const std::string& wildcardPath) {
     std::vector<std::string> result;
     
     // 简化实现 - 实际应该使用文件系统API进行通配符展开
@@ -827,7 +827,7 @@ bool ImportManager::fileExists(const std::string& path) {
     return std::filesystem::exists(path);
 }
 
-std::string EnhancedImportManager::getCurrentDirectory() {
+std::string ImportManager::getCurrentDirectory() {
     try {
         return std::filesystem::current_path().string();
     } catch (const std::filesystem::filesystem_error&) {
@@ -835,12 +835,12 @@ std::string EnhancedImportManager::getCurrentDirectory() {
     }
 }
 
-std::string EnhancedImportManager::getOfficialModuleDirectory() {
+std::string ImportManager::getOfficialModuleDirectory() {
     // 官方模块目录（源码编译后生成的module文件夹）
     return getCurrentDirectory() + "/module";
 }
 
-std::string EnhancedImportManager::getCurrentModuleDirectory() {
+std::string ImportManager::getCurrentModuleDirectory() {
     // 当前目录的module文件夹
     return getCurrentDirectory() + "/module";
 }
