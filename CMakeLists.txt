@@ -31,6 +31,10 @@ add_library(chtl_compiler STATIC
     src/CHTLCompiler/Import/ImportManager.cpp
     src/CHTLCompiler/Namespace/NamespaceManager.cpp  
     src/CHTLCompiler/Module/CmodManager.cpp
+    src/CHTLCompiler/Template/TemplateManager.cpp
+    src/CHTLCompiler/Custom/CustomManager.cpp
+    src/CHTLCompiler/Origin/OriginManager.cpp
+    src/CHTLCompiler/Constraint/ConstraintManager.cpp
     src/CHTLCompiler/State/CHTLState.cpp
     src/CHTLCompiler/State/CHTLGlobalMap.cpp
 )
