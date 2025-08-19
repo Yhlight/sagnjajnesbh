@@ -1,6 +1,7 @@
 #include "ConstraintParser.h"
 #include "../Lexer/CHTLToken.h"
 #include <iostream>
+#include <sstream>
 
 namespace chtl {
 namespace constraint_system {
@@ -11,7 +12,7 @@ ConstraintParser::ConstraintParser() {
 
 ConstraintParser::~ConstraintParser() = default;
 
-std::unique_ptr<ast::ConstraintNode> ConstraintParser::parseConstraintStatement(const std::vector<Token>& tokens, size_t& position) {
+std::unique_ptr<ast::ConstraintNode> ConstraintParser::parseConstraint(const std::vector<Token>& tokens, size_t& position) {
     // 按语法文档解析约束语句：except span, [Custom] @Element Box;
     
     if (!expectKeyword(tokens, position, "except")) {
@@ -391,9 +392,9 @@ bool ConstraintParser::applyConstraintToContext(const std::string& constraintSta
 
 // === 基础方法 ===
 
-bool ConstraintParser::expectToken(const std::vector<Token>& tokens, size_t& position, TokenType expectedType) {
+bool ConstraintParser::expectToken(const std::vector<Token>& tokens, size_t& position, TokenType expectedType, const std::string& errorMessage) {
     if (position >= tokens.size() || tokens[position].type != expectedType) {
-        return false;
+        if (!errorMessage.empty()) addError(errorMessage); return false;
     }
     position++;
     return true;
@@ -409,11 +410,11 @@ bool ConstraintParser::expectKeyword(const std::vector<Token>& tokens, size_t& p
     return true;
 }
 
-Token ConstraintParser::getCurrentToken(const std::vector<Token>& tokens, size_t position) {
+Token ConstraintParser::getCurrentToken(const std::vector<Token>& tokens, size_t position) const {
     if (position < tokens.size()) {
         return tokens[position];
     }
-    return Token{TokenType::END_OF_FILE, "", 0, 0};
+    return Token(TokenType::END_OF_FILE, "", TokenPosition(0, 0));
 }
 
 void ConstraintParser::addError(const std::string& message) {

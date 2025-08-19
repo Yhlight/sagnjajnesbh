@@ -54,10 +54,24 @@ public:
                                std::vector<std::string>& targets);
     bool parseConstraintTarget(const std::vector<Token>& tokens, size_t& position,
                               std::string& target, ConstraintTargetType& targetType);
+    std::string parseConstraintTarget(const std::vector<Token>& tokens, size_t& position);
     
     // 约束类型识别
     ConstraintTargetType identifyTargetType(const std::string& target);
     ConstraintType determineConstraintType(const std::vector<std::string>& targets);
+    
+    // 目标解析辅助方法
+    std::string parseTypedConstraintTarget(const std::vector<Token>& tokens, size_t& position);
+    std::string parseTypeIdentifierTarget(const std::vector<Token>& tokens, size_t& position);
+    std::string parseElementTarget(const std::vector<Token>& tokens, size_t& position);
+    ConstraintTargetType parseTargetType(const std::string& target);
+    bool isHTMLElement(const std::string& element);
+    bool validateConstraintSyntax(const std::string& constraintStatement);
+    std::vector<std::string> extractConstraintTargets(const std::string& constraintStatement);
+    std::string getCurrentScope();
+    void enterConstraintScope(const std::string& scope);
+    void exitConstraintScope(const std::string& scope);
+    bool applyConstraintToContext(const std::string& constraintStatement, const std::string& contextScope);
     
     // 约束验证
     bool validateConstraintInScope(const std::string& scope, const std::vector<std::string>& targets);
@@ -108,6 +122,7 @@ private:
     // Token处理
     bool expectToken(const std::vector<Token>& tokens, size_t& position, TokenType expectedType,
                     const std::string& errorMessage = "");
+    bool expectKeyword(const std::vector<Token>& tokens, size_t& position, const std::string& keyword);
     bool consumeToken(const std::vector<Token>& tokens, size_t& position, TokenType tokenType);
     Token getCurrentToken(const std::vector<Token>& tokens, size_t position) const;
     Token peekToken(const std::vector<Token>& tokens, size_t position, size_t offset = 1) const;
@@ -124,7 +139,6 @@ private:
     // 工具方法
     std::string extractStringLiteral(const std::string& tokenValue);
     bool isValidIdentifier(const std::string& identifier);
-    bool isHTMLElement(const std::string& element);
     bool isCustomType(const std::string& type);
     bool isTemplateType(const std::string& type);
 };
