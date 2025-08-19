@@ -29,32 +29,17 @@ std::string HTMLGenerator::generateHTML(ast::ASTNode* root) {
 }
 
 void HTMLGenerator::visit(ast::ProgramNode& node) {
-    // 智能检测：如果包含html元素，则不添加外层结构
-    bool hasHtmlRoot = false;
-    for (size_t i = 0; i < node.getChildCount(); ++i) {
-        if (auto child = node.getChild(i)) {
-            if (auto elem = dynamic_cast<ast::ElementNode*>(child)) {
-                if (elem->tag == "html") {
-                    hasHtmlRoot = true;
-                    break;
-                }
-            }
-        }
-    }
+    writeLine("<!DOCTYPE html>");
+    writeLine("<html>");
+    writeLine("<head>");
+    indent_level_++;
+    writeLine("<meta charset=\"UTF-8\">");
+    writeLine("<title>CHTL Generated Page</title>");
+    indent_level_--;
+    writeLine("</head>");
+    writeLine("<body>");
     
-    if (!hasHtmlRoot) {
-        // 没有html根元素，生成完整HTML文档结构
-        writeLine("<!DOCTYPE html>");
-        writeLine("<html>");
-        writeLine("<head>");
-        indent_level_++;
-        writeLine("<meta charset=\"UTF-8\">");
-        writeLine("<title>CHTL Generated Page</title>");
-        indent_level_--;
-        writeLine("</head>");
-        writeLine("<body>");
-        indent_level_++;
-    }
+    indent_level_++;
     
     // 访问所有子节点
     for (size_t i = 0; i < node.getChildCount(); ++i) {
@@ -63,12 +48,9 @@ void HTMLGenerator::visit(ast::ProgramNode& node) {
         }
     }
     
-    if (!hasHtmlRoot) {
-        // 关闭完整HTML文档结构
-        indent_level_--;
-        writeLine("</body>");
-        writeLine("</html>");
-    }
+    indent_level_--;
+    writeLine("</body>");
+    writeLine("</html>");
 }
 
 void HTMLGenerator::visit(ast::TemplateNode& node) {
