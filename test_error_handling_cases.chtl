@@ -1,0 +1,789 @@
+// ============================================================================
+// CHTL错误处理测试用例
+// 测试各种错误情况和边界条件
+// ============================================================================
+
+// ============================================================================
+// 1. 语法错误测试用例（这些应该被编译器捕获）
+// ============================================================================
+
+// 注意：以下是错误语法示例，用于测试编译器的错误检测能力
+// 在实际编译时这些应该产生错误
+
+/*
+// 错误案例1：不正确的注释嵌套
+/* 外层注释
+   // 内层单行注释
+   /* 内层多行注释 - 这会导致注释嵌套错误 */
+*/
+*/
+
+/*
+// 错误案例2：CE对等式混用错误
+div {
+    class: container = main;  // 错误：不能同时使用冒号和等号
+}
+*/
+
+/*
+// 错误案例3：不支持的链式操作
+[Template] @Style MultiInherit {
+    inherit @Style Style1, @Style Style2;  // 错误：inherit不支持链式
+}
+*/
+
+/*
+// 错误案例4：except约束错误类型
+div {
+    except @JavaScript, @Style;  // 错误：except只能约束@Html, [Custom], [Template]
+}
+*/
+
+/*
+// 错误案例5：delete使用CSS选择器
+[Custom] @Element WrongDelete from Base {
+    delete .class-name;  // 错误：delete不支持CSS选择器
+    delete #id-name;     // 错误：delete不支持CSS选择器
+}
+*/
+
+// ============================================================================
+// 2. 正确的边界条件测试
+// ============================================================================
+
+// 2.1 最小化语法测试
+html {
+    body {
+        text { 最简单的CHTL文档 }
+    }
+}
+
+// 2.2 复杂嵌套测试
+[Template] @Style ComplexNesting {
+    container: {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        
+        // 深层嵌套样式
+        header: {
+            background: linear-gradient(
+                135deg, 
+                #667eea 0%, 
+                #764ba2 100%
+            );
+            padding: 40px 0;
+            
+            nav: {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                
+                ul: {
+                    display: flex;
+                    list-style: none;
+                    
+                    li: {
+                        margin: 0 15px;
+                        
+                        a: {
+                            color: white;
+                            text-decoration: none;
+                            transition: color 0.3s ease;
+                        }
+                        
+                        "a:hover": {
+                            color: #fbbf24;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 2.3 极长字符串测试
+[Template] @Var LongStrings {
+    veryLongString: "这是一个非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常非常长的字符串，用于测试CHTL编译器对长字符串的处理能力";
+    
+    multiLineString: "这是一个
+    跨越多行的
+    字符串内容
+    用于测试多行处理";
+}
+
+// 2.4 特殊字符测试
+[Template] @Var SpecialChars {
+    unicodeString: "测试Unicode字符：🎯🚀💎✨🎉";
+    specialSymbols: "特殊符号：@#$%^&*()_+-=[]{}|;':\",./<>?";
+    chineseChars: "中文字符测试：你好世界！";
+    mixedContent: "Mixed内容：Hello世界123！@#$%";
+}
+
+// ============================================================================
+// 3. 边界条件和压力测试
+// ============================================================================
+
+// 3.1 深度嵌套测试
+[Template] @Element DeepNesting {
+    div {
+        div {
+            div {
+                div {
+                    div {
+                        div {
+                            div {
+                                div {
+                                    div {
+                                        div {
+                                            text { 10层深度嵌套测试 }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 3.2 大量属性测试
+[Template] @Element ManyAttributes {
+    div {
+        id: test-element;
+        class: primary secondary tertiary;
+        data-value: 123;
+        data-string: "test";
+        data-boolean: true;
+        data-array: "[1,2,3]";
+        data-object: '{"key":"value"}';
+        aria-label: "测试元素";
+        aria-describedby: "description";
+        aria-expanded: false;
+        role: button;
+        tabindex: 0;
+        title: "悬停提示";
+        lang: zh-CN;
+        dir: ltr;
+        contenteditable: false;
+        draggable: true;
+        hidden: false;
+        spellcheck: true;
+        translate: yes;
+        
+        text { 大量属性测试元素 }
+    }
+}
+
+// 3.3 复杂CHTL JS测试
+[Template] @Element ComplexCHTLJS {
+    div {
+        class: complex-js-test;
+        
+        script {
+            // 复杂的虚对象定义
+            vir ComplexManager = listen({
+                init: function() {
+                    console.log('复杂管理器初始化');
+                    this.state = {
+                        active: false,
+                        count: 0,
+                        items: []
+                    };
+                },
+                
+                addItem: function(item) {
+                    this.state.items.push(item);
+                    this.updateDisplay();
+                },
+                
+                removeItem: function(index) {
+                    this.state.items.splice(index, 1);
+                    this.updateDisplay();
+                },
+                
+                updateDisplay: function() {
+                    {{.item-count}}->textContent = this.state.items.length;
+                    {{.item-list}}->innerHTML = this.state.items
+                        .map((item, index) => `<li data-index="${index}">${item}</li>`)
+                        .join('');
+                },
+                
+                handleComplexEvent: function(eventType, data) {
+                    switch(eventType) {
+                        case 'add':
+                            this.addItem(data.item);
+                            break;
+                        case 'remove':
+                            this.removeItem(data.index);
+                            break;
+                        case 'clear':
+                            this.state.items = [];
+                            this.updateDisplay();
+                            break;
+                        default:
+                            console.warn('未知事件类型:', eventType);
+                    }
+                }
+            });
+            
+            // 复杂的事件委托
+            {{&}}->delegate({
+                target: {{.action-button}},
+                click: function(e) {
+                    const action = {{this}}->getAttribute('data-action');
+                    const value = {{this}}->getAttribute('data-value');
+                    
+                    ComplexManager->handleComplexEvent(action, {
+                        item: value,
+                        index: parseInt(value) || 0
+                    });
+                }
+            });
+            
+            // 复杂的动画序列
+            {{.animate-trigger}}->listen({
+                click: function() {
+                    const targets = [
+                        {{.anim-1}},
+                        {{.anim-2}},
+                        {{.anim-3}}
+                    ];
+                    
+                    targets.forEach((target, index) => {
+                        setTimeout(() => {
+                            animate({
+                                target: target,
+                                duration: 500,
+                                delay: index * 100,
+                                easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                                properties: {
+                                    opacity: [0, 1],
+                                    transform: [
+                                        'translateY(30px) scale(0.8)', 
+                                        'translateY(0) scale(1)'
+                                    ]
+                                },
+                                onComplete: function() {
+                                    if (index === targets.length - 1) {
+                                        console.log('所有动画完成');
+                                    }
+                                }
+                            });
+                        }, index * 50);
+                    });
+                }
+            });
+            
+            // 初始化复杂管理器
+            ComplexManager->init();
+        }
+        
+        style {
+            .complex-js-test {
+                border: 3px solid #8b5cf6;
+                padding: 30px;
+                margin: 30px 0;
+                border-radius: 12px;
+                background: #faf5ff;
+            }
+            
+            .action-button {
+                background: #8b5cf6;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                margin: 5px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            
+            .action-button:hover {
+                background: #7c3aed;
+            }
+            
+            .anim-1, .anim-2, .anim-3 {
+                width: 50px;
+                height: 50px;
+                background: #8b5cf6;
+                margin: 10px;
+                border-radius: 50%;
+                display: inline-block;
+                opacity: 0;
+            }
+        }
+        
+        h3 {
+            text { 复杂CHTL JS测试 }
+            color: #7c3aed;
+            margin-bottom: 20px;
+        }
+        
+        div {
+            class: controls;
+            
+            button {
+                class: action-button;
+                data-action: add;
+                data-value: "新项目";
+                text { 添加项目 }
+            }
+            
+            button {
+                class: action-button;
+                data-action: remove;
+                data-value: "0";
+                text { 删除项目 }
+            }
+            
+            button {
+                class: action-button;
+                data-action: clear;
+                text { 清空列表 }
+            }
+            
+            button {
+                class: action-button animate-trigger;
+                text { 触发动画 }
+            }
+        }
+        
+        div {
+            class: display;
+            
+            p {
+                text { 项目数量: }
+                span {
+                    class: item-count;
+                    text { 0 }
+                }
+            }
+            
+            ul {
+                class: item-list;
+                // 动态内容将通过JavaScript填充
+            }
+        }
+        
+        div {
+            class: animation-targets;
+            
+            div { class: anim-1; }
+            div { class: anim-2; }
+            div { class: anim-3; }
+        }
+    }
+}
+
+// ============================================================================
+// 4. 模块系统结构测试（概念演示）
+// ============================================================================
+
+// 4.1 模块信息格式测试
+[Info] {
+    name = "ComprehensiveTestModule";
+    version = "1.0.0";
+    description = "CHTL语法全面测试模块";
+    author = "CHTL测试团队";
+    license = "MIT";
+    category = "测试组件";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+    keywords = "test,syntax,comprehensive";
+    homepage = "https://chtl-lang.org";
+    repository = "https://github.com/chtl-lang/chtl";
+}
+
+// 4.2 导出声明测试
+[Export] {
+    [Custom] @Element InteractiveCard;
+    [Template] @Style ButtonBase;
+    [Template] @Style ButtonPrimary;
+    [Custom] @Var AppTheme;
+    [Template] @Var ThemeColors;
+    [Origin] @Html CustomHeader;
+    [Origin] @JavaScript Utils;
+    [Custom] @Style FlexLayout;
+}
+
+// ============================================================================
+// 5. 高级特性综合测试
+// ============================================================================
+
+// 5.1 全缀名访问测试（概念演示）
+/*
+// 这些在实际使用中需要对应的命名空间存在
+div {
+    text { 全缀名访问测试 }
+    
+    // 访问特定命名空间的元素
+    UI::Components::Button
+    Theme::Dark::Colors
+    
+    // 访问特定模块的组件
+    Chtholly::ChthollyButton
+    Yuigahama::YuigahamaCard
+}
+*/
+
+// 5.2 条件编译测试（概念演示）
+[Configuration] @Config TestEnvironment {
+    ENABLE_DEBUG = true;
+    ENABLE_ANALYTICS = false;
+    API_ENDPOINT = "https://test-api.example.com";
+}
+
+// 5.3 复杂模板组合测试
+[Template] @Element ComplexComponent {
+    article {
+        class: complex-component;
+        
+        style {
+            .complex-component {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                margin: 20px 0;
+            }
+            
+            .component-header {
+                background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+                color: white;
+                padding: 20px;
+            }
+            
+            .component-body {
+                padding: 30px;
+            }
+            
+            .component-footer {
+                background: #f8fafc;
+                padding: 15px 30px;
+                border-top: 1px solid #e2e8f0;
+            }
+        }
+        
+        header {
+            class: component-header;
+            
+            h2 {
+                text { 复杂组件标题 }
+                margin: 0;
+                font-size: 1.5rem;
+            }
+            
+            p {
+                text { 组件描述信息 }
+                margin: 5px 0 0 0;
+                opacity: 0.9;
+            }
+        }
+        
+        div {
+            class: component-body;
+            
+            // 嵌套使用其他模板
+            Card
+            
+            div {
+                class: nested-content;
+                
+                style {
+                    .nested-content {
+                        background: #f0f9ff;
+                        padding: 20px;
+                        border-radius: 8px;
+                        margin: 20px 0;
+                    }
+                }
+                
+                h3 {
+                    text { 嵌套内容区域 }
+                    color: #1e40af;
+                }
+                
+                p {
+                    text { 这里展示了复杂的模板嵌套和组合使用 }
+                }
+                
+                // 测试复杂的CHTL JS
+                button {
+                    class: complex-interaction-btn;
+                    
+                    style {
+                        .complex-interaction-btn {
+                            background: #059669;
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            margin-top: 15px;
+                        }
+                    }
+                    
+                    script {
+                        vir InteractionManager = listen({
+                            setup: function() {
+                                this.clickCount = 0;
+                                this.startTime = Date.now();
+                            },
+                            
+                            handleClick: function() {
+                                this.clickCount++;
+                                const elapsed = Date.now() - this.startTime;
+                                
+                                {{&}}->textContent = `点击了${this.clickCount}次 (${elapsed}ms)`;
+                                
+                                // 复杂的动画效果
+                                animate({
+                                    target: {{&}},
+                                    duration: 200,
+                                    properties: {
+                                        transform: ['scale(1)', 'scale(0.95)', 'scale(1)'],
+                                        background: ['#059669', '#10b981', '#059669']
+                                    }
+                                });
+                                
+                                // 更新父容器
+                                {{.nested-content}}->style->borderColor = 
+                                    this.clickCount % 2 === 0 ? '#3b82f6' : '#10b981';
+                            }
+                        });
+                        
+                        InteractionManager->setup();
+                        
+                        {{&}}->listen({
+                            click: function(e) {
+                                InteractionManager->handleClick();
+                            },
+                            
+                            mouseenter: function(e) {
+                                {{&}}->style->transform = 'translateY(-2px)';
+                            },
+                            
+                            mouseleave: function(e) {
+                                {{&}}->style->transform = 'translateY(0)';
+                            }
+                        });
+                    }
+                    
+                    text { 复杂交互按钮 }
+                }
+            }
+        }
+        
+        footer {
+            class: component-footer;
+            
+            div {
+                class: footer-actions;
+                
+                style {
+                    .footer-actions {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+                    
+                    .footer-button {
+                        background: #6b7280;
+                        color: white;
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 0.9rem;
+                    }
+                    
+                    .footer-button:hover {
+                        background: #4b5563;
+                    }
+                }
+                
+                button {
+                    class: footer-button;
+                    text { 取消 }
+                }
+                
+                button {
+                    class: footer-button;
+                    style {
+                        background: #3b82f6;
+                    }
+                    text { 确认 }
+                }
+            }
+        }
+    }
+}
+
+// ============================================================================
+// 6. 实际使用测试
+// ============================================================================
+
+html {
+    lang: zh-CN;
+    
+    head {
+        meta { charset: UTF-8; }
+        meta { 
+            name: viewport; 
+            content: "width=device-width, initial-scale=1.0"; 
+        }
+        title { 
+            text { CHTL错误处理和边界条件测试 } 
+        }
+    }
+    
+    body {
+        style {
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                background: #f9fafb;
+            }
+        }
+        
+        header {
+            class: test-header;
+            
+            style {
+                .test-header {
+                    background: #1f2937;
+                    color: white;
+                    padding: 30px 0;
+                    text-align: center;
+                }
+            }
+            
+            h1 {
+                text { CHTL错误处理测试 }
+                margin: 0;
+            }
+            
+            p {
+                text { 测试边界条件、错误检测和复杂语法 }
+                margin: 10px 0 0 0;
+                opacity: 0.8;
+            }
+        }
+        
+        main {
+            class: test-content;
+            
+            style {
+                .test-content {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 40px 20px;
+                }
+            }
+            
+            section {
+                class: test-section;
+                
+                style {
+                    .test-section {
+                        background: white;
+                        border-radius: 8px;
+                        padding: 30px;
+                        margin: 30px 0;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    }
+                }
+                
+                h2 {
+                    text { 边界条件测试 }
+                    color: #7c3aed;
+                    margin-bottom: 20px;
+                }
+                
+                // 使用复杂组件
+                ComplexComponent
+                
+                // 使用深度嵌套组件
+                DeepNesting
+                
+                // 使用大量属性组件
+                ManyAttributes
+                
+                // 测试变量组的复杂使用
+                div {
+                    class: variable-test;
+                    
+                    style {
+                        .variable-test {
+                            color: ThemeColors(primaryColor);
+                            background: ThemeColors(accentColor);
+                            border: 2px solid ThemeColors(dangerColor);
+                            padding: Spacing(large);
+                            margin: Spacing(medium) 0;
+                            border-radius: 8px;
+                        }
+                    }
+                    
+                    text { 复杂变量组使用测试 }
+                }
+                
+                // 测试特殊字符处理
+                div {
+                    class: special-chars-test;
+                    
+                    style {
+                        .special-chars-test {
+                            background: #fef3c7;
+                            padding: 20px;
+                            border-radius: 8px;
+                            margin: 20px 0;
+                            font-family: 'Courier New', monospace;
+                        }
+                    }
+                    
+                    h3 {
+                        text { 特殊字符测试 }
+                    }
+                    
+                    p {
+                        text { Unicode字符：🎯🚀💎✨🎉 }
+                    }
+                    
+                    p {
+                        text { 特殊符号：@#$%^&*()_+-=[]{}|;':\",./<>? }
+                    }
+                    
+                    p {
+                        text { 中文字符：你好世界！测试中文处理能力 }
+                    }
+                    
+                    p {
+                        text { Mixed内容：Hello世界123！@#$% }
+                    }
+                }
+            }
+        }
+        
+        footer {
+            class: test-footer;
+            
+            style {
+                .test-footer {
+                    background: #374151;
+                    color: white;
+                    text-align: center;
+                    padding: 30px 0;
+                    margin-top: 60px;
+                }
+            }
+            
+            p {
+                text { CHTL错误处理和边界条件测试完成 }
+                margin: 0;
+            }
+        }
+    }
+}
