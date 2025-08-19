@@ -158,6 +158,10 @@ private:
     bool isCHTLKeyword(const std::string& word) const;
     bool isCHTLBlockStart(const std::string& content, size_t pos) const;
     bool isCHTLBlockEnd(const std::string& content, size_t pos) const;
+    bool isCHTLUnit(SyntaxUnitType type) const;
+    bool isLocalStyle(const std::vector<SyntaxUnit>& units, size_t index) const;
+    bool containsCHTLJSSyntax(const std::vector<SyntaxUnit>& units, size_t startIndex) const;
+    size_t findScriptEnd(const std::vector<SyntaxUnit>& units, size_t startIndex) const;
     
     // CHTL JS语法检测
     bool isEnhancedSelectorStart(const std::string& content, size_t pos) const;

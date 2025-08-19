@@ -50,6 +50,11 @@ set(CHTL_COMPILER_SOURCES
     src/compilers/chtl/chtl_parser.cpp
     src/compilers/chtl/chtl_ast.cpp
     src/compilers/chtl/chtl_code_generator.cpp
+    src/compilers/chtl/chtl_token.cpp
+    src/compilers/chtl/chtl_state.cpp
+    src/compilers/chtl/chtl_global_map.cpp
+    src/compilers/chtl/chtl_context.cpp
+    src/compilers/chtl/chtl_lexer.cpp
 )
 
 set(CHTL_JS_COMPILER_SOURCES

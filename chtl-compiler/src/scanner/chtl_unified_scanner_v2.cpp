@@ -300,65 +300,141 @@ void CHTLUnifiedScannerV2::combineUnitsIntoFragments(const std::vector<SyntaxUni
     while (i < units.size()) {
         const auto& unit = units[i];
         
-        switch (unit.type) {
-            case SyntaxUnitType::CHTL_ELEMENT:
-            case SyntaxUnitType::CHTL_TEXT:
-            case SyntaxUnitType::CHTL_TEMPLATE:
-            case SyntaxUnitType::CHTL_CUSTOM:
-            case SyntaxUnitType::CHTL_IMPORT: {
-                // CHTL代码片段
-                size_t start = i;
-                while (i < units.size() && 
-                       (units[i].type == SyntaxUnitType::CHTL_ELEMENT ||
-                        units[i].type == SyntaxUnitType::CHTL_TEXT ||
-                        units[i].type == SyntaxUnitType::CHTL_TEMPLATE ||
-                        units[i].type == SyntaxUnitType::CHTL_CUSTOM ||
-                        units[i].type == SyntaxUnitType::CHTL_IMPORT ||
-                        units[i].type == SyntaxUnitType::DELIMITER)) {
-                    i++;
-                }
-                fragments_.push_back(createFragment(units, start, i, FragmentType::CHTL));
-                break;
-            }
+        // 聚合连续的CHTL代码片段
+        if (isCHTLUnit(unit.type)) {
+            size_t start = i;
             
-            case SyntaxUnitType::CHTL_STYLE: {
-                // 局部样式片段
-                fragments_.push_back(createFragment(units, i, i + 1, FragmentType::LOCAL_STYLE));
-                i++;
-                break;
-            }
-            
-            case SyntaxUnitType::CHTL_SCRIPT: {
-                // 检查是否包含CHTL JS语法
-                bool hasCHTLJS = false;
-                size_t start = i;
-                i++;
+            // 收集所有连续的CHTL相关单元
+            while (i < units.size() && (isCHTLUnit(units[i].type) || 
+                   units[i].type == SyntaxUnitType::DELIMITER)) {
                 
-                while (i < units.size() && 
-                       (units[i].type == SyntaxUnitType::ENHANCED_SELECTOR ||
-                        units[i].type == SyntaxUnitType::ARROW_OPERATOR ||
-                        units[i].type == SyntaxUnitType::VIR_DECLARATION ||
-                        units[i].type == SyntaxUnitType::JS_FUNCTION_CALL ||
-                        units[i].type == SyntaxUnitType::DELIMITER)) {
-                    if (units[i].type == SyntaxUnitType::ENHANCED_SELECTOR ||
-                        units[i].type == SyntaxUnitType::ARROW_OPERATOR ||
-                        units[i].type == SyntaxUnitType::VIR_DECLARATION) {
-                        hasCHTLJS = true;
+                // 如果遇到特殊块（style/script），检查是否应该单独处理
+                if (units[i].type == SyntaxUnitType::CHTL_STYLE) {
+                    // 检查是否是局部样式（在元素内部）
+                    if (isLocalStyle(units, i)) {
+                        // 如果之前有CHTL片段，先创建它
+                        if (i > start) {
+                            fragments_.push_back(createFragment(units, start, i, FragmentType::CHTL));
+                        }
+                        // 创建局部样式片段
+                        fragments_.push_back(createFragment(units, i, i + 1, FragmentType::LOCAL_STYLE));
+                        i++;
+                        start = i;
+                        continue;
                     }
-                    i++;
+                } else if (units[i].type == SyntaxUnitType::CHTL_SCRIPT) {
+                    // 检查是否包含CHTL JS语法
+                    if (containsCHTLJSSyntax(units, i)) {
+                        // 如果之前有CHTL片段，先创建它
+                        if (i > start) {
+                            fragments_.push_back(createFragment(units, start, i, FragmentType::CHTL));
+                        }
+                        // 创建CHTL JS片段
+                        size_t scriptEnd = findScriptEnd(units, i);
+                        fragments_.push_back(createFragment(units, i, scriptEnd, FragmentType::CHTL_JS));
+                        i = scriptEnd;
+                        start = i;
+                        continue;
+                    }
                 }
-                
-                FragmentType type = hasCHTLJS ? FragmentType::CHTL_JS : FragmentType::JAVASCRIPT;
-                fragments_.push_back(createFragment(units, start, i, type));
-                break;
+                i++;
             }
             
-            default:
-                // 跳过其他单元
+            // 创建聚合的CHTL片段
+            if (i > start) {
+                fragments_.push_back(createFragment(units, start, i, FragmentType::CHTL));
+            }
+        }
+        // 处理全局CSS
+        else if (unit.type == SyntaxUnitType::CSS_RULE) {
+            size_t start = i;
+            // 聚合所有CSS规则
+            while (i < units.size() && 
+                   (units[i].type == SyntaxUnitType::CSS_RULE || 
+                    units[i].type == SyntaxUnitType::DELIMITER)) {
                 i++;
-                break;
+            }
+            fragments_.push_back(createFragment(units, start, i, FragmentType::CSS));
+        }
+        // 处理纯JavaScript
+        else if (unit.type == SyntaxUnitType::JS_STATEMENT) {
+            size_t start = i;
+            // 聚合所有JS语句
+            while (i < units.size() && 
+                   (units[i].type == SyntaxUnitType::JS_STATEMENT || 
+                    units[i].type == SyntaxUnitType::JS_FUNCTION_CALL ||
+                    units[i].type == SyntaxUnitType::DELIMITER)) {
+                i++;
+            }
+            fragments_.push_back(createFragment(units, start, i, FragmentType::JAVASCRIPT));
+        }
+        else {
+            // 跳过其他单元
+            i++;
         }
     }
+}
+
+bool CHTLUnifiedScannerV2::isCHTLUnit(SyntaxUnitType type) const {
+    return type == SyntaxUnitType::CHTL_ELEMENT ||
+           type == SyntaxUnitType::CHTL_TEXT ||
+           type == SyntaxUnitType::CHTL_STYLE ||
+           type == SyntaxUnitType::CHTL_SCRIPT ||
+           type == SyntaxUnitType::CHTL_TEMPLATE ||
+           type == SyntaxUnitType::CHTL_CUSTOM ||
+           type == SyntaxUnitType::CHTL_IMPORT;
+}
+
+bool CHTLUnifiedScannerV2::isLocalStyle(const std::vector<SyntaxUnit>& units, size_t index) const {
+    // 检查style块是否在元素内部
+    // 简化实现：如果前面有未闭合的元素，则认为是局部样式
+    int elementDepth = 0;
+    for (size_t i = 0; i < index; ++i) {
+        if (units[i].type == SyntaxUnitType::CHTL_ELEMENT) {
+            // 计算花括号深度
+            for (char ch : units[i].content) {
+                if (ch == '{') elementDepth++;
+                else if (ch == '}') elementDepth--;
+            }
+        }
+    }
+    return elementDepth > 0;
+}
+
+bool CHTLUnifiedScannerV2::containsCHTLJSSyntax(const std::vector<SyntaxUnit>& units, size_t startIndex) const {
+    // 查找script块的内容，检查是否包含CHTL JS语法
+    if (startIndex >= units.size()) return false;
+    
+    const std::string& content = units[startIndex].content;
+    return content.find("{{") != std::string::npos ||
+           content.find("->") != std::string::npos ||
+           content.find("vir ") != std::string::npos ||
+           content.find("listen(") != std::string::npos ||
+           content.find("delegate(") != std::string::npos ||
+           content.find("animate(") != std::string::npos;
+}
+
+size_t CHTLUnifiedScannerV2::findScriptEnd(const std::vector<SyntaxUnit>& units, size_t startIndex) const {
+    // 找到script块的结束位置
+    size_t i = startIndex + 1;
+    int braceDepth = 0;
+    
+    // 计算起始块的花括号
+    for (char ch : units[startIndex].content) {
+        if (ch == '{') braceDepth++;
+        else if (ch == '}') braceDepth--;
+    }
+    
+    // 继续查找直到花括号匹配
+    while (i < units.size() && braceDepth > 0) {
+        for (char ch : units[i].content) {
+            if (ch == '{') braceDepth++;
+            else if (ch == '}') braceDepth--;
+        }
+        i++;
+    }
+    
+    return i;
 }
 
 std::unique_ptr<CodeFragment> CHTLUnifiedScannerV2::createFragment(
