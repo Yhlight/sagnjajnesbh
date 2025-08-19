@@ -149,6 +149,8 @@ goto :parse_args
 REM Get script directory and project root
 set "SCRIPT_DIR=%~dp0"
 set "PROJECT_ROOT=%SCRIPT_DIR%..\..\"
+REM Normalize path
+for %%i in ("%PROJECT_ROOT%") do set "PROJECT_ROOT=%%~fi\"
 
 echo [INFO] Starting Complete CHTL Build Process
 echo [INFO] Project root: %PROJECT_ROOT%
@@ -204,7 +206,7 @@ if "!BUILD_ANTLR!"=="true" (
         echo [INFO] Running: %SCRIPT_DIR%..\build\build_antlr.bat
     )
     
-    call "%SCRIPT_DIR%..\build\build_antlr.bat"
+    call "%PROJECT_ROOT%scripts\build\build_antlr.bat"
     if %errorlevel%==0 (
         set "BUILD_RESULTS=!BUILD_RESULTS!ANTLR:SUCCESS;"
         set /a TOTAL_SUCCESS+=1

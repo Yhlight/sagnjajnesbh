@@ -23,22 +23,81 @@ if %errorlevel% neq 0 (
 )
 
 REM Check for Visual Studio or MinGW
-set "BUILD_SYSTEM=msbuild"
+set "BUILD_SYSTEM="
+
+REM First check for MSBuild (Visual Studio Build Tools)
 where msbuild >nul 2>&1
-if %errorlevel% neq 0 (
-    where mingw32-make >nul 2>&1
-    if %errorlevel% neq 0 (
-        where make >nul 2>&1
-        if %errorlevel% neq 0 (
-            echo [ERROR] No suitable build system found (Visual Studio, MinGW, or Make)
-            exit /b 1
-        ) else (
-            set "BUILD_SYSTEM=make"
+if %errorlevel%==0 (
+    set "BUILD_SYSTEM=msbuild"
+    echo [INFO] Found MSBuild
+    goto :build_system_found
+)
+
+REM Check for Visual Studio Developer Command Prompt
+if defined VSINSTALLDIR (
+    echo [INFO] Visual Studio environment detected: %VSINSTALLDIR%
+    set "BUILD_SYSTEM=msbuild"
+    goto :build_system_found
+)
+
+REM Check for cl.exe (MSVC compiler)
+where cl >nul 2>&1
+if %errorlevel%==0 (
+    echo [INFO] Found MSVC compiler, attempting to find MSBuild...
+    REM Try to find MSBuild in common locations
+    for %%p in (
+        "%ProgramFiles%\Microsoft Visual Studio\2022\*\MSBuild\Current\Bin\MSBuild.exe"
+        "%ProgramFiles%\Microsoft Visual Studio\2019\*\MSBuild\Current\Bin\MSBuild.exe"
+        "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\*\MSBuild\Current\Bin\MSBuild.exe"
+        "%ProgramFiles(x86)%\MSBuild\*\Bin\MSBuild.exe"
+    ) do (
+        if exist "%%p" (
+            set "BUILD_SYSTEM=msbuild"
+            echo [INFO] Found MSBuild at: %%p
+            goto :build_system_found
         )
-    ) else (
-        set "BUILD_SYSTEM=mingw"
     )
 )
+
+REM Check for MinGW
+where mingw32-make >nul 2>&1
+if %errorlevel%==0 (
+    set "BUILD_SYSTEM=mingw"
+    echo [INFO] Found MinGW
+    goto :build_system_found
+)
+
+REM Check for MSYS2/Cygwin Make
+where make >nul 2>&1
+if %errorlevel%==0 (
+    set "BUILD_SYSTEM=make"
+    echo [INFO] Found Make
+    goto :build_system_found
+)
+
+REM Check for Ninja
+where ninja >nul 2>&1
+if %errorlevel%==0 (
+    set "BUILD_SYSTEM=ninja"
+    echo [INFO] Found Ninja
+    goto :build_system_found
+)
+
+REM If nothing found, provide helpful error message
+echo [ERROR] No suitable build system found
+echo [INFO] Please install one of the following:
+echo [INFO] 1. Visual Studio 2019/2022 with C++ workload
+echo [INFO] 2. Visual Studio Build Tools
+echo [INFO] 3. MinGW-w64
+echo [INFO] 4. MSYS2 with development tools
+echo [INFO] 
+echo [INFO] For Visual Studio, ensure you're running from:
+echo [INFO] - Developer Command Prompt for VS
+echo [INFO] - Developer PowerShell for VS
+echo [INFO] - Or run vcvarsall.bat first
+exit /b 1
+
+:build_system_found
 
 echo [SUCCESS] Build dependencies verified
 echo [INFO] Using build system: !BUILD_SYSTEM!
