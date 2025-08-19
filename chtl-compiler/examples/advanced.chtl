@@ -1,0 +1,139 @@
+// 高级CHTL示例 - 展示模板和自定义功能
+
+[Template] @Style DefaultText {
+    color: #333;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+[Template] @Element Card {
+    div {
+        style {
+            .card {
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 10px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+        }
+        
+        h3 {
+            style {
+                margin-top: 0;
+                color: #0066cc;
+            }
+        }
+        
+        p {
+            style {
+                @Style DefaultText;
+            }
+        }
+    }
+}
+
+[Custom] @Style ThemeColors {
+    primary: #007bff;
+    secondary: #6c757d;
+    success: #28a745;
+    danger: #dc3545;
+}
+
+html {
+    head {
+        title {
+            text {
+                "CHTL高级示例"
+            }
+        }
+        
+        style {
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                background-color: #f8f9fa;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+        }
+    }
+    
+    body {
+        div {
+            class: container;
+            
+            h1 {
+                style {
+                    text-align: center;
+                    color: ThemeColors(primary);
+                    margin-bottom: 40px;
+                }
+                
+                text {
+                    "CHTL模板和自定义系统演示"
+                }
+            }
+            
+            // 使用模板创建多个卡片
+            @Element Card {
+                h3 {
+                    text {
+                        "第一个卡片"
+                    }
+                }
+                
+                p {
+                    text {
+                        "这是使用模板创建的第一个卡片内容"
+                    }
+                }
+            }
+            
+            @Element Card {
+                h3 {
+                    text {
+                        "第二个卡片"
+                    }
+                }
+                
+                p {
+                    text {
+                        "这是第二个卡片，展示了模板的复用性"
+                    }
+                }
+            }
+            
+            // 虚对象演示
+            script {
+                vir CardManager = {
+                    highlight: function(cardElement) {
+                        cardElement.style.backgroundColor = '#fffbf0';
+                        cardElement.style.transform = 'scale(1.02)';
+                    },
+                    
+                    reset: function(cardElement) {
+                        cardElement.style.backgroundColor = '';
+                        cardElement.style.transform = '';
+                    }
+                };
+                
+                // 使用事件委托
+                {{.container}}->delegate({
+                    target: {{.card}},
+                    mouseenter: function(e) {
+                        CardManager->highlight(e.target);
+                    },
+                    mouseleave: function(e) {
+                        CardManager->reset(e.target);
+                    }
+                });
+            }
+        }
+    }
+}

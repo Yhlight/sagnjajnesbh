@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_integration.dir/link.d CMakeFiles/test_integration.dir/test_integration.cpp.o -o test_integration  ../libchtl_scanner.a ../libchtl_dispatcher.a ../libchtl_compiler_lib.a ../libchtl_js_compiler_lib.a ../libcss_compiler_lib.a ../libjavascript_compiler_lib.a ../libchtl_merger.a

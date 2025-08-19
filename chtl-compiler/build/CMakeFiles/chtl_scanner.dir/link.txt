@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchtl_scanner.a CMakeFiles/chtl_scanner.dir/src/scanner/chtl_unified_scanner.cpp.o CMakeFiles/chtl_scanner.dir/src/scanner/token.cpp.o CMakeFiles/chtl_scanner.dir/src/scanner/scanner_context.cpp.o
+/usr/bin/ranlib libchtl_scanner.a

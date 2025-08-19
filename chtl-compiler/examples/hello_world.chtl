@@ -1,0 +1,77 @@
+// 简单的CHTL示例
+
+html {
+    head {
+        title {
+            text {
+                "Hello CHTL World"
+            }
+        }
+    }
+    
+    body {
+        div {
+            id: container;
+            class: main-content;
+            
+            style {
+                .main-content {
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    font-family: Arial, sans-serif;
+                }
+                
+                &:hover {
+                    background-color: #f0f0f0;
+                }
+            }
+            
+            h1 {
+                style {
+                    color: #333;
+                    text-align: center;
+                }
+                
+                text {
+                    "Welcome to CHTL"
+                }
+            }
+            
+            p {
+                text {
+                    "CHTL是基于C++语言实现的超文本语言"
+                }
+            }
+            
+            button {
+                id: clickMe;
+                
+                style {
+                    .btn {
+                        padding: 10px 20px;
+                        background-color: #007bff;
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                    }
+                    
+                    &:hover {
+                        background-color: #0056b3;
+                    }
+                }
+                
+                text {
+                    "点击我"
+                }
+            }
+        }
+        
+        script {
+            {{#clickMe}}->addEventListener('click', function() {
+                alert('Hello from CHTL JS!');
+            });
+        }
+    }
+}

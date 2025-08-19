@@ -1,0 +1,27 @@
+html {
+    head {
+        title {
+            text {
+                "Simple CHTL Example"
+            }
+        }
+    }
+    
+    body {
+        div {
+            id: container;
+            
+            h1 {
+                text {
+                    "Hello CHTL"
+                }
+            }
+            
+            p {
+                text {
+                    "This is a simple example"
+                }
+            }
+        }
+    }
+}
