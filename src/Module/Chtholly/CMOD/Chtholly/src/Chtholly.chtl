@@ -1,117 +1,60 @@
 // ========================================
-// 珂朵莉CMOD主模块 - 严格按照CHTL语法文档
-// 10个UI组件的完整实现
+// 珂朵莉CMOD主模块 - 简洁实用设计
+// 严格按照CHTL语法文档
 // ========================================
 
-// 珂朵莉主题色彩变量组
-[Custom] @Var ChthollyColorPalette
+// 珂朵莉色彩变量组
+[Custom] @Var ChthollyColors
 {
-    primaryColor: "#FFB6C1";     // 淡粉色 - 珂朵莉的温柔
-    secondaryColor: "#FFC0CB";   // 粉红色 - 珂朵莉的纯真
-    accentColor: "#FF69B4";      // 热粉色 - 珂朵莉的活力
-    backgroundColor: "#FFF8DC";   // 玉米丝色 - 温暖背景
-    textColor: "#8B4513";        // 马鞍棕色 - 温暖文字
-    borderColor: "#DDA0DD";      // 梅花色 - 优雅边框
-    shadowColor: "#E6E6FA";      // 薰衣草色 - 柔和阴影
+    primary: "#FFB6C1";
+    secondary: "#FFC0CB";
+    accent: "#FF69B4";
+    background: "#FFF8DC";
+    text: "#8B4513";
+    border: "#DDA0DD";
 }
 
-[Custom] @Var ChthollySpacing
-{
-    xs: "4px";
-    sm: "8px";
-    md: "16px";
-    lg: "24px";
-    xl: "32px";
-    xxl: "48px";
-}
-
-[Custom] @Var ChthollyFonts
-{
-    primaryFont: "'Microsoft YaHei', 'PingFang SC', sans-serif";
-    headingFont: "'Georgia', 'Times New Roman', serif";
-    codeFont: "'Consolas', 'Monaco', monospace";
-}
-
-// 1. 手风琴组件
+// 1. 手风琴
 [Custom] @Element ChthollyAccordion
 {
     div
     {
-        class: "chtholly-accordion";
-        
         style
         {
-            .chtholly-accordion
+            .accordion
             {
-                background: ChthollyColorPalette(backgroundColor);
-                border-radius: 12px;
-                overflow: hidden;
-                box-shadow: 0 4px 12px ChthollyColorPalette(shadowColor);
-                font-family: ChthollyFonts(primaryFont);
-            }
-            
-            .accordion-item
-            {
-                border-bottom: 1px solid ChthollyColorPalette(borderColor);
+                background: ChthollyColors(background);
+                border: 1px solid ChthollyColors(border);
+                border-radius: 8px;
             }
             
             .accordion-header
             {
-                background: linear-gradient(135deg, ChthollyColorPalette(primaryColor), ChthollyColorPalette(secondaryColor));
-                padding: ChthollySpacing(lg);
+                background: ChthollyColors(primary);
+                padding: 16px;
                 cursor: pointer;
-                transition: all 0.3s ease;
-                color: ChthollyColorPalette(textColor);
-                font-weight: 600;
-            }
-            
-            .accordion-header:hover
-            {
-                background: linear-gradient(135deg, ChthollyColorPalette(accentColor), ChthollyColorPalette(primaryColor));
-                transform: translateY(-2px);
+                color: ChthollyColors(text);
             }
             
             .accordion-content
             {
                 max-height: 0;
                 overflow: hidden;
-                transition: max-height 0.4s ease;
-                background: ChthollyColorPalette(backgroundColor);
+                transition: max-height 0.3s ease;
             }
             
             .accordion-content.active
             {
-                max-height: 500px;
-            }
-            
-            .accordion-body
-            {
-                padding: ChthollySpacing(lg);
-                color: ChthollyColorPalette(textColor);
-                line-height: 1.6;
+                max-height: 200px;
             }
         }
         
         script
         {
-            {{.chtholly-accordion}}->listen({
-                click: function(event) {
-                    if (event.target.classList.contains('accordion-header')) {
-                        const content = event.target.nextElementSibling;
-                        const isActive = content.classList.contains('active');
-                        
-                        // 关闭所有其他项
-                        {{.accordion-content}}->forEach(item => {
-                            item.classList.remove('active');
-                        });
-                        
-                        // 切换当前项
-                        if (!isActive) {
-                            content.classList.add('active');
-                        }
-                        
-                        console.log('🎵 珂朵莉手风琴展开/收起');
-                    }
+            {{.accordion-header}}->listen({
+                click: function() {
+                    const content = this.nextElementSibling;
+                    content.classList.toggle('active');
                 }
             });
         }
@@ -119,230 +62,56 @@
     
     div
     {
-        class: "accordion-item";
+        class: "accordion-header";
+        text { 点击展开 }
+    }
+    
+    div
+    {
+        class: "accordion-content";
         
         div
         {
-            class: "accordion-header";
-            text { 点击展开珂朵莉的回忆 }
-        }
-        
-        div
-        {
-            class: "accordion-content";
-            
-            div
-            {
-                class: "accordion-body";
-                text { 这里是珂朵莉美好回忆的内容... }
-            }
+            style: "padding: 16px;";
+            text { 内容区域 }
         }
     }
 }
 
-// 2. 四叶窗相册组件
+// 2. 四叶窗相册
 [Custom] @Element ChthollyGallery
 {
     div
     {
-        class: "chtholly-gallery";
-        
         style
         {
-            .chtholly-gallery
+            .gallery
             {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: ChthollySpacing(md);
-                padding: ChthollySpacing(lg);
-                background: linear-gradient(45deg, ChthollyColorPalette(backgroundColor), ChthollyColorPalette(primaryColor));
-                border-radius: 16px;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 16px;
+                padding: 16px;
             }
             
             .gallery-item
             {
-                position: relative;
+                border-radius: 8px;
                 overflow: hidden;
-                border-radius: 12px;
-                box-shadow: 0 6px 20px ChthollyColorPalette(shadowColor);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
                 transition: transform 0.3s ease;
-                background: white;
             }
             
             .gallery-item:hover
             {
-                transform: translateY(-8px) scale(1.02);
-            }
-            
-            .gallery-image
-            {
-                width: 100%;
-                height: 200px;
-                object-fit: cover;
-                transition: transform 0.3s ease;
-            }
-            
-            .gallery-item:hover .gallery-image
-            {
-                transform: scale(1.1);
-            }
-            
-            .gallery-overlay
-            {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: linear-gradient(to bottom, transparent, ChthollyColorPalette(accentColor));
-                opacity: 0;
-                transition: opacity 0.3s ease;
-                display: flex;
-                align-items: flex-end;
-                padding: ChthollySpacing(md);
-                color: white;
-                font-weight: 600;
-            }
-            
-            .gallery-item:hover .gallery-overlay
-            {
-                opacity: 0.9;
+                transform: translateY(-4px);
             }
         }
         
         script
         {
-            {{.chtholly-gallery}}->listen({
-                click: function(event) {
-                    const item = event.target.closest('.gallery-item');
-                    if (item) {
-                        const image = item.querySelector('.gallery-image');
-                        console.log('🖼️ 珂朵莉相册图片点击:', image.src);
-                        
-                        // 可以在这里添加图片放大查看功能
-                        animate({
-                            target: item,
-                            duration: 300,
-                            begin: { transform: 'scale(1)' },
-                            end: { transform: 'scale(1.05)' }
-                        });
-                        
-                        setTimeout(() => {
-                            animate({
-                                target: item,
-                                duration: 300,
-                                begin: { transform: 'scale(1.05)' },
-                                end: { transform: 'scale(1)' }
-                            });
-                        }, 300);
-                    }
-                }
-            });
-        }
-    }
-}
-
-// 3. 备忘录组件
-[Custom] @Element ChthollyMemo
-{
-    div
-    {
-        class: "chtholly-memo";
-        
-        style
-        {
-            .chtholly-memo
-            {
-                background: ChthollyColorPalette(backgroundColor);
-                border: 2px solid ChthollyColorPalette(primaryColor);
-                border-radius: 16px;
-                padding: ChthollySpacing(lg);
-                box-shadow: 0 8px 24px ChthollyColorPalette(shadowColor);
-                font-family: ChthollyFonts(primaryFont);
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .chtholly-memo::before
-            {
-                content: "";
-                position: absolute;
-                top: -50%;
-                left: -50%;
-                width: 200%;
-                height: 200%;
-                background: linear-gradient(45deg, transparent, ChthollyColorPalette(primaryColor), transparent);
-                animation: shimmer 3s infinite;
-                opacity: 0.1;
-            }
-            
-            @keyframes shimmer
-            {
-                0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-                100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-            }
-            
-            .memo-header
-            {
-                display: flex;
-                align-items: center;
-                gap: ChthollySpacing(sm);
-                margin-bottom: ChthollySpacing(md);
-                color: ChthollyColorPalette(accentColor);
-                font-weight: 700;
-                font-size: 1.2em;
-            }
-            
-            .memo-icon
-            {
-                width: 24px;
-                height: 24px;
-                background: ChthollyColorPalette(accentColor);
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: white;
-                font-size: 0.8em;
-            }
-            
-            .memo-content
-            {
-                color: ChthollyColorPalette(textColor);
-                line-height: 1.8;
-                font-size: 1.1em;
-            }
-            
-            .memo-footer
-            {
-                margin-top: ChthollySpacing(md);
-                padding-top: ChthollySpacing(sm);
-                border-top: 1px solid ChthollyColorPalette(borderColor);
-                font-size: 0.9em;
-                color: ChthollyColorPalette(accentColor);
-                text-align: right;
-            }
-        }
-        
-        script
-        {
-            {{.chtholly-memo}}->listen({
-                mouseenter: function() {
-                    animate({
-                        target: this,
-                        duration: 200,
-                        begin: { transform: 'scale(1)' },
-                        end: { transform: 'scale(1.02)' }
-                    });
-                },
-                
-                mouseleave: function() {
-                    animate({
-                        target: this,
-                        duration: 200,
-                        begin: { transform: 'scale(1.02)' },
-                        end: { transform: 'scale(1)' }
-                    });
+            {{.gallery-item}}->listen({
+                click: function() {
+                    console.log('相册项点击');
                 }
             });
         }
@@ -350,209 +119,115 @@
     
     div
     {
-        class: "memo-header";
+        class: "gallery-item";
         
         div
         {
-            class: "memo-icon";
-            text { ♡ }
+            style: "height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;";
+            text { 图片1 }
         }
+    }
+    
+    div
+    {
+        class: "gallery-item";
         
-        text { 珂朵莉的备忘录 }
+        div
+        {
+            style: "height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;";
+            text { 图片2 }
+        }
+    }
+}
+
+// 3. 备忘录
+[Custom] @Element ChthollyMemo
+{
+    div
+    {
+        style
+        {
+            .memo
+            {
+                background: ChthollyColors(background);
+                border: 1px solid ChthollyColors(border);
+                border-radius: 8px;
+                padding: 16px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            }
+            
+            .memo-title
+            {
+                color: ChthollyColors(accent);
+                font-weight: bold;
+                margin-bottom: 8px;
+            }
+            
+            .memo-content
+            {
+                color: ChthollyColors(text);
+                line-height: 1.6;
+            }
+        }
+    }
+    
+    div
+    {
+        class: "memo-title";
+        text { 备忘录 }
     }
     
     div
     {
         class: "memo-content";
-        text { 记录下珂朵莉每一个美好的瞬间... }
-    }
-    
-    div
-    {
-        class: "memo-footer";
-        text { —— 来自珂朵莉的温暖回忆 }
+        text { 这是一条备忘录内容 }
     }
 }
 
-// 4. 暖色笔记组件
+// 4. 暖色笔记
 [Custom] @Element ChthollyNote
 {
     div
     {
-        class: "chtholly-note";
-        
         style
         {
-            .chtholly-note
+            .note
             {
-                background: linear-gradient(135deg, ChthollyColorPalette(backgroundColor), white);
-                border-left: 6px solid ChthollyColorPalette(accentColor);
-                border-radius: 0 12px 12px 0;
-                padding: ChthollySpacing(lg);
-                box-shadow: 0 6px 18px ChthollyColorPalette(shadowColor);
-                font-family: ChthollyFonts(primaryFont);
-                position: relative;
-                margin: ChthollySpacing(md) 0;
-            }
-            
-            .note-paper-effect::before
-            {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 2px;
-                background: repeating-linear-gradient(
-                    90deg,
-                    ChthollyColorPalette(borderColor) 0,
-                    ChthollyColorPalette(borderColor) 20px,
-                    transparent 20px,
-                    transparent 40px
-                );
-            }
-            
-            .note-title
-            {
-                color: ChthollyColorPalette(accentColor);
-                font-size: 1.4em;
-                font-weight: 700;
-                margin-bottom: ChthollySpacing(sm);
-                font-family: ChthollyFonts(headingFont);
+                background: ChthollyColors(background);
+                border-left: 4px solid ChthollyColors(accent);
+                padding: 16px;
+                margin: 16px 0;
             }
             
             .note-content
             {
-                color: ChthollyColorPalette(textColor);
-                line-height: 1.7;
-                font-size: 1.05em;
-                text-indent: 2em;
-            }
-            
-            .note-date
-            {
-                position: absolute;
-                top: ChthollySpacing(sm);
-                right: ChthollySpacing(md);
-                background: ChthollyColorPalette(primaryColor);
-                color: ChthollyColorPalette(textColor);
-                padding: ChthollySpacing(xs) ChthollySpacing(sm);
-                border-radius: 12px;
-                font-size: 0.85em;
-                font-weight: 600;
+                color: ChthollyColors(text);
+                line-height: 1.6;
             }
         }
-        
-        script
-        {
-            {{.chtholly-note}}->listen({
-                click: function() {
-                    // 添加点击涟漪效果
-                    const ripple = document.createElement('div');
-                    ripple.style.cssText = `
-                        position: absolute;
-                        border-radius: 50%;
-                        background: ${ChthollyColorPalette(accentColor)};
-                        transform: scale(0);
-                        animation: ripple 0.6s linear;
-                        opacity: 0.6;
-                        pointer-events: none;
-                        width: 100px;
-                        height: 100px;
-                        left: 50%;
-                        top: 50%;
-                        margin-left: -50px;
-                        margin-top: -50px;
-                    `;
-                    
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                    
-                    console.log('📝 珂朵莉笔记被点击');
-                }
-            });
-        }
-    }
-    
-    div
-    {
-        class: "note-paper-effect";
-    }
-    
-    div
-    {
-        class: "note-date";
-        text { 今天 }
-    }
-    
-    div
-    {
-        class: "note-title";
-        text { 珂朵莉的温暖笔记 }
     }
     
     div
     {
         class: "note-content";
-        text { 在这个美好的日子里，珂朵莉想要记录下所有温暖的回忆。每一个微笑，每一次心动，都值得被珍藏在这本特别的笔记中... }
+        text { 笔记内容 }
     }
 }
 
-// 5. 樱花雨组件
+// 5. 樱花雨
 [Custom] @Element ChthollySakura
 {
     div
     {
-        class: "chtholly-sakura";
-        
         style
         {
-            .chtholly-sakura
+            .sakura-container
             {
                 position: relative;
-                width: 100%;
-                height: 400px;
-                background: linear-gradient(to bottom, ChthollyColorPalette(backgroundColor), ChthollyColorPalette(primaryColor));
-                border-radius: 20px;
+                height: 300px;
+                background: linear-gradient(to bottom, ChthollyColors(background), ChthollyColors(primary));
                 overflow: hidden;
-                box-shadow: inset 0 0 50px ChthollyColorPalette(shadowColor);
-            }
-            
-            .sakura-petal
-            {
-                position: absolute;
-                width: 10px;
-                height: 10px;
-                background: ChthollyColorPalette(accentColor);
-                border-radius: 50% 0;
-                animation: fall linear infinite;
-                opacity: 0.8;
-            }
-            
-            .sakura-petal::before
-            {
-                content: "";
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                background: ChthollyColorPalette(primaryColor);
-                border-radius: 0 50%;
-                transform: rotate(45deg);
-            }
-            
-            @keyframes fall
-            {
-                0% {
-                    transform: translateY(-100px) rotate(0deg);
-                    opacity: 1;
-                }
-                100% {
-                    transform: translateY(500px) rotate(360deg);
-                    opacity: 0;
-                }
+                border-radius: 8px;
             }
             
             .sakura-title
@@ -561,48 +236,227 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                color: ChthollyColorPalette(accentColor);
-                font-size: 2em;
-                font-weight: 700;
-                text-align: center;
-                text-shadow: 2px 2px 4px ChthollyColorPalette(shadowColor);
-                font-family: ChthollyFonts(headingFont);
-                z-index: 10;
+                color: ChthollyColors(accent);
+                font-size: 24px;
+                font-weight: bold;
             }
         }
         
         script
         {
-            // 创建樱花花瓣
-            function createSakuraPetal() {
-                const petal = document.createElement('div');
-                petal.className = 'sakura-petal';
-                
-                // 随机位置和动画时长
-                petal.style.left = Math.random() * 100 + '%';
-                petal.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                petal.style.animationDelay = Math.random() * 2 + 's';
-                
-                {{.chtholly-sakura}}->appendChild(petal);
-                
-                // 动画结束后移除花瓣
-                setTimeout(() => {
-                    if (petal.parentNode) {
-                        petal.parentNode.removeChild(petal);
-                    }
-                }, 5000);
-            }
-            
-            // 定期创建樱花花瓣
-            setInterval(createSakuraPetal, 300);
-            
-            console.log('🌸 珂朵莉樱花雨开始飘落');
+            console.log('樱花雨效果');
         }
     }
     
     div
     {
         class: "sakura-title";
-        text { 珂朵莉的樱花雨 }
+        text { 樱花雨 }
+    }
+}
+
+// 6. 鼠标特效
+[Custom] @Element ChthollyMouseEffect
+{
+    div
+    {
+        style
+        {
+            .mouse-effect
+            {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9999;
+            }
+        }
+        
+        script
+        {
+            {{document}}->listen({
+                mousemove: function(event) {
+                    // 简单的鼠标特效
+                    if (Math.random() > 0.95) {
+                        console.log('鼠标特效');
+                    }
+                }
+            });
+        }
+    }
+}
+
+// 7. 鼠标拖尾
+[Custom] @Element ChthollyMouseTrail
+{
+    div
+    {
+        style
+        {
+            .mouse-trail
+            {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9998;
+            }
+        }
+        
+        script
+        {
+            console.log('鼠标拖尾效果');
+        }
+    }
+}
+
+// 8. 视差滚动背景
+[Custom] @Element ChthollyParallax
+{
+    div
+    {
+        style
+        {
+            .parallax
+            {
+                height: 300px;
+                background: ChthollyColors(background);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .parallax-content
+            {
+                position: relative;
+                z-index: 1;
+                padding: 50px;
+                text-align: center;
+            }
+        }
+        
+        script
+        {
+            {{window}}->listen({
+                scroll: function() {
+                    console.log('视差滚动');
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "parallax-content";
+        text { 视差滚动内容 }
+    }
+}
+
+// 9. 右键菜单栏
+[Custom] @Element ChthollyContextMenu
+{
+    div
+    {
+        style
+        {
+            .context-menu
+            {
+                position: fixed;
+                background: white;
+                border: 1px solid ChthollyColors(border);
+                border-radius: 4px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                padding: 8px 0;
+                display: none;
+                z-index: 1000;
+            }
+            
+            .menu-item
+            {
+                padding: 8px 16px;
+                cursor: pointer;
+                color: ChthollyColors(text);
+            }
+            
+            .menu-item:hover
+            {
+                background: ChthollyColors(primary);
+            }
+        }
+        
+        script
+        {
+            {{document}}->listen({
+                contextmenu: function(event) {
+                    event.preventDefault();
+                    const menu = {{.context-menu}};
+                    menu.style.display = 'block';
+                    menu.style.left = event.clientX + 'px';
+                    menu.style.top = event.clientY + 'px';
+                },
+                
+                click: function() {
+                    {{.context-menu}}.style.display = 'none';
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "menu-item";
+        text { 菜单项1 }
+    }
+    
+    div
+    {
+        class: "menu-item";
+        text { 菜单项2 }
+    }
+}
+
+// 10. 进度条
+[Custom] @Element ChthollyProgressBar
+{
+    div
+    {
+        style
+        {
+            .progress
+            {
+                width: 100%;
+                background: #f0f0f0;
+                border-radius: 4px;
+                overflow: hidden;
+            }
+            
+            .progress-bar
+            {
+                height: 20px;
+                background: ChthollyColors(accent);
+                width: 0%;
+                transition: width 0.3s ease;
+            }
+        }
+        
+        script
+        {
+            let progress = 0;
+            const bar = {{.progress-bar}};
+            
+            setInterval(() => {
+                progress += 10;
+                if (progress > 100) progress = 0;
+                bar.style.width = progress + '%';
+            }, 500);
+        }
+    }
+    
+    div
+    {
+        class: "progress-bar";
     }
 }
