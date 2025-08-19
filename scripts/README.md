@@ -1,324 +1,249 @@
-# CHTL Build Scripts Documentation
+# CHTL Build Scripts
 
-Cross-platform build and packaging scripts for the CHTL project.
+This directory contains comprehensive cross-platform build scripts for the CHTL compiler project. All scripts are available in both shell (`.sh`) and batch (`.bat`) formats for maximum compatibility.
 
-## 📁 Directory Structure
+## Directory Structure
 
 ```
 scripts/
-├── build/                  # Build scripts
-│   ├── debug_build.sh      # Debug build (Linux/macOS)
-│   ├── debug_build.bat     # Debug build (Windows)
-│   ├── release_build.sh    # Release build (Linux/macOS)
-│   └── release_build.bat   # Release build (Windows)
-├── pack/                   # Packaging scripts
-│   ├── pack_cmod.sh        # CMOD packaging (Linux/macOS)
-│   ├── pack_cmod.bat       # CMOD packaging (Windows)
-│   ├── pack_cjmod.sh       # CJMOD packaging (Linux/macOS)
-│   ├── pack_cjmod.bat      # CJMOD packaging (Windows)
-│   └── pack_unified.sh     # Unified packaging (Auto-detect)
-├── integration/            # Integration scripts
-│   ├── build_all.sh        # Complete integration build
-│   └── quick_build.sh      # Quick integration test
-├── utils/                  # Utility functions
-│   └── platform_utils.sh   # Cross-platform utilities
-└── README.md               # This documentation
+├── build/                  # Core build scripts
+│   ├── build_debug.sh/bat         # Debug build
+│   ├── build_release.sh/bat       # Release build
+│   ├── build_antlr.sh/bat         # ANTLR4 integration
+│   └── build_vscode_plugin.sh/bat # VSCode extension
+├── packaging/              # Module packaging scripts
+│   ├── pack_cmod.sh/bat           # CMOD module packaging
+│   ├── pack_cjmod.sh/bat          # CJMOD module packaging
+│   └── pack_all.sh/bat            # Unified packaging
+├── integration/            # Integrated build scripts
+│   └── build_complete.sh/bat      # Complete build system
+└── README.md              # This file
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
-### Build CHTL Compiler (Release)
+### Complete Build (Recommended)
 ```bash
 # Linux/macOS
-./scripts/build/release_build.sh
+./scripts/integration/build_complete.sh
 
 # Windows
-scripts\build\release_build.bat
+scripts\integration\build_complete.bat
 ```
 
-### Package a CMOD Module
+This will build the compiler, VSCode plugin, ANTLR dependencies, and package all modules.
+
+### Individual Components
+
+#### Debug Build
 ```bash
 # Linux/macOS
-./scripts/pack/pack_cmod.sh src/Module/Chtholly/CMOD/Accordion
+./scripts/build/build_debug.sh
 
 # Windows
-scripts\pack\pack_cmod.bat src\Module\Chtholly\CMOD\Accordion
+scripts\build\build_debug.bat
 ```
 
-### Quick Integration Build
-```bash
-./scripts/integration/quick_build.sh
-```
-
-## 🔧 Build Scripts
-
-### Debug Build (Placeholder)
-**Purpose**: Development and debugging builds  
-**Status**: Placeholder for future development  
-**Features**: Debug symbols, unoptimized code, verbose logging
-
-**Usage**:
+#### Release Build
 ```bash
 # Linux/macOS
-./scripts/build/debug_build.sh
+./scripts/build/build_release.sh
 
 # Windows
-scripts\build\debug_build.bat
+scripts\build\build_release.bat
 ```
 
-### Release Build
-**Purpose**: Production-ready optimized builds  
-**Features**: 
-- O3 optimization
-- Platform detection
-- Prerequisites checking
-- Distribution package creation
-- Archive generation
-
-**Usage**:
+#### VSCode Plugin
 ```bash
 # Linux/macOS
-./scripts/build/release_build.sh
+./scripts/build/build_vscode_plugin.sh production
 
 # Windows
-scripts\build\release_build.bat
+scripts\build\build_vscode_plugin.bat production
 ```
 
-**Output**: 
-- `build-release/` - Build artifacts
-- `dist/` - Distribution package
-- `chtl-v1.0.0-Platform-Date.tar.gz` - Archive
-
-## 📦 Packaging Scripts
-
-### CMOD Packaging
-**Purpose**: Package CMOD modules according to three-name standard  
-**Validation**: Folder name = Main file name = Info file name
-
-**Usage**:
+#### ANTLR4 Integration
 ```bash
-# Basic packaging
-./scripts/pack/pack_cmod.sh src/Module/Chtholly/CMOD/Accordion
+# Linux/macOS
+./scripts/build/build_antlr.sh
 
-# With options
-./scripts/pack/pack_cmod.sh -o ./packages -c 9 src/Module/MyModule/CMOD/Component
-
-# Validation only
-./scripts/pack/pack_cmod.sh --validate-only src/Module/Test/CMOD/Test
+# Windows
+scripts\build\build_antlr.bat
 ```
 
-**Options**:
-- `-o, --output DIR` - Output directory
-- `-v, --verbose` - Verbose output
-- `-c, --compress LEVEL` - Compression level (1-9)
-- `--validate-only` - Only validate structure
-- `--force` - Force packaging with warnings
+## Module Packaging
 
-### CJMOD Packaging
-**Purpose**: Package CJMOD modules according to two-name standard  
-**Validation**: Folder name = Info file name
-
-**Usage**:
+### Package All Modules
 ```bash
-# Basic packaging
-./scripts/pack/pack_cjmod.sh src/Module/Chtholly/CJMOD/Chtholly
+# Linux/macOS
+./scripts/packaging/pack_all.sh
 
-# Include source code
-./scripts/pack/pack_cjmod.sh --include-source src/Module/MyModule/CJMOD/Component
+# Windows
+scripts\packaging\pack_all.bat
 ```
 
-**Options**:
-- Same as CMOD plus:
-- `--include-source` - Include C++ source files
-
-### Unified Packaging
-**Purpose**: Automatically detect and package both CMOD and CJMOD modules  
-**Features**: Auto-detection, batch processing, hybrid module support
-
-**Usage**:
+### Package Individual Module Types
 ```bash
-# Single module (auto-detect type)
-./scripts/pack/pack_unified.sh src/Module/Chtholly/CMOD/Accordion
+# CMOD modules only
+./scripts/packaging/pack_all.sh --cmod-only
 
-# Batch process all modules in directory
-./scripts/pack/pack_unified.sh --batch src/Module/Chtholly
-
-# Process entire module directory
-./scripts/pack/pack_unified.sh --batch src/Module
+# CJMOD modules only (with compilation)
+./scripts/packaging/pack_all.sh --cjmod-only --compile
 ```
 
-**Auto-Detection Rules**:
-- **CMOD**: Has `info/` directory with `ModuleName.chtl`
-- **CJMOD**: Has `ModuleName.chtl` in root and `src/` with C++ files
-- **Hybrid**: Contains both `CMOD/` and `CJMOD/` subdirectories
-
-## 🏗️ Integration Scripts
-
-### Complete Integration Build
-**Purpose**: Full build pipeline for production deployment  
-**Components**: Compiler + Modules + VSCode Extension + Tests
-
-**Usage**:
+### Package Specific Modules
 ```bash
-# Full integration build
-./scripts/integration/build_all.sh
+# Package a specific CMOD module
+./scripts/packaging/pack_cmod.sh src/Module/CMOD/Chtholly
 
-# Skip specific components
-./scripts/integration/build_all.sh --skip-vscode --skip-tests
-
-# Clean build
-./scripts/integration/build_all.sh --clean --release
+# Package a specific CJMOD module with compilation
+./scripts/packaging/pack_cjmod.sh --compile src/Module/CJMOD/MyExtension
 ```
 
-**Pipeline**:
-1. 🔧 Build CHTL Compiler System
-2. 📦 Package Official Modules (Chtholly, Yuigahama)
-3. 🎨 Build VSCode Extension
-4. 🧪 Run Comprehensive Tests
-5. 📋 Generate Integration Report
-6. 🚀 Create Distribution Package
+## Advanced Usage
 
-### Quick Integration Build
-**Purpose**: Fast build and test for verification  
-**Features**: Simplified pipeline, essential components only
-
-**Usage**:
+### Clean Build
 ```bash
-./scripts/integration/quick_build.sh
+./scripts/integration/build_complete.sh --clean --release
 ```
 
-**Verified Results**:
-- ✅ Compiler: Built successfully
-- ✅ Tests: 100% pass rate (11/11)
-- ✅ Packages: 2 CMOD modules created
-- ✅ Report: Complete build summary
+### Build Only Specific Components
+```bash
+# Build only compiler
+./scripts/integration/build_complete.sh --compiler --skip-vscode --skip-modules
 
-## 🌍 Cross-Platform Support
+# Build only VSCode plugin
+./scripts/integration/build_complete.sh --vscode --skip-compiler --skip-modules
+```
 
-### Platform Detection
-Scripts automatically detect the running platform:
-- **Linux** - Uses standard Unix tools
-- **macOS** - Uses BSD-compatible commands
-- **Windows** - Uses PowerShell and batch commands
+### Verbose Output
+```bash
+./scripts/integration/build_complete.sh --verbose
+```
 
-### Prerequisites
-**Linux/macOS**:
-- CMake 3.16+
-- GCC or Clang
-- Make
-- ZIP utility
-- Git
+### Parallel Jobs
+```bash
+./scripts/integration/build_complete.sh --jobs 8
+```
 
-**Windows**:
-- CMake 3.16+
-- Visual Studio or MinGW
-- PowerShell 5.0+
-- 7-Zip (recommended)
-- Git
+## Script Features
 
-### Installation Helpers
-Scripts include automatic prerequisite checking and installation suggestions for each platform.
-
-## 📊 Validation Features
-
-### CMOD Validation
-- ✅ Three-name standard verification
-- ✅ Directory structure checking
-- ✅ Info file format validation
-- ✅ Required fields verification
-- ✅ Source file content checking
-
-### CJMOD Validation
-- ✅ Two-name standard verification
-- ✅ C++ source file detection
-- ✅ Info file format validation (no [Export] section)
-- ✅ CJMOD-specific field checking
+### Cross-Platform Compatibility
+- All scripts available in both shell (Linux/macOS) and batch (Windows) formats
+- Automatic detection of available build tools
+- Proper path handling for different operating systems
 
 ### Error Handling
-- 📊 Detailed error reporting
-- 🔧 Fix suggestions
-- ⚠️ Warning management
-- 🚀 Graceful failure handling
+- Comprehensive error checking and reporting
+- Graceful failure handling with meaningful error messages
+- Build verification and validation
 
-## 🎯 Usage Examples
+### Build Optimization
+- Parallel compilation support
+- Automatic detection of optimal job count
+- Clean build options
+- Incremental build support
 
-### Complete Development Workflow
-```bash
-# 1. Build compiler in release mode
-./scripts/build/release_build.sh
+### Packaging Features
+- Automatic module discovery
+- Structure validation
+- Export generation
+- Compression with multiple formats
+- Package verification scripts
 
-# 2. Package all official modules
-./scripts/pack/pack_unified.sh --batch src/Module
+### Integration Features
+- Complete build orchestration
+- Build reporting and timing
+- Installation script generation
+- Artifact management
 
-# 3. Run integration build
-./scripts/integration/build_all.sh
+## Output Directories
 
-# 4. Quick verification
-./scripts/integration/quick_build.sh
-```
+- `build-debug/` - Debug build artifacts
+- `build-release/` - Release build artifacts
+- `packages/` - Module packages and VSCode extension
+- `dist/` - Distribution-ready files
+- `external/` - External dependencies (ANTLR4)
 
-### Module Development Workflow
-```bash
-# 1. Validate module structure
-./scripts/pack/pack_cmod.sh --validate-only src/Module/MyModule/CMOD/Component
+## Requirements
 
-# 2. Package module
-./scripts/pack/pack_cmod.sh -o ./dist src/Module/MyModule/CMOD/Component
+### Common Requirements
+- CMake 3.10 or higher
+- C++ compiler (GCC, Clang, or MSVC)
 
-# 3. Test package
-unzip -t ./dist/Component.cmod
-```
+### Platform-Specific Requirements
 
-## 📋 Output Formats
+#### Linux/macOS
+- Make or Ninja build system
+- curl or wget (for downloads)
+- tar (for packaging)
 
-### Build Outputs
-- **Binaries**: `bin/` directory with executables
-- **Libraries**: `lib/` directory with static libraries
-- **Headers**: `include/` directory with header files
-- **Documentation**: `docs/` directory with documentation
+#### Windows
+- Visual Studio Build Tools or MinGW
+- PowerShell (for some operations)
+- 7-Zip (optional, for better packaging)
 
-### Package Outputs
-- **CMOD**: `ModuleName.cmod` ZIP archive
-- **CJMOD**: `ModuleName.cjmod` ZIP archive
-- **Manifest**: `ModuleName.manifest` metadata file
-- **Logs**: Build and validation logs
+### VSCode Plugin Requirements
+- Node.js 16 or higher
+- npm
+- vsce (Visual Studio Code Extension Manager)
 
-### Report Formats
-- **Text**: Console output with colors
-- **Markdown**: Detailed reports for documentation
-- **JSON**: Structured data for automation
-- **Logs**: Detailed execution logs
+### ANTLR4 Requirements
+- Java 8 or higher (for grammar generation)
+- Internet connection (for initial download)
 
-## 🔧 Customization
+## Environment Variables
 
-### Environment Variables
-```bash
-export CHTL_BUILD_TYPE=Release          # Default build type
-export CHTL_COMPRESS_LEVEL=6            # Default compression
-export CHTL_PARALLEL_JOBS=4             # Parallel build jobs
-export CHTL_SKIP_TESTS=false            # Skip testing phase
-```
+The scripts respect the following environment variables:
 
-### Configuration Files
-Scripts support configuration through:
-- Command line arguments
-- Environment variables
-- Platform-specific defaults
+- `CMAKE_GENERATOR` - Override CMake generator
+- `CMAKE_BUILD_TYPE` - Override build type
+- `NUMBER_OF_PROCESSORS` (Windows) - Parallel job count
+- `MAKEFLAGS` - Make flags for parallel builds
 
-## 🎉 Success Metrics
+## Troubleshooting
 
-### Verified Performance
-- **Build Time**: < 30 seconds for release build
-- **Package Size**: ~2KB average for CMOD modules
-- **Test Coverage**: 100% pass rate (11/11 tests)
-- **Cross-Platform**: Linux ✅ macOS ✅ Windows ✅
+### Common Issues
 
-### Quality Assurance
-- **Error Handling**: Comprehensive error detection and reporting
-- **Validation**: Strict adherence to CMOD/CJMOD standards
-- **Documentation**: Complete usage examples and help text
-- **Automation**: Full CI/CD pipeline support
+1. **Permission Denied (Linux/macOS)**
+   ```bash
+   chmod +x scripts/**/*.sh
+   ```
 
----
+2. **CMake Not Found**
+   - Install CMake from https://cmake.org/
+   - Ensure CMake is in your PATH
 
-**CHTL Build Scripts - Ready for Production Deployment!** 🚀
+3. **Compiler Not Found**
+   - Install build tools for your platform
+   - Windows: Visual Studio Build Tools
+   - Linux: `sudo apt install build-essential`
+   - macOS: Xcode Command Line Tools
+
+4. **Node.js Not Found (VSCode Plugin)**
+   - Install Node.js from https://nodejs.org/
+   - Ensure node and npm are in your PATH
+
+5. **Java Not Found (ANTLR)**
+   - Install Java 8 or higher
+   - Set JAVA_HOME environment variable
+
+### Debug Information
+
+All scripts support verbose mode with `--verbose` or `-v` flag for detailed output.
+
+Build reports are automatically generated in the project root as `build-report-*.txt`.
+
+## Contributing
+
+When adding new scripts:
+
+1. Create both `.sh` and `.bat` versions
+2. Follow the existing naming conventions
+3. Include comprehensive error handling
+4. Add usage information with `--help`
+5. Update this README
+
+## License
+
+These scripts are part of the CHTL project and are subject to the same MIT license.
