@@ -188,12 +188,17 @@ private:
     bool isValidPositionSpecifier(const std::string& position);
 
 private:
-    // 上下文和状态管理
-    CHTLContext* context_ = nullptr;
-    StateManager* stateManager_ = nullptr;
+    // 按照TemplateParser架构设计的标准成员
+    CHTLContext* context_;
+    StateManager* stateManager_;
+    std::unique_ptr<CHTLContext> ownedContext_;
+    std::unique_ptr<StateManager> ownedStateManager_;
     
-    // 错误收集
+    CustomParseContext parseContext_;
+    std::shared_ptr<CustomManager> customManager_;
+    
     std::vector<std::string> errors_;
+    bool debugMode_;
 };
 
 } // namespace custom_system

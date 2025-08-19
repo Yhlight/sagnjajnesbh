@@ -5,12 +5,16 @@
 namespace chtl {
 namespace origin_system {
 
-OriginParser::OriginParser() {
+OriginParser::OriginParser() : debugMode_(false) {
+    ownedContext_ = std::make_unique<CHTLContext>();
+    ownedStateManager_ = std::make_unique<StateManager>();
+    context_ = ownedContext_.get();
+    stateManager_ = ownedStateManager_.get();
     originManager_ = g_originManager;
 }
 
 OriginParser::OriginParser(CHTLContext& context, StateManager& stateManager) 
-    : context_(&context), stateManager_(&stateManager) {
+    : context_(&context), stateManager_(&stateManager), debugMode_(false) {
     originManager_ = g_originManager;
 }
 

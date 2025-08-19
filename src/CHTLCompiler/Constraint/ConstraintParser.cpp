@@ -6,12 +6,16 @@
 namespace chtl {
 namespace constraint_system {
 
-ConstraintParser::ConstraintParser() {
+ConstraintParser::ConstraintParser() : debugMode_(false) {
+    ownedContext_ = std::make_unique<CHTLContext>();
+    ownedStateManager_ = std::make_unique<StateManager>();
+    context_ = ownedContext_.get();
+    stateManager_ = ownedStateManager_.get();
     constraintManager_ = g_constraintManager;
 }
 
 ConstraintParser::ConstraintParser(CHTLContext& context, StateManager& stateManager) 
-    : context_(&context), stateManager_(&stateManager) {
+    : context_(&context), stateManager_(&stateManager), debugMode_(false) {
     constraintManager_ = g_constraintManager;
 }
 
