@@ -1,0 +1,1002 @@
+// ========================================
+// 🎓 在线教育平台 - 大型CHTL项目验证（语法修正版）
+// 严格按照CHTL语法文档实现所有功能
+// ========================================
+
+// 多行注释验证
+/*
+ * 这是一个完整的在线教育平台
+ * 使用所有CHTL语法特征
+ * 包括模块导入、模板、自定义、CHTL JS等
+ */
+
+-- 生成器识别注释：这将出现在生成的HTML中
+
+// ========================================
+// 1. 导入验证 - 测试所有导入类型
+// ========================================
+
+[Import] @Html from shared/header as HeaderTemplate
+[Import] @Style from themes/education as EducationTheme  
+[Import] @JavaScript from utils/analytics as Analytics
+[Import] @Chtl from Chtholly as ChthollyUI
+[Import] @CJmod from CustomExtensions as Extensions
+
+// 通配符导入验证
+[Import] [Template] from templates/*
+[Import] [Custom] from components/*
+[Import] [Origin] from assets/*
+
+// 命名配置组导入
+[Import] [Configuration] @Config EducationConfig from config/education.chtl
+
+// ========================================
+// 2. 命名空间验证
+// ========================================
+
+[Namespace] Education {
+    [Namespace] Course {
+        [Namespace] Video {
+            // 嵌套命名空间
+        }
+    }
+    
+    [Namespace] User {
+        [Namespace] Profile {
+            // 用户资料相关
+        }
+    }
+}
+
+// ========================================
+// 3. 变量组系统验证（修正版）
+// ========================================
+
+// 正确的变量组定义语法
+[Custom] @Var ThemeColors {
+    primaryColor: #2563eb;
+    secondaryColor: #7c3aed;
+    accentColor: #f59e0b;
+    successColor: #10b981;
+    warningColor: #f59e0b;
+    errorColor: #ef4444;
+    backgroundColor: #f8fafc;
+    textColor: #1f2937;
+}
+
+[Custom] @Var LayoutSizes {
+    headerHeight: 64px;
+    sidebarWidth: 280px;
+    contentMaxWidth: 1200px;
+    cardBorderRadius: 12px;
+    buttonBorderRadius: 8px;
+}
+
+[Custom] @Var Animations {
+    transitionDuration: 0.3s;
+    hoverScale: 1.05;
+    fadeInDuration: 0.6s;
+    slideDistance: 20px;
+}
+
+// ========================================
+// 4. 样式组模板验证
+// ========================================
+
+[Template] @Style ButtonStyles {
+    base {
+        padding: 12px 24px;
+        border-radius: LayoutSizes(buttonBorderRadius);
+        font-weight: 600;
+        transition: all Animations(transitionDuration);
+        cursor: pointer;
+        border: none;
+        outline: none;
+    }
+    
+    primary {
+        background-color: ThemeColors(primaryColor);
+        color: white;
+    }
+    
+    secondary {
+        background-color: ThemeColors(secondaryColor);
+        color: white;
+    }
+    
+    hover {
+        transform: scale(Animations(hoverScale));
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+}
+
+[Template] @Style CardStyles {
+    container {
+        background: white;
+        border-radius: LayoutSizes(cardBorderRadius);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 24px;
+        margin-bottom: 16px;
+    }
+    
+    header {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: ThemeColors(textColor);
+        margin-bottom: 16px;
+    }
+    
+    content {
+        color: ThemeColors(textColor);
+        line-height: 1.6;
+    }
+}
+
+// ========================================
+// 5. 元素模板验证
+// ========================================
+
+[Template] @Element CourseCard {
+    div {
+        class: course-card;
+        
+        style {
+            inherit CardStyles(container);
+            
+            .course-thumbnail {
+                width: 100%;
+                height: 200px;
+                background-size: cover;
+                background-position: center;
+                border-radius: 8px;
+                margin-bottom: 16px;
+            }
+            
+            .course-title {
+                inherit CardStyles(header);
+            }
+            
+            .course-description {
+                inherit CardStyles(content);
+                margin-bottom: 16px;
+            }
+            
+            .course-meta {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                
+                .price {
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: ThemeColors(primaryColor);
+                }
+                
+                .rating {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                }
+            }
+        }
+        
+        div { class: course-thumbnail; }
+        
+        h3 { 
+            class: course-title;
+            text { 课程标题 }
+        }
+        
+        p { 
+            class: course-description;
+            text { 课程描述内容 }
+        }
+        
+        div {
+            class: course-meta;
+            
+            span { 
+                class: price;
+                text { ¥199 }
+            }
+            
+            div {
+                class: rating;
+                text { ⭐ 4.8 (128) }
+            }
+        }
+    }
+}
+
+// ========================================
+// 6. 自定义系统验证（修正版）
+// ========================================
+
+[Custom] @Element InteractiveCourseCard from CourseCard {
+    // 删除原有的静态内容
+    delete .course-description;
+    
+    // 在标题后插入新的交互元素（使用正确的索引语法）
+    insert after h3[0] {
+        div {
+            class: course-tags;
+            
+            style {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 12px;
+                
+                .tag {
+                    background: ThemeColors(accentColor);
+                    color: white;
+                    padding: 4px 12px;
+                    border-radius: 16px;
+                    font-size: 0.75rem;
+                    font-weight: 500;
+                }
+            }
+            
+            span { class: tag; text { 前端开发 } }
+            span { class: tag; text { React } }
+            span { class: tag; text { 初级 } }
+        }
+    }
+    
+    // 替换价格显示（使用正确的索引语法）
+    replace span[0] {
+        div {
+            class: pricing;
+            
+            style {
+                .original-price {
+                    text-decoration: line-through;
+                    color: #9ca3af;
+                    font-size: 0.875rem;
+                }
+                
+                .current-price {
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    color: ThemeColors(errorColor);
+                }
+                
+                .discount {
+                    background: ThemeColors(errorColor);
+                    color: white;
+                    padding: 2px 8px;
+                    border-radius: 4px;
+                    font-size: 0.75rem;
+                    margin-left: 8px;
+                }
+            }
+            
+            span { class: original-price; text { ¥299 } }
+            span { class: current-price; text { ¥199 } }
+            span { class: discount; text { 33%OFF } }
+        }
+    }
+    
+    // 在底部添加操作按钮
+    insert at bottom {
+        div {
+            class: course-actions;
+            
+            style {
+                display: flex;
+                gap: 12px;
+                margin-top: 16px;
+                
+                .btn-enroll {
+                    inherit ButtonStyles(base);
+                    inherit ButtonStyles(primary);
+                    flex: 1;
+                }
+                
+                .btn-preview {
+                    inherit ButtonStyles(base);
+                    inherit ButtonStyles(secondary);
+                    flex: 1;
+                }
+                
+                .btn-favorite {
+                    inherit ButtonStyles(base);
+                    background: transparent;
+                    color: ThemeColors(textColor);
+                    border: 1px solid #e5e7eb;
+                    width: 48px;
+                    padding: 12px;
+                }
+            }
+            
+            button { 
+                class: btn-enroll;
+                text { 立即报名 }
+            }
+            
+            button { 
+                class: btn-preview;
+                text { 免费试看 }
+            }
+            
+            button { 
+                class: btn-favorite;
+                text { ♡ }
+            }
+        }
+    }
+}
+
+// ========================================
+// 7. 原始嵌入验证
+// ========================================
+
+[Origin] @Html CustomHeader {
+    <header class="custom-header">
+        <nav class="navigation">
+            <div class="logo">EduPlatform</div>
+            <ul class="nav-links">
+                <li><a href="#courses">课程</a></li>
+                <li><a href="#about">关于</a></li>
+                <li><a href="#contact">联系</a></li>
+            </ul>
+        </nav>
+    </header>
+}
+
+[Origin] @Style AdvancedAnimations {
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    .fade-in-up {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .pulse-on-hover:hover {
+        animation: pulse 0.5s ease-in-out;
+    }
+}
+
+[Origin] @JavaScript AdvancedInteractions {
+    // 高级交互功能
+    class CourseInteractionManager {
+        constructor() {
+            this.enrolledCourses = new Set();
+            this.favorites = new Set();
+            this.init();
+        }
+        
+        init() {
+            this.bindEvents();
+            this.loadUserData();
+        }
+        
+        bindEvents() {
+            document.addEventListener('click', (e) => {
+                if (e.target.matches('.btn-enroll')) {
+                    this.enrollCourse(e.target.closest('.course-card'));
+                }
+                
+                if (e.target.matches('.btn-favorite')) {
+                    this.toggleFavorite(e.target.closest('.course-card'));
+                }
+            });
+        }
+        
+        enrollCourse(courseCard) {
+            const courseId = courseCard.dataset.courseId;
+            this.enrolledCourses.add(courseId);
+            this.updateUI(courseCard, 'enrolled');
+        }
+        
+        toggleFavorite(courseCard) {
+            const courseId = courseCard.dataset.courseId;
+            if (this.favorites.has(courseId)) {
+                this.favorites.delete(courseId);
+                courseCard.querySelector('.btn-favorite').textContent = '♡';
+            } else {
+                this.favorites.add(courseId);
+                courseCard.querySelector('.btn-favorite').textContent = '♥';
+            }
+        }
+        
+        updateUI(courseCard, state) {
+            courseCard.classList.add(`course-${state}`);
+        }
+        
+        loadUserData() {
+            // 模拟从API加载用户数据
+            setTimeout(() => {
+                this.enrolledCourses = new Set(['course-1', 'course-3']);
+                this.favorites = new Set(['course-2', 'course-4']);
+                this.updateAllUI();
+            }, 500);
+        }
+        
+        updateAllUI() {
+            document.querySelectorAll('.course-card').forEach(card => {
+                const courseId = card.dataset.courseId;
+                if (this.enrolledCourses.has(courseId)) {
+                    this.updateUI(card, 'enrolled');
+                }
+                if (this.favorites.has(courseId)) {
+                    card.querySelector('.btn-favorite').textContent = '♥';
+                }
+            });
+        }
+    }
+    
+    // 初始化管理器
+    new CourseInteractionManager();
+}
+
+// ========================================
+// 8. 约束系统验证（修正版）
+// ========================================
+
+// 正确的约束语法 - 只能约束@Html、[Custom]、[Template]
+div {
+    class: course-content-area;
+    
+    except @Html;        // 禁止html元素
+    except [Template];   // 禁止模板类型的对象
+    except [Custom];     // 禁止出现[Custom]类型的对象
+}
+
+// ========================================
+// 9. 主页面结构 - 验证所有元素特征
+// ========================================
+
+html {
+    lang: zh-CN;
+    
+    head {
+        meta { charset: UTF-8; }
+        meta { name: viewport; content: width=device-width, initial-scale=1.0; }
+        title { text { 🎓 在线教育平台 - CHTL语法验证（修正版） } }
+        
+        style {
+            // 全局样式验证
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background-color: ThemeColors(backgroundColor);
+                color: ThemeColors(textColor);
+                line-height: 1.6;
+            }
+            
+            .container {
+                max-width: LayoutSizes(contentMaxWidth);
+                margin: 0 auto;
+                padding: 0 16px;
+            }
+            
+            // 继承样式验证
+            .main-header {
+                height: LayoutSizes(headerHeight);
+                background: white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                display: flex;
+                align-items: center;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
+                
+                .logo {
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    color: ThemeColors(primaryColor);
+                }
+                
+                .nav-menu {
+                    display: flex;
+                    list-style: none;
+                    margin-left: auto;
+                    gap: 32px;
+                    
+                    a {
+                        color: ThemeColors(textColor);
+                        text-decoration: none;
+                        font-weight: 500;
+                        transition: color Animations(transitionDuration);
+                        
+                        &:hover {
+                            color: ThemeColors(primaryColor);
+                        }
+                    }
+                }
+            }
+            
+            .main-content {
+                margin-top: LayoutSizes(headerHeight);
+                padding: 32px 0;
+            }
+            
+            .hero-section {
+                text-align: center;
+                padding: 80px 0;
+                background: linear-gradient(135deg, ThemeColors(primaryColor), ThemeColors(secondaryColor));
+                color: white;
+                margin-bottom: 64px;
+                
+                h1 {
+                    font-size: 3rem;
+                    font-weight: 700;
+                    margin-bottom: 16px;
+                }
+                
+                p {
+                    font-size: 1.25rem;
+                    opacity: 0.9;
+                    margin-bottom: 32px;
+                }
+                
+                .cta-button {
+                    inherit ButtonStyles(base);
+                    background: white;
+                    color: ThemeColors(primaryColor);
+                    font-size: 1.125rem;
+                    padding: 16px 32px;
+                    
+                    &:hover {
+                        inherit ButtonStyles(hover);
+                    }
+                }
+            }
+            
+            .courses-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 24px;
+                margin-bottom: 64px;
+            }
+        }
+    }
+    
+    body {
+        // ========================================
+        // 10. CHTL JS功能验证
+        // ========================================
+        
+        script {
+            // 验证增强选择器
+            {{.course-card}}->listen({
+                click: function(e) {
+                    console.log('课程卡片被点击');
+                },
+                mouseenter: function(e) {
+                    {{this}}->addClass('hover-effect');
+                },
+                mouseleave: function(e) {
+                    {{this}}->removeClass('hover-effect');
+                }
+            });
+            
+            // 验证箭头操作符
+            {{#search-input}}->listen({
+                input: function(e) {
+                    const query = {{this}}->value;
+                    filterCourses(query);
+                }
+            });
+            
+            // 验证事件委托
+            {{.courses-grid}}->delegate({
+                target: {{.btn-enroll}},
+                click: function(e) {
+                    e->preventDefault();
+                    const courseCard = {{this}}->closest('.course-card');
+                    enrollCourse(courseCard);
+                }
+            });
+            
+            // 验证动画系统
+            animate({
+                target: {{.course-card}},
+                duration: 600,
+                easing: 'ease-out',
+                properties: {
+                    opacity: [0, 1],
+                    transform: ['translateY(20px)', 'translateY(0)']
+                },
+                onComplete: function() {
+                    console.log('课程卡片动画完成');
+                }
+            });
+            
+            // 验证虚对象
+            vir CourseManager = listen({
+                loadCourses: function() {
+                    return fetch('/api/courses').then(r => r.json());
+                },
+                
+                filterCourses: function(query) {
+                    {{.course-card}}->forEach(card => {
+                        const title = card->querySelector('.course-title')->textContent;
+                        const visible = title->toLowerCase()->includes(query->toLowerCase());
+                        card->style->display = visible ? 'block' : 'none';
+                    });
+                },
+                
+                enrollCourse: function(courseId) {
+                    return fetch(`/api/courses/${courseId}/enroll`, {
+                        method: 'POST'
+                    });
+                }
+            });
+            
+            // 使用虚对象
+            CourseManager->loadCourses()->then(courses => {
+                renderCourses(courses);
+            });
+            
+            // 验证CJMOD扩展 - printMylove
+            const logo = printMylove({
+                url: 'logo.png',
+                mode: 'ASCII',
+                width: '200px',
+                height: 100,
+                scale: 1.2
+            });
+            
+            // 验证CJMOD扩展 - iNeverAway
+            vir UIEffects = iNeverAway({
+                FadeIn<Fast>: function(element) {
+                    {{element}}->style->transition = 'opacity 0.3s';
+                    {{element}}->style->opacity = '1';
+                },
+                
+                FadeIn<Slow>: function(element) {
+                    {{element}}->style->transition = 'opacity 1s';
+                    {{element}}->style->opacity = '1';
+                },
+                
+                SlideUp: function(element, distance = 20) {
+                    {{element}}->style->transform = `translateY(-${distance}px)`;
+                },
+                
+                Pulse: {
+                    duration: 500,
+                    iterations: 3
+                }
+            });
+            
+            // 使用iNeverAway效果
+            UIEffects->FadeIn<Fast>({{.hero-section}});
+            UIEffects->SlideUp({{.courses-grid}}, 30);
+            
+            // 验证无修饰字面量（基于上下文）
+            const config = {
+                apiUrl: https://api.eduplatform.com,
+                version: v1.0,
+                timeout: 5000,
+                retries: 3
+            };
+            
+            // 验证无序键值对
+            const courseOptions = {
+                duration: 120,
+                level: intermediate,
+                price: 199,
+                category: programming,
+                instructor: John Doe
+            };
+        }
+        
+        // 原始嵌入验证
+        CustomHeader
+        
+        header {
+            class: main-header;
+            
+            div {
+                class: container;
+                
+                div {
+                    class: logo;
+                    text { 🎓 EduPlatform }
+                }
+                
+                nav {
+                    ul {
+                        class: nav-menu;
+                        
+                        li { a { href: #courses; text { 课程中心 } } }
+                        li { a { href: #instructors; text { 名师团队 } } }
+                        li { a { href: #about; text { 关于我们 } } }
+                        li { a { href: #contact; text { 联系我们 } } }
+                    }
+                }
+            }
+        }
+        
+        main {
+            class: main-content;
+            
+            section {
+                class: hero-section;
+                
+                div {
+                    class: container;
+                    
+                    h1 { text { 开启您的学习之旅 } }
+                    
+                    p { 
+                        text { 
+                            专业的在线教育平台，汇聚优质课程和名师资源
+                            让学习变得更加高效和有趣
+                        } 
+                    }
+                    
+                    button {
+                        class: cta-button;
+                        text { 立即开始学习 }
+                    }
+                }
+            }
+            
+            section {
+                class: container;
+                
+                // 约束应用示例
+                div {
+                    class: course-content-area;
+                    
+                    except @Html;        // 禁止html元素
+                    except [Template];   // 禁止模板类型
+                    except [Custom];     // 禁止自定义类型
+                    
+                    h2 {
+                        style {
+                            text-align: center;
+                            font-size: 2.5rem;
+                            margin-bottom: 48px;
+                            color: ThemeColors(textColor);
+                        }
+                        
+                        text { 🔥 热门课程 }
+                    }
+                    
+                    div {
+                        class: courses-grid;
+                        
+                        // 使用自定义交互式课程卡片
+                        InteractiveCourseCard {
+                            data-course-id: course-1;
+                            
+                            // 局部样式验证 - 自动添加类和ID
+                            style {
+                                .course-special {
+                                    border: 2px solid ThemeColors(primaryColor);
+                                    position: relative;
+                                    
+                                    &::before {
+                                        content: "🔥 热门";
+                                        position: absolute;
+                                        top: -8px;
+                                        right: 16px;
+                                        background: ThemeColors(errorColor);
+                                        color: white;
+                                        padding: 4px 12px;
+                                        border-radius: 12px;
+                                        font-size: 0.75rem;
+                                    }
+                                }
+                                
+                                #featured-course {
+                                    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.2);
+                                }
+                            }
+                            
+                            script {
+                                // 局部脚本验证 - 自动添加ID和类
+                                {{&}}->listen({
+                                    click: function() {
+                                        console.log('特色课程被点击');
+                                        {{this}}->addClass('clicked');
+                                    }
+                                });
+                                
+                                // 使用变量组
+                                const colors = ThemeColors;
+                                const sizes = LayoutSizes;
+                                
+                                {{.course-thumbnail}}->style->backgroundImage = 
+                                    'url(https://images.unsplash.com/photo-1516321318423-f06f85e504b3)';
+                            }
+                        }
+                        
+                        InteractiveCourseCard {
+                            data-course-id: course-2;
+                            
+                            script {
+                                {{.course-thumbnail}}->style->backgroundImage = 
+                                    'url(https://images.unsplash.com/photo-1498050108023-c5249f4df085)';
+                            }
+                        }
+                        
+                        InteractiveCourseCard {
+                            data-course-id: course-3;
+                            
+                            script {
+                                {{.course-thumbnail}}->style->backgroundImage = 
+                                    'url(https://images.unsplash.com/photo-1461749280684-dccba630e2f6)';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        footer {
+            style {
+                background: ThemeColors(textColor);
+                color: white;
+                padding: 48px 0;
+                text-align: center;
+                
+                .footer-content {
+                    max-width: LayoutSizes(contentMaxWidth);
+                    margin: 0 auto;
+                    padding: 0 16px;
+                }
+                
+                .footer-links {
+                    display: flex;
+                    justify-content: center;
+                    gap: 32px;
+                    margin-bottom: 24px;
+                    
+                    a {
+                        color: white;
+                        text-decoration: none;
+                        opacity: 0.8;
+                        transition: opacity Animations(transitionDuration);
+                        
+                        &:hover {
+                            opacity: 1;
+                        }
+                    }
+                }
+                
+                .copyright {
+                    opacity: 0.6;
+                    font-size: 0.875rem;
+                }
+            }
+            
+            div {
+                class: footer-content;
+                
+                div {
+                    class: footer-links;
+                    
+                    a { href: #privacy; text { 隐私政策 } }
+                    a { href: #terms; text { 服务条款 } }
+                    a { href: #support; text { 技术支持 } }
+                    a { href: #careers; text { 加入我们 } }
+                }
+                
+                p {
+                    class: copyright;
+                    text { © 2024 在线教育平台. All rights reserved. Powered by CHTL. }
+                }
+            }
+        }
+        
+        // 全局脚本 - 验证所有JS事件支持
+        script {
+            // 验证所有82个JS事件
+            const allEvents = [
+                'click', 'dblclick', 'mousedown', 'mouseup', 'mousemove', 
+                'mouseover', 'mouseout', 'mouseenter', 'mouseleave',
+                'keydown', 'keyup', 'keypress', 'focus', 'blur', 'change',
+                'input', 'submit', 'reset', 'load', 'unload', 'resize',
+                'scroll', 'error', 'abort', 'select', 'contextmenu',
+                'drag', 'dragstart', 'dragend', 'dragover', 'dragenter',
+                'dragleave', 'drop', 'wheel', 'touchstart', 'touchmove',
+                'touchend', 'touchcancel'
+            ];
+            
+            // 为不同元素绑定不同事件
+            {{body}}->listen({
+                load: function() {
+                    console.log('页面加载完成');
+                    initializeApp();
+                },
+                
+                resize: function() {
+                    handleResize();
+                },
+                
+                scroll: function() {
+                    handleScroll();
+                }
+            });
+            
+            {{.course-card}}->listen({
+                mouseenter: function() {
+                    {{this}}->addClass('hover');
+                },
+                
+                mouseleave: function() {
+                    {{this}}->removeClass('hover');
+                },
+                
+                focus: function() {
+                    {{this}}->addClass('focused');
+                },
+                
+                blur: function() {
+                    {{this}}->removeClass('focused');
+                }
+            });
+            
+            // 初始化应用
+            function initializeApp() {
+                // 加载课程数据
+                CourseManager->loadCourses();
+                
+                // 初始化动画
+                {{.course-card}}->forEach((card, index) => {
+                    setTimeout(() => {
+                        card->addClass('fade-in-up');
+                    }, index * 100);
+                });
+                
+                // 初始化搜索功能
+                {{#search-input}}->listen({
+                    input: debounce(function() {
+                        const query = {{this}}->value;
+                        CourseManager->filterCourses(query);
+                    }, 300)
+                });
+            }
+            
+            function handleResize() {
+                // 响应式处理
+                const width = window.innerWidth;
+                {{body}}->classList->toggle('mobile', width < 768);
+                {{body}}->classList->toggle('tablet', width >= 768 && width < 1024);
+                {{body}}->classList->toggle('desktop', width >= 1024);
+            }
+            
+            function handleScroll() {
+                // 滚动效果
+                const scrollY = window.scrollY;
+                {{.main-header}}->classList->toggle('scrolled', scrollY > 50);
+            }
+            
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+        }
+    }
+}
