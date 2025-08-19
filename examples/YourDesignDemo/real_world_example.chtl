@@ -1,0 +1,357 @@
+// ========================================
+// 真实世界的CJMOD使用示例
+// 展示复杂参数处理的实际应用
+// ========================================
+
+// 🎯 示例1：高级动画系统 - 包含函数参数
+animate({
+    element: '#hero-section',
+    duration: '2.5s',
+    easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    keyframes: [
+        { offset: 0, transform: 'translateY(-50px)', opacity: 0 },
+        { offset: 0.5, transform: 'translateY(-10px)', opacity: 0.7 },
+        { offset: 1, transform: 'translateY(0)', opacity: 1 }
+    ],
+    onStart: function() {
+        console.log('🎬 动画开始');
+        this.classList.add('animating');
+    },
+    onProgress: function(progress, currentFrame) {
+        // 复杂的进度处理函数
+        const percentage = Math.floor(progress * 100);
+        document.querySelector('#progress-bar').style.width = percentage + '%';
+        
+        if (progress > 0.5) {
+            this.style.boxShadow = `0 ${progress * 20}px ${progress * 40}px rgba(0,0,0,${progress * 0.3})`;
+        }
+    },
+    onComplete: function() {
+        console.log('✅ 动画完成');
+        this.classList.remove('animating');
+        this.classList.add('animated');
+        
+        // 触发后续动画
+        setTimeout(() => {
+            this.nextElementSibling?.animate?.call(this, {
+                duration: '1s',
+                easing: 'ease-out'
+            });
+        }, 200);
+    }
+});
+
+// 🎯 示例2：数据处理管道 - 包含复杂对象和函数
+processData({
+    source: {
+        url: 'https://api.example.com/data',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getToken()
+        },
+        body: {
+            query: 'SELECT * FROM users WHERE active = true',
+            limit: 100,
+            offset: 0
+        }
+    },
+    transformers: [
+        function(data) {
+            // 数据清洗
+            return data.filter(item => item.id && item.name)
+                      .map(item => ({
+                          ...item,
+                          name: item.name.trim(),
+                          email: item.email?.toLowerCase()
+                      }));
+        },
+        function(data) {
+            // 数据分组
+            const grouped = {};
+            data.forEach(item => {
+                const category = item.category || 'uncategorized';
+                if (!grouped[category]) {
+                    grouped[category] = [];
+                }
+                grouped[category].push(item);
+            });
+            return grouped;
+        },
+        function(data) {
+            // 数据排序
+            Object.keys(data).forEach(category => {
+                data[category].sort((a, b) => {
+                    return new Date(b.created_at) - new Date(a.created_at);
+                });
+            });
+            return data;
+        }
+    ],
+    validators: {
+        schema: {
+            id: 'number',
+            name: 'string',
+            email: 'string',
+            created_at: 'date'
+        },
+        customRules: [
+            function(item) {
+                return item.name.length >= 2 && item.name.length <= 50;
+            },
+            function(item) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return !item.email || emailRegex.test(item.email);
+            }
+        ]
+    },
+    onSuccess: function(processedData, originalData, stats) {
+        console.log('🎉 数据处理成功');
+        console.log('📊 处理统计:', stats);
+        console.log('📦 处理结果:', processedData);
+        
+        // 更新UI
+        updateDataTable(processedData);
+        updateStatistics(stats);
+        
+        // 缓存结果
+        localStorage.setItem('processedData', JSON.stringify({
+            data: processedData,
+            timestamp: Date.now(),
+            stats: stats
+        }));
+    },
+    onError: function(error, stage, partialData) {
+        console.error('❌ 数据处理失败:', error);
+        console.log('📍 失败阶段:', stage);
+        
+        if (partialData) {
+            console.log('⚠️ 部分数据:', partialData);
+            // 尝试使用部分数据
+            this.onSuccess(partialData, null, { partial: true });
+        } else {
+            // 显示错误信息
+            showErrorMessage('数据处理失败: ' + error.message);
+        }
+    }
+});
+
+// 🎯 示例3：组件系统 - 复杂嵌套结构
+createComponent({
+    name: 'UserProfile',
+    props: {
+        userId: Number,
+        showAvatar: Boolean,
+        theme: String,
+        permissions: Array
+    },
+    data: function() {
+        return {
+            user: null,
+            loading: true,
+            error: null,
+            avatar: null
+        };
+    },
+    computed: {
+        displayName: function() {
+            if (!this.user) return '加载中...';
+            return this.user.firstName + ' ' + this.user.lastName;
+        },
+        avatarUrl: function() {
+            if (this.avatar) return this.avatar;
+            if (this.user?.avatar) return this.user.avatar;
+            return '/default-avatar.png';
+        },
+        hasPermission: function() {
+            return (permission) => {
+                return this.permissions.includes(permission) || 
+                       this.permissions.includes('admin');
+            };
+        }
+    },
+    methods: {
+        async loadUser() {
+            try {
+                this.loading = true;
+                this.error = null;
+                
+                const response = await fetch(`/api/users/${this.userId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                this.user = await response.json();
+                
+                // 加载头像
+                if (this.showAvatar && this.user.avatarId) {
+                    await this.loadAvatar(this.user.avatarId);
+                }
+                
+            } catch (error) {
+                this.error = error.message;
+                console.error('用户加载失败:', error);
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        async loadAvatar(avatarId) {
+            try {
+                const response = await fetch(`/api/avatars/${avatarId}`);
+                if (response.ok) {
+                    const blob = await response.blob();
+                    this.avatar = URL.createObjectURL(blob);
+                }
+            } catch (error) {
+                console.warn('头像加载失败:', error);
+            }
+        },
+        
+        updateProfile: function(updates) {
+            const updatedUser = { ...this.user, ...updates };
+            
+            // 验证更新
+            if (updates.email && !this.isValidEmail(updates.email)) {
+                throw new Error('邮箱格式无效');
+            }
+            
+            // 发送更新请求
+            return fetch(`/api/users/${this.userId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updates)
+            }).then(response => {
+                if (response.ok) {
+                    this.user = updatedUser;
+                    this.$emit('profile-updated', updatedUser);
+                }
+                return response;
+            });
+        },
+        
+        isValidEmail: function(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+    },
+    lifecycle: {
+        created: function() {
+            console.log('🎯 UserProfile 组件创建');
+            this.loadUser();
+        },
+        
+        mounted: function() {
+            console.log('🎯 UserProfile 组件挂载');
+            
+            // 监听主题变化
+            this.$watch('theme', (newTheme) => {
+                document.documentElement.setAttribute('data-theme', newTheme);
+            });
+        },
+        
+        updated: function() {
+            console.log('🎯 UserProfile 组件更新');
+            
+            // 更新页面标题
+            if (this.user) {
+                document.title = `${this.displayName} - 用户资料`;
+            }
+        },
+        
+        destroyed: function() {
+            console.log('🎯 UserProfile 组件销毁');
+            
+            // 清理资源
+            if (this.avatar && this.avatar.startsWith('blob:')) {
+                URL.revokeObjectURL(this.avatar);
+            }
+        }
+    }
+});
+
+// 🎯 示例4：高级表单处理 - 包含验证和转换
+createForm({
+    name: 'AdvancedContactForm',
+    fields: {
+        name: {
+            type: 'text',
+            required: true,
+            validators: [
+                function(value) {
+                    return value.length >= 2 ? null : '姓名至少2个字符';
+                },
+                function(value) {
+                    return /^[a-zA-Z\u4e00-\u9fa5\s]+$/.test(value) ? null : '姓名只能包含字母、汉字和空格';
+                }
+            ],
+            transformers: [
+                function(value) { return value.trim(); },
+                function(value) { return value.replace(/\s+/g, ' '); }
+            ]
+        },
+        email: {
+            type: 'email',
+            required: true,
+            validators: [
+                function(value) {
+                    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return regex.test(value) ? null : '请输入有效的邮箱地址';
+                }
+            ],
+            transformers: [
+                function(value) { return value.toLowerCase().trim(); }
+            ]
+        },
+        phone: {
+            type: 'tel',
+            required: false,
+            validators: [
+                function(value) {
+                    if (!value) return null;
+                    const regex = /^1[3-9]\d{9}$/;
+                    return regex.test(value) ? null : '请输入有效的手机号码';
+                }
+            ],
+            transformers: [
+                function(value) { return value.replace(/\D/g, ''); }
+            ]
+        }
+    },
+    onSubmit: function(formData, form) {
+        console.log('📝 表单提交:', formData);
+        
+        // 显示加载状态
+        form.setLoading(true);
+        
+        // 提交数据
+        return fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        }).then(response => {
+            if (response.ok) {
+                form.showSuccess('提交成功！我们会尽快联系您。');
+                form.reset();
+            } else {
+                throw new Error('提交失败，请稍后重试');
+            }
+        }).catch(error => {
+            form.showError(error.message);
+        }).finally(() => {
+            form.setLoading(false);
+        });
+    },
+    onValidate: function(field, value, allValues) {
+        // 跨字段验证
+        if (field === 'email' && allValues.name) {
+            // 检查邮箱域名是否与姓名匹配（示例逻辑）
+            const domain = value.split('@')[1];
+            if (domain === 'example.com' && !allValues.name.includes('Example')) {
+                return '邮箱域名与姓名不匹配';
+            }
+        }
+        
+        return null;
+    }
+});

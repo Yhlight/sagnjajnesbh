@@ -30,12 +30,161 @@ public:
 };
 
 /**
- * 参数管理器 - 您的args设计
+ * 高级参数类型
+ */
+enum class AdvancedParamType {
+    STRING,
+    NUMBER,
+    BOOLEAN,
+    FUNCTION,
+    OBJECT,
+    ARRAY,
+    COMPLEX_OBJECT
+};
+
+/**
+ * 高级参数值 - 支持函数和复杂对象
+ */
+class AdvancedParamValue {
+public:
+    AdvancedParamType type;
+    std::string rawValue;           // 原始字符串值
+    std::string processedValue;     // 处理后的值
+    std::vector<std::string> functionParams;  // 函数参数列表
+    std::string functionBody;       // 函数体
+    std::unordered_map<std::string, std::string> objectProps; // 对象属性
+    
+    AdvancedParamValue() : type(AdvancedParamType::STRING) {}
+    
+    // 智能类型检测
+    void analyzeType(const std::string& value) {
+        rawValue = value;
+        
+        if (isFunction(value)) {
+            type = AdvancedParamType::FUNCTION;
+            parseFunctionValue(value);
+        } else if (isObject(value)) {
+            type = AdvancedParamType::OBJECT;
+            parseObjectValue(value);
+        } else if (isArray(value)) {
+            type = AdvancedParamType::ARRAY;
+            processedValue = value;
+        } else if (isNumber(value)) {
+            type = AdvancedParamType::NUMBER;
+            processedValue = value;
+        } else if (isBoolean(value)) {
+            type = AdvancedParamType::BOOLEAN;
+            processedValue = value;
+        } else {
+            type = AdvancedParamType::STRING;
+            processedValue = "'" + value + "'";
+        }
+    }
+    
+private:
+    bool isFunction(const std::string& value) {
+        return value.find("function") != std::string::npos || 
+               value.find("=>") != std::string::npos ||
+               (value.find('(') != std::string::npos && value.find(')') != std::string::npos && value.find('{') != std::string::npos);
+    }
+    
+    bool isObject(const std::string& value) {
+        return value.find('{') != std::string::npos && value.find('}') != std::string::npos;
+    }
+    
+    bool isArray(const std::string& value) {
+        return value.find('[') != std::string::npos && value.find(']') != std::string::npos;
+    }
+    
+    bool isNumber(const std::string& value) {
+        try {
+            std::stod(value);
+            return true;
+        } catch (...) {
+            return false;
+        }
+    }
+    
+    bool isBoolean(const std::string& value) {
+        return value == "true" || value == "false";
+    }
+    
+    void parseFunctionValue(const std::string& value) {
+        // 解析函数参数和函数体
+        size_t parenStart = value.find('(');
+        size_t parenEnd = value.find(')', parenStart);
+        size_t braceStart = value.find('{', parenEnd);
+        size_t braceEnd = value.find_last_of('}');
+        
+        if (parenStart != std::string::npos && parenEnd != std::string::npos) {
+            std::string params = value.substr(parenStart + 1, parenEnd - parenStart - 1);
+            // 解析参数列表
+            std::stringstream ss(params);
+            std::string param;
+            while (std::getline(ss, param, ',')) {
+                param.erase(0, param.find_first_not_of(" \t"));
+                param.erase(param.find_last_not_of(" \t") + 1);
+                if (!param.empty()) {
+                    functionParams.push_back(param);
+                }
+            }
+        }
+        
+        if (braceStart != std::string::npos && braceEnd != std::string::npos) {
+            functionBody = value.substr(braceStart + 1, braceEnd - braceStart - 1);
+        }
+        
+        processedValue = value;  // 保持原函数格式
+    }
+    
+    void parseObjectValue(const std::string& value) {
+        // 简单的对象属性解析
+        size_t braceStart = value.find('{');
+        size_t braceEnd = value.find_last_of('}');
+        
+        if (braceStart != std::string::npos && braceEnd != std::string::npos) {
+            std::string objContent = value.substr(braceStart + 1, braceEnd - braceStart - 1);
+            
+            // 解析键值对
+            std::stringstream ss(objContent);
+            std::string line;
+            
+            while (std::getline(ss, line, ',')) {
+                size_t colonPos = line.find(':');
+                if (colonPos != std::string::npos) {
+                    std::string key = line.substr(0, colonPos);
+                    std::string val = line.substr(colonPos + 1);
+                    
+                    // 清理空白
+                    key.erase(0, key.find_first_not_of(" \t"));
+                    key.erase(key.find_last_not_of(" \t") + 1);
+                    val.erase(0, val.find_first_not_of(" \t"));
+                    val.erase(val.find_last_not_of(" \t") + 1);
+                    
+                    if (!key.empty() && !val.empty()) {
+                        objectProps[key] = val;
+                    }
+                }
+            }
+        }
+        
+        processedValue = value;  // 保持原对象格式
+    }
+};
+
+/**
+ * 参数处理器 - 支持复杂参数类型
+ */
+using AdvancedParamProcessor = std::function<std::string(const AdvancedParamValue&)>;
+
+/**
+ * 参数管理器 - 您的args设计（增强版）
  */
 class ArgsManager {
 public:
     std::vector<Keyword> keywords;          // 所有关键字
-    std::unordered_map<std::string, std::function<std::string(const std::string&)>> bindFunctions; // 绑定的处理函数
+    std::unordered_map<std::string, std::function<std::string(const std::string&)>> bindFunctions; // 简单绑定函数
+    std::unordered_map<std::string, AdvancedParamProcessor> advancedBindFunctions; // 高级绑定函数
     
     /**
      * 绑定采集函数 - args.bind("url", lambda)
@@ -43,6 +192,48 @@ public:
     void bind(const std::string& keywordName, std::function<std::string(const std::string&)> processor) {
         bindFunctions[keywordName] = processor;
         std::cout << "🔗 绑定关键字: " << keywordName << std::endl;
+    }
+    
+    /**
+     * 高级绑定 - 支持函数和复杂对象处理
+     * args.bindAdvanced("callback", [](const AdvancedParamValue& param) { ... })
+     */
+    void bindAdvanced(const std::string& keywordName, AdvancedParamProcessor processor) {
+        advancedBindFunctions[keywordName] = processor;
+        std::cout << "🚀 绑定高级处理器: " << keywordName << std::endl;
+    }
+    
+    /**
+     * slice功能 - 切片处理复杂参数
+     * args.slice("functionParam", start, end, processor)
+     */
+    void slice(const std::string& keywordName, int start, int end, std::function<std::string(const std::string&)> processor) {
+        bindAdvanced(keywordName, [start, end, processor](const AdvancedParamValue& param) -> std::string {
+            if (param.type == AdvancedParamType::FUNCTION) {
+                // 对函数体进行切片处理
+                std::string body = param.functionBody;
+                if (start >= 0 && end <= static_cast<int>(body.length()) && start < end) {
+                    std::string slice = body.substr(start, end - start);
+                    return processor(slice);
+                }
+                return processor(body);
+            } else if (param.type == AdvancedParamType::STRING) {
+                // 对字符串进行切片
+                std::string str = param.rawValue;
+                if (start >= 0 && end <= static_cast<int>(str.length()) && start < end) {
+                    std::string slice = str.substr(start, end - start);
+                    return processor(slice);
+                }
+                return processor(str);
+            } else if (param.type == AdvancedParamType::ARRAY) {
+                // 对数组进行切片处理
+                return "Array.from(" + param.processedValue + ").slice(" + std::to_string(start) + ", " + std::to_string(end) + ")";
+            }
+            
+            return param.processedValue;
+        });
+        
+        std::cout << "✂️ 绑定切片处理器: " << keywordName << " [" << start << ":" << end << "]" << std::endl;
     }
     
     /**
@@ -59,8 +250,15 @@ public:
             });
         
         if (it != keywords.end()) {
-            // 执行绑定的处理函数
-            if (bindFunctions.count(keywordName)) {
+            // 优先使用高级处理器
+            if (advancedBindFunctions.count(keywordName)) {
+                AdvancedParamValue advParam;
+                advParam.analyzeType(keywordValue.value);
+                it->value = advancedBindFunctions[keywordName](advParam);
+                std::cout << "🚀 高级参数处理完成: " << keywordName << " -> " << it->value << std::endl;
+            }
+            // 回退到简单处理器
+            else if (bindFunctions.count(keywordName)) {
                 it->value = bindFunctions[keywordName](keywordValue.value);
                 std::cout << "✅ 参数处理完成: " << keywordName << " -> " << it->value << std::endl;
             } else {
