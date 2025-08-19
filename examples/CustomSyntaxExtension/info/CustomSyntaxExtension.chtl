@@ -1,0 +1,12 @@
+[Info]
+{
+    name = "CustomSyntaxExtension";
+    version = "1.0.0";
+    description = "自定义CHTL JS语法扩展 - 用C++编写新的CHTL JS语法";
+    author = "CJMOD语法扩展开发者";
+    license = "MIT";
+    dependencies = "";
+    category = "syntax_extension";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
