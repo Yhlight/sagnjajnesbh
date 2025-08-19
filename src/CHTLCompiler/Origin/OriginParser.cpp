@@ -11,7 +11,7 @@ OriginParser::OriginParser() {
 
 OriginParser::~OriginParser() = default;
 
-std::unique_ptr<ast::OriginNode> OriginParser::parseOriginBlock(const std::vector<Token>& tokens, size_t& position) {
+std::unique_ptr<ast::OriginNode> OriginParser::parseOrigin(const std::vector<Token>& tokens, size_t& position) {
     // 按语法文档解析 [Origin] @Html/@Style/@JavaScript 块
     
     if (!expectToken(tokens, position, TokenType::LEFT_BRACKET)) {
@@ -431,8 +431,11 @@ std::string OriginParser::extractRawContent(const std::vector<Token>& tokens, si
 
 // === 基础方法 ===
 
-bool OriginParser::expectToken(const std::vector<Token>& tokens, size_t& position, TokenType expectedType) {
+bool OriginParser::expectToken(const std::vector<Token>& tokens, size_t& position, TokenType expectedType, const std::string& errorMessage) {
     if (position >= tokens.size() || tokens[position].type != expectedType) {
+        if (!errorMessage.empty()) {
+            addError(errorMessage);
+        }
         return false;
     }
     position++;
@@ -453,7 +456,7 @@ Token OriginParser::getCurrentToken(const std::vector<Token>& tokens, size_t pos
     if (position < tokens.size()) {
         return tokens[position];
     }
-    return Token{TokenType::END_OF_FILE, "", 0, 0};
+    return Token(TokenType::END_OF_FILE, "", TokenPosition(0, 0));
 }
 
 void OriginParser::addError(const std::string& message) {

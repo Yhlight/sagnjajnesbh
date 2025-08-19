@@ -527,9 +527,10 @@ bool CustomParser::parseCustomInheritance(const std::vector<Token>& tokens, size
             break;
         }
     }
+    return true;
 }
 
-void CustomParser::parseCustomInheritance(const std::vector<Token>& tokens, size_t& position, CustomElement& customElement) {
+bool CustomParser::parseCustomInheritance(const std::vector<Token>& tokens, size_t& position, CustomElement& customElement) {
     // 解析自定义元素的继承语句（类似样式组）
     while (position < tokens.size() && 
            (tokens[position].type == TokenType::IDENTIFIER && tokens[position].value == "inherit") ||
@@ -561,9 +562,10 @@ void CustomParser::parseCustomInheritance(const std::vector<Token>& tokens, size
             break;
         }
     }
+    return true;
 }
 
-void CustomParser::parseCustomInheritance(const std::vector<Token>& tokens, size_t& position, CustomVariable& customVariable) {
+bool CustomParser::parseCustomInheritance(const std::vector<Token>& tokens, size_t& position, CustomVariable& customVariable) {
     // 解析自定义变量组的继承语句（类似样式组）
     while (position < tokens.size() && 
            (tokens[position].type == TokenType::IDENTIFIER && tokens[position].value == "inherit") ||
@@ -595,6 +597,7 @@ void CustomParser::parseCustomInheritance(const std::vector<Token>& tokens, size
             break;
         }
     }
+    return true;
 }
 
 std::unique_ptr<ast::ASTNode> CustomParser::parseHTMLElement(const std::vector<Token>& tokens, size_t& position) {
@@ -615,8 +618,11 @@ std::unique_ptr<ast::ASTNode> CustomParser::parseHTMLElement(const std::vector<T
 
 // === 基础方法 ===
 
-bool CustomParser::expectToken(const std::vector<Token>& tokens, size_t& position, TokenType expectedType) {
+bool CustomParser::expectToken(const std::vector<Token>& tokens, size_t& position, TokenType expectedType, const std::string& errorMessage) {
     if (position >= tokens.size() || tokens[position].type != expectedType) {
+        if (!errorMessage.empty()) {
+            addError(errorMessage);
+        }
         return false;
     }
     position++;
@@ -633,11 +639,11 @@ bool CustomParser::expectKeyword(const std::vector<Token>& tokens, size_t& posit
     return true;
 }
 
-Token CustomParser::getCurrentToken(const std::vector<Token>& tokens, size_t position) {
+Token CustomParser::getCurrentToken(const std::vector<Token>& tokens, size_t position) const {
     if (position < tokens.size()) {
         return tokens[position];
     }
-    return Token{TokenType::END_OF_FILE, "", 0, 0};
+    return Token(TokenType::END_OF_FILE, "", TokenPosition(0, 0));
 }
 
 void CustomParser::addError(const std::string& message) {

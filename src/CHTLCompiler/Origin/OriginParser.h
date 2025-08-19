@@ -52,10 +52,14 @@ public:
     std::unique_ptr<ast::OriginNode> parseOriginReference(const std::vector<Token>& tokens, size_t& position);
     
     // 分类型解析
-    std::unique_ptr<ast::OriginNode> parseHTMLOrigin(const std::vector<Token>& tokens, size_t& position);
-    std::unique_ptr<ast::OriginNode> parseStyleOrigin(const std::vector<Token>& tokens, size_t& position);
-    std::unique_ptr<ast::OriginNode> parseJavaScriptOrigin(const std::vector<Token>& tokens, size_t& position);
-    std::unique_ptr<ast::OriginNode> parseCustomTypeOrigin(const std::vector<Token>& tokens, size_t& position);
+    std::unique_ptr<ast::OriginNode> parseHTMLOrigin(const std::vector<Token>& tokens, size_t& position,
+                                                     std::unique_ptr<ast::OriginNode> originNode);
+    std::unique_ptr<ast::OriginNode> parseStyleOrigin(const std::vector<Token>& tokens, size_t& position,
+                                                      std::unique_ptr<ast::OriginNode> originNode);
+    std::unique_ptr<ast::OriginNode> parseJavaScriptOrigin(const std::vector<Token>& tokens, size_t& position,
+                                                           std::unique_ptr<ast::OriginNode> originNode);
+    std::unique_ptr<ast::OriginNode> parseCustomOrigin(const std::vector<Token>& tokens, size_t& position,
+                                                       std::unique_ptr<ast::OriginNode> originNode);
     
     // 带名原始嵌入解析
     std::unique_ptr<ast::OriginNode> parseNamedOrigin(const std::vector<Token>& tokens, size_t& position);
@@ -64,6 +68,14 @@ public:
     // 原始内容解析
     bool parseOriginContent(const std::vector<Token>& tokens, size_t& position, std::string& content);
     bool extractRawContent(const std::vector<Token>& tokens, size_t startPos, size_t endPos, std::string& content);
+    
+    // 实现中存在的方法
+    std::unique_ptr<ast::ASTNode> parseOriginUsage(const std::vector<Token>& tokens, size_t& position);
+    bool needsSpaceBetween(const Token& current, const Token& next);
+    bool isOriginTypeToken(const Token& token);
+    std::string extractRawContent(const std::vector<Token>& tokens, size_t start, size_t end);
+    bool expectKeyword(const std::vector<Token>& tokens, size_t& position, const std::string& keyword);
+    Token getCurrentToken(const std::vector<Token>& tokens, size_t position);
     
     // 自定义类型处理
     bool registerCustomOriginType(const std::string& typeName);

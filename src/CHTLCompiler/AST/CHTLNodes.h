@@ -240,6 +240,7 @@ public:
     std::string target; // 操作目标
     std::string position; // after, before, at top, at bottom
     std::string selector; // 选择器（用于insert）
+    std::vector<std::unique_ptr<ast::ASTNode>> content; // 插入或替换的内容
     
     explicit SpecializationNode(const TokenPosition& pos = TokenPosition()) : ASTNode(pos) {}
     

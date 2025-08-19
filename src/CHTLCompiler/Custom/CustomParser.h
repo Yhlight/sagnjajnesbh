@@ -168,6 +168,12 @@ private:
     void addError(const std::string& error);
     void addContextualError(const std::string& error, const Token& token);
     
+    // 缺失的方法声明
+    std::unique_ptr<ast::ASTNode> parseOriginUsage(const std::vector<Token>& tokens, size_t& position);
+    bool needsSpaceBetween(const Token& current, const Token& next);
+    bool isOriginTypeToken(const Token& token);
+    std::string extractRawContent(const std::vector<Token>& tokens, size_t start, size_t end);
+    
     // 状态验证
     bool isValidCustomState() const;
     bool canParseCustomType(const std::string& customType) const;
