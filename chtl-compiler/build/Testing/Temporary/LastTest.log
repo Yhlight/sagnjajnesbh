@@ -1,0 +1,77 @@
+Start testing: Aug 19 21:27 UTC
+----------------------------------------------------------
+1/3 Testing: scanner_test
+1/3 Test: scanner_test
+Command: "/workspace/chtl-compiler/build/tests/test_scanner"
+Directory: /workspace/chtl-compiler/build/tests
+"scanner_test" start time: Aug 19 21:27 UTC
+Output:
+----------------------------------------------------------
+Running Scanner Tests
+====================
+
+Testing basic scanning...
+✓ Basic scanning test passed
+Testing mixed content scanning...
+✓ Mixed content test passed
+
+All scanner tests passed! ✓
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"scanner_test" end time: Aug 19 21:27 UTC
+"scanner_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/3 Testing: chtl_compiler_test
+2/3 Test: chtl_compiler_test
+Command: "/workspace/chtl-compiler/build/tests/test_chtl_compiler"
+Directory: /workspace/chtl-compiler/build/tests
+"chtl_compiler_test" start time: Aug 19 21:27 UTC
+Output:
+----------------------------------------------------------
+Running CHTL Compiler Tests
+==========================
+
+Testing basic CHTL compilation...
+✓ Basic compilation test passed
+Testing local style compilation...
+✓ Local style compilation test passed
+
+All CHTL compiler tests passed! ✓
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"chtl_compiler_test" end time: Aug 19 21:27 UTC
+"chtl_compiler_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/3 Testing: integration_test
+3/3 Test: integration_test
+Command: "/workspace/chtl-compiler/build/tests/test_integration"
+Directory: /workspace/chtl-compiler/build/tests
+"integration_test" start time: Aug 19 21:27 UTC
+Output:
+----------------------------------------------------------
+Running CHTL Compiler Integration Tests
+=====================================
+
+Testing basic HTML generation...
+✓ Basic HTML test passed
+Testing local style processing...
+✓ Local style test passed
+Testing CHTL JS compilation...
+✓ CHTL JS test passed
+
+All tests passed! ✓
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"integration_test" end time: Aug 19 21:27 UTC
+"integration_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Aug 19 21:27 UTC

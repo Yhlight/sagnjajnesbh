@@ -1,0 +1,4 @@
+scanner_test 1 0.00143215
+chtl_compiler_test 1 0.00153747
+integration_test 1 0.00159528
+---

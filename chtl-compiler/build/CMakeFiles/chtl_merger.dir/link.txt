@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchtl_merger.a CMakeFiles/chtl_merger.dir/src/merger/result_merger.cpp.o CMakeFiles/chtl_merger.dir/src/merger/html_generator.cpp.o
+/usr/bin/ranlib libchtl_merger.a
