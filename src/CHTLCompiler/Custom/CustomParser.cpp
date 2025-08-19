@@ -10,15 +10,24 @@ CustomParser::CustomParser() : debugMode_(false) {
     ownedStateManager_ = std::make_unique<StateManager>();
     context_ = ownedContext_.get();
     stateManager_ = ownedStateManager_.get();
-    customManager_ = g_customManager;
+    // 延迟初始化Manager
+    customManager_ = nullptr;
 }
 
 CustomParser::CustomParser(CHTLContext& context, StateManager& stateManager) 
     : context_(&context), stateManager_(&stateManager), debugMode_(false) {
-    customManager_ = g_customManager;
+    // 延迟初始化Manager
+    customManager_ = nullptr;
 }
 
 CustomParser::~CustomParser() = default;
+
+std::shared_ptr<CustomManager> CustomParser::getCustomManager() {
+    if (!customManager_) {
+        customManager_ = g_customManager;
+    }
+    return customManager_;
+}
 
 std::unique_ptr<ast::CustomNode> CustomParser::parseCustom(const std::vector<Token>& tokens, size_t& position) {
     // 按语法文档解析 [Custom] @Style/@Element/@Var 块

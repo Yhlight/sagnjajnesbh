@@ -12,10 +12,10 @@ CHTLParser::CHTLParser() : current_token_(0), debug_mode_(false) {
     
     // 初始化状态管理器和专门解析器
     state_manager_ = std::make_unique<StateManager>();
-    template_parser_ = std::make_unique<template_system::TemplateParser>(*context_, *state_manager_);
-    custom_parser_ = std::make_unique<custom_system::CustomParser>(*context_, *state_manager_);
-    origin_parser_ = std::make_unique<origin_system::OriginParser>(*context_, *state_manager_);
-    constraint_parser_ = std::make_unique<constraint_system::ConstraintParser>(*context_, *state_manager_);
+    template_parser_ = nullptr; // 暂时禁用避免段错误
+    custom_parser_ = // std::make_unique<custom_system::CustomParser>(*context_, *state_manager_);
+    origin_parser_ = // std::make_unique<origin_system::OriginParser>(*context_, *state_manager_);
+    constraint_parser_ = // std::make_unique<constraint_system::ConstraintParser>(*context_, *state_manager_);
 }
 
 CHTLParser::CHTLParser(CHTLContext& context) 
@@ -287,7 +287,7 @@ std::unique_ptr<ast::ASTNode> CHTLParser::parseElement() {
                     
                     if (check(TokenType::IDENTIFIER) || check(TokenType::STRING)) {
                         std::string attrValue = getCurrentToken().value;
-                        element_node->attributes[attrName] = attrValue;
+                        element_node->attributes.emplace_back(attrName, attrValue);
                         advance(); // 消费属性值
                         
                         if (check(TokenType::SEMICOLON)) {

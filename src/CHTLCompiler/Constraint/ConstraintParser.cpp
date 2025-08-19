@@ -11,15 +11,24 @@ ConstraintParser::ConstraintParser() : debugMode_(false) {
     ownedStateManager_ = std::make_unique<StateManager>();
     context_ = ownedContext_.get();
     stateManager_ = ownedStateManager_.get();
-    constraintManager_ = g_constraintManager;
+    // 延迟初始化Manager
+    constraintManager_ = nullptr;
 }
 
 ConstraintParser::ConstraintParser(CHTLContext& context, StateManager& stateManager) 
     : context_(&context), stateManager_(&stateManager), debugMode_(false) {
-    constraintManager_ = g_constraintManager;
+    // 延迟初始化Manager
+    constraintManager_ = nullptr;
 }
 
 ConstraintParser::~ConstraintParser() = default;
+
+std::shared_ptr<ConstraintManager> ConstraintParser::getConstraintManager() {
+    if (!constraintManager_) {
+        constraintManager_ = g_constraintManager;
+    }
+    return constraintManager_;
+}
 
 std::unique_ptr<ast::ConstraintNode> ConstraintParser::parseConstraint(const std::vector<Token>& tokens, size_t& position) {
     // 按语法文档解析约束语句：except span, [Custom] @Element Box;

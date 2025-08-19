@@ -96,6 +96,9 @@ public:
     // 调试
     void setDebugMode(bool debug) { debugMode_ = debug; }
     bool isDebugMode() const { return debugMode_; }
+    
+    // 安全的Manager获取
+    std::shared_ptr<ConstraintManager> getConstraintManager();
 
 private:
     CHTLContext* context_;

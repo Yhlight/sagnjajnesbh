@@ -10,15 +10,24 @@ OriginParser::OriginParser() : debugMode_(false) {
     ownedStateManager_ = std::make_unique<StateManager>();
     context_ = ownedContext_.get();
     stateManager_ = ownedStateManager_.get();
-    originManager_ = g_originManager;
+    // 延迟初始化Manager
+    originManager_ = nullptr;
 }
 
 OriginParser::OriginParser(CHTLContext& context, StateManager& stateManager) 
     : context_(&context), stateManager_(&stateManager), debugMode_(false) {
-    originManager_ = g_originManager;
+    // 延迟初始化Manager
+    originManager_ = nullptr;
 }
 
 OriginParser::~OriginParser() = default;
+
+std::shared_ptr<OriginManager> OriginParser::getOriginManager() {
+    if (!originManager_) {
+        originManager_ = g_originManager;
+    }
+    return originManager_;
+}
 
 std::unique_ptr<ast::OriginNode> OriginParser::parseOrigin(const std::vector<Token>& tokens, size_t& position) {
     // 按语法文档解析 [Origin] @Html/@Style/@JavaScript 块
