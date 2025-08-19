@@ -170,6 +170,20 @@ CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cp
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.s
 
+CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/flags.make
+CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o: /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp
+CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o: CMakeFiles/chtljs_compiler.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o -MF CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o.d -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp
+
+CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp > CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.i
+
+CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp -o CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.s
+
 # Object files for target chtljs_compiler
 chtljs_compiler_OBJECTS = \
 "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/CHTLJSCompiler.cpp.o" \
@@ -178,7 +192,8 @@ chtljs_compiler_OBJECTS = \
 "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o" \
 "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o" \
 "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.o" \
-"CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o"
+"CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o" \
+"CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o"
 
 # External object files for target chtljs_compiler
 chtljs_compiler_EXTERNAL_OBJECTS =
@@ -190,9 +205,10 @@ lib/libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enha
 lib/libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o
 lib/libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.o
 lib/libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o
+lib/libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o
 lib/libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/build.make
 lib/libchtljs_compiler.a: CMakeFiles/chtljs_compiler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX static library lib/libchtljs_compiler.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX static library lib/libchtljs_compiler.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/chtljs_compiler.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtljs_compiler.dir/link.txt --verbose=$(VERBOSE)
 

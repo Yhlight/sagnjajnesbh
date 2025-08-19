@@ -7,6 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o.d"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o.d"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o"
+  "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o.d"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o.d"
   "CMakeFiles/chtljs_compiler.dir/src/CHTLJSCompiler/Module/YourCJMODDesign.cpp.o"

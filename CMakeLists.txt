@@ -32,6 +32,11 @@ add_library(chtl_compiler STATIC
     src/CHTLCompiler/Module/CmodManager.cpp
     src/CHTLCompiler/State/CHTLState.cpp
     src/CHTLCompiler/State/CHTLGlobalMap.cpp
+    # 完整的管理器实现 - 按语法文档要求
+    src/CHTLCompiler/Template/TemplateManager.cpp
+    src/CHTLCompiler/Custom/CustomManager.cpp
+    src/CHTLCompiler/Origin/OriginManager.cpp
+    src/CHTLCompiler/Constraint/ConstraintManager.cpp
 )
 target_link_libraries(chtl_compiler chtl_common)
 
@@ -46,9 +51,9 @@ add_library(chtljs_compiler STATIC
     # 现有的完整处理器
     src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp
     src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp
-    # src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp
-    # src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp
-    # src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp
+    # src/CHTLJSCompiler/Animation/AnimateSystemProcessor.cpp  # 头文件声明不匹配
+    # src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp  # 需要验证
+    # src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp  # 需要验证
     # src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp
     # src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp
     # src/CHTLJSCompiler/AST/VirtualObjectManager.cpp
