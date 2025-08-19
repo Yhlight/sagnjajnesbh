@@ -81,9 +81,15 @@ public:
     // 索引访问解析
     std::unique_ptr<ast::IndexAccessNode> parseIndexAccess(const std::vector<Token>& tokens, size_t& position);
     
-    // 继承解析
+    // 继承解析 (重载版本以支持不同的自定义类型)
     bool parseCustomInheritance(const std::vector<Token>& tokens, size_t& position,
                                std::vector<std::string>& inheritedItems);
+    bool parseCustomInheritance(const std::vector<Token>& tokens, size_t& position,
+                               CustomStyle& customStyle);
+    bool parseCustomInheritance(const std::vector<Token>& tokens, size_t& position,
+                               CustomElement& customElement);
+    bool parseCustomInheritance(const std::vector<Token>& tokens, size_t& position,
+                               CustomVariable& customVariable);
     
     // 自定义使用解析
     bool parseCustomUsageWithSpecialization(const std::vector<Token>& tokens, size_t& position,

@@ -495,7 +495,7 @@ std::unique_ptr<ast::SpecializationNode> CustomParser::parseReplaceSpecializatio
 
 // === 辅助方法 ===
 
-void CustomParser::parseCustomInheritance(const std::vector<Token>& tokens, size_t& position, CustomStyle& customStyle) {
+bool CustomParser::parseCustomInheritance(const std::vector<Token>& tokens, size_t& position, CustomStyle& customStyle) {
     // 解析自定义样式组的继承语句
     while (position < tokens.size() && 
            (tokens[position].type == TokenType::IDENTIFIER && tokens[position].value == "inherit") ||
