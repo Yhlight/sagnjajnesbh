@@ -1,0 +1,241 @@
+html {
+    lang: zh-CN;
+    
+    head {
+        meta {
+            charset: UTF-8;
+        }
+        
+        meta {
+            name: viewport;
+            content: width=device-width, initial-scale=1.0;
+        }
+        
+        title { 
+            text { CHTL大型网页测试 } 
+        }
+    }
+    
+    body {
+        margin: 0;
+        font-family: Arial;
+        
+        header {
+            background: blue;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            
+            div {
+                class: container;
+                max-width: 1200px;
+                margin: 0 auto;
+                
+                h1 {
+                    text { CHTL编程语言 }
+                    margin: 0 0 10px 0;
+                    font-size: 3rem;
+                }
+                
+                p {
+                    text { 直观的超文本模板语言 }
+                    font-size: 1.2rem;
+                    margin: 0;
+                }
+            }
+        }
+        
+        nav {
+            background: darkblue;
+            padding: 15px 0;
+            
+            div {
+                class: container;
+                max-width: 1200px;
+                margin: 0 auto;
+                
+                ul {
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    
+                    li {
+                        margin: 0 20px;
+                        
+                        a {
+                            color: white;
+                            text-decoration: none;
+                            font-weight: 500;
+                            
+                            text { 首页 }
+                        }
+                    }
+                    
+                    li {
+                        a {
+                            text { 功能 }
+                        }
+                    }
+                    
+                    li {
+                        a {
+                            text { 文档 }
+                        }
+                    }
+                    
+                    li {
+                        a {
+                            text { 示例 }
+                        }
+                    }
+                }
+            }
+        }
+        
+        main {
+            min-height: 600px;
+            padding: 40px 0;
+            
+            div {
+                class: container;
+                max-width: 1200px;
+                margin: 0 auto;
+                
+                section {
+                    class: hero-section;
+                    text-align: center;
+                    padding: 60px 0;
+                    
+                    h2 {
+                        text { 主要特性 }
+                        font-size: 2.5rem;
+                        margin-bottom: 30px;
+                        color: darkblue;
+                    }
+                    
+                    div {
+                        class: features-grid;
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        gap: 30px;
+                        margin-top: 40px;
+                        
+                        div {
+                            class: feature-card;
+                            background: white;
+                            padding: 30px;
+                            border-radius: 8px;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                            
+                            h3 {
+                                text { 直观语法 }
+                                color: blue;
+                                margin-bottom: 15px;
+                                font-size: 1.5rem;
+                            }
+                            
+                            p {
+                                text { CHTL使用类似CSS的嵌套语法，让HTML结构一目了然 }
+                                line-height: 1.6;
+                                color: gray;
+                            }
+                        }
+                        
+                        div {
+                            class: feature-card;
+                            
+                            h3 {
+                                text { 模板系统 }
+                                color: green;
+                                margin-bottom: 15px;
+                            }
+                            
+                            p {
+                                text { 强大的模板系统支持样式模板和元素模板 }
+                                line-height: 1.6;
+                                color: gray;
+                            }
+                        }
+                        
+                        div {
+                            class: feature-card;
+                            
+                            h3 {
+                                text { 组件化开发 }
+                                color: orange;
+                                margin-bottom: 15px;
+                            }
+                            
+                            p {
+                                text { 支持自定义组件和可复用的HTML结构 }
+                                line-height: 1.6;
+                                color: gray;
+                            }
+                        }
+                    }
+                }
+                
+                section {
+                    class: demo-section;
+                    background: lightgray;
+                    padding: 60px 30px;
+                    margin: 60px 0;
+                    border-radius: 8px;
+                    
+                    h2 {
+                        text { 代码示例 }
+                        text-align: center;
+                        font-size: 2rem;
+                        margin-bottom: 30px;
+                        color: darkblue;
+                    }
+                    
+                    div {
+                        class: code-demo;
+                        background: white;
+                        padding: 30px;
+                        border-radius: 8px;
+                        
+                        h3 {
+                            text { CHTL语法演示 }
+                            color: blue;
+                            margin-bottom: 20px;
+                        }
+                        
+                        p {
+                            text { 以下是CHTL语法的基本示例 }
+                            margin-bottom: 20px;
+                            font-style: italic;
+                        }
+                    }
+                }
+            }
+        }
+        
+        footer {
+            background: darkgray;
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+            
+            div {
+                class: container;
+                max-width: 1200px;
+                margin: 0 auto;
+                
+                p {
+                    text { © 2024 CHTL编程语言. 保留所有权利. }
+                    margin: 0 0 10px 0;
+                }
+                
+                p {
+                    text { 使用CHTL构建的演示网页 }
+                    margin: 0;
+                    font-size: 0.9rem;
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}

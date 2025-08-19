@@ -1,0 +1,254 @@
+{
+    "name": "chtl",
+    "displayName": "CHTL Language Support",
+    "description": "完整的CHTL语言支持 - 智能提示、语法高亮、模块管理、实时编译",
+    "version": "1.0.0",
+    "publisher": "chtl-dev",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chtl-lang/chtl"
+    },
+    "engines": {
+        "vscode": "^1.74.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Snippets",
+        "Formatters",
+        "Linters",
+        "Other"
+    ],
+    "keywords": [
+        "chtl",
+        "template",
+        "web",
+        "html",
+        "css",
+        "javascript",
+        "chtholly"
+    ],
+    "activationEvents": [
+        "onLanguage:chtl",
+        "onCommand:chtl.compile",
+        "onCommand:chtl.preview"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "languages": [
+            {
+                "id": "chtl",
+                "aliases": [
+                    "CHTL",
+                    "chtl",
+                    "Chtholly Template Language"
+                ],
+                "extensions": [
+                    ".chtl"
+                ],
+                "configuration": "./language-configuration.json",
+                "icon": {
+                    "light": "./icons/chtl-light.svg",
+                    "dark": "./icons/chtl-dark.svg"
+                }
+            }
+        ],
+        "grammars": [
+            {
+                "language": "chtl",
+                "scopeName": "source.chtl",
+                "path": "./syntaxes/chtl.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "chtl",
+                "path": "./snippets/chtl.json"
+            }
+        ],
+        "themes": [
+            {
+                "label": "CHTL Chtholly Theme",
+                "uiTheme": "vs-dark",
+                "path": "./themes/chtholly-theme.json"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "CHTL Configuration",
+            "properties": {
+                "chtl.compiler.path": {
+                    "type": "string",
+                    "default": "",
+                    "description": "CHTL编译器路径（留空使用内置编译器）"
+                },
+                "chtl.formatting.enable": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "启用CHTL代码格式化"
+                },
+                "chtl.validation.enable": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "启用CHTL语法验证"
+                },
+                "chtl.completion.enable": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "启用CHTL智能提示"
+                },
+                "chtl.modules.autoLoad": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "自动加载工作区中的CMOD/CJMOD模块"
+                },
+                "chtl.preview.enable": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "启用实时预览功能"
+                },
+                "chtl.preview.port": {
+                    "type": "number",
+                    "default": 3000,
+                    "description": "预览服务器端口"
+                }
+            }
+        },
+        "commands": [
+            {
+                "command": "chtl.compile",
+                "title": "编译CHTL文件",
+                "category": "CHTL",
+                "icon": "$(play)"
+            },
+            {
+                "command": "chtl.preview",
+                "title": "预览CHTL文件",
+                "category": "CHTL",
+                "icon": "$(preview)"
+            },
+            {
+                "command": "chtl.format",
+                "title": "格式化CHTL代码",
+                "category": "CHTL",
+                "icon": "$(symbol-keyword)"
+            },
+            {
+                "command": "chtl.validate",
+                "title": "验证CHTL语法",
+                "category": "CHTL",
+                "icon": "$(check)"
+            },
+            {
+                "command": "chtl.modules.refresh",
+                "title": "刷新模块索引",
+                "category": "CHTL",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "chtl.modules.install",
+                "title": "安装CHTL模块",
+                "category": "CHTL",
+                "icon": "$(cloud-download)"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "chtl.compile",
+                "key": "ctrl+shift+b",
+                "mac": "cmd+shift+b",
+                "when": "resourceExtname == .chtl"
+            },
+            {
+                "command": "chtl.preview",
+                "key": "ctrl+shift+v",
+                "mac": "cmd+shift+v",
+                "when": "resourceExtname == .chtl"
+            },
+            {
+                "command": "chtl.format",
+                "key": "shift+alt+f",
+                "mac": "shift+option+f",
+                "when": "resourceExtname == .chtl"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "when": "resourceExtname == .chtl",
+                    "command": "chtl.compile",
+                    "group": "chtl@1"
+                },
+                {
+                    "when": "resourceExtname == .chtl",
+                    "command": "chtl.preview",
+                    "group": "chtl@2"
+                },
+                {
+                    "when": "resourceExtname == .chtl",
+                    "command": "chtl.format",
+                    "group": "chtl@3"
+                },
+                {
+                    "when": "resourceExtname == .chtl",
+                    "command": "chtl.validate",
+                    "group": "chtl@4"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "when": "resourceExtname == .cmod || resourceExtname == .cjmod",
+                    "command": "chtl.modules.install",
+                    "group": "chtl@1"
+                }
+            ]
+        },
+        "views": {
+            "explorer": [
+                {
+                    "id": "chtlModules",
+                    "name": "CHTL 模块",
+                    "when": "workspaceHasFiles"
+                }
+            ]
+        },
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "chtl",
+                    "title": "CHTL",
+                    "icon": "./icons/chtl-activity.svg"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run build-all",
+        "build-all": "npm run build-compiler && npm run package-modules && npm run compile",
+        "build-compiler": "node scripts/build-compiler.js",
+        "package-modules": "node scripts/package-modules.js",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "test": "node ./out/test/runTest.js",
+        "package": "vsce package"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.74.0",
+        "@types/node": "16.x",
+        "@typescript-eslint/eslint-plugin": "^5.45.0",
+        "@typescript-eslint/parser": "^5.45.0",
+        "eslint": "^8.28.0",
+        "typescript": "^4.9.4",
+        "@vscode/test-electron": "^2.2.0",
+        "vsce": "^2.15.0"
+    },
+    "dependencies": {
+        "vscode-languageclient": "^8.0.2",
+        "vscode-languageserver": "^8.0.2",
+        "vscode-languageserver-textdocument": "^1.0.7",
+        "express": "^4.18.2",
+        "ws": "^8.11.0",
+        "chokidar": "^3.5.3"
+    }
+}

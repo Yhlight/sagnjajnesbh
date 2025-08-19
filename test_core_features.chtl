@@ -1,0 +1,111 @@
+[Template] @Style MainTheme {
+    container: {
+        width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    header: {
+        background: blue;
+        color: white;
+        padding: 40px 0;
+        text-align: center;
+    }
+}
+
+[Custom] @Element InfoCard {
+    class: card;
+    background: white;
+    padding: 24px;
+    margin: 16px 0;
+    
+    specialization {
+        featured {
+            border: 3px solid orange;
+        }
+    }
+}
+
+html {
+    lang: zh-CN;
+    
+    head {
+        meta {
+            charset: UTF-8;
+        }
+        
+        title { 
+            text { CHTL核心功能测试 } 
+        }
+    }
+    
+    body {
+        inherit: MainTheme.container;
+        margin: 0;
+        font-family: Arial;
+        
+        header {
+            inherit: MainTheme.header;
+            
+            h1 {
+                text { CHTL测试页面 }
+                margin: 0;
+                font-size: 2rem;
+            }
+            
+            p {
+                text { 测试模板继承和自定义组件 }
+                margin: 10px 0 0 0;
+            }
+        }
+        
+        main {
+            padding: 40px 0;
+            
+            section {
+                div {
+                    use: InfoCard;
+                    class: featured;
+                    
+                    h2 {
+                        text { 模板系统 }
+                        color: blue;
+                        margin-bottom: 15px;
+                    }
+                    
+                    p {
+                        text { CHTL模板系统支持样式继承和复用 }
+                        line-height: 1.6;
+                    }
+                }
+                
+                div {
+                    use: InfoCard;
+                    
+                    h2 {
+                        text { 自定义组件 }
+                        color: green;
+                        margin-bottom: 15px;
+                    }
+                    
+                    p {
+                        text { 支持自定义元素和特例化操作 }
+                        line-height: 1.6;
+                    }
+                }
+            }
+        }
+        
+        footer {
+            background: gray;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            
+            p {
+                text { CHTL核心功能演示 }
+                margin: 0;
+            }
+        }
+    }
+}

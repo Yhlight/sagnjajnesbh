@@ -1,0 +1,462 @@
+// ========================================
+// 珂朵莉CMOD主模块 - 简洁实用设计
+// 严格按照CHTL语法文档
+// ========================================
+
+// 珂朵莉色彩变量组
+[Custom] @Var ChthollyColors
+{
+    primary: "#FFB6C1";
+    secondary: "#FFC0CB";
+    accent: "#FF69B4";
+    background: "#FFF8DC";
+    text: "#8B4513";
+    border: "#DDA0DD";
+}
+
+// 1. 手风琴
+[Custom] @Element ChthollyAccordion
+{
+    div
+    {
+        style
+        {
+            .accordion
+            {
+                background: ChthollyColors(background);
+                border: 1px solid ChthollyColors(border);
+                border-radius: 8px;
+            }
+            
+            .accordion-header
+            {
+                background: ChthollyColors(primary);
+                padding: 16px;
+                cursor: pointer;
+                color: ChthollyColors(text);
+            }
+            
+            .accordion-content
+            {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+            
+            .accordion-content.active
+            {
+                max-height: 200px;
+            }
+        }
+        
+        script
+        {
+            {{.accordion-header}}->listen({
+                click: function() {
+                    const content = this.nextElementSibling;
+                    content.classList.toggle('active');
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "accordion-header";
+        text { 点击展开 }
+    }
+    
+    div
+    {
+        class: "accordion-content";
+        
+        div
+        {
+            style: "padding: 16px;";
+            text { 内容区域 }
+        }
+    }
+}
+
+// 2. 四叶窗相册
+[Custom] @Element ChthollyGallery
+{
+    div
+    {
+        style
+        {
+            .gallery
+            {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 16px;
+                padding: 16px;
+            }
+            
+            .gallery-item
+            {
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                transition: transform 0.3s ease;
+            }
+            
+            .gallery-item:hover
+            {
+                transform: translateY(-4px);
+            }
+        }
+        
+        script
+        {
+            {{.gallery-item}}->listen({
+                click: function() {
+                    console.log('相册项点击');
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "gallery-item";
+        
+        div
+        {
+            style: "height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;";
+            text { 图片1 }
+        }
+    }
+    
+    div
+    {
+        class: "gallery-item";
+        
+        div
+        {
+            style: "height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;";
+            text { 图片2 }
+        }
+    }
+}
+
+// 3. 备忘录
+[Custom] @Element ChthollyMemo
+{
+    div
+    {
+        style
+        {
+            .memo
+            {
+                background: ChthollyColors(background);
+                border: 1px solid ChthollyColors(border);
+                border-radius: 8px;
+                padding: 16px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            }
+            
+            .memo-title
+            {
+                color: ChthollyColors(accent);
+                font-weight: bold;
+                margin-bottom: 8px;
+            }
+            
+            .memo-content
+            {
+                color: ChthollyColors(text);
+                line-height: 1.6;
+            }
+        }
+    }
+    
+    div
+    {
+        class: "memo-title";
+        text { 备忘录 }
+    }
+    
+    div
+    {
+        class: "memo-content";
+        text { 这是一条备忘录内容 }
+    }
+}
+
+// 4. 暖色笔记
+[Custom] @Element ChthollyNote
+{
+    div
+    {
+        style
+        {
+            .note
+            {
+                background: ChthollyColors(background);
+                border-left: 4px solid ChthollyColors(accent);
+                padding: 16px;
+                margin: 16px 0;
+            }
+            
+            .note-content
+            {
+                color: ChthollyColors(text);
+                line-height: 1.6;
+            }
+        }
+    }
+    
+    div
+    {
+        class: "note-content";
+        text { 笔记内容 }
+    }
+}
+
+// 5. 樱花雨
+[Custom] @Element ChthollySakura
+{
+    div
+    {
+        style
+        {
+            .sakura-container
+            {
+                position: relative;
+                height: 300px;
+                background: linear-gradient(to bottom, ChthollyColors(background), ChthollyColors(primary));
+                overflow: hidden;
+                border-radius: 8px;
+            }
+            
+            .sakura-title
+            {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: ChthollyColors(accent);
+                font-size: 24px;
+                font-weight: bold;
+            }
+        }
+        
+        script
+        {
+            console.log('樱花雨效果');
+        }
+    }
+    
+    div
+    {
+        class: "sakura-title";
+        text { 樱花雨 }
+    }
+}
+
+// 6. 鼠标特效
+[Custom] @Element ChthollyMouseEffect
+{
+    div
+    {
+        style
+        {
+            .mouse-effect
+            {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9999;
+            }
+        }
+        
+        script
+        {
+            {{document}}->listen({
+                mousemove: function(event) {
+                    // 简单的鼠标特效
+                    if (Math.random() > 0.95) {
+                        console.log('鼠标特效');
+                    }
+                }
+            });
+        }
+    }
+}
+
+// 7. 鼠标拖尾
+[Custom] @Element ChthollyMouseTrail
+{
+    div
+    {
+        style
+        {
+            .mouse-trail
+            {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9998;
+            }
+        }
+        
+        script
+        {
+            console.log('鼠标拖尾效果');
+        }
+    }
+}
+
+// 8. 视差滚动背景
+[Custom] @Element ChthollyParallax
+{
+    div
+    {
+        style
+        {
+            .parallax
+            {
+                height: 300px;
+                background: ChthollyColors(background);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .parallax-content
+            {
+                position: relative;
+                z-index: 1;
+                padding: 50px;
+                text-align: center;
+            }
+        }
+        
+        script
+        {
+            {{window}}->listen({
+                scroll: function() {
+                    console.log('视差滚动');
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "parallax-content";
+        text { 视差滚动内容 }
+    }
+}
+
+// 9. 右键菜单栏
+[Custom] @Element ChthollyContextMenu
+{
+    div
+    {
+        style
+        {
+            .context-menu
+            {
+                position: fixed;
+                background: white;
+                border: 1px solid ChthollyColors(border);
+                border-radius: 4px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                padding: 8px 0;
+                display: none;
+                z-index: 1000;
+            }
+            
+            .menu-item
+            {
+                padding: 8px 16px;
+                cursor: pointer;
+                color: ChthollyColors(text);
+            }
+            
+            .menu-item:hover
+            {
+                background: ChthollyColors(primary);
+            }
+        }
+        
+        script
+        {
+            {{document}}->listen({
+                contextmenu: function(event) {
+                    event.preventDefault();
+                    const menu = {{.context-menu}};
+                    menu.style.display = 'block';
+                    menu.style.left = event.clientX + 'px';
+                    menu.style.top = event.clientY + 'px';
+                },
+                
+                click: function() {
+                    {{.context-menu}}.style.display = 'none';
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "menu-item";
+        text { 菜单项1 }
+    }
+    
+    div
+    {
+        class: "menu-item";
+        text { 菜单项2 }
+    }
+}
+
+// 10. 进度条
+[Custom] @Element ChthollyProgressBar
+{
+    div
+    {
+        style
+        {
+            .progress
+            {
+                width: 100%;
+                background: #f0f0f0;
+                border-radius: 4px;
+                overflow: hidden;
+            }
+            
+            .progress-bar
+            {
+                height: 20px;
+                background: ChthollyColors(accent);
+                width: 0%;
+                transition: width 0.3s ease;
+            }
+        }
+        
+        script
+        {
+            let progress = 0;
+            const bar = {{.progress-bar}};
+            
+            setInterval(() => {
+                progress += 10;
+                if (progress > 100) progress = 0;
+                bar.style.width = progress + '%';
+            }, 500);
+        }
+    }
+    
+    div
+    {
+        class: "progress-bar";
+    }
+}

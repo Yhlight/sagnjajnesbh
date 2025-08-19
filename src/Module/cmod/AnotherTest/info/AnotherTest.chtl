@@ -1,0 +1,12 @@
+[Info] {
+    name = "AnotherTest";
+    version = "1.0.0";
+    description = "cmod格式测试模块（小写）";
+    author = "CHTL Team";
+    license = "MIT";
+    category = "test";
+}
+
+[Export] {
+    [Template] @Style TestStyles;
+}

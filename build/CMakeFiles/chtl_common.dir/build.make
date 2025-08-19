@@ -72,92 +72,92 @@ include CMakeFiles/chtl_common.dir/flags.make
 CMakeFiles/chtl_common.dir/codegen:
 .PHONY : CMakeFiles/chtl_common.dir/codegen
 
-CMakeFiles/chtl_common.dir/src/common/Token.cpp.o: CMakeFiles/chtl_common.dir/flags.make
-CMakeFiles/chtl_common.dir/src/common/Token.cpp.o: /workspace/src/common/Token.cpp
-CMakeFiles/chtl_common.dir/src/common/Token.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/chtl_common.dir/src/common/Token.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/common/Token.cpp.o -MF CMakeFiles/chtl_common.dir/src/common/Token.cpp.o.d -o CMakeFiles/chtl_common.dir/src/common/Token.cpp.o -c /workspace/src/common/Token.cpp
+CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o: CMakeFiles/chtl_common.dir/flags.make
+CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o: /workspace/src/Common/Core/NamespaceAlgorithms.cpp
+CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o -MF CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o.d -o CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o -c /workspace/src/Common/Core/NamespaceAlgorithms.cpp
 
-CMakeFiles/chtl_common.dir/src/common/Token.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/common/Token.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/common/Token.cpp > CMakeFiles/chtl_common.dir/src/common/Token.cpp.i
+CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/Common/Core/NamespaceAlgorithms.cpp > CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.i
 
-CMakeFiles/chtl_common.dir/src/common/Token.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/common/Token.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/common/Token.cpp -o CMakeFiles/chtl_common.dir/src/common/Token.cpp.s
+CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Common/Core/NamespaceAlgorithms.cpp -o CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.s
 
-CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.o: CMakeFiles/chtl_common.dir/flags.make
-CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.o: /workspace/src/common/GlobalMap.cpp
-CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.o -MF CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.o.d -o CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.o -c /workspace/src/common/GlobalMap.cpp
+CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o: CMakeFiles/chtl_common.dir/flags.make
+CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o: /workspace/src/Common/Core/ErrorHandler.cpp
+CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o -MF CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o.d -o CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o -c /workspace/src/Common/Core/ErrorHandler.cpp
 
-CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/common/GlobalMap.cpp > CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.i
+CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/Common/Core/ErrorHandler.cpp > CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.i
 
-CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/common/GlobalMap.cpp -o CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.s
+CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Common/Core/ErrorHandler.cpp -o CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.s
 
-CMakeFiles/chtl_common.dir/src/common/State.cpp.o: CMakeFiles/chtl_common.dir/flags.make
-CMakeFiles/chtl_common.dir/src/common/State.cpp.o: /workspace/src/common/State.cpp
-CMakeFiles/chtl_common.dir/src/common/State.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/chtl_common.dir/src/common/State.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/common/State.cpp.o -MF CMakeFiles/chtl_common.dir/src/common/State.cpp.o.d -o CMakeFiles/chtl_common.dir/src/common/State.cpp.o -c /workspace/src/common/State.cpp
+CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o: CMakeFiles/chtl_common.dir/flags.make
+CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o: /workspace/src/Common/Utils/FileUtils.cpp
+CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o -MF CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o.d -o CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o -c /workspace/src/Common/Utils/FileUtils.cpp
 
-CMakeFiles/chtl_common.dir/src/common/State.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/common/State.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/common/State.cpp > CMakeFiles/chtl_common.dir/src/common/State.cpp.i
+CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/Common/Utils/FileUtils.cpp > CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.i
 
-CMakeFiles/chtl_common.dir/src/common/State.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/common/State.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/common/State.cpp -o CMakeFiles/chtl_common.dir/src/common/State.cpp.s
+CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Common/Utils/FileUtils.cpp -o CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.s
 
-CMakeFiles/chtl_common.dir/src/common/Context.cpp.o: CMakeFiles/chtl_common.dir/flags.make
-CMakeFiles/chtl_common.dir/src/common/Context.cpp.o: /workspace/src/common/Context.cpp
-CMakeFiles/chtl_common.dir/src/common/Context.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_common.dir/src/common/Context.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/common/Context.cpp.o -MF CMakeFiles/chtl_common.dir/src/common/Context.cpp.o.d -o CMakeFiles/chtl_common.dir/src/common/Context.cpp.o -c /workspace/src/common/Context.cpp
+CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o: CMakeFiles/chtl_common.dir/flags.make
+CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o: /workspace/src/Common/ModulePathManager.cpp
+CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o -MF CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o.d -o CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o -c /workspace/src/Common/ModulePathManager.cpp
 
-CMakeFiles/chtl_common.dir/src/common/Context.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/common/Context.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/common/Context.cpp > CMakeFiles/chtl_common.dir/src/common/Context.cpp.i
+CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/Common/ModulePathManager.cpp > CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.i
 
-CMakeFiles/chtl_common.dir/src/common/Context.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/common/Context.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/common/Context.cpp -o CMakeFiles/chtl_common.dir/src/common/Context.cpp.s
+CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Common/ModulePathManager.cpp -o CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.s
 
-CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o: CMakeFiles/chtl_common.dir/flags.make
-CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o: /workspace/src/common/Lexer.cpp
-CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o -MF CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o.d -o CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o -c /workspace/src/common/Lexer.cpp
+CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o: CMakeFiles/chtl_common.dir/flags.make
+CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o: /workspace/src/Common/SimpleZip/SimpleZip.cpp
+CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o: CMakeFiles/chtl_common.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o -MF CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o.d -o CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o -c /workspace/src/Common/SimpleZip/SimpleZip.cpp
 
-CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/common/Lexer.cpp > CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.i
+CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/Common/SimpleZip/SimpleZip.cpp > CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.i
 
-CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/common/Lexer.cpp -o CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.s
+CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Common/SimpleZip/SimpleZip.cpp -o CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.s
 
 # Object files for target chtl_common
 chtl_common_OBJECTS = \
-"CMakeFiles/chtl_common.dir/src/common/Token.cpp.o" \
-"CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.o" \
-"CMakeFiles/chtl_common.dir/src/common/State.cpp.o" \
-"CMakeFiles/chtl_common.dir/src/common/Context.cpp.o" \
-"CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o"
+"CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o" \
+"CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o" \
+"CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o" \
+"CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o" \
+"CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o"
 
 # External object files for target chtl_common
 chtl_common_EXTERNAL_OBJECTS =
 
-lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/Token.cpp.o
-lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/GlobalMap.cpp.o
-lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/State.cpp.o
-lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/Context.cpp.o
-lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/common/Lexer.cpp.o
+lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/Common/Core/NamespaceAlgorithms.cpp.o
+lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/Common/Core/ErrorHandler.cpp.o
+lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/Common/Utils/FileUtils.cpp.o
+lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/Common/ModulePathManager.cpp.o
+lib/libchtl_common.a: CMakeFiles/chtl_common.dir/src/Common/SimpleZip/SimpleZip.cpp.o
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/build.make
 lib/libchtl_common.a: CMakeFiles/chtl_common.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library lib/libchtl_common.a"

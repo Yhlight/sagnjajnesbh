@@ -1,0 +1,17 @@
+CHTL Complete Build Report
+==========================
+Generated: Tue Aug 19 01:29:03 PM UTC 2025
+Build Mode: debug
+Project Root: /workspace
+
+Build Configuration:
+  - ANTLR: 
+  - Compiler: true
+  - VSCode Plugin: false
+  - Modules: false
+  - Clean Build: false
+  - Compile CJMOD: false
+  - Parallel Jobs: 4
+
+Build Results:
+  - Compiler: SUCCESS (9s)

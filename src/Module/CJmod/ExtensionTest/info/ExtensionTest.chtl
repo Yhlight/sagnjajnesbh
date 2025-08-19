@@ -1,0 +1,12 @@
+[Info] {
+    name = "ExtensionTest";
+    version = "1.0.0";
+    description = "CJmod格式测试扩展";
+    author = "CHTL Team";
+    license = "MIT";
+    category = "test";
+}
+
+[Export] {
+    [Function] testFunction;
+}

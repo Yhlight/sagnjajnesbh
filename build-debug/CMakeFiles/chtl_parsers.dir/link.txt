@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchtl_parsers.a CMakeFiles/chtl_parsers.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o CMakeFiles/chtl_parsers.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o CMakeFiles/chtl_parsers.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o CMakeFiles/chtl_parsers.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o
+/usr/bin/ranlib libchtl_parsers.a

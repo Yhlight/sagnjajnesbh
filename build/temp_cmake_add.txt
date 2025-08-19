@@ -1,0 +1,2 @@
+add_executable(test_enhanced_import ../test/test_enhanced_import.cpp)
+target_link_libraries(test_enhanced_import chtl_compiler chtl_common)

@@ -14,14 +14,80 @@
 # EXTERNAL cache entries
 ########################
 
-//Value Computed by CMake
-CHTL_Compiler_BINARY_DIR:STATIC=/workspace/build
+//The directory containing a CMake configuration file for ANTLR4.
+ANTLR4_DIR:PATH=ANTLR4_DIR-NOTFOUND
 
 //Value Computed by CMake
-CHTL_Compiler_IS_TOP_LEVEL:STATIC=ON
+CHTLANTLRTest_BINARY_DIR:STATIC=/workspace/build
 
 //Value Computed by CMake
-CHTL_Compiler_SOURCE_DIR:STATIC=/workspace
+CHTLANTLRTest_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+CHTLANTLRTest_SOURCE_DIR:STATIC=/workspace
+
+//Value Computed by CMake
+CHTLCompilerClean_BINARY_DIR:STATIC=/workspace/build
+
+//Value Computed by CMake
+CHTLCompilerClean_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+CHTLCompilerClean_SOURCE_DIR:STATIC=/workspace
+
+//Value Computed by CMake
+CHTLCompilerMinimal_BINARY_DIR:STATIC=/workspace/build
+
+//Value Computed by CMake
+CHTLCompilerMinimal_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+CHTLCompilerMinimal_SOURCE_DIR:STATIC=/workspace
+
+//Value Computed by CMake
+CHTLCompilerWorkingParts_BINARY_DIR:STATIC=/workspace/build
+
+//Value Computed by CMake
+CHTLCompilerWorkingParts_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+CHTLCompilerWorkingParts_SOURCE_DIR:STATIC=/workspace
+
+//Value Computed by CMake
+CHTLCompiler_BINARY_DIR:STATIC=/workspace/build
+
+//Value Computed by CMake
+CHTLCompiler_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+CHTLCompiler_SOURCE_DIR:STATIC=/workspace
+
+//Value Computed by CMake
+CHTLScannerWorking_BINARY_DIR:STATIC=/workspace/build
+
+//Value Computed by CMake
+CHTLScannerWorking_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+CHTLScannerWorking_SOURCE_DIR:STATIC=/workspace
+
+//Value Computed by CMake
+CHTLScanner_BINARY_DIR:STATIC=/workspace/build
+
+//Value Computed by CMake
+CHTLScanner_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+CHTLScanner_SOURCE_DIR:STATIC=/workspace
+
+//Value Computed by CMake
+CHTL_BINARY_DIR:STATIC=/workspace/build
+
+//Value Computed by CMake
+CHTL_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+CHTL_SOURCE_DIR:STATIC=/workspace
 
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
@@ -31,7 +97,7 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=
+CMAKE_BUILD_TYPE:STRING=Release
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -132,7 +198,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=CHTL_Compiler
+CMAKE_PROJECT_NAME:STATIC=CHTL
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=1.0.0
@@ -213,6 +279,24 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+
+//Enable to build RPM source packages
+CPACK_SOURCE_RPM:BOOL=OFF
+
+//Enable to build TBZ2 source packages
+CPACK_SOURCE_TBZ2:BOOL=ON
+
+//Enable to build TGZ source packages
+CPACK_SOURCE_TGZ:BOOL=ON
+
+//Enable to build TXZ source packages
+CPACK_SOURCE_TXZ:BOOL=ON
+
+//Enable to build TZ source packages
+CPACK_SOURCE_TZ:BOOL=ON
+
+//Enable to build ZIP source packages
+CPACK_SOURCE_ZIP:BOOL=OFF
 
 
 ########################
@@ -350,6 +434,18 @@ CMAKE_TAPI-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_RPM
+CPACK_SOURCE_RPM-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_TBZ2
+CPACK_SOURCE_TBZ2-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_TGZ
+CPACK_SOURCE_TGZ-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_TXZ
+CPACK_SOURCE_TXZ-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_TZ
+CPACK_SOURCE_TZ-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_ZIP
+CPACK_SOURCE_ZIP-ADVANCED:INTERNAL=1
 //linker supports push/pop state
 _CMAKE_CXX_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 //linker supports push/pop state

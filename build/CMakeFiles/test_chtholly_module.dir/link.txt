@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_chtholly_module.dir/link.d CMakeFiles/test_chtholly_module.dir/test/test_chtholly_complete.cpp.o -o test_chtholly_module  lib/libchtljs_compiler.a lib/libchtl_scanner.a lib/libchtl_common.a

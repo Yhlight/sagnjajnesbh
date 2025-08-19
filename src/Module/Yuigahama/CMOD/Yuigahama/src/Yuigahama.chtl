@@ -1,0 +1,325 @@
+// ========================================
+// 由比滨结衣CMOD主模块 - 简洁实用设计
+// 严格按照CHTL语法文档
+// ========================================
+
+// 由比滨色彩变量组
+[Custom] @Var YuigahamaColors
+{
+    primary: "#FFE4B5";
+    secondary: "#FFEFD5";
+    accent: "#FF7F50";
+    background: "#FFF8DC";
+    text: "#8B4513";
+    border: "#DEB887";
+}
+
+// 1. 音乐播放器
+[Custom] @Element YuigahamaMusicPlayer
+{
+    div
+    {
+        style
+        {
+            .music-player
+            {
+                background: YuigahamaColors(background);
+                border: 1px solid YuigahamaColors(border);
+                border-radius: 8px;
+                padding: 16px;
+                max-width: 300px;
+            }
+            
+            .music-cover
+            {
+                width: 80px;
+                height: 80px;
+                background: YuigahamaColors(accent);
+                border-radius: 50%;
+                margin: 0 auto 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 24px;
+            }
+            
+            .music-controls
+            {
+                text-align: center;
+            }
+            
+            .play-btn
+            {
+                background: YuigahamaColors(accent);
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
+        
+        script
+        {
+            let playing = false;
+            
+            {{.play-btn}}->listen({
+                click: function() {
+                    playing = !playing;
+                    this.textContent = playing ? '暂停' : '播放';
+                    console.log('音乐播放状态:', playing);
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "music-cover";
+        text { ♪ }
+    }
+    
+    div
+    {
+        class: "music-controls";
+        
+        button
+        {
+            class: "play-btn";
+            text { 播放 }
+        }
+    }
+}
+
+// 2. 手风琴
+[Custom] @Element YuigahamaAccordion
+{
+    div
+    {
+        style
+        {
+            .accordion
+            {
+                border: 1px solid YuigahamaColors(border);
+                border-radius: 4px;
+            }
+            
+            .accordion-header
+            {
+                background: YuigahamaColors(primary);
+                padding: 12px;
+                cursor: pointer;
+                color: YuigahamaColors(text);
+            }
+            
+            .accordion-content
+            {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+            
+            .accordion-content.active
+            {
+                max-height: 100px;
+            }
+        }
+        
+        script
+        {
+            {{.accordion-header}}->listen({
+                click: function() {
+                    this.nextElementSibling.classList.toggle('active');
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "accordion-header";
+        text { 点击展开 }
+    }
+    
+    div
+    {
+        class: "accordion-content";
+        
+        div
+        {
+            style: "padding: 12px;";
+            text { 内容 }
+        }
+    }
+}
+
+// 3. 四叶窗相册
+[Custom] @Element YuigahamaGallery
+{
+    div
+    {
+        style
+        {
+            .gallery
+            {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+                padding: 16px;
+            }
+            
+            .gallery-item
+            {
+                height: 100px;
+                background: YuigahamaColors(primary);
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
+        }
+        
+        script
+        {
+            {{.gallery-item}}->listen({
+                click: function() {
+                    console.log('相册项点击');
+                }
+            });
+        }
+    }
+    
+    div
+    {
+        class: "gallery-item";
+        text { 图1 }
+    }
+    
+    div
+    {
+        class: "gallery-item";
+        text { 图2 }
+    }
+}
+
+// 4. 备忘录
+[Custom] @Element YuigahamaMemo
+{
+    div
+    {
+        style
+        {
+            .memo
+            {
+                background: YuigahamaColors(background);
+                border: 1px solid YuigahamaColors(border);
+                padding: 16px;
+                border-radius: 4px;
+            }
+            
+            .memo-content
+            {
+                color: YuigahamaColors(text);
+            }
+        }
+    }
+    
+    div
+    {
+        class: "memo-content";
+        text { 备忘录内容 }
+    }
+}
+
+// 5. 暖色笔记
+[Custom] @Element YuigahamaNote
+{
+    div
+    {
+        style
+        {
+            .note
+            {
+                background: YuigahamaColors(background);
+                border-left: 4px solid YuigahamaColors(accent);
+                padding: 16px;
+            }
+            
+            .note-content
+            {
+                color: YuigahamaColors(text);
+            }
+        }
+    }
+    
+    div
+    {
+        class: "note-content";
+        text { 笔记内容 }
+    }
+}
+
+// 6. 樱花雨
+[Custom] @Element YuigahamaSakura
+{
+    div
+    {
+        style
+        {
+            .sakura
+            {
+                height: 200px;
+                background: YuigahamaColors(background);
+                position: relative;
+                border-radius: 4px;
+            }
+            
+            .sakura-title
+            {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: YuigahamaColors(accent);
+            }
+        }
+    }
+    
+    div
+    {
+        class: "sakura-title";
+        text { 樱花雨 }
+    }
+}
+
+// 7. 鼠标特效
+[Custom] @Element YuigahamaMouseEffect
+{
+    div
+    {
+        style
+        {
+            .mouse-effect
+            {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+            }
+        }
+        
+        script
+        {
+            {{document}}->listen({
+                mousemove: function() {
+                    // 简单鼠标特效
+                    console.log('鼠标移动');
+                }
+            });
+        }
+    }
+}
