@@ -213,8 +213,8 @@
 // ========================================
 
 [Custom] @Element InteractiveCourseCard from CourseCard {
-    // 删除原有的静态内容
-    delete .course-description;
+    // 删除原有的静态内容（支持链式）
+    delete .course-description, .course-meta;
     
     // 在标题后插入新的交互元素（使用正确的索引语法）
     insert after h3[0] {
@@ -757,13 +757,11 @@ html {
             section {
                 class: container;
                 
-                // 约束应用示例
+                // 约束应用示例（支持链式）
                 div {
                     class: course-content-area;
                     
-                    except @Html;        // 禁止html元素
-                    except [Template];   // 禁止模板类型
-                    except [Custom];     // 禁止自定义类型
+                    except @Html, [Template], [Custom];  // 链式约束多种类型
                     
                     h2 {
                         style {
