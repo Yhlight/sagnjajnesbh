@@ -113,7 +113,15 @@ CompilerDispatcher::CompilationResult CompilerDispatcher::compileCode(const std:
             std::cout << "开始扫描代码..." << std::endl;
         }
         
+        std::cout << "DEBUG: 即将调用scanner_->scanCode()..." << std::endl;
+        if (!scanner_) {
+            std::cout << "ERROR: scanner_为nullptr!" << std::endl;
+            result.errors.push_back("scanner_为nullptr");
+            return result;
+        }
+        
         auto scanResult = scanner_->scanCode(code);
+        std::cout << "DEBUG: scanner_->scanCode()调用完成" << std::endl;
         
         if (scanResult.hasErrors) {
             result.errors = scanResult.errors;

@@ -1,0 +1,49 @@
+[Template] @Style MainTheme {
+    container: {
+        width: 1200px;
+        margin: 0 auto;
+    }
+    
+    header: {
+        background: blue;
+        color: white;
+        padding: 40px;
+    }
+}
+
+html {
+    head {
+        title { text { Complex CHTL Test } }
+    }
+    
+    body {
+        inherit: MainTheme.container;
+        
+        header {
+            inherit: MainTheme.header;
+            
+            h1 { text { CHTL Complex Features } }
+            p { text { Testing templates and inheritance } }
+        }
+        
+        main {
+            div {
+                class: content;
+                
+                h2 { text { Main Content } }
+                p { text { This is the main content area } }
+                
+                div {
+                    class: sidebar;
+                    h3 { text { Sidebar } }
+                    p { text { Sidebar content } }
+                }
+            }
+        }
+        
+        footer {
+            background: gray;
+            p { text { Footer content } }
+        }
+    }
+}

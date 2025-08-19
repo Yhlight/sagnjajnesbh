@@ -56,6 +56,10 @@ private:
     // 内部方法
     void addError(const std::string& error);
     void addWarning(const std::string& warning);
+    
+    // 简化编译方法
+    std::string generateSimpleHTML(const std::vector<Token>& tokens);
+    bool isHTMLElement(const std::string& tag);
 };
 
 } // namespace chtl

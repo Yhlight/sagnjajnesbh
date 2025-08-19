@@ -5,15 +5,15 @@
 
 namespace chtl {
 
-CHTLCompilerCore::CHTLCompilerCore() : debug_mode_(false) {
+chtl::CHTLCompilerCore::CHTLCompilerCore() : debug_mode_(false) {
     initialize();
 }
 
-CHTLCompilerCore::~CHTLCompilerCore() {
+chtl::CHTLCompilerCore::~CHTLCompilerCore() {
     cleanup();
 }
 
-bool CHTLCompilerCore::initialize() {
+bool chtl::CHTLCompilerCore::initialize() {
     try {
         // 初始化各组件
         lexer_ = std::make_unique<CHTLLexer>();
@@ -33,7 +33,7 @@ bool CHTLCompilerCore::initialize() {
     }
 }
 
-void CHTLCompilerCore::cleanup() {
+void chtl::CHTLCompilerCore::cleanup() {
     lexer_.reset();
     parser_.reset();
     generator_.reset();
@@ -44,13 +44,13 @@ void CHTLCompilerCore::cleanup() {
     }
 }
 
-void CHTLCompilerCore::reset() {
+void chtl::CHTLCompilerCore::reset() {
     clearErrors();
     cleanup();
     initialize();
 }
 
-std::string CHTLCompilerCore::compile(const std::string& source_code) {
+std::string chtl::CHTLCompilerCore::compile(const std::string& source_code) {
     if (!lexer_ || !generator_) {
         addError("编译器组件未初始化");
         return "";
@@ -101,7 +101,7 @@ std::string CHTLCompilerCore::compile(const std::string& source_code) {
     }
 }
 
-std::string CHTLCompilerCore::compileFile(const std::string& file_path) {
+std::string chtl::CHTLCompilerCore::compileFile(const std::string& file_path) {
     std::ifstream file(file_path);
     if (!file.is_open()) {
         addError("无法打开文件: " + file_path);
@@ -115,14 +115,14 @@ std::string CHTLCompilerCore::compileFile(const std::string& file_path) {
     return compile(content.str());
 }
 
-void CHTLCompilerCore::addError(const std::string& error) {
+void chtl::CHTLCompilerCore::addError(const std::string& error) {
     errors_.push_back(error);
     if (debug_mode_) {
         std::cerr << "CHTL编译器错误: " << error << std::endl;
     }
 }
 
-void CHTLCompilerCore::addWarning(const std::string& warning) {
+void chtl::CHTLCompilerCore::addWarning(const std::string& warning) {
     warnings_.push_back(warning);
     if (debug_mode_) {
         std::cout << "CHTL编译器警告: " << warning << std::endl;
@@ -130,3 +130,30 @@ void CHTLCompilerCore::addWarning(const std::string& warning) {
 }
 
 } // namespace chtl
+std::string chtl::CHTLCompilerCore::generateSimpleHTML(const std::vector<Token>& tokens) {
+    std::string html = "<!DOCTYPE html>\\n<html>\\n<head>\\n<title>CHTL Generated</title>\\n</head>\\n<body>\\n";
+    
+    for (size_t i = 0; i < tokens.size(); i++) {
+        const auto& token = tokens[i];
+        if (token.type == TokenType::IDENTIFIER && isHTMLElement(token.value)) {
+            html += "<" + token.value + ">";
+            if (i + 1 < tokens.size() && tokens[i+1].type == TokenType::IDENTIFIER) {
+                html += tokens[i+1].value + " ";
+                i++;
+            }
+            html += "</" + token.value + ">";
+        }
+    }
+    
+    html += "\\n</body>\\n</html>";
+    return html;
+}
+
+bool chtl::CHTLCompilerCore::isHTMLElement(const std::string& tag) {
+    return tag == "html" || tag == "head" || tag == "body" || tag == "div" || 
+           tag == "span" || tag == "p" || tag == "h1" || tag == "h2" || 
+           tag == "h3" || tag == "h4" || tag == "h5" || tag == "h6" ||
+           tag == "title" || tag == "meta" || tag == "header" || tag == "footer" ||
+           tag == "main" || tag == "section" || tag == "nav" || tag == "button";
+}
+
