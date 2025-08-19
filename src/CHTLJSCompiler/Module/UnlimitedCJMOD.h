@@ -1,556 +1,376 @@
 #pragma once
-
-/**
- * 无限制CJMOD框架 - 真正的C++自由度 + JS语法无限扩展
- * 
- * 核心理念：
- * "JS决定CHTL JS的上限，我们让开发者在JS上限范围内随意开发JS语法"
- * 
- * 设计原则：
- * 1. 完全的C++自由度 - 像写普通C++一样开发
- * 2. 无限的JS语法扩展 - 创造任何可能的JS语法
- * 3. 全局状态管理 - 维护复杂状态和数据
- * 4. 任意库集成 - 包含任何C++头文件和库
- * 5. 高性能原生能力 - 突破JS性能限制
- */
-
-// 允许开发者包含任何头文件
-#include <iostream>
+#include "../../Common/SimpleZip/SimpleZip.h"
+#include "../../Common/Core/ErrorHandler.h"
 #include <string>
 #include <vector>
-#include <unordered_map>
 #include <memory>
+#include <unordered_map>
 #include <functional>
-#include <thread>
-#include <mutex>
-#include <atomic>
-#include <chrono>
-#include <regex>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <random>
-#include <cmath>
-#include <typeinfo>
-#include <any>
-#include <optional>
-#include <future>
-#include <queue>
-#include <condition_variable>
-
-// 网络支持
-#ifdef _WIN32
-    #include <winsock2.h>
-    #include <ws2tcpip.h>
-#else
-    #include <sys/socket.h>
-    #include <netinet/in.h>
-    #include <arpa/inet.h>
-    #include <unistd.h>
-    #include <dlfcn.h>
-#endif
-
-// 文件系统支持
-#include <filesystem>
-
-// 数据库支持（如果需要）
-// #include <sqlite3.h>
-// #include <mysql/mysql.h>
 
 namespace chtl {
 namespace unlimited_cjmod {
 
 /**
- * 全局状态管理器 - 让CJMOD模块能够维护任何状态
+ * 无限制CJMOD框架
+ * 设计理念：高自由度 + 简单易用 + 任意扩展
+ * JS的上限决定了CHTL JS的上限，CJMOD要做到比JS更自由
+ */
+
+/**
+ * 自由C++代码块
+ * 允许开发者写任意C++代码，包括全局变量、任意头文件、任意语法
+ */
+struct FreeCppBlock {
+    std::string blockType;          // "headers", "globals", "functions", "classes", "custom"
+    std::string code;               // 完全自由的C++代码
+    int priority = 0;               // 代码块优先级（影响生成顺序）
+    std::string description;        // 代码块描述
+    
+    FreeCppBlock() = default;
+    FreeCppBlock(const std::string& type, const std::string& c, int p = 0, const std::string& desc = "")
+        : blockType(type), code(c), priority(p), description(desc) {}
+};
+
+/**
+ * CHTL JS语法扩展定义
+ * 允许创造任意新语法，上限是JavaScript能做到的一切
+ */
+struct CHTLJSSyntaxExtension {
+    std::string syntaxName;         // 新语法名称，如 "myCustomSyntax"
+    std::string syntaxPattern;      // 语法模式，如 "myCustomSyntax({...})"
+    std::string cppHandler;         // 对应的C++处理函数名
+    std::string jsImplementation;   // 最终生成的JavaScript实现
+    std::string documentation;      // 语法文档
+    bool isGlobalFunction = false;  // 是否是全局函数
+    bool extendsExisting = false;   // 是否扩展现有语法
+    
+    CHTLJSSyntaxExtension() = default;
+};
+
+/**
+ * 全局状态管理器
+ * 允许CJmod维护任意全局状态，实现复杂的状态管理
  */
 class GlobalStateManager {
 public:
-    static GlobalStateManager& getInstance();
-    
-    // 通用状态存储 - 支持任何类型
-    template<typename T>
-    void setState(const std::string& key, const T& value) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        states_[key] = std::make_any<T>(value);
-    }
-    
-    template<typename T>
-    T getState(const std::string& key, const T& default_value = T{}) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        auto it = states_.find(key);
-        if (it != states_.end()) {
-            try {
-                return std::any_cast<T>(it->second);
-            } catch (const std::bad_any_cast& e) {
-                return default_value;
-            }
-        }
-        return default_value;
-    }
-    
-    // 原子操作支持
-    void incrementCounter(const std::string& key, int delta = 1);
-    int getCounter(const std::string& key);
-    
-    // 线程安全的字符串操作
-    void appendToLog(const std::string& key, const std::string& message);
-    std::string getLog(const std::string& key);
-    
-    // 定时器支持
-    void setTimer(const std::string& key, int milliseconds, std::function<void()> callback);
-    void clearTimer(const std::string& key);
-    
-    // 缓存支持
-    template<typename T>
-    void setCache(const std::string& key, const T& value, int ttl_seconds = 3600) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        auto expire_time = std::chrono::steady_clock::now() + std::chrono::seconds(ttl_seconds);
-        cache_[key] = {std::make_any<T>(value), expire_time};
-    }
-    
-    template<typename T>
-    std::optional<T> getCache(const std::string& key) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        auto it = cache_.find(key);
-        if (it != cache_.end()) {
-            if (std::chrono::steady_clock::now() < it->second.expire_time) {
-                try {
-                    return std::any_cast<T>(it->second.value);
-                } catch (const std::bad_any_cast& e) {
-                    return std::nullopt;
-                }
-            } else {
-                cache_.erase(it); // 清理过期缓存
-            }
-        }
-        return std::nullopt;
-    }
-    
-    // 数据库连接池（示例）
-    void setDatabaseConnection(const std::string& name, const std::string& connection_string);
-    std::string executeDatabaseQuery(const std::string& connection_name, const std::string& query);
-    
-    // 网络请求支持
-    std::string httpGet(const std::string& url, const std::unordered_map<std::string, std::string>& headers = {});
-    std::string httpPost(const std::string& url, const std::string& data, const std::unordered_map<std::string, std::string>& headers = {});
-    
-    // 文件系统操作
-    bool writeFile(const std::string& path, const std::string& content);
-    std::string readFile(const std::string& path);
-    bool fileExists(const std::string& path);
-    std::vector<std::string> listDirectory(const std::string& path);
-    
-    // 加密解密支持
-    std::string encrypt(const std::string& data, const std::string& key);
-    std::string decrypt(const std::string& encrypted_data, const std::string& key);
-    
-    // 清理和管理
-    void clearState(const std::string& key);
-    void clearAllStates();
-    std::vector<std::string> getAllStateKeys();
-    void printDebugInfo();
-    
-private:
     GlobalStateManager() = default;
-    static std::unique_ptr<GlobalStateManager> instance_;
+    ~GlobalStateManager() = default;
     
-    std::mutex mutex_;
-    std::unordered_map<std::string, std::any> states_;
-    std::unordered_map<std::string, std::atomic<int>> counters_;
-    std::unordered_map<std::string, std::string> logs_;
-    std::unordered_map<std::string, std::unique_ptr<std::thread>> timers_;
+    // 设置全局状态
+    void setState(const std::string& key, const std::string& value);
+    std::string getState(const std::string& key) const;
     
-    struct CacheEntry {
-        std::any value;
-        std::chrono::steady_clock::time_point expire_time;
-    };
-    std::unordered_map<std::string, CacheEntry> cache_;
+    // 注册状态变化监听器
+    void onStateChange(const std::string& key, std::function<void(const std::string&, const std::string&)> callback);
     
-    std::unordered_map<std::string, std::string> database_connections_;
-};
-
-/**
- * JS语法扩展引擎 - 让开发者创造任何JS语法
- */
-class JSSyntaxExtensionEngine {
-public:
-    static JSSyntaxExtensionEngine& getInstance();
-    
-    // 语法规则定义
-    struct SyntaxRule {
-        std::string name;                    // 语法名称
-        std::string pattern;                 // 匹配模式（正则表达式）
-        std::function<std::string(const std::vector<std::string>&)> transformer;  // 转换函数
-        int priority;                        // 优先级
-        bool enabled;                        // 是否启用
-        
-        SyntaxRule() : priority(0), enabled(true) {}
-    };
-    
-    // 注册新语法
-    void registerSyntax(const SyntaxRule& rule);
-    void registerSyntax(const std::string& name, const std::string& pattern, 
-                       std::function<std::string(const std::vector<std::string>&)> transformer,
-                       int priority = 0);
-    
-    // 语法转换
-    std::string transformCode(const std::string& chtl_js_code);
-    std::vector<std::string> findMatches(const std::string& code, const std::string& pattern);
-    
-    // 内置语法扩展
-    void registerBuiltinSyntaxes();
-    
-    // 自定义操作符支持
-    void registerOperator(const std::string& operator_symbol, const std::string& js_function_name,
-                         int precedence = 10, bool is_binary = true);
-    
-    // 自定义控制结构
-    void registerControlStructure(const std::string& structure_name, const std::string& pattern,
-                                 std::function<std::string(const std::vector<std::string>&)> generator);
-    
-    // 宏系统支持
-    void registerMacro(const std::string& macro_name, const std::string& replacement_pattern);
-    std::string expandMacros(const std::string& code);
-    
-    // 类型系统扩展
-    void registerCustomType(const std::string& type_name, const std::string& js_constructor,
-                           const std::unordered_map<std::string, std::string>& methods = {});
-    
-    // 语法验证
-    bool validateSyntax(const std::string& code);
-    std::vector<std::string> getSyntaxErrors(const std::string& code);
-    
-    // 调试和管理
-    std::vector<std::string> getRegisteredSyntaxes();
-    void enableSyntax(const std::string& name, bool enable = true);
-    void removeSyntax(const std::string& name);
-    void printSyntaxInfo();
+    // 清理状态
+    void clearState();
+    void clearState(const std::string& key);
     
 private:
-    JSSyntaxExtensionEngine() = default;
-    static std::unique_ptr<JSSyntaxExtensionEngine> instance_;
-    
-    std::vector<SyntaxRule> syntax_rules_;
-    std::unordered_map<std::string, std::string> operators_;
-    std::unordered_map<std::string, SyntaxRule> control_structures_;
-    std::unordered_map<std::string, std::string> macros_;
-    std::unordered_map<std::string, std::string> custom_types_;
-    
-    std::string applyRule(const SyntaxRule& rule, const std::string& code);
-    std::vector<std::string> extractGroups(const std::string& text, const std::string& pattern);
+    std::unordered_map<std::string, std::string> globalState_;
+    std::unordered_map<std::string, std::vector<std::function<void(const std::string&, const std::string&)>>> stateListeners_;
 };
 
 /**
- * 原生库集成管理器 - 支持任何C++库
+ * 动态库管理器
+ * 支持动态加载任意C++库，实现真正的无限扩展
  */
-class NativeLibraryManager {
+class DynamicLibraryManager {
 public:
-    static NativeLibraryManager& getInstance();
+    DynamicLibraryManager() = default;
+    ~DynamicLibraryManager();
     
-    // 动态库加载
-    bool loadLibrary(const std::string& library_name, const std::string& library_path);
-    void unloadLibrary(const std::string& library_name);
-    bool isLibraryLoaded(const std::string& library_name);
+    // 动态加载库
+    bool loadLibrary(const std::string& libraryPath, const std::string& alias = "");
+    bool unloadLibrary(const std::string& alias);
     
-    // 函数符号解析
-    template<typename FuncType>
-    FuncType* getFunction(const std::string& library_name, const std::string& function_name) {
-        // 平台相关的动态库函数获取
-        #ifdef _WIN32
-            // Windows实现
-            HMODULE handle = GetModuleHandleA(library_name.c_str());
-            if (handle) {
-                return reinterpret_cast<FuncType*>(GetProcAddress(handle, function_name.c_str()));
-            }
-        #else
-            // Linux/macOS实现
-            void* handle = dlopen(library_name.c_str(), RTLD_LAZY);
-            if (handle) {
-                return reinterpret_cast<FuncType*>(dlsym(handle, function_name.c_str()));
-            }
-        #endif
-        return nullptr;
-    }
+    // 获取函数指针
+    void* getFunction(const std::string& libraryAlias, const std::string& functionName);
     
-    // 常用库快速集成
-    bool initOpenCV();          // 计算机视觉
-    bool initCURL();            // HTTP客户端
-    bool initSQLite();          // 数据库
-    bool initOpenSSL();         // 加密
-    bool initBoost();           // Boost库
-    bool initEigen();           // 数学计算
-    bool initProtobuf();        // 序列化
+    // 调用C++函数（支持任意参数类型）
+    template<typename ReturnType, typename... Args>
+    ReturnType callFunction(const std::string& libraryAlias, const std::string& functionName, Args... args);
     
-    // 库信息管理
-    std::vector<std::string> getLoadedLibraries();
-    std::string getLibraryInfo(const std::string& library_name);
-    void printLibraryStatus();
+    // 获取已加载的库
+    std::vector<std::string> getLoadedLibraries() const;
     
 private:
-    NativeLibraryManager() = default;
-    static std::unique_ptr<NativeLibraryManager> instance_;
+    std::unordered_map<std::string, void*> loadedLibraries_;
     
-    std::unordered_map<std::string, void*> loaded_libraries_;
-    std::unordered_map<std::string, std::string> library_info_;
+    void* loadDynamicLibrary(const std::string& path);
+    bool unloadDynamicLibrary(void* handle);
+    void* getSymbolFromLibrary(void* handle, const std::string& symbolName);
 };
 
 /**
- * 性能优化引擎 - 突破JS性能限制
+ * 无限制CJMOD模块信息
+ * 支持任意自定义字段和配置
  */
-class PerformanceOptimizer {
+struct UnlimitedCJmodInfo {
+    // 基本信息
+    std::string name;
+    std::string version;
+    std::string description;
+    std::string author;
+    std::string license;
+    
+    // 自由配置
+    std::unordered_map<std::string, std::string> customFields;  // 任意自定义字段
+    
+    // C++编译配置 - 完全自由
+    std::string cppStandard = "17";             // C++标准（默认17）
+    std::vector<std::string> compilerFlags;     // 任意编译器标志
+    std::vector<std::string> linkerFlags;       // 任意链接器标志
+    std::vector<std::string> includePaths;      // 任意包含路径
+    std::vector<std::string> libraryPaths;      // 任意库路径
+    std::vector<std::string> libraries;         // 任意链接库
+    
+    // 依赖管理
+    std::vector<std::string> systemDependencies;  // 系统依赖
+    std::vector<std::string> cjmodDependencies;   // 其他CJmod依赖
+    
+    // 运行时配置
+    bool enableGlobalState = true;              // 启用全局状态
+    bool enableDynamicLoading = true;           // 启用动态加载
+    int maxMemoryUsage = -1;                    // 最大内存使用（-1表示无限制）
+    
+    UnlimitedCJmodInfo() = default;
+};
+
+/**
+ * 无限制CJMOD模块
+ * 真正的高自由度、无限制扩展框架
+ */
+struct UnlimitedCJmodModule {
+    UnlimitedCJmodInfo info;
+    
+    // 自由C++代码块 - 按类型和优先级组织
+    std::vector<FreeCppBlock> cppBlocks;
+    
+    // CHTL JS语法扩展
+    std::vector<CHTLJSSyntaxExtension> syntaxExtensions;
+    
+    // 全局状态管理
+    std::shared_ptr<GlobalStateManager> stateManager;
+    
+    // 动态库管理
+    std::shared_ptr<DynamicLibraryManager> libraryManager;
+    
+    // 模块路径
+    std::string rootPath;
+    std::string infoPath;
+    std::string srcPath;
+    
+    // 验证二同名规则
+    bool isValidNaming() const;
+    
+    // 生成完整的C++源代码
+    std::string generateCompleteCppCode() const;
+    
+    // 生成JavaScript接口代码
+    std::string generateJavaScriptInterface() const;
+    
+    UnlimitedCJmodModule() : stateManager(std::make_shared<GlobalStateManager>()),
+                            libraryManager(std::make_shared<DynamicLibraryManager>()) {}
+};
+
+/**
+ * 无限制CJMOD管理器
+ * 实现真正简单、合理、容易上手的C++扩展框架
+ */
+class UnlimitedCJmodManager {
 public:
-    static PerformanceOptimizer& getInstance();
+    UnlimitedCJmodManager();
+    ~UnlimitedCJmodManager();
     
-    // 多线程支持
-    template<typename Func, typename... Args>
-    auto runAsync(Func&& func, Args&&... args) -> std::future<decltype(func(args...))> {
-        return std::async(std::launch::async, std::forward<Func>(func), std::forward<Args>(args)...);
-    }
+    /**
+     * 设置错误处理器
+     */
+    void setErrorHandler(std::shared_ptr<common::ErrorHandler> errorHandler);
     
-    // 线程池
-    class ThreadPool {
-    public:
-        ThreadPool(size_t num_threads);
-        ~ThreadPool();
-        
-        template<typename Func, typename... Args>
-        auto enqueue(Func&& func, Args&&... args) -> std::future<decltype(func(args...))>;
-        
-    private:
-        std::vector<std::thread> workers_;
-        std::queue<std::function<void()>> tasks_;
-        std::mutex queue_mutex_;
-        std::condition_variable condition_;
-        bool stop_;
-    };
+    // === 简单易用的API设计 ===
     
-    ThreadPool& getThreadPool() { return thread_pool_; }
+    /**
+     * 创建新的CJMOD项目
+     * 一行代码创建完整的项目结构
+     */
+    bool createCJmodProject(const std::string& projectName, const std::string& outputDir);
     
-    // 内存池管理
-    class MemoryPool {
-    public:
-        MemoryPool(size_t block_size, size_t num_blocks);
-        ~MemoryPool();
-        
-        void* allocate();
-        void deallocate(void* ptr);
-        
-    private:
-        void* memory_;
-        std::vector<void*> free_blocks_;
-        std::mutex mutex_;
-        size_t block_size_;
-    };
+    /**
+     * 添加自由C++代码
+     * 支持任意C++代码，包括头文件、全局变量、函数、类
+     */
+    bool addFreeCppCode(UnlimitedCJmodModule& module, const std::string& blockType, 
+                       const std::string& code, int priority = 0, const std::string& description = "");
     
-    MemoryPool& getMemoryPool(size_t block_size);
+    /**
+     * 添加CHTL JS语法扩展
+     * 创造全新的CHTL JS语法
+     */
+    bool addCHTLJSSyntax(UnlimitedCJmodModule& module, const std::string& syntaxName,
+                        const std::string& pattern, const std::string& cppHandler,
+                        const std::string& jsImplementation);
     
-    // SIMD优化支持
-    void enableSIMDOptimization(bool enable = true);
-    bool isSIMDEnabled() const { return simd_enabled_; }
+    /**
+     * 快速添加全局函数
+     * 一行代码添加C++函数到CHTL JS
+     */
+    bool addGlobalFunction(UnlimitedCJmodModule& module, const std::string& functionName,
+                          const std::string& cppImplementation);
     
-    // 缓存优化
-    void prefetchData(const void* addr, size_t size);
-    void flushCache();
+    /**
+     * 添加全局状态变量
+     * 维护跨调用的状态
+     */
+    bool addGlobalState(UnlimitedCJmodModule& module, const std::string& stateName,
+                       const std::string& cppType, const std::string& initialValue = "");
     
-    // 性能监控
-    struct PerformanceMetrics {
-        double cpu_usage;
-        size_t memory_usage;
-        size_t cache_hits;
-        size_t cache_misses;
-        double average_execution_time;
-        size_t total_operations;
-    };
+    // === 高级功能 ===
     
-    PerformanceMetrics getMetrics();
-    void resetMetrics();
-    void startProfiling();
-    void stopProfiling();
+    /**
+     * 导入任意C++库
+     * 支持系统库、第三方库、自定义库
+     */
+    bool importCppLibrary(UnlimitedCJmodModule& module, const std::string& libraryName,
+                         const std::vector<std::string>& headers = {},
+                         const std::vector<std::string>& linkFlags = {});
     
+    /**
+     * 扩展现有CHTL JS语法
+     * 在现有语法基础上添加功能
+     */
+    bool extendExistingSyntax(UnlimitedCJmodModule& module, const std::string& existingSyntax,
+                             const std::string& extensionCode);
+    
+    /**
+     * 创建自定义对象类型
+     * 在CHTL JS中创建全新的对象类型
+     */
+    bool createCustomObjectType(UnlimitedCJmodModule& module, const std::string& typeName,
+                               const std::vector<std::string>& methods,
+                               const std::vector<std::string>& properties);
+    
+    // === 模块管理 ===
+    
+    /**
+     * 解析CJMOD模块
+     */
+    bool parseUnlimitedCJmod(const std::string& modulePath, UnlimitedCJmodModule& module);
+    
+    /**
+     * 编译CJMOD模块
+     * 自动处理所有C++编译细节
+     */
+    bool compileModule(const UnlimitedCJmodModule& module, const std::string& outputPath);
+    
+    /**
+     * 打包CJMOD
+     */
+    bool packUnlimitedCJmod(const std::string& modulePath, const std::string& outputPath);
+    
+    /**
+     * 安装CJMOD
+     */
+    bool installUnlimitedCJmod(const std::string& cjmodPath, const std::string& targetDir);
+    
+    // === 运行时支持 ===
+    
+    /**
+     * 加载CJMOD到CHTL JS运行时
+     */
+    bool loadCJmodToRuntime(const std::string& modulePath);
+    
+    /**
+     * 卸载CJMOD
+     */
+    bool unloadCJmodFromRuntime(const std::string& moduleName);
+    
+    /**
+     * 调用CJMOD函数
+     */
+    std::string callCJmodFunction(const std::string& moduleName, const std::string& functionName,
+                                 const std::vector<std::string>& parameters);
+    
+    // === 开发辅助工具 ===
+    
+    /**
+     * 生成模板代码
+     * 为常见使用场景生成模板
+     */
+    std::string generateTemplate(const std::string& templateType);
+    
+    /**
+     * 验证C++代码语法
+     */
+    bool validateCppSyntax(const std::string& cppCode);
+    
+    /**
+     * 生成文档
+     */
+    std::string generateDocumentation(const UnlimitedCJmodModule& module);
+    
+    /**
+     * 获取使用示例
+     */
+    std::vector<std::string> getUsageExamples();
+    
+    // === 实用工具 ===
+    
+    std::vector<std::string> getErrors() const { return errors_; }
+    void clearErrors() { errors_.clear(); }
+
 private:
-    PerformanceOptimizer();
-    static std::unique_ptr<PerformanceOptimizer> instance_;
+    std::shared_ptr<common::ErrorHandler> errorHandler_;
+    std::vector<std::string> errors_;
+    std::unordered_map<std::string, UnlimitedCJmodModule> loadedModules_;
     
-    ThreadPool thread_pool_;
-    std::unordered_map<size_t, std::unique_ptr<MemoryPool>> memory_pools_;
-    bool simd_enabled_;
-    PerformanceMetrics metrics_;
-    std::chrono::high_resolution_clock::time_point profiling_start_;
-    bool profiling_active_;
+    // 代码生成辅助
+    std::string generateCppHeader(const UnlimitedCJmodModule& module) const;
+    std::string generateCppSource(const UnlimitedCJmodModule& module) const;
+    std::string generateJSInterface(const UnlimitedCJmodModule& module) const;
+    std::string generateCMakeFile(const UnlimitedCJmodModule& module) const;
+    
+    // 编译辅助
+    bool compileWithGCC(const std::string& sourceFile, const std::string& outputFile,
+                       const std::vector<std::string>& flags);
+    bool compileWithMSVC(const std::string& sourceFile, const std::string& outputFile,
+                        const std::vector<std::string>& flags);
+    bool compileWithClang(const std::string& sourceFile, const std::string& outputFile,
+                         const std::vector<std::string>& flags);
+    
+    // 模板生成辅助
+    std::string getBasicTemplate() const;
+    std::string getAdvancedTemplate() const;
+    std::string getGameEngineTemplate() const;
+    std::string getNetworkingTemplate() const;
+    std::string getImageProcessingTemplate() const;
+    
+    // 错误报告
+    void reportError(const std::string& message, const std::string& context = "");
+    void reportWarning(const std::string& message, const std::string& context = "");
+    
+    // 文件操作
+    bool readFileContent(const std::string& filePath, std::string& content);
+    bool writeFileContent(const std::string& filePath, const std::string& content);
+    std::string joinPath(const std::string& base, const std::string& relative);
+    bool createDirectory(const std::string& dirPath);
 };
 
-/**
- * 无限制CJMOD模块基类 - 提供完整的C++能力
- */
-class UnlimitedCJMODModule {
-public:
-    UnlimitedCJMODModule(const std::string& name) : module_name_(name) {}
-    virtual ~UnlimitedCJMODModule() = default;
-    
-    // 模块生命周期
-    virtual bool initialize() { return true; }
-    virtual void cleanup() {}
-    virtual void update() {}  // 每帧调用
-    
-    // 状态管理快捷方式
-    template<typename T>
-    void setState(const std::string& key, const T& value) {
-        GlobalStateManager::getInstance().setState(module_name_ + "::" + key, value);
+// === 模板函数实现 ===
+
+template<typename ReturnType, typename... Args>
+ReturnType DynamicLibraryManager::callFunction(const std::string& libraryAlias, 
+                                              const std::string& functionName, Args... args) {
+    void* funcPtr = getFunction(libraryAlias, functionName);
+    if (!funcPtr) {
+        throw std::runtime_error("函数未找到: " + functionName);
     }
     
-    template<typename T>
-    T getState(const std::string& key, const T& default_value = T{}) {
-        return GlobalStateManager::getInstance().getState<T>(module_name_ + "::" + key, default_value);
-    }
+    typedef ReturnType (*FuncType)(Args...);
+    FuncType func = reinterpret_cast<FuncType>(funcPtr);
     
-    // 语法扩展快捷方式
-    void registerSyntax(const std::string& name, const std::string& pattern,
-                       std::function<std::string(const std::vector<std::string>&)> transformer) {
-        JSSyntaxExtensionEngine::getInstance().registerSyntax(name, pattern, transformer);
-    }
-    
-    // 性能优化快捷方式
-    template<typename Func, typename... Args>
-    auto runAsync(Func&& func, Args&&... args) {
-        return PerformanceOptimizer::getInstance().runAsync(std::forward<Func>(func), std::forward<Args>(args)...);
-    }
-    
-    // 日志系统
-    void logInfo(const std::string& message);
-    void logWarning(const std::string& message);
-    void logError(const std::string& message);
-    
-    // 事件系统
-    void addEventListener(const std::string& event, std::function<void(const std::any&)> handler);
-    void removeEventListener(const std::string& event);
-    void dispatchEvent(const std::string& event, const std::any& data = {});
-    
-protected:
-    std::string module_name_;
-    std::unordered_map<std::string, std::vector<std::function<void(const std::any&)>>> event_handlers_;
-};
-
-/**
- * 便利宏定义 - 让开发像写普通C++一样简单
- */
-
-// 定义无限制CJMOD模块
-#define UNLIMITED_CJMOD_MODULE(name) \
-    class name##Module : public chtl::unlimited_cjmod::UnlimitedCJMODModule { \
-    public: \
-        name##Module() : UnlimitedCJMODModule(#name) {} \
-        bool initialize() override {
-
-// 结束模块定义
-#define UNLIMITED_CJMOD_END(name) \
-            return true; \
-        } \
-    }; \
-    static name##Module name##_instance; \
-    extern "C" { \
-        int init_##name##_module() { return name##_instance.initialize() ? 1 : 0; } \
-        void cleanup_##name##_module() { name##_instance.cleanup(); } \
-        void update_##name##_module() { name##_instance.update(); } \
-    }
-
-// 全局变量定义
-#define CJMOD_GLOBAL_VAR(type, name, initial_value) \
-    static type name = initial_value;
-
-// 全局函数定义
-#define CJMOD_GLOBAL_FUNCTION(return_type, name, params) \
-    static return_type name params
-
-// 状态管理宏
-#define SET_STATE(key, value) setState(key, value)
-#define GET_STATE(key, type, default_val) getState<type>(key, default_val)
-
-// 语法扩展宏
-#define REGISTER_SYNTAX(name, pattern, transformer) registerSyntax(name, pattern, transformer)
-
-// 异步执行宏
-#define ASYNC_CALL(func, ...) runAsync(func, __VA_ARGS__)
-
-// 日志宏
-#define LOG_INFO(msg) logInfo(msg)
-#define LOG_WARNING(msg) logWarning(msg)
-#define LOG_ERROR(msg) logError(msg)
-
-// 事件系统宏
-#define ON_EVENT(event, handler) addEventListener(event, handler)
-#define EMIT_EVENT(event, data) dispatchEvent(event, data)
-
-/**
- * 高级功能支持
- */
-
-// 网络编程支持
-namespace network {
-    class HTTPServer {
-    public:
-        HTTPServer(int port);
-        void start();
-        void stop();
-        void addRoute(const std::string& path, std::function<std::string(const std::string&)> handler);
-    };
-    
-    class WebSocketServer {
-    public:
-        WebSocketServer(int port);
-        void start();
-        void broadcast(const std::string& message);
-        void onMessage(std::function<void(const std::string&)> handler);
-    };
-}
-
-// 数据库支持
-namespace database {
-    class SQLiteWrapper {
-    public:
-        bool open(const std::string& db_path);
-        bool execute(const std::string& sql);
-        std::vector<std::unordered_map<std::string, std::string>> query(const std::string& sql);
-    };
-    
-    class RedisWrapper {
-    public:
-        bool connect(const std::string& host, int port);
-        bool set(const std::string& key, const std::string& value);
-        std::string get(const std::string& key);
-    };
-}
-
-// 机器学习支持
-namespace ml {
-    class TensorFlowWrapper {
-    public:
-        bool loadModel(const std::string& model_path);
-        std::vector<float> predict(const std::vector<float>& input);
-    };
-    
-    class OpenCVWrapper {
-    public:
-        bool loadImage(const std::string& image_path);
-        std::vector<int> detectObjects();
-        bool saveImage(const std::string& output_path);
-    };
-}
-
-// 音频/视频处理
-namespace media {
-    class AudioProcessor {
-    public:
-        bool loadAudio(const std::string& audio_path);
-        std::vector<float> getSpectrum();
-        bool applyFilter(const std::string& filter_type);
-    };
-    
-    class VideoProcessor {
-    public:
-        bool loadVideo(const std::string& video_path);
-        bool extractFrame(int frame_number, const std::string& output_path);
-        bool applyEffect(const std::string& effect_name);
-    };
+    return func(args...);
 }
 
 } // namespace unlimited_cjmod
