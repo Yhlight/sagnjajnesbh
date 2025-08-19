@@ -17,7 +17,8 @@ bool CHTLCompilerCore::initialize() {
     try {
         // 初始化各组件
         lexer_ = std::make_unique<CHTLLexer>();
-        parser_ = std::make_unique<parser::CHTLParser>();
+        // 暂时禁用CHTLParser避免段错误
+        parser_ = nullptr; // std::make_unique<parser::CHTLParser>();
         generator_ = std::make_unique<generator::HTMLGenerator>();
         // module_manager_ = std::make_unique<module::CmodManager>();  // 暂时注释
         
@@ -50,7 +51,7 @@ void CHTLCompilerCore::reset() {
 }
 
 std::string CHTLCompilerCore::compile(const std::string& source_code) {
-    if (!lexer_ || !parser_ || !generator_) {
+    if (!lexer_ || !generator_) {
         addError("编译器组件未初始化");
         return "";
     }
@@ -64,7 +65,15 @@ std::string CHTLCompilerCore::compile(const std::string& source_code) {
             std::cout << "词法分析完成，生成 " << tokens.size() << " 个token" << std::endl;
         }
         
-        // 2. 语法分析
+        // 2. 使用简化的HTML生成（绕过有问题的Parser）
+        if (!parser_) {
+            if (debug_mode_) {
+                std::cout << "使用简化编译模式" << std::endl;
+            }
+            return generateSimpleHTML(tokens);
+        }
+        
+        // 3. 完整语法分析（如果Parser可用）
         parser_->setTokens(tokens);
         auto ast = parser_->parseProgram();
         

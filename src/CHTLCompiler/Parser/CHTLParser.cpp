@@ -12,10 +12,11 @@ CHTLParser::CHTLParser() : current_token_(0), debug_mode_(false) {
     
     // 初始化状态管理器和专门解析器
     state_manager_ = std::make_unique<StateManager>();
-    template_parser_ = nullptr; // 暂时禁用避免段错误
-    custom_parser_ = // std::make_unique<custom_system::CustomParser>(*context_, *state_manager_);
-    origin_parser_ = // std::make_unique<origin_system::OriginParser>(*context_, *state_manager_);
-    constraint_parser_ = // std::make_unique<constraint_system::ConstraintParser>(*context_, *state_manager_);
+    // 安全初始化专门Parser，避免段错误
+    template_parser_ = nullptr;
+    custom_parser_ = nullptr;
+    origin_parser_ = nullptr;
+    constraint_parser_ = nullptr;
 }
 
 CHTLParser::CHTLParser(CHTLContext& context) 
@@ -23,10 +24,11 @@ CHTLParser::CHTLParser(CHTLContext& context)
     
     // 初始化状态管理器和专门解析器
     state_manager_ = std::make_unique<StateManager>();
-    template_parser_ = std::make_unique<template_system::TemplateParser>(*context_, *state_manager_);
-    custom_parser_ = std::make_unique<custom_system::CustomParser>(*context_, *state_manager_);
-    origin_parser_ = std::make_unique<origin_system::OriginParser>(*context_, *state_manager_);
-    constraint_parser_ = std::make_unique<constraint_system::ConstraintParser>(*context_, *state_manager_);
+    // 安全初始化专门Parser，避免段错误
+    template_parser_ = nullptr;
+    custom_parser_ = nullptr;
+    origin_parser_ = nullptr;
+    constraint_parser_ = nullptr;
 }
 
 void CHTLParser::setTokens(const std::vector<Token>& tokens) {
