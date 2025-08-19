@@ -226,6 +226,62 @@ CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Module/CmodManager.cpp.s: cm
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Module/CmodManager.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLCompiler/Module/CmodManager.cpp -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Module/CmodManager.cpp.s
 
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o: CMakeFiles/chtl_compiler_basic.dir/flags.make
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o: /workspace/src/CHTLCompiler/Custom/CustomParser.cpp
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o: CMakeFiles/chtl_compiler_basic.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o -MF CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o.d -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o -c /workspace/src/CHTLCompiler/Custom/CustomParser.cpp
+
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLCompiler/Custom/CustomParser.cpp > CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.i
+
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLCompiler/Custom/CustomParser.cpp -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.s
+
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o: CMakeFiles/chtl_compiler_basic.dir/flags.make
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o: /workspace/src/CHTLCompiler/Template/TemplateParser.cpp
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o: CMakeFiles/chtl_compiler_basic.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o -MF CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o.d -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o -c /workspace/src/CHTLCompiler/Template/TemplateParser.cpp
+
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLCompiler/Template/TemplateParser.cpp > CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.i
+
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLCompiler/Template/TemplateParser.cpp -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.s
+
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o: CMakeFiles/chtl_compiler_basic.dir/flags.make
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o: /workspace/src/CHTLCompiler/Origin/OriginParser.cpp
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o: CMakeFiles/chtl_compiler_basic.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o -MF CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o.d -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o -c /workspace/src/CHTLCompiler/Origin/OriginParser.cpp
+
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLCompiler/Origin/OriginParser.cpp > CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.i
+
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLCompiler/Origin/OriginParser.cpp -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.s
+
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o: CMakeFiles/chtl_compiler_basic.dir/flags.make
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o: /workspace/src/CHTLCompiler/Constraint/ConstraintParser.cpp
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o: CMakeFiles/chtl_compiler_basic.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o -MF CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o.d -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o -c /workspace/src/CHTLCompiler/Constraint/ConstraintParser.cpp
+
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLCompiler/Constraint/ConstraintParser.cpp > CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.i
+
+CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLCompiler/Constraint/ConstraintParser.cpp -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.s
+
 # Object files for target chtl_compiler_basic
 chtl_compiler_basic_OBJECTS = \
 "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/CHTLCompilerCore.cpp.o" \
@@ -238,7 +294,11 @@ chtl_compiler_basic_OBJECTS = \
 "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/State/CHTLState.cpp.o" \
 "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.o" \
 "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Import/ImportManager.cpp.o" \
-"CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Module/CmodManager.cpp.o"
+"CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Module/CmodManager.cpp.o" \
+"CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o" \
+"CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o" \
+"CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o" \
+"CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o"
 
 # External object files for target chtl_compiler_basic
 chtl_compiler_basic_EXTERNAL_OBJECTS =
@@ -254,9 +314,13 @@ libchtl_compiler_basic.a: CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/St
 libchtl_compiler_basic.a: CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Generator/CHTLGenerator.cpp.o
 libchtl_compiler_basic.a: CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Import/ImportManager.cpp.o
 libchtl_compiler_basic.a: CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Module/CmodManager.cpp.o
+libchtl_compiler_basic.a: CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o
+libchtl_compiler_basic.a: CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o
+libchtl_compiler_basic.a: CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o
+libchtl_compiler_basic.a: CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o
 libchtl_compiler_basic.a: CMakeFiles/chtl_compiler_basic.dir/build.make
 libchtl_compiler_basic.a: CMakeFiles/chtl_compiler_basic.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX static library libchtl_compiler_basic.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX static library libchtl_compiler_basic.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/chtl_compiler_basic.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtl_compiler_basic.dir/link.txt --verbose=$(VERBOSE)
 

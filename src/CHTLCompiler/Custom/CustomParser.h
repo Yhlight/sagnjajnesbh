@@ -81,6 +81,17 @@ public:
     // 索引访问解析
     std::unique_ptr<ast::IndexAccessNode> parseIndexAccess(const std::vector<Token>& tokens, size_t& position);
     
+    // 特例化解析
+    std::unique_ptr<ast::SpecializationNode> parseSpecialization(const std::vector<Token>& tokens, size_t& position);
+    std::unique_ptr<ast::SpecializationNode> parseInheritSpecialization(const std::vector<Token>& tokens, size_t& position,
+                                                                        std::unique_ptr<ast::SpecializationNode> node);
+    std::unique_ptr<ast::SpecializationNode> parseDeleteSpecialization(const std::vector<Token>& tokens, size_t& position,
+                                                                       std::unique_ptr<ast::SpecializationNode> node);
+    std::unique_ptr<ast::SpecializationNode> parseInsertSpecialization(const std::vector<Token>& tokens, size_t& position,
+                                                                       std::unique_ptr<ast::SpecializationNode> node);
+    std::unique_ptr<ast::SpecializationNode> parseReplaceSpecialization(const std::vector<Token>& tokens, size_t& position,
+                                                                        std::unique_ptr<ast::SpecializationNode> node);
+    
     // 继承解析 (重载版本以支持不同的自定义类型)
     bool parseCustomInheritance(const std::vector<Token>& tokens, size_t& position,
                                std::vector<std::string>& inheritedItems);
@@ -160,6 +171,9 @@ private:
     // 状态验证
     bool isValidCustomState() const;
     bool canParseCustomType(const std::string& customType) const;
+    
+    // HTML元素解析
+    std::unique_ptr<ast::ASTNode> parseHTMLElement(const std::vector<Token>& tokens, size_t& position);
     
     // 工具方法
     std::string extractStringLiteral(const std::string& tokenValue);

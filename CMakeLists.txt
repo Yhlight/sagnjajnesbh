@@ -67,8 +67,32 @@ add_library(chtl_compiler_basic STATIC
     src/CHTLCompiler/Generator/CHTLGenerator.cpp
     src/CHTLCompiler/Import/ImportManager.cpp
     src/CHTLCompiler/Module/CmodManager.cpp
+    src/CHTLCompiler/Custom/CustomParser.cpp
+    src/CHTLCompiler/Template/TemplateParser.cpp
+    src/CHTLCompiler/Origin/OriginParser.cpp
+    src/CHTLCompiler/Constraint/ConstraintParser.cpp
 )
 target_link_libraries(chtl_compiler_basic chtl_managers chtl_scanner chtl_common)
+
+# CHTL JS Compiler (with fixed namespaces)
+add_library(chtljs_compiler_full STATIC
+    src/CHTLJSCompiler/Core/CHTLJSCompilerCore.cpp
+    src/CHTLJSCompiler/Lexer/CHTLJSLexer.cpp
+    src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp
+    src/CHTLJSCompiler/Core/AutoAdditionManager.cpp
+    src/CHTLJSCompiler/Core/JSEventRegistry.cpp
+    src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp
+    src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp
+    src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp
+    src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp
+    src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp
+    src/CHTLJSCompiler/Parser/SelectorDetector.cpp
+    src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp
+    src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp
+    src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp
+    src/CHTLJSCompiler/AST/VirtualObjectManager.cpp
+)
+target_link_libraries(chtljs_compiler_full chtl_common chtl_scanner)
 
 # ============================================================================
 # Step 5: Test with basic compiler

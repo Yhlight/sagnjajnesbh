@@ -2,6 +2,7 @@
 #include <sstream>
 
 namespace chtl {
+namespace chtljs {
 
 std::unordered_map<TokenType, std::string> Token::type_names_;
 
@@ -101,8 +102,7 @@ bool Token::isOperatorType(TokenType type) {
         case TokenType::ARROW:
         case TokenType::ASSIGN:
         case TokenType::MINUS:
-        case TokenType::SELECTOR_START:
-        case TokenType::SELECTOR_END:
+        case TokenType::CHTLJS_SELECTOR:
             return true;
         default:
             return false;
@@ -154,8 +154,13 @@ void Token::initializeTypeNames() {
     type_names_[TokenType::MINUS] = "MINUS";
     
     // CHTL JS特殊
-    type_names_[TokenType::SELECTOR_START] = "SELECTOR_START";
-    type_names_[TokenType::SELECTOR_END] = "SELECTOR_END";
+    type_names_[TokenType::CHTLJS_SELECTOR] = "CHTLJS_SELECTOR";
+    type_names_[TokenType::ARROW_OPERATOR] = "ARROW_OPERATOR";
+    type_names_[TokenType::LISTEN_FUNCTION] = "LISTEN_FUNCTION";
+    type_names_[TokenType::DELEGATE_FUNCTION] = "DELEGATE_FUNCTION";
+    type_names_[TokenType::ANIMATE_FUNCTION] = "ANIMATE_FUNCTION";
+    type_names_[TokenType::VIR_KEYWORD] = "VIR_KEYWORD";
 }
 
+} // namespace chtljs
 } // namespace chtl

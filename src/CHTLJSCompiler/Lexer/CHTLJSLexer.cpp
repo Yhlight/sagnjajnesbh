@@ -2,6 +2,7 @@
 #include <cctype>
 
 namespace chtl {
+namespace chtljs {
 
 CHTLJSLexer::CHTLJSLexer() : position_(0), line_(1), column_(1) {
 }
@@ -93,7 +94,7 @@ Token CHTLJSLexer::readCHTLJSSelector() {
     advance(); // }
     advance(); // }
     
-    return Token(TokenType::SELECTOR_START, value, pos);
+    return Token(TokenType::CHTLJS_SELECTOR, value, pos);
 }
 
 bool CHTLJSLexer::hasMoreTokens() const {
@@ -344,4 +345,5 @@ void CHTLJSLexer::addError(const std::string& message) {
     errors_.push_back("行 " + std::to_string(line_) + ", 列 " + std::to_string(column_) + ": " + message);
 }
 
+} // namespace chtljs
 } // namespace chtl

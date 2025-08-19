@@ -18,6 +18,7 @@ enum class TokenType {
     // 基础类型
     INVALID = 0,
     EOF_TOKEN,
+    END_OF_FILE,
     IDENTIFIER,
     STRING,
     NUMBER,

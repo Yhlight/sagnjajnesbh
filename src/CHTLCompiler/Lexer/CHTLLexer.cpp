@@ -245,7 +245,14 @@ bool CHTLLexer::isAtEnd() const {
 }
 
 bool CHTLLexer::isAlpha(char c) const {
-    return std::isalpha(c);
+    // 支持ASCII字母和中文字符
+    if (std::isalpha(c)) {
+        return true;
+    }
+    
+    // 简单的中文字符检测（UTF-8）
+    unsigned char uc = static_cast<unsigned char>(c);
+    return uc >= 0x80; // 非ASCII字符，可能是中文
 }
 
 bool CHTLLexer::isDigit(char c) const {

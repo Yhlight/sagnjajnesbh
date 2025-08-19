@@ -145,6 +145,120 @@
 },
 {
   "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o -c /workspace/src/CHTLCompiler/Custom/CustomParser.cpp",
+  "file": "/workspace/src/CHTLCompiler/Custom/CustomParser.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Custom/CustomParser.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o -c /workspace/src/CHTLCompiler/Template/TemplateParser.cpp",
+  "file": "/workspace/src/CHTLCompiler/Template/TemplateParser.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Template/TemplateParser.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o -c /workspace/src/CHTLCompiler/Origin/OriginParser.cpp",
+  "file": "/workspace/src/CHTLCompiler/Origin/OriginParser.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Origin/OriginParser.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o -c /workspace/src/CHTLCompiler/Constraint/ConstraintParser.cpp",
+  "file": "/workspace/src/CHTLCompiler/Constraint/ConstraintParser.cpp",
+  "output": "CMakeFiles/chtl_compiler_basic.dir/src/CHTLCompiler/Constraint/ConstraintParser.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Core/CHTLJSCompilerCore.cpp.o -c /workspace/src/CHTLJSCompiler/Core/CHTLJSCompilerCore.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Core/CHTLJSCompilerCore.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Core/CHTLJSCompilerCore.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Lexer/CHTLJSLexer.cpp.o -c /workspace/src/CHTLJSCompiler/Lexer/CHTLJSLexer.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Lexer/CHTLJSLexer.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Lexer/CHTLJSLexer.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.o -c /workspace/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Lexer/CHTLJSToken.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o -c /workspace/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Core/AutoAdditionManager.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o -c /workspace/src/CHTLJSCompiler/Core/JSEventRegistry.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Core/JSEventRegistry.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Core/JSEventRegistry.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Enhanced/UnorderedOptionalProcessor.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Event/DelegateSystemProcessor.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Event/ListenSystemProcessor.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Operator/ArrowOperatorProcessor.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o -c /workspace/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Parser/CHTLJSFunctionParser.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o -c /workspace/src/CHTLJSCompiler/Parser/SelectorDetector.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Parser/SelectorDetector.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Parser/SelectorDetector.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Script/LocalScriptProcessor.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Selector/EnhancedSelectorProcessor.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o -c /workspace/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/Virtual/VirtualObjectProcessor.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
+  "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o -c /workspace/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp",
+  "file": "/workspace/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp",
+  "output": "CMakeFiles/chtljs_compiler_full.dir/src/CHTLJSCompiler/AST/VirtualObjectManager.cpp.o"
+},
+{
+  "directory": "/workspace/build-debug",
   "command": "/usr/bin/c++  -I/workspace/src  -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-constant-out-of-range-compare -g -std=gnu++17 -o CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.o -c /workspace/src/CHTLCompiler/Lexer/CHTLLexer.cpp",
   "file": "/workspace/src/CHTLCompiler/Lexer/CHTLLexer.cpp",
   "output": "CMakeFiles/chtl_lexer.dir/src/CHTLCompiler/Lexer/CHTLLexer.cpp.o"

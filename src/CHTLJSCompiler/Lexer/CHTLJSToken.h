@@ -61,8 +61,12 @@ enum class TokenType {
     MINUS,          // -
     
     // CHTL JS特殊
-    SELECTOR_START, // {{...}}
-    SELECTOR_END    // }}
+    CHTLJS_SELECTOR,    // {{...}}
+    ARROW_OPERATOR,     // ->
+    LISTEN_FUNCTION,    // listen
+    DELEGATE_FUNCTION,  // delegate
+    ANIMATE_FUNCTION,   // animate
+    VIR_KEYWORD         // vir
 };
 
 // Token类

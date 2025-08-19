@@ -48,6 +48,7 @@ private:
     std::vector<std::string> warnings_;
     
     // 内部方法
+    std::string generateJavaScript(const std::vector<chtljs::Token>& tokens);
     void addError(const std::string& error);
     void addWarning(const std::string& warning);
 };
