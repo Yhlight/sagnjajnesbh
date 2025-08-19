@@ -28,6 +28,12 @@ bool CompilerDispatcher::initialize() {
         cssCompiler_ = std::make_unique<CSSCompilerCore>();
         jsCompiler_ = std::make_unique<JavaScriptCompilerCore>();
         
+        // 初始化新的CHTL JS处理器
+        chtljs::CHTLJSProcessor::initialize();
+        
+        // 初始化CJMOD系统
+        your_cjmod_design::CJMODSystemInitializer::initializeSystem();
+        
         // 初始化编译器
         if (!chtlCompiler_->initialize()) {
             addError("CHTL编译器初始化失败");
@@ -162,8 +168,17 @@ CompilerDispatcher::CompilationResult CompilerDispatcher::compileFragment(const 
         result.warnings = chtlResult.warnings;
         
     } else if (compilerName == "chtljs") {
-        // CHTL JS编译器处理
-        auto chtljsResult = chtljsCompiler_->compileCode(fragment.content);
+        // CHTL JS编译器处理 - 集成新的处理器
+        
+        // 首先使用新的CHTL JS处理器处理
+        std::string processedCode = chtljs::CHTLJSProcessor::processCHTLJS(fragment.content);
+        
+        // 然后使用CJMOD管理器处理
+        auto& cjmodManager = your_cjmod_design::CJMODManager::getInstance();
+        processedCode = cjmodManager.processCHTLJS(processedCode);
+        
+        // 最后使用原有编译器编译
+        auto chtljsResult = chtljsCompiler_->compileCode(processedCode);
         result.compiledCode = chtljsResult.compiledCode;
         result.success = chtljsResult.success;
         result.errors = chtljsResult.errors;

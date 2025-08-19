@@ -2,6 +2,9 @@
 #include "../Scanner/CHTLUnifiedScanner.h"
 #include "../CHTLCompiler/CHTLCompilerCore.h"
 #include "../CHTLJSCompiler/Core/CHTLJSCompilerCore.h"
+#include "../CHTLJSCompiler/Core/CHTLJSProcessor.h"
+#include "../CHTLJSCompiler/Module/YourCJMODDesign.h"
+#include "../CHTLCompiler/Module/ModulePackager.h"
 #include "../CSSCompiler/CSSCompilerCore.h"
 #include "../JavaScriptCompiler/JavaScriptCompilerCore.h"
 #include <string>
@@ -110,6 +113,28 @@ public:
      * 合并编译结果
      */
     CompilationResult mergeCompilationResults(const std::vector<CompilationResult>& results);
+    
+    // === 模块管理 ===
+    
+    /**
+     * 安装模块
+     */
+    bool installModule(const std::string& moduleFile);
+    
+    /**
+     * 卸载模块
+     */
+    bool uninstallModule(const std::string& moduleName);
+    
+    /**
+     * 列出已安装模块
+     */
+    std::vector<std::string> listModules();
+    
+    /**
+     * 打包模块
+     */
+    bool packModule(const std::string& modulePath, const std::string& type);
     
     // === 错误处理 ===
     
