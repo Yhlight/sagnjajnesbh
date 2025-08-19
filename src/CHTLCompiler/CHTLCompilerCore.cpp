@@ -65,12 +65,24 @@ std::string chtl::CHTLCompilerCore::compile(const std::string& source_code) {
             std::cout << "词法分析完成，生成 " << tokens.size() << " 个token" << std::endl;
         }
         
-        // 2. 使用简化的HTML生成（绕过有问题的Parser）
+        // 2. 使用智能HTML生成（绕过有问题的Parser）
         if (!parser_) {
             if (debug_mode_) {
-                std::cout << "使用简化编译模式" << std::endl;
+                std::cout << "使用智能编译模式" << std::endl;
             }
-            return generateSimpleHTML(tokens);
+            
+            // 检测是完整CHTL文档还是片段
+            if (isCompleteCHTLDocument(tokens)) {
+                if (debug_mode_) {
+                    std::cout << "检测到完整CHTL文档，生成完整HTML" << std::endl;
+                }
+                return generateSimpleHTML(tokens);
+            } else {
+                if (debug_mode_) {
+                    std::cout << "检测到CHTL片段，生成HTML内容" << std::endl;
+                }
+                return generateHTMLFragment(tokens);
+            }
         }
         
         // 3. 完整语法分析（如果Parser可用）
@@ -146,6 +158,43 @@ std::string chtl::CHTLCompilerCore::generateSimpleHTML(const std::vector<Token>&
     }
     
     html += "\\n</body>\\n</html>";
+    return html;
+}
+
+bool chtl::CHTLCompilerCore::isCompleteCHTLDocument(const std::vector<Token>& tokens) {
+    // 检测是否包含html根元素，如果有则认为是完整文档
+    for (const auto& token : tokens) {
+        if (token.type == TokenType::IDENTIFIER && token.value == "html") {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::string chtl::CHTLCompilerCore::generateHTMLFragment(const std::vector<Token>& tokens) {
+    // 生成HTML片段（不包含DOCTYPE、html、head、body结构）
+    std::string html;
+    
+    for (size_t i = 0; i < tokens.size(); i++) {
+        const auto& token = tokens[i];
+        if (token.type == TokenType::IDENTIFIER && isHTMLElement(token.value)) {
+            // 跳过html、head、body等结构性标签
+            if (token.value == "html" || token.value == "head" || token.value == "body") {
+                continue;
+            }
+            
+            html += "<" + token.value + ">";
+            
+            // 查找文本内容
+            if (i + 1 < tokens.size() && tokens[i+1].type == TokenType::IDENTIFIER) {
+                html += tokens[i+1].value;
+                i++;
+            }
+            
+            html += "</" + token.value + ">";
+        }
+    }
+    
     return html;
 }
 

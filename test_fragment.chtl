@@ -1,0 +1,5 @@
+div {
+    class: card;
+    h2 { text { Card Title } }
+    p { text { Card content here } }
+}
