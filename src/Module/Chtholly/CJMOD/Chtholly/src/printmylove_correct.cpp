@@ -29,8 +29,8 @@ extern "C" const char* processPrintMylove(const char* chtljsCode) {
         let result = '';
         
         if (mode === 'ASCII') {
-            // 字符画 - 使用ASCII字符集创建字符艺术
-            const asciiChars = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+            // 字符画 - 使用ASCII符号字符创建字符艺术
+            const asciiChars = ' .\'`^",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
             
             for (let y = 0; y < scaledHeight; y += 2) {
                 for (let x = 0; x < scaledWidth; x++) {
