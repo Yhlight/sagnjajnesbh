@@ -1,0 +1,8 @@
+// 简单的CHTL测试
+div
+{
+    text
+    {
+        "Hello CHTL"
+    }
+}
