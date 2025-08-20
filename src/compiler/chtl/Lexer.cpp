@@ -1,12 +1,14 @@
 #include "../../../include/compiler/chtl/Lexer.h"
 #include "../../../include/common/GlobalMap.h"
 #include <cctype>
-#include <algorithm>
+#include <iostream>
+#include <unordered_set>
 
 namespace chtl {
 namespace compiler {
 
-// CHTLLexer实现
+// 静态成员初始化已在头文件中完成
+
 CHTLLexer::CHTLLexer(const std::string& filename, 
                      const std::string& content,
                      DiagnosticCollector* diag)
@@ -32,9 +34,7 @@ char CHTLLexer::advance() {
 void CHTLLexer::skipWhitespace() {
     while (position_ < content_.size()) {
         char ch = peek();
-        if (ch == ' ' || ch == '\t' || ch == '\r') {
-            advance();
-        } else if (ch == '\n') {
+        if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n') {
             advance();
         } else {
             break;
@@ -104,9 +104,7 @@ std::vector<TokenPtr> CHTLLexer::tokenize() {
         }
     }
     
-    // 添加EOF token
     tokens.push_back(makeToken(TokenType::EOF_TOKEN, ""));
-    
     return tokens;
 }
 
@@ -125,6 +123,16 @@ TokenPtr CHTLLexer::scanToken() {
     
     char c = peek();
     
+    // 检查双字符符号 {{
+    if (c == '{' && peek(1) == '{') {
+        return handleDoubleLeftBrace();
+    }
+    
+    // 检查双字符符号 }}
+    if (c == '}' && peek(1) == '}') {
+        return handleDoubleRightBrace();
+    }
+    
     // 注释
     if (c == '/') {
         if (peek(1) == '/') {
@@ -137,6 +145,11 @@ TokenPtr CHTLLexer::scanToken() {
     // 生成器注释
     if (c == '-' && peek(1) == '-') {
         return scanGeneratorComment();
+    }
+    
+    // 箭头 ->
+    if (c == '-' && peek(1) == '>') {
+        return handleArrow();
     }
     
     // 符号
@@ -160,17 +173,11 @@ TokenPtr CHTLLexer::scanToken() {
         case '.': advance(); return makeToken(TokenType::DOT);
         case '@':
             // 检查是否是类型标识符
-            if (peek(1) >= 'A' && peek(1) <= 'Z') {
+            if (LexerUtils::isAlpha(peek(1))) {
                 return scanTypeIdentifier();
             }
             advance();
             return makeToken(TokenType::AT);
-        case '-':
-            // 检查是否是箭头
-            if (peek(1) == '>') {
-                return handleArrow();
-            }
-            break;
         case '"':
         case '\'':
             return scanString(c);
@@ -203,6 +210,18 @@ TokenPtr CHTLLexer::scanIdentifier() {
     // 检查是否是关键字
     auto it = keywords_.find(value);
     if (it != keywords_.end()) {
+        // 特殊处理 "at top" 和 "at bottom"
+        if (value == "at" && peek() == ' ') {
+            size_t savedPos = position_;
+            skipWhitespace();
+            if (match("top")) {
+                return makeToken(TokenType::KEYWORD_AT_TOP, "at top");
+            } else if (match("bottom")) {
+                return makeToken(TokenType::KEYWORD_AT_BOTTOM, "at bottom");
+            }
+            // 回退
+            position_ = savedPos;
+        }
         return makeToken(it->second, value);
     }
     
@@ -212,8 +231,9 @@ TokenPtr CHTLLexer::scanIdentifier() {
     }
     
     // 检查是否是CSS属性（在style上下文中）
-    if (stateMachine_->getContext().getCurrentState() == StateType::CHTL_STYLE ||
-        stateMachine_->getContext().getCurrentState() == StateType::CSS_DECLARATION) {
+    auto currentState = stateMachine_->getContext().getCurrentState();
+    if (currentState == StateType::CHTL_STYLE ||
+        currentState == StateType::CSS_DECLARATION) {
         if (GlobalMap::getInstance().isCSSProperty(value)) {
             return makeToken(TokenType::CSS_PROPERTY, value);
         }
@@ -282,46 +302,39 @@ TokenPtr CHTLLexer::scanNumber() {
     }
     
     // 检查单位（如px, em, %等）
-    if (LexerUtils::isAlpha(peek())) {
+    if (LexerUtils::isAlpha(peek()) || peek() == '%') {
         while (LexerUtils::isAlpha(peek()) || peek() == '%') {
             advance();
         }
+        // 带单位的数字作为字符串处理
+        std::string value = content_.substr(tokenStart_, position_ - tokenStart_);
+        return makeToken(TokenType::STRING_LITERAL, value);
     }
     
     std::string value = content_.substr(tokenStart_, position_ - tokenStart_);
-    
-    // 尝试解析为数字
-    try {
-        double num = std::stod(value);
-        return makeToken(TokenType::NUMBER_LITERAL, num);
-    } catch (...) {
-        // 如果不能解析为纯数字，作为字符串处理（带单位的数字）
-        return makeToken(TokenType::STRING_LITERAL, value);
-    }
+    double num = std::stod(value);
+    return makeToken(TokenType::NUMBER_LITERAL, num);
 }
 
 TokenPtr CHTLLexer::scanComment() {
     if (match("//")) {
         // 单行注释
+        std::string value;
         while (!isAtEnd() && peek() != '\n') {
-            advance();
+            value += advance();
         }
-        std::string value = content_.substr(tokenStart_ + 2, position_ - tokenStart_ - 2);
         return makeToken(TokenType::SINGLE_LINE_COMMENT, value);
     } else if (match("/*")) {
         // 多行注释
+        std::string value;
         while (!isAtEnd()) {
             if (peek() == '*' && peek(1) == '/') {
                 advance(); advance(); // 跳过 */
                 break;
             }
-            advance();
+            value += advance();
         }
-        
-        if (position_ >= tokenStart_ + 4) {
-            std::string value = content_.substr(tokenStart_ + 2, position_ - tokenStart_ - 4);
-            return makeToken(TokenType::MULTI_LINE_COMMENT, value);
-        }
+        return makeToken(TokenType::MULTI_LINE_COMMENT, value);
     }
     
     return nullptr;
@@ -330,11 +343,11 @@ TokenPtr CHTLLexer::scanComment() {
 TokenPtr CHTLLexer::scanGeneratorComment() {
     advance(); advance(); // 跳过 --
     
+    std::string value;
     while (!isAtEnd() && peek() != '\n') {
-        advance();
+        value += advance();
     }
     
-    std::string value = content_.substr(tokenStart_ + 2, position_ - tokenStart_ - 2);
     return makeToken(TokenType::GENERATOR_COMMENT, value);
 }
 
@@ -343,12 +356,13 @@ TokenPtr CHTLLexer::scanBracketKeyword() {
     size_t start = position_;
     advance(); // 跳过 [
     
+    std::string keyword;
     while (LexerUtils::isAlpha(peek())) {
-        advance();
+        keyword += advance();
     }
     
     if (peek() != ']') {
-        // 不是有效的方括号关键字
+        // 不是有效的方括号关键字，回退
         position_ = start;
         advance();
         return makeToken(TokenType::LEFT_BRACKET);
@@ -356,17 +370,17 @@ TokenPtr CHTLLexer::scanBracketKeyword() {
     
     advance(); // 跳过 ]
     
-    std::string value = content_.substr(tokenStart_, position_ - tokenStart_);
+    std::string value = "[" + keyword + "]";
     
     // 映射到对应的token类型
-    if (value == "[Template]") return makeToken(TokenType::KEYWORD_TEMPLATE);
-    if (value == "[Custom]") return makeToken(TokenType::KEYWORD_CUSTOM);
-    if (value == "[Origin]") return makeToken(TokenType::KEYWORD_ORIGIN);
-    if (value == "[Import]") return makeToken(TokenType::KEYWORD_IMPORT);
-    if (value == "[Namespace]") return makeToken(TokenType::KEYWORD_NAMESPACE);
-    if (value == "[Configuration]") return makeToken(TokenType::KEYWORD_CONFIGURATION);
-    if (value == "[Info]") return makeToken(TokenType::KEYWORD_INFO);
-    if (value == "[Export]") return makeToken(TokenType::KEYWORD_EXPORT);
+    if (keyword == "Template") return makeToken(TokenType::KEYWORD_TEMPLATE, value);
+    if (keyword == "Custom") return makeToken(TokenType::KEYWORD_CUSTOM, value);
+    if (keyword == "Origin") return makeToken(TokenType::KEYWORD_ORIGIN, value);
+    if (keyword == "Import") return makeToken(TokenType::KEYWORD_IMPORT, value);
+    if (keyword == "Namespace") return makeToken(TokenType::KEYWORD_NAMESPACE, value);
+    if (keyword == "Configuration") return makeToken(TokenType::KEYWORD_CONFIGURATION, value);
+    if (keyword == "Info") return makeToken(TokenType::KEYWORD_INFO, value);
+    if (keyword == "Export") return makeToken(TokenType::KEYWORD_EXPORT, value);
     
     // 未知的方括号关键字
     return makeToken(TokenType::IDENTIFIER, value);
@@ -376,11 +390,12 @@ TokenPtr CHTLLexer::scanTypeIdentifier() {
     // 扫描如 @Style, @Element 等
     advance(); // 跳过 @
     
+    std::string name;
     while (LexerUtils::isAlpha(peek())) {
-        advance();
+        name += advance();
     }
     
-    std::string value = content_.substr(tokenStart_, position_ - tokenStart_);
+    std::string value = "@" + name;
     
     // 检查类型标识符映射
     auto it = typeIdentifiers_.find(value);
@@ -388,33 +403,31 @@ TokenPtr CHTLLexer::scanTypeIdentifier() {
         return makeToken(it->second, value);
     }
     
-    // 未知的类型标识符
+    // 未知的类型标识符，作为普通标识符
     return makeToken(TokenType::IDENTIFIER, value);
 }
 
 TokenPtr CHTLLexer::scanHTMLElement() {
-    // 这个方法实际上在scanIdentifier中已经处理了
     return scanIdentifier();
 }
 
 TokenPtr CHTLLexer::scanCSSProperty() {
-    // 这个方法实际上在scanIdentifier中已经处理了
     return scanIdentifier();
 }
 
 TokenPtr CHTLLexer::handleDoubleLeftBrace() {
     advance(); advance(); // 跳过 {{
-    return makeToken(TokenType::DOUBLE_LEFT_BRACE);
+    return makeToken(TokenType::DOUBLE_LEFT_BRACE, "{{");
 }
 
 TokenPtr CHTLLexer::handleDoubleRightBrace() {
     advance(); advance(); // 跳过 }}
-    return makeToken(TokenType::DOUBLE_RIGHT_BRACE);
+    return makeToken(TokenType::DOUBLE_RIGHT_BRACE, "}}");
 }
 
 TokenPtr CHTLLexer::handleArrow() {
     advance(); advance(); // 跳过 ->
-    return makeToken(TokenType::ARROW);
+    return makeToken(TokenType::ARROW, "->");
 }
 
 bool CHTLLexer::isValidIdentifier(const std::string& id) const {
@@ -562,7 +575,7 @@ bool isKeyword(const std::string& str) {
 }
 
 bool isTypeIdentifier(const std::string& str) {
-    return str.size() > 1 && str[0] == '@' && str[1] >= 'A' && str[1] <= 'Z';
+    return str.size() > 1 && str[0] == '@' && isAlpha(str[1]);
 }
 
 bool isBracketKeyword(const std::string& str) {
