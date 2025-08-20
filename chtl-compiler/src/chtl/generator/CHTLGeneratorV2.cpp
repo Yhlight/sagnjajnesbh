@@ -125,22 +125,53 @@ void CHTLGeneratorV2::VisitElement(ast::ElementNode* node) {
     }
     
     // 处理局部样式生成的内联样式
+    std::unordered_map<std::string, std::string> mergedInlineProps;
+    
     for (const auto& child : node->GetChildren()) {
         if (auto style = std::dynamic_pointer_cast<ast::StyleNode>(child)) {
             if (style->GetType() == ast::StyleNode::LOCAL) {
-                auto& inlineProps = style->GetInlineProperties();
-                if (!inlineProps.empty()) {
-                    Write(" style=\"");
-                    bool first = true;
-                    for (const auto& prop : inlineProps) {
-                        if (!first) Write(" ");
-                        Write(prop.first + ": " + prop.second + ";");
-                        first = false;
+                // 首先处理样式模板引用
+                for (const auto& styleChild : style->GetChildren()) {
+                    if (auto custom = std::dynamic_pointer_cast<ast::CustomNode>(styleChild)) {
+                        if (custom->GetType() == ast::CustomNode::STYLE) {
+                            // 查找对应的模板
+                            auto tmplIt = m_Templates.find(custom->GetName());
+                            if (tmplIt != m_Templates.end()) {
+                                auto tmpl = tmplIt->second;
+                                if (tmpl->GetType() == ast::TemplateNode::STYLE) {
+                                    // 合并模板中的样式属性
+                                    for (const auto& tmplChild : tmpl->GetChildren()) {
+                                        if (auto tmplStyle = std::dynamic_pointer_cast<ast::StyleNode>(tmplChild)) {
+                                            for (const auto& prop : tmplStyle->GetInlineProperties()) {
+                                                mergedInlineProps[prop.first] = prop.second;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                    Write("\"");
+                }
+                
+                // 然后添加本地内联属性（覆盖模板属性）
+                auto& inlineProps = style->GetInlineProperties();
+                for (const auto& prop : inlineProps) {
+                    mergedInlineProps[prop.first] = prop.second;
                 }
             }
         }
+    }
+    
+    // 生成内联样式属性
+    if (!mergedInlineProps.empty()) {
+        Write(" style=\"");
+        bool first = true;
+        for (const auto& prop : mergedInlineProps) {
+            if (!first) Write(" ");
+            Write(prop.first + ": " + prop.second + ";");
+            first = false;
+        }
+        Write("\"");
     }
     
     // 自闭合标签
@@ -347,43 +378,6 @@ void CHTLGeneratorV2::VisitExcept(ast::ExceptNode* node) {
 // 样式处理
 
 void CHTLGeneratorV2::ProcessLocalStyle(ast::StyleNode* style) {
-    // 首先处理样式模板使用（@Style引用）
-    std::unordered_map<std::string, std::string> mergedProperties;
-    
-    // 收集模板样式属性
-    for (const auto& child : style->GetChildren()) {
-        if (auto custom = std::dynamic_pointer_cast<ast::CustomNode>(child)) {
-            if (custom->GetType() == ast::CustomNode::STYLE) {
-                // 查找对应的模板
-                auto tmplIt = m_Templates.find(custom->GetName());
-                if (tmplIt != m_Templates.end()) {
-                    auto tmpl = tmplIt->second;
-                    if (tmpl->GetType() == ast::TemplateNode::STYLE) {
-                        // 合并模板中的样式属性
-                        for (const auto& tmplChild : tmpl->GetChildren()) {
-                            if (auto tmplStyle = std::dynamic_pointer_cast<ast::StyleNode>(tmplChild)) {
-                                for (const auto& prop : tmplStyle->GetInlineProperties()) {
-                                    mergedProperties[prop.first] = prop.second;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    // 合并本地内联属性（覆盖模板属性）
-    for (const auto& prop : style->GetInlineProperties()) {
-        mergedProperties[prop.first] = prop.second;
-    }
-    
-    // 将合并后的属性添加到内联样式
-    style->ClearInlineProperties();
-    for (const auto& prop : mergedProperties) {
-        style->AddInlineProperty(prop.first, prop.second);
-    }
-    
     // 收集需要提升到全局的规则
     for (const auto& rule : style->GetRules()) {
         std::string selector = rule.first;

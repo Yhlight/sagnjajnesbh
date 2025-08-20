@@ -82,6 +82,11 @@ private:
     // 变量替换
     std::string ReplaceVariables(const std::string& text);
     
+    // 模板处理辅助函数
+    void CollectTemplateStyleProperties(const std::string& templateName, 
+                                       std::unordered_map<std::string, std::string>& properties,
+                                       std::unordered_set<std::string>& visitedTemplates);
+    
     // 成员变量
     std::stringstream m_Output;
     std::stringstream m_GlobalStyles;
