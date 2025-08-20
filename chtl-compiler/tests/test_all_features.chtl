@@ -1,0 +1,274 @@
+// 完整的CHTL语法特征测试
+
+// 配置组
+[Configuration]
+{
+    INDEX_INITIAL_COUNT = 0;
+    DEBUG_MODE = false;
+    
+    [Name]
+    {
+        CUSTOM_STYLE = [@Style, @style];
+        KEYWORD_DELETE = delete;
+        KEYWORD_INSERT = insert;
+    }
+    
+    [OriginType]
+    {
+        ORIGINTYPE_VUE = @Vue;
+        ORIGINTYPE_REACT = @React;
+    }
+}
+
+// 导入
+[Import] @Style from "styles/common.css" as CommonStyles;
+[Import] @Chtl from "components/button.chtl";
+[Import] [Custom] @Element Card from "components/card.chtl" as MyCard;
+
+// 命名空间
+[Namespace] UI
+{
+    // 模板定义
+    [Template] @Style BaseStyle
+    {
+        color: black;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    
+    [Template] @Style ExtendedStyle
+    {
+        background-color: #f0f0f0;
+        padding: 10px;
+        @Style BaseStyle;  // 继承
+    }
+    
+    [Template] @Style BorderStyle
+    {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        inherit @Style ExtendedStyle;  // 显性继承
+    }
+    
+    // 元素模板
+    [Template] @Element Button
+    {
+        button
+        {
+            style
+            {
+                @Style BorderStyle;
+                cursor: pointer;
+                
+                &:hover
+                {
+                    background-color: #e0e0e0;
+                }
+            }
+            
+            text { "Click me" }
+        }
+    }
+    
+    // 变量组模板
+    [Template] @Var Colors
+    {
+        primary: "#007bff";
+        secondary: "#6c757d";
+        success: "#28a745";
+        danger: "#dc3545";
+        warning: "#ffc107";
+    }
+}
+
+// 自定义系统
+[Custom] @Style FlexLayout
+{
+    display: flex;
+    justify-content;  // 无值属性
+    align-items;      // 无值属性
+    flex-direction;   // 无值属性
+}
+
+[Custom] @Element Card
+{
+    div
+    {
+        class: card;
+        
+        style
+        {
+            @Style UI.BorderStyle from UI;  // 全缀名访问
+            margin: 10px;
+        }
+        
+        div
+        {
+            class: card-header;
+            text { "Header" }
+        }
+        
+        div
+        {
+            class: card-body;
+            text { "Content" }
+        }
+        
+        div
+        {
+            class: card-footer;
+            text { "Footer" }
+        }
+    }
+}
+
+[Custom] @Var Spacing
+{
+    small: "5px";
+    medium: "10px";
+    large: "20px";
+}
+
+// 原始嵌入
+[Origin] @Html header
+{
+    <header class="site-header">
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+}
+
+[Origin] @Style globalStyles
+{
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+[Origin] @Vue vueComponent
+{
+    <template>
+        <div>{{ message }}</div>
+    </template>
+    <script>
+    export default {
+        data() {
+            return { message: 'Hello Vue!' }
+        }
+    }
+    </script>
+}
+
+// 主体内容
+body
+{
+    // 约束
+    except @Html, [Template];  // 禁止HTML元素和模板定义
+    
+    // 使用带名原始嵌入
+    [Origin] @Html header;
+    
+    // 使用自定义样式组（无值属性）
+    div
+    {
+        style
+        {
+            @Style FlexLayout
+            {
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+            
+            min-height: 100vh;
+            background-color: UI.Colors(primary);  // 变量组调用
+        }
+        
+        // 使用命名空间中的元素模板
+        @Element UI.Button from UI;
+        
+        // 自定义元素使用与特例化
+        @Element Card
+        {
+            // 索引访问修改
+            div[0]
+            {
+                style
+                {
+                    background-color: UI.Colors(primary);
+                    color: white;
+                }
+            }
+            
+            // 删除元素
+            delete div[2];  // 删除footer
+            
+            // 插入元素
+            insert after div[0]
+            {
+                hr
+                {
+                    style
+                    {
+                        border: none;
+                        border-top: 1px solid #ddd;
+                        margin: Spacing(medium) 0;
+                    }
+                }
+            }
+            
+            // 样式特例化
+            style
+            {
+                @Style UI.BorderStyle
+                {
+                    delete border-radius;  // 删除属性
+                }
+                
+                width: 300px;
+            }
+        }
+        
+        // 变量特例化
+        p
+        {
+            style
+            {
+                color: UI.Colors(secondary = "#666");  // 变量特例化
+                margin-top: Spacing(large);
+            }
+            
+            text { "This demonstrates all CHTL features" }
+        }
+        
+        // 局部脚本块
+        script
+        {
+            // 这里可以包含CHTL JS代码
+            console.log("CHTL V3 loaded");
+        }
+    }
+    
+    // 全局样式和脚本会自动提升
+    style
+    {
+        body
+        {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+    }
+}
+
+// 导出（用于模块化）
+[Export]
+{
+    [Custom] @Style FlexLayout;
+    [Custom] @Element Card;
+    [Custom] @Var Spacing;
+}
