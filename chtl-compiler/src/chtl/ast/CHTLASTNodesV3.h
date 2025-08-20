@@ -7,6 +7,7 @@
 
 namespace chtl {
 namespace ast {
+namespace v3 {
 
 // 前向声明
 class ASTVisitor;
@@ -586,5 +587,6 @@ public:
     virtual void VisitExcept(ExceptNode* node) = 0;
 };
 
+} // namespace v3
 } // namespace ast
 } // namespace chtl

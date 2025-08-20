@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../lexer/CHTLLexerV2.h"
-#include "../ast/CHTLASTNodes.h"
+#include "../ast/CHTLASTNodesV3.h"
 #include <memory>
 #include <vector>
 #include <stack>
@@ -16,7 +16,7 @@ public:
     CHTLParserV3();
     
     // 主要解析接口
-    std::shared_ptr<ast::DocumentNode> Parse(const std::string& source, const std::string& filename = "");
+    std::shared_ptr<ast::v3::DocumentNode> Parse(const std::string& source, const std::string& filename = "");
     
     // 错误处理
     bool HasErrors() const { return !m_Errors.empty(); }
@@ -48,124 +48,117 @@ private:
     size_t m_Current;
     std::string m_Source;
     
+    // 错误记录
+    std::vector<std::string> m_Errors;
+    std::string m_Filename;
+    
     // 上下文栈
     std::stack<Context> m_ContextStack;
     
-    // 错误收集
-    std::vector<std::string> m_Errors;
+    // 当前命名空间栈
+    std::vector<std::string> m_NamespaceStack;
     
-    // 配置状态
-    std::unordered_map<std::string, std::string> m_CurrentConfig;
+    // 导入管理
+    std::unordered_set<std::string> m_ImportedFiles;
+    std::unordered_map<std::string, std::string> m_ImportAliases;
     
-    // 当前命名空间
-    std::string m_CurrentNamespace;
-    
-    // 主要解析方法
-    std::shared_ptr<ast::DocumentNode> ParseTokens(const std::vector<CHTLToken>& tokens);
-    std::shared_ptr<ast::ASTNode> ParseTopLevel();
-    
-    // 元素解析
-    std::shared_ptr<ast::ASTNode> ParseElement();
-    void ParseElementContent(ast::ElementNode* element);
-    void ParseAttributes(ast::ElementNode* element);
-    
-    // 文本解析
-    std::shared_ptr<ast::ASTNode> ParseText();
-    
-    // 样式解析
-    std::shared_ptr<ast::ASTNode> ParseStyle();
-    void ParseStyleContent(ast::StyleNode* style);
-    void ParseStyleRule(ast::StyleNode* style);
-    void ParseLocalStyle(ast::ElementNode* element);
-    
-    // 脚本解析
-    std::shared_ptr<ast::ASTNode> ParseScript();
-    void ParseLocalScript(ast::ElementNode* element);
-    
-    // 注释解析
-    std::shared_ptr<ast::ASTNode> ParseComment();
-    
-    // 模板解析
-    std::shared_ptr<ast::ASTNode> ParseTemplate();
-    void ParseTemplateParameters(ast::TemplateNode* tmpl);
-    void ParseTemplateDefinition(ast::TemplateNode* tmpl);
-    
-    // 自定义解析
-    std::shared_ptr<ast::ASTNode> ParseCustom();
-    void ParseCustomDefinition(ast::CustomNode* custom);
-    void ParseCustomStyleDefinition(ast::CustomNode* custom);
-    void ParseCustomElementDefinition(ast::CustomNode* custom);
-    void ParseCustomVarDefinition(ast::CustomNode* custom);
-    void ParseNoValueStyleProperties(ast::CustomNode* custom);
-    
-    // 导入解析
-    std::shared_ptr<ast::ASTNode> ParseImport();
-    void ParseImportSpecifiers(ast::ImportNode* import);
-    std::string ParseImportPath();
-    
-    // 命名空间解析
-    std::shared_ptr<ast::ASTNode> ParseNamespace();
-    
-    // 配置解析
-    std::shared_ptr<ast::ASTNode> ParseConfiguration();
-    void ParseConfigurationContent(ast::ConfigurationNode* config);
-    void ParseNameConfig(ast::ConfigurationNode* config);
-    void ParseOriginTypeConfig(ast::ConfigurationNode* config);
-    
-    // 原始嵌入解析
-    std::shared_ptr<ast::ASTNode> ParseOrigin();
-    std::string ParseOriginTypeName();
-    
-    // 特殊化解析
-    std::shared_ptr<ast::ASTNode> ParseSpecialization();
-    std::shared_ptr<ast::ASTNode> ParseDelete();
-    std::shared_ptr<ast::ASTNode> ParseInsert();
-    
-    // 继承解析
-    std::shared_ptr<ast::ASTNode> ParseInherit();
-    
-    // 变量解析
-    std::shared_ptr<ast::ASTNode> ParseVar();
-    std::shared_ptr<ast::ASTNode> ParseVarCall();
-    
-    // 表达式解析
-    std::shared_ptr<ast::ASTNode> ParseExpression();
-    
-    // 约束解析
-    std::shared_ptr<ast::ASTNode> ParseExcept();
-    std::vector<std::string> ParseExceptTargets();
-    
-    // 全缀名解析
-    std::string ParseFullQualifiedName();
+    // 约束管理
+    std::unordered_set<std::string> m_GlobalExcepts;
+    std::unordered_map<std::string, std::unordered_set<std::string>> m_LocalExcepts;
     
     // Token辅助方法
-    bool Match(CHTLTokenType type);
-    bool Check(CHTLTokenType type) const;
-    bool CheckAny(std::initializer_list<CHTLTokenType> types) const;
-    CHTLToken Advance();
-    CHTLToken Peek() const;
-    CHTLToken Previous() const;
     bool IsAtEnd() const;
+    const CHTLToken& Current() const;
+    const CHTLToken& Previous() const;
+    const CHTLToken& Peek(size_t offset = 0) const;
+    void Advance();
+    bool Match(CHTLTokenType type);
+    bool Match(const std::vector<CHTLTokenType>& types);
+    bool Check(CHTLTokenType type) const;
+    bool CheckKeyword(const std::string& keyword) const;
+    void Consume(CHTLTokenType type, const std::string& message);
     
-    // 特殊匹配方法
-    bool MatchColonOrEquals();
-    std::string ParseStringOrUnquoted();
-    std::string ParseIdentifierPath();
-    
-    // 错误报告
-    void ReportError(const std::string& message);
+    // 错误处理
+    void AddError(const std::string& message);
+    void AddError(const CHTLToken& token, const std::string& message);
+    void Synchronize();
     
     // 上下文管理
-    Context CurrentContext() const;
     void PushContext(Context ctx);
     void PopContext();
+    Context CurrentContext() const;
+    bool IsInContext(Context ctx) const;
     
-    // 解析辅助方法
-    bool IsKeyword(const std::string& identifier) const;
-    bool IsHtmlElement(const std::string& identifier) const;
-    std::string ExtractOriginContent(size_t startPos, size_t endPos);
-    bool IsTemplateOrCustomUsage() const;
-    bool IsSpecializationContext() const;
+    // 命名空间管理
+    std::string GetCurrentNamespace() const;
+    std::string ResolveFullName(const std::string& name) const;
+    
+    // 主要解析方法
+    void ParseTokens();
+    
+    // 顶层解析
+    std::shared_ptr<ast::v3::ASTNode> ParseTopLevel();
+    std::shared_ptr<ast::v3::ImportNode> ParseImport();
+    std::shared_ptr<ast::v3::NamespaceNode> ParseNamespace();
+    std::shared_ptr<ast::v3::ConfigurationNode> ParseConfiguration();
+    std::shared_ptr<ast::v3::TemplateNode> ParseTemplate();
+    std::shared_ptr<ast::v3::CustomNode> ParseCustom();
+    std::shared_ptr<ast::v3::StyleNode> ParseGlobalStyle();
+    std::shared_ptr<ast::v3::ScriptNode> ParseGlobalScript();
+    std::shared_ptr<ast::v3::ElementNode> ParseElement();
+    std::shared_ptr<ast::v3::OriginNode> ParseOrigin();
+    std::shared_ptr<ast::v3::CommentNode> ParseComment();
+    
+    // 元素内容解析
+    void ParseElementContent(ast::v3::ElementNode* element);
+    std::shared_ptr<ast::v3::TextNode> ParseText();
+    std::shared_ptr<ast::v3::StyleNode> ParseLocalStyle();
+    std::shared_ptr<ast::v3::ScriptNode> ParseLocalScript();
+    std::unordered_map<std::string, std::string> ParseAttributes();
+    
+    // 样式内容解析
+    void ParseStyleContent(ast::v3::StyleNode* style);
+    std::pair<std::string, std::string> ParseStyleProperty();
+    ast::v3::StyleNode::Rule ParseStyleRule();
+    
+    // 脚本内容解析
+    void ParseScriptContent(ast::v3::ScriptNode* script);
+    
+    // 模板内容解析
+    void ParseTemplateDefinition(ast::v3::TemplateNode* tmpl);
+    std::shared_ptr<ast::v3::InheritNode> ParseInherit();
+    
+    // 自定义内容解析
+    void ParseCustomDefinition(ast::v3::CustomNode* custom);
+    std::shared_ptr<ast::v3::DeleteNode> ParseDelete();
+    std::shared_ptr<ast::v3::InsertNode> ParseInsert();
+    
+    // 变量解析
+    std::shared_ptr<ast::v3::VarNode> ParseVar();
+    std::shared_ptr<ast::v3::VarCallNode> ParseVarCall();
+    
+    // 配置内容解析
+    void ParseConfigurationContent(ast::v3::ConfigurationNode* config);
+    
+    // 约束解析
+    std::shared_ptr<ast::v3::ExceptNode> ParseExcept();
+    void ProcessExcept(ast::v3::ExceptNode* except);
+    
+    // 原始内容解析
+    void ParseOriginContent(ast::v3::OriginNode* origin);
+    
+    // 辅助方法
+    std::string ParseStringOrUnquoted();
+    std::string ParseQuotedString();
+    std::string ParseIdentifier();
+    std::string ParseFullQualifiedName();
+    int ParseNumber();
+    
+    // 检查约束
+    bool CheckConstraints(const std::string& element) const;
+    
+    // HTML元素验证
+    bool IsValidHtmlElement(const std::string& tag) const;
 };
 
 } // namespace chtl
