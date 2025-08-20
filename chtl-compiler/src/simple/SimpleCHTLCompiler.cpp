@@ -1,12 +1,13 @@
 #include "SimpleCHTLCompiler.h"
 #include <cctype>
 #include <algorithm>
+#include <iostream>
 
 namespace chtl {
 namespace simple {
 
 SimpleCHTLCompiler::SimpleCHTLCompiler() 
-    : m_Current(0), m_Line(1), m_Column(1), m_TokenIndex(0) {
+    : m_Current(0), m_Line(1), m_Column(1), m_TokenIndex(0), m_DebugMode(false) {
 }
 
 std::string SimpleCHTLCompiler::Compile(const std::string& chtlCode) {
@@ -107,11 +108,12 @@ SimpleCHTLCompiler::Token SimpleCHTLCompiler::NextToken() {
         return Token(TokenType::NUMBER, ReadNumber(), startLine, startColumn);
     }
     
-    // 错误
+    // 对于text块中的内容，将所有其他字符视为有效
+    // 这些字符将被ParseText特殊处理
+    std::string specialChar(1, c);
     m_Current++;
     m_Column++;
-    ReportError("Unexpected character: " + std::string(1, c));
-    return Token(TokenType::ERROR, std::string(1, c), startLine, startColumn);
+    return Token(TokenType::IDENTIFIER, specialChar, startLine, startColumn);
 }
 
 void SimpleCHTLCompiler::SkipWhitespace() {
@@ -242,9 +244,13 @@ std::shared_ptr<SimpleCHTLCompiler::ASTNode> SimpleCHTLCompiler::ParseContent() 
     if (Check(TokenType::IDENTIFIER)) {
         Token identifier = Peek();
         
-        // 检查是否是 text 块
+        // 检查是否是特殊块
         if (identifier.value == "text") {
             return ParseText();
+        } else if (identifier.value == "style") {
+            return ParseStyle();
+        } else if (identifier.value == "script") {
+            return ParseScript();
         } else {
             // 否则是元素
             return ParseElement();
@@ -365,6 +371,104 @@ std::shared_ptr<SimpleCHTLCompiler::ASTNode> SimpleCHTLCompiler::ParseText() {
     return node;
 }
 
+std::shared_ptr<SimpleCHTLCompiler::ASTNode> SimpleCHTLCompiler::ParseStyle() {
+    Advance(); // 跳过 'style'
+    
+    if (!Match(TokenType::LBRACE)) {
+        ReportError("Expected '{' after 'style'");
+        return nullptr;
+    }
+    
+    auto node = std::make_shared<ASTNode>(ASTNode::STYLE);
+    
+    // 收集CSS内容，直到遇到匹配的 }
+    std::string content;
+    int braceCount = 1;
+    
+    while (!IsAtEnd() && braceCount > 0) {
+        Token token = Peek();
+        
+        if (token.type == TokenType::LBRACE) {
+            braceCount++;
+            content += "{";
+            Advance();
+        } else if (token.type == TokenType::RBRACE) {
+            braceCount--;
+            if (braceCount > 0) {
+                content += "}";
+                Advance();
+            } else {
+                // 找到匹配的 }，不添加到内容中
+                Advance();
+            }
+        } else {
+            content += token.value;
+            if (token.type == TokenType::IDENTIFIER || 
+                token.type == TokenType::STRING || 
+                token.type == TokenType::NUMBER) {
+                content += " ";
+            }
+            Advance();
+        }
+    }
+    
+    // 去除首尾空白
+    content.erase(0, content.find_first_not_of(" \t\n\r"));
+    content.erase(content.find_last_not_of(" \t\n\r") + 1);
+    
+    node->value = content;
+    return node;
+}
+
+std::shared_ptr<SimpleCHTLCompiler::ASTNode> SimpleCHTLCompiler::ParseScript() {
+    Advance(); // 跳过 'script'
+    
+    if (!Match(TokenType::LBRACE)) {
+        ReportError("Expected '{' after 'script'");
+        return nullptr;
+    }
+    
+    auto node = std::make_shared<ASTNode>(ASTNode::SCRIPT);
+    
+    // 收集JavaScript内容，直到遇到匹配的 }
+    std::string content;
+    int braceCount = 1;
+    
+    while (!IsAtEnd() && braceCount > 0) {
+        Token token = Peek();
+        
+        if (token.type == TokenType::LBRACE) {
+            braceCount++;
+            content += "{";
+            Advance();
+        } else if (token.type == TokenType::RBRACE) {
+            braceCount--;
+            if (braceCount > 0) {
+                content += "}";
+                Advance();
+            } else {
+                // 找到匹配的 }，不添加到内容中
+                Advance();
+            }
+        } else {
+            content += token.value;
+            if (token.type == TokenType::IDENTIFIER || 
+                token.type == TokenType::STRING || 
+                token.type == TokenType::NUMBER) {
+                content += " ";
+            }
+            Advance();
+        }
+    }
+    
+    // 去除首尾空白
+    content.erase(0, content.find_first_not_of(" \t\n\r"));
+    content.erase(content.find_last_not_of(" \t\n\r") + 1);
+    
+    node->value = content;
+    return node;
+}
+
 std::pair<std::string, std::string> SimpleCHTLCompiler::ParseAttribute() {
     Token name = Advance(); // 属性名
     
@@ -397,16 +501,53 @@ std::string SimpleCHTLCompiler::Generate(const std::shared_ptr<ASTNode>& ast) {
     if (!ast) return "";
     
     std::stringstream output;
+    std::stringstream styles;
+    std::stringstream scripts;
     
+    // 第一遍：收集所有style和script块，生成元素
     for (const auto& child : ast->children) {
         if (child->type == ASTNode::ELEMENT) {
             output << GenerateElement(child, 0);
         } else if (child->type == ASTNode::TEXT) {
             output << GenerateText(child);
+        } else if (child->type == ASTNode::STYLE) {
+            styles << child->value << "\n";
+        } else if (child->type == ASTNode::SCRIPT) {
+            scripts << child->value << "\n";
         }
     }
     
-    return output.str();
+    // 生成完整的HTML文档
+    std::stringstream html;
+    html << "<!DOCTYPE html>\n";
+    html << "<html>\n";
+    html << "<head>\n";
+    html << "  <meta charset=\"UTF-8\">\n";
+    
+    // 添加样式
+    if (styles.str().length() > 0) {
+        html << "  <style>\n";
+        html << "    " << styles.str();
+        html << "  </style>\n";
+    }
+    
+    html << "</head>\n";
+    html << "<body>\n";
+    
+    // 添加主体内容
+    html << output.str();
+    
+    // 添加脚本
+    if (scripts.str().length() > 0) {
+        html << "  <script>\n";
+        html << "    " << scripts.str();
+        html << "  </script>\n";
+    }
+    
+    html << "</body>\n";
+    html << "</html>\n";
+    
+    return html.str();
 }
 
 std::string SimpleCHTLCompiler::GenerateElement(const std::shared_ptr<ASTNode>& node, int indent) {
@@ -477,7 +618,30 @@ std::string SimpleCHTLCompiler::Indent(int level) {
 void SimpleCHTLCompiler::ReportError(const std::string& message) {
     std::stringstream error;
     error << "Error at line " << m_Line << ", column " << m_Column << ": " << message;
+    
+    // 添加源代码片段以提供更好的上下文
+    if (m_Current < m_Input.length()) {
+        // 找到当前行的开始和结束
+        size_t lineStart = m_Current;
+        while (lineStart > 0 && m_Input[lineStart - 1] != '\n') {
+            lineStart--;
+        }
+        
+        size_t lineEnd = m_Current;
+        while (lineEnd < m_Input.length() && m_Input[lineEnd] != '\n') {
+            lineEnd++;
+        }
+        
+        std::string line = m_Input.substr(lineStart, lineEnd - lineStart);
+        error << "\n  " << line;
+        error << "\n  " << std::string(m_Column - 1, ' ') << "^";
+    }
+    
     m_Errors.push_back(error.str());
+    
+    if (m_DebugMode) {
+        std::cerr << error.str() << std::endl;
+    }
 }
 
 bool SimpleCHTLCompiler::Match(TokenType type) {

@@ -35,6 +35,12 @@ public:
      */
     const std::vector<std::string>& GetErrors() const { return m_Errors; }
     bool HasErrors() const { return !m_Errors.empty(); }
+    void ClearErrors() { m_Errors.clear(); }
+    
+    /**
+     * 设置调试模式
+     */
+    void SetDebugMode(bool debug) { m_DebugMode = debug; }
     
 private:
     // 简单的 Token 类型
@@ -75,7 +81,9 @@ private:
             ELEMENT,
             TEXT,
             ATTRIBUTE,
-            DOCUMENT
+            DOCUMENT,
+            STYLE,
+            SCRIPT
         };
         
         Type type;
@@ -99,6 +107,8 @@ private:
     std::shared_ptr<ASTNode> Parse(const std::vector<Token>& tokens);
     std::shared_ptr<ASTNode> ParseElement();
     std::shared_ptr<ASTNode> ParseText();
+    std::shared_ptr<ASTNode> ParseStyle();
+    std::shared_ptr<ASTNode> ParseScript();
     std::shared_ptr<ASTNode> ParseContent();
     std::pair<std::string, std::string> ParseAttribute();
     
@@ -123,6 +133,7 @@ private:
     size_t m_Current;
     size_t m_Line;
     size_t m_Column;
+    bool m_DebugMode;
     
     // Parser state
     std::vector<Token> m_Tokens;

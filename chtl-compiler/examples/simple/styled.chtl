@@ -1,0 +1,54 @@
+// 带样式和脚本的示例
+style {
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+    
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    h1 {
+        color: #333;
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 10px;
+    }
+    
+    .button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+}
+
+div {
+    class: "container";
+    
+    h1 {
+        text { Interactive CHTL Example }
+    }
+    
+    p {
+        id: "message";
+        text { Click the button to see magic happen }
+    }
+    
+    button {
+        class: "button";
+        onclick: "handleClick()";
+        text { Click Me }
+    }
+}
+
+script {
+    function handleClick() {
+        document.getElementById('message').textContent = 'Hello from CHTL!';
+        alert('CHTL is awesome!');
+    }
+}
