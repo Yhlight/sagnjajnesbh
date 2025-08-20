@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/workspace/chtl-compiler/include
+CXX_INCLUDES = -I/workspace/chtl-compiler/include -I/workspace/chtl-compiler/third_party/antlr4/include/antlr4-runtime
 
 CXX_FLAGS = -O3 -DNDEBUG -std=c++17 -Wall -Wextra -Wpedantic -O3
 

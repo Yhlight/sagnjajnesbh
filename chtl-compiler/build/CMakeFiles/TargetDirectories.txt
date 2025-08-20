@@ -1,7 +1,10 @@
 /workspace/chtl-compiler/build/CMakeFiles/chtl_scanner.dir
 /workspace/chtl-compiler/build/CMakeFiles/chtl_core.dir
 /workspace/chtl-compiler/build/CMakeFiles/chtl_js_core.dir
+/workspace/chtl-compiler/build/CMakeFiles/chtl_css.dir
+/workspace/chtl-compiler/build/CMakeFiles/chtl_javascript.dir
 /workspace/chtl-compiler/build/CMakeFiles/chtl_dispatcher.dir
+/workspace/chtl-compiler/build/CMakeFiles/chtl_merger.dir
 /workspace/chtl-compiler/build/CMakeFiles/chtl_utils.dir
 /workspace/chtl-compiler/build/CMakeFiles/chtl.dir
 /workspace/chtl-compiler/build/CMakeFiles/test.dir
@@ -17,6 +20,9 @@
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestCHTLJSCompilerBase.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestCHTLJSParserGenerator.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestCHTLParserGenerator.dir
+/workspace/chtl-compiler/build/tests/CMakeFiles/TestCMODCJMOD.dir
+/workspace/chtl-compiler/build/tests/CMakeFiles/TestConstraintSystem.dir
+/workspace/chtl-compiler/build/tests/CMakeFiles/TestImportNamespace.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestScanner.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestStateContextHelper.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestStringUtils.dir

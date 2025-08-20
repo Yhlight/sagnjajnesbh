@@ -31,12 +31,19 @@ endif()
 # 包含目录
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
+# ANTLR4运行时
+set(ANTLR4_INSTALL_DIR ${CMAKE_SOURCE_DIR}/third_party/antlr4)
+if(EXISTS ${ANTLR4_INSTALL_DIR}/include/antlr4-runtime)
+    include_directories(${ANTLR4_INSTALL_DIR}/include/antlr4-runtime)
+    link_directories(${ANTLR4_INSTALL_DIR}/lib)
+endif()
+
 # 查找所有源文件
 file(GLOB_RECURSE SCANNER_SOURCES src/scanner/*.cpp)
 file(GLOB_RECURSE CHTL_SOURCES src/chtl/*.cpp)
 file(GLOB_RECURSE CHTL_JS_SOURCES src/chtl_js/*.cpp)
 file(GLOB_RECURSE CSS_SOURCES src/css/*.cpp)
-file(GLOB_RECURSE JS_SOURCES src/js/*.cpp)
+file(GLOB_RECURSE JS_SOURCES src/javascript/*.cpp)
 file(GLOB_RECURSE DISPATCHER_SOURCES src/dispatcher/*.cpp)
 file(GLOB_RECURSE MERGER_SOURCES src/merger/*.cpp)
 file(GLOB_RECURSE UTILS_SOURCES src/utils/*.cpp)
@@ -57,10 +64,16 @@ endif()
 
 if(CSS_SOURCES)
     add_library(chtl_css STATIC ${CSS_SOURCES})
+    if(EXISTS ${ANTLR4_INSTALL_DIR}/lib/libantlr4-runtime.a)
+        target_link_libraries(chtl_css antlr4-runtime)
+    endif()
 endif()
 
 if(JS_SOURCES)
     add_library(chtl_javascript STATIC ${JS_SOURCES})
+    if(EXISTS ${ANTLR4_INSTALL_DIR}/lib/libantlr4-runtime.a)
+        target_link_libraries(chtl_javascript antlr4-runtime)
+    endif()
 endif()
 
 if(DISPATCHER_SOURCES)

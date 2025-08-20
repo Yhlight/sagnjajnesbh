@@ -256,6 +256,48 @@ TestCHTLParserGenerator/fast:
 .PHONY : TestCHTLParserGenerator/fast
 
 # Convenience name for target.
+tests/CMakeFiles/TestCMODCJMOD.dir/rule:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestCMODCJMOD.dir/rule
+.PHONY : tests/CMakeFiles/TestCMODCJMOD.dir/rule
+
+# Convenience name for target.
+TestCMODCJMOD: tests/CMakeFiles/TestCMODCJMOD.dir/rule
+.PHONY : TestCMODCJMOD
+
+# fast build rule for target.
+TestCMODCJMOD/fast:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCMODCJMOD.dir/build.make tests/CMakeFiles/TestCMODCJMOD.dir/build
+.PHONY : TestCMODCJMOD/fast
+
+# Convenience name for target.
+tests/CMakeFiles/TestConstraintSystem.dir/rule:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestConstraintSystem.dir/rule
+.PHONY : tests/CMakeFiles/TestConstraintSystem.dir/rule
+
+# Convenience name for target.
+TestConstraintSystem: tests/CMakeFiles/TestConstraintSystem.dir/rule
+.PHONY : TestConstraintSystem
+
+# fast build rule for target.
+TestConstraintSystem/fast:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestConstraintSystem.dir/build.make tests/CMakeFiles/TestConstraintSystem.dir/build
+.PHONY : TestConstraintSystem/fast
+
+# Convenience name for target.
+tests/CMakeFiles/TestImportNamespace.dir/rule:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestImportNamespace.dir/rule
+.PHONY : tests/CMakeFiles/TestImportNamespace.dir/rule
+
+# Convenience name for target.
+TestImportNamespace: tests/CMakeFiles/TestImportNamespace.dir/rule
+.PHONY : TestImportNamespace
+
+# fast build rule for target.
+TestImportNamespace/fast:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestImportNamespace.dir/build.make tests/CMakeFiles/TestImportNamespace.dir/build
+.PHONY : TestImportNamespace/fast
+
+# Convenience name for target.
 tests/CMakeFiles/TestScanner.dir/rule:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestScanner.dir/rule
 .PHONY : tests/CMakeFiles/TestScanner.dir/rule
@@ -441,6 +483,78 @@ TestCHTLParserGenerator.cpp.s:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLParserGenerator.dir/build.make tests/CMakeFiles/TestCHTLParserGenerator.dir/TestCHTLParserGenerator.cpp.s
 .PHONY : TestCHTLParserGenerator.cpp.s
 
+TestCMODCJMOD.o: TestCMODCJMOD.cpp.o
+.PHONY : TestCMODCJMOD.o
+
+# target to build an object file
+TestCMODCJMOD.cpp.o:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCMODCJMOD.dir/build.make tests/CMakeFiles/TestCMODCJMOD.dir/TestCMODCJMOD.cpp.o
+.PHONY : TestCMODCJMOD.cpp.o
+
+TestCMODCJMOD.i: TestCMODCJMOD.cpp.i
+.PHONY : TestCMODCJMOD.i
+
+# target to preprocess a source file
+TestCMODCJMOD.cpp.i:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCMODCJMOD.dir/build.make tests/CMakeFiles/TestCMODCJMOD.dir/TestCMODCJMOD.cpp.i
+.PHONY : TestCMODCJMOD.cpp.i
+
+TestCMODCJMOD.s: TestCMODCJMOD.cpp.s
+.PHONY : TestCMODCJMOD.s
+
+# target to generate assembly for a file
+TestCMODCJMOD.cpp.s:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCMODCJMOD.dir/build.make tests/CMakeFiles/TestCMODCJMOD.dir/TestCMODCJMOD.cpp.s
+.PHONY : TestCMODCJMOD.cpp.s
+
+TestConstraintSystem.o: TestConstraintSystem.cpp.o
+.PHONY : TestConstraintSystem.o
+
+# target to build an object file
+TestConstraintSystem.cpp.o:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestConstraintSystem.dir/build.make tests/CMakeFiles/TestConstraintSystem.dir/TestConstraintSystem.cpp.o
+.PHONY : TestConstraintSystem.cpp.o
+
+TestConstraintSystem.i: TestConstraintSystem.cpp.i
+.PHONY : TestConstraintSystem.i
+
+# target to preprocess a source file
+TestConstraintSystem.cpp.i:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestConstraintSystem.dir/build.make tests/CMakeFiles/TestConstraintSystem.dir/TestConstraintSystem.cpp.i
+.PHONY : TestConstraintSystem.cpp.i
+
+TestConstraintSystem.s: TestConstraintSystem.cpp.s
+.PHONY : TestConstraintSystem.s
+
+# target to generate assembly for a file
+TestConstraintSystem.cpp.s:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestConstraintSystem.dir/build.make tests/CMakeFiles/TestConstraintSystem.dir/TestConstraintSystem.cpp.s
+.PHONY : TestConstraintSystem.cpp.s
+
+TestImportNamespace.o: TestImportNamespace.cpp.o
+.PHONY : TestImportNamespace.o
+
+# target to build an object file
+TestImportNamespace.cpp.o:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestImportNamespace.dir/build.make tests/CMakeFiles/TestImportNamespace.dir/TestImportNamespace.cpp.o
+.PHONY : TestImportNamespace.cpp.o
+
+TestImportNamespace.i: TestImportNamespace.cpp.i
+.PHONY : TestImportNamespace.i
+
+# target to preprocess a source file
+TestImportNamespace.cpp.i:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestImportNamespace.dir/build.make tests/CMakeFiles/TestImportNamespace.dir/TestImportNamespace.cpp.i
+.PHONY : TestImportNamespace.cpp.i
+
+TestImportNamespace.s: TestImportNamespace.cpp.s
+.PHONY : TestImportNamespace.s
+
+# target to generate assembly for a file
+TestImportNamespace.cpp.s:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestImportNamespace.dir/build.make tests/CMakeFiles/TestImportNamespace.dir/TestImportNamespace.cpp.s
+.PHONY : TestImportNamespace.cpp.s
+
 TestScanner.o: TestScanner.cpp.o
 .PHONY : TestScanner.o
 
@@ -532,6 +646,9 @@ help:
 	@echo "... TestCHTLJSCompilerBase"
 	@echo "... TestCHTLJSParserGenerator"
 	@echo "... TestCHTLParserGenerator"
+	@echo "... TestCMODCJMOD"
+	@echo "... TestConstraintSystem"
+	@echo "... TestImportNamespace"
 	@echo "... TestScanner"
 	@echo "... TestStateContextHelper"
 	@echo "... TestStringUtils"
@@ -553,6 +670,15 @@ help:
 	@echo "... TestCHTLParserGenerator.o"
 	@echo "... TestCHTLParserGenerator.i"
 	@echo "... TestCHTLParserGenerator.s"
+	@echo "... TestCMODCJMOD.o"
+	@echo "... TestCMODCJMOD.i"
+	@echo "... TestCMODCJMOD.s"
+	@echo "... TestConstraintSystem.o"
+	@echo "... TestConstraintSystem.i"
+	@echo "... TestConstraintSystem.s"
+	@echo "... TestImportNamespace.o"
+	@echo "... TestImportNamespace.i"
+	@echo "... TestImportNamespace.s"
 	@echo "... TestScanner.o"
 	@echo "... TestScanner.i"
 	@echo "... TestScanner.s"

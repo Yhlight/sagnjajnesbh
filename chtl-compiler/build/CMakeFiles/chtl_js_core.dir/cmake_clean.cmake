@@ -15,6 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.o.d"
   "CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o"
   "CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o.d"
+  "CMakeFiles/chtl_js_core.dir/src/chtl_js/module/CJMODSystem.cpp.o"
+  "CMakeFiles/chtl_js_core.dir/src/chtl_js/module/CJMODSystem.cpp.o.d"
   "CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.o"
   "CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.o.d"
   "CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o"

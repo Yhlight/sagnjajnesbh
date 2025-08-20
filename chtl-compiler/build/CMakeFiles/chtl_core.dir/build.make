@@ -114,10 +114,38 @@ CMakeFiles/chtl_core.dir/src/chtl/compiler/CHTLCompiler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/src/chtl/compiler/CHTLCompiler.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl/compiler/CHTLCompiler.cpp -o CMakeFiles/chtl_core.dir/src/chtl/compiler/CHTLCompiler.cpp.s
 
+CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.o: CMakeFiles/chtl_core.dir/flags.make
+CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.o: /workspace/chtl-compiler/src/chtl/constraint/ConstraintChecker.cpp
+CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.o -c /workspace/chtl-compiler/src/chtl/constraint/ConstraintChecker.cpp
+
+CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/chtl/constraint/ConstraintChecker.cpp > CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.i
+
+CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl/constraint/ConstraintChecker.cpp -o CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.s
+
+CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.o: CMakeFiles/chtl_core.dir/flags.make
+CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.o: /workspace/chtl-compiler/src/chtl/constraint/ConstraintSystem.cpp
+CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.o -c /workspace/chtl-compiler/src/chtl/constraint/ConstraintSystem.cpp
+
+CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/chtl/constraint/ConstraintSystem.cpp > CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.i
+
+CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl/constraint/ConstraintSystem.cpp -o CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.s
+
 CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o: CMakeFiles/chtl_core.dir/flags.make
 CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o: /workspace/chtl-compiler/src/chtl/context/CHTLContext.cpp
 CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o -c /workspace/chtl-compiler/src/chtl/context/CHTLContext.cpp
 
 CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.i: cmake_force
@@ -131,7 +159,7 @@ CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.s: cmake_force
 CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o: CMakeFiles/chtl_core.dir/flags.make
 CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o: /workspace/chtl-compiler/src/chtl/core/CHTLGlobalMap.cpp
 CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o -c /workspace/chtl-compiler/src/chtl/core/CHTLGlobalMap.cpp
 
 CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.i: cmake_force
@@ -145,7 +173,7 @@ CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.s: cmake_force
 CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o: CMakeFiles/chtl_core.dir/flags.make
 CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o: /workspace/chtl-compiler/src/chtl/generator/CHTLGenerator.cpp
 CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o -c /workspace/chtl-compiler/src/chtl/generator/CHTLGenerator.cpp
 
 CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.i: cmake_force
@@ -159,7 +187,7 @@ CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.s: cmake_force
 CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o: CMakeFiles/chtl_core.dir/flags.make
 CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o: /workspace/chtl-compiler/src/chtl/helpers/CHTLStateContextHelper.cpp
 CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o -c /workspace/chtl-compiler/src/chtl/helpers/CHTLStateContextHelper.cpp
 
 CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.i: cmake_force
@@ -170,10 +198,24 @@ CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.s: cmake_fo
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl/helpers/CHTLStateContextHelper.cpp -o CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.s
 
+CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.o: CMakeFiles/chtl_core.dir/flags.make
+CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.o: /workspace/chtl-compiler/src/chtl/import/ImportResolver.cpp
+CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.o -c /workspace/chtl-compiler/src/chtl/import/ImportResolver.cpp
+
+CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/chtl/import/ImportResolver.cpp > CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.i
+
+CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl/import/ImportResolver.cpp -o CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.s
+
 CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o: CMakeFiles/chtl_core.dir/flags.make
 CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o: /workspace/chtl-compiler/src/chtl/lexer/CHTLLexer.cpp
 CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o -c /workspace/chtl-compiler/src/chtl/lexer/CHTLLexer.cpp
 
 CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.i: cmake_force
@@ -184,10 +226,38 @@ CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl/lexer/CHTLLexer.cpp -o CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.s
 
+CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.o: CMakeFiles/chtl_core.dir/flags.make
+CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.o: /workspace/chtl-compiler/src/chtl/module/CMODSystem.cpp
+CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.o -c /workspace/chtl-compiler/src/chtl/module/CMODSystem.cpp
+
+CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/chtl/module/CMODSystem.cpp > CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.i
+
+CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl/module/CMODSystem.cpp -o CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.s
+
+CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.o: CMakeFiles/chtl_core.dir/flags.make
+CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.o: /workspace/chtl-compiler/src/chtl/namespace/NamespaceManager.cpp
+CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.o -c /workspace/chtl-compiler/src/chtl/namespace/NamespaceManager.cpp
+
+CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/chtl/namespace/NamespaceManager.cpp > CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.i
+
+CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl/namespace/NamespaceManager.cpp -o CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.s
+
 CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o: CMakeFiles/chtl_core.dir/flags.make
 CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o: /workspace/chtl-compiler/src/chtl/parser/CHTLParser.cpp
 CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o -c /workspace/chtl-compiler/src/chtl/parser/CHTLParser.cpp
 
 CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.i: cmake_force
@@ -201,7 +271,7 @@ CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.s: cmake_force
 CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o: CMakeFiles/chtl_core.dir/flags.make
 CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o: /workspace/chtl-compiler/src/chtl/parser/CHTLParserTemplate.cpp
 CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o -c /workspace/chtl-compiler/src/chtl/parser/CHTLParserTemplate.cpp
 
 CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.i: cmake_force
@@ -215,7 +285,7 @@ CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.s: cmake_force
 CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o: CMakeFiles/chtl_core.dir/flags.make
 CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o: /workspace/chtl-compiler/src/chtl/state/CHTLState.cpp
 CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o -c /workspace/chtl-compiler/src/chtl/state/CHTLState.cpp
 
 CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.i: cmake_force
@@ -229,7 +299,7 @@ CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.s: cmake_force
 CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o: CMakeFiles/chtl_core.dir/flags.make
 CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o: /workspace/chtl-compiler/src/chtl/token/CHTLToken.cpp
 CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o -MF CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o.d -o CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o -c /workspace/chtl-compiler/src/chtl/token/CHTLToken.cpp
 
 CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.i: cmake_force
@@ -245,11 +315,16 @@ chtl_core_OBJECTS = \
 "CMakeFiles/chtl_core.dir/src/chtl/ast/ASTNode.cpp.o" \
 "CMakeFiles/chtl_core.dir/src/chtl/ast/NodeImplementations.cpp.o" \
 "CMakeFiles/chtl_core.dir/src/chtl/compiler/CHTLCompiler.cpp.o" \
+"CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.o" \
+"CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.o" \
 "CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o" \
 "CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o" \
 "CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o" \
 "CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o" \
+"CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.o" \
 "CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o" \
+"CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.o" \
+"CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.o" \
 "CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o" \
 "CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o" \
 "CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o" \
@@ -261,18 +336,23 @@ chtl_core_EXTERNAL_OBJECTS =
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/ast/ASTNode.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/ast/NodeImplementations.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/compiler/CHTLCompiler.cpp.o
+libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.o
+libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o
+libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/import/ImportResolver.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o
+libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/module/CMODSystem.cpp.o
+libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/namespace/NamespaceManager.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/build.make
 libchtl_core.a: CMakeFiles/chtl_core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX static library libchtl_core.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Linking CXX static library libchtl_core.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/chtl_core.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtl_core.dir/link.txt --verbose=$(VERBOSE)
 
