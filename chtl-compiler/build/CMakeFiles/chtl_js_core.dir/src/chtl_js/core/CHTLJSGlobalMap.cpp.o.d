@@ -206,6 +206,10 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_memory_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/execution_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/optional \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/set \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tree.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_set.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_multiset.h \
   /workspace/chtl-compiler/include/utils/Logger.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ostream \

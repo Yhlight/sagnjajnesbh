@@ -106,7 +106,7 @@ private:
     void ClearErrors();
     
     // 获取编译器
-    ICompiler* GetCompiler(CodeFragmentType type);
+    ICompiler* GetCompiler(FragmentType type);
 };
 
 } // namespace chtl

@@ -766,6 +766,7 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o
  /usr/lib/llvm-20/lib/clang/20/include/stdint.h
  /workspace/chtl-compiler/include/chtl_js/ast/CHTLJSASTNode.h
  /workspace/chtl-compiler/include/chtl_js/ast/CHTLJSDocumentNode.h
+ /workspace/chtl-compiler/include/chtl_js/ast/EnhancedSelectorNode.h
  /workspace/chtl-compiler/include/chtl_js/ast/FunctionNodes.h
  /workspace/chtl-compiler/include/chtl_js/ast/ObjectLiteralNode.h
  /workspace/chtl-compiler/include/chtl_js/ast/StateTagNode.h

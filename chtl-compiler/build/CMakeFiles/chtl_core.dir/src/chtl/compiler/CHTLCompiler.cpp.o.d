@@ -225,6 +225,11 @@ CMakeFiles/chtl_core.dir/src/chtl/compiler/CHTLCompiler.cpp.o: \
   /workspace/chtl-compiler/include/chtl/ast/DocumentNode.h \
   /workspace/chtl-compiler/include/chtl/ast/TemplateNode.h \
   /workspace/chtl-compiler/include/chtl/ast/CustomNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/ImportNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/NamespaceNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/ConfigurationNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/OriginNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/SpecializationNodes.h \
   /workspace/chtl-compiler/include/chtl/generator/CHTLGenerator.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/istream \

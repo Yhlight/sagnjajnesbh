@@ -209,6 +209,10 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/optional \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/set \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tree.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_set.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_multiset.h \
   /workspace/chtl-compiler/include/chtl_js/state/CHTLJSState.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \

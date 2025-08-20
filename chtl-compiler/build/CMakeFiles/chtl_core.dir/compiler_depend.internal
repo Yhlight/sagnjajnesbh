@@ -778,7 +778,9 @@ CMakeFiles/chtl_core.dir/src/chtl/compiler/CHTLCompiler.cpp.o
  /usr/lib/llvm-20/lib/clang/20/include/stddef.h
  /usr/lib/llvm-20/lib/clang/20/include/stdint.h
  /workspace/chtl-compiler/include/chtl/ast/ASTNode.h
+ /workspace/chtl-compiler/include/chtl/ast/CustomNode.h
  /workspace/chtl-compiler/include/chtl/ast/DocumentNode.h
+ /workspace/chtl-compiler/include/chtl/ast/TemplateNode.h
  /workspace/chtl-compiler/include/chtl/compiler/CHTLCompiler.h
  /workspace/chtl-compiler/include/chtl/context/CHTLContext.h
  /workspace/chtl-compiler/include/chtl/core/CHTLGlobalMap.h

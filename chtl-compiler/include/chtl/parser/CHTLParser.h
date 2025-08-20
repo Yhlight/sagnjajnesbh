@@ -10,6 +10,11 @@
 #include "chtl/core/CHTLGlobalMap.h"
 #include "chtl/ast/TemplateNode.h"
 #include "chtl/ast/CustomNode.h"
+#include "chtl/ast/ImportNode.h"
+#include "chtl/ast/NamespaceNode.h"
+#include "chtl/ast/ConfigurationNode.h"
+#include "chtl/ast/OriginNode.h"
+#include "chtl/ast/SpecializationNodes.h"
 #include "chtl/state/CHTLState.h"
 #include "chtl/context/CHTLContext.h"
 

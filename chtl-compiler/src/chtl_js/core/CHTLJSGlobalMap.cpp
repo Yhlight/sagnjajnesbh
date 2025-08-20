@@ -207,5 +207,23 @@ void CHTLJSGlobalMap::InitializeBuiltinFunctions() {
     }
 }
 
+void CHTLJSGlobalMap::AddBuiltinFunction(const std::string& name) {
+    m_BuiltinFunctions.insert(name);
+    utils::Logger::GetInstance().Debug("添加内置函数: " + name);
+}
+
+bool CHTLJSGlobalMap::IsBuiltinFunction(const std::string& name) const {
+    return m_BuiltinFunctions.find(name) != m_BuiltinFunctions.end();
+}
+
+void CHTLJSGlobalMap::AddEnhancedSelector(const std::string& selector) {
+    m_EnhancedSelectors.insert(selector);
+    utils::Logger::GetInstance().Debug("添加增强选择器: " + selector);
+}
+
+const std::set<std::string>& CHTLJSGlobalMap::GetEnhancedSelectors() const {
+    return m_EnhancedSelectors;
+}
+
 } // namespace chtljs
 } // namespace chtl
