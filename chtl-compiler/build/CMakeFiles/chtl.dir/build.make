@@ -98,6 +98,7 @@ chtl: CMakeFiles/chtl.dir/build.make
 chtl: CMakeFiles/chtl.dir/compiler_depend.ts
 chtl: libchtl_dispatcher.a
 chtl: libchtl_scanner.a
+chtl: libchtl_core.a
 chtl: libchtl_utils.a
 chtl: CMakeFiles/chtl.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable chtl"

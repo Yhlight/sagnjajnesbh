@@ -5,6 +5,7 @@ chtl: \
   CMakeFiles/chtl.dir/src/main.cpp.o \
   libchtl_dispatcher.a \
   libchtl_scanner.a \
+  libchtl_core.a \
   libchtl_utils.a \
   /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
   /lib/x86_64-linux-gnu/libm.so \
@@ -45,6 +46,8 @@ CMakeFiles/chtl.dir/src/main.cpp.o:
 libchtl_dispatcher.a:
 
 libchtl_scanner.a:
+
+libchtl_core.a:
 
 libchtl_utils.a:
 

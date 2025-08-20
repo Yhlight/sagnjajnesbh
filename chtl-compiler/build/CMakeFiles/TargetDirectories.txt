@@ -1,4 +1,5 @@
 /workspace/chtl-compiler/build/CMakeFiles/chtl_scanner.dir
+/workspace/chtl-compiler/build/CMakeFiles/chtl_core.dir
 /workspace/chtl-compiler/build/CMakeFiles/chtl_dispatcher.dir
 /workspace/chtl-compiler/build/CMakeFiles/chtl_utils.dir
 /workspace/chtl-compiler/build/CMakeFiles/chtl.dir
@@ -9,6 +10,7 @@
 /workspace/chtl-compiler/build/CMakeFiles/install.dir
 /workspace/chtl-compiler/build/CMakeFiles/install/local.dir
 /workspace/chtl-compiler/build/CMakeFiles/install/strip.dir
+/workspace/chtl-compiler/build/tests/CMakeFiles/TestCHTLCompilerBase.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestScanner.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestStringUtils.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/test.dir

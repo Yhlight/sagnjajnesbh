@@ -185,6 +185,19 @@ chtl_scanner/fast:
 .PHONY : chtl_scanner/fast
 
 #=============================================================================
+# Target rules for targets named chtl_core
+
+# Build rule for target.
+chtl_core: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_core
+.PHONY : chtl_core
+
+# fast build rule for target.
+chtl_core/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/build
+.PHONY : chtl_core/fast
+
+#=============================================================================
 # Target rules for targets named chtl_dispatcher
 
 # Build rule for target.
@@ -224,6 +237,19 @@ chtl/fast:
 .PHONY : chtl/fast
 
 #=============================================================================
+# Target rules for targets named TestCHTLCompilerBase
+
+# Build rule for target.
+TestCHTLCompilerBase: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 TestCHTLCompilerBase
+.PHONY : TestCHTLCompilerBase
+
+# fast build rule for target.
+TestCHTLCompilerBase/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLCompilerBase.dir/build
+.PHONY : TestCHTLCompilerBase/fast
+
+#=============================================================================
 # Target rules for targets named TestScanner
 
 # Build rule for target.
@@ -248,6 +274,126 @@ TestStringUtils: cmake_check_build_system
 TestStringUtils/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestStringUtils.dir/build.make tests/CMakeFiles/TestStringUtils.dir/build
 .PHONY : TestStringUtils/fast
+
+src/chtl/context/CHTLContext.o: src/chtl/context/CHTLContext.cpp.o
+.PHONY : src/chtl/context/CHTLContext.o
+
+# target to build an object file
+src/chtl/context/CHTLContext.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o
+.PHONY : src/chtl/context/CHTLContext.cpp.o
+
+src/chtl/context/CHTLContext.i: src/chtl/context/CHTLContext.cpp.i
+.PHONY : src/chtl/context/CHTLContext.i
+
+# target to preprocess a source file
+src/chtl/context/CHTLContext.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.i
+.PHONY : src/chtl/context/CHTLContext.cpp.i
+
+src/chtl/context/CHTLContext.s: src/chtl/context/CHTLContext.cpp.s
+.PHONY : src/chtl/context/CHTLContext.s
+
+# target to generate assembly for a file
+src/chtl/context/CHTLContext.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.s
+.PHONY : src/chtl/context/CHTLContext.cpp.s
+
+src/chtl/core/CHTLGlobalMap.o: src/chtl/core/CHTLGlobalMap.cpp.o
+.PHONY : src/chtl/core/CHTLGlobalMap.o
+
+# target to build an object file
+src/chtl/core/CHTLGlobalMap.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o
+.PHONY : src/chtl/core/CHTLGlobalMap.cpp.o
+
+src/chtl/core/CHTLGlobalMap.i: src/chtl/core/CHTLGlobalMap.cpp.i
+.PHONY : src/chtl/core/CHTLGlobalMap.i
+
+# target to preprocess a source file
+src/chtl/core/CHTLGlobalMap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.i
+.PHONY : src/chtl/core/CHTLGlobalMap.cpp.i
+
+src/chtl/core/CHTLGlobalMap.s: src/chtl/core/CHTLGlobalMap.cpp.s
+.PHONY : src/chtl/core/CHTLGlobalMap.s
+
+# target to generate assembly for a file
+src/chtl/core/CHTLGlobalMap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.s
+.PHONY : src/chtl/core/CHTLGlobalMap.cpp.s
+
+src/chtl/lexer/CHTLLexer.o: src/chtl/lexer/CHTLLexer.cpp.o
+.PHONY : src/chtl/lexer/CHTLLexer.o
+
+# target to build an object file
+src/chtl/lexer/CHTLLexer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o
+.PHONY : src/chtl/lexer/CHTLLexer.cpp.o
+
+src/chtl/lexer/CHTLLexer.i: src/chtl/lexer/CHTLLexer.cpp.i
+.PHONY : src/chtl/lexer/CHTLLexer.i
+
+# target to preprocess a source file
+src/chtl/lexer/CHTLLexer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.i
+.PHONY : src/chtl/lexer/CHTLLexer.cpp.i
+
+src/chtl/lexer/CHTLLexer.s: src/chtl/lexer/CHTLLexer.cpp.s
+.PHONY : src/chtl/lexer/CHTLLexer.s
+
+# target to generate assembly for a file
+src/chtl/lexer/CHTLLexer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.s
+.PHONY : src/chtl/lexer/CHTLLexer.cpp.s
+
+src/chtl/state/CHTLState.o: src/chtl/state/CHTLState.cpp.o
+.PHONY : src/chtl/state/CHTLState.o
+
+# target to build an object file
+src/chtl/state/CHTLState.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o
+.PHONY : src/chtl/state/CHTLState.cpp.o
+
+src/chtl/state/CHTLState.i: src/chtl/state/CHTLState.cpp.i
+.PHONY : src/chtl/state/CHTLState.i
+
+# target to preprocess a source file
+src/chtl/state/CHTLState.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.i
+.PHONY : src/chtl/state/CHTLState.cpp.i
+
+src/chtl/state/CHTLState.s: src/chtl/state/CHTLState.cpp.s
+.PHONY : src/chtl/state/CHTLState.s
+
+# target to generate assembly for a file
+src/chtl/state/CHTLState.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.s
+.PHONY : src/chtl/state/CHTLState.cpp.s
+
+src/chtl/token/CHTLToken.o: src/chtl/token/CHTLToken.cpp.o
+.PHONY : src/chtl/token/CHTLToken.o
+
+# target to build an object file
+src/chtl/token/CHTLToken.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o
+.PHONY : src/chtl/token/CHTLToken.cpp.o
+
+src/chtl/token/CHTLToken.i: src/chtl/token/CHTLToken.cpp.i
+.PHONY : src/chtl/token/CHTLToken.i
+
+# target to preprocess a source file
+src/chtl/token/CHTLToken.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.i
+.PHONY : src/chtl/token/CHTLToken.cpp.i
+
+src/chtl/token/CHTLToken.s: src/chtl/token/CHTLToken.cpp.s
+.PHONY : src/chtl/token/CHTLToken.s
+
+# target to generate assembly for a file
+src/chtl/token/CHTLToken.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.s
+.PHONY : src/chtl/token/CHTLToken.cpp.s
 
 src/dispatcher/CompilerDispatcher.o: src/dispatcher/CompilerDispatcher.cpp.o
 .PHONY : src/dispatcher/CompilerDispatcher.o
@@ -406,12 +552,29 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... TestCHTLCompilerBase"
 	@echo "... TestScanner"
 	@echo "... TestStringUtils"
 	@echo "... chtl"
+	@echo "... chtl_core"
 	@echo "... chtl_dispatcher"
 	@echo "... chtl_scanner"
 	@echo "... chtl_utils"
+	@echo "... src/chtl/context/CHTLContext.o"
+	@echo "... src/chtl/context/CHTLContext.i"
+	@echo "... src/chtl/context/CHTLContext.s"
+	@echo "... src/chtl/core/CHTLGlobalMap.o"
+	@echo "... src/chtl/core/CHTLGlobalMap.i"
+	@echo "... src/chtl/core/CHTLGlobalMap.s"
+	@echo "... src/chtl/lexer/CHTLLexer.o"
+	@echo "... src/chtl/lexer/CHTLLexer.i"
+	@echo "... src/chtl/lexer/CHTLLexer.s"
+	@echo "... src/chtl/state/CHTLState.o"
+	@echo "... src/chtl/state/CHTLState.i"
+	@echo "... src/chtl/state/CHTLState.s"
+	@echo "... src/chtl/token/CHTLToken.o"
+	@echo "... src/chtl/token/CHTLToken.i"
+	@echo "... src/chtl/token/CHTLToken.s"
 	@echo "... src/dispatcher/CompilerDispatcher.o"
 	@echo "... src/dispatcher/CompilerDispatcher.i"
 	@echo "... src/dispatcher/CompilerDispatcher.s"

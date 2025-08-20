@@ -172,6 +172,20 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+tests/CMakeFiles/TestCHTLCompilerBase.dir/rule:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestCHTLCompilerBase.dir/rule
+.PHONY : tests/CMakeFiles/TestCHTLCompilerBase.dir/rule
+
+# Convenience name for target.
+TestCHTLCompilerBase: tests/CMakeFiles/TestCHTLCompilerBase.dir/rule
+.PHONY : TestCHTLCompilerBase
+
+# fast build rule for target.
+TestCHTLCompilerBase/fast:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLCompilerBase.dir/build
+.PHONY : TestCHTLCompilerBase/fast
+
+# Convenience name for target.
 tests/CMakeFiles/TestScanner.dir/rule:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestScanner.dir/rule
 .PHONY : tests/CMakeFiles/TestScanner.dir/rule
@@ -198,6 +212,30 @@ TestStringUtils: tests/CMakeFiles/TestStringUtils.dir/rule
 TestStringUtils/fast:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestStringUtils.dir/build.make tests/CMakeFiles/TestStringUtils.dir/build
 .PHONY : TestStringUtils/fast
+
+TestCHTLCompilerBase.o: TestCHTLCompilerBase.cpp.o
+.PHONY : TestCHTLCompilerBase.o
+
+# target to build an object file
+TestCHTLCompilerBase.cpp.o:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLCompilerBase.dir/TestCHTLCompilerBase.cpp.o
+.PHONY : TestCHTLCompilerBase.cpp.o
+
+TestCHTLCompilerBase.i: TestCHTLCompilerBase.cpp.i
+.PHONY : TestCHTLCompilerBase.i
+
+# target to preprocess a source file
+TestCHTLCompilerBase.cpp.i:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLCompilerBase.dir/TestCHTLCompilerBase.cpp.i
+.PHONY : TestCHTLCompilerBase.cpp.i
+
+TestCHTLCompilerBase.s: TestCHTLCompilerBase.cpp.s
+.PHONY : TestCHTLCompilerBase.s
+
+# target to generate assembly for a file
+TestCHTLCompilerBase.cpp.s:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLCompilerBase.dir/TestCHTLCompilerBase.cpp.s
+.PHONY : TestCHTLCompilerBase.cpp.s
 
 TestScanner.o: TestScanner.cpp.o
 .PHONY : TestScanner.o
@@ -260,8 +298,12 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... TestCHTLCompilerBase"
 	@echo "... TestScanner"
 	@echo "... TestStringUtils"
+	@echo "... TestCHTLCompilerBase.o"
+	@echo "... TestCHTLCompilerBase.i"
+	@echo "... TestCHTLCompilerBase.s"
 	@echo "... TestScanner.o"
 	@echo "... TestScanner.i"
 	@echo "... TestScanner.s"

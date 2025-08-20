@@ -5,6 +5,7 @@ TestScanner: \
   CMakeFiles/TestScanner.dir/TestScanner.cpp.o \
   ../libchtl_utils.a \
   ../libchtl_scanner.a \
+  ../libchtl_core.a \
   /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
   /lib/x86_64-linux-gnu/libm.so \
   /lib/x86_64-linux-gnu/libm.so \
@@ -44,6 +45,8 @@ CMakeFiles/TestScanner.dir/TestScanner.cpp.o:
 ../libchtl_utils.a:
 
 ../libchtl_scanner.a:
+
+../libchtl_core.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so:
 

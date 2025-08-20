@@ -1,1 +1,1 @@
-/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/chtl.dir/link.d CMakeFiles/chtl.dir/src/main.cpp.o -o chtl  libchtl_dispatcher.a libchtl_scanner.a libchtl_utils.a
+/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/chtl.dir/link.d CMakeFiles/chtl.dir/src/main.cpp.o -o chtl  libchtl_dispatcher.a libchtl_scanner.a libchtl_core.a libchtl_utils.a

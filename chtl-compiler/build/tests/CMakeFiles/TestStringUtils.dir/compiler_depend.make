@@ -231,6 +231,40 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
   /workspace/chtl-compiler/include/utils/StringUtils.h
 
+tests/TestStringUtils: libchtl_scanner.a \
+  libchtl_utils.a \
+  /lib/x86_64-linux-gnu/Scrt1.o \
+  /lib/x86_64-linux-gnu/crti.o \
+  /lib/x86_64-linux-gnu/crtn.o \
+  /lib/x86_64-linux-gnu/libc.so \
+  /lib/x86_64-linux-gnu/libc.so.6 \
+  /lib/x86_64-linux-gnu/libgcc_s.so.1 \
+  /lib/x86_64-linux-gnu/libm.so \
+  /lib/x86_64-linux-gnu/libm.so.6 \
+  /lib/x86_64-linux-gnu/libmvec.so.1 \
+  /lib64/ld-linux-x86-64.so.2 \
+  /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o \
+  /usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o \
+  /usr/lib/gcc/x86_64-linux-gnu/14/libgcc.a \
+  /usr/lib/gcc/x86_64-linux-gnu/14/libgcc_s.so \
+  /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
+  /usr/lib/x86_64-linux-gnu/libc_nonshared.a \
+  tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o
+
+
+tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o:
+
+/usr/lib/gcc/x86_64-linux-gnu/14/libgcc_s.so:
+
+/lib/x86_64-linux-gnu/libm.so.6:
+
+/lib/x86_64-linux-gnu/libgcc_s.so.1:
+
+/lib/x86_64-linux-gnu/crtn.o:
+
+/lib/x86_64-linux-gnu/Scrt1.o:
+
+libchtl_utils.a:
 
 /usr/lib/llvm-20/lib/clang/20/include/stddef.h:
 
@@ -298,6 +332,8 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
 
 /usr/include/c++/14/concepts:
 
+/usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o:
+
 /usr/include/c++/14/cerrno:
 
 /usr/include/c++/14/bits/version.h:
@@ -322,6 +358,8 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
 
 /usr/include/c++/14/bits/stl_bvector.h:
 
+/lib/x86_64-linux-gnu/libm.so:
+
 /usr/include/c++/14/bits/sstream.tcc:
 
 /usr/include/c++/14/bits/refwrap.h:
@@ -344,6 +382,8 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
 
 /usr/include/c++/14/bits/memoryfwd.h:
 
+/lib/x86_64-linux-gnu/libmvec.so.1:
+
 /usr/include/c++/14/bits/memory_resource.h:
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
@@ -356,11 +396,15 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
+/usr/lib/x86_64-linux-gnu/libc_nonshared.a:
+
 /usr/include/c++/14/bits/invoke.h:
 
 /usr/include/features-time64.h:
 
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/14/libgcc.a:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/os_defines.h:
 
@@ -371,6 +415,8 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
 /usr/include/x86_64-linux-gnu/c++/14/bits/error_constants.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
+
+/lib64/ld-linux-x86-64.so.2:
 
 /usr/include/c++/14/ios:
 
@@ -402,6 +448,8 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
 
 /usr/include/c++/14/bits/exception_ptr.h:
 
+/usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o:
+
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
@@ -432,6 +480,8 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
 
 /workspace/chtl-compiler/tests/TestStringUtils.cpp:
 
+/lib/x86_64-linux-gnu/libc.so.6:
+
 /usr/include/x86_64-linux-gnu/bits/sched.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
@@ -461,6 +511,8 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
 /usr/include/asm-generic/int-ll64.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
+
+/lib/x86_64-linux-gnu/crti.o:
 
 /usr/include/c++/14/cassert:
 
@@ -512,6 +564,8 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
 
 /usr/include/ctype.h:
 
+/lib/x86_64-linux-gnu/libc.so:
+
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
@@ -523,6 +577,8 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
 /usr/include/locale.h:
 
 /usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so:
 
 /usr/include/c++/14/bits/locale_classes.tcc:
 
@@ -589,6 +645,8 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
+
+libchtl_scanner.a:
 
 /usr/include/c++/14/bits/stl_algo.h:
 

@@ -276,6 +276,50 @@ tests/CMakeFiles/TestScanner.dir/TestScanner.cpp.o: /workspace/chtl-compiler/tes
   /workspace/chtl-compiler/include/scanner/ScannerContext.h \
   /workspace/chtl-compiler/include/utils/Logger.h
 
+tests/TestScanner: libchtl_scanner.a \
+  libchtl_utils.a \
+  /lib/x86_64-linux-gnu/Scrt1.o \
+  /lib/x86_64-linux-gnu/crti.o \
+  /lib/x86_64-linux-gnu/crtn.o \
+  /lib/x86_64-linux-gnu/libc.so \
+  /lib/x86_64-linux-gnu/libc.so.6 \
+  /lib/x86_64-linux-gnu/libgcc_s.so.1 \
+  /lib/x86_64-linux-gnu/libm.so \
+  /lib/x86_64-linux-gnu/libm.so.6 \
+  /lib/x86_64-linux-gnu/libmvec.so.1 \
+  /lib64/ld-linux-x86-64.so.2 \
+  /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o \
+  /usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o \
+  /usr/lib/gcc/x86_64-linux-gnu/14/libgcc.a \
+  /usr/lib/gcc/x86_64-linux-gnu/14/libgcc_s.so \
+  /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
+  /usr/lib/x86_64-linux-gnu/libc_nonshared.a \
+  tests/CMakeFiles/TestScanner.dir/TestScanner.cpp.o
+
+
+tests/CMakeFiles/TestScanner.dir/TestScanner.cpp.o:
+
+/usr/lib/x86_64-linux-gnu/libc_nonshared.a:
+
+/usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so:
+
+/usr/lib/gcc/x86_64-linux-gnu/14/libgcc.a:
+
+/usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o:
+
+/usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o:
+
+/lib64/ld-linux-x86-64.so.2:
+
+/lib/x86_64-linux-gnu/libgcc_s.so.1:
+
+/lib/x86_64-linux-gnu/libc.so:
+
+/lib/x86_64-linux-gnu/crtn.o:
+
+/lib/x86_64-linux-gnu/crti.o:
+
+libchtl_utils.a:
 
 /workspace/chtl-compiler/include/utils/Logger.h:
 
@@ -317,9 +361,13 @@ tests/CMakeFiles/TestScanner.dir/TestScanner.cpp.o: /workspace/chtl-compiler/tes
 
 /usr/include/c++/14/bits/basic_ios.tcc:
 
+/lib/x86_64-linux-gnu/libc.so.6:
+
 /usr/include/c++/14/pstl/glue_memory_defs.h:
 
 /usr/include/c++/14/bits/alloc_traits.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/14/libgcc_s.so:
 
 /usr/include/c++/14/bits/chrono.h:
 
@@ -463,6 +511,8 @@ tests/CMakeFiles/TestScanner.dir/TestScanner.cpp.o: /workspace/chtl-compiler/tes
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
 
+/lib/x86_64-linux-gnu/libmvec.so.1:
+
 /usr/include/stdlib.h:
 
 /usr/include/c++/14/istream:
@@ -534,6 +584,8 @@ tests/CMakeFiles/TestScanner.dir/TestScanner.cpp.o: /workspace/chtl-compiler/tes
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
+
+/lib/x86_64-linux-gnu/libm.so:
 
 /usr/include/linux/sched/types.h:
 
@@ -607,6 +659,8 @@ tests/CMakeFiles/TestScanner.dir/TestScanner.cpp.o: /workspace/chtl-compiler/tes
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
 
+/lib/x86_64-linux-gnu/Scrt1.o:
+
 /usr/include/c++/14/bits/locale_classes.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
@@ -653,7 +707,11 @@ tests/CMakeFiles/TestScanner.dir/TestScanner.cpp.o: /workspace/chtl-compiler/tes
 
 /usr/include/c++/14/bits/istream.tcc:
 
+libchtl_scanner.a:
+
 /usr/include/c++/14/bits/locale_conv.h:
+
+/lib/x86_64-linux-gnu/libm.so.6:
 
 /usr/include/c++/14/iosfwd:
 
