@@ -72,10 +72,52 @@ include CMakeFiles/chtl_js_core.dir/flags.make
 CMakeFiles/chtl_js_core.dir/codegen:
 .PHONY : CMakeFiles/chtl_js_core.dir/codegen
 
+CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.o: CMakeFiles/chtl_js_core.dir/flags.make
+CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.o: /workspace/chtl-compiler/src/chtl_js/ast/CHTLJSASTNode.cpp
+CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.o: CMakeFiles/chtl_js_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.o -MF CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.o.d -o CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.o -c /workspace/chtl-compiler/src/chtl_js/ast/CHTLJSASTNode.cpp
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/chtl_js/ast/CHTLJSASTNode.cpp > CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.i
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl_js/ast/CHTLJSASTNode.cpp -o CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.s
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.o: CMakeFiles/chtl_js_core.dir/flags.make
+CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.o: /workspace/chtl-compiler/src/chtl_js/ast/CHTLJSNodeImplementations.cpp
+CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.o: CMakeFiles/chtl_js_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.o -MF CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.o.d -o CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.o -c /workspace/chtl-compiler/src/chtl_js/ast/CHTLJSNodeImplementations.cpp
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/chtl_js/ast/CHTLJSNodeImplementations.cpp > CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.i
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl_js/ast/CHTLJSNodeImplementations.cpp -o CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.s
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: CMakeFiles/chtl_js_core.dir/flags.make
+CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: /workspace/chtl-compiler/src/chtl_js/compiler/CHTLJSCompiler.cpp
+CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: CMakeFiles/chtl_js_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o -MF CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o.d -o CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o -c /workspace/chtl-compiler/src/chtl_js/compiler/CHTLJSCompiler.cpp
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/chtl_js/compiler/CHTLJSCompiler.cpp > CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.i
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl_js/compiler/CHTLJSCompiler.cpp -o CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.s
+
 CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o: CMakeFiles/chtl_js_core.dir/flags.make
 CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o: /workspace/chtl-compiler/src/chtl_js/context/CHTLJSContext.cpp
 CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o: CMakeFiles/chtl_js_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o -MF CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o.d -o CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o -c /workspace/chtl-compiler/src/chtl_js/context/CHTLJSContext.cpp
 
 CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.i: cmake_force
@@ -89,7 +131,7 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.s: cmake_force
 CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o: CMakeFiles/chtl_js_core.dir/flags.make
 CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o: /workspace/chtl-compiler/src/chtl_js/core/CHTLJSGlobalMap.cpp
 CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o: CMakeFiles/chtl_js_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o -MF CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o.d -o CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o -c /workspace/chtl-compiler/src/chtl_js/core/CHTLJSGlobalMap.cpp
 
 CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.i: cmake_force
@@ -100,10 +142,38 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl_js/core/CHTLJSGlobalMap.cpp -o CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.s
 
+CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.o: CMakeFiles/chtl_js_core.dir/flags.make
+CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.o: /workspace/chtl-compiler/src/chtl_js/generator/CHTLJSGenerator.cpp
+CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.o: CMakeFiles/chtl_js_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.o -MF CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.o.d -o CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.o -c /workspace/chtl-compiler/src/chtl_js/generator/CHTLJSGenerator.cpp
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/chtl_js/generator/CHTLJSGenerator.cpp > CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.i
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl_js/generator/CHTLJSGenerator.cpp -o CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.s
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.o: CMakeFiles/chtl_js_core.dir/flags.make
+CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.o: /workspace/chtl-compiler/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp
+CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.o: CMakeFiles/chtl_js_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.o -MF CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.o.d -o CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.o -c /workspace/chtl-compiler/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp > CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.i
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp -o CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.s
+
 CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o: CMakeFiles/chtl_js_core.dir/flags.make
 CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o: /workspace/chtl-compiler/src/chtl_js/lexer/CHTLJSLexer.cpp
 CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o: CMakeFiles/chtl_js_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o -MF CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o.d -o CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o -c /workspace/chtl-compiler/src/chtl_js/lexer/CHTLJSLexer.cpp
 
 CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.i: cmake_force
@@ -114,10 +184,24 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl_js/lexer/CHTLJSLexer.cpp -o CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.s
 
+CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.o: CMakeFiles/chtl_js_core.dir/flags.make
+CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.o: /workspace/chtl-compiler/src/chtl_js/parser/CHTLJSParser.cpp
+CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.o: CMakeFiles/chtl_js_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.o -MF CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.o.d -o CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.o -c /workspace/chtl-compiler/src/chtl_js/parser/CHTLJSParser.cpp
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/chtl-compiler/src/chtl_js/parser/CHTLJSParser.cpp > CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.i
+
+CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/chtl-compiler/src/chtl_js/parser/CHTLJSParser.cpp -o CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.s
+
 CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o: CMakeFiles/chtl_js_core.dir/flags.make
 CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o: /workspace/chtl-compiler/src/chtl_js/state/CHTLJSState.cpp
 CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o: CMakeFiles/chtl_js_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o -MF CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o.d -o CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o -c /workspace/chtl-compiler/src/chtl_js/state/CHTLJSState.cpp
 
 CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.i: cmake_force
@@ -131,7 +215,7 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.s: cmake_force
 CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o: CMakeFiles/chtl_js_core.dir/flags.make
 CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o: /workspace/chtl-compiler/src/chtl_js/token/CHTLJSToken.cpp
 CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o: CMakeFiles/chtl_js_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o -MF CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o.d -o CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o -c /workspace/chtl-compiler/src/chtl_js/token/CHTLJSToken.cpp
 
 CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.i: cmake_force
@@ -144,23 +228,35 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.s: cmake_force
 
 # Object files for target chtl_js_core
 chtl_js_core_OBJECTS = \
+"CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.o" \
+"CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.o" \
+"CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o" \
 "CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o" \
 "CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o" \
+"CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.o" \
+"CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.o" \
 "CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o" \
+"CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.o" \
 "CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o" \
 "CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o"
 
 # External object files for target chtl_js_core
 chtl_js_core_EXTERNAL_OBJECTS =
 
+libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSASTNode.cpp.o
+libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/src/chtl_js/ast/CHTLJSNodeImplementations.cpp.o
+libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o
 libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o
 libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o
+libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.o
+libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/src/chtl_js/helpers/CHTLJSStateContextHelper.cpp.o
 libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o
+libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/src/chtl_js/parser/CHTLJSParser.cpp.o
 libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o
 libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o
 libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/build.make
 libchtl_js_core.a: CMakeFiles/chtl_js_core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libchtl_js_core.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX static library libchtl_js_core.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/chtl_js_core.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtl_js_core.dir/link.txt --verbose=$(VERBOSE)
 

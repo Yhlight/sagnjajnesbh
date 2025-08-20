@@ -11,9 +11,14 @@
 /workspace/chtl-compiler/build/CMakeFiles/install.dir
 /workspace/chtl-compiler/build/CMakeFiles/install/local.dir
 /workspace/chtl-compiler/build/CMakeFiles/install/strip.dir
+/workspace/chtl-compiler/build/tests/CMakeFiles/TestCHTLAST.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestCHTLCompilerBase.dir
+/workspace/chtl-compiler/build/tests/CMakeFiles/TestCHTLJSAST.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestCHTLJSCompilerBase.dir
+/workspace/chtl-compiler/build/tests/CMakeFiles/TestCHTLJSParserGenerator.dir
+/workspace/chtl-compiler/build/tests/CMakeFiles/TestCHTLParserGenerator.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestScanner.dir
+/workspace/chtl-compiler/build/tests/CMakeFiles/TestStateContextHelper.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/TestStringUtils.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/test.dir
 /workspace/chtl-compiler/build/tests/CMakeFiles/edit_cache.dir

@@ -172,6 +172,20 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+tests/CMakeFiles/TestCHTLAST.dir/rule:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestCHTLAST.dir/rule
+.PHONY : tests/CMakeFiles/TestCHTLAST.dir/rule
+
+# Convenience name for target.
+TestCHTLAST: tests/CMakeFiles/TestCHTLAST.dir/rule
+.PHONY : TestCHTLAST
+
+# fast build rule for target.
+TestCHTLAST/fast:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLAST.dir/build.make tests/CMakeFiles/TestCHTLAST.dir/build
+.PHONY : TestCHTLAST/fast
+
+# Convenience name for target.
 tests/CMakeFiles/TestCHTLCompilerBase.dir/rule:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestCHTLCompilerBase.dir/rule
 .PHONY : tests/CMakeFiles/TestCHTLCompilerBase.dir/rule
@@ -184,6 +198,20 @@ TestCHTLCompilerBase: tests/CMakeFiles/TestCHTLCompilerBase.dir/rule
 TestCHTLCompilerBase/fast:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLCompilerBase.dir/build
 .PHONY : TestCHTLCompilerBase/fast
+
+# Convenience name for target.
+tests/CMakeFiles/TestCHTLJSAST.dir/rule:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestCHTLJSAST.dir/rule
+.PHONY : tests/CMakeFiles/TestCHTLJSAST.dir/rule
+
+# Convenience name for target.
+TestCHTLJSAST: tests/CMakeFiles/TestCHTLJSAST.dir/rule
+.PHONY : TestCHTLJSAST
+
+# fast build rule for target.
+TestCHTLJSAST/fast:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSAST.dir/build.make tests/CMakeFiles/TestCHTLJSAST.dir/build
+.PHONY : TestCHTLJSAST/fast
 
 # Convenience name for target.
 tests/CMakeFiles/TestCHTLJSCompilerBase.dir/rule:
@@ -200,6 +228,34 @@ TestCHTLJSCompilerBase/fast:
 .PHONY : TestCHTLJSCompilerBase/fast
 
 # Convenience name for target.
+tests/CMakeFiles/TestCHTLJSParserGenerator.dir/rule:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestCHTLJSParserGenerator.dir/rule
+.PHONY : tests/CMakeFiles/TestCHTLJSParserGenerator.dir/rule
+
+# Convenience name for target.
+TestCHTLJSParserGenerator: tests/CMakeFiles/TestCHTLJSParserGenerator.dir/rule
+.PHONY : TestCHTLJSParserGenerator
+
+# fast build rule for target.
+TestCHTLJSParserGenerator/fast:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSParserGenerator.dir/build.make tests/CMakeFiles/TestCHTLJSParserGenerator.dir/build
+.PHONY : TestCHTLJSParserGenerator/fast
+
+# Convenience name for target.
+tests/CMakeFiles/TestCHTLParserGenerator.dir/rule:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestCHTLParserGenerator.dir/rule
+.PHONY : tests/CMakeFiles/TestCHTLParserGenerator.dir/rule
+
+# Convenience name for target.
+TestCHTLParserGenerator: tests/CMakeFiles/TestCHTLParserGenerator.dir/rule
+.PHONY : TestCHTLParserGenerator
+
+# fast build rule for target.
+TestCHTLParserGenerator/fast:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLParserGenerator.dir/build.make tests/CMakeFiles/TestCHTLParserGenerator.dir/build
+.PHONY : TestCHTLParserGenerator/fast
+
+# Convenience name for target.
 tests/CMakeFiles/TestScanner.dir/rule:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestScanner.dir/rule
 .PHONY : tests/CMakeFiles/TestScanner.dir/rule
@@ -214,6 +270,20 @@ TestScanner/fast:
 .PHONY : TestScanner/fast
 
 # Convenience name for target.
+tests/CMakeFiles/TestStateContextHelper.dir/rule:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestStateContextHelper.dir/rule
+.PHONY : tests/CMakeFiles/TestStateContextHelper.dir/rule
+
+# Convenience name for target.
+TestStateContextHelper: tests/CMakeFiles/TestStateContextHelper.dir/rule
+.PHONY : TestStateContextHelper
+
+# fast build rule for target.
+TestStateContextHelper/fast:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestStateContextHelper.dir/build.make tests/CMakeFiles/TestStateContextHelper.dir/build
+.PHONY : TestStateContextHelper/fast
+
+# Convenience name for target.
 tests/CMakeFiles/TestStringUtils.dir/rule:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestStringUtils.dir/rule
 .PHONY : tests/CMakeFiles/TestStringUtils.dir/rule
@@ -226,6 +296,30 @@ TestStringUtils: tests/CMakeFiles/TestStringUtils.dir/rule
 TestStringUtils/fast:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestStringUtils.dir/build.make tests/CMakeFiles/TestStringUtils.dir/build
 .PHONY : TestStringUtils/fast
+
+TestCHTLAST.o: TestCHTLAST.cpp.o
+.PHONY : TestCHTLAST.o
+
+# target to build an object file
+TestCHTLAST.cpp.o:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLAST.dir/build.make tests/CMakeFiles/TestCHTLAST.dir/TestCHTLAST.cpp.o
+.PHONY : TestCHTLAST.cpp.o
+
+TestCHTLAST.i: TestCHTLAST.cpp.i
+.PHONY : TestCHTLAST.i
+
+# target to preprocess a source file
+TestCHTLAST.cpp.i:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLAST.dir/build.make tests/CMakeFiles/TestCHTLAST.dir/TestCHTLAST.cpp.i
+.PHONY : TestCHTLAST.cpp.i
+
+TestCHTLAST.s: TestCHTLAST.cpp.s
+.PHONY : TestCHTLAST.s
+
+# target to generate assembly for a file
+TestCHTLAST.cpp.s:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLAST.dir/build.make tests/CMakeFiles/TestCHTLAST.dir/TestCHTLAST.cpp.s
+.PHONY : TestCHTLAST.cpp.s
 
 TestCHTLCompilerBase.o: TestCHTLCompilerBase.cpp.o
 .PHONY : TestCHTLCompilerBase.o
@@ -251,6 +345,30 @@ TestCHTLCompilerBase.cpp.s:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLCompilerBase.dir/TestCHTLCompilerBase.cpp.s
 .PHONY : TestCHTLCompilerBase.cpp.s
 
+TestCHTLJSAST.o: TestCHTLJSAST.cpp.o
+.PHONY : TestCHTLJSAST.o
+
+# target to build an object file
+TestCHTLJSAST.cpp.o:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSAST.dir/build.make tests/CMakeFiles/TestCHTLJSAST.dir/TestCHTLJSAST.cpp.o
+.PHONY : TestCHTLJSAST.cpp.o
+
+TestCHTLJSAST.i: TestCHTLJSAST.cpp.i
+.PHONY : TestCHTLJSAST.i
+
+# target to preprocess a source file
+TestCHTLJSAST.cpp.i:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSAST.dir/build.make tests/CMakeFiles/TestCHTLJSAST.dir/TestCHTLJSAST.cpp.i
+.PHONY : TestCHTLJSAST.cpp.i
+
+TestCHTLJSAST.s: TestCHTLJSAST.cpp.s
+.PHONY : TestCHTLJSAST.s
+
+# target to generate assembly for a file
+TestCHTLJSAST.cpp.s:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSAST.dir/build.make tests/CMakeFiles/TestCHTLJSAST.dir/TestCHTLJSAST.cpp.s
+.PHONY : TestCHTLJSAST.cpp.s
+
 TestCHTLJSCompilerBase.o: TestCHTLJSCompilerBase.cpp.o
 .PHONY : TestCHTLJSCompilerBase.o
 
@@ -275,6 +393,54 @@ TestCHTLJSCompilerBase.cpp.s:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLJSCompilerBase.dir/TestCHTLJSCompilerBase.cpp.s
 .PHONY : TestCHTLJSCompilerBase.cpp.s
 
+TestCHTLJSParserGenerator.o: TestCHTLJSParserGenerator.cpp.o
+.PHONY : TestCHTLJSParserGenerator.o
+
+# target to build an object file
+TestCHTLJSParserGenerator.cpp.o:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSParserGenerator.dir/build.make tests/CMakeFiles/TestCHTLJSParserGenerator.dir/TestCHTLJSParserGenerator.cpp.o
+.PHONY : TestCHTLJSParserGenerator.cpp.o
+
+TestCHTLJSParserGenerator.i: TestCHTLJSParserGenerator.cpp.i
+.PHONY : TestCHTLJSParserGenerator.i
+
+# target to preprocess a source file
+TestCHTLJSParserGenerator.cpp.i:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSParserGenerator.dir/build.make tests/CMakeFiles/TestCHTLJSParserGenerator.dir/TestCHTLJSParserGenerator.cpp.i
+.PHONY : TestCHTLJSParserGenerator.cpp.i
+
+TestCHTLJSParserGenerator.s: TestCHTLJSParserGenerator.cpp.s
+.PHONY : TestCHTLJSParserGenerator.s
+
+# target to generate assembly for a file
+TestCHTLJSParserGenerator.cpp.s:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSParserGenerator.dir/build.make tests/CMakeFiles/TestCHTLJSParserGenerator.dir/TestCHTLJSParserGenerator.cpp.s
+.PHONY : TestCHTLJSParserGenerator.cpp.s
+
+TestCHTLParserGenerator.o: TestCHTLParserGenerator.cpp.o
+.PHONY : TestCHTLParserGenerator.o
+
+# target to build an object file
+TestCHTLParserGenerator.cpp.o:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLParserGenerator.dir/build.make tests/CMakeFiles/TestCHTLParserGenerator.dir/TestCHTLParserGenerator.cpp.o
+.PHONY : TestCHTLParserGenerator.cpp.o
+
+TestCHTLParserGenerator.i: TestCHTLParserGenerator.cpp.i
+.PHONY : TestCHTLParserGenerator.i
+
+# target to preprocess a source file
+TestCHTLParserGenerator.cpp.i:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLParserGenerator.dir/build.make tests/CMakeFiles/TestCHTLParserGenerator.dir/TestCHTLParserGenerator.cpp.i
+.PHONY : TestCHTLParserGenerator.cpp.i
+
+TestCHTLParserGenerator.s: TestCHTLParserGenerator.cpp.s
+.PHONY : TestCHTLParserGenerator.s
+
+# target to generate assembly for a file
+TestCHTLParserGenerator.cpp.s:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLParserGenerator.dir/build.make tests/CMakeFiles/TestCHTLParserGenerator.dir/TestCHTLParserGenerator.cpp.s
+.PHONY : TestCHTLParserGenerator.cpp.s
+
 TestScanner.o: TestScanner.cpp.o
 .PHONY : TestScanner.o
 
@@ -298,6 +464,30 @@ TestScanner.s: TestScanner.cpp.s
 TestScanner.cpp.s:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestScanner.dir/build.make tests/CMakeFiles/TestScanner.dir/TestScanner.cpp.s
 .PHONY : TestScanner.cpp.s
+
+TestStateContextHelper.o: TestStateContextHelper.cpp.o
+.PHONY : TestStateContextHelper.o
+
+# target to build an object file
+TestStateContextHelper.cpp.o:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestStateContextHelper.dir/build.make tests/CMakeFiles/TestStateContextHelper.dir/TestStateContextHelper.cpp.o
+.PHONY : TestStateContextHelper.cpp.o
+
+TestStateContextHelper.i: TestStateContextHelper.cpp.i
+.PHONY : TestStateContextHelper.i
+
+# target to preprocess a source file
+TestStateContextHelper.cpp.i:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestStateContextHelper.dir/build.make tests/CMakeFiles/TestStateContextHelper.dir/TestStateContextHelper.cpp.i
+.PHONY : TestStateContextHelper.cpp.i
+
+TestStateContextHelper.s: TestStateContextHelper.cpp.s
+.PHONY : TestStateContextHelper.s
+
+# target to generate assembly for a file
+TestStateContextHelper.cpp.s:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestStateContextHelper.dir/build.make tests/CMakeFiles/TestStateContextHelper.dir/TestStateContextHelper.cpp.s
+.PHONY : TestStateContextHelper.cpp.s
 
 TestStringUtils.o: TestStringUtils.cpp.o
 .PHONY : TestStringUtils.o
@@ -336,19 +526,39 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... TestCHTLAST"
 	@echo "... TestCHTLCompilerBase"
+	@echo "... TestCHTLJSAST"
 	@echo "... TestCHTLJSCompilerBase"
+	@echo "... TestCHTLJSParserGenerator"
+	@echo "... TestCHTLParserGenerator"
 	@echo "... TestScanner"
+	@echo "... TestStateContextHelper"
 	@echo "... TestStringUtils"
+	@echo "... TestCHTLAST.o"
+	@echo "... TestCHTLAST.i"
+	@echo "... TestCHTLAST.s"
 	@echo "... TestCHTLCompilerBase.o"
 	@echo "... TestCHTLCompilerBase.i"
 	@echo "... TestCHTLCompilerBase.s"
+	@echo "... TestCHTLJSAST.o"
+	@echo "... TestCHTLJSAST.i"
+	@echo "... TestCHTLJSAST.s"
 	@echo "... TestCHTLJSCompilerBase.o"
 	@echo "... TestCHTLJSCompilerBase.i"
 	@echo "... TestCHTLJSCompilerBase.s"
+	@echo "... TestCHTLJSParserGenerator.o"
+	@echo "... TestCHTLJSParserGenerator.i"
+	@echo "... TestCHTLJSParserGenerator.s"
+	@echo "... TestCHTLParserGenerator.o"
+	@echo "... TestCHTLParserGenerator.i"
+	@echo "... TestCHTLParserGenerator.s"
 	@echo "... TestScanner.o"
 	@echo "... TestScanner.i"
 	@echo "... TestScanner.s"
+	@echo "... TestStateContextHelper.o"
+	@echo "... TestStateContextHelper.i"
+	@echo "... TestStateContextHelper.s"
 	@echo "... TestStringUtils.o"
 	@echo "... TestStringUtils.i"
 	@echo "... TestStringUtils.s"

@@ -8,9 +8,16 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/workspace/chtl-compiler/src/chtl/ast/ASTNode.cpp" "CMakeFiles/chtl_core.dir/src/chtl/ast/ASTNode.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/ast/ASTNode.cpp.o.d"
+  "/workspace/chtl-compiler/src/chtl/ast/NodeImplementations.cpp" "CMakeFiles/chtl_core.dir/src/chtl/ast/NodeImplementations.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/ast/NodeImplementations.cpp.o.d"
+  "/workspace/chtl-compiler/src/chtl/compiler/CHTLCompiler.cpp" "CMakeFiles/chtl_core.dir/src/chtl/compiler/CHTLCompiler.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/compiler/CHTLCompiler.cpp.o.d"
   "/workspace/chtl-compiler/src/chtl/context/CHTLContext.cpp" "CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/context/CHTLContext.cpp.o.d"
   "/workspace/chtl-compiler/src/chtl/core/CHTLGlobalMap.cpp" "CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/core/CHTLGlobalMap.cpp.o.d"
+  "/workspace/chtl-compiler/src/chtl/generator/CHTLGenerator.cpp" "CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/generator/CHTLGenerator.cpp.o.d"
+  "/workspace/chtl-compiler/src/chtl/helpers/CHTLStateContextHelper.cpp" "CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/helpers/CHTLStateContextHelper.cpp.o.d"
   "/workspace/chtl-compiler/src/chtl/lexer/CHTLLexer.cpp" "CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/lexer/CHTLLexer.cpp.o.d"
+  "/workspace/chtl-compiler/src/chtl/parser/CHTLParser.cpp" "CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParser.cpp.o.d"
+  "/workspace/chtl-compiler/src/chtl/parser/CHTLParserTemplate.cpp" "CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/parser/CHTLParserTemplate.cpp.o.d"
   "/workspace/chtl-compiler/src/chtl/state/CHTLState.cpp" "CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/state/CHTLState.cpp.o.d"
   "/workspace/chtl-compiler/src/chtl/token/CHTLToken.cpp" "CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.o.d"
   )
