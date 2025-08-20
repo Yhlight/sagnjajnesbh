@@ -37,9 +37,18 @@ std::shared_ptr<ast::DocumentNode> CHTLParserV2::ParseTokens(const std::vector<C
     auto document = std::make_shared<ast::DocumentNode>();
     
     while (!IsAtEnd()) {
+        // 保存当前位置以检测进度
+        size_t oldPos = m_Current;
+        
         auto node = ParseTopLevel();
         if (node) {
             document->AddChild(node);
+        }
+        
+        // 确保我们在前进，避免死循环
+        if (m_Current == oldPos && !IsAtEnd()) {
+            ReportError("Parser stuck at token: " + Peek().value);
+            Advance(); // 强制前进
         }
     }
     
@@ -52,8 +61,10 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseTopLevel() {
     
     if (IsAtEnd()) return nullptr;
     
-    // 跳过顶级的右大括号（可能是从错误恢复）
+    // 在顶级遇到右大括号是错误
     if (Check(CHTLTokenType::RBRACE)) {
+        ReportError("Unexpected '}' at top level");
+        Advance(); // 消费这个错误的括号
         return nullptr;
     }
     
@@ -181,6 +192,12 @@ void CHTLParserV2::ParseElementContent(ast::ElementNode* element) {
             continue;
         }
         
+        // Origin块
+        if (Check(CHTLTokenType::ORIGIN)) {
+            element->AddChild(ParseOrigin());
+            continue;
+        }
+        
         // @Style, @Element, @Var 模板使用
         if (CheckAny({CHTLTokenType::AT_STYLE, CHTLTokenType::AT_ELEMENT, CHTLTokenType::AT_VAR})) {
             auto type = Advance();
@@ -264,8 +281,13 @@ void CHTLParserV2::ParseAttributes(ast::ElementNode* element) {
         return;
     }
     
-    // 属性值
-    std::string value = ParseStringOrUnquoted();
+    // 属性值 - 处理数字作为值
+    std::string value;
+    if (Check(CHTLTokenType::NUMBER)) {
+        value = Advance().value;
+    } else {
+        value = ParseStringOrUnquoted();
+    }
     element->AddAttribute(name.value, value);
     
     // 可选的分号
@@ -289,36 +311,53 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseText() {
     } else {
         // 收集到下一个匹配的 } 为止
         int braceDepth = 1;
-        bool firstToken = true;
+        bool lastWasSpace = true; // 避免开头空格
         
         while (!IsAtEnd() && braceDepth > 0) {
             auto token = Peek();
             
             if (token.type == CHTLTokenType::LBRACE) {
                 braceDepth++;
-                if (!firstToken && !content.empty()) content += " ";
+                if (!lastWasSpace && !content.empty()) {
+                    content += " ";
+                    lastWasSpace = true;
+                }
                 content += token.value;
-                firstToken = false;
+                lastWasSpace = false;
                 Advance();
             } else if (token.type == CHTLTokenType::RBRACE) {
                 braceDepth--;
                 if (braceDepth > 0) {
-                    if (!firstToken && !content.empty()) content += " ";
+                    if (!lastWasSpace && !content.empty()) {
+                        content += " ";
+                        lastWasSpace = true;
+                    }
                     content += token.value;
-                    firstToken = false;
-                    Advance();
-                } else {
-                    Advance(); // 消费最后的 }
+                    lastWasSpace = false;
                 }
+                Advance();
             } else {
-                if (!firstToken && !content.empty() && 
-                    token.type != CHTLTokenType::SEMICOLON &&
-                    token.type != CHTLTokenType::COMMA &&
-                    token.type != CHTLTokenType::DOT) {
-                    content += " ";
+                // 智能添加空格
+                bool needSpace = false;
+                if (!content.empty() && !lastWasSpace) {
+                    char lastChar = content.back();
+                    // 检查是否需要空格
+                    if (token.type == CHTLTokenType::IDENTIFIER ||
+                        token.type == CHTLTokenType::LITERAL_UNQUOTED) {
+                        // 前一个字符是字母数字时需要空格
+                        if (std::isalnum(lastChar) || lastChar == '_') {
+                            needSpace = true;
+                        }
+                    }
                 }
+                
+                if (needSpace) {
+                    content += " ";
+                    lastWasSpace = true;
+                }
+                
                 content += token.value;
-                firstToken = false;
+                lastWasSpace = (token.value == " " || token.value == "\t" || token.value == "\n");
                 Advance();
             }
         }
@@ -331,6 +370,11 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseText() {
         } else if (start == std::string::npos) {
             content = "";
         }
+    }
+    
+    // 确保关闭的大括号被消费
+    if (!Match(CHTLTokenType::RBRACE)) {
+        ReportError("Expected '}' to close text block");
     }
     
     auto text = std::make_shared<ast::TextNode>(content);
@@ -1001,6 +1045,8 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseOrigin() {
     // 收集所有内容直到匹配的 }
     std::string content;
     int braceDepth = 1;
+    bool inTag = false;
+    bool lastWasGreater = false;
     
     while (!IsAtEnd() && braceDepth > 0) {
         auto token = Peek();
@@ -1012,7 +1058,28 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseOrigin() {
             braceDepth--;
             if (braceDepth > 0) content += token.value;
         } else {
-            content += token.value;
+            // 处理HTML标签中的空格
+            if (token.value == "<") {
+                inTag = true;
+                content += token.value;
+                lastWasGreater = false;
+            } else if (token.value == ">") {
+                inTag = false;
+                content += token.value;
+                lastWasGreater = true;
+            } else if (inTag) {
+                // 标签内部直接连接
+                content += token.value;
+                lastWasGreater = false;
+            } else {
+                // 标签外部，智能添加空格
+                if (!content.empty() && !lastWasGreater && 
+                    token.type == CHTLTokenType::IDENTIFIER) {
+                    content += " ";
+                }
+                content += token.value;
+                lastWasGreater = false;
+            }
         }
         
         Advance();

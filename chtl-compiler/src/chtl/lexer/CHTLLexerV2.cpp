@@ -111,7 +111,13 @@ CHTLToken CHTLLexerV2::NextToken() {
     
     // @ 关键字
     if (c == '@') {
-        return ScanAtKeyword();
+        // 检查后面是否跟着大写字母（@Style, @Element等）
+        if (IsAlpha(NextChar()) && std::isupper(NextChar())) {
+            return ScanAtKeyword();
+        }
+        // 否则作为普通字符处理
+        Advance();
+        return MakeToken(CHTLTokenType::LITERAL_UNQUOTED, "@", startPos);
     }
     
     // 标识符或关键字
