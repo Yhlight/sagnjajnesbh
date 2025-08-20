@@ -47,6 +47,7 @@ private:
     // 配置
     bool m_DebugMode;
     std::vector<std::string> m_ModulePaths;
+    std::vector<std::string> m_Errors;
     
     // 编译方法
     CompileResult CompileElement(const std::string& code);

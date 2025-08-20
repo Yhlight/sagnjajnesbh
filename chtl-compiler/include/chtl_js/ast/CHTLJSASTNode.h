@@ -141,7 +141,9 @@ public:
     virtual void VisitDocument(class CHTLJSDocumentNode* node) = 0;
     virtual void VisitScriptBlock(class ScriptBlockNode* node) = 0;
     virtual void VisitEnhancedSelector(class EnhancedSelectorNode* node) = 0;
+    virtual void VisitSelectorAccess(class SelectorAccessNode* node) = 0;
     virtual void VisitArrowOperator(class ArrowOperatorNode* node) = 0;
+    virtual void VisitDotOperator(class DotOperatorNode* node) = 0;
     virtual void VisitListenCall(class ListenCallNode* node) = 0;
     virtual void VisitDelegateCall(class DelegateCallNode* node) = 0;
     virtual void VisitAnimateCall(class AnimateCallNode* node) = 0;
@@ -154,7 +156,9 @@ public:
     virtual void VisitProperty(class PropertyNode* node) = 0;
     virtual void VisitIdentifier(class IdentifierNode* node) = 0;
     virtual void VisitLiteral(class LiteralNode* node) = 0;
+    virtual void VisitArrayLiteral(class ArrayLiteralNode* node) = 0;
     virtual void VisitJSCodeFragment(class JSCodeFragmentNode* node) = 0;
+    virtual void VisitFunctionWithState(class FunctionWithStateNode* node) = 0;
 };
 
 } // namespace ast

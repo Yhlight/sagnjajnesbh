@@ -6,8 +6,8 @@ namespace chtl {
 namespace ast {
 
 /**
- * 注释节点
- * 支持三种注释类型：//, /* ... */, --
+ * CommentNode - represents comment nodes in CHTL
+ * Supports three comment types: single-line (//), multi-line (/* ... */), and HTML-style (--)
  */
 class CommentNode : public ASTNode {
 public:
