@@ -305,59 +305,46 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseText() {
     // 收集文本内容，处理引号字符串或直接内容
     std::string content;
     
-    // 检查是否是引号字符串
+    // 根据CHTL语法文档：支持引号字符串和无修饰字面量
     if (Check(CHTLTokenType::STRING_DOUBLE) || Check(CHTLTokenType::STRING_SINGLE)) {
         content = Advance().value;
+        // 如果后面还有内容直到}，需要继续收集
+        while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
+            Advance();
+        }
     } else {
-        // 收集到下一个匹配的 } 为止
+        // 无修饰字面量模式：收集所有内容直到匹配的 }
         int braceDepth = 1;
-        bool lastWasSpace = true; // 避免开头空格
         
         while (!IsAtEnd() && braceDepth > 0) {
             auto token = Peek();
             
             if (token.type == CHTLTokenType::LBRACE) {
                 braceDepth++;
-                if (!lastWasSpace && !content.empty()) {
-                    content += " ";
-                    lastWasSpace = true;
-                }
                 content += token.value;
-                lastWasSpace = false;
                 Advance();
             } else if (token.type == CHTLTokenType::RBRACE) {
                 braceDepth--;
                 if (braceDepth > 0) {
-                    if (!lastWasSpace && !content.empty()) {
-                        content += " ";
-                        lastWasSpace = true;
-                    }
                     content += token.value;
-                    lastWasSpace = false;
+                    Advance();
+                } else {
+                    // 不消费最后的 }，留给后面的Match处理
+                    break;
                 }
-                Advance();
             } else {
-                // 智能添加空格
-                bool needSpace = false;
-                if (!content.empty() && !lastWasSpace) {
-                    char lastChar = content.back();
-                    // 检查是否需要空格
-                    if (token.type == CHTLTokenType::IDENTIFIER ||
-                        token.type == CHTLTokenType::LITERAL_UNQUOTED) {
-                        // 前一个字符是字母数字时需要空格
-                        if (std::isalnum(lastChar) || lastChar == '_') {
-                            needSpace = true;
-                        }
-                    }
-                }
-                
-                if (needSpace) {
-                    content += " ";
-                    lastWasSpace = true;
-                }
-                
+                // 保留原始token值，维持原始格式
                 content += token.value;
-                lastWasSpace = (token.value == " " || token.value == "\t" || token.value == "\n");
+                
+                // 在需要的地方添加空格
+                auto nextToken = m_Current + 1 < m_Tokens.size() ? m_Tokens[m_Current + 1] : CHTLToken(CHTLTokenType::EOF_TOKEN, "", 0, 0);
+                if (nextToken.type != CHTLTokenType::RBRACE && 
+                    nextToken.type != CHTLTokenType::EOF_TOKEN &&
+                    nextToken.line == token.line && // 同一行
+                    nextToken.column > token.column + token.value.length()) { // 有空格
+                    content += " ";
+                }
+                
                 Advance();
             }
         }
@@ -484,12 +471,19 @@ void CHTLParserV2::ParseStyleRule(ast::StyleNode* style) {
     
     while (!IsAtEnd() && !Check(CHTLTokenType::LBRACE)) {
         auto token = Advance();
-        selector += token.value;
         
-        // 添加必要的空格
-        if (token.type == CHTLTokenType::IDENTIFIER && 
-            !IsAtEnd() && !Check(CHTLTokenType::LBRACE)) {
-            selector += " ";
+        // 根据CHTL语法文档，&符号不需要后面的空格
+        if (token.type == CHTLTokenType::AMPERSAND) {
+            selector += token.value;
+            // &后面直接连接伪类或伪元素，不加空格
+        } else {
+            // 如果前面有内容且不是&，可能需要空格
+            if (!selector.empty() && selector.back() != '&' && selector.back() != ' ') {
+                if (token.type == CHTLTokenType::IDENTIFIER) {
+                    selector += " ";
+                }
+            }
+            selector += token.value;
         }
     }
     
@@ -519,7 +513,8 @@ void CHTLParserV2::ParseStyleRule(ast::StyleNode* style) {
             }
         } else {
             properties += token.value;
-            if (token.type == CHTLTokenType::COLON) {
+            if (token.type == CHTLTokenType::COLON || 
+                token.type == CHTLTokenType::EQUALS) { // CE对等式
                 properties += " ";
             } else if (token.type == CHTLTokenType::SEMICOLON) {
                 properties += " ";
@@ -544,10 +539,12 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseScript() {
     );
     script->SetLocation(token.line, token.column);
     
-    // 收集脚本内容
+    // 收集脚本内容，保留原始格式用于CHTL JS解析
     std::string content;
     int braceDepth = 1;
+    size_t startPos = m_Current;
     
+    // 扫描到匹配的}，记录位置
     while (!IsAtEnd() && braceDepth > 0) {
         auto token = Peek();
         
@@ -556,23 +553,54 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseScript() {
         } else if (token.type == CHTLTokenType::RBRACE) {
             braceDepth--;
             if (braceDepth == 0) {
-                Advance(); // 消费最后的 }
                 break;
             }
         }
+        Advance();
+    }
+    
+    // 提取原始内容
+    for (size_t i = startPos; i < m_Current; i++) {
+        content += m_Tokens[i].value;
         
-        content += token.value;
-        // 添加适当的空格
-        if (token.type != CHTLTokenType::SEMICOLON && 
-            token.type != CHTLTokenType::COMMA &&
-            token.type != CHTLTokenType::DOT) {
-            content += " ";
+        // 智能添加空格
+        if (i + 1 < m_Current) {
+            auto& current = m_Tokens[i];
+            auto& next = m_Tokens[i + 1];
+            
+            // 根据token类型和位置决定是否添加空格
+            if (current.line != next.line) {
+                content += "\n";
+                // 保持缩进
+                for (size_t j = 1; j < next.column; j++) {
+                    content += " ";
+                }
+            } else if (next.column > current.column + current.value.length()) {
+                // 保持原始空格
+                for (size_t j = current.column + current.value.length(); j < next.column; j++) {
+                    content += " ";
+                }
+            }
         }
-        
+    }
+    
+    // 消费最后的 }
+    if (!IsAtEnd()) {
         Advance();
     }
     
     script->SetContent(content);
+    
+    // 标记内容是否包含CHTL JS语法
+    bool hasCHTLJS = content.find("{{") != std::string::npos ||
+                     content.find("->") != std::string::npos ||
+                     content.find("listen") != std::string::npos ||
+                     content.find("delegate") != std::string::npos ||
+                     content.find("animate") != std::string::npos ||
+                     content.find("vir") != std::string::npos;
+    
+    script->SetHasCHTLJS(hasCHTLJS);
+    
     return script;
 }
 

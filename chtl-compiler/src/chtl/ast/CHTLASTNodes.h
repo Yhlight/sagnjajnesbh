@@ -188,7 +188,7 @@ public:
         LOCAL       // 局部脚本块
     };
     
-    explicit ScriptNode(ScriptType type = GLOBAL) : m_Type(type) {}
+    explicit ScriptNode(ScriptType type = GLOBAL) : m_Type(type), m_HasCHTLJS(false) {}
     
     void Accept(ASTVisitor* visitor) override;
     
@@ -197,9 +197,14 @@ public:
     void SetContent(const std::string& content) { m_Content = content; }
     const std::string& GetContent() const { return m_Content; }
     
+    // CHTL JS 支持
+    void SetHasCHTLJS(bool has) { m_HasCHTLJS = has; }
+    bool HasCHTLJS() const { return m_HasCHTLJS; }
+    
 private:
     ScriptType m_Type;
     std::string m_Content;
+    bool m_HasCHTLJS;  // 标记是否包含CHTL JS语法
 };
 
 /**
