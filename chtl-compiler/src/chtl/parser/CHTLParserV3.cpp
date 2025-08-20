@@ -32,7 +32,7 @@ std::shared_ptr<ast::v3::DocumentNode> CHTLParserV3::ParseTokens(const std::vect
     m_Current = 0;
     m_Errors.clear();
     m_ContextStack.push(Context::ELEMENT);
-    m_CurrentNamespace = "";
+    // Initialize namespace
     
     auto document = std::make_shared<ast::v3::DocumentNode>();
     
@@ -557,7 +557,7 @@ std::shared_ptr<ast::v3::CustomNode> CHTLParserV3::ParseCustom() {
 
 void CHTLParserV3::ParseCustomDefinition(ast::v3::CustomNode* custom) {
     if (custom->GetType() == ast::v3::CustomNode::STYLE) {
-        ParseCustomStyleDefinition(custom);
+        ParseCustomDefinition(custom);
     } else if (custom->GetType() == ast::v3::CustomNode::ELEMENT) {
         ParseCustomElementDefinition(custom);
     } else if (custom->GetType() == ast::v3::CustomNode::VAR) {
@@ -565,7 +565,7 @@ void CHTLParserV3::ParseCustomDefinition(ast::v3::CustomNode* custom) {
     }
 }
 
-void CHTLParserV3::ParseCustomStyleDefinition(ast::v3::CustomNode* custom) {
+void CHTLParserV3::ParseCustomDefinition(ast::v3::CustomNode* custom) {
     auto styleNode = std::make_shared<ast::v3::StyleNode>(ast::v3::StyleNode::CUSTOM);
     
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
@@ -822,9 +822,9 @@ std::shared_ptr<ast::v3::NamespaceNode> CHTLParserV3::ParseNamespace() {
     }
     
     // Save current namespace and update
-    std::string prevNamespace = m_CurrentNamespace;
-    m_CurrentNamespace = name;
-    m_NamespaceStack.push(name);
+    std::string prevNamespace = GetCurrentNamespace();
+    // Update namespace
+    m_NamespaceStack.push_back(name);
     
     // Parse namespace content
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
@@ -837,9 +837,9 @@ std::shared_ptr<ast::v3::NamespaceNode> CHTLParserV3::ParseNamespace() {
     Match(CHTLTokenType::RBRACE);
     
     // Restore namespace
-    m_CurrentNamespace = prevNamespace;
+    // Restore namespace
     if (!m_NamespaceStack.empty()) {
-        m_NamespaceStack.pop();
+        m_NamespaceStack.pop_back();
     }
     
     return ns;
@@ -1222,7 +1222,7 @@ std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseSpecialization() {
             custom->SetSpecialization(true);
             
             PushContext(Context::SPECIALIZATION);
-            ParseCustomStyleDefinition(custom.get());
+            ParseCustomDefinition(custom.get());
             PopContext();
             
             Match(CHTLTokenType::RBRACE);

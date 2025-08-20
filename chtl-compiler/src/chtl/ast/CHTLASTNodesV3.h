@@ -213,6 +213,19 @@ public:
     const std::string& GetName() const { return m_Name; }
     
     void AddParameter(const std::string& param) {
+    }
+
+    void AddParameter(const std::string& param, const std::string& defaultValue) {
+        m_Parameters.push_back(param);
+        m_ParameterDefaults[param] = defaultValue;
+    }
+
+    void AddStyleProperty(const std::string& key, const std::string& value) {
+        m_StyleProperties[key] = value;
+    }
+
+    void SetVarContent(const std::string& content) {
+        m_VarContent = content;
         m_Parameters.push_back(param);
     }
     
@@ -345,6 +358,7 @@ class VarNode : public ASTNode {
 public:
     explicit VarNode(const std::string& name) : m_Name(name) {}
     
+    VarNode(const std::string& name, const std::string& value) : m_Name(name), m_Value(value) {}
     void Accept(ASTVisitor* visitor) override;
     
     const std::string& GetName() const { return m_Name; }
