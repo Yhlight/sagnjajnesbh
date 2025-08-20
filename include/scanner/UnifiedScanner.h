@@ -105,8 +105,8 @@ private:
     
     // 最小单元切割
     void splitIntoMinimalUnits(CodeFragmentPtr fragment);
-    std::vector<std::string> splitCHTLUnits(const std::string& content);
-    std::vector<std::string> splitCHTLJSUnits(const std::string& content);
+    std::vector<TokenPtr> splitCHTLUnits(const std::string& content);
+    std::vector<TokenPtr> splitCHTLJSUnits(const std::string& content);
     
     // 上下文验证
     bool validateFragmentContext(const CodeFragmentPtr& fragment);

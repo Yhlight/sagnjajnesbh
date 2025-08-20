@@ -527,19 +527,142 @@ void UnifiedScanner::splitIntoMinimalUnits(CodeFragmentPtr fragment) {
     // 根据片段类型分割成最小单元
     switch (fragment->type) {
         case FragmentType::CHTL:
-            // 分割CHTL代码为最小单元
-            // 例如：将 "div { style { } }" 分割为 "div", "{", "style", "{", "}", "}"
+            fragment->tokens = splitCHTLUnits(fragment->content);
             break;
             
         case FragmentType::CHTL_JS:
-            // 分割CHTL JS代码为最小单元
-            // 例如：将 "{{box}}->click" 分割为 "{{box}}", "->", "click"
+            fragment->tokens = splitCHTLJSUnits(fragment->content);
             break;
             
         default:
-            // 其他类型不需要分割
+            // CSS、JavaScript、HTML片段由各自的编译器处理
             break;
     }
+}
+
+std::vector<TokenPtr> UnifiedScanner::splitCHTLUnits(const std::string& content) {
+    std::vector<TokenPtr> tokens;
+    size_t pos = 0;
+    
+    while (pos < content.size()) {
+        // 跳过空白
+        while (pos < content.size() && ScannerUtils::isWhitespace(content[pos])) {
+            pos++;
+        }
+        
+        if (pos >= content.size()) break;
+        
+        size_t tokenStart = pos;
+        char ch = content[pos];
+        
+        // 单字符符号
+        if (ch == '{' || ch == '}' || ch == '(' || ch == ')' || 
+            ch == '[' || ch == ']' || ch == ';' || ch == ':' || 
+            ch == '=' || ch == ',' || ch == '.') {
+            pos++;
+            auto token = std::make_shared<Token>(TokenType::UNKNOWN, 
+                std::string(1, ch), TokenLocation(filename_, 0, 0, tokenStart));
+            tokens.push_back(token);
+        }
+        // 字符串
+        else if (ch == '"' || ch == '\'') {
+            char quote = ch;
+            pos++;
+            while (pos < content.size() && content[pos] != quote) {
+                if (content[pos] == '\\' && pos + 1 < content.size()) {
+                    pos += 2;
+                } else {
+                    pos++;
+                }
+            }
+            if (pos < content.size()) pos++; // 跳过结束引号
+            
+            std::string value = content.substr(tokenStart, pos - tokenStart);
+            auto token = std::make_shared<Token>(TokenType::STRING_LITERAL, 
+                value, TokenLocation(filename_, 0, 0, tokenStart));
+            tokens.push_back(token);
+        }
+        // 标识符或关键字
+        else if (ScannerUtils::isIdentifierStart(ch)) {
+            while (pos < content.size() && ScannerUtils::isIdentifierPart(content[pos])) {
+                pos++;
+            }
+            
+            std::string value = content.substr(tokenStart, pos - tokenStart);
+            auto token = std::make_shared<Token>(TokenType::IDENTIFIER, 
+                value, TokenLocation(filename_, 0, 0, tokenStart));
+            tokens.push_back(token);
+        }
+        // 其他字符
+        else {
+            pos++;
+        }
+    }
+    
+    return tokens;
+}
+
+std::vector<TokenPtr> UnifiedScanner::splitCHTLJSUnits(const std::string& content) {
+    std::vector<TokenPtr> tokens;
+    size_t pos = 0;
+    
+    while (pos < content.size()) {
+        // 跳过空白
+        while (pos < content.size() && ScannerUtils::isWhitespace(content[pos])) {
+            pos++;
+        }
+        
+        if (pos >= content.size()) break;
+        
+        size_t tokenStart = pos;
+        
+        // {{选择器}}
+        if (pos + 1 < content.size() && content[pos] == '{' && content[pos + 1] == '{') {
+            pos += 2;
+            int braceCount = 2;
+            while (pos < content.size() && braceCount > 0) {
+                if (content[pos] == '{') braceCount++;
+                else if (content[pos] == '}') {
+                    braceCount--;
+                    if (braceCount == 0 && pos + 1 < content.size() && content[pos + 1] == '}') {
+                        pos += 2; // 跳过 }}
+                        break;
+                    }
+                }
+                pos++;
+            }
+            
+            std::string value = content.substr(tokenStart, pos - tokenStart);
+            auto token = std::make_shared<Token>(TokenType::DOUBLE_LEFT_BRACE, 
+                value, TokenLocation(filename_, 0, 0, tokenStart));
+            tokens.push_back(token);
+        }
+        // ->
+        else if (pos + 1 < content.size() && content[pos] == '-' && content[pos + 1] == '>') {
+            pos += 2;
+            auto token = std::make_shared<Token>(TokenType::ARROW, 
+                std::string("->"), TokenLocation(filename_, 0, 0, tokenStart));
+            tokens.push_back(token);
+        }
+        // 标识符
+        else if (ScannerUtils::isIdentifierStart(content[pos])) {
+            while (pos < content.size() && ScannerUtils::isIdentifierPart(content[pos])) {
+                pos++;
+            }
+            
+            std::string value = content.substr(tokenStart, pos - tokenStart);
+            TokenType type = (value == "vir") ? TokenType::KEYWORD_VIR : TokenType::IDENTIFIER;
+            auto token = std::make_shared<Token>(type, 
+                value, TokenLocation(filename_, 0, 0, tokenStart));
+            tokens.push_back(token);
+        }
+        // 其他字符
+        else {
+            pos++;
+        }
+    }
+    
+    return tokens;
 }
 
 bool UnifiedScanner::validateFragmentContext(const CodeFragmentPtr& /*fragment*/) {
