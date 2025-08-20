@@ -99,6 +99,7 @@ tests/TestCHTLCompilerBase: tests/CMakeFiles/TestCHTLCompilerBase.dir/compiler_d
 tests/TestCHTLCompilerBase: libchtl_utils.a
 tests/TestCHTLCompilerBase: libchtl_scanner.a
 tests/TestCHTLCompilerBase: libchtl_core.a
+tests/TestCHTLCompilerBase: libchtl_js_core.a
 tests/TestCHTLCompilerBase: tests/CMakeFiles/TestCHTLCompilerBase.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable TestCHTLCompilerBase"
 	cd /workspace/chtl-compiler/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/TestCHTLCompilerBase.dir/link.txt --verbose=$(VERBOSE)

@@ -198,6 +198,19 @@ chtl_core/fast:
 .PHONY : chtl_core/fast
 
 #=============================================================================
+# Target rules for targets named chtl_js_core
+
+# Build rule for target.
+chtl_js_core: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chtl_js_core
+.PHONY : chtl_js_core
+
+# fast build rule for target.
+chtl_js_core/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/build
+.PHONY : chtl_js_core/fast
+
+#=============================================================================
 # Target rules for targets named chtl_dispatcher
 
 # Build rule for target.
@@ -248,6 +261,19 @@ TestCHTLCompilerBase: cmake_check_build_system
 TestCHTLCompilerBase/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLCompilerBase.dir/build
 .PHONY : TestCHTLCompilerBase/fast
+
+#=============================================================================
+# Target rules for targets named TestCHTLJSCompilerBase
+
+# Build rule for target.
+TestCHTLJSCompilerBase: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 TestCHTLJSCompilerBase
+.PHONY : TestCHTLJSCompilerBase
+
+# fast build rule for target.
+TestCHTLJSCompilerBase/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLJSCompilerBase.dir/build
+.PHONY : TestCHTLJSCompilerBase/fast
 
 #=============================================================================
 # Target rules for targets named TestScanner
@@ -394,6 +420,126 @@ src/chtl/token/CHTLToken.s: src/chtl/token/CHTLToken.cpp.s
 src/chtl/token/CHTLToken.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/src/chtl/token/CHTLToken.cpp.s
 .PHONY : src/chtl/token/CHTLToken.cpp.s
+
+src/chtl_js/context/CHTLJSContext.o: src/chtl_js/context/CHTLJSContext.cpp.o
+.PHONY : src/chtl_js/context/CHTLJSContext.o
+
+# target to build an object file
+src/chtl_js/context/CHTLJSContext.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o
+.PHONY : src/chtl_js/context/CHTLJSContext.cpp.o
+
+src/chtl_js/context/CHTLJSContext.i: src/chtl_js/context/CHTLJSContext.cpp.i
+.PHONY : src/chtl_js/context/CHTLJSContext.i
+
+# target to preprocess a source file
+src/chtl_js/context/CHTLJSContext.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.i
+.PHONY : src/chtl_js/context/CHTLJSContext.cpp.i
+
+src/chtl_js/context/CHTLJSContext.s: src/chtl_js/context/CHTLJSContext.cpp.s
+.PHONY : src/chtl_js/context/CHTLJSContext.s
+
+# target to generate assembly for a file
+src/chtl_js/context/CHTLJSContext.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.s
+.PHONY : src/chtl_js/context/CHTLJSContext.cpp.s
+
+src/chtl_js/core/CHTLJSGlobalMap.o: src/chtl_js/core/CHTLJSGlobalMap.cpp.o
+.PHONY : src/chtl_js/core/CHTLJSGlobalMap.o
+
+# target to build an object file
+src/chtl_js/core/CHTLJSGlobalMap.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o
+.PHONY : src/chtl_js/core/CHTLJSGlobalMap.cpp.o
+
+src/chtl_js/core/CHTLJSGlobalMap.i: src/chtl_js/core/CHTLJSGlobalMap.cpp.i
+.PHONY : src/chtl_js/core/CHTLJSGlobalMap.i
+
+# target to preprocess a source file
+src/chtl_js/core/CHTLJSGlobalMap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.i
+.PHONY : src/chtl_js/core/CHTLJSGlobalMap.cpp.i
+
+src/chtl_js/core/CHTLJSGlobalMap.s: src/chtl_js/core/CHTLJSGlobalMap.cpp.s
+.PHONY : src/chtl_js/core/CHTLJSGlobalMap.s
+
+# target to generate assembly for a file
+src/chtl_js/core/CHTLJSGlobalMap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.s
+.PHONY : src/chtl_js/core/CHTLJSGlobalMap.cpp.s
+
+src/chtl_js/lexer/CHTLJSLexer.o: src/chtl_js/lexer/CHTLJSLexer.cpp.o
+.PHONY : src/chtl_js/lexer/CHTLJSLexer.o
+
+# target to build an object file
+src/chtl_js/lexer/CHTLJSLexer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o
+.PHONY : src/chtl_js/lexer/CHTLJSLexer.cpp.o
+
+src/chtl_js/lexer/CHTLJSLexer.i: src/chtl_js/lexer/CHTLJSLexer.cpp.i
+.PHONY : src/chtl_js/lexer/CHTLJSLexer.i
+
+# target to preprocess a source file
+src/chtl_js/lexer/CHTLJSLexer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.i
+.PHONY : src/chtl_js/lexer/CHTLJSLexer.cpp.i
+
+src/chtl_js/lexer/CHTLJSLexer.s: src/chtl_js/lexer/CHTLJSLexer.cpp.s
+.PHONY : src/chtl_js/lexer/CHTLJSLexer.s
+
+# target to generate assembly for a file
+src/chtl_js/lexer/CHTLJSLexer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.s
+.PHONY : src/chtl_js/lexer/CHTLJSLexer.cpp.s
+
+src/chtl_js/state/CHTLJSState.o: src/chtl_js/state/CHTLJSState.cpp.o
+.PHONY : src/chtl_js/state/CHTLJSState.o
+
+# target to build an object file
+src/chtl_js/state/CHTLJSState.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o
+.PHONY : src/chtl_js/state/CHTLJSState.cpp.o
+
+src/chtl_js/state/CHTLJSState.i: src/chtl_js/state/CHTLJSState.cpp.i
+.PHONY : src/chtl_js/state/CHTLJSState.i
+
+# target to preprocess a source file
+src/chtl_js/state/CHTLJSState.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.i
+.PHONY : src/chtl_js/state/CHTLJSState.cpp.i
+
+src/chtl_js/state/CHTLJSState.s: src/chtl_js/state/CHTLJSState.cpp.s
+.PHONY : src/chtl_js/state/CHTLJSState.s
+
+# target to generate assembly for a file
+src/chtl_js/state/CHTLJSState.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.s
+.PHONY : src/chtl_js/state/CHTLJSState.cpp.s
+
+src/chtl_js/token/CHTLJSToken.o: src/chtl_js/token/CHTLJSToken.cpp.o
+.PHONY : src/chtl_js/token/CHTLJSToken.o
+
+# target to build an object file
+src/chtl_js/token/CHTLJSToken.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o
+.PHONY : src/chtl_js/token/CHTLJSToken.cpp.o
+
+src/chtl_js/token/CHTLJSToken.i: src/chtl_js/token/CHTLJSToken.cpp.i
+.PHONY : src/chtl_js/token/CHTLJSToken.i
+
+# target to preprocess a source file
+src/chtl_js/token/CHTLJSToken.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.i
+.PHONY : src/chtl_js/token/CHTLJSToken.cpp.i
+
+src/chtl_js/token/CHTLJSToken.s: src/chtl_js/token/CHTLJSToken.cpp.s
+.PHONY : src/chtl_js/token/CHTLJSToken.s
+
+# target to generate assembly for a file
+src/chtl_js/token/CHTLJSToken.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_js_core.dir/build.make CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.s
+.PHONY : src/chtl_js/token/CHTLJSToken.cpp.s
 
 src/dispatcher/CompilerDispatcher.o: src/dispatcher/CompilerDispatcher.cpp.o
 .PHONY : src/dispatcher/CompilerDispatcher.o
@@ -553,11 +699,13 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... TestCHTLCompilerBase"
+	@echo "... TestCHTLJSCompilerBase"
 	@echo "... TestScanner"
 	@echo "... TestStringUtils"
 	@echo "... chtl"
 	@echo "... chtl_core"
 	@echo "... chtl_dispatcher"
+	@echo "... chtl_js_core"
 	@echo "... chtl_scanner"
 	@echo "... chtl_utils"
 	@echo "... src/chtl/context/CHTLContext.o"
@@ -575,6 +723,21 @@ help:
 	@echo "... src/chtl/token/CHTLToken.o"
 	@echo "... src/chtl/token/CHTLToken.i"
 	@echo "... src/chtl/token/CHTLToken.s"
+	@echo "... src/chtl_js/context/CHTLJSContext.o"
+	@echo "... src/chtl_js/context/CHTLJSContext.i"
+	@echo "... src/chtl_js/context/CHTLJSContext.s"
+	@echo "... src/chtl_js/core/CHTLJSGlobalMap.o"
+	@echo "... src/chtl_js/core/CHTLJSGlobalMap.i"
+	@echo "... src/chtl_js/core/CHTLJSGlobalMap.s"
+	@echo "... src/chtl_js/lexer/CHTLJSLexer.o"
+	@echo "... src/chtl_js/lexer/CHTLJSLexer.i"
+	@echo "... src/chtl_js/lexer/CHTLJSLexer.s"
+	@echo "... src/chtl_js/state/CHTLJSState.o"
+	@echo "... src/chtl_js/state/CHTLJSState.i"
+	@echo "... src/chtl_js/state/CHTLJSState.s"
+	@echo "... src/chtl_js/token/CHTLJSToken.o"
+	@echo "... src/chtl_js/token/CHTLJSToken.i"
+	@echo "... src/chtl_js/token/CHTLJSToken.s"
 	@echo "... src/dispatcher/CompilerDispatcher.o"
 	@echo "... src/dispatcher/CompilerDispatcher.i"
 	@echo "... src/dispatcher/CompilerDispatcher.s"

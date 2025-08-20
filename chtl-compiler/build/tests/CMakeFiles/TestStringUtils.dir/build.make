@@ -99,6 +99,7 @@ tests/TestStringUtils: tests/CMakeFiles/TestStringUtils.dir/compiler_depend.ts
 tests/TestStringUtils: libchtl_utils.a
 tests/TestStringUtils: libchtl_scanner.a
 tests/TestStringUtils: libchtl_core.a
+tests/TestStringUtils: libchtl_js_core.a
 tests/TestStringUtils: tests/CMakeFiles/TestStringUtils.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/chtl-compiler/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable TestStringUtils"
 	cd /workspace/chtl-compiler/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/TestStringUtils.dir/link.txt --verbose=$(VERBOSE)

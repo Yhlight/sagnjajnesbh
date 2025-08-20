@@ -231,7 +231,8 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o: /workspace/chtl-comp
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
   /workspace/chtl-compiler/include/utils/StringUtils.h
 
-tests/TestStringUtils: libchtl_scanner.a \
+tests/TestStringUtils: libchtl_core.a \
+  libchtl_scanner.a \
   libchtl_utils.a \
   /lib/x86_64-linux-gnu/Scrt1.o \
   /lib/x86_64-linux-gnu/crti.o \
@@ -405,6 +406,8 @@ libchtl_utils.a:
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/libgcc.a:
+
+libchtl_core.a:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/os_defines.h:
 

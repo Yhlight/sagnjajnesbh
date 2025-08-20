@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchtl_js_core.a CMakeFiles/chtl_js_core.dir/src/chtl_js/context/CHTLJSContext.cpp.o CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o CMakeFiles/chtl_js_core.dir/src/chtl_js/lexer/CHTLJSLexer.cpp.o CMakeFiles/chtl_js_core.dir/src/chtl_js/state/CHTLJSState.cpp.o CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o
+/usr/bin/ranlib libchtl_js_core.a

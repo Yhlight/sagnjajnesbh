@@ -186,6 +186,20 @@ TestCHTLCompilerBase/fast:
 .PHONY : TestCHTLCompilerBase/fast
 
 # Convenience name for target.
+tests/CMakeFiles/TestCHTLJSCompilerBase.dir/rule:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestCHTLJSCompilerBase.dir/rule
+.PHONY : tests/CMakeFiles/TestCHTLJSCompilerBase.dir/rule
+
+# Convenience name for target.
+TestCHTLJSCompilerBase: tests/CMakeFiles/TestCHTLJSCompilerBase.dir/rule
+.PHONY : TestCHTLJSCompilerBase
+
+# fast build rule for target.
+TestCHTLJSCompilerBase/fast:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLJSCompilerBase.dir/build
+.PHONY : TestCHTLJSCompilerBase/fast
+
+# Convenience name for target.
 tests/CMakeFiles/TestScanner.dir/rule:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/TestScanner.dir/rule
 .PHONY : tests/CMakeFiles/TestScanner.dir/rule
@@ -236,6 +250,30 @@ TestCHTLCompilerBase.s: TestCHTLCompilerBase.cpp.s
 TestCHTLCompilerBase.cpp.s:
 	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLCompilerBase.dir/TestCHTLCompilerBase.cpp.s
 .PHONY : TestCHTLCompilerBase.cpp.s
+
+TestCHTLJSCompilerBase.o: TestCHTLJSCompilerBase.cpp.o
+.PHONY : TestCHTLJSCompilerBase.o
+
+# target to build an object file
+TestCHTLJSCompilerBase.cpp.o:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLJSCompilerBase.dir/TestCHTLJSCompilerBase.cpp.o
+.PHONY : TestCHTLJSCompilerBase.cpp.o
+
+TestCHTLJSCompilerBase.i: TestCHTLJSCompilerBase.cpp.i
+.PHONY : TestCHTLJSCompilerBase.i
+
+# target to preprocess a source file
+TestCHTLJSCompilerBase.cpp.i:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLJSCompilerBase.dir/TestCHTLJSCompilerBase.cpp.i
+.PHONY : TestCHTLJSCompilerBase.cpp.i
+
+TestCHTLJSCompilerBase.s: TestCHTLJSCompilerBase.cpp.s
+.PHONY : TestCHTLJSCompilerBase.s
+
+# target to generate assembly for a file
+TestCHTLJSCompilerBase.cpp.s:
+	cd /workspace/chtl-compiler/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/TestCHTLJSCompilerBase.dir/build.make tests/CMakeFiles/TestCHTLJSCompilerBase.dir/TestCHTLJSCompilerBase.cpp.s
+.PHONY : TestCHTLJSCompilerBase.cpp.s
 
 TestScanner.o: TestScanner.cpp.o
 .PHONY : TestScanner.o
@@ -299,11 +337,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... TestCHTLCompilerBase"
+	@echo "... TestCHTLJSCompilerBase"
 	@echo "... TestScanner"
 	@echo "... TestStringUtils"
 	@echo "... TestCHTLCompilerBase.o"
 	@echo "... TestCHTLCompilerBase.i"
 	@echo "... TestCHTLCompilerBase.s"
+	@echo "... TestCHTLJSCompilerBase.o"
+	@echo "... TestCHTLJSCompilerBase.i"
+	@echo "... TestCHTLJSCompilerBase.s"
 	@echo "... TestScanner.o"
 	@echo "... TestScanner.i"
 	@echo "... TestScanner.s"

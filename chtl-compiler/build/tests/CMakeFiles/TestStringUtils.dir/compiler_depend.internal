@@ -233,6 +233,7 @@ tests/CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o
  /workspace/chtl-compiler/include/utils/StringUtils.h
 
 tests/TestStringUtils
+ /workspace/chtl-compiler/build/libchtl_core.a
  /workspace/chtl-compiler/build/libchtl_scanner.a
  /workspace/chtl-compiler/build/libchtl_utils.a
  /lib/x86_64-linux-gnu/Scrt1.o

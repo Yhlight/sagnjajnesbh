@@ -116,10 +116,12 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/chtl_scanner.dir/DependInfo.cmake"
   "CMakeFiles/chtl_core.dir/DependInfo.cmake"
+  "CMakeFiles/chtl_js_core.dir/DependInfo.cmake"
   "CMakeFiles/chtl_dispatcher.dir/DependInfo.cmake"
   "CMakeFiles/chtl_utils.dir/DependInfo.cmake"
   "CMakeFiles/chtl.dir/DependInfo.cmake"
   "tests/CMakeFiles/TestCHTLCompilerBase.dir/DependInfo.cmake"
+  "tests/CMakeFiles/TestCHTLJSCompilerBase.dir/DependInfo.cmake"
   "tests/CMakeFiles/TestScanner.dir/DependInfo.cmake"
   "tests/CMakeFiles/TestStringUtils.dir/DependInfo.cmake"
   )

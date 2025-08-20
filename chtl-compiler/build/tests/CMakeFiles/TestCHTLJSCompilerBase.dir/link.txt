@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/TestCHTLJSCompilerBase.dir/link.d CMakeFiles/TestCHTLJSCompilerBase.dir/TestCHTLJSCompilerBase.cpp.o -o TestCHTLJSCompilerBase  ../libchtl_utils.a ../libchtl_scanner.a ../libchtl_core.a ../libchtl_js_core.a

@@ -276,7 +276,8 @@ tests/CMakeFiles/TestScanner.dir/TestScanner.cpp.o: /workspace/chtl-compiler/tes
   /workspace/chtl-compiler/include/scanner/ScannerContext.h \
   /workspace/chtl-compiler/include/utils/Logger.h
 
-tests/TestScanner: libchtl_scanner.a \
+tests/TestScanner: libchtl_core.a \
+  libchtl_scanner.a \
   libchtl_utils.a \
   /lib/x86_64-linux-gnu/Scrt1.o \
   /lib/x86_64-linux-gnu/crti.o \
@@ -688,6 +689,8 @@ libchtl_utils.a:
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/error_constants.h:
+
+libchtl_core.a:
 
 /usr/include/x86_64-linux-gnu/bits/byteswap.h:
 
