@@ -77,6 +77,7 @@ private:
     void skipWhitespace();
     bool match(const std::string& text) const;
     bool matchRegex(const std::string& pattern) const;
+    bool isAtEnd() const { return position_ >= content_.size(); }
     
     // 位置管理
     SourceLocation getCurrentLocation() const;
