@@ -31,18 +31,18 @@ void printUsage(const char* programName) {
 }
 
 // AST打印器（用于调试）
-class ASTPrinter : public chtl::ast::ASTVisitor {
+class ASTPrinter : public chtl::ast::v3::ASTVisitor {
 public:
     ASTPrinter(std::ostream& out) : m_Out(out), m_Indent(0) {}
     
-    void VisitDocument(chtl::ast::DocumentNode* node) override {
+    void VisitDocument(chtl::ast::v3::DocumentNode* node) override {
         PrintIndent() << "Document\n";
         IncreaseIndent();
         VisitChildren(node);
         DecreaseIndent();
     }
     
-    void VisitElement(chtl::ast::ElementNode* node) override {
+    void VisitElement(chtl::ast::v3::ElementNode* node) override {
         PrintIndent() << "Element: " << node->GetTagName();
         if (node->HasIndex()) {
             m_Out << "[" << node->GetIndex() << "]";
@@ -63,14 +63,14 @@ public:
         DecreaseIndent();
     }
     
-    void VisitText(chtl::ast::TextNode* node) override {
+    void VisitText(chtl::ast::v3::TextNode* node) override {
         PrintIndent() << "Text: \"" << node->GetContent() << "\"\n";
     }
     
-    void VisitStyle(chtl::ast::StyleNode* node) override {
+    void VisitStyle(chtl::ast::v3::StyleNode* node) override {
         PrintIndent() << "Style: " << 
-            (node->GetType() == chtl::ast::StyleNode::LOCAL ? "LOCAL" : 
-             node->GetType() == chtl::ast::StyleNode::GLOBAL ? "GLOBAL" : "INLINE") << "\n";
+            (node->GetType() == chtl::ast::v3::StyleNode::LOCAL ? "LOCAL" : 
+             node->GetType() == chtl::ast::v3::StyleNode::GLOBAL ? "GLOBAL" : "INLINE") << "\n";
         
         IncreaseIndent();
         
@@ -93,23 +93,23 @@ public:
         DecreaseIndent();
     }
     
-    void VisitScript(chtl::ast::ScriptNode* node) override {
+    void VisitScript(chtl::ast::v3::ScriptNode* node) override {
         PrintIndent() << "Script: " << 
-            (node->GetType() == chtl::ast::ScriptNode::LOCAL ? "LOCAL" : "GLOBAL") <<
+            (node->GetType() == chtl::ast::v3::ScriptNode::LOCAL ? "LOCAL" : "GLOBAL") <<
             (node->HasCHTLJS() ? " [CHTL JS]" : "") << "\n";
         IncreaseIndent();
         PrintIndent() << "Content: " << node->GetContent() << "\n";
         DecreaseIndent();
     }
     
-    void VisitComment(chtl::ast::CommentNode* node) override {
+    void VisitComment(chtl::ast::v3::CommentNode* node) override {
         PrintIndent() << "Comment: " << node->GetContent() << "\n";
     }
     
-    void VisitTemplate(chtl::ast::TemplateNode* node) override {
+    void VisitTemplate(chtl::ast::v3::TemplateNode* node) override {
         PrintIndent() << "Template: " << 
-            (node->GetType() == chtl::ast::TemplateNode::STYLE ? "@Style" :
-             node->GetType() == chtl::ast::TemplateNode::ELEMENT ? "@Element" : "@Var") <<
+            (node->GetType() == chtl::ast::v3::TemplateNode::STYLE ? "@Style" :
+             node->GetType() == chtl::ast::v3::TemplateNode::ELEMENT ? "@Element" : "@Var") <<
             " " << node->GetName() << "\n";
         
         IncreaseIndent();
@@ -117,10 +117,10 @@ public:
         DecreaseIndent();
     }
     
-    void VisitCustom(chtl::ast::CustomNode* node) override {
+    void VisitCustom(chtl::ast::v3::CustomNode* node) override {
         PrintIndent() << "Custom: " << 
-            (node->GetType() == chtl::ast::CustomNode::STYLE ? "@Style" :
-             node->GetType() == chtl::ast::CustomNode::ELEMENT ? "@Element" : "@Var") <<
+            (node->GetType() == chtl::ast::v3::CustomNode::STYLE ? "@Style" :
+             node->GetType() == chtl::ast::v3::CustomNode::ELEMENT ? "@Element" : "@Var") <<
             " " << node->GetName();
         
         if (node->IsSpecialization()) {
@@ -136,11 +136,11 @@ public:
         DecreaseIndent();
     }
     
-    void VisitVar(chtl::ast::VarNode* node) override {
+    void VisitVar(chtl::ast::v3::VarNode* node) override {
         PrintIndent() << "Var: " << node->GetName() << " = " << node->GetValue() << "\n";
     }
     
-    void VisitVarCall(chtl::ast::VarCallNode* node) override {
+    void VisitVarCall(chtl::ast::v3::VarCallNode* node) override {
         PrintIndent() << "VarCall: " << node->GetVarGroup() << "(" << node->GetVarName();
         if (node->HasOverride()) {
             m_Out << " = " << node->GetOverrideValue();
@@ -148,7 +148,7 @@ public:
         m_Out << ")\n";
     }
     
-    void VisitImport(chtl::ast::ImportNode* node) override {
+    void VisitImport(chtl::ast::v3::ImportNode* node) override {
         PrintIndent() << "Import: " << node->GetPath();
         if (!node->GetAlias().empty()) {
             m_Out << " as " << node->GetAlias();
@@ -156,7 +156,7 @@ public:
         m_Out << "\n";
     }
     
-    void VisitNamespace(chtl::ast::NamespaceNode* node) override {
+    void VisitNamespace(chtl::ast::v3::NamespaceNode* node) override {
         PrintIndent() << "Namespace: " << node->GetName();
         if (!node->GetFromClause().empty()) {
             m_Out << " from " << node->GetFromClause();
@@ -168,7 +168,7 @@ public:
         DecreaseIndent();
     }
     
-    void VisitConfiguration(chtl::ast::ConfigurationNode* node) override {
+    void VisitConfiguration(chtl::ast::v3::ConfigurationNode* node) override {
         PrintIndent() << "Configuration";
         if (!node->GetName().empty()) {
             m_Out << " @Config " << node->GetName();
@@ -182,13 +182,13 @@ public:
         DecreaseIndent();
     }
     
-    void VisitOrigin(chtl::ast::OriginNode* node) override {
+    void VisitOrigin(chtl::ast::v3::OriginNode* node) override {
         PrintIndent() << "Origin: ";
         switch (node->GetType()) {
-            case chtl::ast::OriginNode::HTML: m_Out << "@Html"; break;
-            case chtl::ast::OriginNode::STYLE: m_Out << "@Style"; break;
-            case chtl::ast::OriginNode::JAVASCRIPT: m_Out << "@JavaScript"; break;
-            case chtl::ast::OriginNode::CUSTOM: m_Out << node->GetCustomTypeName(); break;
+            case chtl::ast::v3::OriginNode::HTML: m_Out << "@Html"; break;
+            case chtl::ast::v3::OriginNode::STYLE: m_Out << "@Style"; break;
+            case chtl::ast::v3::OriginNode::JAVASCRIPT: m_Out << "@JavaScript"; break;
+            case chtl::ast::v3::OriginNode::CUSTOM: m_Out << node->GetCustomTypeName(); break;
         }
         if (!node->GetName().empty()) {
             m_Out << " " << node->GetName();
@@ -202,7 +202,7 @@ public:
         }
     }
     
-    void VisitInherit(chtl::ast::InheritNode* node) override {
+    void VisitInherit(chtl::ast::v3::InheritNode* node) override {
         PrintIndent() << "Inherit: ";
         if (node->IsExplicit()) {
             m_Out << "inherit ";
@@ -214,12 +214,12 @@ public:
         m_Out << "\n";
     }
     
-    void VisitDelete(chtl::ast::DeleteNode* node) override {
+    void VisitDelete(chtl::ast::v3::DeleteNode* node) override {
         PrintIndent() << "Delete: ";
         switch (node->GetType()) {
-            case chtl::ast::DeleteNode::PROPERTY: m_Out << "property"; break;
-            case chtl::ast::DeleteNode::INHERITANCE: m_Out << "inheritance"; break;
-            case chtl::ast::DeleteNode::ELEMENT: m_Out << "element"; break;
+            case chtl::ast::v3::DeleteNode::PROPERTY: m_Out << "property"; break;
+            case chtl::ast::v3::DeleteNode::INHERITANCE: m_Out << "inheritance"; break;
+            case chtl::ast::v3::DeleteNode::ELEMENT: m_Out << "element"; break;
         }
         m_Out << " " << node->GetTarget();
         for (const auto& target : node->GetTargets()) {
@@ -228,15 +228,15 @@ public:
         m_Out << "\n";
     }
     
-    void VisitInsert(chtl::ast::InsertNode* node) override {
+    void VisitInsert(chtl::ast::v3::InsertNode* node) override {
         PrintIndent() << "Insert: ";
         switch (node->GetPosition()) {
-            case chtl::ast::InsertNode::BEFORE: m_Out << "before " << node->GetTarget(); break;
-            case chtl::ast::InsertNode::AFTER: m_Out << "after " << node->GetTarget(); break;
-            case chtl::ast::InsertNode::REPLACE: m_Out << "replace " << node->GetTarget(); break;
-            case chtl::ast::InsertNode::AT_TOP: m_Out << "at top"; break;
-            case chtl::ast::InsertNode::AT_BOTTOM: m_Out << "at bottom"; break;
-            case chtl::ast::InsertNode::AT_INDEX: m_Out << "at index " << node->GetIndex(); break;
+            case chtl::ast::v3::InsertNode::BEFORE: m_Out << "before " << node->GetTarget(); break;
+            case chtl::ast::v3::InsertNode::AFTER: m_Out << "after " << node->GetTarget(); break;
+            case chtl::ast::v3::InsertNode::REPLACE: m_Out << "replace " << node->GetTarget(); break;
+            case chtl::ast::v3::InsertNode::AT_TOP: m_Out << "at top"; break;
+            case chtl::ast::v3::InsertNode::AT_BOTTOM: m_Out << "at bottom"; break;
+            case chtl::ast::v3::InsertNode::AT_INDEX: m_Out << "at index " << node->GetIndex(); break;
         }
         m_Out << "\n";
         
@@ -245,7 +245,7 @@ public:
         DecreaseIndent();
     }
     
-    void VisitExcept(chtl::ast::ExceptNode* node) override {
+    void VisitExcept(chtl::ast::v3::ExceptNode* node) override {
         PrintIndent() << "Except: ";
         bool first = true;
         for (const auto& target : node->GetTargets()) {
@@ -256,7 +256,7 @@ public:
         m_Out << "\n";
     }
     
-    void VisitAttribute(chtl::ast::AttributeNode* node) override {
+    void VisitAttribute(chtl::ast::v3::AttributeNode* node) override {
         PrintIndent() << "Attribute: " << node->GetName() << " = " << node->GetValue() << "\n";
     }
 
@@ -274,7 +274,7 @@ private:
     void IncreaseIndent() { m_Indent++; }
     void DecreaseIndent() { if (m_Indent > 0) m_Indent--; }
     
-    void VisitChildren(chtl::ast::ASTNode* node) {
+    void VisitChildren(chtl::ast::v3::ASTNode* node) {
         for (const auto& child : node->GetChildren()) {
             child->Accept(this);
         }

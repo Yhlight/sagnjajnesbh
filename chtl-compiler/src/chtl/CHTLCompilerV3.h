@@ -7,7 +7,7 @@
 namespace chtl {
 
 // 前向声明
-namespace ast { class DocumentNode; }
+namespace ast { namespace v3 { class DocumentNode; } }
 class CHTLParserV3;
 class CHTLGeneratorV3;
 struct GeneratorOptions;

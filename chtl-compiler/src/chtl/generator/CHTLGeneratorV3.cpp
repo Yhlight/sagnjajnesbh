@@ -6,6 +6,12 @@
 
 namespace chtl {
 
+// C++17兼容的辅助函数
+static bool EndsWith(const std::string& str, const std::string& suffix) {
+    if (suffix.size() > str.size()) return false;
+    return str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+}
+
 CHTLGeneratorV3::CHTLGeneratorV3() : m_IndentLevel(0) {
     // 设置默认配置
     m_Configuration["INDEX_INITIAL_COUNT"] = "0";
@@ -14,7 +20,7 @@ CHTLGeneratorV3::CHTLGeneratorV3() : m_IndentLevel(0) {
     m_Configuration["DISABLE_CUSTOM_ORIGIN_TYPE"] = "false";
 }
 
-std::string CHTLGeneratorV3::Generate(std::shared_ptr<ast::DocumentNode> document, 
+std::string CHTLGeneratorV3::Generate(std::shared_ptr<ast::v3::DocumentNode> document, 
                                       const GeneratorOptions& options) {
     m_Options = options;
     m_Output.str("");
@@ -95,12 +101,12 @@ std::string CHTLGeneratorV3::GenerateFinalOutput() {
 }
 
 // 文档访问
-void CHTLGeneratorV3::VisitDocument(ast::DocumentNode* node) {
+void CHTLGeneratorV3::VisitDocument(ast::v3::DocumentNode* node) {
     VisitChildren(node);
 }
 
 // 元素访问
-void CHTLGeneratorV3::VisitElement(ast::ElementNode* node) {
+void CHTLGeneratorV3::VisitElement(ast::v3::ElementNode* node) {
     const std::string& tag = node->GetTagName();
     
     // 检查约束
@@ -129,8 +135,8 @@ void CHTLGeneratorV3::VisitElement(ast::ElementNode* node) {
     std::unordered_map<std::string, std::string> mergedInlineProps;
     
     for (const auto& child : node->GetChildren()) {
-        if (auto style = std::dynamic_pointer_cast<ast::StyleNode>(child)) {
-            if (style->GetType() == ast::StyleNode::LOCAL) {
+        if (auto style = std::dynamic_pointer_cast<ast::v3::StyleNode>(child)) {
+            if (style->GetType() == ast::v3::StyleNode::LOCAL) {
                 ProcessStyleInheritance(style.get(), mergedInlineProps);
                 
                 // 收集本地内联属性
@@ -165,7 +171,7 @@ void CHTLGeneratorV3::VisitElement(ast::ElementNode* node) {
     // 检查是否有块级子元素
     bool hasBlockChildren = false;
     for (const auto& child : node->GetChildren()) {
-        if (auto elem = std::dynamic_pointer_cast<ast::ElementNode>(child)) {
+        if (auto elem = std::dynamic_pointer_cast<ast::v3::ElementNode>(child)) {
             if (!IsInlineElement(elem->GetTagName())) {
                 hasBlockChildren = true;
                 break;
@@ -185,14 +191,14 @@ void CHTLGeneratorV3::VisitElement(ast::ElementNode* node) {
     // 访问子节点
     for (const auto& child : node->GetChildren()) {
         // 跳过已处理的局部样式和脚本
-        if (auto style = std::dynamic_pointer_cast<ast::StyleNode>(child)) {
-            if (style->GetType() == ast::StyleNode::LOCAL) {
+        if (auto style = std::dynamic_pointer_cast<ast::v3::StyleNode>(child)) {
+            if (style->GetType() == ast::v3::StyleNode::LOCAL) {
                 ProcessLocalStyle(style.get());
                 continue;
             }
         }
-        if (auto script = std::dynamic_pointer_cast<ast::ScriptNode>(child)) {
-            if (script->GetType() == ast::ScriptNode::LOCAL) {
+        if (auto script = std::dynamic_pointer_cast<ast::v3::ScriptNode>(child)) {
+            if (script->GetType() == ast::v3::ScriptNode::LOCAL) {
                 ProcessLocalScript(script.get());
                 continue;
             }
@@ -217,31 +223,31 @@ void CHTLGeneratorV3::VisitElement(ast::ElementNode* node) {
 }
 
 // 文本访问
-void CHTLGeneratorV3::VisitText(ast::TextNode* node) {
+void CHTLGeneratorV3::VisitText(ast::v3::TextNode* node) {
     WriteIndent();
     Write(EscapeHTML(node->GetContent()));
     if (m_Options.prettyPrint) WriteLine();
 }
 
 // 样式访问
-void CHTLGeneratorV3::VisitStyle(ast::StyleNode* node) {
-    if (node->GetType() == ast::StyleNode::GLOBAL) {
+void CHTLGeneratorV3::VisitStyle(ast::v3::StyleNode* node) {
+    if (node->GetType() == ast::v3::StyleNode::GLOBAL) {
         CollectGlobalStyle(node);
     }
     // 局部样式在元素访问时处理
 }
 
 // 脚本访问
-void CHTLGeneratorV3::VisitScript(ast::ScriptNode* node) {
-    if (node->GetType() == ast::ScriptNode::GLOBAL) {
+void CHTLGeneratorV3::VisitScript(ast::v3::ScriptNode* node) {
+    if (node->GetType() == ast::v3::ScriptNode::GLOBAL) {
         CollectGlobalScript(node);
     }
     // 局部脚本在元素访问时处理
 }
 
 // 注释访问
-void CHTLGeneratorV3::VisitComment(ast::CommentNode* node) {
-    if (node->GetType() == ast::CommentNode::HTML_COMMENT) {
+void CHTLGeneratorV3::VisitComment(ast::v3::CommentNode* node) {
+    if (node->GetType() == ast::v3::CommentNode::HTML_COMMENT) {
         WriteIndent();
         Write("<!-- " + node->GetContent() + " -->");
         if (m_Options.prettyPrint) WriteLine();
@@ -250,14 +256,14 @@ void CHTLGeneratorV3::VisitComment(ast::CommentNode* node) {
 }
 
 // 模板访问
-void CHTLGeneratorV3::VisitTemplate(ast::TemplateNode* node) {
+void CHTLGeneratorV3::VisitTemplate(ast::v3::TemplateNode* node) {
     RegisterTemplate(node);
     ProcessTemplateInheritance(node);
     // 模板定义不生成输出
 }
 
 // 自定义访问
-void CHTLGeneratorV3::VisitCustom(ast::CustomNode* node) {
+void CHTLGeneratorV3::VisitCustom(ast::v3::CustomNode* node) {
     if (node->IsSpecialization()) {
         // 特例化使用
         ProcessSpecialization(node);
@@ -272,24 +278,24 @@ void CHTLGeneratorV3::VisitCustom(ast::CustomNode* node) {
 }
 
 // 变量访问
-void CHTLGeneratorV3::VisitVar(ast::VarNode* node) {
+void CHTLGeneratorV3::VisitVar(ast::v3::VarNode* node) {
     RegisterVariable(node);
     // 变量定义不生成输出
 }
 
 // 变量调用访问
-void CHTLGeneratorV3::VisitVarCall(ast::VarCallNode* node) {
+void CHTLGeneratorV3::VisitVarCall(ast::v3::VarCallNode* node) {
     // 变量调用在属性值处理时解析
 }
 
 // 导入访问
-void CHTLGeneratorV3::VisitImport(ast::ImportNode* node) {
+void CHTLGeneratorV3::VisitImport(ast::v3::ImportNode* node) {
     ProcessImport(node);
     // 导入不直接生成输出
 }
 
 // 命名空间访问
-void CHTLGeneratorV3::VisitNamespace(ast::NamespaceNode* node) {
+void CHTLGeneratorV3::VisitNamespace(ast::v3::NamespaceNode* node) {
     EnterNamespace(node->GetName());
     VisitChildren(node);
     ExitNamespace();
@@ -297,13 +303,13 @@ void CHTLGeneratorV3::VisitNamespace(ast::NamespaceNode* node) {
 }
 
 // 配置访问
-void CHTLGeneratorV3::VisitConfiguration(ast::ConfigurationNode* node) {
+void CHTLGeneratorV3::VisitConfiguration(ast::v3::ConfigurationNode* node) {
     ProcessConfiguration(node);
     // 配置不生成输出
 }
 
 // 原始嵌入访问
-void CHTLGeneratorV3::VisitOrigin(ast::OriginNode* node) {
+void CHTLGeneratorV3::VisitOrigin(ast::v3::OriginNode* node) {
     // 如果有名称但无内容，则是引用
     if (!node->GetName().empty() && node->GetContent().empty()) {
         // TODO: 查找并输出已命名的原始嵌入
@@ -311,7 +317,7 @@ void CHTLGeneratorV3::VisitOrigin(ast::OriginNode* node) {
     }
     
     switch (node->GetType()) {
-        case ast::OriginNode::HTML:
+        case ast::v3::OriginNode::HTML:
             // 直接输出HTML内容
             if (m_Options.prettyPrint) {
                 WriteIndent();
@@ -322,15 +328,15 @@ void CHTLGeneratorV3::VisitOrigin(ast::OriginNode* node) {
             }
             break;
             
-        case ast::OriginNode::STYLE:
+        case ast::v3::OriginNode::STYLE:
             m_GlobalStyles << node->GetContent() << "\n";
             break;
             
-        case ast::OriginNode::JAVASCRIPT:
+        case ast::v3::OriginNode::JAVASCRIPT:
             m_GlobalScripts << node->GetContent() << "\n";
             break;
             
-        case ast::OriginNode::CUSTOM:
+        case ast::v3::OriginNode::CUSTOM:
             // 自定义类型处理
             // TODO: 根据配置的OriginType处理
             break;
@@ -338,33 +344,33 @@ void CHTLGeneratorV3::VisitOrigin(ast::OriginNode* node) {
 }
 
 // 继承访问
-void CHTLGeneratorV3::VisitInherit(ast::InheritNode* node) {
+void CHTLGeneratorV3::VisitInherit(ast::v3::InheritNode* node) {
     // 继承在模板和自定义处理中解析
 }
 
 // 删除访问
-void CHTLGeneratorV3::VisitDelete(ast::DeleteNode* node) {
+void CHTLGeneratorV3::VisitDelete(ast::v3::DeleteNode* node) {
     ProcessDelete(node);
 }
 
 // 插入访问
-void CHTLGeneratorV3::VisitInsert(ast::InsertNode* node) {
+void CHTLGeneratorV3::VisitInsert(ast::v3::InsertNode* node) {
     ProcessInsert(node);
 }
 
 // 约束访问
-void CHTLGeneratorV3::VisitExcept(ast::ExceptNode* node) {
+void CHTLGeneratorV3::VisitExcept(ast::v3::ExceptNode* node) {
     AddConstraint(node);
     // 约束不生成输出
 }
 
 // 属性访问
-void CHTLGeneratorV3::VisitAttribute(ast::AttributeNode* node) {
+void CHTLGeneratorV3::VisitAttribute(ast::v3::AttributeNode* node) {
     // 属性在元素中处理
 }
 
 // 样式处理
-void CHTLGeneratorV3::ProcessLocalStyle(ast::StyleNode* style) {
+void CHTLGeneratorV3::ProcessLocalStyle(ast::v3::StyleNode* style) {
     // 收集需要提升到全局的规则
     for (const auto& rule : style->GetRules()) {
         std::string selector = rule.first;
@@ -388,7 +394,7 @@ void CHTLGeneratorV3::ProcessLocalStyle(ast::StyleNode* style) {
     }
 }
 
-void CHTLGeneratorV3::CollectGlobalStyle(ast::StyleNode* style) {
+void CHTLGeneratorV3::CollectGlobalStyle(ast::v3::StyleNode* style) {
     // 处理全局样式中的继承
     std::unordered_map<std::string, std::string> inheritedProps;
     ProcessStyleInheritance(style, inheritedProps);
@@ -404,16 +410,16 @@ void CHTLGeneratorV3::CollectGlobalStyle(ast::StyleNode* style) {
     }
 }
 
-void CHTLGeneratorV3::ProcessStyleInheritance(ast::StyleNode* style,
+void CHTLGeneratorV3::ProcessStyleInheritance(ast::v3::StyleNode* style,
                                               std::unordered_map<std::string, std::string>& properties) {
     // 处理样式中的继承
     for (const auto& child : style->GetChildren()) {
-        if (auto inherit = std::dynamic_pointer_cast<ast::InheritNode>(child)) {
+        if (auto inherit = std::dynamic_pointer_cast<ast::v3::InheritNode>(child)) {
             // 收集继承的模板属性
             std::unordered_set<std::string> visited;
             CollectTemplateStyleProperties(inherit->GetBase(), properties, visited);
-        } else if (auto custom = std::dynamic_pointer_cast<ast::CustomNode>(child)) {
-            if (custom->GetType() == ast::CustomNode::STYLE && !custom->IsSpecialization()) {
+        } else if (auto custom = std::dynamic_pointer_cast<ast::v3::CustomNode>(child)) {
+            if (custom->GetType() == ast::v3::CustomNode::STYLE && !custom->IsSpecialization()) {
                 // 简单的样式模板使用
                 std::unordered_set<std::string> visited;
                 CollectTemplateStyleProperties(custom->GetName(), properties, visited);
@@ -441,10 +447,10 @@ void CHTLGeneratorV3::CollectTemplateStyleProperties(const std::string& template
         auto customIt = m_Customs.find(resolvedName);
         if (customIt != m_Customs.end()) {
             auto custom = customIt->second;
-            if (custom->GetType() == ast::CustomNode::STYLE) {
+            if (custom->GetType() == ast::v3::CustomNode::STYLE) {
                 // 处理自定义样式
                 for (const auto& child : custom->GetChildren()) {
-                    if (auto styleNode = std::dynamic_pointer_cast<ast::StyleNode>(child)) {
+                    if (auto styleNode = std::dynamic_pointer_cast<ast::v3::StyleNode>(child)) {
                         // 无值属性处理
                         for (const auto& prop : styleNode->GetNoValueProperties()) {
                             // 无值属性需要在使用时提供值
@@ -465,18 +471,18 @@ void CHTLGeneratorV3::CollectTemplateStyleProperties(const std::string& template
     }
     
     auto tmpl = tmplIt->second;
-    if (tmpl->GetType() != ast::TemplateNode::STYLE) {
+    if (tmpl->GetType() != ast::v3::TemplateNode::STYLE) {
         return;
     }
     
     // 遍历模板的子节点
     for (const auto& child : tmpl->GetChildren()) {
-        if (auto styleNode = std::dynamic_pointer_cast<ast::StyleNode>(child)) {
+        if (auto styleNode = std::dynamic_pointer_cast<ast::v3::StyleNode>(child)) {
             // 收集内联属性
             for (const auto& prop : styleNode->GetInlineProperties()) {
                 properties[prop.first] = prop.second;
             }
-        } else if (auto inheritNode = std::dynamic_pointer_cast<ast::InheritNode>(child)) {
+        } else if (auto inheritNode = std::dynamic_pointer_cast<ast::v3::InheritNode>(child)) {
             // 递归处理继承
             CollectTemplateStyleProperties(inheritNode->GetBase(), properties, visitedTemplates);
         }
@@ -500,12 +506,12 @@ std::string CHTLGeneratorV3::GenerateStyleContent() {
 }
 
 // 脚本处理
-void CHTLGeneratorV3::ProcessLocalScript(ast::ScriptNode* script) {
+void CHTLGeneratorV3::ProcessLocalScript(ast::v3::ScriptNode* script) {
     // 局部脚本直接添加到全局脚本中
     m_GlobalScripts << script->GetContent() << "\n";
 }
 
-void CHTLGeneratorV3::CollectGlobalScript(ast::ScriptNode* script) {
+void CHTLGeneratorV3::CollectGlobalScript(ast::v3::ScriptNode* script) {
     m_GlobalScripts << script->GetContent() << "\n";
 }
 
@@ -514,7 +520,7 @@ std::string CHTLGeneratorV3::GenerateScriptContent() {
 }
 
 // 模板处理
-void CHTLGeneratorV3::RegisterTemplate(ast::TemplateNode* tmpl) {
+void CHTLGeneratorV3::RegisterTemplate(ast::v3::TemplateNode* tmpl) {
     std::string fullName = m_CurrentNamespace.empty() ? 
         tmpl->GetName() : 
         m_CurrentNamespace + "." + tmpl->GetName();
@@ -522,11 +528,11 @@ void CHTLGeneratorV3::RegisterTemplate(ast::TemplateNode* tmpl) {
     m_Templates[fullName] = tmpl;
 }
 
-void CHTLGeneratorV3::ProcessTemplateInheritance(ast::TemplateNode* tmpl) {
+void CHTLGeneratorV3::ProcessTemplateInheritance(ast::v3::TemplateNode* tmpl) {
     // 模板继承已在使用时处理
 }
 
-void CHTLGeneratorV3::InstantiateTemplate(const std::string& templateName, ast::CustomNode* usage) {
+void CHTLGeneratorV3::InstantiateTemplate(const std::string& templateName, ast::v3::CustomNode* usage) {
     std::string resolvedName = ResolveFullQualifiedName(templateName);
     
     auto tmplIt = m_Templates.find(resolvedName);
@@ -537,7 +543,7 @@ void CHTLGeneratorV3::InstantiateTemplate(const std::string& templateName, ast::
     auto tmpl = tmplIt->second;
     
     // 根据模板类型实例化
-    if (tmpl->GetType() == ast::TemplateNode::ELEMENT) {
+    if (tmpl->GetType() == ast::v3::TemplateNode::ELEMENT) {
         // 元素模板实例化
         for (const auto& child : tmpl->GetChildren()) {
             child->Accept(this);
@@ -547,7 +553,7 @@ void CHTLGeneratorV3::InstantiateTemplate(const std::string& templateName, ast::
 }
 
 // 自定义处理
-void CHTLGeneratorV3::ProcessCustomDefinition(ast::CustomNode* custom) {
+void CHTLGeneratorV3::ProcessCustomDefinition(ast::v3::CustomNode* custom) {
     std::string fullName = m_CurrentNamespace.empty() ? 
         custom->GetName() : 
         m_CurrentNamespace + "." + custom->GetName();
@@ -556,14 +562,14 @@ void CHTLGeneratorV3::ProcessCustomDefinition(ast::CustomNode* custom) {
     // 自定义定义不生成输出
 }
 
-void CHTLGeneratorV3::ProcessCustomUsage(ast::CustomNode* custom) {
-    if (custom->GetType() == ast::CustomNode::ELEMENT) {
+void CHTLGeneratorV3::ProcessCustomUsage(ast::v3::CustomNode* custom) {
+    if (custom->GetType() == ast::v3::CustomNode::ELEMENT) {
         InstantiateTemplate(custom->GetName(), custom);
     }
     // 样式和变量使用在其他地方处理
 }
 
-void CHTLGeneratorV3::ProcessSpecialization(ast::CustomNode* custom) {
+void CHTLGeneratorV3::ProcessSpecialization(ast::v3::CustomNode* custom) {
     // 特例化处理
     auto oldCustom = m_Context.currentCustom;
     m_Context.currentCustom = custom;
@@ -577,7 +583,7 @@ void CHTLGeneratorV3::ProcessSpecialization(ast::CustomNode* custom) {
 }
 
 // 变量处理
-void CHTLGeneratorV3::RegisterVariable(ast::VarNode* var) {
+void CHTLGeneratorV3::RegisterVariable(ast::v3::VarNode* var) {
     std::string group = m_CurrentNamespace.empty() ? 
         "global" : m_CurrentNamespace;
     
@@ -599,9 +605,9 @@ std::string CHTLGeneratorV3::ResolveVariable(const std::string& varGroup, const 
     // 尝试从模板中查找
     auto tmplIt = m_Templates.find(resolvedGroup);
     if (tmplIt != m_Templates.end() && 
-        tmplIt->second->GetType() == ast::TemplateNode::VAR) {
+        tmplIt->second->GetType() == ast::v3::TemplateNode::VAR) {
         for (const auto& child : tmplIt->second->GetChildren()) {
-            if (auto varNode = std::dynamic_pointer_cast<ast::VarNode>(child)) {
+            if (auto varNode = std::dynamic_pointer_cast<ast::v3::VarNode>(child)) {
                 if (varNode->GetName() == varName) {
                     return varNode->GetValue();
                 }
@@ -612,7 +618,7 @@ std::string CHTLGeneratorV3::ResolveVariable(const std::string& varGroup, const 
     return "";
 }
 
-std::string CHTLGeneratorV3::ProcessVarCall(ast::VarCallNode* varCall) {
+std::string CHTLGeneratorV3::ProcessVarCall(ast::v3::VarCallNode* varCall) {
     if (varCall->HasOverride()) {
         return varCall->GetOverrideValue();
     }
@@ -621,7 +627,7 @@ std::string CHTLGeneratorV3::ProcessVarCall(ast::VarCallNode* varCall) {
 }
 
 // 导入处理
-void CHTLGeneratorV3::ProcessImport(ast::ImportNode* import) {
+void CHTLGeneratorV3::ProcessImport(ast::v3::ImportNode* import) {
     std::string resolvedPath = ResolvePath(import->GetPath(), import->GetType());
     
     if (m_ImportedFiles.find(resolvedPath) != m_ImportedFiles.end()) {
@@ -633,11 +639,11 @@ void CHTLGeneratorV3::ProcessImport(ast::ImportNode* import) {
     ImportFile(resolvedPath, import);
 }
 
-std::string CHTLGeneratorV3::ResolvePath(const std::string& path, ast::ImportNode::ImportType type) {
+std::string CHTLGeneratorV3::ResolvePath(const std::string& path, ast::v3::ImportNode::ImportType type) {
     // 根据CHTL语法文档的路径解析规则
     std::filesystem::path resolvedPath;
     
-    if (type == ast::ImportNode::CHTL || type == ast::ImportNode::AUTO) {
+    if (type == ast::v3::ImportNode::CHTL || type == ast::v3::ImportNode::AUTO) {
         // CHTL文件路径解析
         if (!path.ends_with(".chtl") && !path.ends_with(".cmod")) {
             // 只有名称，按优先级查找
@@ -681,7 +687,7 @@ std::string CHTLGeneratorV3::ResolvePath(const std::string& path, ast::ImportNod
     return path;
 }
 
-void CHTLGeneratorV3::ImportFile(const std::string& resolvedPath, ast::ImportNode* import) {
+void CHTLGeneratorV3::ImportFile(const std::string& resolvedPath, ast::v3::ImportNode* import) {
     // TODO: 实际导入文件并解析
     // 这里需要读取文件，解析，并根据导入类型处理内容
 }
@@ -726,7 +732,7 @@ std::string CHTLGeneratorV3::ResolveFullQualifiedName(const std::string& name) {
 }
 
 // 配置处理
-void CHTLGeneratorV3::ProcessConfiguration(ast::ConfigurationNode* config) {
+void CHTLGeneratorV3::ProcessConfiguration(ast::v3::ConfigurationNode* config) {
     // 只处理未命名的配置（活动配置）
     if (!config->GetName().empty()) {
         return;
@@ -779,12 +785,12 @@ bool CHTLGeneratorV3::CheckConstraints(const std::string& element) {
     return true;
 }
 
-void CHTLGeneratorV3::AddConstraint(ast::ExceptNode* except) {
+void CHTLGeneratorV3::AddConstraint(ast::v3::ExceptNode* except) {
     m_Constraints.push_back(except);
 }
 
 // 特殊化处理
-void CHTLGeneratorV3::ProcessDelete(ast::DeleteNode* deleteNode) {
+void CHTLGeneratorV3::ProcessDelete(ast::v3::DeleteNode* deleteNode) {
     // 删除操作在特例化上下文中处理
     if (!m_Context.inSpecialization) {
         return;
@@ -793,7 +799,7 @@ void CHTLGeneratorV3::ProcessDelete(ast::DeleteNode* deleteNode) {
     // TODO: 实现具体的删除逻辑
 }
 
-void CHTLGeneratorV3::ProcessInsert(ast::InsertNode* insertNode) {
+void CHTLGeneratorV3::ProcessInsert(ast::v3::InsertNode* insertNode) {
     // 插入操作在特例化上下文中处理
     if (!m_Context.inSpecialization) {
         return;
@@ -867,7 +873,7 @@ bool CHTLGeneratorV3::IsHtmlElement(const std::string& tag) const {
     return !tag.empty() && std::islower(tag[0]);
 }
 
-void CHTLGeneratorV3::VisitChildren(ast::ASTNode* node) {
+void CHTLGeneratorV3::VisitChildren(ast::v3::ASTNode* node) {
     for (const auto& child : node->GetChildren()) {
         child->Accept(this);
     }

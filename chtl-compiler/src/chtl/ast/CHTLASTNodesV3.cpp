@@ -2,6 +2,7 @@
 
 namespace chtl {
 namespace ast {
+namespace v3 {
 
 // 文档节点
 void DocumentNode::Accept(ASTVisitor* visitor) {
@@ -98,5 +99,6 @@ void AttributeNode::Accept(ASTVisitor* visitor) {
     visitor->VisitAttribute(this);
 }
 
+} // namespace v3
 } // namespace ast
 } // namespace chtl

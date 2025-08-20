@@ -9,7 +9,7 @@ CHTLParserV3::CHTLParserV3() : m_Current(0) {
     m_ContextStack.push(Context::TOP_LEVEL);
 }
 
-std::shared_ptr<ast::DocumentNode> CHTLParserV3::Parse(const std::string& source, const std::string& filename) {
+std::shared_ptr<ast::v3::DocumentNode> CHTLParserV3::Parse(const std::string& source, const std::string& filename) {
     m_Source = source;
     
     CHTLLexerV2 lexer;
@@ -25,7 +25,7 @@ std::shared_ptr<ast::DocumentNode> CHTLParserV3::Parse(const std::string& source
     return ParseTokens(tokens);
 }
 
-std::shared_ptr<ast::DocumentNode> CHTLParserV3::ParseTokens(const std::vector<CHTLToken>& tokens) {
+std::shared_ptr<ast::v3::DocumentNode> CHTLParserV3::ParseTokens(const std::vector<CHTLToken>& tokens) {
     m_Tokens = tokens;
     m_Current = 0;
     m_Errors.clear();
@@ -36,7 +36,7 @@ std::shared_ptr<ast::DocumentNode> CHTLParserV3::ParseTokens(const std::vector<C
     }
     m_ContextStack.push(Context::TOP_LEVEL);
     
-    auto document = std::make_shared<ast::DocumentNode>();
+    auto document = std::make_shared<ast::v3::DocumentNode>();
     
     while (!IsAtEnd()) {
         auto node = ParseTopLevel();
@@ -48,7 +48,7 @@ std::shared_ptr<ast::DocumentNode> CHTLParserV3::ParseTokens(const std::vector<C
     return document;
 }
 
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseTopLevel() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseTopLevel() {
     // 跳过顶级的分号
     while (Match(CHTLTokenType::SEMICOLON)) {}
     
@@ -123,9 +123,9 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseTopLevel() {
 }
 
 // 元素解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseElement() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseElement() {
     auto token = Advance(); // 元素名
-    auto element = std::make_shared<ast::ElementNode>(token.value);
+    auto element = std::make_shared<ast::v3::ElementNode>(token.value);
     element->SetLocation(token.line, token.column);
     
     // 检查索引访问 element[index]
@@ -157,7 +157,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseElement() {
     return element;
 }
 
-void CHTLParserV3::ParseElementContent(ast::ElementNode* element) {
+void CHTLParserV3::ParseElementContent(ast::v3::ElementNode* element) {
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
         // 跳过分号
         if (Match(CHTLTokenType::SEMICOLON)) continue;
@@ -219,16 +219,16 @@ void CHTLParserV3::ParseElementContent(ast::ElementNode* element) {
             // 检查是否是全缀名
             std::string fullName = ParseFullQualifiedName();
             
-            ast::CustomNode::CustomType customType;
+            ast::v3::CustomNode::CustomType customType;
             if (type.type == CHTLTokenType::AT_STYLE) {
-                customType = ast::CustomNode::STYLE;
+                customType = ast::v3::CustomNode::STYLE;
             } else if (type.type == CHTLTokenType::AT_ELEMENT) {
-                customType = ast::CustomNode::ELEMENT;
+                customType = ast::v3::CustomNode::ELEMENT;
             } else {
-                customType = ast::CustomNode::VAR;
+                customType = ast::v3::CustomNode::VAR;
             }
             
-            auto custom = std::make_shared<ast::CustomNode>(customType, fullName);
+            auto custom = std::make_shared<ast::v3::CustomNode>(customType, fullName);
             custom->SetLocation(type.line, type.column);
             
             // 检查是否有特例化块
@@ -275,7 +275,7 @@ void CHTLParserV3::ParseElementContent(ast::ElementNode* element) {
     }
 }
 
-void CHTLParserV3::ParseAttributes(ast::ElementNode* element) {
+void CHTLParserV3::ParseAttributes(ast::v3::ElementNode* element) {
     auto name = Advance(); // 属性名
     
     if (!MatchColonOrEquals()) {
@@ -292,7 +292,7 @@ void CHTLParserV3::ParseAttributes(ast::ElementNode* element) {
 }
 
 // 文本解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseText() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseText() {
     auto startToken = Advance(); // text
     
     if (!Match(CHTLTokenType::LBRACE)) {
@@ -346,13 +346,13 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseText() {
         ReportError("Expected '}' to close text block");
     }
     
-    auto text = std::make_shared<ast::TextNode>(content);
+    auto text = std::make_shared<ast::v3::TextNode>(content);
     text->SetLocation(startToken.line, startToken.column);
     return text;
 }
 
 // 样式解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseStyle() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseStyle() {
     auto token = Advance(); // style
     
     if (!Match(CHTLTokenType::LBRACE)) {
@@ -360,8 +360,8 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseStyle() {
         return nullptr;
     }
     
-    auto style = std::make_shared<ast::StyleNode>(
-        CurrentContext() == Context::ELEMENT ? ast::StyleNode::LOCAL : ast::StyleNode::GLOBAL
+    auto style = std::make_shared<ast::v3::StyleNode>(
+        CurrentContext() == Context::ELEMENT ? ast::v3::StyleNode::LOCAL : ast::v3::StyleNode::GLOBAL
     );
     style->SetLocation(token.line, token.column);
     
@@ -376,7 +376,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseStyle() {
     return style;
 }
 
-void CHTLParserV3::ParseStyleContent(ast::StyleNode* style) {
+void CHTLParserV3::ParseStyleContent(ast::v3::StyleNode* style) {
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
         // 跳过分号
         if (Match(CHTLTokenType::SEMICOLON)) continue;
@@ -390,7 +390,7 @@ void CHTLParserV3::ParseStyleContent(ast::StyleNode* style) {
             // 检查是否有特例化
             if (Match(CHTLTokenType::LBRACE)) {
                 // 特例化使用
-                auto custom = std::make_shared<ast::CustomNode>(ast::CustomNode::STYLE, templateName);
+                auto custom = std::make_shared<ast::v3::CustomNode>(ast::v3::CustomNode::STYLE, templateName);
                 custom->SetSpecialization(true);
                 
                 PushContext(Context::SPECIALIZATION);
@@ -401,7 +401,7 @@ void CHTLParserV3::ParseStyleContent(ast::StyleNode* style) {
                 style->AddChild(custom);
             } else {
                 // 简单继承
-                auto inherit = std::make_shared<ast::InheritNode>(templateName);
+                auto inherit = std::make_shared<ast::v3::InheritNode>(templateName);
                 style->AddChild(inherit);
                 Match(CHTLTokenType::SEMICOLON);
             }
@@ -413,7 +413,7 @@ void CHTLParserV3::ParseStyleContent(ast::StyleNode* style) {
             Advance(); // inherit
             if (Match(CHTLTokenType::AT_STYLE)) {
                 std::string templateName = ParseFullQualifiedName();
-                auto inherit = std::make_shared<ast::InheritNode>(templateName);
+                auto inherit = std::make_shared<ast::v3::InheritNode>(templateName);
                 inherit->SetExplicit(true);
                 style->AddChild(inherit);
                 Match(CHTLTokenType::SEMICOLON);
@@ -451,7 +451,7 @@ void CHTLParserV3::ParseStyleContent(ast::StyleNode* style) {
     }
 }
 
-void CHTLParserV3::ParseStyleRule(ast::StyleNode* style) {
+void CHTLParserV3::ParseStyleRule(ast::v3::StyleNode* style) {
     // 收集选择器
     std::string selector;
     
@@ -509,17 +509,17 @@ void CHTLParserV3::ParseStyleRule(ast::StyleNode* style) {
 }
 
 // 模板解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseTemplate() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseTemplate() {
     auto token = Advance(); // [Template]
     
     // 期望 @Style, @Element 或 @Var
-    ast::TemplateNode::TemplateType type;
+    ast::v3::TemplateNode::TemplateType type;
     if (Match(CHTLTokenType::AT_STYLE)) {
-        type = ast::TemplateNode::STYLE;
+        type = ast::v3::TemplateNode::STYLE;
     } else if (Match(CHTLTokenType::AT_ELEMENT)) {
-        type = ast::TemplateNode::ELEMENT;
+        type = ast::v3::TemplateNode::ELEMENT;
     } else if (Match(CHTLTokenType::AT_VAR)) {
-        type = ast::TemplateNode::VAR;
+        type = ast::v3::TemplateNode::VAR;
     } else {
         ReportError("Expected @Style, @Element or @Var after [Template]");
         return nullptr;
@@ -532,7 +532,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseTemplate() {
     }
     
     auto name = Advance();
-    auto tmpl = std::make_shared<ast::TemplateNode>(type, name.value);
+    auto tmpl = std::make_shared<ast::v3::TemplateNode>(type, name.value);
     tmpl->SetLocation(token.line, token.column);
     
     // 可选的参数列表
@@ -560,14 +560,14 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseTemplate() {
     return tmpl;
 }
 
-void CHTLParserV3::ParseTemplateDefinition(ast::TemplateNode* tmpl) {
+void CHTLParserV3::ParseTemplateDefinition(ast::v3::TemplateNode* tmpl) {
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
         // 跳过分号
         if (Match(CHTLTokenType::SEMICOLON)) continue;
         
-        if (tmpl->GetType() == ast::TemplateNode::STYLE) {
+        if (tmpl->GetType() == ast::v3::TemplateNode::STYLE) {
             // 样式模板
-            auto styleNode = std::make_shared<ast::StyleNode>(ast::StyleNode::INLINE);
+            auto styleNode = std::make_shared<ast::v3::StyleNode>(ast::v3::StyleNode::INLINE);
             
             // 解析样式属性和继承
             while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
@@ -577,14 +577,14 @@ void CHTLParserV3::ParseTemplateDefinition(ast::TemplateNode* tmpl) {
                 if (Check(CHTLTokenType::AT_STYLE)) {
                     Advance();
                     std::string baseName = ParseFullQualifiedName();
-                    auto inherit = std::make_shared<ast::InheritNode>(baseName);
+                    auto inherit = std::make_shared<ast::v3::InheritNode>(baseName);
                     tmpl->AddChild(inherit);
                     Match(CHTLTokenType::SEMICOLON);
                 } else if (Check(CHTLTokenType::INHERIT)) {
                     Advance();
                     Match(CHTLTokenType::AT_STYLE);
                     std::string baseName = ParseFullQualifiedName();
-                    auto inherit = std::make_shared<ast::InheritNode>(baseName);
+                    auto inherit = std::make_shared<ast::v3::InheritNode>(baseName);
                     inherit->SetExplicit(true);
                     tmpl->AddChild(inherit);
                     Match(CHTLTokenType::SEMICOLON);
@@ -609,19 +609,19 @@ void CHTLParserV3::ParseTemplateDefinition(ast::TemplateNode* tmpl) {
                 !styleNode->GetNoValueProperties().empty()) {
                 tmpl->AddChild(styleNode);
             }
-        } else if (tmpl->GetType() == ast::TemplateNode::ELEMENT) {
+        } else if (tmpl->GetType() == ast::v3::TemplateNode::ELEMENT) {
             // 元素模板
             auto node = ParseTopLevel();
             if (node) {
                 tmpl->AddChild(node);
             }
-        } else if (tmpl->GetType() == ast::TemplateNode::VAR) {
+        } else if (tmpl->GetType() == ast::v3::TemplateNode::VAR) {
             // 变量模板
             if (Check(CHTLTokenType::IDENTIFIER)) {
                 auto name = Advance();
                 if (MatchColonOrEquals()) {
                     std::string value = ParseStringOrUnquoted();
-                    auto varNode = std::make_shared<ast::VarNode>(name.value);
+                    auto varNode = std::make_shared<ast::v3::VarNode>(name.value);
                     varNode->SetValue(value);
                     tmpl->AddChild(varNode);
                     Match(CHTLTokenType::SEMICOLON);
@@ -632,17 +632,17 @@ void CHTLParserV3::ParseTemplateDefinition(ast::TemplateNode* tmpl) {
 }
 
 // 自定义解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseCustom() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseCustom() {
     auto token = Advance(); // [Custom]
     
     // 期望 @Style, @Element 或 @Var
-    ast::CustomNode::CustomType type;
+    ast::v3::CustomNode::CustomType type;
     if (Match(CHTLTokenType::AT_STYLE)) {
-        type = ast::CustomNode::STYLE;
+        type = ast::v3::CustomNode::STYLE;
     } else if (Match(CHTLTokenType::AT_ELEMENT)) {
-        type = ast::CustomNode::ELEMENT;
+        type = ast::v3::CustomNode::ELEMENT;
     } else if (Match(CHTLTokenType::AT_VAR)) {
-        type = ast::CustomNode::VAR;
+        type = ast::v3::CustomNode::VAR;
     } else {
         ReportError("Expected @Style, @Element or @Var after [Custom]");
         return nullptr;
@@ -655,7 +655,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseCustom() {
     }
     
     auto name = Advance();
-    auto custom = std::make_shared<ast::CustomNode>(type, name.value);
+    auto custom = std::make_shared<ast::v3::CustomNode>(type, name.value);
     custom->SetLocation(token.line, token.column);
     
     // 自定义体
@@ -675,18 +675,18 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseCustom() {
     return custom;
 }
 
-void CHTLParserV3::ParseCustomDefinition(ast::CustomNode* custom) {
-    if (custom->GetType() == ast::CustomNode::STYLE) {
+void CHTLParserV3::ParseCustomDefinition(ast::v3::CustomNode* custom) {
+    if (custom->GetType() == ast::v3::CustomNode::STYLE) {
         ParseCustomStyleDefinition(custom);
-    } else if (custom->GetType() == ast::CustomNode::ELEMENT) {
+    } else if (custom->GetType() == ast::v3::CustomNode::ELEMENT) {
         ParseCustomElementDefinition(custom);
-    } else if (custom->GetType() == ast::CustomNode::VAR) {
+    } else if (custom->GetType() == ast::v3::CustomNode::VAR) {
         ParseCustomVarDefinition(custom);
     }
 }
 
-void CHTLParserV3::ParseCustomStyleDefinition(ast::CustomNode* custom) {
-    auto styleNode = std::make_shared<ast::StyleNode>(ast::StyleNode::INLINE);
+void CHTLParserV3::ParseCustomStyleDefinition(ast::v3::CustomNode* custom) {
+    auto styleNode = std::make_shared<ast::v3::StyleNode>(ast::v3::StyleNode::INLINE);
     
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
         if (Match(CHTLTokenType::SEMICOLON)) continue;
@@ -705,7 +705,7 @@ void CHTLParserV3::ParseCustomStyleDefinition(ast::CustomNode* custom) {
             
             if (Match(CHTLTokenType::LBRACE)) {
                 // 特例化继承
-                auto subCustom = std::make_shared<ast::CustomNode>(ast::CustomNode::STYLE, templateName);
+                auto subCustom = std::make_shared<ast::v3::CustomNode>(ast::v3::CustomNode::STYLE, templateName);
                 subCustom->SetSpecialization(true);
                 
                 PushContext(Context::SPECIALIZATION);
@@ -716,7 +716,7 @@ void CHTLParserV3::ParseCustomStyleDefinition(ast::CustomNode* custom) {
                 custom->AddChild(subCustom);
             } else {
                 // 简单继承
-                auto inherit = std::make_shared<ast::InheritNode>(templateName);
+                auto inherit = std::make_shared<ast::v3::InheritNode>(templateName);
                 custom->AddChild(inherit);
                 Match(CHTLTokenType::SEMICOLON);
             }
@@ -757,7 +757,7 @@ void CHTLParserV3::ParseCustomStyleDefinition(ast::CustomNode* custom) {
 }
 
 // 配置解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseConfiguration() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseConfiguration() {
     auto token = Advance(); // [Configuration]
     
     std::string name;
@@ -770,8 +770,8 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseConfiguration() {
     }
     
     auto config = name.empty() ? 
-        std::make_shared<ast::ConfigurationNode>() : 
-        std::make_shared<ast::ConfigurationNode>(name);
+        std::make_shared<ast::v3::ConfigurationNode>() : 
+        std::make_shared<ast::v3::ConfigurationNode>(name);
     config->SetLocation(token.line, token.column);
     
     if (!Match(CHTLTokenType::LBRACE)) {
@@ -790,7 +790,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseConfiguration() {
     return config;
 }
 
-void CHTLParserV3::ParseConfigurationContent(ast::ConfigurationNode* config) {
+void CHTLParserV3::ParseConfigurationContent(ast::v3::ConfigurationNode* config) {
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
         if (Match(CHTLTokenType::SEMICOLON)) continue;
         
@@ -828,26 +828,26 @@ void CHTLParserV3::ParseConfigurationContent(ast::ConfigurationNode* config) {
 }
 
 // 导入解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseImport() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseImport() {
     auto token = Advance(); // [Import]
     
-    ast::ImportNode::ImportType importType = ast::ImportNode::AUTO;
+    ast::v3::ImportNode::ImportType importType = ast::v3::ImportNode::AUTO;
     std::string itemName;
     bool isSpecific = false;
     
     // 检查导入类型
     if (Match(CHTLTokenType::AT_HTML)) {
-        importType = ast::ImportNode::HTML;
+        importType = ast::v3::ImportNode::HTML;
     } else if (Match(CHTLTokenType::AT_STYLE)) {
-        importType = ast::ImportNode::STYLE;
+        importType = ast::v3::ImportNode::STYLE;
     } else if (Match(CHTLTokenType::AT_JAVASCRIPT)) {
-        importType = ast::ImportNode::JAVASCRIPT;
+        importType = ast::v3::ImportNode::JAVASCRIPT;
     } else if (Match(CHTLTokenType::AT_CHTL)) {
-        importType = ast::ImportNode::CHTL;
+        importType = ast::v3::ImportNode::CHTL;
     } else if (Match(CHTLTokenType::AT_CJMOD)) {
-        importType = ast::ImportNode::CJMOD;
+        importType = ast::v3::ImportNode::CJMOD;
     } else if (Match(CHTLTokenType::AT_CONFIG)) {
-        importType = ast::ImportNode::CONFIG;
+        importType = ast::v3::ImportNode::CONFIG;
     } else if (Match(CHTLTokenType::LBRACKET)) {
         // 特定类型导入 [Custom] 或 [Template]
         isSpecific = true;
@@ -869,7 +869,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseImport() {
         path = ParseImportPath();
     }
     
-    auto import = std::make_shared<ast::ImportNode>(path, importType);
+    auto import = std::make_shared<ast::v3::ImportNode>(path, importType);
     import->SetLocation(token.line, token.column);
     
     // as子句
@@ -885,7 +885,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseImport() {
 }
 
 // 命名空间解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseNamespace() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseNamespace() {
     auto token = Advance(); // [Namespace]
     
     if (!Check(CHTLTokenType::IDENTIFIER)) {
@@ -894,7 +894,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseNamespace() {
     }
     
     auto name = Advance();
-    auto ns = std::make_shared<ast::NamespaceNode>(name.value);
+    auto ns = std::make_shared<ast::v3::NamespaceNode>(name.value);
     ns->SetLocation(token.line, token.column);
     
     // 检查是否有 from 子句
@@ -925,23 +925,23 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseNamespace() {
 }
 
 // 原始嵌入解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseOrigin() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseOrigin() {
     auto startToken = Advance(); // [Origin]
     
-    ast::OriginNode::OriginType type = ast::OriginNode::HTML;
+    ast::v3::OriginNode::OriginType type = ast::v3::OriginNode::HTML;
     std::string customType;
     std::string name;
     
     // 检查类型
     if (Match(CHTLTokenType::AT_HTML)) {
-        type = ast::OriginNode::HTML;
+        type = ast::v3::OriginNode::HTML;
     } else if (Match(CHTLTokenType::AT_STYLE)) {
-        type = ast::OriginNode::STYLE;
+        type = ast::v3::OriginNode::STYLE;
     } else if (Match(CHTLTokenType::AT_JAVASCRIPT)) {
-        type = ast::OriginNode::JAVASCRIPT;
+        type = ast::v3::OriginNode::JAVASCRIPT;
     } else if (Check(CHTLTokenType::IDENTIFIER) && Peek().value.starts_with("@")) {
         // 自定义类型
-        type = ast::OriginNode::CUSTOM;
+        type = ast::v3::OriginNode::CUSTOM;
         customType = Advance().value;
     }
     
@@ -952,10 +952,10 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseOrigin() {
     
     // 如果只是引用已命名的原始嵌入
     if (Match(CHTLTokenType::SEMICOLON)) {
-        auto origin = std::make_shared<ast::OriginNode>(type, "");
+        auto origin = std::make_shared<ast::v3::OriginNode>(type, "");
         origin->SetLocation(startToken.line, startToken.column);
         origin->SetName(name);
-        if (type == ast::OriginNode::CUSTOM) {
+        if (type == ast::v3::OriginNode::CUSTOM) {
             origin->SetCustomTypeName(customType);
         }
         return origin;
@@ -985,10 +985,10 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseOrigin() {
     
     Match(CHTLTokenType::RBRACE);
     
-    auto origin = std::make_shared<ast::OriginNode>(type, content);
+    auto origin = std::make_shared<ast::v3::OriginNode>(type, content);
     origin->SetLocation(startToken.line, startToken.column);
     origin->SetName(name);
-    if (type == ast::OriginNode::CUSTOM) {
+    if (type == ast::v3::OriginNode::CUSTOM) {
         origin->SetCustomTypeName(customType);
     }
     
@@ -996,10 +996,10 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseOrigin() {
 }
 
 // 约束解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseExcept() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseExcept() {
     auto token = Advance(); // except
     
-    auto except = std::make_shared<ast::ExceptNode>();
+    auto except = std::make_shared<ast::v3::ExceptNode>();
     except->SetLocation(token.line, token.column);
     
     // 解析约束目标
@@ -1054,7 +1054,7 @@ std::vector<std::string> CHTLParserV3::ParseExceptTargets() {
 }
 
 // 变量解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseVar() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseVar() {
     auto token = Advance(); // $
     
     if (!Check(CHTLTokenType::IDENTIFIER)) {
@@ -1063,7 +1063,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseVar() {
     }
     
     auto name = Advance();
-    auto var = std::make_shared<ast::VarNode>(name.value);
+    auto var = std::make_shared<ast::v3::VarNode>(name.value);
     var->SetLocation(token.line, token.column);
     
     // 可选的赋值
@@ -1077,7 +1077,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseVar() {
 }
 
 // 变量调用解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseVarCall() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseVarCall() {
     // 格式: VarGroup(varName) 或 VarGroup(varName = value)
     std::string varGroup = Previous().value;
     
@@ -1092,7 +1092,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseVarCall() {
     }
     
     std::string varName = Advance().value;
-    auto varCall = std::make_shared<ast::VarCallNode>(varGroup, varName);
+    auto varCall = std::make_shared<ast::v3::VarCallNode>(varGroup, varName);
     
     // 检查特例化
     if (Match(CHTLTokenType::EQUALS)) {
@@ -1108,7 +1108,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseVarCall() {
 }
 
 // 特殊化解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseSpecialization() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseSpecialization() {
     if (Check(CHTLTokenType::DELETE)) {
         return ParseDelete();
     } else if (Check(CHTLTokenType::INSERT)) {
@@ -1120,24 +1120,24 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseSpecialization() {
 }
 
 // 删除解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseDelete() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseDelete() {
     auto token = Advance(); // delete
     
     // 判断删除类型
     std::vector<std::string> targets;
-    ast::DeleteNode::DeleteType type = ast::DeleteNode::PROPERTY;
+    ast::v3::DeleteNode::DeleteType type = ast::v3::DeleteNode::PROPERTY;
     
     // 收集删除目标
     do {
         if (Match(CHTLTokenType::AT_STYLE)) {
             // 删除样式继承
-            type = ast::DeleteNode::INHERITANCE;
+            type = ast::v3::DeleteNode::INHERITANCE;
             if (Check(CHTLTokenType::IDENTIFIER)) {
                 targets.push_back(Advance().value);
             }
         } else if (Match(CHTLTokenType::AT_ELEMENT)) {
             // 删除元素继承
-            type = ast::DeleteNode::INHERITANCE;
+            type = ast::v3::DeleteNode::INHERITANCE;
             if (Check(CHTLTokenType::IDENTIFIER)) {
                 targets.push_back(Advance().value);
             }
@@ -1148,7 +1148,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseDelete() {
             // 检查是否有索引
             if (Match(CHTLTokenType::LBRACKET)) {
                 if (Check(CHTLTokenType::NUMBER)) {
-                    type = ast::DeleteNode::ELEMENT;
+                    type = ast::v3::DeleteNode::ELEMENT;
                     targets.push_back(identifier.value + "[" + Advance().value + "]");
                     Match(CHTLTokenType::RBRACKET);
                 }
@@ -1161,7 +1161,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseDelete() {
     
     Match(CHTLTokenType::SEMICOLON);
     
-    auto deleteNode = std::make_shared<ast::DeleteNode>(type, targets.empty() ? "" : targets[0]);
+    auto deleteNode = std::make_shared<ast::v3::DeleteNode>(type, targets.empty() ? "" : targets[0]);
     deleteNode->SetLocation(token.line, token.column);
     
     // 添加所有目标
@@ -1173,34 +1173,34 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseDelete() {
 }
 
 // 插入解析
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseInsert() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseInsert() {
     auto token = Advance(); // insert
     
-    ast::InsertNode::Position position = ast::InsertNode::BEFORE;
+    ast::v3::InsertNode::Position position = ast::v3::InsertNode::BEFORE;
     std::string target;
     
     // 解析位置
     if (Match(CHTLTokenType::BEFORE)) {
-        position = ast::InsertNode::BEFORE;
+        position = ast::v3::InsertNode::BEFORE;
     } else if (Match(CHTLTokenType::AFTER)) {
-        position = ast::InsertNode::AFTER;
+        position = ast::v3::InsertNode::AFTER;
     } else if (Match(CHTLTokenType::REPLACE)) {
-        position = ast::InsertNode::REPLACE;
+        position = ast::v3::InsertNode::REPLACE;
     } else if (Match(CHTLTokenType::AT)) {
         if (Match(CHTLTokenType::IDENTIFIER)) {
             std::string pos = Previous().value;
             if (pos == "top") {
-                position = ast::InsertNode::AT_TOP;
+                position = ast::v3::InsertNode::AT_TOP;
             } else if (pos == "bottom") {
-                position = ast::InsertNode::AT_BOTTOM;
+                position = ast::v3::InsertNode::AT_BOTTOM;
             }
         }
     }
     
     // 解析目标
-    if (position == ast::InsertNode::BEFORE || 
-        position == ast::InsertNode::AFTER || 
-        position == ast::InsertNode::REPLACE) {
+    if (position == ast::v3::InsertNode::BEFORE || 
+        position == ast::v3::InsertNode::AFTER || 
+        position == ast::v3::InsertNode::REPLACE) {
         if (Check(CHTLTokenType::IDENTIFIER)) {
             target = Advance().value;
             
@@ -1214,7 +1214,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseInsert() {
         }
     }
     
-    auto insertNode = std::make_shared<ast::InsertNode>(position, target);
+    auto insertNode = std::make_shared<ast::v3::InsertNode>(position, target);
     insertNode->SetLocation(token.line, token.column);
     
     // 解析插入内容
@@ -1359,8 +1359,8 @@ std::string CHTLParserV3::ExtractOriginContent(size_t startPos, size_t endPos) {
 
 // 其他辅助方法...
 
-void CHTLParserV3::ParseLocalStyle(ast::ElementNode* element) {
-    auto styleNode = std::dynamic_pointer_cast<ast::StyleNode>(ParseStyle());
+void CHTLParserV3::ParseLocalStyle(ast::v3::ElementNode* element) {
+    auto styleNode = std::dynamic_pointer_cast<ast::v3::StyleNode>(ParseStyle());
     if (styleNode) {
         // 处理自动生成的类名和ID
         for (const auto& rule : styleNode->GetRules()) {
@@ -1402,11 +1402,11 @@ void CHTLParserV3::ParseLocalStyle(ast::ElementNode* element) {
     }
 }
 
-void CHTLParserV3::ParseLocalScript(ast::ElementNode* element) {
+void CHTLParserV3::ParseLocalScript(ast::v3::ElementNode* element) {
     element->AddChild(ParseScript());
 }
 
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseScript() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseScript() {
     auto token = Advance(); // script
     
     if (!Match(CHTLTokenType::LBRACE)) {
@@ -1414,8 +1414,8 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseScript() {
         return nullptr;
     }
     
-    auto script = std::make_shared<ast::ScriptNode>(
-        CurrentContext() == Context::ELEMENT ? ast::ScriptNode::LOCAL : ast::ScriptNode::GLOBAL
+    auto script = std::make_shared<ast::v3::ScriptNode>(
+        CurrentContext() == Context::ELEMENT ? ast::v3::ScriptNode::LOCAL : ast::v3::ScriptNode::GLOBAL
     );
     script->SetLocation(token.line, token.column);
     
@@ -1458,24 +1458,24 @@ std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseScript() {
     return script;
 }
 
-std::shared_ptr<ast::ASTNode> CHTLParserV3::ParseComment() {
+std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseComment() {
     auto token = Advance();
     
-    ast::CommentNode::CommentType type;
+    ast::v3::CommentNode::CommentType type;
     if (token.type == CHTLTokenType::COMMENT_HTML) {
-        type = ast::CommentNode::HTML_COMMENT;
+        type = ast::v3::CommentNode::HTML_COMMENT;
     } else if (token.type == CHTLTokenType::COMMENT_SINGLE) {
-        type = ast::CommentNode::SINGLE_LINE;
+        type = ast::v3::CommentNode::SINGLE_LINE;
     } else {
-        type = ast::CommentNode::MULTI_LINE;
+        type = ast::v3::CommentNode::MULTI_LINE;
     }
     
-    auto comment = std::make_shared<ast::CommentNode>(type, token.value);
+    auto comment = std::make_shared<ast::v3::CommentNode>(type, token.value);
     comment->SetLocation(token.line, token.column);
     return comment;
 }
 
-void CHTLParserV3::ParseTemplateParameters(ast::TemplateNode* tmpl) {
+void CHTLParserV3::ParseTemplateParameters(ast::v3::TemplateNode* tmpl) {
     while (!IsAtEnd() && !Check(CHTLTokenType::RPAREN)) {
         if (Check(CHTLTokenType::DOLLAR)) {
             Advance(); // $
@@ -1497,7 +1497,7 @@ void CHTLParserV3::ParseTemplateParameters(ast::TemplateNode* tmpl) {
     }
 }
 
-void CHTLParserV3::ParseCustomElementDefinition(ast::CustomNode* custom) {
+void CHTLParserV3::ParseCustomElementDefinition(ast::v3::CustomNode* custom) {
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
         auto node = ParseTopLevel();
         if (node) {
@@ -1506,7 +1506,7 @@ void CHTLParserV3::ParseCustomElementDefinition(ast::CustomNode* custom) {
     }
 }
 
-void CHTLParserV3::ParseCustomVarDefinition(ast::CustomNode* custom) {
+void CHTLParserV3::ParseCustomVarDefinition(ast::v3::CustomNode* custom) {
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
         if (Match(CHTLTokenType::SEMICOLON)) continue;
         
@@ -1514,7 +1514,7 @@ void CHTLParserV3::ParseCustomVarDefinition(ast::CustomNode* custom) {
             auto name = Advance();
             if (MatchColonOrEquals()) {
                 std::string value = ParseStringOrUnquoted();
-                auto varNode = std::make_shared<ast::VarNode>(name.value);
+                auto varNode = std::make_shared<ast::v3::VarNode>(name.value);
                 varNode->SetValue(value);
                 custom->AddChild(varNode);
                 Match(CHTLTokenType::SEMICOLON);
@@ -1526,7 +1526,7 @@ void CHTLParserV3::ParseCustomVarDefinition(ast::CustomNode* custom) {
     }
 }
 
-void CHTLParserV3::ParseNameConfig(ast::ConfigurationNode* config) {
+void CHTLParserV3::ParseNameConfig(ast::v3::ConfigurationNode* config) {
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
         if (Match(CHTLTokenType::SEMICOLON)) continue;
         
@@ -1558,7 +1558,7 @@ void CHTLParserV3::ParseNameConfig(ast::ConfigurationNode* config) {
     }
 }
 
-void CHTLParserV3::ParseOriginTypeConfig(ast::ConfigurationNode* config) {
+void CHTLParserV3::ParseOriginTypeConfig(ast::v3::ConfigurationNode* config) {
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
         if (Match(CHTLTokenType::SEMICOLON)) continue;
         
