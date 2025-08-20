@@ -525,7 +525,7 @@ void CHTLGeneratorV3::RegisterTemplate(ast::v3::TemplateNode* tmpl) {
         tmpl->GetName() : 
         m_CurrentNamespace + "." + tmpl->GetName();
     
-    m_Templates[fullName] = tmpl;
+    m_Templates[fullName].reset(tmpl);
 }
 
 void CHTLGeneratorV3::ProcessTemplateInheritance(ast::v3::TemplateNode* tmpl) {
@@ -558,7 +558,7 @@ void CHTLGeneratorV3::ProcessCustomDefinition(ast::v3::CustomNode* custom) {
         custom->GetName() : 
         m_CurrentNamespace + "." + custom->GetName();
     
-    m_Customs[fullName] = custom;
+    m_Customs[fullName].reset(custom);
     // 自定义定义不生成输出
 }
 
@@ -645,7 +645,7 @@ std::string CHTLGeneratorV3::ResolvePath(const std::string& path, ast::v3::Impor
     
     if (type == ast::v3::ImportNode::CHTL || type == ast::v3::ImportNode::AUTO) {
         // CHTL文件路径解析
-        if (!path.ends_with(".chtl") && !path.ends_with(".cmod")) {
+        if (!EndsWith(path, ".chtl") && !EndsWith(path, ".cmod")) {
             // 只有名称，按优先级查找
             
             // 1. 官方模块目录

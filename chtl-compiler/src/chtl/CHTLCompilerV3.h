@@ -45,7 +45,7 @@ public:
     const std::vector<std::string>& GetWarnings() const { return m_Warnings; }
     
     // AST访问（用于调试）
-    std::shared_ptr<ast::DocumentNode> GetAST() const { return m_AST; }
+    std::shared_ptr<ast::v3::DocumentNode> GetAST() const { return m_AST; }
     
     // 版本信息
     static std::string GetVersion() { return "3.0.0"; }
@@ -54,7 +54,7 @@ public:
 private:
     std::unique_ptr<CHTLParserV3> m_Parser;
     std::unique_ptr<CHTLGeneratorV3> m_Generator;
-    std::shared_ptr<ast::DocumentNode> m_AST;
+    std::shared_ptr<ast::v3::DocumentNode> m_AST;
     
     std::vector<std::string> m_Errors;
     std::vector<std::string> m_Warnings;

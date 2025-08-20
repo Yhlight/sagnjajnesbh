@@ -71,17 +71,20 @@ private:
     const CHTLToken& Current() const;
     const CHTLToken& Previous() const;
     const CHTLToken& Peek(size_t offset = 0) const;
-    void Advance();
+    const CHTLToken& Advance();
     bool Match(CHTLTokenType type);
     bool Match(const std::vector<CHTLTokenType>& types);
     bool Check(CHTLTokenType type) const;
     bool CheckKeyword(const std::string& keyword) const;
+    bool CheckAny(const std::vector<CHTLTokenType>& types) const;
+    bool MatchColonOrEquals();
     void Consume(CHTLTokenType type, const std::string& message);
     
     // 错误处理
     void AddError(const std::string& message);
     void AddError(const CHTLToken& token, const std::string& message);
     void Synchronize();
+    void ReportError(const std::string& message) { AddError(message); }
     
     // 上下文管理
     void PushContext(Context ctx);
@@ -94,7 +97,7 @@ private:
     std::string ResolveFullName(const std::string& name) const;
     
     // 主要解析方法
-    void ParseTokens();
+    std::shared_ptr<ast::v3::DocumentNode> ParseTokens(const std::vector<CHTLToken>& tokens);
     
     // 顶层解析
     std::shared_ptr<ast::v3::ASTNode> ParseTopLevel();
@@ -108,6 +111,8 @@ private:
     std::shared_ptr<ast::v3::ElementNode> ParseElement();
     std::shared_ptr<ast::v3::OriginNode> ParseOrigin();
     std::shared_ptr<ast::v3::CommentNode> ParseComment();
+    std::shared_ptr<ast::v3::ASTNode> ParseStyle();
+    std::shared_ptr<ast::v3::ASTNode> ParseScript();
     
     // 元素内容解析
     void ParseElementContent(ast::v3::ElementNode* element);
@@ -119,7 +124,7 @@ private:
     // 样式内容解析
     void ParseStyleContent(ast::v3::StyleNode* style);
     std::pair<std::string, std::string> ParseStyleProperty();
-    ast::v3::StyleNode::Rule ParseStyleRule();
+    // ParseStyleRule() - 在实现中定义
     
     // 脚本内容解析
     void ParseScriptContent(ast::v3::ScriptNode* script);
@@ -132,6 +137,7 @@ private:
     void ParseCustomDefinition(ast::v3::CustomNode* custom);
     std::shared_ptr<ast::v3::DeleteNode> ParseDelete();
     std::shared_ptr<ast::v3::InsertNode> ParseInsert();
+    std::shared_ptr<ast::v3::ASTNode> ParseSpecialization();
     
     // 变量解析
     std::shared_ptr<ast::v3::VarNode> ParseVar();
@@ -146,6 +152,19 @@ private:
     
     // 原始内容解析
     void ParseOriginContent(ast::v3::OriginNode* origin);
+    
+    // 辅助解析函数
+    void ParseTemplateParameters(ast::v3::TemplateNode* tmpl);
+    void ParseCustomElementDefinition(ast::v3::CustomNode* custom);
+    void ParseCustomVarDefinition(ast::v3::CustomNode* custom);
+    void ParseNameConfig(ast::v3::ConfigurationNode* config);
+    void ParseOriginTypeConfig(ast::v3::ConfigurationNode* config);
+    std::string ParseImportPath();
+    std::string ParseIdentifierPath();
+    std::vector<std::string> ParseExceptTargets();
+    std::string ExtractOriginContent(size_t startPos, size_t endPos);
+    void ParseStyleRule(ast::v3::StyleNode* style);
+    std::shared_ptr<ast::v3::ASTNode> ParseSpecialization();
     
     // 辅助方法
     std::string ParseStringOrUnquoted();

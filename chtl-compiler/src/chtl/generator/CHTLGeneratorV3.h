@@ -112,6 +112,9 @@ private:
     void ProcessDelete(ast::v3::DeleteNode* deleteNode);
     void ProcessInsert(ast::v3::InsertNode* insertNode);
     
+    // HTML元素验证
+    bool IsHtmlElement(const std::string& tag) const;
+    
     // 辅助方法
     void VisitChildren(ast::v3::ASTNode* node);
     bool IsInlineElement(const std::string& tag) const;

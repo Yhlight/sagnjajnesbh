@@ -1,7 +1,10 @@
 #include "CHTLCompilerV3.h"
+#include "ast/CHTLASTNodesV3.h"
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <fstream>
+#include <sstream>
 
 void printUsage(const char* programName) {
     std::cout << "CHTL Compiler V3 - Complete implementation of all CHTL features\n";
