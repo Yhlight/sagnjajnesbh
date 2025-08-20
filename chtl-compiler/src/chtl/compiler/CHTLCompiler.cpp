@@ -21,17 +21,17 @@ CHTLCompiler::CHTLCompiler()
 
 CHTLCompiler::~CHTLCompiler() = default;
 
-CompileResult CHTLCompiler::Compile(const std::string& sourceCode, const std::string& filename) {
+CompileResult CHTLCompiler::Compile(const CodeFragment& fragment) {
     CompileResult result;
     
     try {
         // 1. 词法分析
-        m_Lexer->SetSource(sourceCode, filename);
+        m_Lexer->SetSource(fragment.GetContent(), "");
         auto tokens = m_Lexer->Tokenize();
         
         if (m_Lexer->HasErrors()) {
-            result.Success = false;
-            result.Errors = m_Lexer->GetErrors();
+            result.success = false;
+            result.errorMessage = m_Lexer->GetErrors();
             return result;
         }
         
@@ -43,8 +43,8 @@ CompileResult CHTLCompiler::Compile(const std::string& sourceCode, const std::st
         auto ast = parser.Parse(tokens, filename);
         
         if (parser.HasErrors()) {
-            result.Success = false;
-            result.Errors = parser.GetErrors();
+            result.success = false;
+            result.errorMessage = parser.GetErrors();
             return result;
         }
         
@@ -57,14 +57,14 @@ CompileResult CHTLCompiler::Compile(const std::string& sourceCode, const std::st
         auto genResult = generator.Generate(ast.get());
         
         if (!genResult.Success) {
-            result.Success = false;
-            result.Errors = genResult.Errors;
+            result.success = false;
+            result.errorMessage = genResult.Errors;
             return result;
         }
         
         // 4. 组合输出
-        result.Success = true;
-        result.OutputContent = BuildFinalOutput(genResult);
+        result.success = true;
+        result.output = BuildFinalOutput(genResult);
         
         // 记录生成的元数据
         for (const auto& cls : genResult.GeneratedClasses) {
@@ -75,8 +75,8 @@ CompileResult CHTLCompiler::Compile(const std::string& sourceCode, const std::st
         }
         
     } catch (const std::exception& e) {
-        result.Success = false;
-        result.Errors.push_back(std::string("编译异常: ") + e.what());
+        result.success = false;
+        result.errorMessage.push_back(std::string("编译异常: ") + e.what());
     }
     
     return result;
@@ -176,8 +176,8 @@ CompileResult CHTLCompiler::CompileCustom(const std::string& code) {
 
 CompileResult CHTLCompiler::CompileImport(const std::string& code) {
     CompileResult result;
-    result.Success = false;
-    result.Errors.push_back("导入功能尚未实现");
+    result.success = false;
+    result.errorMessage.push_back("导入功能尚未实现");
     return result;
 }
 

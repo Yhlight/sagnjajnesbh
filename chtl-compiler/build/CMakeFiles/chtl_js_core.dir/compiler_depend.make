@@ -659,10 +659,13 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: /workspac
   /usr/include/c++/14/bits/stl_iterator.h \
   /usr/include/c++/14/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/14/bits/stl_iterator_base_types.h \
+  /usr/include/c++/14/bits/stl_multiset.h \
   /usr/include/c++/14/bits/stl_pair.h \
   /usr/include/c++/14/bits/stl_raw_storage_iter.h \
+  /usr/include/c++/14/bits/stl_set.h \
   /usr/include/c++/14/bits/stl_stack.h \
   /usr/include/c++/14/bits/stl_tempbuf.h \
+  /usr/include/c++/14/bits/stl_tree.h \
   /usr/include/c++/14/bits/stl_uninitialized.h \
   /usr/include/c++/14/bits/stl_vector.h \
   /usr/include/c++/14/bits/streambuf.tcc \
@@ -719,6 +722,7 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: /workspac
   /usr/include/c++/14/pstl/glue_memory_defs.h \
   /usr/include/c++/14/pstl/pstl_config.h \
   /usr/include/c++/14/ratio \
+  /usr/include/c++/14/set \
   /usr/include/c++/14/sstream \
   /usr/include/c++/14/stack \
   /usr/include/c++/14/stdexcept \
@@ -1232,9 +1236,12 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o: /workspace/c
   /usr/include/c++/14/bits/stl_iterator.h \
   /usr/include/c++/14/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/14/bits/stl_iterator_base_types.h \
+  /usr/include/c++/14/bits/stl_multiset.h \
   /usr/include/c++/14/bits/stl_pair.h \
   /usr/include/c++/14/bits/stl_raw_storage_iter.h \
+  /usr/include/c++/14/bits/stl_set.h \
   /usr/include/c++/14/bits/stl_tempbuf.h \
+  /usr/include/c++/14/bits/stl_tree.h \
   /usr/include/c++/14/bits/stl_uninitialized.h \
   /usr/include/c++/14/bits/stl_vector.h \
   /usr/include/c++/14/bits/streambuf.tcc \
@@ -1289,6 +1296,7 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/core/CHTLJSGlobalMap.cpp.o: /workspace/c
   /usr/include/c++/14/pstl/glue_memory_defs.h \
   /usr/include/c++/14/pstl/pstl_config.h \
   /usr/include/c++/14/ratio \
+  /usr/include/c++/14/set \
   /usr/include/c++/14/sstream \
   /usr/include/c++/14/stdexcept \
   /usr/include/c++/14/streambuf \
@@ -2728,9 +2736,13 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o: /workspace/chtl
 
 /usr/include/c++/14/bits/unique_lock.h:
 
+/usr/include/c++/14/bits/stl_tree.h:
+
 /usr/include/c++/14/bits/stl_heap.h:
 
 /usr/include/c++/14/bits/stl_stack.h:
+
+/usr/include/c++/14/bits/stl_multiset.h:
 
 /usr/include/c++/14/bits/std_mutex.h:
 
@@ -2761,6 +2773,8 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o: /workspace/chtl
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
+
+/usr/include/c++/14/set:
 
 /usr/include/c++/14/bits/functexcept.h:
 
@@ -3169,6 +3183,8 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/token/CHTLJSToken.cpp.o: /workspace/chtl
 /usr/include/c++/14/bits/range_access.h:
 
 /usr/include/c++/14/bits/refwrap.h:
+
+/usr/include/c++/14/bits/stl_set.h:
 
 /workspace/chtl-compiler/src/chtl_js/compiler/CHTLJSCompiler.cpp:
 

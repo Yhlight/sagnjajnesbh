@@ -236,6 +236,10 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/generator/CHTLJSGenerator.cpp.o: \
   /workspace/chtl-compiler/include/chtl_js/ast/EnhancedSelectorNode.h \
   /workspace/chtl-compiler/include/chtl_js/core/CHTLJSGlobalMap.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/optional \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/set \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tree.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_set.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_multiset.h \
   /workspace/chtl-compiler/include/chtl_js/ast/CHTLJSDocumentNode.h \
   /workspace/chtl-compiler/include/chtl_js/ast/ScriptBlockNode.h \
   /workspace/chtl-compiler/include/chtl_js/ast/OperatorNodes.h \
