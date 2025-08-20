@@ -1,0 +1,12 @@
+div {
+    id: test;
+    class: container;
+    
+    h1 { 
+        text { "Hello CHTL" } 
+    }
+    
+    p {
+        text { "This is a paragraph" }
+    }
+}

@@ -1,0 +1,110 @@
+// 完整的CHTL V2测试文件
+
+[Configuration] {
+    title: "CHTL Complete Test";
+    lang: zh-CN;
+}
+
+// 全局样式
+style {
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+}
+
+// HTML文档
+html {
+    body {
+        -- 这是HTML注释，会出现在生成的HTML中
+        
+        header {
+            style {
+                .main-header {
+                    background: #333;
+                    color: white;
+                    padding: 20px;
+                }
+                
+                &:hover {
+                    background: #555;
+                }
+            }
+            
+            h1 { 
+                text { "CHTL V2 测试页面" } 
+            }
+        }
+        
+        main {
+            // 使用CE对等式
+            id = content;
+            class = container;
+            
+            section {
+                h2 { text { "特性展示" } }
+                
+                // 局部样式自动生成类名
+                div {
+                    style {
+                        .feature-box {
+                            border: 1px solid #ddd;
+                            padding: 15px;
+                            margin: 10px 0;
+                        }
+                    }
+                    
+                    h3 { text { "局部样式块" } }
+                    p {
+                        text {
+                            此div自动获得了feature-box类名
+                        }
+                    }
+                }
+                
+                // 变量使用
+                $author: "CHTL Team";
+                
+                p {
+                    text { "作者：$author" }
+                }
+                
+                // 模板定义
+                [Template] @Element Card($title) {
+                    div {
+                        class: card;
+                        h4 { text { $title } }
+                    }
+                }
+                
+                // 脚本块
+                div {
+                    id: interactive-demo;
+                    
+                    button {
+                        onclick: "handleClick()";
+                        text { "点击测试" }
+                    }
+                    
+                    script {
+                        function handleClick() {
+                            alert('CHTL脚本工作正常！');
+                        }
+                    }
+                }
+            }
+        }
+        
+        footer {
+            style {
+                background: #f0f0f0;
+                padding: 20px;
+                text-align: center;
+                margin-top: 40px;
+            }
+            
+            text { "© 2024 CHTL Project" }
+        }
+    }
+}

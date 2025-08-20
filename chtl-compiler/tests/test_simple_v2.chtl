@@ -1,0 +1,62 @@
+// 简单的CHTL V2测试
+
+div {
+    id: main;
+    class: container;
+    
+    h1 { 
+        text { "CHTL V2 演示" } 
+    }
+    
+    // 局部样式
+    div {
+        style {
+            .demo-box {
+                border: 1px solid #333;
+                padding: 20px;
+                background: #f9f9f9;
+            }
+            
+            &:hover {
+                background: #f0f0f0;
+            }
+        }
+        
+        h2 { text { "局部样式" } }
+        p {
+            text { "鼠标悬停查看效果" }
+        }
+    }
+    
+    // CE对等式
+    div {
+        id = ce-test;
+        class: test-ce;
+        
+        style {
+            margin = 20px;
+            padding: 10px;
+            border = 1px solid #ddd;
+        }
+        
+        text { "CE对等式测试：冒号和等号都可以使用" }
+    }
+    
+    // 嵌套元素
+    ul {
+        li { text { "项目 1" } }
+        li { 
+            text { "项目 2 - " }
+            strong { text { "重要" } }
+        }
+        li { text { "项目 3" } }
+    }
+    
+    // 脚本
+    div {
+        button {
+            onclick: "alert('Hello CHTL!')";
+            text { "点击我" }
+        }
+    }
+}

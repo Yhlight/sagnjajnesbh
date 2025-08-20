@@ -254,7 +254,8 @@ bool CHTLLexerV2::IsUnquotedLiteralChar(char c) const {
     // 无引号字面量允许的字符
     return IsAlphaNumeric(c) || c == '_' || c == '-' || c == '+' || 
            c == '*' || c == '%' || c == '!' || c == '?' || c == '@' ||
-           c == '#' || c == '&' || c == '~' || c == '^' || c == '|';
+           c == '#' || c == '&' || c == '~' || c == '^' || c == '|' ||
+           (unsigned char)c >= 128; // 支持UTF-8字符
 }
 
 // Token 识别方法实现

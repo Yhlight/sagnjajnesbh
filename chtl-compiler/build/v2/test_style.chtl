@@ -1,0 +1,14 @@
+div {
+    style {
+        .mybox {
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        
+        &:hover {
+            background: #e0e0e0;
+        }
+    }
+    
+    text { "Hover over me!" }
+}

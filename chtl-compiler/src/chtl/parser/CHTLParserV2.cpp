@@ -612,47 +612,456 @@ void CHTLParserV2::PopContext() {
     }
 }
 
-// 占位符实现
+// 模板参数解析
 void CHTLParserV2::ParseTemplateParameters(ast::TemplateNode* tmpl) {
-    // TODO: 实现模板参数解析
+    while (!IsAtEnd() && !Check(CHTLTokenType::RPAREN)) {
+        if (Check(CHTLTokenType::DOLLAR)) {
+            Advance(); // $
+            if (Check(CHTLTokenType::IDENTIFIER)) {
+                tmpl->AddParameter(Advance().value);
+            } else {
+                ReportError("Expected parameter name after $");
+            }
+        } else {
+            ReportError("Expected $ before parameter name");
+            Advance();
+        }
+        
+        if (!Check(CHTLTokenType::RPAREN)) {
+            if (!Match(CHTLTokenType::COMMA)) {
+                ReportError("Expected ',' between parameters");
+            }
+        }
+    }
 }
 
+// 模板定义解析
 void CHTLParserV2::ParseTemplateDefinition(ast::TemplateNode* tmpl) {
-    // TODO: 实现模板定义解析
+    while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
+        auto node = ParseTopLevel();
+        if (node) {
+            tmpl->AddChild(node);
+        }
+    }
 }
 
+// 自定义元素解析
 std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseCustom() {
-    // TODO: 实现自定义元素解析
-    return nullptr;
+    auto token = Advance(); // [Custom]
+    
+    // 期望 @Style, @Element 或 @Var
+    ast::CustomNode::CustomType type;
+    if (Match(CHTLTokenType::AT_STYLE)) {
+        type = ast::CustomNode::STYLE;
+    } else if (Match(CHTLTokenType::AT_ELEMENT)) {
+        type = ast::CustomNode::ELEMENT;
+    } else if (Match(CHTLTokenType::AT_VAR)) {
+        type = ast::CustomNode::VAR;
+    } else {
+        ReportError("Expected @Style, @Element or @Var after [Custom]");
+        return nullptr;
+    }
+    
+    // 自定义名称
+    if (!Check(CHTLTokenType::IDENTIFIER)) {
+        ReportError("Expected custom name");
+        return nullptr;
+    }
+    
+    auto name = Advance();
+    auto custom = std::make_shared<ast::CustomNode>(type, name.value);
+    custom->SetLocation(token.line, token.column);
+    
+    // 自定义体
+    if (!Match(CHTLTokenType::LBRACE)) {
+        ReportError("Expected '{' for custom body");
+        return custom;
+    }
+    
+    while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
+        auto node = ParseTopLevel();
+        if (node) {
+            custom->AddChild(node);
+        }
+    }
+    
+    if (!Match(CHTLTokenType::RBRACE)) {
+        ReportError("Expected '}' to close custom");
+    }
+    
+    return custom;
 }
 
+// Import解析
 std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseImport() {
-    // TODO: 实现Import解析
-    return nullptr;
+    auto token = Advance(); // [Import]
+    
+    // 路径
+    std::string path = ParseStringOrUnquoted();
+    if (path.empty()) {
+        ReportError("Expected import path");
+        return nullptr;
+    }
+    
+    auto import = std::make_shared<ast::ImportNode>(path);
+    import->SetLocation(token.line, token.column);
+    
+    // 可选的类型指定
+    if (CheckAny({CHTLTokenType::AT_HTML, CHTLTokenType::AT_STYLE, 
+                  CHTLTokenType::AT_JAVASCRIPT, CHTLTokenType::AT_CHTL, 
+                  CHTLTokenType::AT_CJMOD})) {
+        auto typeToken = Advance();
+        switch (typeToken.type) {
+            case CHTLTokenType::AT_HTML:
+                import = std::make_shared<ast::ImportNode>(path, ast::ImportNode::HTML);
+                break;
+            case CHTLTokenType::AT_STYLE:
+                import = std::make_shared<ast::ImportNode>(path, ast::ImportNode::STYLE);
+                break;
+            case CHTLTokenType::AT_JAVASCRIPT:
+                import = std::make_shared<ast::ImportNode>(path, ast::ImportNode::JAVASCRIPT);
+                break;
+            case CHTLTokenType::AT_CHTL:
+                import = std::make_shared<ast::ImportNode>(path, ast::ImportNode::CHTL);
+                break;
+            case CHTLTokenType::AT_CJMOD:
+                import = std::make_shared<ast::ImportNode>(path, ast::ImportNode::CJMOD);
+                break;
+            default:
+                break;
+        }
+    }
+    
+    // 可选的 from 子句
+    if (Match(CHTLTokenType::FROM)) {
+        std::string fromPath = ParseStringOrUnquoted();
+        import->SetFromClause(fromPath);
+    }
+    
+    // 可选的具体导入项
+    if (Match(CHTLTokenType::LBRACE)) {
+        while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
+            if (Check(CHTLTokenType::IDENTIFIER)) {
+                import->AddImportItem(Advance().value);
+            }
+            
+            if (!Check(CHTLTokenType::RBRACE)) {
+                if (!Match(CHTLTokenType::COMMA)) {
+                    ReportError("Expected ',' between import items");
+                }
+            }
+        }
+        
+        if (!Match(CHTLTokenType::RBRACE)) {
+            ReportError("Expected '}' to close import items");
+        }
+    }
+    
+    Match(CHTLTokenType::SEMICOLON); // 可选的分号
+    
+    return import;
 }
 
+// Namespace解析
 std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseNamespace() {
-    // TODO: 实现Namespace解析
-    return nullptr;
+    auto token = Advance(); // [Namespace]
+    
+    // 命名空间名称
+    if (!Check(CHTLTokenType::IDENTIFIER)) {
+        ReportError("Expected namespace name");
+        return nullptr;
+    }
+    
+    auto name = Advance();
+    auto ns = std::make_shared<ast::NamespaceNode>(name.value);
+    ns->SetLocation(token.line, token.column);
+    
+    // 可选的 from 子句
+    if (Match(CHTLTokenType::FROM)) {
+        std::string fromNs = ParseStringOrUnquoted();
+        ns->SetFromClause(fromNs);
+    }
+    
+    // 命名空间体
+    if (!Match(CHTLTokenType::LBRACE)) {
+        ReportError("Expected '{' for namespace body");
+        return ns;
+    }
+    
+    PushContext(Context::NAMESPACE);
+    
+    while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
+        auto node = ParseTopLevel();
+        if (node) {
+            ns->AddChild(node);
+        }
+    }
+    
+    PopContext();
+    
+    if (!Match(CHTLTokenType::RBRACE)) {
+        ReportError("Expected '}' to close namespace");
+    }
+    
+    return ns;
 }
 
+// Configuration解析
 std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseConfiguration() {
-    // TODO: 实现Configuration解析
-    return nullptr;
+    auto token = Advance(); // [Configuration]
+    
+    auto config = std::make_shared<ast::ConfigurationNode>();
+    config->SetLocation(token.line, token.column);
+    
+    if (!Match(CHTLTokenType::LBRACE)) {
+        ReportError("Expected '{' for configuration body");
+        return config;
+    }
+    
+    PushContext(Context::CONFIGURATION);
+    
+    while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
+        // 跳过分号
+        if (Match(CHTLTokenType::SEMICOLON)) continue;
+        
+        // 配置项
+        if (Check(CHTLTokenType::IDENTIFIER)) {
+            auto name = Advance();
+            
+            if (MatchColonOrEquals()) {
+                std::string value = ParseStringOrUnquoted();
+                config->AddConfig(name.value, value);
+                Match(CHTLTokenType::SEMICOLON); // 可选的分号
+            } else {
+                ReportError("Expected ':' or '=' after configuration name");
+            }
+        } else {
+            ReportError("Expected configuration name");
+            Advance();
+        }
+    }
+    
+    PopContext();
+    
+    if (!Match(CHTLTokenType::RBRACE)) {
+        ReportError("Expected '}' to close configuration");
+    }
+    
+    return config;
 }
 
+// Origin解析
 std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseOrigin() {
-    // TODO: 实现Origin解析
-    return nullptr;
+    auto token = Advance(); // [Origin]
+    
+    ast::OriginNode::OriginType type = ast::OriginNode::HTML;
+    std::string customType;
+    
+    // 检查类型
+    if (Match(CHTLTokenType::AT_HTML)) {
+        type = ast::OriginNode::HTML;
+    } else if (Match(CHTLTokenType::AT_STYLE)) {
+        type = ast::OriginNode::STYLE;
+    } else if (Match(CHTLTokenType::AT_JAVASCRIPT)) {
+        type = ast::OriginNode::JAVASCRIPT;
+    } else if (Check(CHTLTokenType::IDENTIFIER)) {
+        type = ast::OriginNode::CUSTOM;
+        customType = Advance().value;
+    }
+    
+    if (!Match(CHTLTokenType::LBRACE)) {
+        ReportError("Expected '{' for origin content");
+        return nullptr;
+    }
+    
+    // 收集原始内容直到匹配的 }
+    std::string content;
+    int braceDepth = 1;
+    
+    while (!IsAtEnd() && braceDepth > 0) {
+        auto token = Peek();
+        
+        if (token.type == CHTLTokenType::LBRACE) {
+            braceDepth++;
+        } else if (token.type == CHTLTokenType::RBRACE) {
+            braceDepth--;
+            if (braceDepth == 0) {
+                Advance(); // 消费最后的 }
+                break;
+            }
+        }
+        
+        content += token.value;
+        if (token.type != CHTLTokenType::SEMICOLON && 
+            token.type != CHTLTokenType::COMMA) {
+            content += " ";
+        }
+        
+        Advance();
+    }
+    
+    auto origin = std::make_shared<ast::OriginNode>(type, content);
+    origin->SetLocation(token.line, token.column);
+    
+    if (type == ast::OriginNode::CUSTOM) {
+        origin->SetCustomTypeName(customType);
+    }
+    
+    return origin;
 }
 
+// 特殊化解析
 std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseSpecialization() {
-    // TODO: 实现特殊化解析
+    if (Check(CHTLTokenType::DELETE)) {
+        return ParseDelete();
+    } else if (Check(CHTLTokenType::INSERT)) {
+        return ParseInsert();
+    }
+    
+    ReportError("Expected 'delete' or 'insert'");
     return nullptr;
 }
 
+// 继承解析
+std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseInherit() {
+    // 继承语法: ElementName : BaseElement
+    std::string base;
+    std::string qualifier;
+    
+    if (Check(CHTLTokenType::IDENTIFIER)) {
+        base = Advance().value;
+        
+        // 可选的限定符
+        if (Check(CHTLTokenType::DOT)) {
+            Advance(); // .
+            if (Check(CHTLTokenType::IDENTIFIER)) {
+                qualifier = Advance().value;
+            }
+        }
+    }
+    
+    auto inherit = std::make_shared<ast::InheritNode>(base, qualifier);
+    return inherit;
+}
+
+// 删除解析
+std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseDelete() {
+    auto token = Advance(); // delete
+    
+    ast::DeleteNode::DeleteType type = ast::DeleteNode::PROPERTY;
+    std::string target;
+    
+    // 检查删除类型
+    if (Check(CHTLTokenType::IDENTIFIER)) {
+        target = Advance().value;
+        
+        // 判断类型
+        if (target == "property" || MatchColonOrEquals()) {
+            type = ast::DeleteNode::PROPERTY;
+            if (target == "property") {
+                target = ParseStringOrUnquoted();
+            }
+        } else if (target == "inheritance") {
+            type = ast::DeleteNode::INHERITANCE;
+            target = "";
+        } else {
+            type = ast::DeleteNode::ELEMENT;
+        }
+    }
+    
+    auto deleteNode = std::make_shared<ast::DeleteNode>(type, target);
+    deleteNode->SetLocation(token.line, token.column);
+    
+    Match(CHTLTokenType::SEMICOLON); // 可选的分号
+    
+    return deleteNode;
+}
+
+// 插入解析
+std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseInsert() {
+    auto token = Advance(); // insert
+    
+    std::shared_ptr<ast::InsertNode> insertNode;
+    
+    // 检查插入位置
+    if (Match(CHTLTokenType::IDENTIFIER)) {
+        auto position = Previous().value;
+        
+        if (position == "before") {
+            std::string target = ParseStringOrUnquoted();
+            insertNode = std::make_shared<ast::InsertNode>(ast::InsertNode::BEFORE, target);
+        } else if (position == "after") {
+            std::string target = ParseStringOrUnquoted();
+            insertNode = std::make_shared<ast::InsertNode>(ast::InsertNode::AFTER, target);
+        } else {
+            ReportError("Expected 'before' or 'after'");
+            insertNode = std::make_shared<ast::InsertNode>(ast::InsertNode::BEFORE);
+        }
+    } else if (Check(CHTLTokenType::NUMBER)) {
+        int index = std::stoi(Advance().value);
+        insertNode = std::make_shared<ast::InsertNode>(index);
+    } else {
+        ReportError("Expected position specifier");
+        insertNode = std::make_shared<ast::InsertNode>(ast::InsertNode::BEFORE);
+    }
+    
+    insertNode->SetLocation(token.line, token.column);
+    
+    // 插入的内容
+    if (Match(CHTLTokenType::LBRACE)) {
+        while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
+            auto node = ParseTopLevel();
+            if (node) {
+                insertNode->AddChild(node);
+            }
+        }
+        
+        if (!Match(CHTLTokenType::RBRACE)) {
+            ReportError("Expected '}' to close insert content");
+        }
+    }
+    
+    return insertNode;
+}
+
+// 变量解析
 std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseVar() {
-    // TODO: 实现变量解析
+    auto token = Advance(); // $
+    
+    if (!Check(CHTLTokenType::IDENTIFIER)) {
+        ReportError("Expected variable name after $");
+        return nullptr;
+    }
+    
+    auto name = Advance();
+    auto var = std::make_shared<ast::VarNode>(name.value);
+    var->SetLocation(token.line, token.column);
+    
+    // 可选的赋值
+    if (MatchColonOrEquals()) {
+        // 检查是否是表达式还是简单值
+        if (Check(CHTLTokenType::LBRACE)) {
+            // 表达式
+            var->SetExpression(ParseExpression());
+        } else {
+            // 简单值
+            var->SetValue(ParseStringOrUnquoted());
+        }
+    }
+    
+    Match(CHTLTokenType::SEMICOLON); // 可选的分号
+    
+    return var;
+}
+
+// 表达式解析
+std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseExpression() {
+    // 简化的表达式解析，暂时只支持元素
+    if (Check(CHTLTokenType::IDENTIFIER)) {
+        return ParseElement();
+    }
+    
+    ReportError("Expected expression");
     return nullptr;
 }
 

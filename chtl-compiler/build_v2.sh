@@ -1,46 +1,93 @@
 #!/bin/bash
 
-echo "Building CHTL Compiler v2.0..."
+# CHTL V2 编译器构建脚本
+
+echo "Building CHTL Compiler V2..."
 
 # 创建构建目录
 mkdir -p build/v2
 
-# 编译新版本
-g++ -std=c++17 -O2 -Wall \
-    -I src/simple \
-    src/simple/Lexer.cpp \
-    src/simple/Parser.cpp \
-    src/simple/Generator.cpp \
-    src/simple/CHTLCompiler.cpp \
-    src/simple/main.cpp \
+# 编译命令
+g++ -std=c++17 -O2 \
+    src/chtl/main.cpp \
+    src/chtl/CHTLCompilerV2.cpp \
+    src/chtl/lexer/CHTLLexerV2.cpp \
+    src/chtl/parser/CHTLParserV2.cpp \
+    src/chtl/ast/CHTLASTNodes.cpp \
+    src/chtl/generator/CHTLGeneratorV2.cpp \
     -o build/v2/chtl
 
 if [ $? -eq 0 ]; then
     echo "Build successful!"
+    echo "Binary location: build/v2/chtl"
     echo ""
     echo "Running tests..."
     
     # 测试基本功能
-    echo "1. Testing basic.chtl..."
-    ./build/v2/chtl examples/simple/basic.chtl build/v2/basic.html
+    echo "1. Testing basic CHTL..."
+    cat > build/v2/test_basic.chtl << 'EOF'
+div {
+    id: main;
+    class: container;
     
-    # 测试带样式的例子
-    echo "2. Testing styled.chtl..."
-    ./build/v2/chtl examples/simple/styled.chtl build/v2/styled.html
+    h1 { text { "Hello CHTL!" } }
     
-    # 测试片段模式
-    echo "3. Testing fragment mode..."
-    ./build/v2/chtl --fragment examples/simple/basic.chtl build/v2/fragment.html
+    p {
+        style {
+            color: blue;
+            font-size: 16px;
+        }
+        text { "This is a test paragraph." }
+    }
+}
+EOF
     
-    # 测试压缩模式
-    echo "4. Testing minified mode..."
-    ./build/v2/chtl --minify examples/simple/basic.chtl build/v2/minified.html
+    ./build/v2/chtl build/v2/test_basic.chtl build/v2/test_basic.html
+    echo "   Generated: build/v2/test_basic.html"
+    
+    # 测试局部样式
+    echo "2. Testing local styles..."
+    cat > build/v2/test_style.chtl << 'EOF'
+div {
+    style {
+        .mybox {
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        
+        &:hover {
+            background: #e0e0e0;
+        }
+    }
+    
+    text { "Hover over me!" }
+}
+EOF
+    
+    ./build/v2/chtl build/v2/test_style.chtl build/v2/test_style.html
+    echo "   Generated: build/v2/test_style.html"
+    
+    # 测试完整特性
+    if [ -f "tests/examples/full_features.chtl" ]; then
+        echo "3. Testing full features..."
+        ./build/v2/chtl tests/examples/full_features.chtl build/v2/full_features.html
+        echo "   Generated: build/v2/full_features.html"
+    fi
+    
+    # 测试AST打印
+    echo "4. Testing AST printer..."
+    ./build/v2/chtl --ast build/v2/test_basic.chtl > build/v2/test_ast.txt
+    echo "   AST saved to: build/v2/test_ast.txt"
     
     echo ""
-    echo "Done! Check the output files in build/v2/"
+    echo "All tests completed!"
     echo ""
-    echo "Try the new features:"
-    echo "  ./build/v2/chtl --help"
+    echo "Usage examples:"
+    echo "  ./build/v2/chtl input.chtl                    # Generate input.html"
+    echo "  ./build/v2/chtl -d input.chtl output.html    # Debug mode"
+    echo "  ./build/v2/chtl -m input.chtl                # Minified output"
+    echo "  ./build/v2/chtl -f input.chtl                # Fragment only"
+    echo "  ./build/v2/chtl --ast input.chtl             # Print AST"
 else
     echo "Build failed!"
     exit 1
