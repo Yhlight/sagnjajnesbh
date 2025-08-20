@@ -36,14 +36,17 @@ private:
         for (int i = 1; i < argc; ++i) {
             std::string arg = argv[i];
             
-            if (arg.starts_with("-")) {
+            if (!arg.empty() && arg[0] == '-') {
                 // 选项参数
                 std::string option = arg;
                 std::string value;
                 
                 // 检查是否有值
-                if (i + 1 < argc && !std::string(argv[i + 1]).starts_with("-")) {
-                    value = argv[++i];
+                if (i + 1 < argc) {
+                    std::string nextArg = argv[i + 1];
+                    if (nextArg.empty() || nextArg[0] != '-') {
+                        value = argv[++i];
+                    }
                 }
                 
                 m_Options[option] = value;

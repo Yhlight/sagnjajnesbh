@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchtl_utils.a CMakeFiles/chtl_utils.dir/src/utils/Logger.cpp.o
+/usr/bin/ranlib libchtl_utils.a

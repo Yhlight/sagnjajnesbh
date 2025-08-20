@@ -42,32 +42,86 @@ file(GLOB_RECURSE MERGER_SOURCES src/merger/*.cpp)
 file(GLOB_RECURSE UTILS_SOURCES src/utils/*.cpp)
 file(GLOB_RECURSE MODULE_SOURCES src/module/*.cpp)
 
-# 创建静态库
-add_library(chtl_scanner STATIC ${SCANNER_SOURCES})
-add_library(chtl_core STATIC ${CHTL_SOURCES})
-add_library(chtl_js_core STATIC ${CHTL_JS_SOURCES})
-add_library(chtl_css STATIC ${CSS_SOURCES})
-add_library(chtl_javascript STATIC ${JS_SOURCES})
-add_library(chtl_dispatcher STATIC ${DISPATCHER_SOURCES})
-add_library(chtl_merger STATIC ${MERGER_SOURCES})
-add_library(chtl_utils STATIC ${UTILS_SOURCES})
-add_library(chtl_module STATIC ${MODULE_SOURCES})
+# 创建静态库（只创建有源文件的库）
+if(SCANNER_SOURCES)
+    add_library(chtl_scanner STATIC ${SCANNER_SOURCES})
+endif()
+
+if(CHTL_SOURCES)
+    add_library(chtl_core STATIC ${CHTL_SOURCES})
+endif()
+
+if(CHTL_JS_SOURCES)
+    add_library(chtl_js_core STATIC ${CHTL_JS_SOURCES})
+endif()
+
+if(CSS_SOURCES)
+    add_library(chtl_css STATIC ${CSS_SOURCES})
+endif()
+
+if(JS_SOURCES)
+    add_library(chtl_javascript STATIC ${JS_SOURCES})
+endif()
+
+if(DISPATCHER_SOURCES)
+    add_library(chtl_dispatcher STATIC ${DISPATCHER_SOURCES})
+endif()
+
+if(MERGER_SOURCES)
+    add_library(chtl_merger STATIC ${MERGER_SOURCES})
+endif()
+
+if(UTILS_SOURCES)
+    add_library(chtl_utils STATIC ${UTILS_SOURCES})
+endif()
+
+if(MODULE_SOURCES)
+    add_library(chtl_module STATIC ${MODULE_SOURCES})
+endif()
 
 # 主执行文件
 add_executable(chtl src/main.cpp)
 
-# 链接库
-target_link_libraries(chtl
-    chtl_dispatcher
-    chtl_scanner
-    chtl_core
-    chtl_js_core
-    chtl_css
-    chtl_javascript
-    chtl_merger
-    chtl_module
-    chtl_utils
-)
+# 链接库（只链接存在的库）
+set(CHTL_LIBS "")
+
+if(TARGET chtl_dispatcher)
+    list(APPEND CHTL_LIBS chtl_dispatcher)
+endif()
+
+if(TARGET chtl_scanner)
+    list(APPEND CHTL_LIBS chtl_scanner)
+endif()
+
+if(TARGET chtl_core)
+    list(APPEND CHTL_LIBS chtl_core)
+endif()
+
+if(TARGET chtl_js_core)
+    list(APPEND CHTL_LIBS chtl_js_core)
+endif()
+
+if(TARGET chtl_css)
+    list(APPEND CHTL_LIBS chtl_css)
+endif()
+
+if(TARGET chtl_javascript)
+    list(APPEND CHTL_LIBS chtl_javascript)
+endif()
+
+if(TARGET chtl_merger)
+    list(APPEND CHTL_LIBS chtl_merger)
+endif()
+
+if(TARGET chtl_module)
+    list(APPEND CHTL_LIBS chtl_module)
+endif()
+
+if(TARGET chtl_utils)
+    list(APPEND CHTL_LIBS chtl_utils)
+endif()
+
+target_link_libraries(chtl ${CHTL_LIBS})
 
 # 测试
 enable_testing()

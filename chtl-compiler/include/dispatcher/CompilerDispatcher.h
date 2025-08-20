@@ -52,11 +52,12 @@ public:
 private:
     // 编译器组件
     std::unique_ptr<CHTLUnifiedScanner> m_Scanner;
-    std::unique_ptr<CHTLCompiler> m_ChtlCompiler;
-    std::unique_ptr<CHTLJSCompiler> m_ChtlJsCompiler;
-    std::unique_ptr<CSSCompiler> m_CssCompiler;
-    std::unique_ptr<JavaScriptCompiler> m_JsCompiler;
-    std::unique_ptr<ResultMerger> m_Merger;
+    // TODO: 添加其他编译器组件
+    // std::unique_ptr<CHTLCompiler> m_ChtlCompiler;
+    // std::unique_ptr<CHTLJSCompiler> m_ChtlJsCompiler;
+    // std::unique_ptr<CSSCompiler> m_CssCompiler;
+    // std::unique_ptr<JavaScriptCompiler> m_JsCompiler;
+    // std::unique_ptr<ResultMerger> m_Merger;
 
     // 配置
     std::vector<std::string> m_ModulePaths;

@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/TestStringUtils.dir/link.d CMakeFiles/TestStringUtils.dir/TestStringUtils.cpp.o -o TestStringUtils  ../libchtl_utils.a ../libchtl_scanner.a
