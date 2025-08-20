@@ -39,6 +39,11 @@ enum class CHTLTokenType {
     DELETE,                  // delete
     INSERT,                  // insert
     FROM,                    // from
+    AS,                      // as
+    BEFORE,                  // before
+    AFTER,                   // after
+    REPLACE,                 // replace
+    AT,                      // at
     
     // 模板关键字
     AT_STYLE,                // @Style
@@ -48,6 +53,8 @@ enum class CHTLTokenType {
     AT_JAVASCRIPT,           // @JavaScript
     AT_CHTL,                 // @Chtl
     AT_CJMOD,                // @CJmod
+    AT_CONFIG,               // @Config
+    AT_KEYWORD,              // 通用@关键字
     
     // 符号
     LBRACE,                  // {

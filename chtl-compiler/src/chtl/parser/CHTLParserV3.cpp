@@ -281,19 +281,26 @@ void CHTLParserV3::ParseElementContent(ast::v3::ElementNode* element) {
 }
 
 std::unordered_map<std::string, std::string> CHTLParserV3::ParseAttributes() {
-    auto name = Advance(); // 属性名
+    std::unordered_map<std::string, std::string> attributes;
     
-    if (!MatchColonOrEquals()) {
-        ReportError("Expected ':' or '=' after attribute name");
-        return;
+    while (!IsAtEnd() && !Check(CHTLTokenType::LBRACE)) {
+        if (!Check(CHTLTokenType::IDENTIFIER)) {
+            break;
+        }
+        
+        auto name = Advance();
+        
+        if (MatchColonOrEquals()) {
+            std::string value = ParseStringOrUnquoted();
+            attributes[name.value] = value;
+        } else {
+            attributes[name.value] = "true";
+        }
+        
+        // 可选的分号
+        Match(CHTLTokenType::SEMICOLON);
     }
     
-    // 属性值
-    std::string value = ParseStringOrUnquoted();
-    element->AddAttribute(name.value, value);
-    
-    // 可选的分号
-    Match(CHTLTokenType::SEMICOLON);
     return attributes;
 }
 
@@ -515,7 +522,7 @@ void CHTLParserV3::ParseStyleRule(ast::v3::StyleNode* style) {
 }
 
 // 模板解析
-std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseTemplate() {
+std::shared_ptr<ast::v3::TemplateNode> CHTLParserV3::ParseTemplate() {
     auto token = Advance(); // [Template]
     
     // 期望 @Style, @Element 或 @Var
@@ -638,7 +645,7 @@ void CHTLParserV3::ParseTemplateDefinition(ast::v3::TemplateNode* tmpl) {
 }
 
 // 自定义解析
-std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseCustom() {
+std::shared_ptr<ast::v3::CustomNode> CHTLParserV3::ParseCustom() {
     auto token = Advance(); // [Custom]
     
     // 期望 @Style, @Element 或 @Var
@@ -691,75 +698,6 @@ void CHTLParserV3::ParseCustomDefinition(ast::v3::CustomNode* custom) {
     }
 }
 
-void CHTLParserV3::ParseCustomDefinition(ast::v3::CustomNode* custom) {
-    auto styleNode = std::make_shared<ast::v3::StyleNode>(ast::v3::StyleNode::INLINE);
-    
-    while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
-        if (Match(CHTLTokenType::SEMICOLON)) continue;
-        
-        // delete操作
-        if (Check(CHTLTokenType::DELETE)) {
-            auto deleteNode = ParseDelete();
-            custom->AddChild(deleteNode);
-            continue;
-        }
-        
-        // 继承其他样式
-        if (Check(CHTLTokenType::AT_STYLE)) {
-            Advance();
-            std::string templateName = ParseFullQualifiedName();
-            
-            if (Match(CHTLTokenType::LBRACE)) {
-                // 特例化继承
-                auto subCustom = std::make_shared<ast::v3::CustomNode>(ast::v3::CustomNode::STYLE, templateName);
-                subCustom->SetSpecialization(true);
-                
-                PushContext(Context::SPECIALIZATION);
-                ParseCustomDefinition(subCustom.get());
-                PopContext();
-                
-                Match(CHTLTokenType::RBRACE);
-                custom->AddChild(subCustom);
-            } else {
-                // 简单继承
-                auto inherit = std::make_shared<ast::v3::InheritNode>(templateName);
-                custom->AddChild(inherit);
-                Match(CHTLTokenType::SEMICOLON);
-            }
-            continue;
-        }
-        
-        // 样式属性
-        if (Check(CHTLTokenType::IDENTIFIER)) {
-            auto prop = Advance();
-            if (MatchColonOrEquals()) {
-                std::string value = ParseStringOrUnquoted();
-                styleNode->AddInlineProperty(prop.value, value);
-                Match(CHTLTokenType::SEMICOLON);
-            } else if (Match(CHTLTokenType::SEMICOLON) || Check(CHTLTokenType::COMMA)) {
-                // 无值属性
-                styleNode->AddNoValueProperty(prop.value);
-                custom->SetHasNoValueProperties(true);
-                
-                // 继续解析逗号分隔的无值属性
-                while (Match(CHTLTokenType::COMMA)) {
-                    if (Check(CHTLTokenType::IDENTIFIER)) {
-                        auto nextProp = Advance();
-                        styleNode->AddNoValueProperty(nextProp.value);
-                    }
-                }
-                Match(CHTLTokenType::SEMICOLON);
-            }
-        } else {
-            ReportError("Unexpected token in custom style");
-            Advance();
-        }
-    }
-    
-    if (!styleNode->GetInlineProperties().empty() || 
-        !styleNode->GetNoValueProperties().empty()) {
-        custom->AddChild(styleNode);
-    }
 }
 
 // 配置解析
@@ -945,7 +883,7 @@ std::shared_ptr<ast::v3::OriginNode> CHTLParserV3::ParseOrigin() {
         type = ast::v3::OriginNode::STYLE;
     } else if (Match(CHTLTokenType::AT_JAVASCRIPT)) {
         type = ast::v3::OriginNode::JAVASCRIPT;
-    } else if (Check(CHTLTokenType::IDENTIFIER) && Peek().value.starts_with("@")) {
+    } else if (Check(CHTLTokenType::IDENTIFIER) && Peek().value.compare(0, 1, "@") == 0) {
         // 自定义类型
         type = ast::v3::OriginNode::CUSTOM;
         customType = Advance().value;
@@ -1359,6 +1297,7 @@ std::string CHTLParserV3::ExtractOriginContent(size_t startPos, size_t endPos) {
 // 其他辅助方法...
 
 std::shared_ptr<ast::v3::StyleNode> CHTLParserV3::ParseLocalStyle() {
+    auto startToken = Advance(); // style
     auto styleNode = std::dynamic_pointer_cast<ast::v3::StyleNode>(ParseStyle());
     if (styleNode) {
         // 处理自动生成的类名和ID
@@ -1374,11 +1313,8 @@ std::shared_ptr<ast::v3::StyleNode> CHTLParserV3::ParseLocalStyle() {
                     className = className.substr(0, colonPos);
                 }
                 
-                // 自动添加类名到元素
-                if (!element->HasAttribute("class")) {
-                    element->AddAttribute("class", className);
-                    styleNode->SetAutoClassName(className);
-                }
+                // 记录自动生成的类名
+                styleNode->SetAutoClassName(className);
             }
             // 检查是否是ID选择器
             else if (selector.length() > 1 && selector[0] == '#') {
@@ -1389,20 +1325,18 @@ std::shared_ptr<ast::v3::StyleNode> CHTLParserV3::ParseLocalStyle() {
                     id = id.substr(0, colonPos);
                 }
                 
-                // 自动添加ID到元素
-                if (!element->HasAttribute("id")) {
-                    element->AddAttribute("id", id);
-                    styleNode->SetAutoId(id);
-                }
+                // 记录自动生成的ID
+                styleNode->SetAutoId(id);
             }
         }
         
-        element->AddChild(styleNode);
     }
+    
+    return styleNode;
 }
 
 std::shared_ptr<ast::v3::ScriptNode> CHTLParserV3::ParseLocalScript() {
-    element->AddChild(ParseScript());
+    return std::dynamic_pointer_cast<ast::v3::ScriptNode>(ParseScript());
 }
 
 std::shared_ptr<ast::v3::ASTNode> CHTLParserV3::ParseScript() {
@@ -1611,4 +1545,5 @@ std::string CHTLParserV3::ParseIdentifierPath() {
     return path;
 }
 
+} // namespace chtl
 } // namespace chtl

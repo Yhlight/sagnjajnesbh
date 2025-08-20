@@ -13,7 +13,12 @@ static std::unordered_map<std::string, CHTLTokenType> s_Keywords = {
     {"except", CHTLTokenType::EXCEPT},
     {"delete", CHTLTokenType::DELETE},
     {"insert", CHTLTokenType::INSERT},
-    {"from", CHTLTokenType::FROM}
+    {"from", CHTLTokenType::FROM},
+    {"as", CHTLTokenType::AS},
+    {"before", CHTLTokenType::BEFORE},
+    {"after", CHTLTokenType::AFTER},
+    {"replace", CHTLTokenType::REPLACE},
+    {"at", CHTLTokenType::AT}
 };
 
 // 方括号关键字映射表
@@ -34,7 +39,8 @@ static std::unordered_map<std::string, CHTLTokenType> s_AtKeywords = {
     {"Html", CHTLTokenType::AT_HTML},
     {"JavaScript", CHTLTokenType::AT_JAVASCRIPT},
     {"Chtl", CHTLTokenType::AT_CHTL},
-    {"CJmod", CHTLTokenType::AT_CJMOD}
+    {"CJmod", CHTLTokenType::AT_CJMOD},
+    {"Config", CHTLTokenType::AT_CONFIG}
 };
 
 CHTLLexerV2::CHTLLexerV2() : m_Current(0), m_Line(1), m_Column(1), 

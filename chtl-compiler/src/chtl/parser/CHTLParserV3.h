@@ -164,7 +164,6 @@ private:
     std::vector<std::string> ParseExceptTargets();
     std::string ExtractOriginContent(size_t startPos, size_t endPos);
     void ParseStyleRule(ast::v3::StyleNode* style);
-    std::shared_ptr<ast::v3::ASTNode> ParseSpecialization();
     
     // 辅助方法
     std::string ParseStringOrUnquoted();
