@@ -1,0 +1,44 @@
+// 测试基本的模板系统
+
+[Template] @Style DefaultText
+{
+    color: black;
+    line-height: 1.6;
+}
+
+[Template] @Element Box
+{
+    div
+    {
+        style
+        {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+    }
+}
+
+[Template] @Var ThemeColor
+{
+    tableColor: "rgb(255, 192, 203)";
+    textColor: black;
+}
+
+body
+{
+    div
+    {
+        style
+        {
+            @Style DefaultText;
+        }
+        
+        text
+        {
+            测试文本
+        }
+    }
+    
+    @Element Box;
+}

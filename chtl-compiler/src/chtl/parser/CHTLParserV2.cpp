@@ -441,6 +441,25 @@ void CHTLParserV2::ParseStyleContent(ast::StyleNode* style) {
         // 跳过分号
         if (Match(CHTLTokenType::SEMICOLON)) continue;
         
+        // 处理 @Style 模板使用
+        if (Check(CHTLTokenType::AT_STYLE)) {
+            Advance(); // @Style
+            if (Check(CHTLTokenType::IDENTIFIER)) {
+                auto name = Advance();
+                
+                // 创建一个CustomNode来表示样式模板使用
+                auto custom = std::make_shared<ast::CustomNode>(ast::CustomNode::STYLE, name.value);
+                custom->SetLocation(name.line, name.column);
+                style->AddChild(custom);
+                
+                Match(CHTLTokenType::SEMICOLON);
+                continue;
+            } else {
+                ReportError("Expected style template name after @Style");
+                continue;
+            }
+        }
+        
         // 局部样式块中的直接属性变成内联样式
         if (CurrentContext() == Context::STYLE_LOCAL && 
             Check(CHTLTokenType::IDENTIFIER)) {
