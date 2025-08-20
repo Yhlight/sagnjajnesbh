@@ -16,7 +16,10 @@ enum class ASTNodeType {
     ATTRIBUTE,
     DOCUMENT,
     STYLE,
-    SCRIPT
+    SCRIPT,
+    TEMPLATE,
+    CUSTOM,
+    VARIABLE
 };
 
 /**
