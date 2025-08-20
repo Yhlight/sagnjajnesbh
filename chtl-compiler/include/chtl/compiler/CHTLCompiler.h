@@ -20,11 +20,11 @@ public:
     ~CHTLCompiler() override;
     
     // 实现ICompiler接口
-    CompileResult Compile(const std::string& sourceCode, const std::string& filename = "") override;
+    CompileResult Compile(const CodeFragment& fragment) override;
     CompileResult CompileFragments(const std::vector<CodeFragment>& fragments) override;
     void Reset() override;
-    const std::vector<std::string>& GetErrors() const override { return m_Errors; }
-    void ClearErrors() override { m_Errors.clear(); }
+    std::string GetName() const override { return "CHTLCompiler"; }
+    void SetDebugMode(bool debug) override { m_DebugMode = debug; }
     
     /**
      * 获取全局映射表
@@ -37,6 +37,12 @@ public:
      */
     void SetModulePaths(const std::vector<std::string>& paths);
     
+    /**
+     * 获取错误列表
+     */
+    const std::vector<std::string>& GetErrors() const { return m_Errors; }
+    void ClearErrors() { m_Errors.clear(); }
+
 private:
     // 核心组件
     std::unique_ptr<CHTLGlobalMap> m_GlobalMap;

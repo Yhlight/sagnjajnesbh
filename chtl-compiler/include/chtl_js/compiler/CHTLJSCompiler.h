@@ -35,7 +35,7 @@ public:
     
 private:
     // 核心组件（完全独立于CHTL）
-    std::unique_ptr<CHTLJSGlobalMap> m_GlobalMap;
+    std::shared_ptr<CHTLJSGlobalMap> m_GlobalMap;
     std::unique_ptr<CHTLJSStateMachine> m_StateMachine;
     std::unique_ptr<CHTLJSContext> m_Context;
     std::unique_ptr<CHTLJSLexer> m_Lexer;

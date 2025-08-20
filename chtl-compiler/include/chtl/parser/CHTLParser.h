@@ -8,6 +8,8 @@
 #include "chtl/ast/ASTNode.h"
 #include "chtl/ast/DocumentNode.h"
 #include "chtl/core/CHTLGlobalMap.h"
+#include "chtl/ast/TemplateNode.h"
+#include "chtl/ast/CustomNode.h"
 #include "chtl/state/CHTLState.h"
 #include "chtl/context/CHTLContext.h"
 

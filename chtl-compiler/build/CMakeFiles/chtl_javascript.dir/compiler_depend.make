@@ -104,9 +104,11 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/include/c++/14/algorithm \
   /usr/include/c++/14/backward/auto_ptr.h \
   /usr/include/c++/14/backward/binders.h \
   /usr/include/c++/14/bit \
+  /usr/include/c++/14/bits/algorithmfwd.h \
   /usr/include/c++/14/bits/align.h \
   /usr/include/c++/14/bits/alloc_traits.h \
   /usr/include/c++/14/bits/allocated_ptr.h \
@@ -169,10 +171,12 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
   /usr/include/c++/14/bits/sstream.tcc \
   /usr/include/c++/14/bits/std_abs.h \
   /usr/include/c++/14/bits/std_mutex.h \
+  /usr/include/c++/14/bits/stl_algo.h \
   /usr/include/c++/14/bits/stl_algobase.h \
   /usr/include/c++/14/bits/stl_bvector.h \
   /usr/include/c++/14/bits/stl_construct.h \
   /usr/include/c++/14/bits/stl_function.h \
+  /usr/include/c++/14/bits/stl_heap.h \
   /usr/include/c++/14/bits/stl_iterator.h \
   /usr/include/c++/14/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/14/bits/stl_iterator_base_types.h \
@@ -185,6 +189,7 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
   /usr/include/c++/14/bits/streambuf_iterator.h \
   /usr/include/c++/14/bits/string_view.tcc \
   /usr/include/c++/14/bits/stringfwd.h \
+  /usr/include/c++/14/bits/uniform_int_dist.h \
   /usr/include/c++/14/bits/unique_lock.h \
   /usr/include/c++/14/bits/unique_ptr.h \
   /usr/include/c++/14/bits/unordered_map.h \
@@ -229,6 +234,7 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
   /usr/include/c++/14/new \
   /usr/include/c++/14/ostream \
   /usr/include/c++/14/pstl/execution_defs.h \
+  /usr/include/c++/14/pstl/glue_algorithm_defs.h \
   /usr/include/c++/14/pstl/glue_memory_defs.h \
   /usr/include/c++/14/pstl/pstl_config.h \
   /usr/include/c++/14/ratio \
@@ -299,13 +305,13 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
 
 /usr/lib/llvm-20/lib/clang/20/include/__stdarg___gnuc_va_list.h:
 
-/usr/include/c++/14/bits/exception.h:
+/usr/include/x86_64-linux-gnu/c++/14/bits/time_members.h:
 
-/usr/include/c++/14/cctype:
+/usr/include/x86_64-linux-gnu/c++/14/bits/os_defines.h:
 
-/usr/include/c++/14/bits/erase_if.h:
+/usr/include/x86_64-linux-gnu/c++/14/bits/messages_members.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/error_t.h:
+/usr/include/x86_64-linux-gnu/c++/14/bits/error_constants.h:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
@@ -329,19 +335,19 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
 
 /usr/include/c++/14/backward/binders.h:
 
+/usr/include/c++/14/algorithm:
+
+/usr/include/stdlib.h:
+
+/usr/include/c++/14/istream:
+
 /workspace/chtl-compiler/include/compiler/ICompiler.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
-/usr/include/x86_64-linux-gnu/c++/14/bits/messages_members.h:
-
 /usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 
 /usr/include/c++/14/bits/shared_ptr.h:
 
@@ -391,11 +397,13 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/error_t.h:
+
+/usr/include/c++/14/bits/erase_if.h:
+
 /usr/include/c++/14/cstdlib:
 
 /usr/include/c++/14/system_error:
-
-/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
 /usr/include/c++/14/bits/allocator.h:
 
@@ -464,10 +472,6 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
-
-/usr/include/stdlib.h:
-
-/usr/include/c++/14/istream:
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
@@ -565,6 +569,8 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
 
 /usr/include/c++/14/new:
 
+/usr/include/c++/14/bits/stl_heap.h:
+
 /usr/include/linux/posix_types.h:
 
 /usr/include/libintl.h:
@@ -582,6 +588,12 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
 /usr/include/x86_64-linux-gnu/bits/cpu-set.h:
 
 /usr/include/c++/14/bits/shared_ptr_base.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
+
+/usr/include/c++/14/bits/uniform_int_dist.h:
 
 /usr/include/c++/14/vector:
 
@@ -627,13 +639,13 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
-/usr/include/x86_64-linux-gnu/c++/14/bits/error_constants.h:
-
 /usr/include/x86_64-linux-gnu/bits/byteswap.h:
 
-/usr/include/x86_64-linux-gnu/c++/14/bits/os_defines.h:
-
 /usr/include/features-time64.h:
+
+/usr/include/c++/14/bits/exception.h:
+
+/usr/include/c++/14/cctype:
 
 /usr/include/c++/14/bits/exception_ptr.h:
 
@@ -646,6 +658,8 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
 /usr/include/c++/14/bits/invoke.h:
 
 /usr/include/c++/14/bits/ios_base.h:
+
+/usr/include/c++/14/bits/algorithmfwd.h:
 
 /usr/include/c++/14/bits/istream.tcc:
 
@@ -783,9 +797,15 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
 
 /usr/include/c++/14/pstl/execution_defs.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
+
+/usr/include/c++/14/pstl/glue_algorithm_defs.h:
+
 /usr/include/x86_64-linux-gnu/bits/sched.h:
 
 /usr/include/c++/14/ratio:
+
+/usr/include/c++/14/bits/stl_algo.h:
 
 /usr/include/c++/14/sstream:
 
@@ -798,6 +818,12 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
 /usr/include/c++/14/unordered_map:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/atomic_word.h:
+
+/usr/include/x86_64-linux-gnu/c++/14/bits/gthr.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
+
+/usr/include/x86_64-linux-gnu/c++/14/bits/basic_file.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
@@ -816,11 +842,3 @@ CMakeFiles/chtl_javascript.dir/src/javascript/JavaScriptCompilerStub.cpp.o: /wor
 /usr/include/c++/14/clocale:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/ctype_inline.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
-
-/usr/include/x86_64-linux-gnu/c++/14/bits/basic_file.h:
-
-/usr/include/x86_64-linux-gnu/c++/14/bits/gthr.h:
-
-/usr/include/x86_64-linux-gnu/c++/14/bits/time_members.h:

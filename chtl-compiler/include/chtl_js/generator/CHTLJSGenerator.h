@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "chtl_js/ast/CHTLJSASTNode.h"
+#include "chtl_js/ast/EnhancedSelectorNode.h"
 #include "chtl_js/core/CHTLJSGlobalMap.h"
 
 namespace chtl {

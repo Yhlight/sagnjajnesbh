@@ -88,7 +88,7 @@ public:
     void SetStateTag(std::shared_ptr<class StateTagNode> state) {
         m_StateTag = state;
         if (state) {
-            AddChild(state);
+            AddChild(std::static_pointer_cast<CHTLJSASTNode>(state));
         }
     }
     std::shared_ptr<class StateTagNode> GetStateTag() const { return m_StateTag; }

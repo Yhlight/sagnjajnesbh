@@ -111,7 +111,7 @@ public:
     std::vector<SyntaxElement> GetForbiddenElements() const;
     
 public:
-    static SyntaxElement GetSyntaxElement(const ASTNode* node);
+    static SyntaxElement GetSyntaxElement(const ast::ASTNode* node);
 
 private:
     ContextType m_Context;

@@ -1,7 +1,6 @@
-CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: \
-  /workspace/chtl-compiler/src/chtl_js/compiler/CHTLJSCompiler.cpp \
-  /workspace/chtl-compiler/include/chtl_js/compiler/CHTLJSCompiler.h \
-  /workspace/chtl-compiler/include/compiler/ICompiler.h \
+CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintSystem.cpp.o: \
+  /workspace/chtl-compiler/src/chtl/constraint/ConstraintSystem.cpp \
+  /workspace/chtl-compiler/include/chtl/constraint/ConstraintSystem.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/string \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++config.h \
@@ -144,9 +143,23 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator_args.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tuple \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable_policy.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/aligned_buffer.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/memory \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tempbuf.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_raw_storage_iter.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/align.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h /usr/include/stdint.h \
@@ -157,7 +170,6 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/shared_ptr_base.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/typeinfo \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/allocated_ptr.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/aligned_buffer.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/atomicity.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/gthr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/gthr-default.h \
@@ -195,40 +207,21 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/auto_ptr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_memory_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/execution_defs.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
-  /workspace/chtl-compiler/include/scanner/CodeFragment.h \
-  /workspace/chtl-compiler/include/chtl_js/core/CHTLJSGlobalMap.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable_policy.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/optional \
-  /workspace/chtl-compiler/include/chtl_js/state/CHTLJSState.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
-  /workspace/chtl-compiler/include/chtl_js/context/CHTLJSContext.h \
-  /workspace/chtl-compiler/include/chtl_js/lexer/CHTLJSLexer.h \
-  /workspace/chtl-compiler/include/chtl_js/token/CHTLJSToken.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/variant \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
-  /workspace/chtl-compiler/include/chtl_js/parser/CHTLJSParser.h \
-  /workspace/chtl-compiler/include/chtl_js/ast/CHTLJSASTNode.h \
-  /workspace/chtl-compiler/include/chtl_js/ast/CHTLJSDocumentNode.h \
-  /workspace/chtl-compiler/include/chtl_js/ast/FunctionNodes.h \
-  /workspace/chtl-compiler/include/chtl_js/ast/ObjectLiteralNode.h \
-  /workspace/chtl-compiler/include/chtl_js/ast/StateTagNode.h \
-  /workspace/chtl-compiler/include/chtl_js/generator/CHTLJSGenerator.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/istream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/functional \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/array \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/compare \
+  /workspace/chtl-compiler/include/chtl/ast/ASTNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/StyleBlockNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/ScriptBlockNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/TemplateNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/CustomNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/OriginNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/SpecializationNodes.h \
+  /workspace/chtl-compiler/include/chtl/ast/CommentNode.h \
+  /workspace/chtl-compiler/include/utils/Logger.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ios \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/ios_base.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_classes.h \
@@ -248,14 +241,9 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/ctype_inline.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_facets.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/basic_ios.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/ostream.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/istream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/istream.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
-  /workspace/chtl-compiler/include/utils/Logger.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/fstream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/codecvt.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/basic_file.h \
@@ -267,6 +255,7 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cstdint \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/limits \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ctime \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_mutex.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unique_lock.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/chrono \
@@ -278,4 +267,6 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: \
   /usr/include/libintl.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_facets_nonio.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_conv.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/quoted_string.h
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/quoted_string.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc

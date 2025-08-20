@@ -206,10 +206,14 @@ CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
-  /workspace/chtl-compiler/include/chtl/ast/DocumentNode.h \
-  /workspace/chtl-compiler/include/chtl/ast/ASTNode.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/functional \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/array \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/compare \
+  /workspace/chtl-compiler/include/chtl/ast/DocumentNode.h \
+  /workspace/chtl-compiler/include/chtl/ast/ASTNode.h \
   /workspace/chtl-compiler/include/chtl/ast/StyleBlockNode.h \
   /workspace/chtl-compiler/include/chtl/ast/ScriptBlockNode.h \
   /workspace/chtl-compiler/include/chtl/ast/NamespaceNode.h \
@@ -287,7 +291,6 @@ CMakeFiles/chtl_core.dir/src/chtl/constraint/ConstraintChecker.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tree.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_map.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/regex_constants.h \

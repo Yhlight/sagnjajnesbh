@@ -13,25 +13,25 @@ using namespace generator;
 
 CHTLJSCompiler::CHTLJSCompiler()
     : m_DebugMode(false) {
-    m_GlobalMap = std::make_unique<compiler::CHTLJSGlobalMap>();
-    m_StateMachine = std::make_unique<compiler::CHTLJSStateMachine>();
-    m_Context = std::make_unique<compiler::CHTLJSContext>();
-    m_Lexer = std::make_unique<compiler::CHTLJSLexer>();
+    m_GlobalMap = std::make_unique<CHTLJSGlobalMap>();
+    m_StateMachine = std::make_unique<CHTLJSStateMachine>();
+    m_Context = std::make_unique<CHTLJSContext>();
+    m_Lexer = std::make_unique<CHTLJSLexer>();
 }
 
 CHTLJSCompiler::~CHTLJSCompiler() = default;
 
-compiler::CompileResult CHTLJSCompiler::Compile(const std::string& sourceCode, const std::string& filename) {
-    compiler::CompileResult result;
+chtl::CompileResult CHTLJSCompiler::Compile(const CodeFragment& fragment) {
+    chtl::CompileResult result;
     
     try {
         // 1. 词法分析
-        m_Lexer->SetSource(sourceCode, filename);
+        m_Lexer->SetSource(fragment.GetContent(), "");
         auto tokens = m_Lexer->Tokenize();
         
         if (m_Lexer->HasErrors()) {
-            result.Success = false;
-            result.Errors = m_Lexer->GetErrors();
+            result.success = false;
+            result.errorMessage = m_Lexer->GetErrors().empty() ? "词法分析错误" : m_Lexer->GetErrors()[0];
             return result;
         }
         
@@ -44,8 +44,8 @@ compiler::CompileResult CHTLJSCompiler::Compile(const std::string& sourceCode, c
         auto ast = parser.Parse(tokens, true);
         
         if (parser.HasErrors()) {
-            result.Success = false;
-            result.Errors = parser.GetErrors();
+            result.success = false;
+            result.errorMessage = parser.GetErrors().empty() ? "语法分析错误" : parser.GetErrors()[0];
             return result;
         }
         
@@ -57,14 +57,14 @@ compiler::CompileResult CHTLJSCompiler::Compile(const std::string& sourceCode, c
         auto genResult = generator.Generate(ast.get());
         
         if (!genResult.Success) {
-            result.Success = false;
-            result.Errors = genResult.Errors;
+            result.success = false;
+            result.errorMessage = genResult.Errors.empty() ? "代码生成错误" : genResult.Errors[0];
             return result;
         }
         
         // 4. 返回结果
-        result.Success = true;
-        result.OutputContent = genResult.JavaScript;
+        result.success = true;
+        result.output = genResult.JavaScript;
         
         // 记录元数据
         for (const auto& func : genResult.GeneratedFunctions) {
@@ -75,34 +75,42 @@ compiler::CompileResult CHTLJSCompiler::Compile(const std::string& sourceCode, c
         }
         
     } catch (const std::exception& e) {
-        result.Success = false;
-        result.Errors.push_back(std::string("CHTL JS编译异常: ") + e.what());
+        result.success = false;
+        result.errorMessage = std::string("CHTL JS编译异常: ") + e.what();
     }
     
     return result;
 }
 
-compiler::CompileResult CHTLJSCompiler::CompileFragments(const std::vector<CodeFragment>& fragments) {
-    compiler::CompileResult result;
+chtl::CompileResult CHTLJSCompiler::CompileFragments(const std::vector<CodeFragment>& fragments) {
+    chtl::CompileResult result;
     
     // 将所有CHTL JS片段组合
     std::stringstream combined;
     for (const auto& fragment : fragments) {
-        if (fragment.GetType() == CodeFragmentType::CHTL_JS ||
-            fragment.GetType() == CodeFragmentType::SCRIPT) {
+        if (fragment.GetType() == FragmentType::CHTL_JS ||
+            fragment.GetType() == FragmentType::JAVASCRIPT) {
             combined << fragment.GetContent() << "\n";
         }
     }
     
     // 编译组合后的内容
-    return Compile(combined.str(), fragments.empty() ? "" : fragments[0].GetFilename());
+    if (combined.str().empty()) {
+        result.success = true;
+        result.output = "";
+        return result;
+    }
+    
+    // 创建临时fragment
+    CodeFragment tempFragment(FragmentType::CHTL_JS, combined.str(), 1, 1, 1, 1);
+    return Compile(tempFragment);
 }
 
 void CHTLJSCompiler::Reset() {
-    m_GlobalMap = std::make_unique<compiler::CHTLJSGlobalMap>();
-    m_StateMachine = std::make_unique<compiler::CHTLJSStateMachine>();
-    m_Context = std::make_unique<compiler::CHTLJSContext>();
-    m_Lexer = std::make_unique<compiler::CHTLJSLexer>();
+    m_GlobalMap = std::make_unique<CHTLJSGlobalMap>();
+    m_StateMachine = std::make_unique<CHTLJSStateMachine>();
+    m_Context = std::make_unique<CHTLJSContext>();
+    m_Lexer = std::make_unique<CHTLJSLexer>();
 }
 
 std::string CHTLJSCompiler::GetName() const {
