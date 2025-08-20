@@ -172,6 +172,11 @@ CHTLToken CHTLLexerV2::NextToken() {
                 return MakeToken(CHTLTokenType::ARROW, "->", startPos);
             }
             break;
+        case '<':
+        case '>':
+            // 在Origin块中这些字符是允许的
+            Advance();
+            return MakeToken(CHTLTokenType::LITERAL_UNQUOTED, std::string(1, c), startPos);
     }
     
     // 无引号字面量（在特定上下文中）
@@ -357,6 +362,8 @@ CHTLToken CHTLLexerV2::ScanNumber() {
 
 CHTLToken CHTLLexerV2::ScanIdentifierOrKeyword() {
     size_t startPos = m_Current;
+    size_t startLine = m_Line;
+    size_t startColumn = m_Column;
     
     while (!IsAtEnd() && IsIdentifierPart(CurrentChar())) {
         Advance();
@@ -367,10 +374,10 @@ CHTLToken CHTLLexerV2::ScanIdentifierOrKeyword() {
     // 检查是否是关键字
     auto it = s_Keywords.find(value);
     if (it != s_Keywords.end()) {
-        return CHTLToken(it->second, value, m_Line, m_Column - value.length(), value.length());
+        return CHTLToken(it->second, value, startLine, startColumn, value.length());
     }
     
-    return MakeToken(CHTLTokenType::IDENTIFIER, value, startPos);
+    return CHTLToken(CHTLTokenType::IDENTIFIER, value, startLine, startColumn, value.length());
 }
 
 CHTLToken CHTLLexerV2::ScanUnquotedLiteral() {

@@ -174,6 +174,49 @@ void CHTLParserV2::ParseElementContent(ast::ElementNode* element) {
             continue;
         }
         
+        // @Style, @Element, @Var 模板使用
+        if (CheckAny({CHTLTokenType::AT_STYLE, CHTLTokenType::AT_ELEMENT, CHTLTokenType::AT_VAR})) {
+            auto type = Advance();
+            if (Check(CHTLTokenType::IDENTIFIER)) {
+                auto name = Advance();
+                
+                // 创建一个Custom节点来表示模板使用
+                ast::CustomNode::CustomType customType;
+                if (type.type == CHTLTokenType::AT_STYLE) {
+                    customType = ast::CustomNode::STYLE;
+                } else if (type.type == CHTLTokenType::AT_ELEMENT) {
+                    customType = ast::CustomNode::ELEMENT;
+                } else {
+                    customType = ast::CustomNode::VAR;
+                }
+                
+                auto custom = std::make_shared<ast::CustomNode>(customType, name.value);
+                custom->SetLocation(type.line, type.column);
+                
+                // 检查是否有参数或属性块
+                if (Match(CHTLTokenType::LPAREN)) {
+                    // TODO: 解析参数
+                    while (!IsAtEnd() && !Check(CHTLTokenType::RPAREN)) {
+                        Advance();
+                    }
+                    Match(CHTLTokenType::RPAREN);
+                } else if (Match(CHTLTokenType::LBRACE)) {
+                    // 属性块（用于自定义）
+                    while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
+                        auto node = ParseTopLevel();
+                        if (node) {
+                            custom->AddChild(node);
+                        }
+                    }
+                    Match(CHTLTokenType::RBRACE);
+                }
+                
+                element->AddChild(custom);
+                Match(CHTLTokenType::SEMICOLON);
+            }
+            continue;
+        }
+        
         // 属性或子元素
         if (Check(CHTLTokenType::IDENTIFIER)) {
             auto savedPos = m_Current;
@@ -184,6 +227,14 @@ void CHTLParserV2::ParseElementContent(ast::ElementNode* element) {
                 // 回退并解析属性
                 m_Current = savedPos;
                 ParseAttributes(element);
+            } else if (Match(CHTLTokenType::LPAREN)) {
+                // 可能是模板函数调用（如 ThemeColor(tableColor)）
+                // 暂时跳过参数
+                while (!IsAtEnd() && !Check(CHTLTokenType::RPAREN)) {
+                    Advance();
+                }
+                Match(CHTLTokenType::RPAREN);
+                Match(CHTLTokenType::SEMICOLON);
             } else {
                 // 回退并解析子元素
                 m_Current = savedPos;
@@ -215,54 +266,68 @@ void CHTLParserV2::ParseAttributes(ast::ElementNode* element) {
 }
 
 std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseText() {
-    auto token = Advance(); // text
+    auto startToken = Advance(); // text
     
     if (!Match(CHTLTokenType::LBRACE)) {
         ReportError("Expected '{' after 'text'");
         return nullptr;
     }
     
-    // 收集文本内容
+    // 收集文本内容，处理引号字符串或直接内容
     std::string content;
-    int braceDepth = 1;
     
-    while (!IsAtEnd() && braceDepth > 0) {
-        auto token = Peek();
+    // 检查是否是引号字符串
+    if (Check(CHTLTokenType::STRING_DOUBLE) || Check(CHTLTokenType::STRING_SINGLE)) {
+        content = Advance().value;
+    } else {
+        // 收集到下一个匹配的 } 为止
+        int braceDepth = 1;
+        bool firstToken = true;
         
-        if (token.type == CHTLTokenType::LBRACE) {
-            braceDepth++;
-            content += token.value;
-            Advance();
-        } else if (token.type == CHTLTokenType::RBRACE) {
-            braceDepth--;
-            if (braceDepth > 0) {
+        while (!IsAtEnd() && braceDepth > 0) {
+            auto token = Peek();
+            
+            if (token.type == CHTLTokenType::LBRACE) {
+                braceDepth++;
+                if (!firstToken && !content.empty()) content += " ";
                 content += token.value;
+                firstToken = false;
                 Advance();
+            } else if (token.type == CHTLTokenType::RBRACE) {
+                braceDepth--;
+                if (braceDepth > 0) {
+                    if (!firstToken && !content.empty()) content += " ";
+                    content += token.value;
+                    firstToken = false;
+                    Advance();
+                } else {
+                    Advance(); // 消费最后的 }
+                }
             } else {
-                Advance(); // 消费最后的 }
+                if (!firstToken && !content.empty() && 
+                    token.type != CHTLTokenType::SEMICOLON &&
+                    token.type != CHTLTokenType::COMMA &&
+                    token.type != CHTLTokenType::DOT) {
+                    content += " ";
+                }
+                content += token.value;
+                firstToken = false;
+                Advance();
             }
-        } else {
-            content += token.value;
-            // 根据需要添加空格
-            if (token.type == CHTLTokenType::IDENTIFIER ||
-                token.type == CHTLTokenType::STRING_DOUBLE ||
-                token.type == CHTLTokenType::STRING_SINGLE ||
-                token.type == CHTLTokenType::LITERAL_UNQUOTED) {
-                content += " ";
-            }
-            Advance();
+        }
+        
+        // 去除首尾空白
+        size_t start = content.find_first_not_of(" \t\n\r");
+        size_t end = content.find_last_not_of(" \t\n\r");
+        if (start != std::string::npos && end != std::string::npos) {
+            content = content.substr(start, end - start + 1);
+        } else if (start == std::string::npos) {
+            content = "";
         }
     }
     
-    // 去除首尾空白
-    size_t start = content.find_first_not_of(" \t\n\r");
-    size_t end = content.find_last_not_of(" \t\n\r");
-    if (start != std::string::npos && end != std::string::npos) {
-        content = content.substr(start, end - start + 1);
-    }
-    
     auto text = std::make_shared<ast::TextNode>(content);
-    text->SetLocation(token.line, token.column);
+    text->SetLocation(startToken.line, startToken.column);
     return text;
 }
 
@@ -638,9 +703,61 @@ void CHTLParserV2::ParseTemplateParameters(ast::TemplateNode* tmpl) {
 // 模板定义解析
 void CHTLParserV2::ParseTemplateDefinition(ast::TemplateNode* tmpl) {
     while (!IsAtEnd() && !Check(CHTLTokenType::RBRACE)) {
-        auto node = ParseTopLevel();
-        if (node) {
-            tmpl->AddChild(node);
+        // 跳过分号
+        if (Match(CHTLTokenType::SEMICOLON)) continue;
+        
+        if (tmpl->GetType() == ast::TemplateNode::STYLE) {
+            // 样式模板：解析CSS属性
+            if (Check(CHTLTokenType::IDENTIFIER)) {
+                auto prop = Advance();
+                if (MatchColonOrEquals()) {
+                    std::string value = ParseStringOrUnquoted();
+                    
+                    // 创建一个样式节点来存储属性
+                    auto styleNode = std::make_shared<ast::StyleNode>(ast::StyleNode::INLINE);
+                    styleNode->AddInlineProperty(prop.value, value);
+                    tmpl->AddChild(styleNode);
+                    
+                    Match(CHTLTokenType::SEMICOLON);
+                } else {
+                    ReportError("Expected ':' or '=' after property name in style template");
+                }
+            } else if (Check(CHTLTokenType::AT_STYLE)) {
+                // 继承其他样式模板
+                Advance(); // @Style
+                if (Check(CHTLTokenType::IDENTIFIER)) {
+                    auto name = Advance();
+                    auto inheritNode = std::make_shared<ast::InheritNode>(name.value);
+                    tmpl->AddChild(inheritNode);
+                    Match(CHTLTokenType::SEMICOLON);
+                }
+            } else {
+                ReportError("Unexpected token in style template");
+                Advance();
+            }
+        } else if (tmpl->GetType() == ast::TemplateNode::ELEMENT) {
+            // 元素模板：解析元素
+            auto node = ParseTopLevel();
+            if (node) {
+                tmpl->AddChild(node);
+            }
+        } else if (tmpl->GetType() == ast::TemplateNode::VAR) {
+            // 变量模板：解析变量定义
+            if (Check(CHTLTokenType::IDENTIFIER)) {
+                auto name = Advance();
+                if (MatchColonOrEquals()) {
+                    std::string value = ParseStringOrUnquoted();
+                    
+                    auto varNode = std::make_shared<ast::VarNode>(name.value);
+                    varNode->SetValue(value);
+                    tmpl->AddChild(varNode);
+                    
+                    Match(CHTLTokenType::SEMICOLON);
+                }
+            } else {
+                ReportError("Expected variable name in var template");
+                Advance();
+            }
         }
     }
 }
@@ -877,6 +994,8 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseOrigin() {
     // 收集原始内容直到匹配的 }
     std::string content;
     int braceDepth = 1;
+    bool firstToken = true;
+    bool inTag = false;
     
     while (!IsAtEnd() && braceDepth > 0) {
         auto token = Peek();
@@ -891,13 +1010,42 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseOrigin() {
             }
         }
         
-        content += token.value;
-        if (token.type != CHTLTokenType::SEMICOLON && 
-            token.type != CHTLTokenType::COMMA) {
-            content += " ";
+        // 处理HTML标签
+        if (token.value == "<") {
+            inTag = true;
+            content += token.value;
+        } else if (token.value == ">") {
+            inTag = false;
+            content += token.value;
+        } else {
+            // 在标签内不添加空格
+            if (!firstToken && !inTag && 
+                token.type != CHTLTokenType::SEMICOLON && 
+                token.type != CHTLTokenType::COMMA &&
+                token.type != CHTLTokenType::DOT &&
+                token.type != CHTLTokenType::EQUALS &&
+                token.type != CHTLTokenType::SLASH &&
+                !content.empty() && content.back() != ' ' && content.back() != '<') {
+                content += " ";
+            }
+            content += token.value;
         }
         
+        firstToken = false;
         Advance();
+    }
+    
+    // 清理多余的空格
+    size_t pos = 0;
+    while ((pos = content.find("  ", pos)) != std::string::npos) {
+        content.replace(pos, 2, " ");
+    }
+    
+    // 去除首尾空白
+    size_t start = content.find_first_not_of(" \t\n\r");
+    size_t end = content.find_last_not_of(" \t\n\r");
+    if (start != std::string::npos && end != std::string::npos) {
+        content = content.substr(start, end - start + 1);
     }
     
     auto origin = std::make_shared<ast::OriginNode>(type, content);

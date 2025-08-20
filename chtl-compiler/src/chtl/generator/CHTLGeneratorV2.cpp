@@ -214,17 +214,49 @@ void CHTLGeneratorV2::VisitScript(ast::ScriptNode* node) {
 
 void CHTLGeneratorV2::VisitTemplate(ast::TemplateNode* node) {
     RegisterTemplate(node);
+    // 模板定义不生成输出
 }
 
 void CHTLGeneratorV2::VisitCustom(ast::CustomNode* node) {
     // 检查是否是模板实例
     auto tmplIt = m_Templates.find(node->GetName());
     if (tmplIt != m_Templates.end()) {
-        // TODO: 实例化模板
+        auto tmpl = tmplIt->second;
+        
+        // 根据模板类型处理
+        if (node->GetType() == ast::CustomNode::STYLE && 
+            tmpl->GetType() == ast::TemplateNode::STYLE) {
+            // 样式模板实例化
+            for (const auto& child : tmpl->GetChildren()) {
+                if (auto styleNode = std::dynamic_pointer_cast<ast::StyleNode>(child)) {
+                    // 合并样式属性
+                    for (const auto& prop : styleNode->GetInlineProperties()) {
+                        // TODO: 这些属性应该被添加到父元素的style中
+                    }
+                }
+            }
+        } else if (node->GetType() == ast::CustomNode::ELEMENT && 
+                   tmpl->GetType() == ast::TemplateNode::ELEMENT) {
+            // 元素模板实例化 - 直接访问模板的子节点
+            for (const auto& child : tmpl->GetChildren()) {
+                child->Accept(this);
+            }
+        } else if (node->GetType() == ast::CustomNode::VAR && 
+                   tmpl->GetType() == ast::TemplateNode::VAR) {
+            // 变量模板实例化
+            for (const auto& child : tmpl->GetChildren()) {
+                if (auto varNode = std::dynamic_pointer_cast<ast::VarNode>(child)) {
+                    m_Variables[varNode->GetName()] = varNode->GetValue();
+                }
+            }
+        }
+        
+        // 处理自定义节点的子节点（覆盖或扩展）
+        VisitChildren(node);
     } else {
-        // 作为普通元素处理
+        // 未找到模板，作为普通元素处理
         WriteIndent();
-        Write("<div class=\"" + node->GetName() + "\">");
+        Write("<div class=\"custom-" + node->GetName() + "\">");
         if (m_PrettyPrint) {
             WriteLine();
             IncreaseIndent();

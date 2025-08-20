@@ -1,0 +1,10 @@
+=== AST Structure ===
+Document
+  Element: div
+    @class = "container"
+    @id = "main"
+    Element: h1
+      Text: "Hello CHTL!"
+  Element: p
+    Style (local)
+

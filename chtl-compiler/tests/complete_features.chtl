@@ -1,0 +1,199 @@
+// CHTL 完整功能测试
+
+// 配置块
+[Configuration] {
+    title: "CHTL Complete Features Demo";
+    author: "CHTL Team";
+    version: "2.0";
+}
+
+// 模板定义 - 样式模板
+[Template] @Style DefaultText {
+    color: black;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+[Template] @Style ButtonStyle {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    @Style DefaultText;  // 继承其他样式模板
+}
+
+// 模板定义 - 元素模板
+[Template] @Element Card {
+    div {
+        class: card;
+        style {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        h3 { text { "Card Title" } }
+        p { text { "Card content goes here" } }
+    }
+}
+
+// 模板定义 - 变量组模板
+[Template] @Var ThemeColors {
+    primary: "#007bff";
+    secondary: "#6c757d";
+    success: "#28a745";
+    danger: "#dc3545";
+    warning: "#ffc107";
+}
+
+// 全局样式
+style {
+    body {
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}
+
+// 主文档
+html {
+    body {
+        -- 这是HTML注释
+        div {
+            class: container;
+            
+            header {
+                style {
+                    .header {
+                        background: #f8f9fa;
+                        padding: 20px;
+                        margin-bottom: 20px;
+                    }
+                }
+                
+                h1 { text { "CHTL 完整功能演示" } }
+            }
+            
+            // 使用元素模板
+            @Element Card;
+            
+            // 局部样式示例
+            section {
+                style {
+                    .demo-section {
+                        background: #f0f0f0;
+                        padding: 20px;
+                        margin: 20px 0;
+                    }
+                    
+                    &:hover {
+                        background: #e0e0e0;
+                    }
+                }
+                
+                h2 { text { "局部样式功能" } }
+                p { text { "鼠标悬停查看背景变化" } }
+            }
+            
+            // CE对等式示例
+            section {
+                id = ce-demo;  // 使用等号
+                class: feature; // 使用冒号
+                
+                h2 { text { "CE对等式" } }
+                
+                div {
+                    style {
+                        padding = 15px;  // 样式中使用等号
+                        background: #fff;
+                        border: 1px solid #ddd;
+                    }
+                    
+                    text { "属性可以使用冒号或等号" }
+                }
+            }
+            
+            // 变量使用
+            section {
+                $author: "CHTL开发团队";
+                $version: "2.0";
+                
+                h2 { text { "变量系统" } }
+                p { text { "作者：$author" } }
+                p { text { "版本：$version" } }
+            }
+            
+            // 嵌套结构
+            section {
+                h2 { text { "嵌套结构" } }
+                
+                ul {
+                    li { 
+                        text { "第一项 - " }
+                        strong { text { "重要" } }
+                    }
+                    li {
+                        text { "第二项包含子列表" }
+                        ul {
+                            li { text { "子项 A" } }
+                            li { text { "子项 B" } }
+                        }
+                    }
+                    li { text { "第三项" } }
+                }
+            }
+            
+            // Origin 原始代码嵌入
+            section {
+                h2 { text { "Origin 嵌入" } }
+                
+                [Origin] @Html {
+                    <div class="alert">
+                        <strong>注意：</strong>这是通过Origin嵌入的原始HTML代码
+                    </div>
+                }
+            }
+            
+            // 脚本支持
+            section {
+                h2 { text { "脚本支持" } }
+                
+                button {
+                    id: test-btn;
+                    onclick: "handleClick()";
+                    style {
+                        @Style ButtonStyle;
+                        background: #007bff;
+                        color: white;
+                    }
+                    
+                    text { "点击测试" }
+                }
+                
+                script {
+                    function handleClick() {
+                        alert('CHTL 脚本工作正常！');
+                    }
+                }
+            }
+        }
+        
+        footer {
+            style {
+                background: #333;
+                color: white;
+                padding: 20px;
+                text-align: center;
+                margin-top: 40px;
+            }
+            
+            text { "© 2024 CHTL Project" }
+        }
+    }
+}
