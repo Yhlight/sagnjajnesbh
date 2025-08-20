@@ -23,7 +23,7 @@ namespace javascript {
  * JavaScript编译器
  * 使用ANTLR4解析JavaScript代码
  */
-class JavaScriptCompiler : public compiler::ICompiler {
+class JavaScriptCompiler : public ICompiler {
 public:
     JavaScriptCompiler();
     ~JavaScriptCompiler() override;
@@ -31,13 +31,13 @@ public:
     /**
      * 编译JavaScript代码
      */
-    compiler::CompileResult Compile(const std::string& sourceCode, 
-                                  const std::string& filename = "") override;
+    CompileResult Compile(const std::string& sourceCode, 
+                         const std::string& filename = "") override;
     
     /**
      * 编译代码片段
      */
-    compiler::CompileResult CompileFragments(const std::vector<CodeFragment>& fragments) override;
+    CompileResult CompileFragments(const std::vector<CodeFragment>& fragments) override;
     
     /**
      * 重置编译器状态
@@ -95,6 +95,8 @@ private:
     std::string GenerateSourceMap(const std::string& js, const std::string& filename);
 };
 
+// 暂时注释掉ANTLR相关的类，等ANTLR头文件正确包含后再启用
+#if 0
 /**
  * JavaScript访问器
  * 用于遍历和处理JavaScript解析树
@@ -138,6 +140,7 @@ private:
     void ProcessImportStatement(JavaScriptParser::ImportStatementContext* ctx);
     void ProcessExportStatement(JavaScriptParser::ExportStatementContext* ctx);
 };
+#endif
 
 /**
  * JavaScript工具类

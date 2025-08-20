@@ -159,6 +159,7 @@ public:
     virtual void VisitArrayLiteral(class ArrayLiteralNode* node) = 0;
     virtual void VisitJSCodeFragment(class JSCodeFragmentNode* node) = 0;
     virtual void VisitFunctionWithState(class FunctionWithStateNode* node) = 0;
+    virtual void VisitParameterList(class ParameterListNode* node) = 0;
 };
 
 } // namespace ast

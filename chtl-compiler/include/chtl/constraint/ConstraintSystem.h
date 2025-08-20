@@ -110,6 +110,9 @@ public:
      */
     std::vector<SyntaxElement> GetForbiddenElements() const;
     
+public:
+    static SyntaxElement GetSyntaxElement(const ASTNode* node);
+
 private:
     ContextType m_Context;
     std::unordered_set<SyntaxElement> m_AllowedElements;

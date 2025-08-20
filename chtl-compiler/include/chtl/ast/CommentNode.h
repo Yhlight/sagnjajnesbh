@@ -1,6 +1,7 @@
 #pragma once
 
-#include "chtl/ast/ASTNode.h"
+#include "ASTNode.h"
+#include <string>
 
 namespace chtl {
 namespace ast {
@@ -11,35 +12,23 @@ namespace ast {
  */
 class CommentNode : public ASTNode {
 public:
-    enum CommentType {
-        SINGLE_LINE,    // //
-        MULTI_LINE,     // /* ... */
-        HTML_STYLE      // --
+    enum class CommentType {
+        SingleLine,    // //
+        MultiLine,     // /* */
+        HTMLStyle      // <!--  -->
     };
-    
-    CommentNode(const std::string& content, CommentType type,
-                size_t line = 0, size_t column = 0)
-        : ASTNode(ASTNodeType::COMMENT, line, column)
-        , m_Content(content)
-        , m_CommentType(type) {}
-    
+
+    CommentNode(CommentType type, const std::string& content)
+        : ASTNode(ASTNodeType::Comment), m_Type(type), m_Content(content) {}
+
     void Accept(ASTVisitor* visitor) override;
-    
+
+    CommentType GetCommentType() const { return m_Type; }
     const std::string& GetContent() const { return m_Content; }
-    CommentType GetCommentType() const { return m_CommentType; }
-    
-    std::string GetCommentTypeString() const {
-        switch (m_CommentType) {
-            case SINGLE_LINE: return "//";
-            case MULTI_LINE: return "/* ... */";
-            case HTML_STYLE: return "--";
-            default: return "unknown";
-        }
-    }
-    
+
 private:
+    CommentType m_Type;
     std::string m_Content;
-    CommentType m_CommentType;
 };
 
 } // namespace ast

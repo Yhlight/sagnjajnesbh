@@ -25,7 +25,7 @@ namespace css {
  * CSS编译器
  * 使用ANTLR4解析CSS代码
  */
-class CSSCompiler : public compiler::ICompiler {
+class CSSCompiler : public ICompiler {
 public:
     CSSCompiler();
     ~CSSCompiler() override;
@@ -33,13 +33,13 @@ public:
     /**
      * 编译CSS代码
      */
-    compiler::CompileResult Compile(const std::string& sourceCode, 
-                                  const std::string& filename = "") override;
+    CompileResult Compile(const std::string& sourceCode, 
+                         const std::string& filename = "") override;
     
     /**
      * 编译代码片段
      */
-    compiler::CompileResult CompileFragments(const std::vector<CodeFragment>& fragments) override;
+    CompileResult CompileFragments(const std::vector<CodeFragment>& fragments) override;
     
     /**
      * 重置编译器状态
@@ -86,6 +86,8 @@ private:
     std::string ApplyCompatibility(const std::string& css);
 };
 
+// 暂时注释掉ANTLR相关的类，等ANTLR头文件正确包含后再启用
+#if 0
 /**
  * CSS错误监听器
  * 用于收集ANTLR解析错误
@@ -139,6 +141,7 @@ private:
     std::string ProcessSelector(css3Parser::SelectorContext* ctx);
     std::string ProcessValue(css3Parser::ExprContext* ctx);
 };
+#endif
 
 /**
  * CSS工具类
