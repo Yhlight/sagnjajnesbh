@@ -20,11 +20,11 @@ public:
     ~CHTLCompiler() override;
     
     // 实现ICompiler接口
-    CompileResult Compile(const CodeFragment& fragment) override;
+    CompileResult Compile(const std::string& sourceCode, const std::string& filename = "") override;
     CompileResult CompileFragments(const std::vector<CodeFragment>& fragments) override;
     void Reset() override;
-    std::string GetName() const override { return "CHTL Compiler"; }
-    void SetDebugMode(bool debug) override;
+    const std::vector<std::string>& GetErrors() const override { return m_Errors; }
+    void ClearErrors() override { m_Errors.clear(); }
     
     /**
      * 获取全局映射表

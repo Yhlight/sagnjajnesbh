@@ -34,7 +34,7 @@ public:
      * @return AST根节点
      */
     std::shared_ptr<ast::CHTLJSDocumentNode> Parse(
-        const std::vector<compiler::CHTLJSToken>& tokens,
+        const std::vector<CHTLJSToken>& tokens,
         bool isLocal = true
     );
     
@@ -59,7 +59,7 @@ public:
     /**
      * 设置全局映射表
      */
-    void SetGlobalMap(std::shared_ptr<compiler::CHTLJSGlobalMap> globalMap) {
+    void SetGlobalMap(std::shared_ptr<CHTLJSGlobalMap> globalMap) {
         m_GlobalMap = globalMap;
     }
     
@@ -70,13 +70,13 @@ public:
     
 private:
     // Token管理
-    std::vector<compiler::CHTLJSToken> m_Tokens;
+    std::vector<CHTLJSToken> m_Tokens;
     size_t m_Current;
     
     // 状态管理（独立的CHTL JS状态机）
-    std::unique_ptr<compiler::CHTLJSStateMachine> m_StateMachine;
-    std::unique_ptr<compiler::CHTLJSContext> m_Context;
-    std::shared_ptr<compiler::CHTLJSGlobalMap> m_GlobalMap;
+    std::unique_ptr<CHTLJSStateMachine> m_StateMachine;
+    std::unique_ptr<CHTLJSContext> m_Context;
+    std::shared_ptr<CHTLJSGlobalMap> m_GlobalMap;
     
     // 虚对象注册表
     std::unordered_map<std::string, std::shared_ptr<ast::VirDeclarationNode>> m_VirRegistry;
@@ -87,13 +87,13 @@ private:
     
     // Token访问方法
     bool IsAtEnd() const;
-    const compiler::CHTLJSToken& Current() const;
-    const compiler::CHTLJSToken& Previous() const;
-    const compiler::CHTLJSToken& Peek(int offset = 0) const;
-    compiler::CHTLJSToken Advance();
-    bool Check(compiler::CHTLJSTokenType type) const;
-    bool Match(compiler::CHTLJSTokenType type);
-    bool Match(std::initializer_list<compiler::CHTLJSTokenType> types);
+    const CHTLJSToken& Current() const;
+    const CHTLJSToken& Previous() const;
+    const CHTLJSToken& Peek(int offset = 0) const;
+    CHTLJSToken Advance();
+    bool Check(CHTLJSTokenType type) const;
+    bool Match(CHTLJSTokenType type);
+    bool Match(std::initializer_list<CHTLJSTokenType> types);
     
     // 主要解析方法
     std::shared_ptr<ast::CHTLJSASTNode> ParseStatement();
@@ -136,7 +136,7 @@ private:
     // 错误处理
     void Synchronize();
     void ReportError(const std::string& message);
-    void ReportError(const compiler::CHTLJSToken& token, const std::string& message);
+    void ReportError(const CHTLJSToken& token, const std::string& message);
     
     // 表达式解析辅助
     std::shared_ptr<ast::CHTLJSASTNode> ParsePrimary();

@@ -150,7 +150,7 @@ private:
     std::pair<std::string, std::string> ParseKeyValuePair();
     
     // 状态管理辅助
-    void EnterState(compiler::CHTLStateType state);
+    void EnterState(CHTLStateType state);
     void ExitState();
     
     // 上下文管理辅助
