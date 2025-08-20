@@ -11,28 +11,28 @@ namespace utils {
 class CommandLineParser {
 public:
     CommandLineParser(int argc, char* argv[]) {
-        parse(argc, argv);
+        Parse(argc, argv);
     }
 
-    bool hasOption(const std::string& option) const {
-        return options_.find(option) != options_.end();
+    bool HasOption(const std::string& option) const {
+        return m_Options.find(option) != m_Options.end();
     }
 
-    std::string getOptionValue(const std::string& option, 
+    std::string GetOptionValue(const std::string& option, 
                               const std::string& defaultValue = "") const {
-        auto it = options_.find(option);
-        if (it != options_.end() && !it->second.empty()) {
+        auto it = m_Options.find(option);
+        if (it != m_Options.end() && !it->second.empty()) {
             return it->second;
         }
         return defaultValue;
     }
 
-    const std::vector<std::string>& getPositionalArgs() const {
-        return positionalArgs_;
+    const std::vector<std::string>& GetPositionalArgs() const {
+        return m_PositionalArgs;
     }
 
 private:
-    void parse(int argc, char* argv[]) {
+    void Parse(int argc, char* argv[]) {
         for (int i = 1; i < argc; ++i) {
             std::string arg = argv[i];
             
@@ -46,16 +46,16 @@ private:
                     value = argv[++i];
                 }
                 
-                options_[option] = value;
+                m_Options[option] = value;
             } else {
                 // 位置参数
-                positionalArgs_.push_back(arg);
+                m_PositionalArgs.push_back(arg);
             }
         }
     }
 
-    std::unordered_map<std::string, std::string> options_;
-    std::vector<std::string> positionalArgs_;
+    std::unordered_map<std::string, std::string> m_Options;
+    std::vector<std::string> m_PositionalArgs;
 };
 
 } // namespace utils

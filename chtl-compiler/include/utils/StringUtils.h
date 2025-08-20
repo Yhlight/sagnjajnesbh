@@ -11,26 +11,26 @@ namespace utils {
 
 class StringUtils {
 public:
-    static std::string trim(const std::string& str) {
+    static std::string Trim(const std::string& str) {
         size_t first = str.find_first_not_of(" \t\n\r");
         if (first == std::string::npos) return "";
         size_t last = str.find_last_not_of(" \t\n\r");
         return str.substr(first, (last - first + 1));
     }
 
-    static std::string ltrim(const std::string& str) {
+    static std::string LTrim(const std::string& str) {
         size_t first = str.find_first_not_of(" \t\n\r");
         if (first == std::string::npos) return "";
         return str.substr(first);
     }
 
-    static std::string rtrim(const std::string& str) {
+    static std::string RTrim(const std::string& str) {
         size_t last = str.find_last_not_of(" \t\n\r");
         if (last == std::string::npos) return "";
         return str.substr(0, last + 1);
     }
 
-    static std::vector<std::string> split(const std::string& str, char delimiter) {
+    static std::vector<std::string> Split(const std::string& str, char delimiter) {
         std::vector<std::string> tokens;
         std::stringstream ss(str);
         std::string token;
@@ -44,7 +44,7 @@ public:
         return tokens;
     }
 
-    static std::string join(const std::vector<std::string>& strings, 
+    static std::string Join(const std::vector<std::string>& strings, 
                            const std::string& delimiter) {
         if (strings.empty()) return "";
         
@@ -58,29 +58,29 @@ public:
         return ss.str();
     }
 
-    static std::string toLower(const std::string& str) {
+    static std::string ToLower(const std::string& str) {
         std::string result = str;
         std::transform(result.begin(), result.end(), result.begin(), ::tolower);
         return result;
     }
 
-    static std::string toUpper(const std::string& str) {
+    static std::string ToUpper(const std::string& str) {
         std::string result = str;
         std::transform(result.begin(), result.end(), result.begin(), ::toupper);
         return result;
     }
 
-    static bool startsWith(const std::string& str, const std::string& prefix) {
+    static bool StartsWith(const std::string& str, const std::string& prefix) {
         if (prefix.size() > str.size()) return false;
         return str.compare(0, prefix.size(), prefix) == 0;
     }
 
-    static bool endsWith(const std::string& str, const std::string& suffix) {
+    static bool EndsWith(const std::string& str, const std::string& suffix) {
         if (suffix.size() > str.size()) return false;
         return str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
     }
 
-    static std::string replace(const std::string& str, 
+    static std::string Replace(const std::string& str, 
                               const std::string& from, 
                               const std::string& to) {
         std::string result = str;
@@ -94,7 +94,7 @@ public:
         return result;
     }
 
-    static bool isNumber(const std::string& str) {
+    static bool IsNumber(const std::string& str) {
         if (str.empty()) return false;
         
         size_t start = 0;
@@ -116,7 +116,7 @@ public:
         return true;
     }
 
-    static std::string escapeHtml(const std::string& str) {
+    static std::string EscapeHtml(const std::string& str) {
         std::string result;
         result.reserve(str.size() * 1.2);
         

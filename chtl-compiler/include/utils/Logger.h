@@ -20,66 +20,66 @@ enum class LogLevel {
 
 class Logger {
 public:
-    static Logger& getInstance() {
+    static Logger& GetInstance() {
         static Logger instance;
         return instance;
     }
 
-    void setLevel(LogLevel level) { 
-        std::lock_guard<std::mutex> lock(mutex_);
-        currentLevel_ = level; 
+    void SetLevel(LogLevel level) { 
+        std::lock_guard<std::mutex> lock(m_Mutex);
+        m_CurrentLevel = level; 
     }
     
-    void setOutputFile(const std::string& filename) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        if (fileStream_.is_open()) {
-            fileStream_.close();
+    void SetOutputFile(const std::string& filename) {
+        std::lock_guard<std::mutex> lock(m_Mutex);
+        if (m_FileStream.is_open()) {
+            m_FileStream.close();
         }
-        fileStream_.open(filename, std::ios::app);
+        m_FileStream.open(filename, std::ios::app);
     }
 
-    void error(const std::string& message, const std::string& file = "", int line = 0) {
-        log(LogLevel::ERROR, message, file, line);
+    void Error(const std::string& message, const std::string& file = "", int line = 0) {
+        Log(LogLevel::ERROR, message, file, line);
     }
 
-    void warning(const std::string& message, const std::string& file = "", int line = 0) {
-        log(LogLevel::WARNING, message, file, line);
+    void Warning(const std::string& message, const std::string& file = "", int line = 0) {
+        Log(LogLevel::WARNING, message, file, line);
     }
 
-    void info(const std::string& message) {
-        log(LogLevel::INFO, message);
+    void Info(const std::string& message) {
+        Log(LogLevel::INFO, message);
     }
 
-    void debug(const std::string& message) {
-        log(LogLevel::DEBUG, message);
+    void Debug(const std::string& message) {
+        Log(LogLevel::DEBUG, message);
     }
 
-    void verbose(const std::string& message) {
-        log(LogLevel::VERBOSE, message);
+    void Verbose(const std::string& message) {
+        Log(LogLevel::VERBOSE, message);
     }
 
 private:
-    Logger() : currentLevel_(LogLevel::INFO) {}
+    Logger() : m_CurrentLevel(LogLevel::INFO) {}
     ~Logger() {
-        if (fileStream_.is_open()) {
-            fileStream_.close();
+        if (m_FileStream.is_open()) {
+            m_FileStream.close();
         }
     }
 
     Logger(const Logger&) = delete;
     Logger& operator=(const Logger&) = delete;
 
-    void log(LogLevel level, const std::string& message, 
+    void Log(LogLevel level, const std::string& message, 
              const std::string& file = "", int line = 0) {
-        if (level > currentLevel_) return;
+        if (level > m_CurrentLevel) return;
 
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::mutex> lock(m_Mutex);
         
         auto now = std::chrono::system_clock::now();
         auto time_t = std::chrono::system_clock::to_time_t(now);
         
-        std::string levelStr = getLevelString(level);
-        std::string color = getColorCode(level);
+        std::string levelStr = GetLevelString(level);
+        std::string color = GetColorCode(level);
         std::string reset = "\033[0m";
 
         std::stringstream ss;
@@ -102,13 +102,13 @@ private:
         }
 
         // 输出到文件
-        if (fileStream_.is_open()) {
-            fileStream_ << logLine << std::endl;
-            fileStream_.flush();
+        if (m_FileStream.is_open()) {
+            m_FileStream << logLine << std::endl;
+            m_FileStream.flush();
         }
     }
 
-    std::string getLevelString(LogLevel level) {
+    std::string GetLevelString(LogLevel level) {
         switch (level) {
             case LogLevel::ERROR: return "错误";
             case LogLevel::WARNING: return "警告";
@@ -119,7 +119,7 @@ private:
         }
     }
 
-    std::string getColorCode(LogLevel level) {
+    std::string GetColorCode(LogLevel level) {
         switch (level) {
             case LogLevel::ERROR: return "\033[31m";    // 红色
             case LogLevel::WARNING: return "\033[33m";  // 黄色
@@ -130,9 +130,9 @@ private:
         }
     }
 
-    LogLevel currentLevel_;
-    std::ofstream fileStream_;
-    std::mutex mutex_;
+    LogLevel m_CurrentLevel;
+    std::ofstream m_FileStream;
+    std::mutex m_Mutex;
 };
 
 } // namespace utils
