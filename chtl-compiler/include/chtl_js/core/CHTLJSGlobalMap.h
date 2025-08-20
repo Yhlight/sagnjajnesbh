@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <set>
 
 namespace chtl {
 namespace chtljs {
@@ -106,6 +107,8 @@ private:
     
     // 初始化内置函数
     void InitializeBuiltinFunctions();
+    
+public:
     // 内置函数管理
     void AddBuiltinFunction(const std::string& name);
     bool IsBuiltinFunction(const std::string& name) const;
@@ -113,6 +116,10 @@ private:
     // 增强选择器管理
     void AddEnhancedSelector(const std::string& selector);
     const std::set<std::string>& GetEnhancedSelectors() const;
+    
+private:
+    std::set<std::string> m_BuiltinFunctions;
+    std::set<std::string> m_EnhancedSelectors;
 };
 
 } // namespace chtljs
