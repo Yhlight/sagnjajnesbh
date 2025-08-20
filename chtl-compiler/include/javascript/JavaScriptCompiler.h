@@ -29,13 +29,12 @@ public:
     ~JavaScriptCompiler() override;
     
     /**
-     * 编译JavaScript代码
+     * 编译代码片段
      */
-    CompileResult Compile(const std::string& sourceCode, 
-                         const std::string& filename = "") override;
+    CompileResult Compile(const CodeFragment& fragment) override;
     
     /**
-     * 编译代码片段
+     * 编译多个代码片段
      */
     CompileResult CompileFragments(const std::vector<CodeFragment>& fragments) override;
     
@@ -45,14 +44,24 @@ public:
     void Reset() override;
     
     /**
+     * 获取编译器名称
+     */
+    std::string GetName() const override { return "JavaScriptCompiler"; }
+    
+    /**
+     * 设置调试模式
+     */
+    void SetDebugMode(bool debug) override { m_Debug = debug; }
+    
+    /**
      * 获取错误列表
      */
-    const std::vector<std::string>& GetErrors() const override { return m_Errors; }
+    const std::vector<std::string>& GetErrors() const { return m_Errors; }
     
     /**
      * 清除错误
      */
-    void ClearErrors() override { m_Errors.clear(); }
+    void ClearErrors() { m_Errors.clear(); }
     
     /**
      * 设置选项
@@ -70,6 +79,7 @@ public:
     
 private:
     std::vector<std::string> m_Errors;
+    bool m_Debug;
     bool m_Minify;
     bool m_SourceMap;
     bool m_StrictMode;

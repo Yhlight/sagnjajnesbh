@@ -47,7 +47,7 @@ public:
     /**
      * 设置全局映射表
      */
-    void SetGlobalMap(std::shared_ptr<compiler::CHTLJSGlobalMap> globalMap) {
+    void SetGlobalMap(std::shared_ptr<CHTLJSGlobalMap> globalMap) {
         m_GlobalMap = globalMap;
     }
     
@@ -83,7 +83,7 @@ private:
     std::stringstream* m_CurrentStream;
     
     // 全局映射表（独立的CHTL JS映射表）
-    std::shared_ptr<compiler::CHTLJSGlobalMap> m_GlobalMap;
+    std::shared_ptr<CHTLJSGlobalMap> m_GlobalMap;
     
     // 生成状态
     int m_IndentLevel;
