@@ -1,0 +1,53 @@
+// 嵌套结构示例
+html {
+    head {
+        title {
+            text { CHTL Simple Example }
+        }
+    }
+    
+    body {
+        div {
+            id: "main";
+            class: "container";
+            
+            header {
+                h1 {
+                    text { Welcome to CHTL }
+                }
+                
+                nav {
+                    ul {
+                        li { text { Home } }
+                        li { text { About } }
+                        li { text { Contact } }
+                    }
+                }
+            }
+            
+            main {
+                section {
+                    h2 { text { Introduction } }
+                    p {
+                        text { CHTL makes writing HTML more intuitive and maintainable. }
+                    }
+                }
+                
+                section {
+                    h2 { text { Features } }
+                    ul {
+                        li { text { Clean syntax } }
+                        li { text { Easy to learn } }
+                        li { text { Powerful features } }
+                    }
+                }
+            }
+            
+            footer {
+                p {
+                    text { © 2025 CHTL Project }
+                }
+            }
+        }
+    }
+}

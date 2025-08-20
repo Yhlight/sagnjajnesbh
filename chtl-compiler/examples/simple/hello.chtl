@@ -1,0 +1,13 @@
+// 简单的 Hello World 示例
+div {
+    class: "container";
+    
+    h1 {
+        text { Hello, CHTL! }
+    }
+    
+    p {
+        class: "intro";
+        text { This is a simple example of CHTL syntax. }
+    }
+}
