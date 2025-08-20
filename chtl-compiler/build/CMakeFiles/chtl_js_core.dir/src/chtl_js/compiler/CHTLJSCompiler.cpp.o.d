@@ -254,6 +254,7 @@ CMakeFiles/chtl_js_core.dir/src/chtl_js/compiler/CHTLJSCompiler.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
+  /workspace/chtl-compiler/include/chtl_js/ast/EnhancedSelectorNode.h \
   /workspace/chtl-compiler/include/utils/Logger.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/fstream \

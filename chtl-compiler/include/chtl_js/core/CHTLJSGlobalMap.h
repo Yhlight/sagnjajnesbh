@@ -106,6 +106,13 @@ private:
     
     // 初始化内置函数
     void InitializeBuiltinFunctions();
+    // 内置函数管理
+    void AddBuiltinFunction(const std::string& name);
+    bool IsBuiltinFunction(const std::string& name) const;
+    
+    // 增强选择器管理
+    void AddEnhancedSelector(const std::string& selector);
+    const std::set<std::string>& GetEnhancedSelectors() const;
 };
 
 } // namespace chtljs

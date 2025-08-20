@@ -1,4 +1,4 @@
-#include "JavaScriptLexer.h"
+#include "../JavaScriptLexer.h"
 
 using namespace antlr4;
 

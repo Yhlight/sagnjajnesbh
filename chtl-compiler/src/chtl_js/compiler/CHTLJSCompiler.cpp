@@ -13,7 +13,7 @@ using namespace generator;
 
 CHTLJSCompiler::CHTLJSCompiler()
     : m_DebugMode(false) {
-    m_GlobalMap = std::make_unique<CHTLJSGlobalMap>();
+    m_GlobalMap = std::make_shared<CHTLJSGlobalMap>();
     m_StateMachine = std::make_unique<CHTLJSStateMachine>();
     m_Context = std::make_unique<CHTLJSContext>();
     m_Lexer = std::make_unique<CHTLJSLexer>();
@@ -26,8 +26,8 @@ chtl::CompileResult CHTLJSCompiler::Compile(const CodeFragment& fragment) {
     
     try {
         // 1. 词法分析
-        m_Lexer->SetSource(fragment.GetContent(), "");
-        auto tokens = m_Lexer->Tokenize();
+        m_Lexer->SetInput(fragment.GetContent(), "");
+        auto tokens = m_Lexer->ScanTokens();
         
         if (m_Lexer->HasErrors()) {
             result.success = false;
@@ -107,15 +107,12 @@ chtl::CompileResult CHTLJSCompiler::CompileFragments(const std::vector<CodeFragm
 }
 
 void CHTLJSCompiler::Reset() {
-    m_GlobalMap = std::make_unique<CHTLJSGlobalMap>();
+    m_GlobalMap = std::make_shared<CHTLJSGlobalMap>();
     m_StateMachine = std::make_unique<CHTLJSStateMachine>();
     m_Context = std::make_unique<CHTLJSContext>();
     m_Lexer = std::make_unique<CHTLJSLexer>();
 }
 
-std::string CHTLJSCompiler::GetName() const {
-    return "CHTL JS Compiler";
-}
 
 void CHTLJSCompiler::SetDebugMode(bool debug) {
     m_DebugMode = debug;
@@ -125,13 +122,6 @@ void CHTLJSCompiler::SetDebugMode(bool debug) {
     }
 }
 
-const std::vector<std::string>& CHTLJSCompiler::GetErrors() const {
-    return m_Lexer->GetErrors();
-}
-
-void CHTLJSCompiler::ClearErrors() {
-    m_Lexer->ClearErrors();
-}
 
 } // namespace chtljs
 } // namespace chtl
