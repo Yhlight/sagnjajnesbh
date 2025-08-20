@@ -126,3 +126,15 @@ private:
 
 } // namespace ast
 } // namespace chtl
+/**
+ * 样式引用节点
+ */
+class StyleReferenceNode : public ReferenceNode {
+public:
+    StyleReferenceNode(const std::string& ref) 
+        : ReferenceNode(ASTNodeType::STYLE_REFERENCE, ref) {}
+    
+    void Accept(ASTVisitor* visitor) override {
+        visitor->VisitReference(this);
+    }
+};
