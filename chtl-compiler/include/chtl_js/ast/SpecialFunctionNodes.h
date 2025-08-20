@@ -21,7 +21,7 @@ public:
     void SetConfig(std::shared_ptr<class ObjectLiteralNode> config) {
         m_Config = config;
         if (config) {
-            AddChild(config);
+            AddChild(std::static_pointer_cast<CHTLJSASTNode>(config));
         }
     }
     std::shared_ptr<class ObjectLiteralNode> GetConfig() const { return m_Config; }
@@ -55,7 +55,7 @@ public:
     void SetConfig(std::shared_ptr<class ObjectLiteralNode> config) {
         m_Config = config;
         if (config) {
-            AddChild(config);
+            AddChild(std::static_pointer_cast<CHTLJSASTNode>(config));
         }
     }
     std::shared_ptr<class ObjectLiteralNode> GetConfig() const { return m_Config; }
@@ -89,7 +89,7 @@ public:
     void SetConfig(std::shared_ptr<class ObjectLiteralNode> config) {
         m_Config = config;
         if (config) {
-            AddChild(config);
+            AddChild(std::static_pointer_cast<CHTLJSASTNode>(config));
         }
     }
     std::shared_ptr<class ObjectLiteralNode> GetConfig() const { return m_Config; }
@@ -113,7 +113,7 @@ public:
     void SetConfig(std::shared_ptr<class ObjectLiteralNode> config) {
         m_Config = config;
         if (config) {
-            AddChild(config);
+            AddChild(std::static_pointer_cast<CHTLJSASTNode>(config));
         }
     }
     std::shared_ptr<class ObjectLiteralNode> GetConfig() const { return m_Config; }
@@ -137,7 +137,7 @@ public:
     void SetConfig(std::shared_ptr<class ObjectLiteralNode> config) {
         m_Config = config;
         if (config) {
-            AddChild(config);
+            AddChild(std::static_pointer_cast<CHTLJSASTNode>(config));
         }
     }
     std::shared_ptr<class ObjectLiteralNode> GetConfig() const { return m_Config; }

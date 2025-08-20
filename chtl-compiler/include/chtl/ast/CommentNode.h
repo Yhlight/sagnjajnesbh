@@ -7,38 +7,39 @@ namespace ast {
 
 /**
  * 注释节点
- * 支持三种注释类型：//, /* */, --
+ * 支持三种注释类型：//, /* ... */, --
  */
 class CommentNode : public ASTNode {
 public:
     enum CommentType {
         SINGLE_LINE,    // //
-        MULTI_LINE,     // /* */
-        GENERATOR       // --
+        MULTI_LINE,     // /* ... */
+        HTML_STYLE      // --
     };
     
-    CommentNode(CommentType commentType, const std::string& content)
-        : ASTNode(GetNodeType(commentType), content)
-        , m_CommentType(commentType) {}
+    CommentNode(const std::string& content, CommentType type,
+                size_t line = 0, size_t column = 0)
+        : ASTNode(ASTNodeType::COMMENT, line, column)
+        , m_Content(content)
+        , m_CommentType(type) {}
     
     void Accept(ASTVisitor* visitor) override;
     
+    const std::string& GetContent() const { return m_Content; }
     CommentType GetCommentType() const { return m_CommentType; }
     
-    // 是否是生成器注释（会被包含在生成的HTML中）
-    bool IsGeneratorComment() const { return m_CommentType == GENERATOR; }
-    
-private:
-    CommentType m_CommentType;
-    
-    static ASTNodeType GetNodeType(CommentType type) {
-        switch (type) {
-            case SINGLE_LINE: return ASTNodeType::COMMENT_SINGLE;
-            case MULTI_LINE: return ASTNodeType::COMMENT_MULTI;
-            case GENERATOR: return ASTNodeType::COMMENT_GENERATOR;
-            default: return ASTNodeType::COMMENT_SINGLE;
+    std::string GetCommentTypeString() const {
+        switch (m_CommentType) {
+            case SINGLE_LINE: return "//";
+            case MULTI_LINE: return "/* ... */";
+            case HTML_STYLE: return "--";
+            default: return "unknown";
         }
     }
+    
+private:
+    std::string m_Content;
+    CommentType m_CommentType;
 };
 
 } // namespace ast

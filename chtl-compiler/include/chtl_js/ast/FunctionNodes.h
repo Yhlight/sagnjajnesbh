@@ -25,7 +25,7 @@ public:
     void SetParameters(std::shared_ptr<class ParameterListNode> params) {
         m_Parameters = params;
         if (params) {
-            AddChild(params);
+            AddChild(std::static_pointer_cast<CHTLJSASTNode>(params));
         }
     }
     std::shared_ptr<class ParameterListNode> GetParameters() const { return m_Parameters; }
@@ -34,7 +34,7 @@ public:
     void SetBody(std::shared_ptr<class BlockStatementNode> body) {
         m_Body = body;
         if (body) {
-            AddChild(body);
+            AddChild(std::static_pointer_cast<CHTLJSASTNode>(body));
         }
     }
     std::shared_ptr<class BlockStatementNode> GetBody() const { return m_Body; }
@@ -59,7 +59,7 @@ public:
     void SetParameters(std::shared_ptr<class ParameterListNode> params) {
         m_Parameters = params;
         if (params) {
-            AddChild(params);
+            AddChild(std::static_pointer_cast<CHTLJSASTNode>(params));
         }
     }
     std::shared_ptr<class ParameterListNode> GetParameters() const { return m_Parameters; }
@@ -68,7 +68,7 @@ public:
     void SetBody(std::shared_ptr<CHTLJSASTNode> body) {
         m_Body = body;
         if (body) {
-            AddChild(body);
+            AddChild(std::static_pointer_cast<CHTLJSASTNode>(body));
         }
     }
     std::shared_ptr<CHTLJSASTNode> GetBody() const { return m_Body; }

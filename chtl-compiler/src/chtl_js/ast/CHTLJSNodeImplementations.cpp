@@ -74,7 +74,7 @@ void EnhancedSelectorNode::ParseSelectorType() {
 
 // SelectorAccessNode
 void SelectorAccessNode::Accept(CHTLJSVisitor* visitor) {
-    visitor->VisitEnhancedSelector(this);
+    visitor->VisitSelectorAccess(this);
 }
 
 // ArrowOperatorNode
@@ -84,7 +84,7 @@ void ArrowOperatorNode::Accept(CHTLJSVisitor* visitor) {
 
 // DotOperatorNode
 void DotOperatorNode::Accept(CHTLJSVisitor* visitor) {
-    visitor->VisitArrowOperator(this); // 使用相同的访问方法
+    visitor->VisitDotOperator(this);
 }
 
 // ListenCallNode
@@ -186,7 +186,7 @@ void LiteralNode::Accept(CHTLJSVisitor* visitor) {
 
 // ArrayLiteralNode
 void ArrayLiteralNode::Accept(CHTLJSVisitor* visitor) {
-    visitor->VisitLiteral(this);
+    visitor->VisitArrayLiteral(this);
 }
 
 // FunctionDeclarationNode
