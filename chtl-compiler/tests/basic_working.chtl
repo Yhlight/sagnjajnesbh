@@ -1,0 +1,25 @@
+div {
+    h1 { text { "CHTL 基本功能测试" } }
+    
+    div {
+        style {
+            .demo {
+                background: #f0f0f0;
+                padding: 20px;
+            }
+        }
+        
+        p { text { "局部样式测试" } }
+    }
+    
+    div {
+        id = test;
+        class: example;
+        
+        p { text { "CE对等式测试" } }
+    }
+    
+    footer {
+        text { "完成" }
+    }
+}

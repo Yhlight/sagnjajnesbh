@@ -23,6 +23,11 @@ public:
     std::shared_ptr<ast::DocumentNode> Parse(const std::string& source, const std::string& filename = "");
     
     /**
+     * 设置源代码（用于Origin块的原始内容提取）
+     */
+    void SetSource(const std::string& source) { m_Source = source; }
+    
+    /**
      * 解析 Token 流
      */
     std::shared_ptr<ast::DocumentNode> ParseTokens(const std::vector<CHTLToken>& tokens);
@@ -97,6 +102,7 @@ private:
     std::vector<CHTLToken> m_Tokens;
     size_t m_Current;
     std::vector<std::string> m_Errors;
+    std::string m_Source;
     
     // 上下文状态
     enum class Context {

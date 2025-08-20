@@ -155,6 +155,10 @@ private:
     size_t m_Line;
     size_t m_Column;
     std::vector<std::string> m_Errors;
+    
+    // Origin块处理
+    bool m_InOriginBlock;
+    int m_OriginBraceDepth;
 };
 
 } // namespace chtl

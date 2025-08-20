@@ -8,6 +8,8 @@ CHTLParserV2::CHTLParserV2() : m_Current(0) {
 }
 
 std::shared_ptr<ast::DocumentNode> CHTLParserV2::Parse(const std::string& source, const std::string& filename) {
+    m_Source = source;  // 保存源代码
+    
     CHTLLexerV2 lexer;
     lexer.SetInput(source, filename);
     
@@ -49,6 +51,11 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseTopLevel() {
     while (Match(CHTLTokenType::SEMICOLON)) {}
     
     if (IsAtEnd()) return nullptr;
+    
+    // 跳过顶级的右大括号（可能是从错误恢复）
+    if (Check(CHTLTokenType::RBRACE)) {
+        return nullptr;
+    }
     
     // 注释
     if (Check(CHTLTokenType::COMMENT_HTML)) {
@@ -969,7 +976,7 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseConfiguration() {
 
 // Origin解析
 std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseOrigin() {
-    auto token = Advance(); // [Origin]
+    auto startToken = Advance(); // [Origin]
     
     ast::OriginNode::OriginType type = ast::OriginNode::HTML;
     std::string customType;
@@ -991,65 +998,28 @@ std::shared_ptr<ast::ASTNode> CHTLParserV2::ParseOrigin() {
         return nullptr;
     }
     
-    // 收集原始内容直到匹配的 }
+    // 收集所有内容直到匹配的 }
     std::string content;
     int braceDepth = 1;
-    bool firstToken = true;
-    bool inTag = false;
     
     while (!IsAtEnd() && braceDepth > 0) {
         auto token = Peek();
         
         if (token.type == CHTLTokenType::LBRACE) {
             braceDepth++;
+            if (braceDepth > 1) content += token.value;
         } else if (token.type == CHTLTokenType::RBRACE) {
             braceDepth--;
-            if (braceDepth == 0) {
-                Advance(); // 消费最后的 }
-                break;
-            }
-        }
-        
-        // 处理HTML标签
-        if (token.value == "<") {
-            inTag = true;
-            content += token.value;
-        } else if (token.value == ">") {
-            inTag = false;
-            content += token.value;
+            if (braceDepth > 0) content += token.value;
         } else {
-            // 在标签内不添加空格
-            if (!firstToken && !inTag && 
-                token.type != CHTLTokenType::SEMICOLON && 
-                token.type != CHTLTokenType::COMMA &&
-                token.type != CHTLTokenType::DOT &&
-                token.type != CHTLTokenType::EQUALS &&
-                token.type != CHTLTokenType::SLASH &&
-                !content.empty() && content.back() != ' ' && content.back() != '<') {
-                content += " ";
-            }
             content += token.value;
         }
         
-        firstToken = false;
         Advance();
     }
     
-    // 清理多余的空格
-    size_t pos = 0;
-    while ((pos = content.find("  ", pos)) != std::string::npos) {
-        content.replace(pos, 2, " ");
-    }
-    
-    // 去除首尾空白
-    size_t start = content.find_first_not_of(" \t\n\r");
-    size_t end = content.find_last_not_of(" \t\n\r");
-    if (start != std::string::npos && end != std::string::npos) {
-        content = content.substr(start, end - start + 1);
-    }
-    
     auto origin = std::make_shared<ast::OriginNode>(type, content);
-    origin->SetLocation(token.line, token.column);
+    origin->SetLocation(startToken.line, startToken.column);
     
     if (type == ast::OriginNode::CUSTOM) {
         origin->SetCustomTypeName(customType);

@@ -319,7 +319,14 @@ void CHTLGeneratorV2::VisitConfiguration(ast::ConfigurationNode* node) {
 void CHTLGeneratorV2::VisitOrigin(ast::OriginNode* node) {
     switch (node->GetType()) {
         case ast::OriginNode::HTML:
+            // 直接输出HTML内容，保持缩进
+            if (m_PrettyPrint) {
+                WriteIndent();
+            }
             Write(node->GetContent());
+            if (m_PrettyPrint) {
+                WriteLine();
+            }
             break;
         case ast::OriginNode::STYLE:
             m_GlobalStyles << node->GetContent() << "\n";

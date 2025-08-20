@@ -1,0 +1,9 @@
+div {
+    p { text { "Before Origin" } }
+    
+    [Origin] @Html {
+        <div>Raw HTML content</div>
+    }
+    
+    p { text { "After Origin" } }
+}

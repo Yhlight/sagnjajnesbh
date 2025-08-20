@@ -37,7 +37,8 @@ static std::unordered_map<std::string, CHTLTokenType> s_AtKeywords = {
     {"CJmod", CHTLTokenType::AT_CJMOD}
 };
 
-CHTLLexerV2::CHTLLexerV2() : m_Current(0), m_Line(1), m_Column(1) {
+CHTLLexerV2::CHTLLexerV2() : m_Current(0), m_Line(1), m_Column(1), 
+                           m_InOriginBlock(false), m_OriginBraceDepth(0) {
 }
 
 void CHTLLexerV2::SetInput(const std::string& input, const std::string& filename) {
