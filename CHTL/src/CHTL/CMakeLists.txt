@@ -7,6 +7,10 @@ add_library(CHTLCompiler STATIC
     Lexer.cpp
     AST/ASTNode.cpp
     AST/ASTVisitor.cpp
+    AST/TemplateNodes.cpp
+    AST/SpecialNodes.cpp
+    AST/StyleNodes.cpp
+    AST/ASTPrinter.cpp
 )
 
 target_include_directories(CHTLCompiler

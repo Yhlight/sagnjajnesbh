@@ -229,6 +229,30 @@ AST/ASTNode.cpp.s:
 	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.s
 .PHONY : AST/ASTNode.cpp.s
 
+AST/ASTPrinter.o: AST/ASTPrinter.cpp.o
+.PHONY : AST/ASTPrinter.o
+
+# target to build an object file
+AST/ASTPrinter.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTPrinter.cpp.o
+.PHONY : AST/ASTPrinter.cpp.o
+
+AST/ASTPrinter.i: AST/ASTPrinter.cpp.i
+.PHONY : AST/ASTPrinter.i
+
+# target to preprocess a source file
+AST/ASTPrinter.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTPrinter.cpp.i
+.PHONY : AST/ASTPrinter.cpp.i
+
+AST/ASTPrinter.s: AST/ASTPrinter.cpp.s
+.PHONY : AST/ASTPrinter.s
+
+# target to generate assembly for a file
+AST/ASTPrinter.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTPrinter.cpp.s
+.PHONY : AST/ASTPrinter.cpp.s
+
 AST/ASTVisitor.o: AST/ASTVisitor.cpp.o
 .PHONY : AST/ASTVisitor.o
 
@@ -252,6 +276,78 @@ AST/ASTVisitor.s: AST/ASTVisitor.cpp.s
 AST/ASTVisitor.cpp.s:
 	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.s
 .PHONY : AST/ASTVisitor.cpp.s
+
+AST/SpecialNodes.o: AST/SpecialNodes.cpp.o
+.PHONY : AST/SpecialNodes.o
+
+# target to build an object file
+AST/SpecialNodes.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/SpecialNodes.cpp.o
+.PHONY : AST/SpecialNodes.cpp.o
+
+AST/SpecialNodes.i: AST/SpecialNodes.cpp.i
+.PHONY : AST/SpecialNodes.i
+
+# target to preprocess a source file
+AST/SpecialNodes.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/SpecialNodes.cpp.i
+.PHONY : AST/SpecialNodes.cpp.i
+
+AST/SpecialNodes.s: AST/SpecialNodes.cpp.s
+.PHONY : AST/SpecialNodes.s
+
+# target to generate assembly for a file
+AST/SpecialNodes.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/SpecialNodes.cpp.s
+.PHONY : AST/SpecialNodes.cpp.s
+
+AST/StyleNodes.o: AST/StyleNodes.cpp.o
+.PHONY : AST/StyleNodes.o
+
+# target to build an object file
+AST/StyleNodes.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/StyleNodes.cpp.o
+.PHONY : AST/StyleNodes.cpp.o
+
+AST/StyleNodes.i: AST/StyleNodes.cpp.i
+.PHONY : AST/StyleNodes.i
+
+# target to preprocess a source file
+AST/StyleNodes.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/StyleNodes.cpp.i
+.PHONY : AST/StyleNodes.cpp.i
+
+AST/StyleNodes.s: AST/StyleNodes.cpp.s
+.PHONY : AST/StyleNodes.s
+
+# target to generate assembly for a file
+AST/StyleNodes.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/StyleNodes.cpp.s
+.PHONY : AST/StyleNodes.cpp.s
+
+AST/TemplateNodes.o: AST/TemplateNodes.cpp.o
+.PHONY : AST/TemplateNodes.o
+
+# target to build an object file
+AST/TemplateNodes.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/TemplateNodes.cpp.o
+.PHONY : AST/TemplateNodes.cpp.o
+
+AST/TemplateNodes.i: AST/TemplateNodes.cpp.i
+.PHONY : AST/TemplateNodes.i
+
+# target to preprocess a source file
+AST/TemplateNodes.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/TemplateNodes.cpp.i
+.PHONY : AST/TemplateNodes.cpp.i
+
+AST/TemplateNodes.s: AST/TemplateNodes.cpp.s
+.PHONY : AST/TemplateNodes.s
+
+# target to generate assembly for a file
+AST/TemplateNodes.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/TemplateNodes.cpp.s
+.PHONY : AST/TemplateNodes.cpp.s
 
 Context.o: Context.cpp.o
 .PHONY : Context.o
@@ -392,9 +488,21 @@ help:
 	@echo "... AST/ASTNode.o"
 	@echo "... AST/ASTNode.i"
 	@echo "... AST/ASTNode.s"
+	@echo "... AST/ASTPrinter.o"
+	@echo "... AST/ASTPrinter.i"
+	@echo "... AST/ASTPrinter.s"
 	@echo "... AST/ASTVisitor.o"
 	@echo "... AST/ASTVisitor.i"
 	@echo "... AST/ASTVisitor.s"
+	@echo "... AST/SpecialNodes.o"
+	@echo "... AST/SpecialNodes.i"
+	@echo "... AST/SpecialNodes.s"
+	@echo "... AST/StyleNodes.o"
+	@echo "... AST/StyleNodes.i"
+	@echo "... AST/StyleNodes.s"
+	@echo "... AST/TemplateNodes.o"
+	@echo "... AST/TemplateNodes.i"
+	@echo "... AST/TemplateNodes.s"
 	@echo "... Context.o"
 	@echo "... Context.i"
 	@echo "... Context.s"

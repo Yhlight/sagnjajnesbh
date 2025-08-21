@@ -9,7 +9,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspace/CHTL/src/CHTL/AST/ASTNode.cpp" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o" "gcc" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o.d"
+  "/workspace/CHTL/src/CHTL/AST/ASTPrinter.cpp" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTPrinter.cpp.o" "gcc" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTPrinter.cpp.o.d"
   "/workspace/CHTL/src/CHTL/AST/ASTVisitor.cpp" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o" "gcc" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o.d"
+  "/workspace/CHTL/src/CHTL/AST/SpecialNodes.cpp" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/SpecialNodes.cpp.o" "gcc" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/SpecialNodes.cpp.o.d"
+  "/workspace/CHTL/src/CHTL/AST/StyleNodes.cpp" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/StyleNodes.cpp.o" "gcc" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/StyleNodes.cpp.o.d"
+  "/workspace/CHTL/src/CHTL/AST/TemplateNodes.cpp" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/TemplateNodes.cpp.o" "gcc" "src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/TemplateNodes.cpp.o.d"
   "/workspace/CHTL/src/CHTL/Context.cpp" "src/CHTL/CMakeFiles/CHTLCompiler.dir/Context.cpp.o" "gcc" "src/CHTL/CMakeFiles/CHTLCompiler.dir/Context.cpp.o.d"
   "/workspace/CHTL/src/CHTL/GlobalMap.cpp" "src/CHTL/CMakeFiles/CHTLCompiler.dir/GlobalMap.cpp.o" "gcc" "src/CHTL/CMakeFiles/CHTLCompiler.dir/GlobalMap.cpp.o.d"
   "/workspace/CHTL/src/CHTL/Lexer.cpp" "src/CHTL/CMakeFiles/CHTLCompiler.dir/Lexer.cpp.o" "gcc" "src/CHTL/CMakeFiles/CHTLCompiler.dir/Lexer.cpp.o.d"
