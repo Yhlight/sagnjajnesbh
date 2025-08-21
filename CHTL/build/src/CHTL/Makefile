@@ -205,29 +205,125 @@ CHTLCompiler/fast:
 	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/build
 .PHONY : CHTLCompiler/fast
 
-dummy.o: dummy.cpp.o
-.PHONY : dummy.o
+Context.o: Context.cpp.o
+.PHONY : Context.o
 
 # target to build an object file
-dummy.cpp.o:
-	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/dummy.cpp.o
-.PHONY : dummy.cpp.o
+Context.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Context.cpp.o
+.PHONY : Context.cpp.o
 
-dummy.i: dummy.cpp.i
-.PHONY : dummy.i
+Context.i: Context.cpp.i
+.PHONY : Context.i
 
 # target to preprocess a source file
-dummy.cpp.i:
-	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/dummy.cpp.i
-.PHONY : dummy.cpp.i
+Context.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Context.cpp.i
+.PHONY : Context.cpp.i
 
-dummy.s: dummy.cpp.s
-.PHONY : dummy.s
+Context.s: Context.cpp.s
+.PHONY : Context.s
 
 # target to generate assembly for a file
-dummy.cpp.s:
-	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/dummy.cpp.s
-.PHONY : dummy.cpp.s
+Context.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Context.cpp.s
+.PHONY : Context.cpp.s
+
+GlobalMap.o: GlobalMap.cpp.o
+.PHONY : GlobalMap.o
+
+# target to build an object file
+GlobalMap.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/GlobalMap.cpp.o
+.PHONY : GlobalMap.cpp.o
+
+GlobalMap.i: GlobalMap.cpp.i
+.PHONY : GlobalMap.i
+
+# target to preprocess a source file
+GlobalMap.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/GlobalMap.cpp.i
+.PHONY : GlobalMap.cpp.i
+
+GlobalMap.s: GlobalMap.cpp.s
+.PHONY : GlobalMap.s
+
+# target to generate assembly for a file
+GlobalMap.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/GlobalMap.cpp.s
+.PHONY : GlobalMap.cpp.s
+
+Lexer.o: Lexer.cpp.o
+.PHONY : Lexer.o
+
+# target to build an object file
+Lexer.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Lexer.cpp.o
+.PHONY : Lexer.cpp.o
+
+Lexer.i: Lexer.cpp.i
+.PHONY : Lexer.i
+
+# target to preprocess a source file
+Lexer.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Lexer.cpp.i
+.PHONY : Lexer.cpp.i
+
+Lexer.s: Lexer.cpp.s
+.PHONY : Lexer.s
+
+# target to generate assembly for a file
+Lexer.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Lexer.cpp.s
+.PHONY : Lexer.cpp.s
+
+State.o: State.cpp.o
+.PHONY : State.o
+
+# target to build an object file
+State.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/State.cpp.o
+.PHONY : State.cpp.o
+
+State.i: State.cpp.i
+.PHONY : State.i
+
+# target to preprocess a source file
+State.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/State.cpp.i
+.PHONY : State.cpp.i
+
+State.s: State.cpp.s
+.PHONY : State.s
+
+# target to generate assembly for a file
+State.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/State.cpp.s
+.PHONY : State.cpp.s
+
+Token.o: Token.cpp.o
+.PHONY : Token.o
+
+# target to build an object file
+Token.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Token.cpp.o
+.PHONY : Token.cpp.o
+
+Token.i: Token.cpp.i
+.PHONY : Token.i
+
+# target to preprocess a source file
+Token.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Token.cpp.i
+.PHONY : Token.cpp.i
+
+Token.s: Token.cpp.s
+.PHONY : Token.s
+
+# target to generate assembly for a file
+Token.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Token.cpp.s
+.PHONY : Token.cpp.s
 
 # Help Target
 help:
@@ -245,9 +341,21 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... CHTLCompiler"
-	@echo "... dummy.o"
-	@echo "... dummy.i"
-	@echo "... dummy.s"
+	@echo "... Context.o"
+	@echo "... Context.i"
+	@echo "... Context.s"
+	@echo "... GlobalMap.o"
+	@echo "... GlobalMap.i"
+	@echo "... GlobalMap.s"
+	@echo "... Lexer.o"
+	@echo "... Lexer.i"
+	@echo "... Lexer.s"
+	@echo "... State.o"
+	@echo "... State.i"
+	@echo "... State.s"
+	@echo "... Token.o"
+	@echo "... Token.i"
+	@echo "... Token.s"
 .PHONY : help
 
 
