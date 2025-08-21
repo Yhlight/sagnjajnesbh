@@ -205,6 +205,54 @@ CHTLCompiler/fast:
 	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/build
 .PHONY : CHTLCompiler/fast
 
+AST/ASTNode.o: AST/ASTNode.cpp.o
+.PHONY : AST/ASTNode.o
+
+# target to build an object file
+AST/ASTNode.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o
+.PHONY : AST/ASTNode.cpp.o
+
+AST/ASTNode.i: AST/ASTNode.cpp.i
+.PHONY : AST/ASTNode.i
+
+# target to preprocess a source file
+AST/ASTNode.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.i
+.PHONY : AST/ASTNode.cpp.i
+
+AST/ASTNode.s: AST/ASTNode.cpp.s
+.PHONY : AST/ASTNode.s
+
+# target to generate assembly for a file
+AST/ASTNode.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.s
+.PHONY : AST/ASTNode.cpp.s
+
+AST/ASTVisitor.o: AST/ASTVisitor.cpp.o
+.PHONY : AST/ASTVisitor.o
+
+# target to build an object file
+AST/ASTVisitor.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o
+.PHONY : AST/ASTVisitor.cpp.o
+
+AST/ASTVisitor.i: AST/ASTVisitor.cpp.i
+.PHONY : AST/ASTVisitor.i
+
+# target to preprocess a source file
+AST/ASTVisitor.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.i
+.PHONY : AST/ASTVisitor.cpp.i
+
+AST/ASTVisitor.s: AST/ASTVisitor.cpp.s
+.PHONY : AST/ASTVisitor.s
+
+# target to generate assembly for a file
+AST/ASTVisitor.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.s
+.PHONY : AST/ASTVisitor.cpp.s
+
 Context.o: Context.cpp.o
 .PHONY : Context.o
 
@@ -341,6 +389,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... CHTLCompiler"
+	@echo "... AST/ASTNode.o"
+	@echo "... AST/ASTNode.i"
+	@echo "... AST/ASTNode.s"
+	@echo "... AST/ASTVisitor.o"
+	@echo "... AST/ASTVisitor.i"
+	@echo "... AST/ASTVisitor.s"
 	@echo "... Context.o"
 	@echo "... Context.i"
 	@echo "... Context.s"

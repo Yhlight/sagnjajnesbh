@@ -142,13 +142,43 @@ src/CHTL/CMakeFiles/CHTLCompiler.dir/Lexer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CHTLCompiler.dir/Lexer.cpp.s"
 	cd /workspace/CHTL/build/src/CHTL && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/CHTL/src/CHTL/Lexer.cpp -o CMakeFiles/CHTLCompiler.dir/Lexer.cpp.s
 
+src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o: src/CHTL/CMakeFiles/CHTLCompiler.dir/flags.make
+src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o: /workspace/CHTL/src/CHTL/AST/ASTNode.cpp
+src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o: src/CHTL/CMakeFiles/CHTLCompiler.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o"
+	cd /workspace/CHTL/build/src/CHTL && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o -MF CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o.d -o CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o -c /workspace/CHTL/src/CHTL/AST/ASTNode.cpp
+
+src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.i"
+	cd /workspace/CHTL/build/src/CHTL && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/CHTL/src/CHTL/AST/ASTNode.cpp > CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.i
+
+src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.s"
+	cd /workspace/CHTL/build/src/CHTL && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/CHTL/src/CHTL/AST/ASTNode.cpp -o CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.s
+
+src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o: src/CHTL/CMakeFiles/CHTLCompiler.dir/flags.make
+src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o: /workspace/CHTL/src/CHTL/AST/ASTVisitor.cpp
+src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o: src/CHTL/CMakeFiles/CHTLCompiler.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o"
+	cd /workspace/CHTL/build/src/CHTL && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o -MF CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o.d -o CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o -c /workspace/CHTL/src/CHTL/AST/ASTVisitor.cpp
+
+src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.i"
+	cd /workspace/CHTL/build/src/CHTL && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/CHTL/src/CHTL/AST/ASTVisitor.cpp > CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.i
+
+src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.s"
+	cd /workspace/CHTL/build/src/CHTL && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/CHTL/src/CHTL/AST/ASTVisitor.cpp -o CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.s
+
 # Object files for target CHTLCompiler
 CHTLCompiler_OBJECTS = \
 "CMakeFiles/CHTLCompiler.dir/Token.cpp.o" \
 "CMakeFiles/CHTLCompiler.dir/GlobalMap.cpp.o" \
 "CMakeFiles/CHTLCompiler.dir/State.cpp.o" \
 "CMakeFiles/CHTLCompiler.dir/Context.cpp.o" \
-"CMakeFiles/CHTLCompiler.dir/Lexer.cpp.o"
+"CMakeFiles/CHTLCompiler.dir/Lexer.cpp.o" \
+"CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o" \
+"CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o"
 
 # External object files for target CHTLCompiler
 CHTLCompiler_EXTERNAL_OBJECTS =
@@ -158,9 +188,11 @@ lib/libCHTLCompiler.a: src/CHTL/CMakeFiles/CHTLCompiler.dir/GlobalMap.cpp.o
 lib/libCHTLCompiler.a: src/CHTL/CMakeFiles/CHTLCompiler.dir/State.cpp.o
 lib/libCHTLCompiler.a: src/CHTL/CMakeFiles/CHTLCompiler.dir/Context.cpp.o
 lib/libCHTLCompiler.a: src/CHTL/CMakeFiles/CHTLCompiler.dir/Lexer.cpp.o
+lib/libCHTLCompiler.a: src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o
+lib/libCHTLCompiler.a: src/CHTL/CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o
 lib/libCHTLCompiler.a: src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make
 lib/libCHTLCompiler.a: src/CHTL/CMakeFiles/CHTLCompiler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library ../../lib/libCHTLCompiler.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX static library ../../lib/libCHTLCompiler.a"
 	cd /workspace/CHTL/build/src/CHTL && $(CMAKE_COMMAND) -P CMakeFiles/CHTLCompiler.dir/cmake_clean_target.cmake
 	cd /workspace/CHTL/build/src/CHTL && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CHTLCompiler.dir/link.txt --verbose=$(VERBOSE)
 

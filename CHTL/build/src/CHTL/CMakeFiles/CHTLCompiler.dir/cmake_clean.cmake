@@ -1,6 +1,10 @@
 file(REMOVE_RECURSE
   "../../lib/libCHTLCompiler.a"
   "../../lib/libCHTLCompiler.pdb"
+  "CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o"
+  "CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o.d"
+  "CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o"
+  "CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o.d"
   "CMakeFiles/CHTLCompiler.dir/Context.cpp.o"
   "CMakeFiles/CHTLCompiler.dir/Context.cpp.o.d"
   "CMakeFiles/CHTLCompiler.dir/GlobalMap.cpp.o"

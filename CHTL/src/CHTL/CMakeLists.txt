@@ -5,6 +5,8 @@ add_library(CHTLCompiler STATIC
     State.cpp
     Context.cpp
     Lexer.cpp
+    AST/ASTNode.cpp
+    AST/ASTVisitor.cpp
 )
 
 target_include_directories(CHTLCompiler

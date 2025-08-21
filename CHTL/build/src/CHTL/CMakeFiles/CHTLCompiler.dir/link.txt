@@ -1,2 +1,2 @@
-/usr/bin/ar qc ../../lib/libCHTLCompiler.a CMakeFiles/CHTLCompiler.dir/Token.cpp.o CMakeFiles/CHTLCompiler.dir/GlobalMap.cpp.o CMakeFiles/CHTLCompiler.dir/State.cpp.o CMakeFiles/CHTLCompiler.dir/Context.cpp.o CMakeFiles/CHTLCompiler.dir/Lexer.cpp.o
+/usr/bin/ar qc ../../lib/libCHTLCompiler.a CMakeFiles/CHTLCompiler.dir/Token.cpp.o CMakeFiles/CHTLCompiler.dir/GlobalMap.cpp.o CMakeFiles/CHTLCompiler.dir/State.cpp.o CMakeFiles/CHTLCompiler.dir/Context.cpp.o CMakeFiles/CHTLCompiler.dir/Lexer.cpp.o CMakeFiles/CHTLCompiler.dir/AST/ASTNode.cpp.o CMakeFiles/CHTLCompiler.dir/AST/ASTVisitor.cpp.o
 /usr/bin/ranlib ../../lib/libCHTLCompiler.a
