@@ -213,6 +213,7 @@ public:
     const std::string& GetName() const { return m_Name; }
     
     void AddParameter(const std::string& param) {
+        m_Parameters.push_back(param);
     }
 
     void AddParameter(const std::string& param, const std::string& defaultValue) {
@@ -226,17 +227,31 @@ public:
 
     void SetVarContent(const std::string& content) {
         m_VarContent = content;
-        m_Parameters.push_back(param);
     }
     
     const std::vector<std::string>& GetParameters() const {
         return m_Parameters;
+    }
+    
+    const std::unordered_map<std::string, std::string>& GetParameterDefaults() const {
+        return m_ParameterDefaults;
+    }
+    
+    const std::unordered_map<std::string, std::string>& GetStyleProperties() const {
+        return m_StyleProperties;
+    }
+    
+    const std::string& GetVarContent() const {
+        return m_VarContent;
     }
 
 private:
     TemplateType m_Type;
     std::string m_Name;
     std::vector<std::string> m_Parameters;
+    std::unordered_map<std::string, std::string> m_ParameterDefaults;
+    std::unordered_map<std::string, std::string> m_StyleProperties;
+    std::string m_VarContent;
 };
 
 // 自定义节点
@@ -298,7 +313,8 @@ public:
     enum DeleteType {
         PROPERTY,       // delete property
         INHERITANCE,    // delete @Style Base
-        ELEMENT        // delete element
+        ELEMENT,        // delete element
+        PRECISE         // 精确删除
     };
     
     DeleteNode(DeleteType type, const std::string& target = "")
@@ -317,11 +333,21 @@ public:
     const std::vector<std::string>& GetTargets() const {
         return m_Targets;
     }
+    
+    // 添加额外的删除目标
+    void AddAdditionalTarget(const std::string& target) {
+        m_AdditionalTargets.push_back(target);
+    }
+    
+    const std::vector<std::string>& GetAdditionalTargets() const {
+        return m_AdditionalTargets;
+    }
 
 private:
     DeleteType m_Type;
     std::string m_Target;
     std::vector<std::string> m_Targets;
+    std::vector<std::string> m_AdditionalTargets;
 };
 
 // 插入节点
@@ -378,13 +404,19 @@ private:
 // 变量调用节点
 class VarCallNode : public ASTNode {
 public:
+    // 双参数构造函数：用于变量组.变量名的情况
     VarCallNode(const std::string& varGroup, const std::string& varName)
         : m_VarGroup(varGroup), m_VarName(varName) {}
+    
+    // 单参数构造函数：用于单独变量名的情况
+    explicit VarCallNode(const std::string& varName)
+        : m_VarGroup(""), m_VarName(varName) {}
     
     void Accept(ASTVisitor* visitor) override;
     
     const std::string& GetVarGroup() const { return m_VarGroup; }
     const std::string& GetVarName() const { return m_VarName; }
+    bool HasVarGroup() const { return !m_VarGroup.empty(); }
     
     // 特例化支持
     void SetOverrideValue(const std::string& value) { m_OverrideValue = value; }
@@ -407,7 +439,10 @@ public:
         CHTL,
         CJMOD,
         CONFIG,
-        AUTO
+        AUTO,
+        NORMAL,    // 用于普通导入
+        ELEMENT,   // 用于导入元素
+        VAR        // 用于导入变量
     };
     
     ImportNode(const std::string& path, ImportType type = AUTO)
@@ -431,6 +466,15 @@ public:
     const std::vector<std::string>& GetImportItems() const {
         return m_ImportItems;
     }
+    
+    // 添加导入目标（用于选择性导入）
+    void AddTarget(const std::string& target) {
+        m_Targets.push_back(target);
+    }
+    
+    const std::vector<std::string>& GetTargets() const {
+        return m_Targets;
+    }
 
 private:
     std::string m_Path;
@@ -438,6 +482,7 @@ private:
     std::string m_Alias;
     std::string m_FromClause;
     std::vector<std::string> m_ImportItems;
+    std::vector<std::string> m_Targets;
 };
 
 // 命名空间节点
@@ -517,12 +562,16 @@ public:
     
     OriginType GetType() const { return m_Type; }
     const std::string& GetContent() const { return m_Content; }
+    void SetContent(const std::string& content) { m_Content = content; }
     
     void SetName(const std::string& name) { m_Name = name; }
     const std::string& GetName() const { return m_Name; }
     
     void SetCustomTypeName(const std::string& typeName) { m_CustomTypeName = typeName; }
     const std::string& GetCustomTypeName() const { return m_CustomTypeName; }
+    
+    // 为了兼容性，添加SetCustomType别名
+    void SetCustomType(const std::string& typeName) { SetCustomTypeName(typeName); }
 
 private:
     OriginType m_Type;
