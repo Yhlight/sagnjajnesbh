@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libCHTLCore.a CMakeFiles/CHTLCore.dir/dummy.cpp.o
+/usr/bin/ranlib ../../lib/libCHTLCore.a

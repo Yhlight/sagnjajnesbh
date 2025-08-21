@@ -1,0 +1,24 @@
+# CHTL编译器库
+add_library(CHTLCompiler STATIC
+    Token.cpp
+    GlobalMap.cpp
+    State.cpp
+    Context.cpp
+    Lexer.cpp
+    AST/ASTNode.cpp
+    AST/ASTVisitor.cpp
+    AST/TemplateNodes.cpp
+    AST/SpecialNodes.cpp
+    AST/StyleNodes.cpp
+    AST/ASTPrinter.cpp
+    Parser/Parser.cpp
+    Parser/ParserImpl.cpp
+)
+
+target_include_directories(CHTLCompiler
+    PUBLIC ${CMAKE_SOURCE_DIR}/include
+)
+
+target_link_libraries(CHTLCompiler
+    PUBLIC CHTLUtils
+)

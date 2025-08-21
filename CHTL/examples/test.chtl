@@ -1,0 +1,39 @@
+// CHTL测试文件
+html {
+    head {
+        style {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+        }
+    }
+    
+    body {
+        div {
+            id: container;
+            class: main-content;
+            
+            style {
+                .box {
+                    width: 100px;
+                    height: 100px;
+                }
+                
+                &:hover {
+                    background-color: red;
+                }
+            }
+            
+            text {
+                "Hello CHTL!"
+            }
+            
+            script {
+                {{.box}}.addEventListener('click', () => {
+                    console.log('Box clicked!');
+                });
+            }
+        }
+    }
+}

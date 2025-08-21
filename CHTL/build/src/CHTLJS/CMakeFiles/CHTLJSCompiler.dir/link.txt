@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libCHTLJSCompiler.a CMakeFiles/CHTLJSCompiler.dir/dummy.cpp.o
+/usr/bin/ranlib ../../lib/libCHTLJSCompiler.a

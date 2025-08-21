@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libCSSCompiler.a CMakeFiles/CSSCompiler.dir/dummy.cpp.o
+/usr/bin/ranlib ../../lib/libCSSCompiler.a
