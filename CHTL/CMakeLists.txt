@@ -73,7 +73,7 @@ install(DIRECTORY DESTINATION share/CHTL/module)
 
 # 测试
 enable_testing()
-add_subdirectory(tests EXCLUDE_FROM_ALL)
+add_subdirectory(tests)
 
 # 打包配置
 set(CPACK_PACKAGE_NAME "CHTL")

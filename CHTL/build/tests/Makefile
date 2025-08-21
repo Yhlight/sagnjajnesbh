@@ -191,6 +191,120 @@ depend:
 	cd /workspace/CHTL/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+# Convenience name for target.
+tests/CMakeFiles/test_parser.dir/rule:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_parser.dir/rule
+.PHONY : tests/CMakeFiles/test_parser.dir/rule
+
+# Convenience name for target.
+test_parser: tests/CMakeFiles/test_parser.dir/rule
+.PHONY : test_parser
+
+# fast build rule for target.
+test_parser/fast:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_parser.dir/build.make tests/CMakeFiles/test_parser.dir/build
+.PHONY : test_parser/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_parser_simple.dir/rule:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_parser_simple.dir/rule
+.PHONY : tests/CMakeFiles/test_parser_simple.dir/rule
+
+# Convenience name for target.
+test_parser_simple: tests/CMakeFiles/test_parser_simple.dir/rule
+.PHONY : test_parser_simple
+
+# fast build rule for target.
+test_parser_simple/fast:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_parser_simple.dir/build.make tests/CMakeFiles/test_parser_simple.dir/build
+.PHONY : test_parser_simple/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_lexer.dir/rule:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_lexer.dir/rule
+.PHONY : tests/CMakeFiles/test_lexer.dir/rule
+
+# Convenience name for target.
+test_lexer: tests/CMakeFiles/test_lexer.dir/rule
+.PHONY : test_lexer
+
+# fast build rule for target.
+test_lexer/fast:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_lexer.dir/build.make tests/CMakeFiles/test_lexer.dir/build
+.PHONY : test_lexer/fast
+
+test_lexer.o: test_lexer.cpp.o
+.PHONY : test_lexer.o
+
+# target to build an object file
+test_lexer.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_lexer.dir/build.make tests/CMakeFiles/test_lexer.dir/test_lexer.cpp.o
+.PHONY : test_lexer.cpp.o
+
+test_lexer.i: test_lexer.cpp.i
+.PHONY : test_lexer.i
+
+# target to preprocess a source file
+test_lexer.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_lexer.dir/build.make tests/CMakeFiles/test_lexer.dir/test_lexer.cpp.i
+.PHONY : test_lexer.cpp.i
+
+test_lexer.s: test_lexer.cpp.s
+.PHONY : test_lexer.s
+
+# target to generate assembly for a file
+test_lexer.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_lexer.dir/build.make tests/CMakeFiles/test_lexer.dir/test_lexer.cpp.s
+.PHONY : test_lexer.cpp.s
+
+test_parser.o: test_parser.cpp.o
+.PHONY : test_parser.o
+
+# target to build an object file
+test_parser.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_parser.dir/build.make tests/CMakeFiles/test_parser.dir/test_parser.cpp.o
+.PHONY : test_parser.cpp.o
+
+test_parser.i: test_parser.cpp.i
+.PHONY : test_parser.i
+
+# target to preprocess a source file
+test_parser.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_parser.dir/build.make tests/CMakeFiles/test_parser.dir/test_parser.cpp.i
+.PHONY : test_parser.cpp.i
+
+test_parser.s: test_parser.cpp.s
+.PHONY : test_parser.s
+
+# target to generate assembly for a file
+test_parser.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_parser.dir/build.make tests/CMakeFiles/test_parser.dir/test_parser.cpp.s
+.PHONY : test_parser.cpp.s
+
+test_parser_simple.o: test_parser_simple.cpp.o
+.PHONY : test_parser_simple.o
+
+# target to build an object file
+test_parser_simple.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_parser_simple.dir/build.make tests/CMakeFiles/test_parser_simple.dir/test_parser_simple.cpp.o
+.PHONY : test_parser_simple.cpp.o
+
+test_parser_simple.i: test_parser_simple.cpp.i
+.PHONY : test_parser_simple.i
+
+# target to preprocess a source file
+test_parser_simple.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_parser_simple.dir/build.make tests/CMakeFiles/test_parser_simple.dir/test_parser_simple.cpp.i
+.PHONY : test_parser_simple.cpp.i
+
+test_parser_simple.s: test_parser_simple.cpp.s
+.PHONY : test_parser_simple.s
+
+# target to generate assembly for a file
+test_parser_simple.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_parser_simple.dir/build.make tests/CMakeFiles/test_parser_simple.dir/test_parser_simple.cpp.s
+.PHONY : test_parser_simple.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -206,6 +320,18 @@ help:
 	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... test_lexer"
+	@echo "... test_parser"
+	@echo "... test_parser_simple"
+	@echo "... test_lexer.o"
+	@echo "... test_lexer.i"
+	@echo "... test_lexer.s"
+	@echo "... test_parser.o"
+	@echo "... test_parser.i"
+	@echo "... test_parser.s"
+	@echo "... test_parser_simple.o"
+	@echo "... test_parser_simple.i"
+	@echo "... test_parser_simple.s"
 .PHONY : help
 
 

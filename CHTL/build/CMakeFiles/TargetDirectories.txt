@@ -98,6 +98,9 @@
 /workspace/CHTL/build/src/Utils/CMakeFiles/install.dir
 /workspace/CHTL/build/src/Utils/CMakeFiles/install/local.dir
 /workspace/CHTL/build/src/Utils/CMakeFiles/install/strip.dir
+/workspace/CHTL/build/tests/CMakeFiles/test_parser.dir
+/workspace/CHTL/build/tests/CMakeFiles/test_parser_simple.dir
+/workspace/CHTL/build/tests/CMakeFiles/test_lexer.dir
 /workspace/CHTL/build/tests/CMakeFiles/package.dir
 /workspace/CHTL/build/tests/CMakeFiles/package_source.dir
 /workspace/CHTL/build/tests/CMakeFiles/test.dir

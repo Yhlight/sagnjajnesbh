@@ -91,4 +91,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "src/Dispatcher/CMakeFiles/CompilerDispatcher.dir/DependInfo.cmake"
   "src/Module/CMakeFiles/ModuleSystem.dir/DependInfo.cmake"
   "src/Utils/CMakeFiles/CHTLUtils.dir/DependInfo.cmake"
+  "tests/CMakeFiles/test_parser.dir/DependInfo.cmake"
+  "tests/CMakeFiles/test_parser_simple.dir/DependInfo.cmake"
+  "tests/CMakeFiles/test_lexer.dir/DependInfo.cmake"
   )

@@ -11,6 +11,8 @@ add_library(CHTLCompiler STATIC
     AST/SpecialNodes.cpp
     AST/StyleNodes.cpp
     AST/ASTPrinter.cpp
+    Parser/Parser.cpp
+    Parser/ParserImpl.cpp
 )
 
 target_include_directories(CHTLCompiler

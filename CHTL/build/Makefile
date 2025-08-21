@@ -321,6 +321,45 @@ CHTLUtils/fast:
 	$(MAKE) $(MAKESILENT) -f src/Utils/CMakeFiles/CHTLUtils.dir/build.make src/Utils/CMakeFiles/CHTLUtils.dir/build
 .PHONY : CHTLUtils/fast
 
+#=============================================================================
+# Target rules for targets named test_parser
+
+# Build rule for target.
+test_parser: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_parser
+.PHONY : test_parser
+
+# fast build rule for target.
+test_parser/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_parser.dir/build.make tests/CMakeFiles/test_parser.dir/build
+.PHONY : test_parser/fast
+
+#=============================================================================
+# Target rules for targets named test_parser_simple
+
+# Build rule for target.
+test_parser_simple: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_parser_simple
+.PHONY : test_parser_simple
+
+# fast build rule for target.
+test_parser_simple/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_parser_simple.dir/build.make tests/CMakeFiles/test_parser_simple.dir/build
+.PHONY : test_parser_simple/fast
+
+#=============================================================================
+# Target rules for targets named test_lexer
+
+# Build rule for target.
+test_lexer: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_lexer
+.PHONY : test_lexer
+
+# fast build rule for target.
+test_lexer/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_lexer.dir/build.make tests/CMakeFiles/test_lexer.dir/build
+.PHONY : test_lexer/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -370,6 +409,9 @@ help:
 	@echo "... JavaScriptCompiler"
 	@echo "... ModuleSystem"
 	@echo "... chtl"
+	@echo "... test_lexer"
+	@echo "... test_parser"
+	@echo "... test_parser_simple"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

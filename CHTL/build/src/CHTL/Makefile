@@ -421,6 +421,54 @@ Lexer.cpp.s:
 	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Lexer.cpp.s
 .PHONY : Lexer.cpp.s
 
+Parser/Parser.o: Parser/Parser.cpp.o
+.PHONY : Parser/Parser.o
+
+# target to build an object file
+Parser/Parser.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Parser/Parser.cpp.o
+.PHONY : Parser/Parser.cpp.o
+
+Parser/Parser.i: Parser/Parser.cpp.i
+.PHONY : Parser/Parser.i
+
+# target to preprocess a source file
+Parser/Parser.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Parser/Parser.cpp.i
+.PHONY : Parser/Parser.cpp.i
+
+Parser/Parser.s: Parser/Parser.cpp.s
+.PHONY : Parser/Parser.s
+
+# target to generate assembly for a file
+Parser/Parser.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Parser/Parser.cpp.s
+.PHONY : Parser/Parser.cpp.s
+
+Parser/ParserImpl.o: Parser/ParserImpl.cpp.o
+.PHONY : Parser/ParserImpl.o
+
+# target to build an object file
+Parser/ParserImpl.cpp.o:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Parser/ParserImpl.cpp.o
+.PHONY : Parser/ParserImpl.cpp.o
+
+Parser/ParserImpl.i: Parser/ParserImpl.cpp.i
+.PHONY : Parser/ParserImpl.i
+
+# target to preprocess a source file
+Parser/ParserImpl.cpp.i:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Parser/ParserImpl.cpp.i
+.PHONY : Parser/ParserImpl.cpp.i
+
+Parser/ParserImpl.s: Parser/ParserImpl.cpp.s
+.PHONY : Parser/ParserImpl.s
+
+# target to generate assembly for a file
+Parser/ParserImpl.cpp.s:
+	cd /workspace/CHTL/build && $(MAKE) $(MAKESILENT) -f src/CHTL/CMakeFiles/CHTLCompiler.dir/build.make src/CHTL/CMakeFiles/CHTLCompiler.dir/Parser/ParserImpl.cpp.s
+.PHONY : Parser/ParserImpl.cpp.s
+
 State.o: State.cpp.o
 .PHONY : State.o
 
@@ -512,6 +560,12 @@ help:
 	@echo "... Lexer.o"
 	@echo "... Lexer.i"
 	@echo "... Lexer.s"
+	@echo "... Parser/Parser.o"
+	@echo "... Parser/Parser.i"
+	@echo "... Parser/Parser.s"
+	@echo "... Parser/ParserImpl.o"
+	@echo "... Parser/ParserImpl.i"
+	@echo "... Parser/ParserImpl.s"
 	@echo "... State.o"
 	@echo "... State.i"
 	@echo "... State.s"
