@@ -1,0 +1,258 @@
+name: Build Complete Windows Libraries
+
+on:
+  push:
+    branches: [ main, build-windows ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      debug_build:
+        description: 'Include debug build'
+        required: false
+        default: 'true'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        include:
+          - configuration: Release
+            runtime: /MD
+            suffix: ""
+          - configuration: Debug
+            runtime: /MDd
+            suffix: "_d"
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Build Environment
+      uses: microsoft/setup-msbuild@v1.1
+      
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Create Directories
+      run: |
+        New-Item -ItemType Directory -Force -Path "${{ github.workspace }}\third_party"
+        New-Item -ItemType Directory -Force -Path "${{ github.workspace }}\build\windows\${{ matrix.configuration }}"
+        New-Item -ItemType Directory -Force -Path "${{ github.workspace }}\prebuilt\windows\x64\${{ matrix.configuration }}"
+    
+    - name: Download ANTLR
+      run: |
+        $antlrUrl = "https://www.antlr.org/download/antlr-4.13.1-complete.jar"
+        $antlrPath = "${{ github.workspace }}\third_party\antlr-4.13.1-complete.jar"
+        if (!(Test-Path $antlrPath)) {
+            Write-Host "Downloading ANTLR..."
+            Invoke-WebRequest -Uri $antlrUrl -OutFile $antlrPath
+        }
+    
+    - name: Download ANTLR Runtime
+      run: |
+        $runtimeUrl = "https://www.antlr.org/download/antlr4-cpp-runtime-4.13.1-source.zip"
+        $runtimeZip = "${{ github.workspace }}\third_party\antlr4-runtime.zip"
+        $runtimeDir = "${{ github.workspace }}\third_party\antlr4-runtime"
+        
+        if (!(Test-Path $runtimeDir)) {
+            Write-Host "Downloading ANTLR Runtime..."
+            Invoke-WebRequest -Uri $runtimeUrl -OutFile $runtimeZip
+            Expand-Archive -Path $runtimeZip -DestinationPath $runtimeDir -Force
+            Remove-Item $runtimeZip
+        }
+    
+    - name: Download Grammar Files
+      run: |
+        $grammarsDir = "${{ github.workspace }}\third_party\grammars"
+        New-Item -ItemType Directory -Force -Path "$grammarsDir\css3"
+        New-Item -ItemType Directory -Force -Path "$grammarsDir\javascript"
+        
+        # CSS3 Grammar
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/antlr/grammars-v4/master/css3/css3Lexer.g4" -OutFile "$grammarsDir\css3\css3Lexer.g4"
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/antlr/grammars-v4/master/css3/css3Parser.g4" -OutFile "$grammarsDir\css3\css3Parser.g4"
+        
+        # JavaScript Grammar
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/antlr/grammars-v4/master/javascript/javascript/JavaScriptLexer.g4" -OutFile "$grammarsDir\javascript\JavaScriptLexer.g4"
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/antlr/grammars-v4/master/javascript/javascript/JavaScriptParser.g4" -OutFile "$grammarsDir\javascript\JavaScriptParser.g4"
+    
+    - name: Build ANTLR Runtime
+      run: |
+        cd "${{ github.workspace }}\third_party\antlr4-runtime"
+        if (!(Test-Path "build")) {
+            mkdir build
+        }
+        cd build
+        
+        cmake .. -G "Visual Studio 17 2022" -A x64 `
+          -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} `
+          -DBUILD_SHARED_LIBS=OFF `
+          -DANTLR4_INSTALL=OFF `
+          -DWITH_DEMO=OFF `
+          -DBUILD_TESTING=OFF
+        
+        cmake --build . --config ${{ matrix.configuration }} --parallel
+    
+    - name: Generate Parsers
+      run: |
+        cd "${{ github.workspace }}\third_party"
+        $env:JAVA_OPTS = "-Xmx1G"
+        
+        # Generate CSS Parser
+        java -jar antlr-4.13.1-complete.jar `
+          -Dlanguage=Cpp `
+          -visitor `
+          -no-listener `
+          -package css3 `
+          -o generated\css3 `
+          grammars\css3\css3Lexer.g4 `
+          grammars\css3\css3Parser.g4
+        
+        # Generate JavaScript Parser  
+        java -jar antlr-4.13.1-complete.jar `
+          -Dlanguage=Cpp `
+          -visitor `
+          -no-listener `
+          -package javascript `
+          -o generated\javascript `
+          grammars\javascript\JavaScriptLexer.g4 `
+          grammars\javascript\JavaScriptParser.g4
+    
+    - name: Build CHTL Libraries
+      run: |
+        cd "${{ github.workspace }}\build\windows\${{ matrix.configuration }}"
+        
+        $includes = @(
+          "/I`"${{ github.workspace }}\third_party\antlr4-runtime\runtime\src`"",
+          "/I`"${{ github.workspace }}\third_party\generated`"",
+          "/I`"${{ github.workspace }}\src`""
+        )
+        
+        $compilerFlags = @(
+          "/std:c++17",
+          "/EHsc",
+          "${{ matrix.runtime }}",
+          "/O2",
+          "/DNDEBUG"
+        )
+        
+        if ("${{ matrix.configuration }}" -eq "Debug") {
+          $compilerFlags = @(
+            "/std:c++17",
+            "/EHsc",
+            "${{ matrix.runtime }}",
+            "/Od",
+            "/DEBUG"
+          )
+        }
+        
+        # Compile CSS Parser
+        Write-Host "Compiling CSS Parser..."
+        $cssFiles = Get-ChildItem -Path "${{ github.workspace }}\third_party\generated\css3\*.cpp" | ForEach-Object { $_.FullName }
+        $cssFiles += "${{ github.workspace }}\src\chtl\css\CSSCompiler.cpp"
+        
+        & cl.exe $compilerFlags $includes /c $cssFiles
+        & lib.exe /OUT:"chtl_css${{ matrix.suffix }}.lib" *.obj
+        Remove-Item *.obj
+        
+        # Compile JavaScript Parser
+        Write-Host "Compiling JavaScript Parser..."
+        $jsFiles = Get-ChildItem -Path "${{ github.workspace }}\third_party\generated\javascript\*.cpp" | ForEach-Object { $_.FullName }
+        $jsFiles += "${{ github.workspace }}\src\chtl\javascript\JavaScriptCompiler.cpp"
+        
+        & cl.exe $compilerFlags $includes /c $jsFiles
+        & lib.exe /OUT:"chtl_javascript${{ matrix.suffix }}.lib" *.obj
+        Remove-Item *.obj
+        
+        # Copy ANTLR Runtime
+        Copy-Item "${{ github.workspace }}\third_party\antlr4-runtime\build\runtime\${{ matrix.configuration }}\antlr4-runtime.lib" "antlr4-runtime${{ matrix.suffix }}.lib"
+        
+        # Create Combined Library
+        Write-Host "Creating combined library..."
+        & lib.exe /OUT:"chtl_antlr_all${{ matrix.suffix }}.lib" `
+          "chtl_css${{ matrix.suffix }}.lib" `
+          "chtl_javascript${{ matrix.suffix }}.lib" `
+          "antlr4-runtime${{ matrix.suffix }}.lib"
+    
+    - name: Copy Libraries
+      run: |
+        $sourceDir = "${{ github.workspace }}\build\windows\${{ matrix.configuration }}"
+        $destDir = "${{ github.workspace }}\prebuilt\windows\x64\${{ matrix.configuration }}"
+        
+        Copy-Item "$sourceDir\*.lib" -Destination $destDir -Force
+        
+        # Create info file
+        $info = @{
+          configuration = "${{ matrix.configuration }}"
+          runtime = "${{ matrix.runtime }}"
+          compiler = "MSVC 2022"
+          antlr_version = "4.13.1"
+          build_date = Get-Date -Format "yyyy-MM-dd"
+        }
+        $info | ConvertTo-Json | Out-File "$destDir\build_info.json"
+    
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-libraries-${{ matrix.configuration }}
+        path: |
+          prebuilt/windows/x64/${{ matrix.configuration }}/*.lib
+          prebuilt/windows/x64/${{ matrix.configuration }}/build_info.json
+    
+  create-release:
+    needs: build-windows
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Download Release Libraries
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-libraries-Release
+        path: release/Release
+    
+    - name: Download Debug Libraries
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-libraries-Debug
+        path: release/Debug
+    
+    - name: Create Release Package
+      run: |
+        cd release
+        zip -r ../chtl-antlr-windows-x64.zip .
+        tar -czf ../chtl-antlr-windows-x64.tar.gz .
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ github.run_number }}
+        name: CHTL ANTLR Windows Libraries Build ${{ github.run_number }}
+        files: |
+          chtl-antlr-windows-x64.zip
+          chtl-antlr-windows-x64.tar.gz
+        body: |
+          Automated build of CHTL ANTLR Windows libraries.
+          
+          ## Contents
+          - CSS Parser Library
+          - JavaScript Parser Library  
+          - ANTLR Runtime Library
+          - Combined Library (all-in-one)
+          
+          ## Configurations
+          - Release (optimized, /MD runtime)
+          - Debug (with symbols, /MDd runtime)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

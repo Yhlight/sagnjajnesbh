@@ -1,0 +1,59 @@
+# Dockerfile for building Windows libraries on Linux using MinGW
+FROM ubuntu:22.04
+
+# Install build tools
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    wget \
+    unzip \
+    mingw-w64 \
+    wine64 \
+    default-jdk \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up MinGW for Windows cross-compilation
+ENV CC=x86_64-w64-mingw32-gcc
+ENV CXX=x86_64-w64-mingw32-g++
+ENV AR=x86_64-w64-mingw32-ar
+ENV RANLIB=x86_64-w64-mingw32-ranlib
+ENV WINDRES=x86_64-w64-mingw32-windres
+ENV CMAKE_TOOLCHAIN_FILE=/workspace/cmake/mingw-w64-x86_64.cmake
+
+# Create workspace
+WORKDIR /workspace
+
+# Copy project files
+COPY . /workspace/
+
+# Create CMake toolchain file for MinGW
+RUN mkdir -p /workspace/cmake && \
+    echo 'set(CMAKE_SYSTEM_NAME Windows)' > /workspace/cmake/mingw-w64-x86_64.cmake && \
+    echo 'set(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc)' >> /workspace/cmake/mingw-w64-x86_64.cmake && \
+    echo 'set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)' >> /workspace/cmake/mingw-w64-x86_64.cmake && \
+    echo 'set(CMAKE_RC_COMPILER x86_64-w64-mingw32-windres)' >> /workspace/cmake/mingw-w64-x86_64.cmake && \
+    echo 'set(CMAKE_FIND_ROOT_PATH /usr/x86_64-w64-mingw32)' >> /workspace/cmake/mingw-w64-x86_64.cmake && \
+    echo 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)' >> /workspace/cmake/mingw-w64-x86_64.cmake && \
+    echo 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)' >> /workspace/cmake/mingw-w64-x86_64.cmake && \
+    echo 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)' >> /workspace/cmake/mingw-w64-x86_64.cmake
+
+# Build script
+RUN echo '#!/bin/bash' > /build.sh && \
+    echo 'cd /workspace' >> /build.sh && \
+    echo 'python3 download_antlr_prebuilt.py' >> /build.sh && \
+    echo 'cd third_party/antlr4-runtime' >> /build.sh && \
+    echo 'mkdir -p build && cd build' >> /build.sh && \
+    echo 'cmake .. -DCMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN_FILE -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF' >> /build.sh && \
+    echo 'make -j$(nproc)' >> /build.sh && \
+    echo 'cd /workspace' >> /build.sh && \
+    echo 'mkdir -p build/mingw' >> /build.sh && \
+    echo 'cd build/mingw' >> /build.sh && \
+    echo '$CXX -std=c++17 -O2 -c ../../third_party/generated/css3/*.cpp -I../../third_party/antlr4-runtime/runtime/src -I../../third_party/generated' >> /build.sh && \
+    echo '$AR rcs libchtl_css.a *.o' >> /build.sh && \
+    echo 'cp *.a /workspace/prebuilt/windows/x64/Release/' >> /build.sh && \
+    chmod +x /build.sh
+
+CMD ["/build.sh"]

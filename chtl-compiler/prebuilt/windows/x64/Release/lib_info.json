@@ -1,0 +1,33 @@
+{
+  "version": "4.13.1",
+  "platform": "Windows x64",
+  "compiler": "MSVC 2022",
+  "runtime": "/MD (Multi-threaded DLL)",
+  "cpp_standard": "C++17",
+  "libraries": [
+    {
+      "name": "chtl_css.lib",
+      "description": "CSS3 parser static library",
+      "dependencies": [
+        "antlr4-runtime.lib"
+      ]
+    },
+    {
+      "name": "chtl_javascript.lib",
+      "description": "JavaScript parser static library",
+      "dependencies": [
+        "antlr4-runtime.lib"
+      ]
+    },
+    {
+      "name": "antlr4-runtime.lib",
+      "description": "ANTLR4 C++ runtime library",
+      "dependencies": []
+    },
+    {
+      "name": "chtl_antlr_all.lib",
+      "description": "Combined library with all components",
+      "dependencies": []
+    }
+  ]
+}

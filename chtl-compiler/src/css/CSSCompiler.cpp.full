@@ -1,0 +1,457 @@
+#include "css/CSSCompiler.h"
+#include "utils/Logger.h"
+#include "scanner/CodeFragment.h"
+
+// ANTLR includes
+#include "antlr4-runtime.h"
+#include "css3Lexer.h"
+#include "css3Parser.h"
+#include "css3BaseVisitor.h"
+
+#include <sstream>
+#include <algorithm>
+
+using namespace antlr4;
+using namespace antlr4::tree;
+
+namespace chtl {
+namespace css {
+
+// CSS访问器实现
+class CSSVisitorImpl : public css3BaseVisitor {
+public:
+    CSSVisitorImpl(bool minify = false) 
+        : m_Minify(minify), m_IndentLevel(0) {}
+    
+    std::string GetResult() const { return m_Result.str(); }
+    
+    antlrcpp::Any visitStylesheet(css3Parser::StylesheetContext* ctx) override {
+        // 访问所有规则
+        for (auto rule : ctx->nestedStatement()) {
+            visit(rule);
+        }
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitRuleset(css3Parser::RulesetContext* ctx) override {
+        // 选择器
+        if (ctx->selectorGroup()) {
+            visit(ctx->selectorGroup());
+        }
+        
+        Write("{");
+        if (!m_Minify) {
+            m_Result << "\n";
+            m_IndentLevel++;
+        }
+        
+        // 声明块
+        if (ctx->declarationList()) {
+            visit(ctx->declarationList());
+        }
+        
+        if (!m_Minify) {
+            m_IndentLevel--;
+            Indent();
+        }
+        Write("}");
+        if (!m_Minify) m_Result << "\n";
+        
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitSelectorGroup(css3Parser::SelectorGroupContext* ctx) override {
+        bool first = true;
+        for (auto selector : ctx->selector()) {
+            if (!first) {
+                Write(",");
+                if (!m_Minify) m_Result << " ";
+            }
+            first = false;
+            visit(selector);
+        }
+        if (!m_Minify) m_Result << " ";
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitProperty(css3Parser::PropertyContext* ctx) override {
+        if (!m_Minify) Indent();
+        
+        if (ctx->ident()) {
+            Write(ctx->ident()->getText());
+        } else if (ctx->var()) {
+            Write(ctx->var()->getText());
+        }
+        
+        Write(":");
+        if (!m_Minify) m_Result << " ";
+        
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitDeclaration(css3Parser::DeclarationContext* ctx) override {
+        // 属性
+        if (ctx->property()) {
+            visit(ctx->property());
+        }
+        
+        // 值
+        if (ctx->expr()) {
+            visit(ctx->expr());
+        }
+        
+        // 重要性
+        if (ctx->prio()) {
+            if (!m_Minify) m_Result << " ";
+            Write("!");
+            if (!m_Minify) m_Result << " ";
+            Write("important");
+        }
+        
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitExpr(css3Parser::ExprContext* ctx) override {
+        bool first = true;
+        for (auto term : ctx->term()) {
+            if (!first && !m_Minify) {
+                m_Result << " ";
+            }
+            first = false;
+            visit(term);
+        }
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitTerminal(TerminalNode* node) override {
+        Write(node->getText());
+        return nullptr;
+    }
+    
+private:
+    std::stringstream m_Result;
+    bool m_Minify;
+    int m_IndentLevel;
+    
+    void Indent() {
+        for (int i = 0; i < m_IndentLevel; ++i) {
+            m_Result << "  ";
+        }
+    }
+    
+    void Write(const std::string& text) {
+        m_Result << text;
+    }
+};
+
+// CSS错误监听器实现
+class CSSErrorListenerImpl : public BaseErrorListener {
+public:
+    CSSErrorListenerImpl(std::vector<std::string>& errors) : m_Errors(errors) {}
+    
+    void syntaxError(Recognizer* recognizer,
+                    Token* offendingSymbol,
+                    size_t line,
+                    size_t charPositionInLine,
+                    const std::string& msg,
+                    std::exception_ptr e) override {
+        std::stringstream ss;
+        ss << "CSS语法错误 [" << line << ":" << charPositionInLine << "] " << msg;
+        m_Errors.push_back(ss.str());
+        utils::Logger::GetInstance().Error(ss.str());
+    }
+    
+private:
+    std::vector<std::string>& m_Errors;
+};
+
+// CSSCompiler 实现
+
+CSSCompiler::CSSCompiler() 
+    : m_Minify(false)
+    , m_SourceMap(false)
+    , m_CompatibilityMode("standard") {}
+
+CSSCompiler::~CSSCompiler() = default;
+
+compiler::CompileResult CSSCompiler::Compile(const std::string& sourceCode,
+                                            const std::string& filename) {
+    compiler::CompileResult result;
+    result.Success = true;
+    
+    try {
+        // 解析CSS
+        auto parseTree = ParseCSS(sourceCode, filename);
+        if (!parseTree || !m_Errors.empty()) {
+            result.Success = false;
+            result.Errors = m_Errors;
+            return result;
+        }
+        
+        // 处理解析树
+        result.OutputContent = ProcessParseTree(parseTree.get());
+        
+        // 应用后处理
+        if (m_Minify) {
+            result.OutputContent = MinifyCSS(result.OutputContent);
+        }
+        
+        if (!m_CompatibilityMode.empty() && m_CompatibilityMode != "standard") {
+            result.OutputContent = ApplyCompatibility(result.OutputContent);
+        }
+        
+        // 生成源映射
+        if (m_SourceMap) {
+            // TODO: 实现源映射生成
+        }
+        
+    } catch (const std::exception& e) {
+        result.Success = false;
+        result.Errors.push_back("CSS编译异常: " + std::string(e.what()));
+    }
+    
+    return result;
+}
+
+compiler::CompileResult CSSCompiler::CompileFragments(const std::vector<CodeFragment>& fragments) {
+    // 合并所有CSS片段
+    std::stringstream combined;
+    std::string currentFile;
+    
+    for (const auto& fragment : fragments) {
+        if (fragment.GetType() == CodeFragmentType::CSS) {
+            if (currentFile != fragment.GetFilename()) {
+                currentFile = fragment.GetFilename();
+                if (!m_Minify) {
+                    combined << "\n/* Source: " << currentFile << " */\n";
+                }
+            }
+            combined << fragment.GetContent() << "\n";
+        }
+    }
+    
+    return Compile(combined.str(), "combined");
+}
+
+void CSSCompiler::Reset() {
+    ClearErrors();
+    // 重置其他状态
+}
+
+std::unique_ptr<ParseTree> CSSCompiler::ParseCSS(const std::string& css,
+                                                const std::string& filename) {
+    try {
+        // 创建输入流
+        ANTLRInputStream input(css);
+        
+        // 创建词法分析器
+        css3Lexer lexer(&input);
+        
+        // 创建错误监听器
+        CSSErrorListenerImpl errorListener(m_Errors);
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(&errorListener);
+        
+        // 创建词法单元流
+        CommonTokenStream tokens(&lexer);
+        
+        // 创建语法分析器
+        css3Parser parser(&tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(&errorListener);
+        
+        // 解析
+        auto tree = parser.stylesheet();
+        
+        if (parser.getNumberOfSyntaxErrors() > 0) {
+            ReportError("CSS解析失败，发现 " + 
+                       std::to_string(parser.getNumberOfSyntaxErrors()) + 
+                       " 个语法错误", filename);
+            return nullptr;
+        }
+        
+        return std::unique_ptr<ParseTree>(tree);
+        
+    } catch (const std::exception& e) {
+        ReportError("CSS解析异常: " + std::string(e.what()), filename);
+        return nullptr;
+    }
+}
+
+std::string CSSCompiler::ProcessParseTree(ParseTree* tree) {
+    if (!tree) return "";
+    
+    CSSVisitorImpl visitor(m_Minify);
+    visitor.visit(tree);
+    
+    return visitor.GetResult();
+}
+
+void CSSCompiler::ReportError(const std::string& message,
+                            const std::string& filename,
+                            size_t line,
+                            size_t column) {
+    std::stringstream ss;
+    ss << "[CSS错误";
+    
+    if (!filename.empty()) {
+        ss << " " << filename;
+    }
+    
+    if (line > 0) {
+        ss << ":" << line << ":" << column;
+    }
+    
+    ss << "] " << message;
+    
+    m_Errors.push_back(ss.str());
+    utils::Logger::GetInstance().Error(ss.str());
+}
+
+std::string CSSCompiler::MinifyCSS(const std::string& css) {
+    std::string minified;
+    minified.reserve(css.size());
+    
+    bool inComment = false;
+    bool inString = false;
+    char stringChar = '\0';
+    bool lastWasSpace = false;
+    
+    for (size_t i = 0; i < css.length(); ++i) {
+        char c = css[i];
+        char next = (i + 1 < css.length()) ? css[i + 1] : '\0';
+        
+        // 处理注释
+        if (!inString && c == '/' && next == '*') {
+            inComment = true;
+            i++; // 跳过'*'
+            continue;
+        }
+        if (inComment && c == '*' && next == '/') {
+            inComment = false;
+            i++; // 跳过'/'
+            continue;
+        }
+        if (inComment) continue;
+        
+        // 处理字符串
+        if (!inComment && (c == '"' || c == '\'')) {
+            if (!inString) {
+                inString = true;
+                stringChar = c;
+            } else if (c == stringChar && (i == 0 || css[i-1] != '\\')) {
+                inString = false;
+            }
+        }
+        
+        // 在字符串中保留所有字符
+        if (inString) {
+            minified += c;
+            continue;
+        }
+        
+        // 压缩空白
+        if (std::isspace(c)) {
+            if (!lastWasSpace && !minified.empty()) {
+                // 检查是否需要保留空格
+                char last = minified.back();
+                if (std::isalnum(last) || last == ')' || last == ']') {
+                    minified += ' ';
+                    lastWasSpace = true;
+                }
+            }
+            continue;
+        }
+        
+        // 移除不必要的分号
+        if (c == ';' && (next == '}' || next == '\0')) {
+            continue;
+        }
+        
+        minified += c;
+        lastWasSpace = false;
+    }
+    
+    return minified;
+}
+
+std::string CSSCompiler::GenerateSourceMap(const std::string& css,
+                                         const std::string& filename) {
+    // TODO: 实现源映射生成
+    return "";
+}
+
+std::string CSSCompiler::ApplyCompatibility(const std::string& css) {
+    // TODO: 实现浏览器兼容性处理
+    return css;
+}
+
+// CSSUtils 实现
+
+bool CSSUtils::IsValidProperty(const std::string& property) {
+    // TODO: 实现CSS属性验证
+    return true;
+}
+
+bool CSSUtils::IsValidValue(const std::string& property, const std::string& value) {
+    // TODO: 实现CSS值验证
+    return true;
+}
+
+std::string CSSUtils::NormalizeColor(const std::string& color) {
+    std::string normalized = color;
+    
+    // 转换为小写
+    std::transform(normalized.begin(), normalized.end(), normalized.begin(), ::tolower);
+    
+    // 简化6位十六进制颜色
+    if (normalized[0] == '#' && normalized.length() == 7) {
+        if (normalized[1] == normalized[2] && 
+            normalized[3] == normalized[4] && 
+            normalized[5] == normalized[6]) {
+            normalized = "#" + std::string(1, normalized[1]) + 
+                              std::string(1, normalized[3]) + 
+                              std::string(1, normalized[5]);
+        }
+    }
+    
+    return normalized;
+}
+
+std::string CSSUtils::NormalizeUnit(const std::string& value) {
+    // 移除0值的单位
+    if (value == "0px" || value == "0em" || value == "0rem" || 
+        value == "0%" || value == "0pt") {
+        return "0";
+    }
+    return value;
+}
+
+bool CSSUtils::CheckCompatibility(const std::string& property,
+                                const std::string& compatMode) {
+    // TODO: 实现浏览器兼容性检查
+    return true;
+}
+
+std::vector<std::string> CSSUtils::AddVendorPrefixes(const std::string& property) {
+    std::vector<std::string> prefixed;
+    
+    // 需要前缀的属性列表
+    static const std::unordered_set<std::string> needsPrefix = {
+        "transform", "transition", "animation", "box-shadow",
+        "border-radius", "flex", "flex-direction", "flex-wrap"
+    };
+    
+    if (needsPrefix.find(property) != needsPrefix.end()) {
+        prefixed.push_back("-webkit-" + property);
+        prefixed.push_back("-moz-" + property);
+        prefixed.push_back("-ms-" + property);
+        prefixed.push_back("-o-" + property);
+    }
+    
+    prefixed.push_back(property);
+    return prefixed;
+}
+
+} // namespace css
+} // namespace chtl

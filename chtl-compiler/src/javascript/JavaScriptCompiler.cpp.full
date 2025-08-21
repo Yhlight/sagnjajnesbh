@@ -1,0 +1,672 @@
+#include "javascript/JavaScriptCompiler.h"
+#include "utils/Logger.h"
+#include "scanner/CodeFragment.h"
+
+// ANTLR includes
+#include "antlr4-runtime.h"
+#include "JavaScriptLexer.h"
+#include "JavaScriptParser.h"
+#include "JavaScriptParserBaseVisitor.h"
+
+#include <sstream>
+#include <algorithm>
+#include <regex>
+
+using namespace antlr4;
+using namespace antlr4::tree;
+
+namespace chtl {
+namespace javascript {
+
+// JavaScript访问器实现
+class JSVisitorImpl : public JavaScriptParserBaseVisitor {
+public:
+    JSVisitorImpl(bool minify = false, bool strictMode = false) 
+        : m_Minify(minify)
+        , m_StrictMode(strictMode)
+        , m_IndentLevel(0)
+        , m_NeedSemicolon(false) {}
+    
+    std::string GetResult() const { return m_Result.str(); }
+    
+    antlrcpp::Any visitProgram(JavaScriptParser::ProgramContext* ctx) override {
+        if (m_StrictMode && !m_Minify) {
+            WriteLine("'use strict';");
+            WriteLine();
+        }
+        
+        if (ctx->sourceElements()) {
+            visit(ctx->sourceElements());
+        }
+        
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitStatement(JavaScriptParser::StatementContext* ctx) override {
+        visitChildren(ctx);
+        
+        // 自动分号插入
+        if (m_NeedSemicolon) {
+            WriteSemicolon();
+            if (!m_Minify) WriteLine();
+            m_NeedSemicolon = false;
+        }
+        
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitBlock(JavaScriptParser::BlockContext* ctx) override {
+        Write("{");
+        if (!m_Minify) {
+            WriteLine();
+            m_IndentLevel++;
+        }
+        
+        if (ctx->statementList()) {
+            visit(ctx->statementList());
+        }
+        
+        if (!m_Minify) {
+            m_IndentLevel--;
+            Indent();
+        }
+        Write("}");
+        
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitVariableStatement(JavaScriptParser::VariableStatementContext* ctx) override {
+        if (!m_Minify) Indent();
+        
+        // var, let, or const
+        visit(ctx->varModifier());
+        WriteSpace();
+        
+        // 变量声明列表
+        visit(ctx->variableDeclarationList());
+        
+        m_NeedSemicolon = true;
+        
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitFunctionDeclaration(JavaScriptParser::FunctionDeclarationContext* ctx) override {
+        if (!m_Minify) Indent();
+        
+        Write("function");
+        WriteSpace();
+        
+        // 函数名
+        if (ctx->identifier()) {
+            Write(ctx->identifier()->getText());
+        }
+        
+        // 参数列表
+        Write("(");
+        if (ctx->formalParameterList()) {
+            visit(ctx->formalParameterList());
+        }
+        Write(")");
+        
+        WriteSpace();
+        
+        // 函数体
+        visit(ctx->functionBody());
+        
+        if (!m_Minify) WriteLine();
+        
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitClassDeclaration(JavaScriptParser::ClassDeclarationContext* ctx) override {
+        if (!m_Minify) Indent();
+        
+        Write("class");
+        WriteSpace();
+        
+        // 类名
+        if (ctx->identifier()) {
+            Write(ctx->identifier()->getText());
+        }
+        
+        // 继承
+        if (ctx->classTail()) {
+            visit(ctx->classTail());
+        }
+        
+        if (!m_Minify) WriteLine();
+        
+        return nullptr;
+    }
+    
+    antlrcpp::Any visitExpression(JavaScriptParser::SingleExpressionContext* ctx) override {
+        // 处理各种表达式类型
+        return visitChildren(ctx);
+    }
+    
+    antlrcpp::Any visitTerminal(TerminalNode* node) override {
+        std::string text = node->getText();
+        
+        // 处理关键字和操作符的空格
+        if (JSUtils::IsReservedWord(text)) {
+            if (m_Result.tellp() > 0 && !m_Minify) {
+                char lastChar = m_Result.str().back();
+                if (std::isalnum(lastChar) || lastChar == '_' || lastChar == '$') {
+                    WriteSpace();
+                }
+            }
+            Write(text);
+            if (!m_Minify && std::isalpha(text[0])) {
+                WriteSpace();
+            }
+        } else {
+            Write(text);
+        }
+        
+        return nullptr;
+    }
+    
+private:
+    std::stringstream m_Result;
+    int m_IndentLevel;
+    bool m_Minify;
+    bool m_StrictMode;
+    bool m_NeedSemicolon;
+    
+    void Indent() {
+        if (!m_Minify) {
+            for (int i = 0; i < m_IndentLevel; ++i) {
+                m_Result << "  ";
+            }
+        }
+    }
+    
+    void Write(const std::string& text) {
+        m_Result << text;
+    }
+    
+    void WriteLine(const std::string& text = "") {
+        if (!m_Minify) {
+            m_Result << text << "\n";
+        } else if (!text.empty()) {
+            m_Result << text;
+        }
+    }
+    
+    void WriteSpace() {
+        if (!m_Minify) {
+            m_Result << " ";
+        }
+    }
+    
+    void WriteSemicolon() {
+        m_Result << ";";
+    }
+};
+
+// JavaScript错误监听器
+class JSErrorListener : public BaseErrorListener {
+public:
+    JSErrorListener(std::vector<std::string>& errors) : m_Errors(errors) {}
+    
+    void syntaxError(Recognizer* recognizer,
+                    Token* offendingSymbol,
+                    size_t line,
+                    size_t charPositionInLine,
+                    const std::string& msg,
+                    std::exception_ptr e) override {
+        std::stringstream ss;
+        ss << "JavaScript语法错误 [" << line << ":" << charPositionInLine << "] " << msg;
+        m_Errors.push_back(ss.str());
+        utils::Logger::GetInstance().Error(ss.str());
+    }
+    
+private:
+    std::vector<std::string>& m_Errors;
+};
+
+// JavaScriptCompiler 实现
+
+JavaScriptCompiler::JavaScriptCompiler() 
+    : m_Minify(false)
+    , m_SourceMap(false)
+    , m_StrictMode(false)
+    , m_TargetES("ES2015")
+    , m_ModuleType("esm") {}
+
+JavaScriptCompiler::~JavaScriptCompiler() = default;
+
+compiler::CompileResult JavaScriptCompiler::Compile(const std::string& sourceCode,
+                                                  const std::string& filename) {
+    compiler::CompileResult result;
+    result.Success = true;
+    
+    try {
+        // 规范化行结束符
+        std::string normalizedCode = JSUtils::NormalizeLineEndings(sourceCode);
+        
+        // 解析JavaScript
+        auto parseTree = ParseJS(normalizedCode, filename);
+        if (!parseTree || !m_Errors.empty()) {
+            result.Success = false;
+            result.Errors = m_Errors;
+            return result;
+        }
+        
+        // 处理解析树
+        result.OutputContent = ProcessParseTree(parseTree.get());
+        
+        // 转译ES版本
+        if (m_TargetES != "ESNext") {
+            result.OutputContent = TranspileES(result.OutputContent);
+        }
+        
+        // 处理模块
+        if (!m_ModuleType.empty()) {
+            result.OutputContent = ProcessModules(result.OutputContent);
+        }
+        
+        // 压缩
+        if (m_Minify) {
+            result.OutputContent = MinifyJS(result.OutputContent);
+        }
+        
+        // 生成源映射
+        if (m_SourceMap) {
+            // TODO: 实现源映射生成
+        }
+        
+    } catch (const std::exception& e) {
+        result.Success = false;
+        result.Errors.push_back("JavaScript编译异常: " + std::string(e.what()));
+    }
+    
+    return result;
+}
+
+compiler::CompileResult JavaScriptCompiler::CompileFragments(const std::vector<CodeFragment>& fragments) {
+    // 合并所有JavaScript片段
+    std::stringstream combined;
+    std::string currentFile;
+    bool needNewline = false;
+    
+    for (const auto& fragment : fragments) {
+        if (fragment.GetType() == CodeFragmentType::JAVASCRIPT) {
+            if (currentFile != fragment.GetFilename()) {
+                currentFile = fragment.GetFilename();
+                if (!m_Minify && needNewline) {
+                    combined << "\n// Source: " << currentFile << "\n";
+                }
+            }
+            
+            if (needNewline && !m_Minify) {
+                combined << "\n";
+            }
+            
+            combined << fragment.GetContent();
+            needNewline = true;
+        }
+    }
+    
+    return Compile(combined.str(), "combined");
+}
+
+void JavaScriptCompiler::Reset() {
+    ClearErrors();
+}
+
+std::unique_ptr<ParseTree> JavaScriptCompiler::ParseJS(const std::string& js,
+                                                      const std::string& filename) {
+    try {
+        // 创建输入流
+        ANTLRInputStream input(js);
+        
+        // 创建词法分析器
+        JavaScriptLexer lexer(&input);
+        
+        // 创建错误监听器
+        JSErrorListener errorListener(m_Errors);
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(&errorListener);
+        
+        // 创建词法单元流
+        CommonTokenStream tokens(&lexer);
+        
+        // 创建语法分析器
+        JavaScriptParser parser(&tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(&errorListener);
+        
+        // 解析
+        auto tree = parser.program();
+        
+        if (parser.getNumberOfSyntaxErrors() > 0) {
+            ReportError("JavaScript解析失败，发现 " + 
+                       std::to_string(parser.getNumberOfSyntaxErrors()) + 
+                       " 个语法错误", filename);
+            return nullptr;
+        }
+        
+        return std::unique_ptr<ParseTree>(tree);
+        
+    } catch (const std::exception& e) {
+        ReportError("JavaScript解析异常: " + std::string(e.what()), filename);
+        return nullptr;
+    }
+}
+
+std::string JavaScriptCompiler::ProcessParseTree(ParseTree* tree) {
+    if (!tree) return "";
+    
+    JSVisitorImpl visitor(m_Minify, m_StrictMode);
+    visitor.visit(tree);
+    
+    return visitor.GetResult();
+}
+
+void JavaScriptCompiler::ReportError(const std::string& message,
+                                   const std::string& filename,
+                                   size_t line,
+                                   size_t column) {
+    std::stringstream ss;
+    ss << "[JS错误";
+    
+    if (!filename.empty()) {
+        ss << " " << filename;
+    }
+    
+    if (line > 0) {
+        ss << ":" << line << ":" << column;
+    }
+    
+    ss << "] " << message;
+    
+    m_Errors.push_back(ss.str());
+    utils::Logger::GetInstance().Error(ss.str());
+}
+
+std::string JavaScriptCompiler::MinifyJS(const std::string& js) {
+    // 简单的压缩实现
+    std::string minified;
+    minified.reserve(js.size());
+    
+    bool inString = false;
+    bool inRegex = false;
+    bool inComment = false;
+    bool inLineComment = false;
+    char stringChar = '\0';
+    bool lastWasOperator = true;
+    
+    for (size_t i = 0; i < js.length(); ++i) {
+        char c = js[i];
+        char next = (i + 1 < js.length()) ? js[i + 1] : '\0';
+        char prev = (i > 0) ? js[i - 1] : '\0';
+        
+        // 处理注释
+        if (!inString && !inRegex) {
+            if (c == '/' && next == '/') {
+                inLineComment = true;
+                i++; // 跳过第二个'/'
+                continue;
+            }
+            if (inLineComment && c == '\n') {
+                inLineComment = false;
+                continue;
+            }
+            if (inLineComment) continue;
+            
+            if (c == '/' && next == '*') {
+                inComment = true;
+                i++; // 跳过'*'
+                continue;
+            }
+            if (inComment && c == '*' && next == '/') {
+                inComment = false;
+                i++; // 跳过'/'
+                continue;
+            }
+            if (inComment) continue;
+        }
+        
+        // 处理字符串
+        if ((c == '"' || c == '\'' || c == '`') && !inRegex) {
+            if (!inString) {
+                inString = true;
+                stringChar = c;
+            } else if (c == stringChar && prev != '\\') {
+                inString = false;
+            }
+        }
+        
+        // 处理正则表达式
+        if (c == '/' && !inString && lastWasOperator) {
+            inRegex = true;
+        } else if (inRegex && c == '/' && prev != '\\') {
+            inRegex = false;
+        }
+        
+        // 在字符串或正则中保留所有字符
+        if (inString || inRegex) {
+            minified += c;
+            lastWasOperator = false;
+            continue;
+        }
+        
+        // 压缩空白
+        if (std::isspace(c)) {
+            if (!lastWasOperator && i + 1 < js.length() && 
+                !JSUtils::IsReservedWord(std::string(1, js[i + 1]))) {
+                // 可能需要保留空格
+                char last = minified.empty() ? '\0' : minified.back();
+                if (std::isalnum(last) || last == '_' || last == '$') {
+                    if (std::isalnum(next) || next == '_' || next == '$') {
+                        minified += ' ';
+                    }
+                }
+            }
+            continue;
+        }
+        
+        minified += c;
+        
+        // 更新操作符状态
+        lastWasOperator = (c == '=' || c == '+' || c == '-' || c == '*' || 
+                          c == '/' || c == '%' || c == '&' || c == '|' || 
+                          c == '^' || c == '!' || c == '<' || c == '>' || 
+                          c == '?' || c == ':' || c == ',' || c == ';' || 
+                          c == '(' || c == '[' || c == '{');
+    }
+    
+    return minified;
+}
+
+std::string JavaScriptCompiler::TranspileES(const std::string& js) {
+    // TODO: 实现ES版本转译
+    return js;
+}
+
+std::string JavaScriptCompiler::ProcessModules(const std::string& js) {
+    // TODO: 实现模块处理
+    return js;
+}
+
+std::string JavaScriptCompiler::GenerateSourceMap(const std::string& js,
+                                                const std::string& filename) {
+    // TODO: 实现源映射生成
+    return "";
+}
+
+// JSUtils 实现
+
+bool JSUtils::IsReservedWord(const std::string& word) {
+    static const std::unordered_set<std::string> reserved = {
+        "break", "case", "catch", "class", "const", "continue",
+        "debugger", "default", "delete", "do", "else", "export",
+        "extends", "finally", "for", "function", "if", "import",
+        "in", "instanceof", "let", "new", "return", "super",
+        "switch", "this", "throw", "try", "typeof", "var",
+        "void", "while", "with", "yield", "async", "await",
+        "static", "get", "set", "null", "true", "false",
+        "undefined", "NaN", "Infinity"
+    };
+    
+    return reserved.find(word) != reserved.end();
+}
+
+bool JSUtils::IsValidIdentifier(const std::string& identifier) {
+    if (identifier.empty()) return false;
+    
+    // 首字符必须是字母、下划线或$
+    char first = identifier[0];
+    if (!std::isalpha(first) && first != '_' && first != '$') {
+        return false;
+    }
+    
+    // 后续字符可以是字母、数字、下划线或$
+    for (size_t i = 1; i < identifier.length(); ++i) {
+        char c = identifier[i];
+        if (!std::isalnum(c) && c != '_' && c != '$') {
+            return false;
+        }
+    }
+    
+    // 不能是保留字
+    return !IsReservedWord(identifier);
+}
+
+std::string JSUtils::EscapeString(const std::string& str) {
+    std::string escaped;
+    escaped.reserve(str.length() * 2);
+    
+    for (char c : str) {
+        switch (c) {
+            case '"': escaped += "\\\""; break;
+            case '\'': escaped += "\\'"; break;
+            case '\\': escaped += "\\\\"; break;
+            case '\n': escaped += "\\n"; break;
+            case '\r': escaped += "\\r"; break;
+            case '\t': escaped += "\\t"; break;
+            case '\b': escaped += "\\b"; break;
+            case '\f': escaped += "\\f"; break;
+            case '\v': escaped += "\\v"; break;
+            default:
+                if (c < 32 || c > 126) {
+                    // 转义非打印字符
+                    char buf[7];
+                    snprintf(buf, sizeof(buf), "\\u%04x", static_cast<unsigned char>(c));
+                    escaped += buf;
+                } else {
+                    escaped += c;
+                }
+        }
+    }
+    
+    return escaped;
+}
+
+std::string JSUtils::NormalizeLineEndings(const std::string& code) {
+    std::string normalized;
+    normalized.reserve(code.size());
+    
+    for (size_t i = 0; i < code.length(); ++i) {
+        if (code[i] == '\r') {
+            normalized += '\n';
+            if (i + 1 < code.length() && code[i + 1] == '\n') {
+                i++; // 跳过\n
+            }
+        } else {
+            normalized += code[i];
+        }
+    }
+    
+    return normalized;
+}
+
+bool JSUtils::IsES6Feature(const std::string& feature) {
+    static const std::unordered_set<std::string> es6Features = {
+        "arrow", "class", "const", "let", "template", "destructuring",
+        "default-parameters", "rest-parameters", "spread", "for-of",
+        "symbol", "iterator", "generator", "promise", "proxy", "reflect",
+        "map", "set", "weakmap", "weakset", "module"
+    };
+    
+    return es6Features.find(feature) != es6Features.end();
+}
+
+bool JSUtils::NeedsSemicolon(const std::string& line) {
+    if (line.empty()) return false;
+    
+    // 去除尾部空白
+    size_t end = line.find_last_not_of(" \t\r\n");
+    if (end == std::string::npos) return false;
+    
+    char lastChar = line[end];
+    
+    // 这些字符后面不需要分号
+    if (lastChar == '{' || lastChar == '}' || lastChar == ';') {
+        return false;
+    }
+    
+    // 检查是否是控制语句
+    static const std::regex controlStmt(
+        R"(^\s*(if|else|for|while|do|switch|try|catch|finally|with)\s*\()"
+    );
+    
+    if (std::regex_search(line, controlStmt)) {
+        return false;
+    }
+    
+    return true;
+}
+
+// JSModuleResolver 实现
+
+JSModuleResolver::JSModuleResolver() {
+    // 添加默认搜索路径
+    m_SearchPaths.push_back(".");
+    m_SearchPaths.push_back("./node_modules");
+}
+
+JSModuleResolver::~JSModuleResolver() = default;
+
+void JSModuleResolver::AddSearchPath(const std::string& path) {
+    m_SearchPaths.push_back(path);
+}
+
+std::string JSModuleResolver::ResolveModule(const std::string& moduleName,
+                                           const std::string& fromFile) {
+    // TODO: 实现模块解析逻辑
+    return moduleName;
+}
+
+std::vector<std::string> JSModuleResolver::GetDependencies(const std::string& code) {
+    std::vector<std::string> deps;
+    
+    // 简单的import/require检测
+    std::regex importRegex(R"(import\s+.*?\s+from\s+['"]([^'"]+)['"])");
+    std::regex requireRegex(R"(require\s*\(\s*['"]([^'"]+)['"]\s*\))");
+    
+    std::sregex_iterator importIt(code.begin(), code.end(), importRegex);
+    std::sregex_iterator requireIt(code.begin(), code.end(), requireRegex);
+    std::sregex_iterator end;
+    
+    for (; importIt != end; ++importIt) {
+        deps.push_back((*importIt)[1].str());
+    }
+    
+    for (; requireIt != end; ++requireIt) {
+        deps.push_back((*requireIt)[1].str());
+    }
+    
+    return deps;
+}
+
+std::string JSModuleResolver::ConvertModule(const std::string& code,
+                                           const std::string& fromType,
+                                           const std::string& toType) {
+    // TODO: 实现模块格式转换
+    return code;
+}
+
+} // namespace javascript
+} // namespace chtl

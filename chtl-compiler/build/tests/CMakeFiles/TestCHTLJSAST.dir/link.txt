@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/TestCHTLJSAST.dir/link.d CMakeFiles/TestCHTLJSAST.dir/TestCHTLJSAST.cpp.o -o TestCHTLJSAST   -L/workspace/chtl-compiler/third_party/antlr4/lib  -Wl,-rpath,/workspace/chtl-compiler/third_party/antlr4/lib ../libchtl_utils.a ../libchtl_scanner.a ../libchtl_core.a ../libchtl_js_core.a

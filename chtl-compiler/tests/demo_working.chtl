@@ -1,0 +1,175 @@
+// CHTL 功能演示 - 已正确实现的功能
+
+// 全局样式
+style {
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f5f5f5;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+}
+
+div {
+    class: container;
+    
+    -- 这是HTML注释
+    header {
+        style {
+            .header-main {
+                background: #007bff;
+                color: white;
+                padding: 20px;
+                text-align: center;
+                margin: -30px -30px 30px -30px;
+            }
+        }
+        
+        h1 { text { "CHTL 编译器演示" } }
+        p { text { "展示已实现的核心功能" } }
+    }
+    
+    // CE对等式演示
+    section {
+        id = features;     // 使用等号
+        class: feature-section;   // 使用冒号
+        
+        h2 { text { "1. CE对等式" } }
+        
+        div {
+            style {
+                background = #f8f9fa;   // 样式中也可以用等号
+                padding: 15px;
+                border: 1px solid #dee2e6;
+                margin-bottom = 20px;
+            }
+            
+            p { text { "属性可以使用冒号(:)或等号(=)，两者完全等价" } }
+        }
+    }
+    
+    // 局部样式块
+    section {
+        h2 { text { "2. 局部样式块" } }
+        
+        div {
+            style {
+                .demo-box {
+                    background: #e3f2fd;
+                    padding: 20px;
+                    border-left: 4px solid #2196f3;
+                    margin-bottom: 15px;
+                }
+                
+                &:hover {
+                    background: #bbdefb;
+                    transform: translateX(5px);
+                    transition: all 0.3s;
+                }
+            }
+            
+            h3 { text { "自动生成类名" } }
+            p { text { "CHTL会自动为元素添加类名，并将样式提升到全局" } }
+        }
+    }
+    
+    // 嵌套结构
+    section {
+        h2 { text { "3. 嵌套结构" } }
+        
+        ul {
+            li { 
+                text { "支持 " }
+                strong { text { "任意深度" } }
+                text { " 的嵌套" }
+            }
+            li {
+                text { "可以包含子列表：" }
+                ul {
+                    li { text { "子项 1" } }
+                    li { text { "子项 2" } }
+                    li { text { "子项 3" } }
+                }
+            }
+            li { text { "保持清晰的层次结构" } }
+        }
+    }
+    
+    // 脚本支持
+    section {
+        h2 { text { "4. 脚本支持" } }
+        
+        div {
+            id: interactive-demo;
+            
+            button {
+                id: demo-btn;
+                onclick: "handleClick()";
+                style {
+                    padding: 12px 24px;
+                    font-size: 16px;
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+                
+                text { "点击测试脚本" }
+            }
+            
+            p {
+                id: result;
+                style {
+                    margin-top: 15px;
+                    padding: 10px;
+                    background: #f8f9fa;
+                    border: 1px solid #dee2e6;
+                    display: none;
+                }
+                text { "脚本执行成功！" }
+            }
+            
+            script {
+                function handleClick() {
+                    document.getElementById('result').style.display = 'block';
+                    setTimeout(function() {
+                        document.getElementById('result').style.display = 'none';
+                    }, 3000);
+                }
+            }
+        }
+    }
+    
+    // Origin 嵌入
+    section {
+        h2 { text { "5. Origin 原始内容嵌入" } }
+        
+        [Origin] @Html {
+            <div class="alert" style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 4px;">
+                <strong>注意：</strong> 这是通过 [Origin] 直接嵌入的 HTML 内容，
+                可以包含任何有效的 HTML 标签和属性。
+            </div>
+        }
+    }
+    
+    footer {
+        style {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            text-align: center;
+            color: #6c757d;
+        }
+        
+        p { text { "© 2024 CHTL Project - 使用 CHTL 编译器生成" } }
+    }
+}

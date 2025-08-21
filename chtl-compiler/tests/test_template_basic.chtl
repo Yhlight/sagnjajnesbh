@@ -1,0 +1,20 @@
+// 最基础的模板测试
+
+[Template] @Style BasicStyle
+{
+    color: red;
+    font-size: 16px;
+}
+
+body
+{
+    div
+    {
+        style
+        {
+            @Style BasicStyle;
+        }
+        
+        text { "Hello World" }
+    }
+}

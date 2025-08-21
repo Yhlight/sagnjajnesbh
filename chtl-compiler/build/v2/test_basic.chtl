@@ -1,0 +1,14 @@
+div {
+    id: main;
+    class: container;
+    
+    h1 { text { "Hello CHTL!" } }
+    
+    p {
+        style {
+            color: blue;
+            font-size: 16px;
+        }
+        text { "This is a test paragraph." }
+    }
+}

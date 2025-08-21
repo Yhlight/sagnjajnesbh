@@ -1,0 +1,61 @@
+// 模板示例
+[Template] @Style card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+[Template] @Element card {
+    div {
+        class: "card";
+        
+        h3 {
+            class: "card-title";
+            text { $title }
+        }
+        
+        div {
+            class: "card-content";
+            text { $content }
+        }
+    }
+}
+
+// 使用模板
+div {
+    class: "container";
+    
+    h1 {
+        text { Template Example }
+    }
+    
+    // 实例化模板
+    card {
+        title: "First Card";
+        content: "This is the content of the first card.";
+    }
+    
+    card {
+        title: "Second Card";
+        content: "This is another card with different content.";
+    }
+}
+
+style {
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .card-title {
+        color: #333;
+        margin-top: 0;
+    }
+    
+    .card-content {
+        color: #666;
+    }
+}

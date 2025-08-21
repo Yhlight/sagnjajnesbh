@@ -1,0 +1,14 @@
+[Info]
+{
+    name = "Chtholly";
+    version = "1.0.0";
+    description = "珂朵莉CJMOD扩展 - 实现iNeverAway和printMylove功能";
+    author = "CHTL Team";
+    license = "MIT";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+    entryPoint = "CreateCJMODExtension";
+    headerFiles = "";
+    linkLibraries = "";
+    compilerFlags = "-O2";
+}

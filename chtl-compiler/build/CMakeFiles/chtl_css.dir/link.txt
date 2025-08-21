@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchtl_css.a CMakeFiles/chtl_css.dir/src/css/CSSCompilerStub.cpp.o CMakeFiles/chtl_css.dir/src/css/grammar/css3Lexer.cpp.o CMakeFiles/chtl_css.dir/src/css/grammar/css3Parser.cpp.o CMakeFiles/chtl_css.dir/src/css/grammar/css3ParserBaseListener.cpp.o CMakeFiles/chtl_css.dir/src/css/grammar/css3ParserListener.cpp.o
+/usr/bin/ranlib libchtl_css.a

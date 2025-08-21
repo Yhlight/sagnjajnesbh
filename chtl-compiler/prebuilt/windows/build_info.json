@@ -1,0 +1,52 @@
+{
+  "build_info": {
+    "platform": "Windows",
+    "architecture": "x64",
+    "compiler": {
+      "name": "Microsoft Visual C++",
+      "version": "19.30+",
+      "toolset": "v143"
+    },
+    "configuration": {
+      "Release": {
+        "runtime": "/MD",
+        "optimization": "/O2",
+        "debug_info": false
+      },
+      "Debug": {
+        "runtime": "/MDd",
+        "optimization": "/Od",
+        "debug_info": true
+      }
+    },
+    "cpp_standard": "c++17",
+    "antlr_version": "4.13.1",
+    "build_date": "2024-01-XX",
+    "libraries": [
+      {
+        "name": "chtl_css",
+        "description": "CSS3 parser and compiler",
+        "size_release": "~2MB",
+        "size_debug": "~8MB"
+      },
+      {
+        "name": "chtl_javascript", 
+        "description": "JavaScript parser and compiler",
+        "size_release": "~3MB",
+        "size_debug": "~12MB"
+      },
+      {
+        "name": "antlr4-runtime",
+        "description": "ANTLR4 C++ runtime library",
+        "size_release": "~5MB",
+        "size_debug": "~20MB"
+      },
+      {
+        "name": "chtl_antlr_all",
+        "description": "Combined library with all components",
+        "size_release": "~10MB",
+        "size_debug": "~40MB"
+      }
+    ]
+  }
+}

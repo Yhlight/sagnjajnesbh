@@ -1,0 +1,120 @@
+// 已实现功能的测试
+
+[Configuration] {
+    title: CHTL功能测试;
+    author: CHTL Team;
+}
+
+// 全局样式
+style {
+    body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 20px;
+        line-height: 1.6;
+    }
+    
+    .highlight {
+        background: yellow;
+        padding: 2px 5px;
+    }
+}
+
+-- 这是HTML注释
+div {
+    id: main;
+    class: container;
+    
+    h1 { 
+        text { CHTL V2 功能演示 } 
+    }
+    
+    -- 局部样式块
+    section {
+        style {
+            .demo-section {
+                border: 2px solid #333;
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            &:hover {
+                border-color: #666;
+            }
+        }
+        
+        h2 { text { 局部样式功能 } }
+        
+        p {
+            text { 
+                这个section自动获得了demo-section类名，
+                并且hover时边框会变色。
+            }
+        }
+    }
+    
+    -- CE对等式演示
+    section {
+        // 使用冒号
+        id: ce-demo;
+        // 使用等号
+        class = feature-section;
+        
+        h2 { text { CE对等式 } }
+        
+        div {
+            style {
+                // 样式中也可以使用等号
+                background = #f0f0f0;
+                padding: 15px;
+            }
+            
+            p { 
+                text { 
+                    属性可以使用冒号或等号，两者完全等价。 
+                } 
+            }
+        }
+    }
+    
+    -- 嵌套结构
+    section {
+        h2 { text { 嵌套结构 } }
+        
+        ul {
+            li { text { 第一项 } }
+            li { 
+                text { 第二项包含 }
+                strong { text { 强调文本 } }
+            }
+            li {
+                text { 第三项包含列表 }
+                ul {
+                    li { text { 子项1 } }
+                    li { text { 子项2 } }
+                }
+            }
+        }
+    }
+    
+    -- 脚本支持
+    section {
+        h2 { text { 脚本支持 } }
+        
+        button {
+            id: test-btn;
+            style {
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+            text { 点击测试 }
+        }
+        
+        script {
+            document.getElementById('test-btn').onclick = function() {
+                alert('按钮被点击了！');
+            };
+        }
+    }
+}

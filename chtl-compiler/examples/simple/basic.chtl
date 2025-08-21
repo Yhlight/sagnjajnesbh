@@ -1,0 +1,17 @@
+// 基础示例
+div {
+    class: "container";
+    
+    h1 {
+        text { Hello CHTL }
+    }
+    
+    p {
+        text { This is a simple example }
+    }
+    
+    div {
+        class: "footer";
+        text { Copyright 2025 }
+    }
+}

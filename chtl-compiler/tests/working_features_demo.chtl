@@ -1,0 +1,158 @@
+// CHTL 已实现功能演示
+
+// 1. 基本元素和属性
+div {
+    id: main;
+    class: container;
+    
+    h1 { text { "CHTL 功能演示" } }
+    
+    // 2. 局部样式块
+    section {
+        style {
+            .feature-section {
+                background: #f8f9fa;
+                padding: 20px;
+                margin: 20px 0;
+                border-radius: 8px;
+            }
+            
+            &:hover {
+                background: #e9ecef;
+            }
+        }
+        
+        h2 { text { "局部样式功能" } }
+        p { text { "自动生成类名并应用样式" } }
+    }
+    
+    // 3. CE对等式
+    section {
+        id = equals-demo;      // 使用等号
+        class: colon-demo;     // 使用冒号
+        
+        style {
+            padding = 15px;    // 样式中也可以用等号
+            border: 1px solid #dee2e6;
+        }
+        
+        h2 { text { "CE对等式" } }
+        p { text { "冒号和等号完全等价" } }
+    }
+    
+    // 4. 文本块
+    section {
+        h2 { text { "文本块支持" } }
+        
+        p {
+            text { 
+                "可以包含引号字符串" 
+            }
+        }
+        
+        p {
+            text { 
+                也可以是无引号的文本内容，
+                支持多行和特殊字符！
+            }
+        }
+    }
+    
+    // 5. 注释系统
+    -- 这是HTML注释，会出现在生成的HTML中
+    // 这是单行注释，不会出现在输出中
+    /* 这是多行注释
+       也不会出现在输出中 */
+    
+    section {
+        h2 { text { "注释系统" } }
+        p { text { "支持三种注释类型" } }
+    }
+    
+    // 6. 嵌套结构
+    section {
+        h2 { text { "嵌套结构" } }
+        
+        div {
+            class: nested-demo;
+            
+            ul {
+                li { 
+                    text { "第一项 - " }
+                    strong { text { "加粗" } }
+                    text { " 和 " }
+                    em { text { "斜体" } }
+                }
+                li {
+                    text { "包含子列表的项" }
+                    ul {
+                        li { text { "子项 A" } }
+                        li { text { "子项 B" } }
+                    }
+                }
+            }
+        }
+    }
+    
+    // 7. 脚本支持
+    section {
+        h2 { text { "脚本支持" } }
+        
+        button {
+            id: demo-btn;
+            onclick: "alert('按钮被点击！')";
+            style {
+                padding: 10px 20px;
+                background: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            
+            text { "点击测试" }
+        }
+        
+        script {
+            console.log('CHTL 脚本块工作正常');
+        }
+    }
+    
+    // 8. 全局样式
+    footer {
+        style {
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        text { "© 2024 CHTL Project - 已实现的功能" }
+    }
+}
+
+// 全局样式定义
+style {
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        line-height: 1.6;
+    }
+    
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    
+    h1, h2 {
+        color: #333;
+    }
+    
+    code {
+        background: #f4f4f4;
+        padding: 2px 4px;
+        border-radius: 3px;
+    }
+}

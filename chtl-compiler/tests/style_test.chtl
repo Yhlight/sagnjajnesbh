@@ -1,0 +1,14 @@
+div {
+    style {
+        .myclass {
+            background: red;
+            padding: 20px;
+        }
+        
+        &:hover {
+            background: blue;
+        }
+    }
+    
+    h1 { text { "Style Test" } }
+}

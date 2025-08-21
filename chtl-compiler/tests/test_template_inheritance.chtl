@@ -1,0 +1,27 @@
+// 测试模板继承
+
+[Template] @Style BaseStyle
+{
+    color: black;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+[Template] @Style ExtendedStyle
+{
+    background-color: yellow;
+    @Style BaseStyle;  // 继承BaseStyle的所有属性
+}
+
+body
+{
+    div
+    {
+        style
+        {
+            @Style ExtendedStyle;
+        }
+        
+        text { "This should have black text on yellow background" }
+    }
+}

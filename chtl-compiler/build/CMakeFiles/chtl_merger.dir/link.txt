@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchtl_merger.a CMakeFiles/chtl_merger.dir/src/merger/ResultMerger.cpp.o
+/usr/bin/ranlib libchtl_merger.a
