@@ -1,0 +1,73 @@
+cmake_minimum_required(VERSION 3.14)
+project(chtl_antlr_parsers)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Platform-specific settings
+if(WIN32)
+    add_compile_options(/EHsc /MD)
+else()
+    add_compile_options(-fPIC)
+endif()
+
+# Find ANTLR runtime
+set(ANTLR4_RUNTIME_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party/antlr4-runtime)
+set(ANTLR4_GENERATED_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party/generated)
+
+# Include directories
+include_directories(
+    ${ANTLR4_RUNTIME_DIR}/runtime/src
+    ${ANTLR4_GENERATED_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+# CSS Parser Library
+file(GLOB CSS_PARSER_SOURCES
+    ${ANTLR4_GENERATED_DIR}/css3/*.cpp
+    src/chtl/css/CSSCompiler.cpp
+)
+
+add_library(chtl_css STATIC ${CSS_PARSER_SOURCES})
+
+# JavaScript Parser Library
+file(GLOB JS_PARSER_SOURCES
+    ${ANTLR4_GENERATED_DIR}/javascript/*.cpp
+    src/chtl/javascript/JavaScriptCompiler.cpp
+)
+
+add_library(chtl_javascript STATIC ${JS_PARSER_SOURCES})
+
+# Link with ANTLR runtime
+if(WIN32)
+    set(ANTLR4_RUNTIME_LIB ${ANTLR4_RUNTIME_DIR}/build/runtime/Release/antlr4-runtime.lib)
+else()
+    set(ANTLR4_RUNTIME_LIB ${ANTLR4_RUNTIME_DIR}/build/runtime/libantlr4-runtime.a)
+endif()
+
+# Combined library target
+add_custom_target(chtl_antlr_all
+    COMMAND ${CMAKE_COMMAND} -E echo "Creating combined ANTLR library..."
+    DEPENDS chtl_css chtl_javascript
+)
+
+# Example executable
+add_executable(antlr_example examples/use_antlr_parsers.cpp)
+target_link_libraries(antlr_example
+    chtl_css
+    chtl_javascript
+    ${ANTLR4_RUNTIME_LIB}
+)
+
+# Installation
+install(TARGETS chtl_css chtl_javascript
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+)
+
+install(FILES
+    src/chtl/css/CSSCompiler.h
+    src/chtl/javascript/JavaScriptCompiler.h
+    src/chtl/interfaces/ICompiler.h
+    DESTINATION include/chtl
+)
