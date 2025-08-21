@@ -1,0 +1,131 @@
+name: Build Windows Libraries
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/chtl/css/**'
+      - 'src/chtl/javascript/**'
+      - 'third_party/grammars/**'
+      - '.github/workflows/build_windows_libs.yml'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        configuration: [Release, Debug]
+        
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        
+    - name: Setup MSVC
+      uses: microsoft/setup-msbuild@v1.1
+      
+    - name: Download ANTLR
+      run: |
+        New-Item -ItemType Directory -Force -Path third_party
+        Invoke-WebRequest -Uri "https://www.antlr.org/download/antlr-4.13.1-complete.jar" -OutFile "third_party/antlr-4.13.1-complete.jar"
+        
+    - name: Download ANTLR Runtime
+      run: |
+        Invoke-WebRequest -Uri "https://www.antlr.org/download/antlr4-cpp-runtime-4.13.1-source.zip" -OutFile "third_party/antlr4-runtime.zip"
+        Expand-Archive -Path "third_party/antlr4-runtime.zip" -DestinationPath "third_party/antlr4-runtime" -Force
+        Remove-Item "third_party/antlr4-runtime.zip"
+        
+    - name: Build ANTLR Runtime
+      run: |
+        cd third_party/antlr4-runtime
+        mkdir build
+        cd build
+        cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DANTLR4_INSTALL=OFF -DBUILD_SHARED_LIBS=OFF
+        cmake --build . --config ${{ matrix.configuration }}
+        
+    - name: Generate Parsers
+      run: |
+        cd third_party
+        java -jar antlr-4.13.1-complete.jar -Dlanguage=Cpp -visitor -package css3 -o generated/css3 grammars/css3/css3Lexer.g4 grammars/css3/css3Parser.g4
+        java -jar antlr-4.13.1-complete.jar -Dlanguage=Cpp -visitor -package javascript -o generated/javascript grammars/javascript/JavaScriptLexer.g4 grammars/javascript/JavaScriptParser.g4
+        
+    - name: Build Libraries
+      run: |
+        mkdir -p build/antlr
+        cd build/antlr
+        
+        $config = "${{ matrix.configuration }}"
+        $runtime = if ($config -eq "Debug") { "/MDd" } else { "/MD" }
+        $suffix = if ($config -eq "Debug") { "_d" } else { "" }
+        
+        # Compile CSS library
+        cl.exe /c /std:c++17 /EHsc $runtime `
+          /I"..\..\third_party\antlr4-runtime\runtime\src" `
+          /I"..\..\third_party\generated" `
+          ..\..\third_party\generated\css3\*.cpp `
+          ..\..\src\chtl\css\CSSCompiler.cpp
+        lib.exe /OUT:"chtl_css$suffix.lib" *.obj
+        Remove-Item *.obj
+        
+        # Compile JavaScript library
+        cl.exe /c /std:c++17 /EHsc $runtime `
+          /I"..\..\third_party\antlr4-runtime\runtime\src" `
+          /I"..\..\third_party\generated" `
+          ..\..\third_party\generated\javascript\*.cpp `
+          ..\..\src\chtl\javascript\JavaScriptCompiler.cpp
+        lib.exe /OUT:"chtl_javascript$suffix.lib" *.obj
+        Remove-Item *.obj
+        
+        # Copy ANTLR runtime
+        Copy-Item "..\..\third_party\antlr4-runtime\build\runtime\$config\antlr4-runtime.lib" "antlr4-runtime$suffix.lib"
+        
+        # Create combined library
+        lib.exe /OUT:"chtl_antlr_all$suffix.lib" "chtl_css$suffix.lib" "chtl_javascript$suffix.lib" "antlr4-runtime$suffix.lib"
+        
+    - name: Prepare Artifacts
+      run: |
+        $config = "${{ matrix.configuration }}"
+        mkdir -p "prebuilt/windows/x64/$config"
+        Copy-Item "build/antlr/*.lib" "prebuilt/windows/x64/$config/"
+        
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-libs-${{ matrix.configuration }}
+        path: prebuilt/windows/x64/${{ matrix.configuration }}/*.lib
+        
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Download Release Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-libs-Release
+        path: prebuilt/windows/x64/Release
+        
+    - name: Download Debug Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: windows-libs-Debug
+        path: prebuilt/windows/x64/Debug
+        
+    - name: Commit Libraries
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add prebuilt/windows/x64/
+        git commit -m "Update Windows prebuilt libraries [skip ci]" || echo "No changes to commit"
+        git push

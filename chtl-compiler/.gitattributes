@@ -1,0 +1,43 @@
+# Git attributes for CHTL project
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Source files
+*.cpp text
+*.h text
+*.hpp text
+*.c text
+*.cc text
+*.cxx text
+
+# Build scripts
+*.sh text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Grammar files
+*.g4 text
+*.tokens text
+
+# Documentation
+*.md text
+*.txt text
+*.json text
+*.yml text
+*.yaml text
+
+# Binary files (never modify)
+*.lib binary
+*.a binary
+*.so binary
+*.dll binary
+*.exe binary
+*.jar binary
+*.zip binary
+*.7z binary
+
+# Large files (use Git LFS if available)
+prebuilt/**/*.lib filter=lfs diff=lfs merge=lfs -text
+prebuilt/**/*.a filter=lfs diff=lfs merge=lfs -text
