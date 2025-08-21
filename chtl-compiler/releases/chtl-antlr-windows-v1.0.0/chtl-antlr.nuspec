@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>CHTL.ANTLR.Parsers</id>
+    <version>1.0.0</version>
+    <title>CHTL ANTLR Parsers</title>
+    <authors>CHTL Team</authors>
+    <description>CSS and JavaScript parsers for CHTL compiler</description>
+    <projectUrl>https://github.com/yourusername/chtl-compiler</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <tags>CHTL ANTLR Parser CSS JavaScript</tags>
+  </metadata>
+  <files>
+    <file src="include\**" target="include" />
+    <file src="lib\**" target="lib" />
+    <file src="chtl-antlr.props" target="build\native" />
+  </files>
+</package>
