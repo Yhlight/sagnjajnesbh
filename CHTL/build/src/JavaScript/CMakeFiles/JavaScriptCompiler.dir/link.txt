@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libJavaScriptCompiler.a CMakeFiles/JavaScriptCompiler.dir/dummy.cpp.o
+/usr/bin/ranlib ../../lib/libJavaScriptCompiler.a

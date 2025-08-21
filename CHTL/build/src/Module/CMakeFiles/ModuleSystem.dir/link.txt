@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libModuleSystem.a CMakeFiles/ModuleSystem.dir/dummy.cpp.o
+/usr/bin/ranlib ../../lib/libModuleSystem.a

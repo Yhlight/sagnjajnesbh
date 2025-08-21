@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libCHTLCompiler.a CMakeFiles/CHTLCompiler.dir/dummy.cpp.o
+/usr/bin/ranlib ../../lib/libCHTLCompiler.a

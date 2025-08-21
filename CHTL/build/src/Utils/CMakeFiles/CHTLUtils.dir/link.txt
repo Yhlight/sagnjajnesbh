@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libCHTLUtils.a CMakeFiles/CHTLUtils.dir/Logger.cpp.o CMakeFiles/CHTLUtils.dir/FileUtils.cpp.o
+/usr/bin/ranlib ../../lib/libCHTLUtils.a
