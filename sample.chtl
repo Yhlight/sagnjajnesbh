@@ -1,0 +1,3 @@
+[Origin] @Html box { <p>OK</p> }
+script { {{box}}->textContent(); }
+div { style { color: red; } }
