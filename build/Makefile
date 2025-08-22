@@ -302,6 +302,32 @@ test_chtl_ast/fast:
 .PHONY : test_chtl_ast/fast
 
 #=============================================================================
+# Target rules for targets named test_chtl_compiler
+
+# Build rule for target.
+test_chtl_compiler: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtl_compiler
+.PHONY : test_chtl_compiler
+
+# fast build rule for target.
+test_chtl_compiler/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_compiler.dir/build.make tests/CMakeFiles/test_chtl_compiler.dir/build
+.PHONY : test_chtl_compiler/fast
+
+#=============================================================================
+# Target rules for targets named test_chtl_simple
+
+# Build rule for target.
+test_chtl_simple: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtl_simple
+.PHONY : test_chtl_simple
+
+# fast build rule for target.
+test_chtl_simple/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_simple.dir/build.make tests/CMakeFiles/test_chtl_simple.dir/build
+.PHONY : test_chtl_simple/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -361,7 +387,9 @@ help:
 	@echo "... js_compiler"
 	@echo "... scanner"
 	@echo "... test_chtl_ast"
+	@echo "... test_chtl_compiler"
 	@echo "... test_chtl_core"
+	@echo "... test_chtl_simple"
 	@echo "... test_chtljs_core"
 	@echo "... test_integration"
 	@echo "... test_scanner"

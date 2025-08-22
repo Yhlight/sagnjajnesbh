@@ -200,6 +200,34 @@ test_chtl_ast/fast:
 .PHONY : test_chtl_ast/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_chtl_compiler.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtl_compiler.dir/rule
+.PHONY : tests/CMakeFiles/test_chtl_compiler.dir/rule
+
+# Convenience name for target.
+test_chtl_compiler: tests/CMakeFiles/test_chtl_compiler.dir/rule
+.PHONY : test_chtl_compiler
+
+# fast build rule for target.
+test_chtl_compiler/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_compiler.dir/build.make tests/CMakeFiles/test_chtl_compiler.dir/build
+.PHONY : test_chtl_compiler/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_chtl_simple.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtl_simple.dir/rule
+.PHONY : tests/CMakeFiles/test_chtl_simple.dir/rule
+
+# Convenience name for target.
+test_chtl_simple: tests/CMakeFiles/test_chtl_simple.dir/rule
+.PHONY : test_chtl_simple
+
+# fast build rule for target.
+test_chtl_simple/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_simple.dir/build.make tests/CMakeFiles/test_chtl_simple.dir/build
+.PHONY : test_chtl_simple/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -265,6 +293,30 @@ CHTL/test_chtl_ast.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_ast.dir/build.make tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.s
 .PHONY : CHTL/test_chtl_ast.cpp.s
 
+CHTL/test_chtl_compiler.o: CHTL/test_chtl_compiler.cpp.o
+.PHONY : CHTL/test_chtl_compiler.o
+
+# target to build an object file
+CHTL/test_chtl_compiler.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_compiler.dir/build.make tests/CMakeFiles/test_chtl_compiler.dir/CHTL/test_chtl_compiler.cpp.o
+.PHONY : CHTL/test_chtl_compiler.cpp.o
+
+CHTL/test_chtl_compiler.i: CHTL/test_chtl_compiler.cpp.i
+.PHONY : CHTL/test_chtl_compiler.i
+
+# target to preprocess a source file
+CHTL/test_chtl_compiler.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_compiler.dir/build.make tests/CMakeFiles/test_chtl_compiler.dir/CHTL/test_chtl_compiler.cpp.i
+.PHONY : CHTL/test_chtl_compiler.cpp.i
+
+CHTL/test_chtl_compiler.s: CHTL/test_chtl_compiler.cpp.s
+.PHONY : CHTL/test_chtl_compiler.s
+
+# target to generate assembly for a file
+CHTL/test_chtl_compiler.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_compiler.dir/build.make tests/CMakeFiles/test_chtl_compiler.dir/CHTL/test_chtl_compiler.cpp.s
+.PHONY : CHTL/test_chtl_compiler.cpp.s
+
 CHTL/test_chtl_core.o: CHTL/test_chtl_core.cpp.o
 .PHONY : CHTL/test_chtl_core.o
 
@@ -288,6 +340,30 @@ CHTL/test_chtl_core.s: CHTL/test_chtl_core.cpp.s
 CHTL/test_chtl_core.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_core.dir/build.make tests/CMakeFiles/test_chtl_core.dir/CHTL/test_chtl_core.cpp.s
 .PHONY : CHTL/test_chtl_core.cpp.s
+
+CHTL/test_chtl_simple.o: CHTL/test_chtl_simple.cpp.o
+.PHONY : CHTL/test_chtl_simple.o
+
+# target to build an object file
+CHTL/test_chtl_simple.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_simple.dir/build.make tests/CMakeFiles/test_chtl_simple.dir/CHTL/test_chtl_simple.cpp.o
+.PHONY : CHTL/test_chtl_simple.cpp.o
+
+CHTL/test_chtl_simple.i: CHTL/test_chtl_simple.cpp.i
+.PHONY : CHTL/test_chtl_simple.i
+
+# target to preprocess a source file
+CHTL/test_chtl_simple.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_simple.dir/build.make tests/CMakeFiles/test_chtl_simple.dir/CHTL/test_chtl_simple.cpp.i
+.PHONY : CHTL/test_chtl_simple.cpp.i
+
+CHTL/test_chtl_simple.s: CHTL/test_chtl_simple.cpp.s
+.PHONY : CHTL/test_chtl_simple.s
+
+# target to generate assembly for a file
+CHTL/test_chtl_simple.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_simple.dir/build.make tests/CMakeFiles/test_chtl_simple.dir/CHTL/test_chtl_simple.cpp.s
+.PHONY : CHTL/test_chtl_simple.cpp.s
 
 CHTLJS/test_chtljs_core.o: CHTLJS/test_chtljs_core.cpp.o
 .PHONY : CHTLJS/test_chtljs_core.o
@@ -375,16 +451,24 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... test_chtl_ast"
+	@echo "... test_chtl_compiler"
 	@echo "... test_chtl_core"
+	@echo "... test_chtl_simple"
 	@echo "... test_chtljs_core"
 	@echo "... test_integration"
 	@echo "... test_scanner"
 	@echo "... CHTL/test_chtl_ast.o"
 	@echo "... CHTL/test_chtl_ast.i"
 	@echo "... CHTL/test_chtl_ast.s"
+	@echo "... CHTL/test_chtl_compiler.o"
+	@echo "... CHTL/test_chtl_compiler.i"
+	@echo "... CHTL/test_chtl_compiler.s"
 	@echo "... CHTL/test_chtl_core.o"
 	@echo "... CHTL/test_chtl_core.i"
 	@echo "... CHTL/test_chtl_core.s"
+	@echo "... CHTL/test_chtl_simple.o"
+	@echo "... CHTL/test_chtl_simple.i"
+	@echo "... CHTL/test_chtl_simple.s"
 	@echo "... CHTLJS/test_chtljs_core.o"
 	@echo "... CHTLJS/test_chtljs_core.i"
 	@echo "... CHTLJS/test_chtljs_core.s"

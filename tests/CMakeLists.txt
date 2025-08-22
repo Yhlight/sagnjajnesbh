@@ -29,6 +29,30 @@ if(NOT GTest_FOUND)
     
     add_test(NAME CHTLASTTest COMMAND test_chtl_ast)
     
+    # CHTL编译器完整测试
+    add_executable(test_chtl_compiler
+        CHTL/test_chtl_compiler.cpp
+    )
+    
+    target_link_libraries(test_chtl_compiler
+        chtl_core
+        utils
+    )
+    
+    add_test(NAME CHTLCompilerTest COMMAND test_chtl_compiler)
+    
+    # CHTL简单编译器测试
+    add_executable(test_chtl_simple
+        CHTL/test_chtl_simple.cpp
+    )
+    
+    target_link_libraries(test_chtl_simple
+        chtl_core
+        utils
+    )
+    
+    add_test(NAME CHTLSimpleTest COMMAND test_chtl_simple)
+    
     # CHTL JS核心测试
     add_executable(test_chtljs_core
         CHTLJS/test_chtljs_core.cpp
@@ -100,6 +124,19 @@ else()
     )
     
     gtest_discover_tests(test_chtl_ast)
+    
+    # CHTL编译器完整测试
+    add_executable(test_chtl_compiler
+        CHTL/test_chtl_compiler.cpp
+    )
+    
+    target_link_libraries(test_chtl_compiler
+        chtl_core
+        utils
+        GTest::gtest_main
+    )
+    
+    gtest_discover_tests(test_chtl_compiler)
     
     # CHTL JS核心测试
     add_executable(test_chtljs_core

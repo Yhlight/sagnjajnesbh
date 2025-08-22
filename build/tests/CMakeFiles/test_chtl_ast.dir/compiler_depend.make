@@ -124,10 +124,12 @@ tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.o: /workspace/tests/CH
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/include/c++/14/algorithm \
   /usr/include/c++/14/array \
   /usr/include/c++/14/backward/auto_ptr.h \
   /usr/include/c++/14/backward/binders.h \
   /usr/include/c++/14/bit \
+  /usr/include/c++/14/bits/algorithmfwd.h \
   /usr/include/c++/14/bits/align.h \
   /usr/include/c++/14/bits/alloc_traits.h \
   /usr/include/c++/14/bits/allocated_ptr.h \
@@ -183,11 +185,13 @@ tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.o: /workspace/tests/CH
   /usr/include/c++/14/bits/shared_ptr_base.h \
   /usr/include/c++/14/bits/std_abs.h \
   /usr/include/c++/14/bits/std_function.h \
+  /usr/include/c++/14/bits/stl_algo.h \
   /usr/include/c++/14/bits/stl_algobase.h \
   /usr/include/c++/14/bits/stl_bvector.h \
   /usr/include/c++/14/bits/stl_construct.h \
   /usr/include/c++/14/bits/stl_deque.h \
   /usr/include/c++/14/bits/stl_function.h \
+  /usr/include/c++/14/bits/stl_heap.h \
   /usr/include/c++/14/bits/stl_iterator.h \
   /usr/include/c++/14/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/14/bits/stl_iterator_base_types.h \
@@ -201,6 +205,7 @@ tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.o: /workspace/tests/CH
   /usr/include/c++/14/bits/streambuf_iterator.h \
   /usr/include/c++/14/bits/string_view.tcc \
   /usr/include/c++/14/bits/stringfwd.h \
+  /usr/include/c++/14/bits/uniform_int_dist.h \
   /usr/include/c++/14/bits/unique_ptr.h \
   /usr/include/c++/14/bits/unordered_map.h \
   /usr/include/c++/14/bits/unordered_set.h \
@@ -241,6 +246,7 @@ tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.o: /workspace/tests/CH
   /usr/include/c++/14/new \
   /usr/include/c++/14/ostream \
   /usr/include/c++/14/pstl/execution_defs.h \
+  /usr/include/c++/14/pstl/glue_algorithm_defs.h \
   /usr/include/c++/14/pstl/glue_memory_defs.h \
   /usr/include/c++/14/pstl/pstl_config.h \
   /usr/include/c++/14/stack \
@@ -326,7 +332,17 @@ tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.o: /workspace/tests/CH
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/c++locale.h:
 
+/usr/include/x86_64-linux-gnu/c++/14/bits/c++allocator.h:
+
+/usr/include/x86_64-linux-gnu/c++/14/bits/atomic_word.h:
+
+/usr/include/c++/14/vector:
+
+/usr/include/c++/14/unordered_set:
+
 /usr/include/c++/14/backward/binders.h:
+
+/usr/include/c++/14/istream:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
@@ -342,8 +358,6 @@ tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.o: /workspace/tests/CH
 
 /usr/include/c++/14/bits/stl_iterator_base_types.h:
 
-/usr/include/x86_64-linux-gnu/bits/sched.h:
-
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
 /usr/include/c++/14/type_traits:
@@ -353,6 +367,8 @@ tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.o: /workspace/tests/CH
 /usr/include/x86_64-linux-gnu/c++/14/bits/gthr-default.h:
 
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
+
+/usr/include/c++/14/bits/stl_algo.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
@@ -386,14 +402,6 @@ tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.o: /workspace/tests/CH
 
 /usr/include/c++/14/system_error:
 
-/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
-
-/lib/x86_64-linux-gnu/libc.so.6:
-
-/usr/include/c++/14/pstl/glue_memory_defs.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
@@ -421,6 +429,12 @@ tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.o: /workspace/tests/CH
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/sched.h:
+
+/usr/include/c++/14/pstl/glue_memory_defs.h:
+
+/lib/x86_64-linux-gnu/libc.so.6:
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
@@ -504,6 +518,10 @@ lib/libchtl_core.a:
 
 /lib/x86_64-linux-gnu/libgcc_s.so.1:
 
+/usr/include/stdlib.h:
+
+/lib/x86_64-linux-gnu/libmvec.so.1:
+
 /usr/include/c++/14/bits/memory_resource.h:
 
 /usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
@@ -538,8 +556,6 @@ lib/libutils.a:
 
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
 /lib64/ld-linux-x86-64.so.2:
@@ -554,6 +570,8 @@ lib/libutils.a:
 
 /usr/include/linux/posix_types.h:
 
+/usr/include/c++/14/algorithm:
+
 /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so:
 
 /usr/include/c++/14/bits/locale_classes.tcc:
@@ -561,6 +579,12 @@ lib/libutils.a:
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
 /usr/include/stdio.h:
+
+/usr/include/c++/14/variant:
+
+/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
+
+/usr/include/c++/14/bits/locale_facets.tcc:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
@@ -624,11 +648,9 @@ lib/libutils.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o:
 
-/lib/x86_64-linux-gnu/libmvec.so.1:
+/usr/include/x86_64-linux-gnu/c++/14/bits/c++config.h:
 
-/usr/include/stdlib.h:
-
-/usr/include/c++/14/istream:
+/usr/include/c++/14/cerrno:
 
 /usr/include/x86_64-linux-gnu/bits/setjmp.h:
 
@@ -658,7 +680,19 @@ lib/libutils.a:
 
 /usr/include/c++/14/bits/shared_ptr_base.h:
 
-/usr/include/c++/14/vector:
+/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
+
+/usr/include/c++/14/bits/uniform_int_dist.h:
+
+/usr/include/c++/14/bits/concept_check.h:
+
+/usr/include/c++/14/bits/align.h:
+
+/usr/include/c++/14/ext/aligned_buffer.h:
+
+/usr/include/c++/14/bits/ostream.tcc:
 
 /usr/include/c++/14/bits/alloc_traits.h:
 
@@ -712,9 +746,9 @@ lib/libutils.a:
 
 /usr/include/c++/14/bits/ios_base.h:
 
-/usr/include/c++/14/bits/istream.tcc:
+/usr/include/c++/14/bits/algorithmfwd.h:
 
-/usr/include/c++/14/unordered_set:
+/usr/include/c++/14/bits/istream.tcc:
 
 /usr/include/c++/14/bits/unordered_set.h:
 
@@ -725,14 +759,6 @@ lib/libutils.a:
 /usr/include/features.h:
 
 /usr/include/c++/14/bits/node_handle.h:
-
-/usr/include/c++/14/bits/align.h:
-
-/usr/include/c++/14/bits/concept_check.h:
-
-/usr/include/c++/14/ext/aligned_buffer.h:
-
-/usr/include/c++/14/bits/ostream.tcc:
 
 /usr/lib/llvm-20/lib/clang/20/include/__stddef_ptrdiff_t.h:
 
@@ -761,6 +787,8 @@ lib/libutils.a:
 /usr/include/c++/14/bits/basic_string.tcc:
 
 /usr/include/c++/14/bits/stl_vector.h:
+
+/usr/include/c++/14/bits/stl_heap.h:
 
 /usr/include/c++/14/bits/stl_stack.h:
 
@@ -834,6 +862,10 @@ lib/libutils.a:
 
 /usr/include/c++/14/pstl/execution_defs.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
+
+/usr/include/c++/14/pstl/glue_algorithm_defs.h:
+
 /usr/include/c++/14/string:
 
 /usr/include/c++/14/tuple:
@@ -841,17 +873,3 @@ lib/libutils.a:
 /usr/include/c++/14/typeinfo:
 
 /usr/include/c++/14/unordered_map:
-
-/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
-
-/usr/include/c++/14/bits/locale_facets.tcc:
-
-/usr/include/c++/14/variant:
-
-/usr/include/x86_64-linux-gnu/c++/14/bits/atomic_word.h:
-
-/usr/include/x86_64-linux-gnu/c++/14/bits/c++allocator.h:
-
-/usr/include/c++/14/cerrno:
-
-/usr/include/x86_64-linux-gnu/c++/14/bits/c++config.h:
