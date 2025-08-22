@@ -1,5 +1,5 @@
-tests/CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.o: \
-  /workspace/tests/CHTL/test_inheritance_simple.cpp \
+tests/CMakeFiles/test_cjmod_api.dir/CJMOD/test_cjmod_api.cpp.o: \
+  /workspace/tests/CJMOD/test_cjmod_api.cpp \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++config.h \
@@ -197,22 +197,10 @@ tests/CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.o:
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/istream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/istream.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cassert \
-  /usr/include/assert.h /workspace/include/CHTL/Lexer/CHTLLexer.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable_policy.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/aligned_buffer.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
+  /usr/include/assert.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/memory \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tempbuf.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_raw_storage_iter.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/align.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h /usr/include/stdint.h \
@@ -222,6 +210,7 @@ tests/CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.o:
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/shared_ptr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/shared_ptr_base.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/allocated_ptr.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/aligned_buffer.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/concurrence.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/shared_ptr_atomic.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/atomic_base.h \
@@ -230,24 +219,21 @@ tests/CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.o:
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/auto_ptr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_memory_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/execution_defs.h \
-  /workspace/include/CHTL/Core/CHTLToken.h \
-  /workspace/include/Utils/ErrorHandler.h \
-  /workspace/include/CHTL/Parser/CHTLParser.h \
+  /workspace/include/CJMOD/CJMODApi.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable_policy.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/functional \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/array \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/compare \
-  /workspace/include/CHTL/Core/CHTLGlobalMap.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
-  /workspace/include/CHTL/Core/CHTLState.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
-  /workspace/include/CHTL/AST/CHTLASTNodes.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/variant \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
-  /workspace/include/CHTL/Constraints/CHTLConstraintValidator.h \
-  /workspace/include/CHTL/Constraints/ExceptConstraintParser.h
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h
