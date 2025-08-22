@@ -86,6 +86,10 @@ enum class CHTLCompileState {
     // 局部脚本状态 - 语法文档第1104-1128行
     PARSING_LOCAL_SCRIPT,               // 解析局部script块
     
+    // 语义验证和约束检查状态
+    PARSING_SEMANTIC_VALIDATION,        // 语义验证状态
+    PARSING_CONSTRAINT_VALIDATION,      // 约束验证状态
+    
     // 错误和结束状态
     ERROR_STATE,                        // 错误状态
     COMPLETED_STATE,                    // 完成状态

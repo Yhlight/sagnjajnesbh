@@ -724,11 +724,39 @@ bool CMODModule::ParseSourceFiles() {
                            std::istreambuf_iterator<char>());
         file.close();
         
-        // 暂时简化实现，不创建AST节点
-        // 实际实现需要集成完整的CHTL Parser
-        Utils::ErrorHandler::GetInstance().LogInfo(
-            "CMOD源文件内容已读取: " + std::to_string(content.size()) + " 字符"
-        );
+        // 完整实现：使用CHTL Parser解析源文件
+        try {
+            // 创建词法分析器
+            CHTL::Lexer::CHTLLexer lexer;
+            auto tokens = lexer.Tokenize(content, sourceFile);
+            
+            // 创建解析器（使用临时的GlobalMap和State）
+            CHTL::Core::CHTLGlobalMap tempGlobalMap;
+            CHTL::Core::CHTLState tempState;
+            CHTL::Parser::CHTLParser parser(tempGlobalMap, tempState);
+            
+            // 解析AST
+            auto ast = parser.Parse(tokens, sourceFile);
+            if (ast) {
+                // 存储解析结果到模块AST
+                moduleAST_.push_back(ast);
+                
+                Utils::ErrorHandler::GetInstance().LogInfo(
+                    "CMOD源文件解析成功: " + sourceFile + 
+                    " (内容长度: " + std::to_string(content.size()) + " 字符)"
+                );
+            } else {
+                Utils::ErrorHandler::GetInstance().LogError(
+                    "CMOD源文件解析失败: " + sourceFile
+                );
+                return false;
+            }
+        } catch (const std::exception& e) {
+            Utils::ErrorHandler::GetInstance().LogError(
+                "CMOD源文件解析异常: " + sourceFile + " - " + e.what()
+            );
+            return false;
+        }
         
         Utils::ErrorHandler::GetInstance().LogInfo(
             "CMOD源文件解析完成: " + sourceFile

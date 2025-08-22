@@ -462,6 +462,8 @@ std::string CHTLStateMachine::GetStateName(CHTLCompileState state) const {
         case CHTLCompileState::PARSING_CONSTRAINT_TYPE: return "PARSING_CONSTRAINT_TYPE";
         case CHTLCompileState::PARSING_CONSTRAINT_GLOBAL: return "PARSING_CONSTRAINT_GLOBAL";
         case CHTLCompileState::PARSING_LOCAL_SCRIPT: return "PARSING_LOCAL_SCRIPT";
+        case CHTLCompileState::PARSING_SEMANTIC_VALIDATION: return "PARSING_SEMANTIC_VALIDATION";
+        case CHTLCompileState::PARSING_CONSTRAINT_VALIDATION: return "PARSING_CONSTRAINT_VALIDATION";
         case CHTLCompileState::ERROR_STATE: return "ERROR_STATE";
         case CHTLCompileState::COMPLETED_STATE: return "COMPLETED_STATE";
         default: return "UNKNOWN_STATE";

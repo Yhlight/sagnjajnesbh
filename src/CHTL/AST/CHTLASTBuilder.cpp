@@ -769,15 +769,147 @@ std::unique_ptr<CHTLASTBuilder> ASTBuilderFactory::CreateDefaultBuilder() {
 // 添加缺少的解析方法存根实现
 
 ASTNodePtr CHTLASTBuilder::ParseImportDeclaration(Core::TokenStream& tokens) {
-    // 存根实现 - 导入声明解析
-    tokens.Advance(); // 跳过当前Token
-    return nullptr;
+    // 完整实现导入声明解析，使用状态机和Context系统
+    // 严格按照语法文档第884-952行的导入语法
+    
+    if (tokens.IsAtEnd() || tokens.Current().GetType() != Core::TokenType::IMPORT) {
+        return nullptr;
+    }
+    
+    tokens.Advance(); // 跳过 [Import]
+    
+    // 解析导入类型（@Html, @Style, @JavaScript, @Chtl, @CJmod等）
+    if (tokens.IsAtEnd() || tokens.Current().GetType() < Core::TokenType::AT_HTML) {
+        return nullptr;
+    }
+    
+    Core::TokenType importType = tokens.Current().GetType();
+    tokens.Advance();
+    
+    // 解析from关键字
+    if (tokens.IsAtEnd() || tokens.Current().GetType() != Core::TokenType::FROM) {
+        return nullptr;
+    }
+    tokens.Advance();
+    
+    // 解析导入路径
+    if (tokens.IsAtEnd() || tokens.Current().GetType() != Core::TokenType::STRING_LITERAL) {
+        return nullptr;
+    }
+    
+    std::string importPath = tokens.Current().GetValue();
+    tokens.Advance();
+    
+    // 解析可选的as别名
+    std::string alias = "";
+    if (!tokens.IsAtEnd() && tokens.Current().GetType() == Core::TokenType::AS) {
+        tokens.Advance();
+        if (!tokens.IsAtEnd() && tokens.Current().GetType() == Core::TokenType::IDENTIFIER) {
+            alias = tokens.Current().GetValue();
+            tokens.Advance();
+        }
+    }
+    
+    // 创建导入节点
+    AST::ImportNode::ImportType astImportType = ConvertTokenTypeToImportType(importType);
+    auto importNode = std::make_shared<AST::ImportNode>(astImportType, importPath, "", alias, tokens.Current());
+    
+    return importNode;
+}
+
+AST::ImportNode::ImportType CHTLASTBuilder::ConvertTokenTypeToImportType(Core::TokenType tokenType) {
+    // 将Token类型转换为导入类型
+    switch (tokenType) {
+        case Core::TokenType::AT_HTML:
+            return AST::ImportNode::ImportType::HTML;
+        case Core::TokenType::AT_STYLE:
+            return AST::ImportNode::ImportType::STYLE;
+        case Core::TokenType::AT_JAVASCRIPT:
+            return AST::ImportNode::ImportType::JAVASCRIPT;
+        case Core::TokenType::AT_CHTL:
+            return AST::ImportNode::ImportType::CHTL;
+        case Core::TokenType::AT_CJMOD:
+            return AST::ImportNode::ImportType::CJMOD;
+        default:
+            return AST::ImportNode::ImportType::HTML; // 默认类型
+    }
 }
 
 ASTNodePtr CHTLASTBuilder::ParseNamespaceDeclaration(Core::TokenStream& tokens) {
-    // 存根实现 - 命名空间声明解析
-    tokens.Advance(); // 跳过当前Token
-    return nullptr;
+    // 完整实现命名空间声明解析，支持省略大括号
+    // 严格按照语法文档第956-1061行的命名空间语法
+    
+    if (tokens.IsAtEnd() || tokens.Current().GetType() != Core::TokenType::NAMESPACE) {
+        return nullptr;
+    }
+    
+    tokens.Advance(); // 跳过 [Namespace]
+    
+    // 解析命名空间名称
+    if (tokens.IsAtEnd() || tokens.Current().GetType() != Core::TokenType::IDENTIFIER) {
+        return nullptr;
+    }
+    
+    std::string namespaceName = tokens.Current().GetValue();
+    Core::CHTLToken namespaceToken = tokens.Current();
+    tokens.Advance();
+    
+    // 创建命名空间节点
+    auto namespaceNode = std::make_shared<AST::NamespaceNode>(namespaceName, namespaceToken);
+    
+    // 检查是否有大括号或省略大括号 - 语法文档第998行
+    if (!tokens.IsAtEnd() && tokens.Current().GetType() == Core::TokenType::LEFT_BRACE) {
+        // 传统语法：带大括号
+        tokens.Advance(); // 跳过 {
+        
+        // 解析命名空间内容
+        while (!tokens.IsAtEnd() && tokens.Current().GetType() != Core::TokenType::RIGHT_BRACE) {
+            // 尝试解析各种声明类型
+            ASTNodePtr childNode = nullptr;
+            
+            if (tokens.Current().GetType() == Core::TokenType::TEMPLATE) {
+                childNode = ParseTemplateDeclaration(tokens);
+            } else if (tokens.Current().GetType() == Core::TokenType::CUSTOM) {
+                childNode = ParseCustomDeclaration(tokens);
+            } else if (tokens.Current().GetType() == Core::TokenType::ORIGIN) {
+                childNode = ParseOriginDeclaration(tokens);
+            } else if (tokens.Current().GetType() == Core::TokenType::IMPORT) {
+                childNode = ParseImportDeclaration(tokens);
+            } else if (tokens.Current().GetType() == Core::TokenType::NAMESPACE) {
+                childNode = ParseNamespaceDeclaration(tokens);
+            } else {
+                tokens.Advance(); // 跳过无法解析的Token
+            }
+            
+            if (childNode) {
+                namespaceNode->AddChild(childNode);
+            }
+        }
+        
+        if (!tokens.IsAtEnd() && tokens.Current().GetType() == Core::TokenType::RIGHT_BRACE) {
+            tokens.Advance(); // 跳过 }
+        }
+    } else {
+        // 省略大括号语法 - 语法文档第998行
+        // "如果仅仅是只有一层关系 或 只有一层平级，可以不用写花括号"
+        ASTNodePtr childNode = nullptr;
+        
+        if (!tokens.IsAtEnd()) {
+            if (tokens.Current().GetType() == Core::TokenType::TEMPLATE) {
+                childNode = ParseTemplateDeclaration(tokens);
+            } else if (tokens.Current().GetType() == Core::TokenType::CUSTOM) {
+                childNode = ParseCustomDeclaration(tokens);
+            } else if (tokens.Current().GetType() == Core::TokenType::ORIGIN) {
+                childNode = ParseOriginDeclaration(tokens);
+            }
+        }
+        
+        if (childNode) {
+            namespaceNode->AddChild(childNode);
+        }
+    }
+    
+    return namespaceNode;
 }
 
 ASTNodePtr CHTLASTBuilder::ParseConfigurationDeclaration(Core::TokenStream& tokens) {

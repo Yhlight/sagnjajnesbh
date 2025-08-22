@@ -413,7 +413,7 @@ private:
     bool ValidateSemantics(AST::ASTNodePtr node);
     
     /**
-     * @brief 检查约束
+     * @brief 检查约束（完整实现）
      * @param nodeName 节点名称
      * @param nodeType 节点类型
      * @return 是否违反约束

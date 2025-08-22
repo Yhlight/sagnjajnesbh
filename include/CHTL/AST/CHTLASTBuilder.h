@@ -330,6 +330,9 @@ private:
     bool debugMode_;                        // 调试模式
     size_t nodeCount_;                      // 节点计数
     std::string currentFileName_;           // 当前文件名
+    
+    // 辅助方法
+    AST::ImportNode::ImportType ConvertTokenTypeToImportType(Core::TokenType tokenType);
 };
 
 /**

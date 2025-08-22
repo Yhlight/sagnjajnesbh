@@ -347,13 +347,99 @@ public:
     CJMODScanner& GetScanner() { return scanner_; }
     
     /**
-     * @brief 处理CHTL JS代码
+     * @brief 处理CHTL JS代码（完整实现）
      * @param source CHTL JS源代码
      * @return 处理后的JavaScript代码
      */
     std::string ProcessCHTLJS(const std::string& source);
 
 private:
+    /**
+     * @brief 处理扩展语法
+     * @param source 源代码
+     * @param extension 扩展对象
+     * @param syntaxPattern 语法模式
+     * @return 处理后的代码
+     */
+    std::string ProcessExtensionSyntax(const std::string& source, 
+                                      CJMODExtension* extension, 
+                                      const std::string& syntaxPattern);
+    
+    /**
+     * @brief 处理printMylove扩展（完整实现）
+     * @param source 源代码
+     * @param syntaxPattern 语法模式
+     * @return 处理后的代码
+     */
+    std::string ProcessPrintMyloveExtension(const std::string& source, 
+                                           const std::string& syntaxPattern);
+    
+    /**
+     * @brief 处理iNeverAway扩展（完整实现）
+     * @param source 源代码
+     * @param syntaxPattern 语法模式
+     * @return 处理后的代码
+     */
+    std::string ProcessINeverAwayExtension(const std::string& source, 
+                                          const std::string& syntaxPattern);
+    
+    /**
+     * @brief 处理通用扩展
+     * @param source 源代码
+     * @param extension 扩展对象
+     * @param syntaxPattern 语法模式
+     * @return 处理后的代码
+     */
+    std::string ProcessGenericExtension(const std::string& source, 
+                                       CJMODExtension* extension, 
+                                       const std::string& syntaxPattern);
+    
+    /**
+     * @brief 解析并匹配printMylove参数
+     * @param paramContent 参数内容
+     * @param syntax 语法对象
+     */
+    void ParseAndMatchPrintMyloveParams(const std::string& paramContent, Syntax& syntax);
+    
+    /**
+     * @brief 生成printMylove JavaScript代码
+     * @param syntax 语法对象
+     * @return 生成的JavaScript代码
+     */
+    std::string GeneratePrintMyloveJS(const Syntax& syntax);
+    
+    /**
+     * @brief 生成iNeverAway JavaScript代码
+     * @param objectName 虚对象名称
+     * @param methodContent 方法内容
+     * @param syntax 语法对象
+     * @return 生成的JavaScript代码
+     */
+    std::string GenerateINeverAwayJS(const std::string& objectName, 
+                                    const std::string& methodContent, 
+                                    const Syntax& syntax);
+    
+    /**
+     * @brief 处理虚对象调用
+     * @param source 源代码
+     * @return 处理后的代码
+     */
+    std::string ProcessVirtualObjectCalls(const std::string& source);
+    
+    /**
+     * @brief 解析iNeverAway方法定义
+     * @param methodContent 方法内容
+     * @param methods 输出的方法列表
+     */
+    void ParseINeverAwayMethods(const std::string& methodContent, 
+                               std::vector<std::pair<std::string, std::string>>& methods);
+    
+    /**
+     * @brief 提取状态标识符
+     * @param methodName 方法名称
+     * @return 状态标识符
+     */
+    std::string ExtractStateIdentifier(const std::string& methodName);
     CJMODScanner scanner_;                                          // 扫描器
     std::vector<std::unique_ptr<CJMODExtension>> extensions_;       // 已注册的扩展
 };
