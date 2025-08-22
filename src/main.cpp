@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "Scanner/CHTLUnifiedScanner.h"
+#include "Dispatcher/CompilerDispatcher.h"
 #include "Utils/FileUtils.h"
 #include "Utils/StringUtils.h"
 #include "Utils/ErrorHandler.h"
@@ -180,9 +182,53 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     
-    // TODO: 实现完整的编译流程
-    std::cout << "注意: 完整的编译功能尚未实现，当前仅支持扫描测试\n";
-    std::cout << "请使用 --scan-only 选项进行扫描测试\n";
+    // 实现完整的编译流程 - 使用CompilerDispatcher
+    std::cout << "开始完整编译流程...\n";
+    
+    try {
+        // 创建编译器调度器
+        Dispatcher::DispatcherConfig dispatcherConfig;
+        dispatcherConfig.enableDebugOutput = verbose;
+        dispatcherConfig.outputDirectory = outputFile.empty() ? "." : outputFile.substr(0, outputFile.find_last_of('/'));
+        
+        Dispatcher::CompilerDispatcher dispatcher(dispatcherConfig);
+        
+        // 进行完整编译
+        auto result = dispatcher.Compile(sourceCode, inputFile);
+        
+        if (result.success) {
+            // 输出编译结果
+            if (!outputFile.empty()) {
+                std::ofstream outFile(outputFile);
+                if (outFile.is_open()) {
+                    outFile << result.htmlOutput;
+                    outFile.close();
+                    std::cout << "编译成功！输出文件: " << outputFile << "\n";
+                } else {
+                    std::cerr << "无法写入输出文件: " << outputFile << "\n";
+                    return 1;
+                }
+            } else {
+                // 如果没有指定输出文件，输出到控制台
+                std::cout << "\n=== 编译结果 ===\n";
+                std::cout << result.htmlOutput << "\n";
+            }
+            
+            if (verbose) {
+                std::cout << "\n=== CSS输出 ===\n" << result.cssOutput << "\n";
+                std::cout << "\n=== JavaScript输出 ===\n" << result.javascriptOutput << "\n";
+            }
+        } else {
+            std::cerr << "编译失败！\n";
+            for (const auto& error : result.errors) {
+                std::cerr << "错误: " << error << "\n";
+            }
+            return 1;
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "编译器调度异常: " << e.what() << "\n";
+        return 1;
+    }
     
     // 检查是否有错误
     if (Utils::ErrorHandler::GetInstance().HasErrors()) {

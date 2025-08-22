@@ -200,6 +200,11 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o: /workspace/src/main.cpp \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/fstream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/codecvt.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/basic_file.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++io.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/fstream.tcc \
   /workspace/include/Scanner/CHTLUnifiedScanner.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/memory \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tempbuf.h \
@@ -229,6 +234,11 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o: /workspace/src/main.cpp \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
   /workspace/include/Utils/ErrorHandler.h \
+  /workspace/include/Dispatcher/CompilerDispatcher.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/map \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tree.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_map.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_multimap.h \
   /workspace/include/Utils/FileUtils.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/filesystem \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/fs_fwd.h \
@@ -244,7 +254,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o: /workspace/src/main.cpp \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/time_members.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/messages_members.h \
   /usr/include/libintl.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/codecvt.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_facets_nonio.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_conv.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iomanip \
