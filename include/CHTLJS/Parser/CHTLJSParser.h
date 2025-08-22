@@ -133,6 +133,9 @@ private:
     std::string ParseStringValue();
     std::string ParseNumberValue();
     void SkipWhitespaceAndComments();
+    
+    // 语法检查辅助
+    bool IsArrowFunction() const;
 
 private:
     ParserConfig config_;               // 配置

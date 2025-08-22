@@ -137,6 +137,18 @@ if(NOT GTest_FOUND)
     
     add_test(NAME TestModuleAutoTest COMMAND test_testmodule_auto)
     
+    # CJMOD API测试
+    add_executable(test_cjmod_api
+        CJMOD/test_cjmod_api.cpp
+    )
+    
+    target_link_libraries(test_cjmod_api
+        cjmod
+        utils
+    )
+    
+    add_test(NAME CJMODApiTest COMMAND test_cjmod_api)
+    
     # CHTL JS核心测试
     add_executable(test_chtljs_core
         CHTLJS/test_chtljs_core.cpp

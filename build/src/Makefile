@@ -270,6 +270,20 @@ cmod/fast:
 .PHONY : cmod/fast
 
 # Convenience name for target.
+src/CMakeFiles/cjmod.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/cjmod.dir/rule
+.PHONY : src/CMakeFiles/cjmod.dir/rule
+
+# Convenience name for target.
+cjmod: src/CMakeFiles/cjmod.dir/rule
+.PHONY : cjmod
+
+# fast build rule for target.
+cjmod/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/build
+.PHONY : cjmod/fast
+
+# Convenience name for target.
 src/CMakeFiles/utils.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/utils.dir/rule
 .PHONY : src/CMakeFiles/utils.dir/rule
@@ -742,6 +756,54 @@ CHTLJS/Parser/CHTLJSParser.s: CHTLJS/Parser/CHTLJSParser.cpp.s
 CHTLJS/Parser/CHTLJSParser.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtljs_core.dir/build.make src/CMakeFiles/chtljs_core.dir/CHTLJS/Parser/CHTLJSParser.cpp.s
 .PHONY : CHTLJS/Parser/CHTLJSParser.cpp.s
+
+CJMOD/CJMODApi.o: CJMOD/CJMODApi.cpp.o
+.PHONY : CJMOD/CJMODApi.o
+
+# target to build an object file
+CJMOD/CJMODApi.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o
+.PHONY : CJMOD/CJMODApi.cpp.o
+
+CJMOD/CJMODApi.i: CJMOD/CJMODApi.cpp.i
+.PHONY : CJMOD/CJMODApi.i
+
+# target to preprocess a source file
+CJMOD/CJMODApi.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.i
+.PHONY : CJMOD/CJMODApi.cpp.i
+
+CJMOD/CJMODApi.s: CJMOD/CJMODApi.cpp.s
+.PHONY : CJMOD/CJMODApi.s
+
+# target to generate assembly for a file
+CJMOD/CJMODApi.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.s
+.PHONY : CJMOD/CJMODApi.cpp.s
+
+CJMOD/Extensions/PrintMyloveExtension.o: CJMOD/Extensions/PrintMyloveExtension.cpp.o
+.PHONY : CJMOD/Extensions/PrintMyloveExtension.o
+
+# target to build an object file
+CJMOD/Extensions/PrintMyloveExtension.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/Extensions/PrintMyloveExtension.cpp.o
+.PHONY : CJMOD/Extensions/PrintMyloveExtension.cpp.o
+
+CJMOD/Extensions/PrintMyloveExtension.i: CJMOD/Extensions/PrintMyloveExtension.cpp.i
+.PHONY : CJMOD/Extensions/PrintMyloveExtension.i
+
+# target to preprocess a source file
+CJMOD/Extensions/PrintMyloveExtension.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/Extensions/PrintMyloveExtension.cpp.i
+.PHONY : CJMOD/Extensions/PrintMyloveExtension.cpp.i
+
+CJMOD/Extensions/PrintMyloveExtension.s: CJMOD/Extensions/PrintMyloveExtension.cpp.s
+.PHONY : CJMOD/Extensions/PrintMyloveExtension.s
+
+# target to generate assembly for a file
+CJMOD/Extensions/PrintMyloveExtension.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/Extensions/PrintMyloveExtension.cpp.s
+.PHONY : CJMOD/Extensions/PrintMyloveExtension.cpp.s
 
 CMOD/CMODManager.o: CMOD/CMODManager.cpp.o
 .PHONY : CMOD/CMODManager.o
@@ -1239,6 +1301,7 @@ help:
 	@echo "... chtl_compiler"
 	@echo "... chtl_core"
 	@echo "... chtljs_core"
+	@echo "... cjmod"
 	@echo "... cmod"
 	@echo "... cmod_export_generator"
 	@echo "... css_compiler"
@@ -1300,6 +1363,12 @@ help:
 	@echo "... CHTLJS/Parser/CHTLJSParser.o"
 	@echo "... CHTLJS/Parser/CHTLJSParser.i"
 	@echo "... CHTLJS/Parser/CHTLJSParser.s"
+	@echo "... CJMOD/CJMODApi.o"
+	@echo "... CJMOD/CJMODApi.i"
+	@echo "... CJMOD/CJMODApi.s"
+	@echo "... CJMOD/Extensions/PrintMyloveExtension.o"
+	@echo "... CJMOD/Extensions/PrintMyloveExtension.i"
+	@echo "... CJMOD/Extensions/PrintMyloveExtension.s"
 	@echo "... CMOD/CMODManager.o"
 	@echo "... CMOD/CMODManager.i"
 	@echo "... CMOD/CMODManager.s"

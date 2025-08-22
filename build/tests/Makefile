@@ -326,6 +326,20 @@ test_testmodule_auto/fast:
 .PHONY : test_testmodule_auto/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_cjmod_api.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_cjmod_api.dir/rule
+.PHONY : tests/CMakeFiles/test_cjmod_api.dir/rule
+
+# Convenience name for target.
+test_cjmod_api: tests/CMakeFiles/test_cjmod_api.dir/rule
+.PHONY : test_cjmod_api
+
+# fast build rule for target.
+test_cjmod_api/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cjmod_api.dir/build.make tests/CMakeFiles/test_cjmod_api.dir/build
+.PHONY : test_cjmod_api/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -673,6 +687,30 @@ CHTLJS/test_chtljs_simple_parser.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_simple_parser.dir/build.make tests/CMakeFiles/test_chtljs_simple_parser.dir/CHTLJS/test_chtljs_simple_parser.cpp.s
 .PHONY : CHTLJS/test_chtljs_simple_parser.cpp.s
 
+CJMOD/test_cjmod_api.o: CJMOD/test_cjmod_api.cpp.o
+.PHONY : CJMOD/test_cjmod_api.o
+
+# target to build an object file
+CJMOD/test_cjmod_api.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cjmod_api.dir/build.make tests/CMakeFiles/test_cjmod_api.dir/CJMOD/test_cjmod_api.cpp.o
+.PHONY : CJMOD/test_cjmod_api.cpp.o
+
+CJMOD/test_cjmod_api.i: CJMOD/test_cjmod_api.cpp.i
+.PHONY : CJMOD/test_cjmod_api.i
+
+# target to preprocess a source file
+CJMOD/test_cjmod_api.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cjmod_api.dir/build.make tests/CMakeFiles/test_cjmod_api.dir/CJMOD/test_cjmod_api.cpp.i
+.PHONY : CJMOD/test_cjmod_api.cpp.i
+
+CJMOD/test_cjmod_api.s: CJMOD/test_cjmod_api.cpp.s
+.PHONY : CJMOD/test_cjmod_api.s
+
+# target to generate assembly for a file
+CJMOD/test_cjmod_api.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cjmod_api.dir/build.make tests/CMakeFiles/test_cjmod_api.dir/CJMOD/test_cjmod_api.cpp.s
+.PHONY : CJMOD/test_cjmod_api.cpp.s
+
 CMOD/test_auto_export.o: CMOD/test_auto_export.cpp.o
 .PHONY : CMOD/test_auto_export.o
 
@@ -840,6 +878,7 @@ help:
 	@echo "... test_chtljs_core_complete"
 	@echo "... test_chtljs_parser_generator"
 	@echo "... test_chtljs_simple_parser"
+	@echo "... test_cjmod_api"
 	@echo "... test_cmod"
 	@echo "... test_cmod_simple"
 	@echo "... test_complex_syntax"
@@ -880,6 +919,9 @@ help:
 	@echo "... CHTLJS/test_chtljs_simple_parser.o"
 	@echo "... CHTLJS/test_chtljs_simple_parser.i"
 	@echo "... CHTLJS/test_chtljs_simple_parser.s"
+	@echo "... CJMOD/test_cjmod_api.o"
+	@echo "... CJMOD/test_cjmod_api.i"
+	@echo "... CJMOD/test_cjmod_api.s"
 	@echo "... CMOD/test_auto_export.o"
 	@echo "... CMOD/test_auto_export.i"
 	@echo "... CMOD/test_auto_export.s"

@@ -98,6 +98,20 @@ AST::ASTNodePtr CHTLJSParser::ParsePrimaryExpression() {
         case Core::TokenType::FUNCTION:
             return ParseFunctionDefinition();
             
+        case Core::TokenType::LEFT_PAREN:
+            // 检查是否为箭头函数的参数
+            if (IsArrowFunction()) {
+                return ParseArrowFunction();
+            }
+            {
+                Advance(); // 消费 (
+                auto expr = ParseExpression();
+                if (!Consume(Core::TokenType::RIGHT_PAREN, "期望 ')'")) {
+                    return nullptr;
+                }
+                return expr;
+            }
+            
         case Core::TokenType::LEFT_BRACE:
             return ParseObjectLiteral();
             
@@ -125,15 +139,7 @@ AST::ASTNodePtr CHTLJSParser::ParsePrimaryExpression() {
                 return std::make_shared<AST::LiteralNode>(AST::LiteralNode::LiteralType::NUMBER, value, token);
             }
             
-        case Core::TokenType::LEFT_PAREN:
-            {
-                Advance(); // 消费 (
-                auto expr = ParseExpression();
-                if (!Consume(Core::TokenType::RIGHT_PAREN, "期望 ')'")) {
-                    return nullptr;
-                }
-                return expr;
-            }
+
             
         default:
             ReportError("意外的Token: " + token.GetValue());
@@ -1021,6 +1027,25 @@ AST::ASTNodePtr CHTLJSParser::ParsePropertyAccess(AST::ASTNodePtr object) {
     }
     
     return std::make_shared<AST::PropertyAccessNode>(object, property, Current());
+}
+
+bool CHTLJSParser::IsArrowFunction() const {
+    // 简单检查：查看是否有 ) => 模式
+    size_t currentPos = tokens_->GetPosition();
+    
+    // 向前扫描寻找 =>
+    for (int i = 1; i < 10 && currentPos + i < tokens_->Size(); ++i) {
+        const auto& token = tokens_->Peek(i);
+        if (token.GetType() == Core::TokenType::ARROW) {
+            return true;
+        }
+        if (token.GetType() == Core::TokenType::LEFT_BRACE || 
+            token.GetType() == Core::TokenType::SEMICOLON) {
+            break;
+        }
+    }
+    
+    return false;
 }
 
 } // namespace Parser

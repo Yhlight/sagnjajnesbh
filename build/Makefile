@@ -263,6 +263,19 @@ cmod/fast:
 .PHONY : cmod/fast
 
 #=============================================================================
+# Target rules for targets named cjmod
+
+# Build rule for target.
+cjmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cjmod
+.PHONY : cjmod
+
+# fast build rule for target.
+cjmod/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/build
+.PHONY : cjmod/fast
+
+#=============================================================================
 # Target rules for targets named utils
 
 # Build rule for target.
@@ -445,6 +458,19 @@ test_testmodule_auto/fast:
 .PHONY : test_testmodule_auto/fast
 
 #=============================================================================
+# Target rules for targets named test_cjmod_api
+
+# Build rule for target.
+test_cjmod_api: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_cjmod_api
+.PHONY : test_cjmod_api
+
+# fast build rule for target.
+test_cjmod_api/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cjmod_api.dir/build.make tests/CMakeFiles/test_cjmod_api.dir/build
+.PHONY : test_cjmod_api/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -538,6 +564,7 @@ help:
 	@echo "... chtl_compiler"
 	@echo "... chtl_core"
 	@echo "... chtljs_core"
+	@echo "... cjmod"
 	@echo "... cmod"
 	@echo "... cmod_export_generator"
 	@echo "... css_compiler"
@@ -554,6 +581,7 @@ help:
 	@echo "... test_chtljs_core_complete"
 	@echo "... test_chtljs_parser_generator"
 	@echo "... test_chtljs_simple_parser"
+	@echo "... test_cjmod_api"
 	@echo "... test_cmod"
 	@echo "... test_cmod_simple"
 	@echo "... test_complex_syntax"

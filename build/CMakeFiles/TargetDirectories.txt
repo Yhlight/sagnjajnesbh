@@ -12,6 +12,7 @@
 /workspace/build/src/CMakeFiles/css_compiler.dir
 /workspace/build/src/CMakeFiles/js_compiler.dir
 /workspace/build/src/CMakeFiles/cmod.dir
+/workspace/build/src/CMakeFiles/cjmod.dir
 /workspace/build/src/CMakeFiles/utils.dir
 /workspace/build/src/CMakeFiles/chtl_compiler.dir
 /workspace/build/src/CMakeFiles/cmod_export_generator.dir
@@ -33,6 +34,7 @@
 /workspace/build/tests/CMakeFiles/test_cmod_simple.dir
 /workspace/build/tests/CMakeFiles/test_auto_export.dir
 /workspace/build/tests/CMakeFiles/test_testmodule_auto.dir
+/workspace/build/tests/CMakeFiles/test_cjmod_api.dir
 /workspace/build/tests/CMakeFiles/test_chtljs_core.dir
 /workspace/build/tests/CMakeFiles/test_chtljs_core_complete.dir
 /workspace/build/tests/CMakeFiles/test_chtljs_parser_generator.dir

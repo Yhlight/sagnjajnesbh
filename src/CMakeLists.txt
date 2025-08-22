@@ -95,6 +95,16 @@ target_include_directories(cmod PUBLIC
     ${CMAKE_SOURCE_DIR}/include/CMOD
 )
 
+# CJMOD扩展系统库
+add_library(cjmod STATIC
+    CJMOD/CJMODApi.cpp
+    CJMOD/Extensions/PrintMyloveExtension.cpp
+)
+
+target_include_directories(cjmod PUBLIC
+    ${CMAKE_SOURCE_DIR}/include/CJMOD
+)
+
 # 工具库
 add_library(utils STATIC
     Utils/FileUtils.cpp
