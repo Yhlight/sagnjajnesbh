@@ -24,6 +24,8 @@
 /workspace/build/tests/CMakeFiles/test_chtl_ast.dir
 /workspace/build/tests/CMakeFiles/test_chtl_compiler.dir
 /workspace/build/tests/CMakeFiles/test_chtl_simple.dir
+/workspace/build/tests/CMakeFiles/test_complex_syntax.dir
+/workspace/build/tests/CMakeFiles/test_inheritance_simple.dir
 /workspace/build/tests/CMakeFiles/test_chtljs_core.dir
 /workspace/build/tests/CMakeFiles/test_scanner.dir
 /workspace/build/tests/CMakeFiles/test_integration.dir

@@ -53,6 +53,30 @@ if(NOT GTest_FOUND)
     
     add_test(NAME CHTLSimpleTest COMMAND test_chtl_simple)
     
+    # CHTL复杂语法测试
+    add_executable(test_complex_syntax
+        CHTL/test_complex_syntax.cpp
+    )
+    
+    target_link_libraries(test_complex_syntax
+        chtl_core
+        utils
+    )
+    
+    add_test(NAME CHTLComplexSyntaxTest COMMAND test_complex_syntax)
+    
+    # CHTL简单继承测试
+    add_executable(test_inheritance_simple
+        CHTL/test_inheritance_simple.cpp
+    )
+    
+    target_link_libraries(test_inheritance_simple
+        chtl_core
+        utils
+    )
+    
+    add_test(NAME CHTLInheritanceSimpleTest COMMAND test_inheritance_simple)
+    
     # CHTL JS核心测试
     add_executable(test_chtljs_core
         CHTLJS/test_chtljs_core.cpp

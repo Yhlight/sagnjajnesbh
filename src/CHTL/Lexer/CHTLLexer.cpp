@@ -103,6 +103,7 @@ Core::CHTLToken CHTLLexer::ScanToken() {
         case '@': 
             // 类型关键字
             if (IsAlpha(Peek())) {
+                current_--; // 回退，让ScanTypeKeyword处理整个@Style
                 return ScanTypeKeyword();
             }
             return MakeToken(Core::TokenType::AT, "@");
@@ -169,6 +170,7 @@ Core::CHTLToken CHTLLexer::ScanIdentifierOrKeyword() {
     }
     
     std::string value = source_.substr(start_, current_ - start_);
+    value = Utils::StringUtils::Trim(value); // 移除前后空白
     
     // 检查组合关键字（如"at top", "at bottom"）
     if (value == "at" && (Peek() == ' ' || Peek() == '\t')) {
@@ -366,11 +368,12 @@ Core::CHTLToken CHTLLexer::ScanMarkerKeyword() {
 }
 
 Core::CHTLToken CHTLLexer::ScanTypeKeyword() {
-    if (!Match('@')) {
+    if (Peek() != '@') {
         return MakeErrorToken("期望 '@'");
     }
     
-    std::string value = "@";
+    std::string value = "";
+    value += Advance(); // 消费 @
     
     // 扫描类型名称
     while (IsAlphaNumeric(Peek())) {

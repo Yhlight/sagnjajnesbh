@@ -52,20 +52,40 @@ void CHTLGenerator::VisitRootNode(AST::RootNode& node) {
 void CHTLGenerator::VisitElementNode(AST::ElementNode& node) {
     elementCount_++;
     
+    // 设置当前元素上下文
+    context_.variables["__current_element__"] = node.GetTagName();
+    
+    // 检查是否需要自动添加类名或ID
+    std::string autoClass = context_.variables["__auto_class__"];
+    std::string autoId = context_.variables["__auto_id__"];
+    
+    // 创建元素副本以添加自动属性
+    auto elementCopy = std::dynamic_pointer_cast<AST::ElementNode>(node.Clone());
+    
+    if (!autoClass.empty() && !elementCopy->HasAttribute("class")) {
+        elementCopy->AddClass(autoClass);
+        context_.variables.erase("__auto_class__"); // 清除已使用的自动类名
+    }
+    
+    if (!autoId.empty() && !elementCopy->HasAttribute("id")) {
+        elementCopy->SetId(autoId);
+        context_.variables.erase("__auto_id__"); // 清除已使用的自动ID
+    }
+    
     // 生成开始标签
     if (config_.prettyPrint) {
         output_ << GetIndent();
     }
     
-    output_ << GenerateStartTag(node);
+    output_ << GenerateStartTag(*elementCopy);
     
-    if (config_.prettyPrint && !node.IsSelfClosing()) {
+    if (config_.prettyPrint && !elementCopy->IsSelfClosing()) {
         output_ << "\n";
         AddIndent();
     }
     
     // 处理子节点
-    if (!node.IsSelfClosing()) {
+    if (!elementCopy->IsSelfClosing()) {
         for (const auto& child : node.GetChildren()) {
             child->Accept(*this);
         }
@@ -76,12 +96,15 @@ void CHTLGenerator::VisitElementNode(AST::ElementNode& node) {
             output_ << GetIndent();
         }
         
-        output_ << GenerateEndTag(node);
+        output_ << GenerateEndTag(*elementCopy);
     }
     
     if (config_.prettyPrint) {
         output_ << "\n";
     }
+    
+    // 清除当前元素上下文
+    context_.variables.erase("__current_element__");
 }
 
 void CHTLGenerator::VisitTextNode(AST::TextNode& node) {
@@ -168,7 +191,70 @@ void CHTLGenerator::VisitScriptBlockNode(AST::ScriptBlockNode& node) {
 }
 
 void CHTLGenerator::VisitCSSSelectorNode(AST::CSSSelectorNode& node) {
-    // CSS选择器在样式块中处理
+    // 处理CSS选择器，实现自动化类名/ID功能（语法文档第110行）
+    
+    if (node.IsAddedToGlobalStyle()) {
+        std::ostringstream selectorStyle;
+        std::string actualSelector = node.GetSelector();
+        
+        // 处理自动化类名/ID
+        if (node.GetSelectorType() == AST::CSSSelectorNode::SelectorType::CLASS) {
+            // 自动添加类名到当前元素（如果在元素上下文中）
+            std::string className = actualSelector.substr(1); // 移除点号
+            
+            // 如果当前有元素上下文，自动添加类名
+            if (!context_.variables["__current_element__"].empty()) {
+                context_.variables["__auto_class__"] = className;
+            }
+            
+            context_.generatedClasses.insert(className);
+            
+        } else if (node.GetSelectorType() == AST::CSSSelectorNode::SelectorType::ID) {
+            // 自动添加ID到当前元素
+            std::string idName = actualSelector.substr(1); // 移除#号
+            
+            if (!context_.variables["__current_element__"].empty()) {
+                context_.variables["__auto_id__"] = idName;
+            }
+            
+            context_.generatedIds.insert(idName);
+            
+        } else if (node.GetSelectorType() == AST::CSSSelectorNode::SelectorType::AMPERSAND) {
+            // 上下文推导选择器，替换为实际的类名或ID
+            std::string currentClass = context_.variables["__auto_class__"];
+            std::string currentId = context_.variables["__auto_id__"];
+            
+            if (!currentClass.empty()) {
+                actualSelector = Utils::StringUtils::ReplaceAll(actualSelector, "&", "." + currentClass);
+            } else if (!currentId.empty()) {
+                actualSelector = Utils::StringUtils::ReplaceAll(actualSelector, "&", "#" + currentId);
+            } else {
+                // 如果没有上下文，生成一个自动类名
+                std::string autoClass = GenerateAutoClassName();
+                actualSelector = Utils::StringUtils::ReplaceAll(actualSelector, "&", "." + autoClass);
+                context_.variables["__auto_class__"] = autoClass;
+            }
+        }
+        
+        // 生成CSS规则
+        selectorStyle << actualSelector << " {\n";
+        
+        // 处理选择器的子属性
+        for (const auto& child : node.GetChildren()) {
+            if (child->GetType() == AST::NodeType::CSS_PROPERTY) {
+                auto property = std::dynamic_pointer_cast<AST::CSSPropertyNode>(child);
+                if (property) {
+                    selectorStyle << "  " << property->GetProperty() 
+                                 << ": " << property->GetValue() << ";\n";
+                }
+            }
+        }
+        
+        selectorStyle << "}\n";
+        
+        // 添加到全局样式
+        CollectGlobalStyle(selectorStyle.str());
+    }
 }
 
 void CHTLGenerator::VisitCSSPropertyNode(AST::CSSPropertyNode& node) {
@@ -255,14 +341,49 @@ void CHTLGenerator::VisitTemplateReferenceNode(AST::TemplateReferenceNode& node)
         return;
     }
     
-    // 展开模板（简化实现）
+    // 根据模板类型进行展开
     if (node.GetTemplateType() == "@Style") {
         // 样式模板展开为内联样式
+        std::string inlineStyle = context_.variables["__inline_style__"];
+        
         for (const auto& prop : symbol->properties) {
-            context_.variables["__inline_style__"] += prop.first + ": " + prop.second + "; ";
+            inlineStyle += prop.first + ": " + prop.second + "; ";
+        }
+        
+        // 处理继承
+        for (const auto& inherit : symbol->inherits) {
+            // 递归展开继承的模板
+            std::string inheritNamespace, inheritName;
+            if (Core::CHTLGlobalMap::ParseFullName(inherit, inheritNamespace, inheritName)) {
+                const Core::SymbolInfo* inheritSymbol = globalMap_.FindSymbolByType(
+                    inheritName, symbolType, inheritNamespace);
+                
+                if (inheritSymbol) {
+                    for (const auto& prop : inheritSymbol->properties) {
+                        // 检查是否已存在（避免重复）
+                        if (inlineStyle.find(prop.first + ":") == std::string::npos) {
+                            inlineStyle += prop.first + ": " + prop.second + "; ";
+                        }
+                    }
+                }
+            }
+        }
+        
+        context_.variables["__inline_style__"] = inlineStyle;
+        
+    } else if (node.GetTemplateType() == "@Element") {
+        // 元素模板展开为实际元素
+        auto expandedElements = ExpandTemplate(node);
+        for (const auto& element : expandedElements) {
+            element->Accept(*this);
+        }
+        
+    } else if (node.GetTemplateType() == "@Var") {
+        // 变量模板存储到上下文中
+        for (const auto& prop : symbol->properties) {
+            context_.variables[symbol->name + "." + prop.first] = prop.second;
         }
     }
-    // 其他模板类型的展开逻辑...
 }
 
 void CHTLGenerator::VisitCustomReferenceNode(AST::CustomReferenceNode& node) {
@@ -285,8 +406,100 @@ void CHTLGenerator::VisitCustomReferenceNode(AST::CustomReferenceNode& node) {
         return;
     }
     
-    // 展开自定义（简化实现）
-    // 实际实现需要根据自定义类型和特例化进行复杂的展开
+    // 根据自定义类型进行展开
+    if (node.GetCustomType() == "@Style") {
+        // 样式自定义展开
+        std::string inlineStyle = context_.variables["__inline_style__"];
+        
+        // 基础属性
+        for (const auto& prop : symbol->properties) {
+            inlineStyle += prop.first + ": " + prop.second + "; ";
+        }
+        
+        // 处理继承
+        for (const auto& inherit : symbol->inherits) {
+            std::string inheritNamespace, inheritName;
+            if (Core::CHTLGlobalMap::ParseFullName(inherit, inheritNamespace, inheritName)) {
+                const Core::SymbolInfo* inheritSymbol = globalMap_.FindSymbolByType(
+                    inheritName, symbolType, inheritNamespace);
+                
+                if (inheritSymbol) {
+                    for (const auto& prop : inheritSymbol->properties) {
+                        if (inlineStyle.find(prop.first + ":") == std::string::npos) {
+                            inlineStyle += prop.first + ": " + prop.second + "; ";
+                        }
+                    }
+                }
+            }
+        }
+        
+        // 处理特例化
+        if (node.HasSpecialization()) {
+            for (const auto& specialization : node.GetSpecializations()) {
+                auto specNode = std::dynamic_pointer_cast<AST::SpecializationNode>(specialization);
+                if (specNode) {
+                    // 应用属性覆盖
+                    for (const auto& override : specNode->GetPropertyOverrides()) {
+                        // 替换或添加属性
+                        std::string propPattern = override.first + ":";
+                        size_t pos = inlineStyle.find(propPattern);
+                        if (pos != std::string::npos) {
+                            // 查找属性值的结束位置
+                            size_t endPos = inlineStyle.find(";", pos);
+                            if (endPos != std::string::npos) {
+                                // 替换现有属性
+                                inlineStyle.replace(pos, endPos - pos + 1, 
+                                                  override.first + ": " + override.second + "; ");
+                            }
+                        } else {
+                            // 添加新属性
+                            inlineStyle += override.first + ": " + override.second + "; ";
+                        }
+                    }
+                    
+                    // 处理删除操作
+                    for (const auto& deletion : specNode->GetDeletions()) {
+                        auto delNode = std::dynamic_pointer_cast<AST::DeletionNode>(deletion);
+                        if (delNode && delNode->GetDeletionType() == AST::DeletionNode::DeletionType::PROPERTY) {
+                            for (const auto& target : delNode->GetTargets()) {
+                                // 从内联样式中删除指定属性
+                                std::string propPattern = target + ":";
+                                size_t pos = inlineStyle.find(propPattern);
+                                if (pos != std::string::npos) {
+                                    size_t endPos = inlineStyle.find(";", pos);
+                                    if (endPos != std::string::npos) {
+                                        inlineStyle.erase(pos, endPos - pos + 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        context_.variables["__inline_style__"] = inlineStyle;
+        
+    } else if (node.GetCustomType() == "@Element") {
+        // 元素自定义展开
+        auto expandedElements = ExpandCustom(node);
+        for (const auto& element : expandedElements) {
+            element->Accept(*this);
+        }
+        
+    } else if (node.GetCustomType() == "@Var") {
+        // 变量自定义处理
+        if (symbol->properties.empty()) {
+            // 无值样式组，需要在使用时提供值
+            // 这里只是标记，实际值在变量引用时处理
+            context_.variables["__valueless_group__" + symbol->name] = "true";
+        } else {
+            // 有值变量组
+            for (const auto& prop : symbol->properties) {
+                context_.variables[symbol->name + "." + prop.first] = prop.second;
+            }
+        }
+    }
 }
 
 void CHTLGenerator::VisitVariableReferenceNode(AST::VariableReferenceNode& node) {

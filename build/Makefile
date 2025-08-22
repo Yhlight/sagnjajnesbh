@@ -328,6 +328,32 @@ test_chtl_simple/fast:
 .PHONY : test_chtl_simple/fast
 
 #=============================================================================
+# Target rules for targets named test_complex_syntax
+
+# Build rule for target.
+test_complex_syntax: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_complex_syntax
+.PHONY : test_complex_syntax
+
+# fast build rule for target.
+test_complex_syntax/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_complex_syntax.dir/build.make tests/CMakeFiles/test_complex_syntax.dir/build
+.PHONY : test_complex_syntax/fast
+
+#=============================================================================
+# Target rules for targets named test_inheritance_simple
+
+# Build rule for target.
+test_inheritance_simple: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_inheritance_simple
+.PHONY : test_inheritance_simple
+
+# fast build rule for target.
+test_inheritance_simple/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_inheritance_simple.dir/build.make tests/CMakeFiles/test_inheritance_simple.dir/build
+.PHONY : test_inheritance_simple/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -391,6 +417,8 @@ help:
 	@echo "... test_chtl_core"
 	@echo "... test_chtl_simple"
 	@echo "... test_chtljs_core"
+	@echo "... test_complex_syntax"
+	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
 	@echo "... test_scanner"
 	@echo "... utils"

@@ -1,10 +1,10 @@
-Start testing: Aug 22 05:25 UTC
+Start testing: Aug 22 05:41 UTC
 ----------------------------------------------------------
-1/7 Testing: CHTLCoreTest
-1/7 Test: CHTLCoreTest
+1/9 Testing: CHTLCoreTest
+1/9 Test: CHTLCoreTest
 Command: "/workspace/build/bin/test_chtl_core"
 Directory: /workspace/build/tests
-"CHTLCoreTest" start time: Aug 22 05:25 UTC
+"CHTLCoreTest" start time: Aug 22 05:41 UTC
 Output:
 ----------------------------------------------------------
 运行CHTL核心功能测试...
@@ -31,15 +31,15 @@ Output:
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLCoreTest" end time: Aug 22 05:25 UTC
+"CHTLCoreTest" end time: Aug 22 05:41 UTC
 "CHTLCoreTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-2/7 Testing: CHTLASTTest
-2/7 Test: CHTLASTTest
+2/9 Testing: CHTLASTTest
+2/9 Test: CHTLASTTest
 Command: "/workspace/build/bin/test_chtl_ast"
 Directory: /workspace/build/tests
-"CHTLASTTest" start time: Aug 22 05:25 UTC
+"CHTLASTTest" start time: Aug 22 05:41 UTC
 Output:
 ----------------------------------------------------------
 运行CHTL AST功能测试...
@@ -90,30 +90,92 @@ Output:
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLASTTest" end time: Aug 22 05:25 UTC
+"CHTLASTTest" end time: Aug 22 05:41 UTC
 "CHTLASTTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-3/7 Testing: CHTLCompilerTest
-3/7 Test: CHTLCompilerTest
+3/9 Testing: CHTLCompilerTest
+3/9 Test: CHTLCompilerTest
 Command: "/workspace/build/bin/test_chtl_compiler"
 Directory: /workspace/build/tests
-"CHTLCompilerTest" start time: Aug 22 05:25 UTC
+"CHTLCompilerTest" start time: Aug 22 05:41 UTC
 Output:
 ----------------------------------------------------------
+运行CHTL编译器完整功能测试...
+
+测试CHTL词法分析器...
+  词法分析器测试通过 - 生成了 38 个Token
+测试CHTL语法分析器...
+  语法分析器测试通过 - 生成了 CHTL语法分析统计:
+  文件名: test.chtl
+  节点总数: 7
+  错误数量: 6
+  当前命名空间: 
+  当前模板: ButtonStyle
+  当前自定义: 
+  嵌套级别: 0
+
+测试CHTL代码生成器...
+  代码生成器测试通过 - 生成了 164 字符的HTML
+测试完整的CHTL编译流程...
+  词法分析完成 - 76 个Token
+  语法分析完成 - 无错误
+  AST验证通过
+  代码生成完成 - 282 字符
+  HTML验证通过
+
+生成的HTML:
+<html>
+  <head>
+    <title>
+      CHTL
+    </title>
+    <style>
+    .box { width:  200px; height:  200px; background-color: red; }
+    { box-sizing : border-box ; } 
+  </style>
+</head>
+  <body>
+    <div id="container">
+      <main>
+      </main>
+      
+    </div>
+  </body>
+</html>
+
+测试AST打印功能...
+  AST打印功能测试通过
+
+AST结构:
+ROOT(print_test.chtl)
+  TEMPLATE_Style(TestStyle)
+  ELEMENT(div [class=test])
+    TEXT("Test Content")
+
+测试错误处理...
+  错误处理测试通过 - 检测到 17 个错误
+
+所有CHTL编译器功能测试通过!
+✅ 词法分析器正常工作
+✅ 语法分析器正常工作
+✅ 代码生成器正常工作
+✅ 完整编译流程正常
+✅ AST打印功能正常
+✅ 错误处理机制正常
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
-Test Failed.
-"CHTLCompilerTest" end time: Aug 22 05:25 UTC
+Test Passed.
+"CHTLCompilerTest" end time: Aug 22 05:41 UTC
 "CHTLCompilerTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-4/7 Testing: CHTLSimpleTest
-4/7 Test: CHTLSimpleTest
+4/9 Testing: CHTLSimpleTest
+4/9 Test: CHTLSimpleTest
 Command: "/workspace/build/bin/test_chtl_simple"
 Directory: /workspace/build/tests
-"CHTLSimpleTest" start time: Aug 22 05:25 UTC
+"CHTLSimpleTest" start time: Aug 22 05:41 UTC
 Output:
 ----------------------------------------------------------
 运行简单CHTL编译器测试...
@@ -121,11 +183,11 @@ Output:
 词法分析完成，生成了 11 个Token
 Token 0: HTML_TAG = 'html'
 Token 1: LEFT_BRACE = '{'
-Token 2: IDENTIFIER = ' body'
+Token 2: HTML_TAG = 'body'
 Token 3: LEFT_BRACE = '{'
-Token 4: IDENTIFIER = ' text'
+Token 4: TEXT = 'text'
 Token 5: LEFT_BRACE = '{'
-Token 6: IDENTIFIER = ' Hello'
+Token 6: IDENTIFIER = 'Hello'
 Token 7: RIGHT_BRACE = '}'
 Token 8: RIGHT_BRACE = '}'
 Token 9: RIGHT_BRACE = '}'
@@ -139,15 +201,102 @@ AST子节点数量: 1
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLSimpleTest" end time: Aug 22 05:25 UTC
+"CHTLSimpleTest" end time: Aug 22 05:41 UTC
 "CHTLSimpleTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-5/7 Testing: CHTLJSCoreTest
-5/7 Test: CHTLJSCoreTest
+5/9 Testing: CHTLComplexSyntaxTest
+5/9 Test: CHTLComplexSyntaxTest
+Command: "/workspace/build/bin/test_complex_syntax"
+Directory: /workspace/build/tests
+"CHTLComplexSyntaxTest" start time: Aug 22 05:41 UTC
+Output:
+----------------------------------------------------------
+运行CHTL复杂语法测试...
+
+测试继承功能...
+  继承功能测试通过
+测试删除功能...
+  删除功能测试通过
+测试变量组特例化...
+  变量组特例化测试通过
+测试无值样式组...
+  无值样式组测试通过
+测试CSS选择器自动添加功能...
+  CSS选择器自动添加功能测试通过
+测试完整的复杂语法编译...
+  复杂语法编译测试通过
+
+生成的HTML:
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+CHTL Generated Page
+</title>
+</head>
+<body>
+</body>
+</html>
+
+
+所有复杂语法测试通过!
+✅ 继承功能正常
+✅ 删除功能正常
+✅ 变量特例化正常
+✅ 无值样式组正常
+✅ CSS选择器自动添加正常
+✅ 复杂语法编译正常
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"CHTLComplexSyntaxTest" end time: Aug 22 05:41 UTC
+"CHTLComplexSyntaxTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/9 Testing: CHTLInheritanceSimpleTest
+6/9 Test: CHTLInheritanceSimpleTest
+Command: "/workspace/build/bin/test_inheritance_simple"
+Directory: /workspace/build/tests
+"CHTLInheritanceSimpleTest" start time: Aug 22 05:41 UTC
+Output:
+----------------------------------------------------------
+运行简单继承测试...
+词法分析完成，生成了 11 个Token
+Token 0: TEMPLATE = '[Template]'
+Token 1: AT_STYLE = '@Style'
+Token 2: IDENTIFIER = 'BaseStyle'
+Token 3: LEFT_BRACE = '{'
+Token 4: IDENTIFIER = 'color'
+Token 5: COLON = ':'
+Token 6: IDENTIFIER = 'black'
+Token 7: SEMICOLON = ';'
+Token 8: RIGHT_BRACE = '}'
+Token 9: END_OF_FILE = '
+'
+Token 10: END_OF_FILE = '
+'
+语法分析成功
+AST子节点数量: 1
+符号表中的符号数量: 1
+符号: BaseStyle (类型: Template Style)
+简单继承测试完成!
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"CHTLInheritanceSimpleTest" end time: Aug 22 05:41 UTC
+"CHTLInheritanceSimpleTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/9 Testing: CHTLJSCoreTest
+7/9 Test: CHTLJSCoreTest
 Command: "/workspace/build/bin/test_chtljs_core"
 Directory: /workspace/build/tests
-"CHTLJSCoreTest" start time: Aug 22 05:25 UTC
+"CHTLJSCoreTest" start time: Aug 22 05:41 UTC
 Output:
 ----------------------------------------------------------
 运行CHTL JS核心测试...
@@ -157,15 +306,15 @@ CHTL JS核心基础测试通过
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLJSCoreTest" end time: Aug 22 05:25 UTC
+"CHTLJSCoreTest" end time: Aug 22 05:41 UTC
 "CHTLJSCoreTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-6/7 Testing: ScannerTest
-6/7 Test: ScannerTest
+8/9 Testing: ScannerTest
+8/9 Test: ScannerTest
 Command: "/workspace/build/bin/test_scanner"
 Directory: /workspace/build/tests
-"ScannerTest" start time: Aug 22 05:25 UTC
+"ScannerTest" start time: Aug 22 05:41 UTC
 Output:
 ----------------------------------------------------------
 运行扫描器测试...
@@ -177,15 +326,15 @@ CSS检测测试通过
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ScannerTest" end time: Aug 22 05:25 UTC
+"ScannerTest" end time: Aug 22 05:41 UTC
 "ScannerTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-7/7 Testing: IntegrationTest
-7/7 Test: IntegrationTest
+9/9 Testing: IntegrationTest
+9/9 Test: IntegrationTest
 Command: "/workspace/build/bin/test_integration"
 Directory: /workspace/build/tests
-"IntegrationTest" start time: Aug 22 05:25 UTC
+"IntegrationTest" start time: Aug 22 05:41 UTC
 Output:
 ----------------------------------------------------------
 运行集成测试...
@@ -195,8 +344,8 @@ Output:
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"IntegrationTest" end time: Aug 22 05:25 UTC
+"IntegrationTest" end time: Aug 22 05:41 UTC
 "IntegrationTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Aug 22 05:25 UTC
+End testing: Aug 22 05:41 UTC

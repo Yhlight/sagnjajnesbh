@@ -228,6 +228,34 @@ test_chtl_simple/fast:
 .PHONY : test_chtl_simple/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_complex_syntax.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_complex_syntax.dir/rule
+.PHONY : tests/CMakeFiles/test_complex_syntax.dir/rule
+
+# Convenience name for target.
+test_complex_syntax: tests/CMakeFiles/test_complex_syntax.dir/rule
+.PHONY : test_complex_syntax
+
+# fast build rule for target.
+test_complex_syntax/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_complex_syntax.dir/build.make tests/CMakeFiles/test_complex_syntax.dir/build
+.PHONY : test_complex_syntax/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_inheritance_simple.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_inheritance_simple.dir/rule
+.PHONY : tests/CMakeFiles/test_inheritance_simple.dir/rule
+
+# Convenience name for target.
+test_inheritance_simple: tests/CMakeFiles/test_inheritance_simple.dir/rule
+.PHONY : test_inheritance_simple
+
+# fast build rule for target.
+test_inheritance_simple/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_inheritance_simple.dir/build.make tests/CMakeFiles/test_inheritance_simple.dir/build
+.PHONY : test_inheritance_simple/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -365,6 +393,54 @@ CHTL/test_chtl_simple.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_simple.dir/build.make tests/CMakeFiles/test_chtl_simple.dir/CHTL/test_chtl_simple.cpp.s
 .PHONY : CHTL/test_chtl_simple.cpp.s
 
+CHTL/test_complex_syntax.o: CHTL/test_complex_syntax.cpp.o
+.PHONY : CHTL/test_complex_syntax.o
+
+# target to build an object file
+CHTL/test_complex_syntax.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_complex_syntax.dir/build.make tests/CMakeFiles/test_complex_syntax.dir/CHTL/test_complex_syntax.cpp.o
+.PHONY : CHTL/test_complex_syntax.cpp.o
+
+CHTL/test_complex_syntax.i: CHTL/test_complex_syntax.cpp.i
+.PHONY : CHTL/test_complex_syntax.i
+
+# target to preprocess a source file
+CHTL/test_complex_syntax.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_complex_syntax.dir/build.make tests/CMakeFiles/test_complex_syntax.dir/CHTL/test_complex_syntax.cpp.i
+.PHONY : CHTL/test_complex_syntax.cpp.i
+
+CHTL/test_complex_syntax.s: CHTL/test_complex_syntax.cpp.s
+.PHONY : CHTL/test_complex_syntax.s
+
+# target to generate assembly for a file
+CHTL/test_complex_syntax.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_complex_syntax.dir/build.make tests/CMakeFiles/test_complex_syntax.dir/CHTL/test_complex_syntax.cpp.s
+.PHONY : CHTL/test_complex_syntax.cpp.s
+
+CHTL/test_inheritance_simple.o: CHTL/test_inheritance_simple.cpp.o
+.PHONY : CHTL/test_inheritance_simple.o
+
+# target to build an object file
+CHTL/test_inheritance_simple.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_inheritance_simple.dir/build.make tests/CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.o
+.PHONY : CHTL/test_inheritance_simple.cpp.o
+
+CHTL/test_inheritance_simple.i: CHTL/test_inheritance_simple.cpp.i
+.PHONY : CHTL/test_inheritance_simple.i
+
+# target to preprocess a source file
+CHTL/test_inheritance_simple.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_inheritance_simple.dir/build.make tests/CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.i
+.PHONY : CHTL/test_inheritance_simple.cpp.i
+
+CHTL/test_inheritance_simple.s: CHTL/test_inheritance_simple.cpp.s
+.PHONY : CHTL/test_inheritance_simple.s
+
+# target to generate assembly for a file
+CHTL/test_inheritance_simple.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_inheritance_simple.dir/build.make tests/CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.s
+.PHONY : CHTL/test_inheritance_simple.cpp.s
+
 CHTLJS/test_chtljs_core.o: CHTLJS/test_chtljs_core.cpp.o
 .PHONY : CHTLJS/test_chtljs_core.o
 
@@ -455,6 +531,8 @@ help:
 	@echo "... test_chtl_core"
 	@echo "... test_chtl_simple"
 	@echo "... test_chtljs_core"
+	@echo "... test_complex_syntax"
+	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
 	@echo "... test_scanner"
 	@echo "... CHTL/test_chtl_ast.o"
@@ -469,6 +547,12 @@ help:
 	@echo "... CHTL/test_chtl_simple.o"
 	@echo "... CHTL/test_chtl_simple.i"
 	@echo "... CHTL/test_chtl_simple.s"
+	@echo "... CHTL/test_complex_syntax.o"
+	@echo "... CHTL/test_complex_syntax.i"
+	@echo "... CHTL/test_complex_syntax.s"
+	@echo "... CHTL/test_inheritance_simple.o"
+	@echo "... CHTL/test_inheritance_simple.i"
+	@echo "... CHTL/test_inheritance_simple.s"
 	@echo "... CHTLJS/test_chtljs_core.o"
 	@echo "... CHTLJS/test_chtljs_core.i"
 	@echo "... CHTLJS/test_chtljs_core.s"

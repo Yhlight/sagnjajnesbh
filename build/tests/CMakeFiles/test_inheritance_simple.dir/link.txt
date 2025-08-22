@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_inheritance_simple.dir/link.d CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.o -o ../bin/test_inheritance_simple   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libchtl_core.a ../lib/libutils.a

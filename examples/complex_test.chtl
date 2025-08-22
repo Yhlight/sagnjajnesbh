@@ -1,0 +1,147 @@
+// CHTL复杂语法测试文件
+// 展示继承、特例化、删除、插入、索引访问等高级特性
+
+[Template] @Style BaseButton
+{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+[Template] @Style PrimaryButton
+{
+    background-color: #007bff;
+    color: white;
+    inherit @Style BaseButton;
+}
+
+[Custom] @Style RedButton
+{
+    @Style PrimaryButton
+    {
+        delete border-radius;
+    }
+    background-color: #dc3545;
+}
+
+[Custom] @Var ThemeColors
+{
+    primaryColor: "#007bff";
+    secondaryColor: "#6c757d";
+    successColor: "#28a745";
+}
+
+[Custom] @Var TextSizes
+{
+    small,
+    medium,
+    large;
+}
+
+[Custom] @Element Card
+{
+    div
+    {
+        style
+        {
+            .card
+            {
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 16px;
+                margin: 8px;
+            }
+            
+            &:hover
+            {
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            }
+        }
+    }
+    
+    div
+    {
+        style
+        {
+            .card-body
+            {
+                padding: 12px;
+            }
+        }
+    }
+}
+
+html
+{
+    head
+    {
+        title
+        {
+            text { 复杂语法测试 }
+        }
+    }
+    
+    body
+    {
+        div
+        {
+            id: container;
+            class: main-wrapper;
+            
+            @Element Card
+            {
+                div[0]
+                {
+                    text { 这是卡片标题 }
+                }
+                
+                div[1]
+                {
+                    text { 这是卡片内容 }
+                    
+                    insert after div[0] {
+                        p
+                        {
+                            text { 插入的段落 }
+                        }
+                    }
+                }
+                
+                delete div[1];
+            }
+            
+            button
+            {
+                style
+                {
+                    @Style RedButton;
+                    
+                    .special-btn
+                    {
+                        color: ThemeColors(primaryColor);
+                        font-size: TextSizes
+                        {
+                            medium: 16px;
+                        };
+                    }
+                }
+                
+                text { 特殊按钮 }
+            }
+        }
+    }
+}
+
+[Origin] @Style
+{
+    * {
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+}
