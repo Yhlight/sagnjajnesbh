@@ -109,6 +109,13 @@ private:
     std::string ProcessCHTLFragments(const std::vector<Scanner::CodeFragment>& fragments, const std::string& fileName);
     
     /**
+     * @brief 基础CHTL片段处理（回退方案）
+     * @param fragments CHTL片段列表
+     * @return HTML输出
+     */
+    std::string ProcessCHTLFragmentsBasic(const std::vector<Scanner::CodeFragment>& fragments);
+    
+    /**
      * @brief 处理CHTL JS片段
      * @param fragments CHTL JS片段列表
      * @param fileName 文件名

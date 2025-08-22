@@ -251,8 +251,31 @@ src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/array \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/compare \
+  /workspace/include/CHTL/Lexer/CHTLLexer.h \
+  /workspace/include/CHTL/Parser/CHTLParser.h \
+  /workspace/include/CHTL/Core/CHTLStateContext.h \
+  /workspace/include/CHTL/AST/CHTLASTNodes.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/variant \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
+  /workspace/include/CHTL/Constraints/CHTLConstraintValidator.h \
+  /workspace/include/CHTL/Constraints/ExceptConstraintParser.h \
+  /workspace/include/CHTL/Generator/CHTLGenerator.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
+  /workspace/include/CHTL/AST/CHTLASTVisitor.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/algorithm \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_algo.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/algorithmfwd.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_heap.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uniform_int_dist.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_algorithm_defs.h \
+  /workspace/include/CHTL/Selector/SelectorAutomation.h \
+  /workspace/include/CMOD/CMODManager.h \
   /workspace/include/CHTLJS/Core/CHTLJSState.h \
   /workspace/include/CHTLJS/Core/CHTLJSToken.h \
-  /workspace/include/Utils/StringUtils.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc
+  /workspace/include/CHTLJS/Lexer/CHTLJSLexer.h \
+  /workspace/include/CHTLJS/Parser/CHTLJSParser.h \
+  /workspace/include/CHTLJS/AST/CHTLJSASTNodes.h \
+  /workspace/include/CHTLJS/Generator/CHTLJSGenerator.h \
+  /workspace/include/CHTLJS/AST/CHTLJSASTVisitor.h \
+  /workspace/include/Utils/StringUtils.h

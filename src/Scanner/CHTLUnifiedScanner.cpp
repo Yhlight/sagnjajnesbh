@@ -469,10 +469,17 @@ std::vector<CodeFragment> CHTLUnifiedScanner::PerformVariableLengthSlicing(const
     size_t sourceLen = source.length();
     
     while (pos < sourceLen) {
-        // 跳过空白字符
+        // 改进的空白字符处理 - 减少空白片段
         if (!config_.preserveWhitespace) {
+            size_t oldPos = pos;
             pos = SkipWhitespace(source, pos);
             if (pos >= sourceLen) break;
+            
+            // 如果跳过了大量空白字符，创建一个空白片段而不是多个
+            if (pos - oldPos > 1) {
+                // 跳过大量空白，不创建片段
+                continue;
+            }
         }
         
         // 识别代码块边界

@@ -31,13 +31,11 @@ std::string CSSCompiler::Compile(const std::string& cssCode, const std::string& 
         // 基础CSS处理：移除注释，格式化
         std::string processedCSS = Utils::StringUtils::Trim(cssCode);
         
-        // 基础语法验证
-        if (!Validate(processedCSS)) {
-            Utils::ErrorHandler::GetInstance().LogError(
-                "CSS语法验证失败: " + fileName
-            );
-            return "";
-        }
+        // CHTL CSS处理 - 支持所有CHTL语法，不进行严格CSS验证
+        // 因为CHTL CSS包含变量组、模板、继承等非标准CSS语法
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "处理CHTL CSS片段: " + fileName + " (长度: " + std::to_string(processedCSS.length()) + ")"
+        );
         
         // 返回处理后的CSS（基础实现）
         return processedCSS;

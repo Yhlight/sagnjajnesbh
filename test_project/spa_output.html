@@ -1,0 +1,511 @@
+<style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
+
+<!-- CHTL Fragment -->
+// SPA组件测试 - 不强制html根节点，严格按照语法文档
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+
+// 变量组模板 - 语法文档第221-229行
+[Template] @Var ComponentColors
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 自定义样式组 - 语法文档第294-325行
+[Custom] @Style CardStyle
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 自定义元素 - 语法文档第326-390行
+[Custom] @Element UserCard
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+@Style CardStyle;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ .user-avatar
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+.user-name
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+&:hover
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+用户姓名
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+p
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+这是用户的个人简介
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+style
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+script
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// CHTL JS语法 - 增强选择器和监听器
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+(语法文档第1130-1213行)
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.user-card}}->listen({
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+click:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+() =>
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+console.log('用户卡片被点击');
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 使用动画 - 语法文档第1233-1272行
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ cardAnim = animate({
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+target:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.user-card}},
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ duration: 200,
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ easing: 'ease-out',
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ begin:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+transform: 'scale(1.0)'
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+},
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ when: [
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+],
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ end:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+transform: 'scale(1.0)',
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ background: 'white'
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+});
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+},
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ mouseenter:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+() =>
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.user-name}}->style->color = ComponentColors(success);
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+});
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 事件委托 - 语法文档第1215-1231行
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{document.body}}->delegate({
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+target: [{{.user-card}},
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.user-avatar}}],
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ dblclick:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+() =>
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+console.log('用户卡片双击 - 通过事件委托');
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+});
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 虚对象 - 语法文档第1274-1299行
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+show:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+() =>
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.user-card}}->style->display = 'block';
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+},
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ hide:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+() =>
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.user-card}}->style->display = 'none';
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+},
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ highlight:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+() =>
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.user-card}}->style->backgroundColor = ComponentColors(primary);
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+});
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 初始化
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+}
+
+// 主要组件区域 - SPA组件，不需要html根节点
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+.spa-container
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+.header
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+text
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+SPA组件演示
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+p
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+text
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+这是一个SPA组件，不包含html根节点
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 使用自定义元素
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ @Element UserCard;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 演示删除操作 - 语法文档第519-583行
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ @Element UserCard
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+delete .user-bio;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 删除用户简介部分
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 演示插入操作 - 语法文档第477-517行
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ @Element UserCard
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+insert after .user-name
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+span
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+VIP
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+style
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+}
+
+// 约束演示 - 语法文档第1062-1097行
+[Custom] @Element SafeContainer
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+except script, iframe;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 安全约束：禁止脚本和iframe
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+这是安全的内容区域
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+}
+<!-- /CHTL Fragment -->
+
+<script>
+// CHTL JS Fragment
+ vir CardController = listen({
+// /CHTL JS Fragment
+// CHTL JS Fragment
+ CardController->show();
+// /CHTL JS Fragment
+const
+// Shared Script Processing - CHTL + CHTL JS + JavaScript
+// Pure JavaScript Processed
+script
+// Pure JavaScript Processed
+except script, iframe;
+// CHTL JS Processed
+ vir CardController = listen({
+// Pure JavaScript Processed
+CardController->show();
+// Pure JavaScript Processed
+const
+
+</script>

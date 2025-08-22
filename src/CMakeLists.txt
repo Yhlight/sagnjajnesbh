@@ -60,6 +60,15 @@ target_include_directories(dispatcher PUBLIC
     ${CMAKE_SOURCE_DIR}/include/Dispatcher
 )
 
+target_link_libraries(dispatcher
+    chtl_core
+    chtljs_core
+    scanner
+    css_compiler
+    js_compiler
+    utils
+)
+
 # CSS编译器库（使用ANTLR4生成的代码）
 add_library(css_compiler STATIC
     CSS/CSSCompiler.cpp

@@ -316,7 +316,13 @@ src/CMakeFiles/scanner.dir/clean:
 # Target rules for target src/CMakeFiles/dispatcher.dir
 
 # All Build rule for target.
-src/CMakeFiles/dispatcher.dir/all:
+src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/chtl_core.dir/all
+src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/chtljs_core.dir/all
+src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/scanner.dir/all
+src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/css_compiler.dir/all
+src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/js_compiler.dir/all
+src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/cmod.dir/all
+src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/utils.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dispatcher.dir/build.make src/CMakeFiles/dispatcher.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dispatcher.dir/build.make src/CMakeFiles/dispatcher.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=41,42 "Built target dispatcher"
@@ -324,7 +330,7 @@ src/CMakeFiles/dispatcher.dir/all:
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/dispatcher.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 51
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/dispatcher.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/dispatcher.dir/rule
