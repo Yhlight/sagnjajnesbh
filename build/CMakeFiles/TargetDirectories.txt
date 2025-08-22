@@ -14,6 +14,7 @@
 /workspace/build/src/CMakeFiles/cmod.dir
 /workspace/build/src/CMakeFiles/utils.dir
 /workspace/build/src/CMakeFiles/chtl_compiler.dir
+/workspace/build/src/CMakeFiles/cmod_export_generator.dir
 /workspace/build/src/CMakeFiles/test.dir
 /workspace/build/src/CMakeFiles/edit_cache.dir
 /workspace/build/src/CMakeFiles/rebuild_cache.dir
@@ -30,6 +31,8 @@
 /workspace/build/tests/CMakeFiles/test_advanced_features.dir
 /workspace/build/tests/CMakeFiles/test_cmod.dir
 /workspace/build/tests/CMakeFiles/test_cmod_simple.dir
+/workspace/build/tests/CMakeFiles/test_auto_export.dir
+/workspace/build/tests/CMakeFiles/test_testmodule_auto.dir
 /workspace/build/tests/CMakeFiles/test_chtljs_core.dir
 /workspace/build/tests/CMakeFiles/test_scanner.dir
 /workspace/build/tests/CMakeFiles/test_integration.dir

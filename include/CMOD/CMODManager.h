@@ -159,6 +159,28 @@ public:
      * @param path 搜索路径
      */
     void AddModuleSearchPath(const std::string& path);
+    
+    /**
+     * @brief 自动生成模块导出信息
+     * @param modulePath 模块路径
+     * @return 自动生成的导出信息
+     */
+    ModuleExports GenerateAutoExports(const std::string& modulePath);
+    
+    /**
+     * @brief 更新模块的导出信息文件
+     * @param modulePath 模块路径
+     * @param exports 导出信息
+     * @return 是否成功更新
+     */
+    bool UpdateModuleExports(const std::string& modulePath, const ModuleExports& exports);
+    
+    /**
+     * @brief 扫描源文件获取符号
+     * @param sourceContent 源文件内容
+     * @return 扫描到的导出信息
+     */
+    ModuleExports ScanSourceForSymbols(const std::string& sourceContent);
 
 private:
     /**

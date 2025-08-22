@@ -113,6 +113,30 @@ if(NOT GTest_FOUND)
     
     add_test(NAME CMODSimpleTest COMMAND test_cmod_simple)
     
+    # CMOD自动导出测试
+    add_executable(test_auto_export
+        CMOD/test_auto_export.cpp
+    )
+    
+    target_link_libraries(test_auto_export
+        cmod
+        utils
+    )
+    
+    add_test(NAME CMODAutoExportTest COMMAND test_auto_export)
+    
+    # TestModule自动导出测试
+    add_executable(test_testmodule_auto
+        CMOD/test_testmodule_auto.cpp
+    )
+    
+    target_link_libraries(test_testmodule_auto
+        cmod
+        utils
+    )
+    
+    add_test(NAME TestModuleAutoTest COMMAND test_testmodule_auto)
+    
     # CHTL JS核心测试
     add_executable(test_chtljs_core
         CHTLJS/test_chtljs_core.cpp

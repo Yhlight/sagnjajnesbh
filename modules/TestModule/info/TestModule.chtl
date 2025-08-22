@@ -12,7 +12,8 @@
     maxCHTLVersion = "2.0.0";
 }
 
-// 模块导出信息
+// Export块将由系统自动生成
+// 外部查询表，由系统自动生成
 [Export]
 {
     [Custom] @Style TestButton, TestCard;

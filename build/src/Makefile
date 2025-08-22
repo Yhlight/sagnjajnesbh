@@ -297,6 +297,20 @@ chtl_compiler/fast:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_compiler.dir/build.make src/CMakeFiles/chtl_compiler.dir/build
 .PHONY : chtl_compiler/fast
 
+# Convenience name for target.
+src/CMakeFiles/cmod_export_generator.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/cmod_export_generator.dir/rule
+.PHONY : src/CMakeFiles/cmod_export_generator.dir/rule
+
+# Convenience name for target.
+cmod_export_generator: src/CMakeFiles/cmod_export_generator.dir/rule
+.PHONY : cmod_export_generator
+
+# fast build rule for target.
+cmod_export_generator/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod_export_generator.dir/build.make src/CMakeFiles/cmod_export_generator.dir/build
+.PHONY : cmod_export_generator/fast
+
 CHTL/AST/CHTLASTBuilder.o: CHTL/AST/CHTLASTBuilder.cpp.o
 .PHONY : CHTL/AST/CHTLASTBuilder.o
 
@@ -849,6 +863,30 @@ Scanner/CHTLUnifiedScanner.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/scanner.dir/build.make src/CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.s
 .PHONY : Scanner/CHTLUnifiedScanner.cpp.s
 
+Tools/cmod_export_generator.o: Tools/cmod_export_generator.cpp.o
+.PHONY : Tools/cmod_export_generator.o
+
+# target to build an object file
+Tools/cmod_export_generator.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod_export_generator.dir/build.make src/CMakeFiles/cmod_export_generator.dir/Tools/cmod_export_generator.cpp.o
+.PHONY : Tools/cmod_export_generator.cpp.o
+
+Tools/cmod_export_generator.i: Tools/cmod_export_generator.cpp.i
+.PHONY : Tools/cmod_export_generator.i
+
+# target to preprocess a source file
+Tools/cmod_export_generator.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod_export_generator.dir/build.make src/CMakeFiles/cmod_export_generator.dir/Tools/cmod_export_generator.cpp.i
+.PHONY : Tools/cmod_export_generator.cpp.i
+
+Tools/cmod_export_generator.s: Tools/cmod_export_generator.cpp.s
+.PHONY : Tools/cmod_export_generator.s
+
+# target to generate assembly for a file
+Tools/cmod_export_generator.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod_export_generator.dir/build.make src/CMakeFiles/cmod_export_generator.dir/Tools/cmod_export_generator.cpp.s
+.PHONY : Tools/cmod_export_generator.cpp.s
+
 Utils/ErrorHandler.o: Utils/ErrorHandler.cpp.o
 .PHONY : Utils/ErrorHandler.o
 
@@ -1202,6 +1240,7 @@ help:
 	@echo "... chtl_core"
 	@echo "... chtljs_core"
 	@echo "... cmod"
+	@echo "... cmod_export_generator"
 	@echo "... css_compiler"
 	@echo "... dispatcher"
 	@echo "... js_compiler"
@@ -1276,6 +1315,9 @@ help:
 	@echo "... Scanner/CHTLUnifiedScanner.o"
 	@echo "... Scanner/CHTLUnifiedScanner.i"
 	@echo "... Scanner/CHTLUnifiedScanner.s"
+	@echo "... Tools/cmod_export_generator.o"
+	@echo "... Tools/cmod_export_generator.i"
+	@echo "... Tools/cmod_export_generator.s"
 	@echo "... Utils/ErrorHandler.o"
 	@echo "... Utils/ErrorHandler.i"
 	@echo "... Utils/ErrorHandler.s"

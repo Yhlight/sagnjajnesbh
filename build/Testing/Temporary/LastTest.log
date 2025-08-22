@@ -1,10 +1,10 @@
-Start testing: Aug 22 06:13 UTC
+Start testing: Aug 22 06:25 UTC
 ----------------------------------------------------------
-1/12 Testing: CHTLCoreTest
-1/12 Test: CHTLCoreTest
+1/14 Testing: CHTLCoreTest
+1/14 Test: CHTLCoreTest
 Command: "/workspace/build/bin/test_chtl_core"
 Directory: /workspace/build/tests
-"CHTLCoreTest" start time: Aug 22 06:13 UTC
+"CHTLCoreTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 运行CHTL核心功能测试...
@@ -31,15 +31,15 @@ Output:
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLCoreTest" end time: Aug 22 06:13 UTC
+"CHTLCoreTest" end time: Aug 22 06:25 UTC
 "CHTLCoreTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-2/12 Testing: CHTLASTTest
-2/12 Test: CHTLASTTest
+2/14 Testing: CHTLASTTest
+2/14 Test: CHTLASTTest
 Command: "/workspace/build/bin/test_chtl_ast"
 Directory: /workspace/build/tests
-"CHTLASTTest" start time: Aug 22 06:13 UTC
+"CHTLASTTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 运行CHTL AST功能测试...
@@ -90,15 +90,15 @@ Output:
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLASTTest" end time: Aug 22 06:13 UTC
+"CHTLASTTest" end time: Aug 22 06:25 UTC
 "CHTLASTTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-3/12 Testing: CHTLCompilerTest
-3/12 Test: CHTLCompilerTest
+3/14 Testing: CHTLCompilerTest
+3/14 Test: CHTLCompilerTest
 Command: "/workspace/build/bin/test_chtl_compiler"
 Directory: /workspace/build/tests
-"CHTLCompilerTest" start time: Aug 22 06:13 UTC
+"CHTLCompilerTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 运行CHTL编译器完整功能测试...
@@ -167,15 +167,15 @@ ROOT(print_test.chtl)
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLCompilerTest" end time: Aug 22 06:13 UTC
+"CHTLCompilerTest" end time: Aug 22 06:25 UTC
 "CHTLCompilerTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-4/12 Testing: CHTLSimpleTest
-4/12 Test: CHTLSimpleTest
+4/14 Testing: CHTLSimpleTest
+4/14 Test: CHTLSimpleTest
 Command: "/workspace/build/bin/test_chtl_simple"
 Directory: /workspace/build/tests
-"CHTLSimpleTest" start time: Aug 22 06:13 UTC
+"CHTLSimpleTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 运行简单CHTL编译器测试...
@@ -201,15 +201,15 @@ AST子节点数量: 1
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLSimpleTest" end time: Aug 22 06:13 UTC
+"CHTLSimpleTest" end time: Aug 22 06:25 UTC
 "CHTLSimpleTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-5/12 Testing: CHTLComplexSyntaxTest
-5/12 Test: CHTLComplexSyntaxTest
+5/14 Testing: CHTLComplexSyntaxTest
+5/14 Test: CHTLComplexSyntaxTest
 Command: "/workspace/build/bin/test_complex_syntax"
 Directory: /workspace/build/tests
-"CHTLComplexSyntaxTest" start time: Aug 22 06:13 UTC
+"CHTLComplexSyntaxTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 运行CHTL复杂语法测试...
@@ -253,15 +253,15 @@ CHTL Generated Page
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLComplexSyntaxTest" end time: Aug 22 06:13 UTC
+"CHTLComplexSyntaxTest" end time: Aug 22 06:25 UTC
 "CHTLComplexSyntaxTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-6/12 Testing: CHTLInheritanceSimpleTest
-6/12 Test: CHTLInheritanceSimpleTest
+6/14 Testing: CHTLInheritanceSimpleTest
+6/14 Test: CHTLInheritanceSimpleTest
 Command: "/workspace/build/bin/test_inheritance_simple"
 Directory: /workspace/build/tests
-"CHTLInheritanceSimpleTest" start time: Aug 22 06:13 UTC
+"CHTLInheritanceSimpleTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 运行简单继承测试...
@@ -288,15 +288,15 @@ AST子节点数量: 1
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLInheritanceSimpleTest" end time: Aug 22 06:13 UTC
+"CHTLInheritanceSimpleTest" end time: Aug 22 06:25 UTC
 "CHTLInheritanceSimpleTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-7/12 Testing: CHTLAdvancedFeaturesTest
-7/12 Test: CHTLAdvancedFeaturesTest
+7/14 Testing: CHTLAdvancedFeaturesTest
+7/14 Test: CHTLAdvancedFeaturesTest
 Command: "/workspace/build/bin/test_advanced_features"
 Directory: /workspace/build/tests
-"CHTLAdvancedFeaturesTest" start time: Aug 22 06:13 UTC
+"CHTLAdvancedFeaturesTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 运行CHTL高级特性测试...
@@ -337,30 +337,30 @@ Output:
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLAdvancedFeaturesTest" end time: Aug 22 06:13 UTC
+"CHTLAdvancedFeaturesTest" end time: Aug 22 06:25 UTC
 "CHTLAdvancedFeaturesTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-8/12 Testing: CMODTest
-8/12 Test: CMODTest
+8/14 Testing: CMODTest
+8/14 Test: CMODTest
 Command: "/workspace/build/bin/test_cmod"
 Directory: /workspace/build/tests
-"CMODTest" start time: Aug 22 06:13 UTC
+"CMODTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Failed.
-"CMODTest" end time: Aug 22 06:13 UTC
+"CMODTest" end time: Aug 22 06:25 UTC
 "CMODTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-9/12 Testing: CMODSimpleTest
-9/12 Test: CMODSimpleTest
+9/14 Testing: CMODSimpleTest
+9/14 Test: CMODSimpleTest
 Command: "/workspace/build/bin/test_cmod_simple"
 Directory: /workspace/build/tests
-"CMODSimpleTest" start time: Aug 22 06:13 UTC
+"CMODSimpleTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 运行简化CMOD系统测试...
@@ -373,15 +373,67 @@ Output:
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CMODSimpleTest" end time: Aug 22 06:13 UTC
+"CMODSimpleTest" end time: Aug 22 06:25 UTC
 "CMODSimpleTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-10/12 Testing: CHTLJSCoreTest
-10/12 Test: CHTLJSCoreTest
+10/14 Testing: CMODAutoExportTest
+10/14 Test: CMODAutoExportTest
+Command: "/workspace/build/bin/test_auto_export"
+Directory: /workspace/build/tests
+"CMODAutoExportTest" start time: Aug 22 06:25 UTC
+Output:
+----------------------------------------------------------
+运行CMOD自动导出功能测试...
+
+测试自动导出生成...
+  自动导出生成测试通过
+    扫描到模板样式: 1个
+    扫描到自定义样式: 1个
+    扫描到自定义元素: 1个
+    扫描到自定义变量: 1个
+    扫描到原始HTML: 1个
+    扫描到配置: 1个
+测试导出信息更新...
+  导出信息更新测试通过
+    自动生成的模板样式: 1个
+    自动生成的自定义元素: 1个
+  信息文件自动更新验证通过
+测试复杂模块解析（修正版）...
+  复杂模块解析测试通过
+
+所有自动导出功能测试通过!
+✅ 自动导出生成正常
+✅ 导出信息更新正常
+✅ 复杂模块解析正常
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"CMODAutoExportTest" end time: Aug 22 06:25 UTC
+"CMODAutoExportTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/14 Testing: TestModuleAutoTest
+11/14 Test: TestModuleAutoTest
+Command: "/workspace/build/bin/test_testmodule_auto"
+Directory: /workspace/build/tests
+"TestModuleAutoTest" start time: Aug 22 06:25 UTC
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestModuleAutoTest" end time: Aug 22 06:25 UTC
+"TestModuleAutoTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/14 Testing: CHTLJSCoreTest
+12/14 Test: CHTLJSCoreTest
 Command: "/workspace/build/bin/test_chtljs_core"
 Directory: /workspace/build/tests
-"CHTLJSCoreTest" start time: Aug 22 06:13 UTC
+"CHTLJSCoreTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 运行CHTL JS核心测试...
@@ -391,15 +443,15 @@ CHTL JS核心基础测试通过
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLJSCoreTest" end time: Aug 22 06:13 UTC
+"CHTLJSCoreTest" end time: Aug 22 06:25 UTC
 "CHTLJSCoreTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-11/12 Testing: ScannerTest
-11/12 Test: ScannerTest
+13/14 Testing: ScannerTest
+13/14 Test: ScannerTest
 Command: "/workspace/build/bin/test_scanner"
 Directory: /workspace/build/tests
-"ScannerTest" start time: Aug 22 06:13 UTC
+"ScannerTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 运行扫描器测试...
@@ -411,15 +463,15 @@ CSS检测测试通过
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ScannerTest" end time: Aug 22 06:13 UTC
+"ScannerTest" end time: Aug 22 06:25 UTC
 "ScannerTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-12/12 Testing: IntegrationTest
-12/12 Test: IntegrationTest
+14/14 Testing: IntegrationTest
+14/14 Test: IntegrationTest
 Command: "/workspace/build/bin/test_integration"
 Directory: /workspace/build/tests
-"IntegrationTest" start time: Aug 22 06:13 UTC
+"IntegrationTest" start time: Aug 22 06:25 UTC
 Output:
 ----------------------------------------------------------
 运行集成测试...
@@ -429,8 +481,8 @@ Output:
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"IntegrationTest" end time: Aug 22 06:13 UTC
+"IntegrationTest" end time: Aug 22 06:25 UTC
 "IntegrationTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Aug 22 06:13 UTC
+End testing: Aug 22 06:25 UTC

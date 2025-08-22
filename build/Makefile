@@ -289,6 +289,19 @@ chtl_compiler/fast:
 .PHONY : chtl_compiler/fast
 
 #=============================================================================
+# Target rules for targets named cmod_export_generator
+
+# Build rule for target.
+cmod_export_generator: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cmod_export_generator
+.PHONY : cmod_export_generator
+
+# fast build rule for target.
+cmod_export_generator/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod_export_generator.dir/build.make src/CMakeFiles/cmod_export_generator.dir/build
+.PHONY : cmod_export_generator/fast
+
+#=============================================================================
 # Target rules for targets named test_chtl_core
 
 # Build rule for target.
@@ -406,6 +419,32 @@ test_cmod_simple/fast:
 .PHONY : test_cmod_simple/fast
 
 #=============================================================================
+# Target rules for targets named test_auto_export
+
+# Build rule for target.
+test_auto_export: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_auto_export
+.PHONY : test_auto_export
+
+# fast build rule for target.
+test_auto_export/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_auto_export.dir/build.make tests/CMakeFiles/test_auto_export.dir/build
+.PHONY : test_auto_export/fast
+
+#=============================================================================
+# Target rules for targets named test_testmodule_auto
+
+# Build rule for target.
+test_testmodule_auto: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_testmodule_auto
+.PHONY : test_testmodule_auto
+
+# fast build rule for target.
+test_testmodule_auto/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_testmodule_auto.dir/build.make tests/CMakeFiles/test_testmodule_auto.dir/build
+.PHONY : test_testmodule_auto/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -461,11 +500,13 @@ help:
 	@echo "... chtl_core"
 	@echo "... chtljs_core"
 	@echo "... cmod"
+	@echo "... cmod_export_generator"
 	@echo "... css_compiler"
 	@echo "... dispatcher"
 	@echo "... js_compiler"
 	@echo "... scanner"
 	@echo "... test_advanced_features"
+	@echo "... test_auto_export"
 	@echo "... test_chtl_ast"
 	@echo "... test_chtl_compiler"
 	@echo "... test_chtl_core"
@@ -477,6 +518,7 @@ help:
 	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
 	@echo "... test_scanner"
+	@echo "... test_testmodule_auto"
 	@echo "... utils"
 .PHONY : help
 

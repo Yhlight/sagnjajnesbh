@@ -298,6 +298,34 @@ test_cmod_simple/fast:
 .PHONY : test_cmod_simple/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_auto_export.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_auto_export.dir/rule
+.PHONY : tests/CMakeFiles/test_auto_export.dir/rule
+
+# Convenience name for target.
+test_auto_export: tests/CMakeFiles/test_auto_export.dir/rule
+.PHONY : test_auto_export
+
+# fast build rule for target.
+test_auto_export/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_auto_export.dir/build.make tests/CMakeFiles/test_auto_export.dir/build
+.PHONY : test_auto_export/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_testmodule_auto.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_testmodule_auto.dir/rule
+.PHONY : tests/CMakeFiles/test_testmodule_auto.dir/rule
+
+# Convenience name for target.
+test_testmodule_auto: tests/CMakeFiles/test_testmodule_auto.dir/rule
+.PHONY : test_testmodule_auto
+
+# fast build rule for target.
+test_testmodule_auto/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_testmodule_auto.dir/build.make tests/CMakeFiles/test_testmodule_auto.dir/build
+.PHONY : test_testmodule_auto/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -531,6 +559,30 @@ CHTLJS/test_chtljs_core.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_core.dir/build.make tests/CMakeFiles/test_chtljs_core.dir/CHTLJS/test_chtljs_core.cpp.s
 .PHONY : CHTLJS/test_chtljs_core.cpp.s
 
+CMOD/test_auto_export.o: CMOD/test_auto_export.cpp.o
+.PHONY : CMOD/test_auto_export.o
+
+# target to build an object file
+CMOD/test_auto_export.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_auto_export.dir/build.make tests/CMakeFiles/test_auto_export.dir/CMOD/test_auto_export.cpp.o
+.PHONY : CMOD/test_auto_export.cpp.o
+
+CMOD/test_auto_export.i: CMOD/test_auto_export.cpp.i
+.PHONY : CMOD/test_auto_export.i
+
+# target to preprocess a source file
+CMOD/test_auto_export.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_auto_export.dir/build.make tests/CMakeFiles/test_auto_export.dir/CMOD/test_auto_export.cpp.i
+.PHONY : CMOD/test_auto_export.cpp.i
+
+CMOD/test_auto_export.s: CMOD/test_auto_export.cpp.s
+.PHONY : CMOD/test_auto_export.s
+
+# target to generate assembly for a file
+CMOD/test_auto_export.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_auto_export.dir/build.make tests/CMakeFiles/test_auto_export.dir/CMOD/test_auto_export.cpp.s
+.PHONY : CMOD/test_auto_export.cpp.s
+
 CMOD/test_cmod.o: CMOD/test_cmod.cpp.o
 .PHONY : CMOD/test_cmod.o
 
@@ -578,6 +630,30 @@ CMOD/test_cmod_simple.s: CMOD/test_cmod_simple.cpp.s
 CMOD/test_cmod_simple.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cmod_simple.dir/build.make tests/CMakeFiles/test_cmod_simple.dir/CMOD/test_cmod_simple.cpp.s
 .PHONY : CMOD/test_cmod_simple.cpp.s
+
+CMOD/test_testmodule_auto.o: CMOD/test_testmodule_auto.cpp.o
+.PHONY : CMOD/test_testmodule_auto.o
+
+# target to build an object file
+CMOD/test_testmodule_auto.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_testmodule_auto.dir/build.make tests/CMakeFiles/test_testmodule_auto.dir/CMOD/test_testmodule_auto.cpp.o
+.PHONY : CMOD/test_testmodule_auto.cpp.o
+
+CMOD/test_testmodule_auto.i: CMOD/test_testmodule_auto.cpp.i
+.PHONY : CMOD/test_testmodule_auto.i
+
+# target to preprocess a source file
+CMOD/test_testmodule_auto.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_testmodule_auto.dir/build.make tests/CMakeFiles/test_testmodule_auto.dir/CMOD/test_testmodule_auto.cpp.i
+.PHONY : CMOD/test_testmodule_auto.cpp.i
+
+CMOD/test_testmodule_auto.s: CMOD/test_testmodule_auto.cpp.s
+.PHONY : CMOD/test_testmodule_auto.s
+
+# target to generate assembly for a file
+CMOD/test_testmodule_auto.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_testmodule_auto.dir/build.make tests/CMakeFiles/test_testmodule_auto.dir/CMOD/test_testmodule_auto.cpp.s
+.PHONY : CMOD/test_testmodule_auto.cpp.s
 
 Integration/test_integration.o: Integration/test_integration.cpp.o
 .PHONY : Integration/test_integration.o
@@ -641,6 +717,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... test_advanced_features"
+	@echo "... test_auto_export"
 	@echo "... test_chtl_ast"
 	@echo "... test_chtl_compiler"
 	@echo "... test_chtl_core"
@@ -652,6 +729,7 @@ help:
 	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
 	@echo "... test_scanner"
+	@echo "... test_testmodule_auto"
 	@echo "... CHTL/test_advanced_features.o"
 	@echo "... CHTL/test_advanced_features.i"
 	@echo "... CHTL/test_advanced_features.s"
@@ -676,12 +754,18 @@ help:
 	@echo "... CHTLJS/test_chtljs_core.o"
 	@echo "... CHTLJS/test_chtljs_core.i"
 	@echo "... CHTLJS/test_chtljs_core.s"
+	@echo "... CMOD/test_auto_export.o"
+	@echo "... CMOD/test_auto_export.i"
+	@echo "... CMOD/test_auto_export.s"
 	@echo "... CMOD/test_cmod.o"
 	@echo "... CMOD/test_cmod.i"
 	@echo "... CMOD/test_cmod.s"
 	@echo "... CMOD/test_cmod_simple.o"
 	@echo "... CMOD/test_cmod_simple.i"
 	@echo "... CMOD/test_cmod_simple.s"
+	@echo "... CMOD/test_testmodule_auto.o"
+	@echo "... CMOD/test_testmodule_auto.i"
+	@echo "... CMOD/test_testmodule_auto.s"
 	@echo "... Integration/test_integration.o"
 	@echo "... Integration/test_integration.i"
 	@echo "... Integration/test_integration.s"
