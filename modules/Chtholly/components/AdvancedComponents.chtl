@@ -1,0 +1,406 @@
+// 珂朵莉模块高级组件
+// 鼠标拖尾、视差滚动背景、右键菜单栏
+
+// 鼠标拖尾组件
+[Custom] @Element MouseTrail {
+    div {
+        class: "chtholly-mouse-trail";
+        
+        style { @Style MouseTrailStyle; }
+        
+        script {
+            class ChthollyMouseTrail {
+                constructor() {
+                    this.trails = [];
+                    this.maxTrails = 15;
+                    this.init();
+                }
+                
+                init() {
+                    document.addEventListener('mousemove', (e) => {
+                        this.createTrail(e.clientX, e.clientY);
+                    });
+                }
+                
+                createTrail(x, y) {
+                    const trail = document.createElement('div');
+                    trail.className = 'trail-particle';
+                    
+                    // 珂朵莉风格的拖尾图案
+                    const patterns = ['❀', '✿', '❁', '✾', '♡', '☆'];
+                    trail.innerText = patterns[Math.floor(Math.random() * patterns.length)];
+                    
+                    trail.style.left = x + 'px';
+                    trail.style.top = y + 'px';
+                    trail.style.fontSize = (Math.random() * 8 + 8) + 'px';
+                    
+                    // 随机颜色
+                    const colors = ['#FFB6C1', '#FF69B4', '#FFC0CB', '#FFE4E1'];
+                    trail.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    document.body.appendChild(trail);
+                    this.trails.push(trail);
+                    
+                    // 移除旧的拖尾
+                    if (this.trails.length > this.maxTrails) {
+                        const oldTrail = this.trails.shift();
+                        if (oldTrail && oldTrail.parentNode) {
+                            oldTrail.remove();
+                        }
+                    }
+                    
+                    // 设置自动移除
+                    setTimeout(() => {
+                        if (trail.parentNode) {
+                            trail.remove();
+                        }
+                        const index = this.trails.indexOf(trail);
+                        if (index > -1) {
+                            this.trails.splice(index, 1);
+                        }
+                    }, 800);
+                }
+            }
+            
+            // 初始化珂朵莉鼠标拖尾
+            new ChthollyMouseTrail();
+        }
+    }
+}
+
+[Custom] @Style MouseTrailStyle {
+    .trail-particle {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        animation: trailFade 0.8s ease-out forwards;
+        text-shadow: 0 0 6px currentColor;
+    }
+    
+    @keyframes trailFade {
+        0% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.3) rotate(180deg);
+        }
+    }
+}
+
+// 视差滚动背景组件
+[Custom] @Element ParallaxBg {
+    div {
+        class: "chtholly-parallax-bg";
+        
+        div {
+            class: "parallax-layer parallax-layer-1";
+            style: "background-image: url('${bgImage1}');";
+        }
+        
+        div {
+            class: "parallax-layer parallax-layer-2";
+            style: "background-image: url('${bgImage2}');";
+        }
+        
+        div {
+            class: "parallax-layer parallax-layer-3";
+            style: "background-image: url('${bgImage3}');";
+        }
+        
+        div {
+            class: "parallax-content";
+            text: "${content}";
+        }
+        
+        style { @Style ParallaxBgStyle; }
+        
+        script {
+            class ChthollyParallax {
+                constructor() {
+                    this.layers = document.querySelectorAll('.parallax-layer');
+                    this.init();
+                }
+                
+                init() {
+                    window.addEventListener('scroll', () => {
+                        this.updateParallax();
+                    });
+                    
+                    // 初始化层级速度
+                    this.layerSpeeds = [0.2, 0.5, 0.8];
+                }
+                
+                updateParallax() {
+                    const scrollTop = window.pageYOffset;
+                    
+                    this.layers.forEach((layer, index) => {
+                        const speed = this.layerSpeeds[index];
+                        const yPos = -(scrollTop * speed);
+                        layer.style.transform = `translateY(${yPos}px)`;
+                    });
+                    
+                    // 珂朵莉风格的滚动特效
+                    const content = document.querySelector('.parallax-content');
+                    if (content) {
+                        const opacity = Math.max(0, 1 - scrollTop / 500);
+                        content.style.opacity = opacity;
+                        content.style.transform = `translateY(${scrollTop * 0.3}px)`;
+                    }
+                }
+            }
+            
+            // 初始化珂朵莉视差滚动
+            new ChthollyParallax();
+        }
+    }
+}
+
+[Custom] @Style ParallaxBgStyle {
+    .chtholly-parallax-bg {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+    }
+    
+    .parallax-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 120%;
+        height: 120%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        will-change: transform;
+    }
+    
+    .parallax-layer-1 {
+        z-index: 1;
+        background: linear-gradient(135deg, @Var(SakuraColors.light), @Var(SakuraColors.petal));
+    }
+    
+    .parallax-layer-2 {
+        z-index: 2;
+        opacity: 0.7;
+        background: radial-gradient(circle at center, transparent 30%, @Var(ChthollyTheme.primaryColor) 70%);
+    }
+    
+    .parallax-layer-3 {
+        z-index: 3;
+        opacity: 0.5;
+        background: linear-gradient(45deg, transparent, @Var(SakuraColors.medium), transparent);
+    }
+    
+    .parallax-content {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: @Var(ChthollyTheme.textColor);
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+        padding: 20px;
+    }
+}
+
+// 右键菜单栏组件
+[Custom] @Element ContextMenu {
+    div {
+        class: "chtholly-context-menu";
+        style: "display: none;";
+        
+        div {
+            class: "context-menu-item";
+            text: "珂朵莉的选项 ❀";
+            onclick: "handleChthollyOption1()";
+        }
+        
+        div {
+            class: "context-menu-item";
+            text: "保存回忆";
+            onclick: "handleChthollyOption2()";
+        }
+        
+        div {
+            class: "context-menu-separator";
+        }
+        
+        div {
+            class: "context-menu-item";
+            text: "樱花特效";
+            onclick: "toggleSakuraEffect()";
+        }
+        
+        div {
+            class: "context-menu-item";
+            text: "温暖主题";
+            onclick: "toggleWarmTheme()";
+        }
+        
+        style { @Style ContextMenuStyle; }
+        
+        script {
+            class ChthollyContextMenu {
+                constructor() {
+                    this.menu = document.querySelector('.chtholly-context-menu');
+                    this.init();
+                }
+                
+                init() {
+                    // 禁用默认右键菜单
+                    document.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        this.showMenu(e.clientX, e.clientY);
+                    });
+                    
+                    // 点击其他地方隐藏菜单
+                    document.addEventListener('click', () => {
+                        this.hideMenu();
+                    });
+                    
+                    // 阻止菜单内的点击事件冒泡
+                    this.menu.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                    });
+                }
+                
+                showMenu(x, y) {
+                    this.menu.style.display = 'block';
+                    this.menu.style.left = x + 'px';
+                    this.menu.style.top = y + 'px';
+                    this.menu.style.animation = 'contextMenuShow 0.2s ease-out forwards';
+                    
+                    // 确保菜单不超出屏幕
+                    const rect = this.menu.getBoundingClientRect();
+                    if (rect.right > window.innerWidth) {
+                        this.menu.style.left = (x - rect.width) + 'px';
+                    }
+                    if (rect.bottom > window.innerHeight) {
+                        this.menu.style.top = (y - rect.height) + 'px';
+                    }
+                }
+                
+                hideMenu() {
+                    this.menu.style.animation = 'contextMenuHide 0.2s ease-in forwards';
+                    setTimeout(() => {
+                        this.menu.style.display = 'none';
+                    }, 200);
+                }
+            }
+            
+            // 菜单项处理函数
+            function handleChthollyOption1() {
+                alert('珂朵莉说：世界上最幸福的女孩就是我 ❀');
+            }
+            
+            function handleChthollyOption2() {
+                const memory = prompt('珂朵莉想要保存什么回忆？');
+                if (memory) {
+                    localStorage.setItem('chtholly_memory_' + Date.now(), memory);
+                    alert('回忆已保存在珂朵莉的心中 ❀');
+                }
+            }
+            
+            function toggleSakuraEffect() {
+                const sakuraRain = document.querySelector('.chtholly-sakura-rain');
+                if (sakuraRain) {
+                    sakuraRain.style.display = sakuraRain.style.display === 'none' ? 'block' : 'none';
+                }
+            }
+            
+            function toggleWarmTheme() {
+                document.body.classList.toggle('chtholly-warm-theme');
+            }
+            
+            // 初始化珂朵莉右键菜单
+            new ChthollyContextMenu();
+        }
+    }
+}
+
+[Custom] @Style ContextMenuStyle {
+    .chtholly-context-menu {
+        position: fixed;
+        background: linear-gradient(135deg, @Var(ChthollyTheme.backgroundColor), @Var(SakuraColors.light));
+        border: 2px solid @Var(ChthollyTheme.borderColor);
+        border-radius: 12px;
+        box-shadow: 0 8px 16px @Var(ChthollyTheme.shadowColor);
+        z-index: 10000;
+        min-width: 180px;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+    }
+    
+    .context-menu-item {
+        padding: 12px 16px;
+        color: @Var(ChthollyTheme.textColor);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        border-bottom: 1px solid rgba(255, 182, 193, 0.2);
+    }
+    
+    .context-menu-item:hover {
+        background: linear-gradient(90deg, @Var(ChthollyTheme.primaryColor), @Var(ChthollyTheme.secondaryColor));
+        color: white;
+        transform: translateX(4px);
+    }
+    
+    .context-menu-item:last-child {
+        border-bottom: none;
+    }
+    
+    .context-menu-separator {
+        height: 1px;
+        background: @Var(ChthollyTheme.borderColor);
+        margin: 4px 0;
+    }
+    
+    @keyframes contextMenuShow {
+        0% {
+            opacity: 0;
+            transform: scale(0.8) translateY(-10px);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+    
+    @keyframes contextMenuHide {
+        0% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0.8) translateY(-10px);
+        }
+    }
+}
+
+// 温暖主题全局样式
+[Custom] @Style ChthollyWarmTheme {
+    body.chtholly-warm-theme {
+        background: linear-gradient(135deg, @Var(WarmColors.cream), @Var(WarmColors.peach));
+        color: @Var(ChthollyTheme.textColor);
+        transition: all 0.5s ease;
+    }
+    
+    body.chtholly-warm-theme * {
+        transition: all 0.3s ease;
+    }
+    
+    body.chtholly-warm-theme .chtholly-accordion,
+    body.chtholly-warm-theme .chtholly-memo,
+    body.chtholly-warm-theme .chtholly-warm-note {
+        box-shadow: 0 12px 24px rgba(255, 182, 193, 0.4);
+        border-color: @Var(WarmColors.coral);
+    }
+}

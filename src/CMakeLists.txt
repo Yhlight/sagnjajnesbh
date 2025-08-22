@@ -99,6 +99,7 @@ target_include_directories(cmod PUBLIC
 add_library(cjmod STATIC
     CJMOD/CJMODApi.cpp
     CJMOD/Extensions/PrintMyloveExtension.cpp
+    CJMOD/Extensions/INeverAwayExtension.cpp
 )
 
 target_include_directories(cjmod PUBLIC

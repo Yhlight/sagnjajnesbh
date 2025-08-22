@@ -80,6 +80,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "tests/CMakeFiles/test_auto_export.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_testmodule_auto.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_cjmod_api.dir/DependInfo.cmake"
+  "tests/CMakeFiles/test_chtholly_yuigahama.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_chtljs_core.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_chtljs_core_complete.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_chtljs_parser_generator.dir/DependInfo.cmake"

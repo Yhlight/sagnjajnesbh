@@ -149,6 +149,19 @@ if(NOT GTest_FOUND)
     
     add_test(NAME CJMODApiTest COMMAND test_cjmod_api)
     
+    # 珂朵莉与由比滨结衣模块测试
+    add_executable(test_chtholly_yuigahama
+        Modules/test_chtholly_yuigahama.cpp
+    )
+    
+    target_link_libraries(test_chtholly_yuigahama
+        cjmod
+        cmod
+        utils
+    )
+    
+    add_test(NAME ChthollyYuigahamaTest COMMAND test_chtholly_yuigahama)
+    
     # CHTL JS核心测试
     add_executable(test_chtljs_core
         CHTLJS/test_chtljs_core.cpp

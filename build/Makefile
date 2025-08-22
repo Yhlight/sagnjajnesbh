@@ -471,6 +471,19 @@ test_cjmod_api/fast:
 .PHONY : test_cjmod_api/fast
 
 #=============================================================================
+# Target rules for targets named test_chtholly_yuigahama
+
+# Build rule for target.
+test_chtholly_yuigahama: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtholly_yuigahama
+.PHONY : test_chtholly_yuigahama
+
+# fast build rule for target.
+test_chtholly_yuigahama/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtholly_yuigahama.dir/build.make tests/CMakeFiles/test_chtholly_yuigahama.dir/build
+.PHONY : test_chtholly_yuigahama/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -573,6 +586,7 @@ help:
 	@echo "... scanner"
 	@echo "... test_advanced_features"
 	@echo "... test_auto_export"
+	@echo "... test_chtholly_yuigahama"
 	@echo "... test_chtl_ast"
 	@echo "... test_chtl_compiler"
 	@echo "... test_chtl_core"

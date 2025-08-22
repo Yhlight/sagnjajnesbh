@@ -340,6 +340,20 @@ test_cjmod_api/fast:
 .PHONY : test_cjmod_api/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_chtholly_yuigahama.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtholly_yuigahama.dir/rule
+.PHONY : tests/CMakeFiles/test_chtholly_yuigahama.dir/rule
+
+# Convenience name for target.
+test_chtholly_yuigahama: tests/CMakeFiles/test_chtholly_yuigahama.dir/rule
+.PHONY : test_chtholly_yuigahama
+
+# fast build rule for target.
+test_chtholly_yuigahama/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtholly_yuigahama.dir/build.make tests/CMakeFiles/test_chtholly_yuigahama.dir/build
+.PHONY : test_chtholly_yuigahama/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -831,6 +845,30 @@ Integration/test_integration.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_integration.dir/build.make tests/CMakeFiles/test_integration.dir/Integration/test_integration.cpp.s
 .PHONY : Integration/test_integration.cpp.s
 
+Modules/test_chtholly_yuigahama.o: Modules/test_chtholly_yuigahama.cpp.o
+.PHONY : Modules/test_chtholly_yuigahama.o
+
+# target to build an object file
+Modules/test_chtholly_yuigahama.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtholly_yuigahama.dir/build.make tests/CMakeFiles/test_chtholly_yuigahama.dir/Modules/test_chtholly_yuigahama.cpp.o
+.PHONY : Modules/test_chtholly_yuigahama.cpp.o
+
+Modules/test_chtholly_yuigahama.i: Modules/test_chtholly_yuigahama.cpp.i
+.PHONY : Modules/test_chtholly_yuigahama.i
+
+# target to preprocess a source file
+Modules/test_chtholly_yuigahama.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtholly_yuigahama.dir/build.make tests/CMakeFiles/test_chtholly_yuigahama.dir/Modules/test_chtholly_yuigahama.cpp.i
+.PHONY : Modules/test_chtholly_yuigahama.cpp.i
+
+Modules/test_chtholly_yuigahama.s: Modules/test_chtholly_yuigahama.cpp.s
+.PHONY : Modules/test_chtholly_yuigahama.s
+
+# target to generate assembly for a file
+Modules/test_chtholly_yuigahama.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtholly_yuigahama.dir/build.make tests/CMakeFiles/test_chtholly_yuigahama.dir/Modules/test_chtholly_yuigahama.cpp.s
+.PHONY : Modules/test_chtholly_yuigahama.cpp.s
+
 Scanner/test_scanner.o: Scanner/test_scanner.cpp.o
 .PHONY : Scanner/test_scanner.o
 
@@ -870,6 +908,7 @@ help:
 	@echo "... test"
 	@echo "... test_advanced_features"
 	@echo "... test_auto_export"
+	@echo "... test_chtholly_yuigahama"
 	@echo "... test_chtl_ast"
 	@echo "... test_chtl_compiler"
 	@echo "... test_chtl_core"
@@ -937,6 +976,9 @@ help:
 	@echo "... Integration/test_integration.o"
 	@echo "... Integration/test_integration.i"
 	@echo "... Integration/test_integration.s"
+	@echo "... Modules/test_chtholly_yuigahama.o"
+	@echo "... Modules/test_chtholly_yuigahama.i"
+	@echo "... Modules/test_chtholly_yuigahama.s"
 	@echo "... Scanner/test_scanner.o"
 	@echo "... Scanner/test_scanner.i"
 	@echo "... Scanner/test_scanner.s"

@@ -1,0 +1,286 @@
+// 珂朵莉与由比滨结衣的世界 - 完整演示
+// 展示CMOD + CJMOD混合模块的强大功能
+
+// 导入珂朵莉模块（CMOD + CJMOD混合模块）
+[Import] @Chtl {
+    from: "modules/Chtholly";
+    import: [Accordion, CloverAlbum, Memo, WarmNote, SakuraRain, MouseEffect, MouseTrail, ParallaxBg, ContextMenu, ProgressBar];
+}
+
+// 导入由比滨结衣模块（纯CMOD模块）
+[Import] @Chtl {
+    from: "modules/Yuigahama";
+    import: [MusicPlayer, YuiAccordion, YuiCloverAlbum, YuiMemo, YuiWarmNote, YuiSakuraRain, YuiMouseEffect];
+}
+
+// 主页面结构
+html {
+    head {
+        meta { charset: "UTF-8"; }
+        meta { name: "viewport"; content: "width=device-width, initial-scale=1.0"; }
+        title { text: "珂朵莉与由比滨结衣的美好世界"; }
+        
+        style {
+            body {
+                margin: 0;
+                padding: 20px;
+                font-family: 'Microsoft YaHei', sans-serif;
+                background: linear-gradient(135deg, #FFF8DC, #FFE4E1);
+                min-height: 100vh;
+            }
+            
+            .main-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                padding: 20px;
+            }
+            
+            .section-header {
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                margin: 30px 0;
+                color: #FF69B4;
+                text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            }
+            
+            .chtholly-section {
+                background: linear-gradient(135deg, #FFB6C1, #FFC0CB);
+                border-radius: 20px;
+                padding: 25px;
+                box-shadow: 0 12px 24px rgba(255, 182, 193, 0.3);
+            }
+            
+            .yuigahama-section {
+                background: linear-gradient(135deg, #FFE4E1, #FFF0F5);
+                border-radius: 20px;
+                padding: 25px;
+                box-shadow: 0 12px 24px rgba(255, 228, 225, 0.3);
+            }
+        }
+    }
+    
+    body {
+        // 珂朵莉的樱花雨背景特效
+        @Element SakuraRain;
+        
+        // 珂朵莉的鼠标特效
+        @Element MouseEffect;
+        
+        // 珂朵莉的鼠标拖尾
+        @Element MouseTrail;
+        
+        // 珂朵莉的右键菜单
+        @Element ContextMenu;
+        
+        div {
+            class: "section-header";
+            text: "🌸 珂朵莉与由比滨结衣的美好世界 ♡";
+        }
+        
+        div {
+            class: "main-container";
+            
+            // 珂朵莉区域
+            div {
+                class: "chtholly-section";
+                
+                h2 { text: "❀ 珂朵莉的世界 - 世界上最幸福的女孩"; }
+                
+                // 珂朵莉的手风琴
+                @Element Accordion {
+                    title: "珂朵莉的回忆录";
+                    content: "在68号浮游岛上，有一个世界上最幸福的女孩。她有着金色的头发，翠绿的眼瞳，还有最温暖的笑容。她就是珂朵莉·诺塔·塞尼欧里斯，一个为了保护重要的人而战斗的妖精兵。";
+                }
+                
+                // 珂朵莉的备忘录
+                @Element Memo;
+                
+                // 珂朵莉的暖色笔记
+                @Element WarmNote;
+                
+                // 珂朵莉的四叶窗相册
+                @Element CloverAlbum {
+                    image1: "images/chtholly_smile.jpg";
+                    image2: "images/chtholly_battle.jpg";
+                    image3: "images/chtholly_william.jpg";
+                    image4: "images/chtholly_happy.jpg";
+                }
+                
+                // 珂朵莉的进度条（幸福度）
+                @Element ProgressBar {
+                    label: "珂朵莉的幸福度";
+                    progress: "100";
+                }
+            }
+            
+            // 由比滨结衣区域
+            div {
+                class: "yuigahama-section";
+                
+                h2 { text: "♡ 由比滨结衣的世界 - 温柔可爱的女孩"; }
+                
+                // 由比滨的音乐播放器
+                @Element MusicPlayer {
+                    songTitle: "青春的旋律";
+                    songArtist: "由比滨结衣";
+                    albumArt: "images/yui_album.jpg";
+                }
+                
+                // 由比滨的手风琴
+                @Element YuiAccordion {
+                    title: "由比滨的日常";
+                    content: "由比滨结衣是一个温柔善良的女孩，她总是为朋友着想，用自己的方式关心着身边的每一个人。她的笑容如春风般温暖，给人带来无尽的治愈。";
+                }
+                
+                // 由比滨的备忘录
+                @Element YuiMemo;
+                
+                // 由比滨的樱花雨（温柔版本）
+                @Element YuiSakuraRain;
+            }
+        }
+        
+        // CHTL JS脚本区域 - 使用CJMOD扩展功能
+        script {
+            // 珂朵莉的图片转字符艺术功能
+            console.log("=== 珂朵莉的艺术创作 ===");
+            
+            const chthollyAsciiArt = printMylove({
+                url: "images/chtholly_portrait.jpg",
+                mode: "ASCII",
+                width: 80,
+                height: 60,
+                scale: 1.0
+            });
+            
+            const chthollyPixelArt = printMylove({
+                url: "images/chtholly_cute.jpg",
+                mode: "Pixel",
+                width: 60,
+                height: 40,
+                scale: 1.2
+            });
+            
+            // 珂朵莉的虚对象记忆系统（iNeverAway功能）
+            console.log("=== 珂朵莉的记忆系统 ===");
+            
+            vir ChthollyHeart = iNeverAway({
+                Void<Love>: function(target, intensity) {
+                    console.log(`珂朵莉对${target}的爱意强度: ${intensity}`);
+                    return `珂朵莉深深地爱着${target}`;
+                },
+                
+                Void<Memory>: function(event, emotion) {
+                    console.log(`珂朵莉记住了事件: ${event}, 情感: ${emotion}`);
+                    return `珂朵莉将${event}永远记在心中`;
+                },
+                
+                Void<Battle>: function(enemy, weapon) {
+                    console.log(`珂朵莉使用${weapon}对抗${enemy}`);
+                    return `珂朵莉为了保护重要的人而战斗`;
+                },
+                
+                Void: {
+                    defaultState: "平静而幸福的珂朵莉",
+                    location: "68号浮游岛",
+                    motto: "世界上最幸福的女孩"
+                },
+                
+                Smile: function() {
+                    return "珂朵莉露出了世界上最美的笑容 ❀";
+                },
+                
+                Protect: function(target) {
+                    return `珂朵莉守护着${target}`;
+                }
+            });
+            
+            // 使用珂朵莉的记忆系统
+            ChthollyHeart->Void<Love>("威廉", "无限");
+            ChthollyHeart->Void<Memory>("初次相遇", "温暖");
+            ChthollyHeart->Void<Battle>("兽", "森精种圣剑");
+            ChthollyHeart->Smile();
+            ChthollyHeart->Protect("所有重要的人");
+            
+            // 由比滨结衣的温柔系统
+            console.log("=== 由比滨结衣的温柔时光 ===");
+            
+            vir YuigahamaHeart = iNeverAway({
+                Void<Kindness>: function(action, target) {
+                    console.log(`由比滨对${target}做了善意的行为: ${action}`);
+                    return `由比滨的温柔感化了${target}`;
+                },
+                
+                Void<Friendship>: function(friend, activity) {
+                    console.log(`由比滨和${friend}一起${activity}`);
+                    return `由比滨和朋友们度过了美好的时光`;
+                },
+                
+                Void: {
+                    defaultState: "温柔善良的由比滨",
+                    hobby: "烘焙饼干",
+                    dream: "让大家都开心"
+                },
+                
+                Care: function(person) {
+                    return `由比滨温柔地关心着${person}`;
+                },
+                
+                Encourage: function(person) {
+                    return `由比滨鼓励${person}：一起加油吧！`;
+                }
+            });
+            
+            // 使用由比滨的温柔系统
+            YuigahamaHeart->Void<Kindness>("制作饼干", "朋友们");
+            YuigahamaHeart->Void<Friendship>("雪乃", "学习");
+            YuigahamaHeart->Care("八幡");
+            YuigahamaHeart->Encourage("所有人");
+            
+            // 珂朵莉与由比滨的互动
+            console.log("=== 珂朵莉与由比滨的美好相遇 ===");
+            
+            vir FriendshipBridge = iNeverAway({
+                Void<Meeting>: function(place, time) {
+                    console.log(`珂朵莉和由比滨在${place}的${time}相遇了`);
+                    return "两个美好的女孩成为了朋友";
+                },
+                
+                Void<Sharing>: function(topic) {
+                    console.log(`她们分享着关于${topic}的话题`);
+                    return "友谊在交流中加深";
+                },
+                
+                Void: {
+                    bond: "跨越世界的友谊",
+                    promise: "永远的朋友"
+                }
+            });
+            
+            // 珂朵莉与由比滨的友谊
+            FriendshipBridge->Void<Meeting>("樱花树下", "春日午后");
+            FriendshipBridge->Void<Sharing>("幸福的意义");
+            
+            // 初始化页面交互
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log("珂朵莉与由比滨结衣的世界已准备就绪 🌸♡");
+                
+                // 显示欢迎消息
+                setTimeout(() => {
+                    alert("欢迎来到珂朵莉与由比滨结衣的美好世界！\n\n珂朵莉: 世界上最幸福的女孩就是我 ❀\n由比滨: 大家一起加油吧 ♡");
+                }, 1000);
+                
+                // 启动背景音乐（如果有音乐播放器）
+                if (window.yuiPlayer) {
+                    setTimeout(() => {
+                        window.yuiPlayer.play();
+                    }, 2000);
+                }
+            });
+        }
+    }
+}

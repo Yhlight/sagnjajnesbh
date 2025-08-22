@@ -781,6 +781,30 @@ CJMOD/CJMODApi.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.s
 .PHONY : CJMOD/CJMODApi.cpp.s
 
+CJMOD/Extensions/INeverAwayExtension.o: CJMOD/Extensions/INeverAwayExtension.cpp.o
+.PHONY : CJMOD/Extensions/INeverAwayExtension.o
+
+# target to build an object file
+CJMOD/Extensions/INeverAwayExtension.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.o
+.PHONY : CJMOD/Extensions/INeverAwayExtension.cpp.o
+
+CJMOD/Extensions/INeverAwayExtension.i: CJMOD/Extensions/INeverAwayExtension.cpp.i
+.PHONY : CJMOD/Extensions/INeverAwayExtension.i
+
+# target to preprocess a source file
+CJMOD/Extensions/INeverAwayExtension.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.i
+.PHONY : CJMOD/Extensions/INeverAwayExtension.cpp.i
+
+CJMOD/Extensions/INeverAwayExtension.s: CJMOD/Extensions/INeverAwayExtension.cpp.s
+.PHONY : CJMOD/Extensions/INeverAwayExtension.s
+
+# target to generate assembly for a file
+CJMOD/Extensions/INeverAwayExtension.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.s
+.PHONY : CJMOD/Extensions/INeverAwayExtension.cpp.s
+
 CJMOD/Extensions/PrintMyloveExtension.o: CJMOD/Extensions/PrintMyloveExtension.cpp.o
 .PHONY : CJMOD/Extensions/PrintMyloveExtension.o
 
@@ -1366,6 +1390,9 @@ help:
 	@echo "... CJMOD/CJMODApi.o"
 	@echo "... CJMOD/CJMODApi.i"
 	@echo "... CJMOD/CJMODApi.s"
+	@echo "... CJMOD/Extensions/INeverAwayExtension.o"
+	@echo "... CJMOD/Extensions/INeverAwayExtension.i"
+	@echo "... CJMOD/Extensions/INeverAwayExtension.s"
 	@echo "... CJMOD/Extensions/PrintMyloveExtension.o"
 	@echo "... CJMOD/Extensions/PrintMyloveExtension.i"
 	@echo "... CJMOD/Extensions/PrintMyloveExtension.s"

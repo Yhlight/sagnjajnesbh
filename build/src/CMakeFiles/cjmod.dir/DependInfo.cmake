@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspace/src/CJMOD/CJMODApi.cpp" "src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o" "gcc" "src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o.d"
+  "/workspace/src/CJMOD/Extensions/INeverAwayExtension.cpp" "src/CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.o" "gcc" "src/CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.o.d"
   "/workspace/src/CJMOD/Extensions/PrintMyloveExtension.cpp" "src/CMakeFiles/cjmod.dir/CJMOD/Extensions/PrintMyloveExtension.cpp.o" "gcc" "src/CMakeFiles/cjmod.dir/CJMOD/Extensions/PrintMyloveExtension.cpp.o.d"
   )
 
