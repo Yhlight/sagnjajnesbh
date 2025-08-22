@@ -107,9 +107,6 @@ target_include_directories(cmod PUBLIC
 # CJMOD扩展系统库
 add_library(cjmod STATIC
     CJMOD/CJMODApi.cpp
-    CJMOD/Extensions/PrintMyloveExtension.cpp
-    CJMOD/Extensions/INeverAwayExtension.cpp
-    CJMOD/CompleteCJMODSystem.cpp
 )
 
 target_include_directories(cjmod PUBLIC

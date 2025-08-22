@@ -1,2 +1,2 @@
-/usr/bin/ar qc ../lib/libcjmod.a CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o CMakeFiles/cjmod.dir/CJMOD/Extensions/PrintMyloveExtension.cpp.o CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.o CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o
+/usr/bin/ar qc ../lib/libcjmod.a CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o
 /usr/bin/ranlib ../lib/libcjmod.a

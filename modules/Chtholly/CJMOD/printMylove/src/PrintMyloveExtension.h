@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <any>
+#include "CJMOD/CJMODApi.h"
 
 namespace Chtholly {
 namespace CJMOD {
@@ -10,32 +8,25 @@ namespace CJMOD {
 /**
  * @brief printMylove扩展
  * 严格按照语法文档第1472-1483行实现
- * 通过CJMOD模块分发，不修改CHTL源码
+ * 使用您设计的原始CJMOD API
  */
-class PrintMyloveExtension {
+class PrintMyloveExtension : public CHTL::CJMOD::CJMODExtension {
 public:
-    struct PrintMyloveParams {
-        std::string url;                // 图片URL
-        std::string mode;               // 模式：ASCII或Pixel
-        std::string width;              // 宽度
-        std::string height;             // 高度
-        std::string scale;              // 缩放倍数
-        
-        bool IsValid() const;
-    };
+    // 使用您的CJMOD API接口
+    bool Initialize(CHTL::CJMOD::CJMODScanner& scanner) override;
+    std::string GetName() const override;
+    std::string GetVersion() const override;
+    std::vector<std::string> GetSupportedSyntax() const override;
+
+private:
+    // 使用您的API处理printMylove调用
+    void ProcessPrintMyloveCall(const std::string& paramBlock);
     
-    // CJMOD扩展接口
-    std::string GetExtensionName() const { return "printMylove"; }
-    std::string GetExtensionVersion() const { return "1.0.0"; }
-    std::vector<std::string> GetSupportedSyntaxPatterns() const;
-    bool MatchesSyntax(const std::string& syntaxPattern, const std::any& context) const;
-    std::string ParseSyntax(const std::string& input, const std::any& context) const;
-    std::string GenerateJavaScript(const PrintMyloveParams& params) const;
-    bool Initialize();
-    void Cleanup();
+    // 提取并匹配参数
+    void ExtractAndMatchParams(const std::string& paramBlock, CHTL::CJMOD::Syntax& syntax);
     
-    static PrintMyloveParams ParseParameters(const std::string& paramString);
-    static std::string GeneratePrintMyloveJS(const PrintMyloveParams& params);
+    // 生成JavaScript代码
+    std::string GeneratePrintMyloveJS(const CHTL::CJMOD::Syntax& syntax);
 };
 
 } // namespace CJMOD

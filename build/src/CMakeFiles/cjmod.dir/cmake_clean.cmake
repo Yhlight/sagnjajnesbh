@@ -3,12 +3,6 @@ file(REMOVE_RECURSE
   "../lib/libcjmod.pdb"
   "CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o"
   "CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o.d"
-  "CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o"
-  "CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o.d"
-  "CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.o"
-  "CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.o.d"
-  "CMakeFiles/cjmod.dir/CJMOD/Extensions/PrintMyloveExtension.cpp.o"
-  "CMakeFiles/cjmod.dir/CJMOD/Extensions/PrintMyloveExtension.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.
