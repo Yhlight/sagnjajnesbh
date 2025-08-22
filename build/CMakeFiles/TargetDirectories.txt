@@ -21,6 +21,7 @@
 /workspace/build/src/CMakeFiles/install/local.dir
 /workspace/build/src/CMakeFiles/install/strip.dir
 /workspace/build/tests/CMakeFiles/test_chtl_core.dir
+/workspace/build/tests/CMakeFiles/test_chtl_ast.dir
 /workspace/build/tests/CMakeFiles/test_chtljs_core.dir
 /workspace/build/tests/CMakeFiles/test_scanner.dir
 /workspace/build/tests/CMakeFiles/test_integration.dir

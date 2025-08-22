@@ -1,0 +1,65 @@
+// CHTL AST测试文件
+// 展示各种AST节点类型
+
+[Template] @Style ButtonStyle
+{
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+}
+
+[Custom] @Element Card
+{
+    div
+    {
+        style
+        {
+            .card
+            {
+                border: 1px solid #ddd;
+                padding: 16px;
+            }
+        }
+        
+        text
+        {
+            卡片内容
+        }
+    }
+}
+
+html
+{
+    head
+    {
+        title
+        {
+            text { AST测试页面 }
+        }
+    }
+    
+    body
+    {
+        @Element Card;
+        
+        button
+        {
+            id: testBtn;
+            class: primary;
+            
+            style
+            {
+                @Style ButtonStyle;
+            }
+            
+            text { 测试按钮 }
+        }
+    }
+}
+
+[Origin] @Style
+{
+    * {
+        box-sizing: border-box;
+    }
+}

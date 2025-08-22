@@ -289,6 +289,19 @@ test_chtl_core/fast:
 .PHONY : test_chtl_core/fast
 
 #=============================================================================
+# Target rules for targets named test_chtl_ast
+
+# Build rule for target.
+test_chtl_ast: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtl_ast
+.PHONY : test_chtl_ast
+
+# fast build rule for target.
+test_chtl_ast/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_ast.dir/build.make tests/CMakeFiles/test_chtl_ast.dir/build
+.PHONY : test_chtl_ast/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -347,6 +360,7 @@ help:
 	@echo "... dispatcher"
 	@echo "... js_compiler"
 	@echo "... scanner"
+	@echo "... test_chtl_ast"
 	@echo "... test_chtl_core"
 	@echo "... test_chtljs_core"
 	@echo "... test_integration"

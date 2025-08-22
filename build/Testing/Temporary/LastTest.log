@@ -1,10 +1,10 @@
-Start testing: Aug 22 04:55 UTC
+Start testing: Aug 22 05:11 UTC
 ----------------------------------------------------------
-1/4 Testing: CHTLCoreTest
-1/4 Test: CHTLCoreTest
+1/5 Testing: CHTLCoreTest
+1/5 Test: CHTLCoreTest
 Command: "/workspace/build/bin/test_chtl_core"
 Directory: /workspace/build/tests
-"CHTLCoreTest" start time: Aug 22 04:55 UTC
+"CHTLCoreTest" start time: Aug 22 05:11 UTC
 Output:
 ----------------------------------------------------------
 运行CHTL核心功能测试...
@@ -31,15 +31,74 @@ Output:
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLCoreTest" end time: Aug 22 04:55 UTC
+"CHTLCoreTest" end time: Aug 22 05:11 UTC
 "CHTLCoreTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-2/4 Testing: CHTLJSCoreTest
-2/4 Test: CHTLJSCoreTest
+2/5 Testing: CHTLASTTest
+2/5 Test: CHTLASTTest
+Command: "/workspace/build/bin/test_chtl_ast"
+Directory: /workspace/build/tests
+"CHTLASTTest" start time: Aug 22 05:11 UTC
+Output:
+----------------------------------------------------------
+运行CHTL AST功能测试...
+
+测试AST节点创建...
+  AST节点创建测试通过
+测试文本节点...
+  文本节点测试通过
+测试模板节点...
+  模板节点测试通过
+测试自定义节点...
+  自定义节点测试通过
+测试样式块节点...
+  样式块节点测试通过
+测试原始嵌入节点...
+  原始嵌入节点测试通过
+测试导入节点...
+  导入节点测试通过
+测试命名空间节点...
+  命名空间节点测试通过
+测试删除和插入节点...
+  删除和插入节点测试通过
+测试索引访问节点...
+  索引访问节点测试通过
+测试变量相关节点...
+  变量相关节点测试通过
+测试CSS相关节点...
+  CSS相关节点测试通过
+测试注释节点...
+  注释节点测试通过
+测试字面量节点...
+  字面量节点测试通过
+测试AST访问者模式...
+  AST访问者模式测试通过
+测试AST节点克隆...
+  AST节点克隆测试通过
+
+所有CHTL AST功能测试通过!
+✅ AST节点创建和管理正常
+✅ 模板和自定义系统正常
+✅ 原始嵌入系统正常
+✅ 导入和命名空间系统正常
+✅ 特殊操作（删除、插入、索引访问）正常
+✅ CSS和样式系统正常
+✅ 访问者模式正常
+✅ 节点克隆功能正常
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"CHTLASTTest" end time: Aug 22 05:11 UTC
+"CHTLASTTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/5 Testing: CHTLJSCoreTest
+3/5 Test: CHTLJSCoreTest
 Command: "/workspace/build/bin/test_chtljs_core"
 Directory: /workspace/build/tests
-"CHTLJSCoreTest" start time: Aug 22 04:55 UTC
+"CHTLJSCoreTest" start time: Aug 22 05:11 UTC
 Output:
 ----------------------------------------------------------
 运行CHTL JS核心测试...
@@ -49,15 +108,15 @@ CHTL JS核心基础测试通过
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"CHTLJSCoreTest" end time: Aug 22 04:55 UTC
+"CHTLJSCoreTest" end time: Aug 22 05:11 UTC
 "CHTLJSCoreTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-3/4 Testing: ScannerTest
-3/4 Test: ScannerTest
+4/5 Testing: ScannerTest
+4/5 Test: ScannerTest
 Command: "/workspace/build/bin/test_scanner"
 Directory: /workspace/build/tests
-"ScannerTest" start time: Aug 22 04:55 UTC
+"ScannerTest" start time: Aug 22 05:11 UTC
 Output:
 ----------------------------------------------------------
 运行扫描器测试...
@@ -69,15 +128,15 @@ CSS检测测试通过
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ScannerTest" end time: Aug 22 04:55 UTC
+"ScannerTest" end time: Aug 22 05:11 UTC
 "ScannerTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-4/4 Testing: IntegrationTest
-4/4 Test: IntegrationTest
+5/5 Testing: IntegrationTest
+5/5 Test: IntegrationTest
 Command: "/workspace/build/bin/test_integration"
 Directory: /workspace/build/tests
-"IntegrationTest" start time: Aug 22 04:55 UTC
+"IntegrationTest" start time: Aug 22 05:11 UTC
 Output:
 ----------------------------------------------------------
 运行集成测试...
@@ -87,8 +146,8 @@ Output:
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"IntegrationTest" end time: Aug 22 04:55 UTC
+"IntegrationTest" end time: Aug 22 05:11 UTC
 "IntegrationTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Aug 22 04:55 UTC
+End testing: Aug 22 05:11 UTC

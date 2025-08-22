@@ -7,6 +7,8 @@ add_library(chtl_core STATIC
     CHTL/Lexer/CHTLLexer.cpp
     CHTL/Parser/CHTLParser.cpp
     CHTL/AST/CHTLASTNodes.cpp
+    CHTL/AST/CHTLASTVisitor.cpp
+    CHTL/AST/CHTLASTBuilder.cpp
     CHTL/Generator/CHTLGenerator.cpp
 )
 

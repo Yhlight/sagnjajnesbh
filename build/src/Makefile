@@ -283,6 +283,30 @@ chtl_compiler/fast:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_compiler.dir/build.make src/CMakeFiles/chtl_compiler.dir/build
 .PHONY : chtl_compiler/fast
 
+CHTL/AST/CHTLASTBuilder.o: CHTL/AST/CHTLASTBuilder.cpp.o
+.PHONY : CHTL/AST/CHTLASTBuilder.o
+
+# target to build an object file
+CHTL/AST/CHTLASTBuilder.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTBuilder.cpp.o
+.PHONY : CHTL/AST/CHTLASTBuilder.cpp.o
+
+CHTL/AST/CHTLASTBuilder.i: CHTL/AST/CHTLASTBuilder.cpp.i
+.PHONY : CHTL/AST/CHTLASTBuilder.i
+
+# target to preprocess a source file
+CHTL/AST/CHTLASTBuilder.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTBuilder.cpp.i
+.PHONY : CHTL/AST/CHTLASTBuilder.cpp.i
+
+CHTL/AST/CHTLASTBuilder.s: CHTL/AST/CHTLASTBuilder.cpp.s
+.PHONY : CHTL/AST/CHTLASTBuilder.s
+
+# target to generate assembly for a file
+CHTL/AST/CHTLASTBuilder.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTBuilder.cpp.s
+.PHONY : CHTL/AST/CHTLASTBuilder.cpp.s
+
 CHTL/AST/CHTLASTNodes.o: CHTL/AST/CHTLASTNodes.cpp.o
 .PHONY : CHTL/AST/CHTLASTNodes.o
 
@@ -306,6 +330,30 @@ CHTL/AST/CHTLASTNodes.s: CHTL/AST/CHTLASTNodes.cpp.s
 CHTL/AST/CHTLASTNodes.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTNodes.cpp.s
 .PHONY : CHTL/AST/CHTLASTNodes.cpp.s
+
+CHTL/AST/CHTLASTVisitor.o: CHTL/AST/CHTLASTVisitor.cpp.o
+.PHONY : CHTL/AST/CHTLASTVisitor.o
+
+# target to build an object file
+CHTL/AST/CHTLASTVisitor.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTVisitor.cpp.o
+.PHONY : CHTL/AST/CHTLASTVisitor.cpp.o
+
+CHTL/AST/CHTLASTVisitor.i: CHTL/AST/CHTLASTVisitor.cpp.i
+.PHONY : CHTL/AST/CHTLASTVisitor.i
+
+# target to preprocess a source file
+CHTL/AST/CHTLASTVisitor.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTVisitor.cpp.i
+.PHONY : CHTL/AST/CHTLASTVisitor.cpp.i
+
+CHTL/AST/CHTLASTVisitor.s: CHTL/AST/CHTLASTVisitor.cpp.s
+.PHONY : CHTL/AST/CHTLASTVisitor.s
+
+# target to generate assembly for a file
+CHTL/AST/CHTLASTVisitor.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTVisitor.cpp.s
+.PHONY : CHTL/AST/CHTLASTVisitor.cpp.s
 
 CHTL/Core/CHTLContext.o: CHTL/Core/CHTLContext.cpp.o
 .PHONY : CHTL/Core/CHTLContext.o
@@ -1120,9 +1168,15 @@ help:
 	@echo "... js_compiler"
 	@echo "... scanner"
 	@echo "... utils"
+	@echo "... CHTL/AST/CHTLASTBuilder.o"
+	@echo "... CHTL/AST/CHTLASTBuilder.i"
+	@echo "... CHTL/AST/CHTLASTBuilder.s"
 	@echo "... CHTL/AST/CHTLASTNodes.o"
 	@echo "... CHTL/AST/CHTLASTNodes.i"
 	@echo "... CHTL/AST/CHTLASTNodes.s"
+	@echo "... CHTL/AST/CHTLASTVisitor.o"
+	@echo "... CHTL/AST/CHTLASTVisitor.i"
+	@echo "... CHTL/AST/CHTLASTVisitor.s"
 	@echo "... CHTL/Core/CHTLContext.o"
 	@echo "... CHTL/Core/CHTLContext.i"
 	@echo "... CHTL/Core/CHTLContext.s"

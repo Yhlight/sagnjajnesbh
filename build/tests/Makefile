@@ -186,6 +186,20 @@ test_chtl_core/fast:
 .PHONY : test_chtl_core/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_chtl_ast.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtl_ast.dir/rule
+.PHONY : tests/CMakeFiles/test_chtl_ast.dir/rule
+
+# Convenience name for target.
+test_chtl_ast: tests/CMakeFiles/test_chtl_ast.dir/rule
+.PHONY : test_chtl_ast
+
+# fast build rule for target.
+test_chtl_ast/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_ast.dir/build.make tests/CMakeFiles/test_chtl_ast.dir/build
+.PHONY : test_chtl_ast/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -226,6 +240,30 @@ test_integration: tests/CMakeFiles/test_integration.dir/rule
 test_integration/fast:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_integration.dir/build.make tests/CMakeFiles/test_integration.dir/build
 .PHONY : test_integration/fast
+
+CHTL/test_chtl_ast.o: CHTL/test_chtl_ast.cpp.o
+.PHONY : CHTL/test_chtl_ast.o
+
+# target to build an object file
+CHTL/test_chtl_ast.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_ast.dir/build.make tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.o
+.PHONY : CHTL/test_chtl_ast.cpp.o
+
+CHTL/test_chtl_ast.i: CHTL/test_chtl_ast.cpp.i
+.PHONY : CHTL/test_chtl_ast.i
+
+# target to preprocess a source file
+CHTL/test_chtl_ast.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_ast.dir/build.make tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.i
+.PHONY : CHTL/test_chtl_ast.cpp.i
+
+CHTL/test_chtl_ast.s: CHTL/test_chtl_ast.cpp.s
+.PHONY : CHTL/test_chtl_ast.s
+
+# target to generate assembly for a file
+CHTL/test_chtl_ast.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_ast.dir/build.make tests/CMakeFiles/test_chtl_ast.dir/CHTL/test_chtl_ast.cpp.s
+.PHONY : CHTL/test_chtl_ast.cpp.s
 
 CHTL/test_chtl_core.o: CHTL/test_chtl_core.cpp.o
 .PHONY : CHTL/test_chtl_core.o
@@ -336,10 +374,14 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... test_chtl_ast"
 	@echo "... test_chtl_core"
 	@echo "... test_chtljs_core"
 	@echo "... test_integration"
 	@echo "... test_scanner"
+	@echo "... CHTL/test_chtl_ast.o"
+	@echo "... CHTL/test_chtl_ast.i"
+	@echo "... CHTL/test_chtl_ast.s"
 	@echo "... CHTL/test_chtl_core.o"
 	@echo "... CHTL/test_chtl_core.i"
 	@echo "... CHTL/test_chtl_core.s"

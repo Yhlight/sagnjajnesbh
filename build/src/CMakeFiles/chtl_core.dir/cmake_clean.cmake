@@ -1,8 +1,12 @@
 file(REMOVE_RECURSE
   "../lib/libchtl_core.a"
   "../lib/libchtl_core.pdb"
+  "CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTBuilder.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTBuilder.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTNodes.cpp.o"
   "CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTNodes.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTVisitor.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTVisitor.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLContext.cpp.o"
   "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLContext.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLGlobalMap.cpp.o"
