@@ -55,6 +55,29 @@ static StyleTemplateDef* parseStyleTemplate(Cursor& c) {
 	auto* def = new StyleTemplateDef(); def->name = tokenLexeme(nameTok);
 	// 读取属性列表直到'}'
 	while (!c.eof() && c.peek().type != TokenType::RBrace) {
+		// 支持组合/继承：@Style Other; 或 inherit @Style Other;
+		if (c.peek().type == TokenType::At) {
+			c.advance();
+			Token kw = c.advance();
+			if (kw.type == TokenType::KeywordStyle || kw.type == TokenType::Identifier) {
+				Token nm = c.advance();
+				if (nm.type == TokenType::Identifier) { def->includeTemplates.push_back(tokenLexeme(nm)); }
+				if (c.peek().type == TokenType::Semi) c.advance();
+				continue;
+			}
+		}
+		if (c.peek().type == TokenType::KeywordInherit) {
+			c.advance();
+			if (c.match(TokenType::At)) {
+				Token kw2 = c.advance();
+				if (kw2.type == TokenType::KeywordStyle || kw2.type == TokenType::Identifier) {
+					Token nm = c.advance();
+					if (nm.type == TokenType::Identifier) { def->includeTemplates.push_back(tokenLexeme(nm)); }
+					if (c.peek().type == TokenType::Semi) c.advance();
+					continue;
+				}
+			}
+		}
 		Token prop = c.advance();
 		if (prop.type != TokenType::Identifier) break;
 		if (!(c.match(TokenType::Colon) || c.match(TokenType::Equal))) break;

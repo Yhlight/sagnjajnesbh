@@ -1,10 +1,29 @@
 #include "Generator.h"
 #include <sstream>
+#include <unordered_set>
 
 using namespace CHTLNS;
 
 namespace {
 	static void EmitNode(const Document* doc, const Node* n, std::ostringstream& html, std::ostringstream& styles);
+
+	static void ExpandTemplateProps(const Document* doc, const std::string& name, std::vector<Attribute>& outProps, std::unordered_set<std::string>& visiting) {
+		auto it = doc->styleTemplates.find(name);
+		if (it == doc->styleTemplates.end()) return;
+		if (!visiting.insert(name).second) return; // 防循环
+		for (const auto& parent : it->second->includeTemplates) {
+			ExpandTemplateProps(doc, parent, outProps, visiting);
+		}
+		// 自身属性，后写覆盖
+		for (const auto& p : it->second->properties) {
+			// 覆盖同名属性
+			bool replaced = false;
+			for (auto& exist : outProps) {
+				if (exist.name == p.name) { exist.value = p.value; replaced = true; break; }
+			}
+			if (!replaced) outProps.push_back(p);
+		}
+	}
 
 	static std::string ExpandLocalStyle(const Document* doc, const std::string& content) {
 		// 简化：扫描"/*CHTL_STYLE_REF:NAME*/" 并按模板属性展开为 "prop: value;" 列表
@@ -16,12 +35,10 @@ namespace {
 				std::string name;
 				while (j + 1 < content.size() && !(content[j] == '*' && content[j+1] == '/')) { name.push_back(content[j]); ++j; }
 				if (j + 1 < content.size()) j += 2; // 跳过*/
-				auto it = doc->styleTemplates.find(name);
-				if (it != doc->styleTemplates.end()) {
-					for (const auto& p : it->second->properties) {
-						out << p.name << ": " << p.value << ";\n";
-					}
-				}
+				std::vector<Attribute> props;
+				std::unordered_set<std::string> visiting;
+				ExpandTemplateProps(doc, name, props, visiting);
+				for (const auto& p : props) { out << p.name << ": " << p.value << ";\n"; }
 				i = j; continue;
 			}
 			out << content[i++];

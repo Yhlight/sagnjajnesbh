@@ -33,6 +33,7 @@ namespace CHTLNS {
 	struct StyleTemplateDef : public Node {
 		std::string name;
 		std::vector<Attribute> properties; // 简化：样式属性作为name:value
+		std::vector<std::string> includeTemplates; // 组合/继承的父模板名称，按出现顺序
 	};
 
 	struct Document {
