@@ -1,0 +1,13 @@
+// 测试CHTL文件 - 混乱结构
+
+[Template] @Element AnotherElement {
+    template: "<div class='another-element'>另一个测试组件</div>";
+}
+
+[Custom] @Style AnotherStyle {
+    .another-element {
+        background: #f0f0f0;
+        padding: 10px;
+        border-radius: 5px;
+    }
+}

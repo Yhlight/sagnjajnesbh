@@ -944,7 +944,7 @@ void CompleteCMODManager::InitializeSearchPaths() {
 void CompleteCMODManager::InitializeOfficialModulePath() {
     // 官方模块目录：源码编译后生成的module文件夹，通常和编译器同一个文件夹
     std::filesystem::path compilerDir = std::filesystem::path(compilerPath_).parent_path();
-    officialModulePath_ = compilerDir / "modules";
+    officialModulePath_ = compilerDir / "module";
     
     // 确保目录存在
     if (!std::filesystem::exists(officialModulePath_)) {
@@ -958,7 +958,7 @@ void CompleteCMODManager::InitializeCurrentPaths() {
     currentDirPath_ = currentFileDir.string();
     
     // 当前目录的module文件夹
-    currentModulePath_ = currentFileDir / "modules";
+    currentModulePath_ = currentFileDir / "module";
     
     // 确保module目录存在
     if (!std::filesystem::exists(currentModulePath_)) {
@@ -1000,11 +1000,60 @@ std::string CompleteCMODManager::SearchInOfficialModules(const std::string& modu
 }
 
 std::string CompleteCMODManager::SearchInCurrentModuleFolder(const std::string& moduleName) const {
-    return SearchInOfficialModules(moduleName);  // 使用相同的搜索逻辑，但在currentModulePath_中
+    // 在当前目录的module文件夹中搜索
+    
+    // 1. 搜索.cmod文件
+    std::string cmodPath = SearchWithExtension(currentModulePath_, moduleName, ".cmod");
+    if (!cmodPath.empty()) {
+        return cmodPath;
+    }
+    
+    // 2. 搜索.chtl文件
+    std::string chtlPath = SearchWithExtension(currentModulePath_, moduleName, ".chtl");
+    if (!chtlPath.empty()) {
+        return chtlPath;
+    }
+    
+    // 3. 搜索模块文件夹
+    std::string folderPath = currentModulePath_ + "/" + moduleName;
+    if (std::filesystem::exists(folderPath) && std::filesystem::is_directory(folderPath)) {
+        return folderPath;
+    }
+    
+    // 4. 检查分类结构（CMOD/CJMOD文件夹）
+    auto variants = CMODDirectoryManager::GetCMODFolderVariants();
+    for (const auto& variant : variants) {
+        std::string classifiedPath = currentModulePath_ + "/" + variant + "/" + moduleName;
+        if (std::filesystem::exists(classifiedPath)) {
+            return classifiedPath;
+        }
+    }
+    
+    return "";
 }
 
 std::string CompleteCMODManager::SearchInCurrentDirectory(const std::string& moduleName) const {
-    return SearchInOfficialModules(moduleName);  // 使用相同的搜索逻辑，但在currentDirPath_中
+    // 在当前目录中搜索
+    
+    // 1. 搜索.cmod文件
+    std::string cmodPath = SearchWithExtension(currentDirPath_, moduleName, ".cmod");
+    if (!cmodPath.empty()) {
+        return cmodPath;
+    }
+    
+    // 2. 搜索.chtl文件
+    std::string chtlPath = SearchWithExtension(currentDirPath_, moduleName, ".chtl");
+    if (!chtlPath.empty()) {
+        return chtlPath;
+    }
+    
+    // 3. 搜索模块文件夹
+    std::string folderPath = currentDirPath_ + "/" + moduleName;
+    if (std::filesystem::exists(folderPath) && std::filesystem::is_directory(folderPath)) {
+        return folderPath;
+    }
+    
+    return "";
 }
 
 std::string CompleteCMODManager::SearchWithExtension(const std::string& basePath, const std::string& moduleName, const std::string& extension) const {
