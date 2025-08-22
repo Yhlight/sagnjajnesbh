@@ -1,0 +1,185 @@
+// 命名空间省略大括号专项测试
+// 严格按照语法文档第998行的规则：
+// "嵌套命名空间时，如果仅仅是只有一层关系 或 只有一层平级，可以不用写花括号"
+
+// ========== 测试1：单层关系 - 可省略大括号 ==========
+
+// 正确：省略大括号的单层命名空间
+[Namespace] Level1
+    [Custom] @Element SingleBox {
+        div {
+            class: "single-box";
+            style {
+                background: #f0f0f0;
+                padding: 10px;
+            }
+        }
+    }
+
+// 正确：省略大括号的单层命名空间，多个声明
+[Namespace] Level2
+    [Custom] @Element BoxA {
+        div { class: "box-a"; }
+    }
+    
+    [Template] @Style ThemeA {
+        .theme-a { color: blue; }
+    }
+
+// ========== 测试2：嵌套命名空间 - 单层关系可省略 ==========
+
+// 正确：外层有大括号，内层省略大括号（单层关系）
+[Namespace] Outer1 {
+    [Namespace] Inner1
+        [Custom] @Element NestedBox1 {
+            div { class: "nested-1"; }
+        }
+        
+    [Namespace] Inner2
+        [Custom] @Element NestedBox2 {
+            div { class: "nested-2"; }
+        }
+}
+
+// 正确：两层都省略大括号（单层关系）
+[Namespace] Outer2
+    [Namespace] Inner3
+        [Custom] @Element DeepNested {
+            div { class: "deep-nested"; }
+        }
+
+// ========== 测试3：平级命名空间 - 可省略大括号 ==========
+
+// 正确：多个平级命名空间，各自省略大括号
+[Namespace] Parallel1
+    [Custom] @Element ParallelBox1 {
+        div { class: "parallel-1"; }
+    }
+
+[Namespace] Parallel2
+    [Custom] @Element ParallelBox2 {
+        div { class: "parallel-2"; }
+    }
+
+[Namespace] Parallel3
+    [Custom] @Element ParallelBox3 {
+        div { class: "parallel-3"; }
+    }
+
+// ========== 测试4：混合使用 - 有些省略，有些不省略 ==========
+
+// 正确：混合语法
+[Namespace] Mixed1 {
+    [Custom] @Element MixedBox1 {
+        div { class: "mixed-1"; }
+    }
+    
+    [Namespace] MixedInner1
+        [Custom] @Element MixedNested1 {
+            div { class: "mixed-nested-1"; }
+        }
+    
+    [Namespace] MixedInner2 {
+        [Custom] @Element MixedNested2 {
+            div { class: "mixed-nested-2"; }
+        }
+        
+        [Template] @Style MixedTheme {
+            .mixed-theme { color: green; }
+        }
+    }
+}
+
+// ========== 测试5：复杂嵌套 - 测试解析器的边界情况 ==========
+
+// 正确：深层嵌套，部分省略大括号
+[Namespace] Deep {
+    [Namespace] Level1 {
+        [Namespace] Level2
+            [Custom] @Element DeepBox {
+                div {
+                    class: "deep-box";
+                    style {
+                        border: 1px solid #ccc;
+                    }
+                }
+            }
+            
+        [Namespace] Level2Alt
+            [Template] @Style DeepTheme {
+                .deep-theme {
+                    background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+                }
+            }
+    }
+    
+    [Namespace] Level1Alt
+        [Custom] @Element AltBox {
+            div { class: "alt-box"; }
+        }
+}
+
+// ========== 测试6：约束和省略大括号的组合 ==========
+
+// 正确：带约束的省略大括号命名空间
+[Namespace] Constrained
+    except [Template];  // 约束：禁止模板
+    
+    [Custom] @Element ConstrainedBox {
+        div {
+            class: "constrained-box";
+            style {
+                background: #ffebee;
+                border: 1px solid #f44336;
+            }
+        }
+    }
+    
+    // [Template] @Style SomeTemplate { }  // 这会报错，因为有约束
+
+// ========== 测试7：使用省略大括号命名空间中的元素 ==========
+
+body {
+    // 使用各种命名空间中的元素
+    @Element SingleBox from Level1;
+    @Element BoxA from Level2;
+    @Element NestedBox1 from Outer1.Inner1;
+    @Element DeepNested from Outer2.Inner3;
+    @Element ParallelBox1 from Parallel1;
+    @Element ParallelBox2 from Parallel2;
+    @Element MixedBox1 from Mixed1;
+    @Element MixedNested1 from Mixed1.MixedInner1;
+    @Element DeepBox from Deep.Level1.Level2;
+    @Element ConstrainedBox from Constrained;
+    
+    style {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px;
+    }
+}
+
+// ========== 测试8：错误情况（应该被检测出来） ==========
+
+// 注释掉的错误示例，实际测试时应该报错：
+
+/*
+// 错误：多层关系时不能省略大括号
+[Namespace] ErrorCase1
+    [Namespace] ErrorInner1
+        [Custom] @Element ErrorBox1 { div { } }
+    [Namespace] ErrorInner2  
+        [Custom] @Element ErrorBox2 { div { } }
+    // 这种情况有多个内层命名空间，不是"仅仅一层关系"，应该用大括号
+*/
+
+/*  
+// 错误：复杂结构时省略大括号会造成歧义
+[Namespace] ErrorCase2
+    [Custom] @Element ErrorBox3 { div { } }
+    [Namespace] ErrorInner3
+        [Custom] @Element ErrorBox4 { div { } }
+    [Custom] @Element ErrorBox5 { div { } }
+    // 这种混合结构可能造成解析歧义，应该用大括号明确界限
+*/

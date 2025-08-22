@@ -2,7 +2,7 @@
 #include <cassert>
 #include <memory>
 #include "CJMOD/CJMODApi.h"
-#include "CJMOD/Extensions/PrintMyloveExtension.h"
+// 扩展已移动到模块中，通过模块分发
 
 using namespace CHTL::CJMOD;
 

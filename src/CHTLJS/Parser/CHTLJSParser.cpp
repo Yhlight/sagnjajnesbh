@@ -487,8 +487,9 @@ AST::ASTNodePtr CHTLJSParser::ParseAssignmentExpression() {
         
         if (Check(Core::TokenType::IDENTIFIER)) {
             std::string methodName = ParseIdentifier();
-            auto methodCall = std::make_shared<AST::MethodCallNode>(expr, methodName, Current());
-            methodCall->SetIsArrowCall(isArrow);
+            // MethodCallNode已移除 - 方法调用是JavaScript语法，不属于CHTL JS核心
+            ReportError("方法调用语法不属于CHTL JS核心，属于JavaScript语法");
+            return nullptr;
             
             // 解析参数
             if (Check(Core::TokenType::LEFT_PAREN)) {

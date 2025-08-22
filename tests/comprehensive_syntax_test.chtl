@@ -1,0 +1,334 @@
+// 全面CHTL语法测试文件
+// 测试所有语法文档中定义的功能
+
+// ========== 1. 基础导入测试 ==========
+[Import] @Html from "index.html" as MainPage;
+[Import] @Style from "main.css" as MainStyle;
+[Import] @JavaScript from "main.js" as MainScript;
+
+// ========== 2. CHTL模块导入测试 ==========
+[Import] @Chtl from "Chtholly" {
+    import: [Accordion, CloverAlbum];
+    namespace: chtholly;
+}
+
+// ========== 3. CJMOD扩展导入测试 ==========
+[Import] @CJmod from "Chtholly";
+
+// ========== 4. 命名空间测试 - 基础语法 ==========
+[Namespace] TestSpace {
+    [Custom] @Element BasicBox {
+        div {
+            style {
+                background: #f0f0f0;
+                padding: 10px;
+            }
+        }
+    }
+    
+    [Template] @Style BoxTheme {
+        .box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    }
+}
+
+// ========== 5. 命名空间测试 - 省略大括号（关键测试） ==========
+// 语法文档第998行：如果仅仅是只有一层关系 或 只有一层平级，可以不用写花括号
+
+[Namespace] SimpleSpace
+    [Custom] @Element SimpleBox {
+        div {
+            class: "simple-box";
+        }
+    }
+
+// 嵌套命名空间 - 省略大括号
+[Namespace] OuterSpace {
+    [Namespace] InnerSpace
+        [Custom] @Element NestedBox {
+            div {
+                class: "nested-box";
+            }
+        }
+}
+
+// 多个平级命名空间 - 省略大括号
+[Namespace] ParallelSpace1
+    [Custom] @Element Box1 {
+        div { class: "box1"; }
+    }
+
+[Namespace] ParallelSpace2  
+    [Custom] @Element Box2 {
+        div { class: "box2"; }
+    }
+
+// ========== 6. 模板测试 ==========
+[Template] @Element ButtonTemplate {
+    button {
+        style {
+            background: $bg-color;
+            color: $text-color;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+    }
+}
+
+[Template] @Style ThemeTemplate {
+    .primary {
+        background: $primary-color;
+        color: white;
+    }
+    
+    .secondary {
+        background: $secondary-color;
+        color: #333;
+    }
+}
+
+// ========== 7. 自定义元素和样式测试 ==========
+[Custom] @Element Card {
+    div {
+        class: "card";
+        
+        style {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 16px;
+        }
+        
+        div {
+            class: "card-header";
+            style {
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 12px;
+            }
+        }
+        
+        div {
+            class: "card-content";
+            style {
+                line-height: 1.5;
+            }
+        }
+    }
+}
+
+[Custom] @Style CardTheme {
+    .card {
+        transition: transform 0.2s;
+    }
+    
+    .card:hover {
+        transform: translateY(-2px);
+    }
+}
+
+// ========== 8. 原始嵌入测试 ==========
+[Origin] @Html MainLayout {
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>CHTL Test Page</title>
+    </head>
+    <body>
+        <div id="app"></div>
+    </body>
+    </html>
+}
+
+[Origin] @Style ResetCSS {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+}
+
+// ========== 9. 配置测试 ==========
+[Configuration] {
+    DISABLE_STYLE_AUTO_ADD_CLASS = false;
+    DISABLE_STYLE_AUTO_ADD_ID = false;
+    DISABLE_SCRIPT_AUTO_ADD_CLASS = true;
+    DISABLE_SCRIPT_AUTO_ADD_ID = true;
+    DISABLE_DEFAULT_NAMESPACE = false;
+    OPTION_COUNT = 5;
+}
+
+// ========== 10. 继承测试 ==========
+inherit [Template] @Style from ThemeTemplate as ExtendedTheme {
+    .success {
+        background: #28a745;
+        color: white;
+    }
+    
+    .danger {
+        background: #dc3545;
+        color: white;
+    }
+}
+
+// ========== 11. 特化测试 ==========
+specialize [Template] @Element ButtonTemplate as PrimaryButton {
+    $bg-color: #007bff;
+    $text-color: white;
+}
+
+specialize [Template] @Element ButtonTemplate as SecondaryButton {
+    $bg-color: #6c757d;
+    $text-color: white;
+}
+
+// ========== 12. 删除测试 ==========
+delete [Custom] @Style from CardTheme {
+    .card:hover;  // 删除hover效果
+}
+
+// ========== 13. 插入测试 ==========
+insert [Custom] @Style into CardTheme {
+    .card-dark {
+        background: #333;
+        color: white;
+    }
+}
+
+// ========== 14. 索引访问测试 ==========
+[Custom] @Element List {
+    ul {
+        li[0] {
+            style {
+                font-weight: bold;
+            }
+        }
+        
+        li[1..3] {
+            style {
+                color: #666;
+            }
+        }
+        
+        li[last] {
+            style {
+                border-bottom: none;
+            }
+        }
+    }
+}
+
+// ========== 15. 变量组测试 ==========
+[Variable] Colors {
+    primary: #007bff;
+    secondary: #6c757d;
+    success: #28a745;
+    danger: #dc3545;
+    warning: #ffc107;
+    info: #17a2b8;
+}
+
+[Variable] Spacing {
+    xs: 4px;
+    sm: 8px;
+    md: 16px;
+    lg: 24px;
+    xl: 32px;
+}
+
+// ========== 16. 约束测试 ==========
+[Namespace] RestrictedSpace {
+    except [Template];  // 禁止定义模板
+    
+    [Custom] @Element RestrictedBox {
+        div {
+            style {
+                background: red;
+            }
+        }
+    }
+    
+    // [Template] @Style SomeTemplate { }  // 这会报错
+}
+
+// ========== 17. 主体内容 - 使用定义的组件 ==========
+body {
+    @Element Card {
+        @Element BasicBox from TestSpace;
+        
+        style {
+            margin: 20px;
+        }
+        
+        // 局部样式块测试 - & 引用选择器
+        style {
+            & {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+            
+            &.active {
+                border-color: var(--primary-color);
+            }
+        }
+        
+        // 局部脚本块测试 - {{&}} 引用选择器
+        script {
+            {{&}}.addEventListener('click', function() {
+                console.log('Card clicked');
+            });
+            
+            // 使用CJMOD扩展
+            const art = printMylove({
+                url: "test.jpg",
+                mode: "ASCII",
+                width: "80",
+                height: "40",
+                scale: "1.0"
+            });
+            
+            vir TestObject = iNeverAway({
+                Void<A>: function(int, int) {
+                    console.log('Void A called');
+                },
+                Void<B>: function(int, int) {
+                    console.log('Void B called');
+                },
+                Void: {
+                    console.log('Simple Void');
+                },
+                CustomMethod: {
+                    console.log('Custom method');
+                }
+            });
+            
+            TestObject->Void<A>();
+            TestObject->CustomMethod();
+        }
+    }
+    
+    // 使用模板特化
+    @Element PrimaryButton {
+        text: "Click Me";
+    }
+    
+    @Element SecondaryButton {
+        text: "Cancel";
+    }
+}
+
+// ========== 18. 命名空间使用测试 ==========
+div {
+    @Element BasicBox from TestSpace;
+    @Element SimpleBox from SimpleSpace;
+    @Element NestedBox from OuterSpace.InnerSpace;
+    @Element Box1 from ParallelSpace1;
+    @Element Box2 from ParallelSpace2;
+}
