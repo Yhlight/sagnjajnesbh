@@ -20,6 +20,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspace/src/CHTL/Generator/CHTLGenerator.cpp" "src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o" "gcc" "src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o.d"
   "/workspace/src/CHTL/Lexer/CHTLLexer.cpp" "src/CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o" "gcc" "src/CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o.d"
   "/workspace/src/CHTL/Parser/CHTLParser.cpp" "src/CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o" "gcc" "src/CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o.d"
+  "/workspace/src/CHTL/Selector/SelectorAutomation.cpp" "src/CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o" "gcc" "src/CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -174,6 +174,18 @@ if(NOT GTest_FOUND)
     
     add_test(NAME ConstraintValidatorTest COMMAND test_constraint_validator)
     
+    # CHTL选择器自动化测试
+    add_executable(test_selector_automation
+        CHTL/test_selector_basic.cpp
+    )
+    
+    target_link_libraries(test_selector_automation
+        chtl_core
+        utils
+    )
+    
+    add_test(NAME SelectorAutomationTest COMMAND test_selector_automation)
+    
     # CHTL JS核心测试
     add_executable(test_chtljs_core
         CHTLJS/test_chtljs_core.cpp

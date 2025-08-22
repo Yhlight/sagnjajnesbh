@@ -613,6 +613,30 @@ CHTL/Parser/CHTLParser.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.s
 .PHONY : CHTL/Parser/CHTLParser.cpp.s
 
+CHTL/Selector/SelectorAutomation.o: CHTL/Selector/SelectorAutomation.cpp.o
+.PHONY : CHTL/Selector/SelectorAutomation.o
+
+# target to build an object file
+CHTL/Selector/SelectorAutomation.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o
+.PHONY : CHTL/Selector/SelectorAutomation.cpp.o
+
+CHTL/Selector/SelectorAutomation.i: CHTL/Selector/SelectorAutomation.cpp.i
+.PHONY : CHTL/Selector/SelectorAutomation.i
+
+# target to preprocess a source file
+CHTL/Selector/SelectorAutomation.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.i
+.PHONY : CHTL/Selector/SelectorAutomation.cpp.i
+
+CHTL/Selector/SelectorAutomation.s: CHTL/Selector/SelectorAutomation.cpp.s
+.PHONY : CHTL/Selector/SelectorAutomation.s
+
+# target to generate assembly for a file
+CHTL/Selector/SelectorAutomation.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.s
+.PHONY : CHTL/Selector/SelectorAutomation.cpp.s
+
 CHTLJS/AST/CHTLJSASTNodes.o: CHTLJS/AST/CHTLJSASTNodes.cpp.o
 .PHONY : CHTLJS/AST/CHTLJSASTNodes.o
 
@@ -1417,6 +1441,9 @@ help:
 	@echo "... CHTL/Parser/CHTLParser.o"
 	@echo "... CHTL/Parser/CHTLParser.i"
 	@echo "... CHTL/Parser/CHTLParser.s"
+	@echo "... CHTL/Selector/SelectorAutomation.o"
+	@echo "... CHTL/Selector/SelectorAutomation.i"
+	@echo "... CHTL/Selector/SelectorAutomation.s"
 	@echo "... CHTLJS/AST/CHTLJSASTNodes.o"
 	@echo "... CHTLJS/AST/CHTLJSASTNodes.i"
 	@echo "... CHTLJS/AST/CHTLJSASTNodes.s"

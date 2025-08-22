@@ -12,12 +12,20 @@ namespace Generator {
 
 CHTLGenerator::CHTLGenerator(Core::CHTLGlobalMap& globalMap, const GeneratorConfig& config)
     : config_(config), globalMap_(globalMap), cmodManager_(nullptr), currentIndent_(0),
-      elementCount_(0), templateExpandCount_(0), customExpandCount_(0), variableSubstitutionCount_(0) {}
+      elementCount_(0), templateExpandCount_(0), customExpandCount_(0), variableSubstitutionCount_(0) {
+    
+    // 初始化选择器自动化管理器
+    selectorManager_ = std::make_unique<Selector::SelectorAutomationManager>();
+}
 
 CHTLGenerator::CHTLGenerator(Core::CHTLGlobalMap& globalMap, CMOD::CMODManager& cmodManager, 
                            const GeneratorConfig& config)
     : config_(config), globalMap_(globalMap), cmodManager_(&cmodManager), currentIndent_(0),
-      elementCount_(0), templateExpandCount_(0), customExpandCount_(0), variableSubstitutionCount_(0) {}
+      elementCount_(0), templateExpandCount_(0), customExpandCount_(0), variableSubstitutionCount_(0) {
+    
+    // 初始化选择器自动化管理器
+    selectorManager_ = std::make_unique<Selector::SelectorAutomationManager>();
+}
 
 std::string CHTLGenerator::Generate(AST::ASTNodePtr ast) {
     if (!ast) {
@@ -62,6 +70,16 @@ void CHTLGenerator::VisitElementNode(AST::ElementNode& node) {
     
     // 设置当前元素上下文
     context_.variables["__current_element__"] = node.GetTagName();
+    
+    // 处理选择器自动化
+    if (selectorManager_) {
+        auto elementPtr = std::shared_ptr<AST::ElementNode>(&node, [](AST::ElementNode*) {});
+        if (selectorManager_->ProcessElement(elementPtr)) {
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "元素 " + node.GetTagName() + " 应用了选择器自动化"
+            );
+        }
+    }
     
     // 检查是否需要自动添加类名或ID
     std::string autoClass = context_.variables["__auto_class__"];
@@ -329,6 +347,12 @@ void CHTLGenerator::VisitNamespaceNode(AST::NamespaceNode& node) {
 void CHTLGenerator::VisitConfigurationNode(AST::ConfigurationNode& node) {
     // 应用配置设置
     ApplyConfiguration(node);
+    
+    // 加载选择器自动化配置
+    if (selectorManager_) {
+        auto nodePtr = std::shared_ptr<AST::ConfigurationNode>(&node, [](AST::ConfigurationNode*) {});
+        selectorManager_->LoadConfigFromNode(nodePtr);
+    }
 }
 
 void CHTLGenerator::VisitTemplateReferenceNode(AST::TemplateReferenceNode& node) {

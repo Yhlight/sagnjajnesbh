@@ -368,6 +368,20 @@ test_constraint_validator/fast:
 .PHONY : test_constraint_validator/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_selector_automation.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_selector_automation.dir/rule
+.PHONY : tests/CMakeFiles/test_selector_automation.dir/rule
+
+# Convenience name for target.
+test_selector_automation: tests/CMakeFiles/test_selector_automation.dir/rule
+.PHONY : test_selector_automation
+
+# fast build rule for target.
+test_selector_automation/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_selector_automation.dir/build.make tests/CMakeFiles/test_selector_automation.dir/build
+.PHONY : test_selector_automation/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -642,6 +656,30 @@ CHTL/test_inheritance_simple.s: CHTL/test_inheritance_simple.cpp.s
 CHTL/test_inheritance_simple.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_inheritance_simple.dir/build.make tests/CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.s
 .PHONY : CHTL/test_inheritance_simple.cpp.s
+
+CHTL/test_selector_basic.o: CHTL/test_selector_basic.cpp.o
+.PHONY : CHTL/test_selector_basic.o
+
+# target to build an object file
+CHTL/test_selector_basic.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_selector_automation.dir/build.make tests/CMakeFiles/test_selector_automation.dir/CHTL/test_selector_basic.cpp.o
+.PHONY : CHTL/test_selector_basic.cpp.o
+
+CHTL/test_selector_basic.i: CHTL/test_selector_basic.cpp.i
+.PHONY : CHTL/test_selector_basic.i
+
+# target to preprocess a source file
+CHTL/test_selector_basic.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_selector_automation.dir/build.make tests/CMakeFiles/test_selector_automation.dir/CHTL/test_selector_basic.cpp.i
+.PHONY : CHTL/test_selector_basic.cpp.i
+
+CHTL/test_selector_basic.s: CHTL/test_selector_basic.cpp.s
+.PHONY : CHTL/test_selector_basic.s
+
+# target to generate assembly for a file
+CHTL/test_selector_basic.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_selector_automation.dir/build.make tests/CMakeFiles/test_selector_automation.dir/CHTL/test_selector_basic.cpp.s
+.PHONY : CHTL/test_selector_basic.cpp.s
 
 CHTLJS/test_chtljs_core.o: CHTLJS/test_chtljs_core.cpp.o
 .PHONY : CHTLJS/test_chtljs_core.o
@@ -963,6 +1001,7 @@ help:
 	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
 	@echo "... test_scanner"
+	@echo "... test_selector_automation"
 	@echo "... test_testmodule_auto"
 	@echo "... CHTL/test_advanced_features.o"
 	@echo "... CHTL/test_advanced_features.i"
@@ -988,6 +1027,9 @@ help:
 	@echo "... CHTL/test_inheritance_simple.o"
 	@echo "... CHTL/test_inheritance_simple.i"
 	@echo "... CHTL/test_inheritance_simple.s"
+	@echo "... CHTL/test_selector_basic.o"
+	@echo "... CHTL/test_selector_basic.i"
+	@echo "... CHTL/test_selector_basic.s"
 	@echo "... CHTLJS/test_chtljs_core.o"
 	@echo "... CHTLJS/test_chtljs_core.i"
 	@echo "... CHTLJS/test_chtljs_core.s"

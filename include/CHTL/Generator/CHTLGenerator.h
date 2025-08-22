@@ -9,6 +9,7 @@
 #include "CHTL/AST/CHTLASTNodes.h"
 #include "CHTL/AST/CHTLASTVisitor.h"
 #include "CHTL/Core/CHTLGlobalMap.h"
+#include "CHTL/Selector/SelectorAutomation.h"
 #include "CMOD/CMODManager.h"
 
 namespace CHTL {
@@ -428,6 +429,9 @@ private:
     size_t templateExpandCount_;            // 模板展开计数
     size_t customExpandCount_;              // 自定义展开计数
     size_t variableSubstitutionCount_;      // 变量替换计数
+    
+    // 选择器自动化系统
+    std::unique_ptr<Selector::SelectorAutomationManager> selectorManager_;  // 选择器自动化管理器
 };
 
 /**

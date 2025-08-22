@@ -262,4 +262,5 @@ tests/CMakeFiles/test_advanced_features.dir/CHTL/test_advanced_features.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_heap.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uniform_int_dist.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_algorithm_defs.h \
+  /workspace/include/CHTL/Selector/SelectorAutomation.h \
   /workspace/include/CMOD/CMODManager.h

@@ -12,6 +12,7 @@ add_library(chtl_core STATIC
     CHTL/Generator/CHTLGenerator.cpp
     CHTL/Constraints/CHTLConstraintValidator.cpp
     CHTL/Constraints/ExceptConstraintParser.cpp
+    CHTL/Selector/SelectorAutomation.cpp
 )
 
 target_include_directories(chtl_core PUBLIC

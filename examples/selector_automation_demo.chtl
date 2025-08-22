@@ -1,0 +1,234 @@
+// 选择器自动化与引用规则演示
+// 展示CHTL的智能选择器自动化功能
+
+// 配置选择器自动化规则
+[Configuration]
+{
+    // 禁止局部样式块自动添加类选择器
+    DISABLE_STYLE_AUTO_ADD_CLASS = false;
+    // 禁止局部样式块自动添加id选择器
+    DISABLE_STYLE_AUTO_ADD_ID = false;
+    // 禁止局部脚本自动添加类选择器
+    DISABLE_SCRIPT_AUTO_ADD_CLASS = true;
+    // 禁止局部脚本自动添加id选择器
+    DISABLE_SCRIPT_AUTO_ADD_ID = true;
+}
+
+html {
+    head {
+        title { text: "选择器自动化演示"; }
+        
+        style {
+            body {
+                font-family: 'Microsoft YaHei', sans-serif;
+                margin: 0;
+                padding: 20px;
+                background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+        }
+    }
+    
+    body {
+        div {
+            class: "container";
+            
+            h1 { text: "CHTL选择器自动化演示"; }
+            
+            // 示例1：样式块自动化
+            // 当局部style内部存在多组类选择器时，若class属性缺失，则自动添加第一个类选择器
+            div {
+                // 注意：这个div没有class和id属性
+                // 样式块中的第一个类选择器(.card)会被自动添加为class属性
+                // 样式块中的第一个ID选择器(#card-1)会被自动添加为id属性
+                
+                style {
+                    .card {
+                        background: white;
+                        border-radius: 8px;
+                        padding: 20px;
+                        margin: 10px;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    }
+                    
+                    .secondary {
+                        color: #666;
+                    }
+                    
+                    #card-1 {
+                        border-left: 4px solid #007bff;
+                    }
+                    
+                    #card-2 {
+                        border-left: 4px solid #28a745;
+                    }
+                    
+                    // 对于局部style来说，& 引用选择器优先选择class
+                    & {
+                        transition: all 0.3s ease;
+                    }
+                    
+                    &:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                    }
+                }
+                
+                h2 { text: "样式块自动化示例"; }
+                p { text: "这个div会自动获得class='card'和id='card-1'属性，&引用会被替换为.card"; }
+            }
+            
+            // 示例2：脚本块自动化
+            // 当DISABLE_SCRIPT_AUTO_ADD_CLASS为true且局部style没有触发class自动化添加时
+            // 第一个{{.box}}会被自动添加为class属性
+            div {
+                // 注意：这个div没有class和id属性，也没有局部样式块
+                // 脚本块中的第一个增强类选择器({{.interactive}})会被自动添加为class属性
+                // 脚本块中的第一个增强ID选择器({{#btn-1}})会被自动添加为id属性
+                
+                script {
+                    {{.interactive}}->listen({
+                        click: (e) => {
+                            console.log('Interactive element clicked');
+                            e.target.style.background = '#e3f2fd';
+                        }
+                    });
+                    
+                    {{.secondary}}->listen({
+                        hover: () => {
+                            console.log('Secondary hover');
+                        }
+                    });
+                    
+                    {{#btn-1}}->animate({
+                        duration: 300,
+                        begin: { opacity: 1 },
+                        end: { opacity: 0.8 }
+                    });
+                    
+                    {{#btn-2}}->listen({
+                        focus: () => {
+                            console.log('Button focused');
+                        }
+                    });
+                    
+                    // 对于局部script来说，& 引用选择器优先选择id
+                    &->listen({
+                        mouseenter: () => {
+                            console.log('Mouse entered element');
+                        }
+                    });
+                }
+                
+                h2 { text: "脚本块自动化示例"; }
+                p { text: "这个div会自动获得class='interactive'和id='btn-1'属性，&引用会被替换为{{#btn-1}}"; }
+            }
+            
+            // 示例3：混合自动化（样式块优先级）
+            div {
+                // 注意：这个div没有class和id属性
+                // 由于同时有样式块和脚本块，样式块的选择器会优先被使用
+                
+                style {
+                    .widget {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+                    
+                    #widget-main {
+                        background: #f8f9fa;
+                    }
+                    
+                    & {
+                        padding: 15px;
+                    }
+                }
+                
+                script {
+                    {{.component}}->listen({
+                        click: () => {
+                            console.log('Component clicked');
+                        }
+                    });
+                    
+                    {{#comp-main}}->animate({
+                        duration: 200
+                    });
+                    
+                    &->listen({
+                        resize: () => {
+                            console.log('Widget resized');
+                        }
+                    });
+                }
+                
+                h2 { text: "混合自动化示例"; }
+                p { text: "这个div会获得class='widget'和id='widget-main'（样式块优先），样式块&引用替换为.widget，脚本块&引用替换为{{#widget-main}}"; }
+            }
+            
+            // 示例4：引用选择器优先级演示
+            div {
+                class: "demo";
+                id: "demo-main";
+                
+                style {
+                    // 样式块中的&引用会优先使用class (.demo)
+                    & {
+                        border: 2px solid #007bff;
+                        border-radius: 4px;
+                    }
+                    
+                    &:focus {
+                        outline: 2px solid #0056b3;
+                        outline-offset: 2px;
+                    }
+                }
+                
+                script {
+                    // 脚本块中的&引用会优先使用id ({{#demo-main}})
+                    &->listen({
+                        keydown: (e) => {
+                            if (e.key === 'Enter') {
+                                console.log('Enter key pressed on demo element');
+                            }
+                        }
+                    });
+                    
+                    &->animate({
+                        duration: 500,
+                        begin: { scale: 1 },
+                        end: { scale: 1.05 }
+                    });
+                }
+                
+                h2 { text: "引用选择器优先级演示"; }
+                p { text: "这个div已有class和id属性，样式块&引用使用.demo，脚本块&引用使用{{#demo-main}}"; }
+            }
+            
+            // 示例5：禁用自动化的演示
+            div {
+                // 这个div故意没有任何属性，用于演示禁用自动化的效果
+                
+                h2 { text: "禁用自动化演示"; }
+                p { text: "如果配置了DISABLE_STYLE_AUTO_ADD_CLASS=true，即使有.disabled类选择器也不会自动添加"; }
+                
+                // 注意：如果DISABLE_STYLE_AUTO_ADD_CLASS=true，这些选择器不会触发自动化
+                style {
+                    .disabled {
+                        opacity: 0.6;
+                        cursor: not-allowed;
+                    }
+                    
+                    #disabled-section {
+                        background: #f8d7da;
+                    }
+                }
+            }
+        }
+    }
+}

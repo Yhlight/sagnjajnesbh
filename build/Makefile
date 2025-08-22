@@ -497,6 +497,19 @@ test_constraint_validator/fast:
 .PHONY : test_constraint_validator/fast
 
 #=============================================================================
+# Target rules for targets named test_selector_automation
+
+# Build rule for target.
+test_selector_automation: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_selector_automation
+.PHONY : test_selector_automation
+
+# fast build rule for target.
+test_selector_automation/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_selector_automation.dir/build.make tests/CMakeFiles/test_selector_automation.dir/build
+.PHONY : test_selector_automation/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -616,6 +629,7 @@ help:
 	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
 	@echo "... test_scanner"
+	@echo "... test_selector_automation"
 	@echo "... test_testmodule_auto"
 	@echo "... utils"
 .PHONY : help

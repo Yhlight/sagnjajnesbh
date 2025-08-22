@@ -25,6 +25,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o"
   "CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

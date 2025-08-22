@@ -244,6 +244,7 @@ src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uniform_int_dist.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_algorithm_defs.h \
   /workspace/include/CHTL/Core/CHTLGlobalMap.h \
+  /workspace/include/CHTL/Selector/SelectorAutomation.h \
   /workspace/include/CMOD/CMODManager.h \
   /workspace/include/Utils/StringUtils.h \
   /workspace/include/Utils/ErrorHandler.h \

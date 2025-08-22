@@ -299,6 +299,7 @@ tests/CMakeFiles/test_complex_syntax.dir/CHTL/test_complex_syntax.cpp.o: /worksp
   /workspace/include/CHTL/Generator/CHTLGenerator.h \
   /workspace/include/CHTL/Lexer/CHTLLexer.h \
   /workspace/include/CHTL/Parser/CHTLParser.h \
+  /workspace/include/CHTL/Selector/SelectorAutomation.h \
   /workspace/include/CMOD/CMODManager.h \
   /workspace/include/Utils/ErrorHandler.h
 
@@ -306,6 +307,8 @@ tests/CMakeFiles/test_complex_syntax.dir/CHTL/test_complex_syntax.cpp.o: /worksp
 /workspace/include/Utils/ErrorHandler.h:
 
 /workspace/include/CMOD/CMODManager.h:
+
+/workspace/include/CHTL/Selector/SelectorAutomation.h:
 
 /workspace/include/CHTL/Lexer/CHTLLexer.h:
 
