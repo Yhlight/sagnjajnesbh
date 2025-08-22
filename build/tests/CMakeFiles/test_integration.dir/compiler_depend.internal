@@ -4,6 +4,7 @@
 bin/test_integration
  /workspace/build/lib/libchtl_core.a
  /workspace/build/lib/libchtljs_core.a
+ /workspace/build/lib/libcmod.a
  /workspace/build/lib/libcss_compiler.a
  /workspace/build/lib/libdispatcher.a
  /workspace/build/lib/libjs_compiler.a

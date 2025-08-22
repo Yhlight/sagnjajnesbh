@@ -3,6 +3,7 @@
 
 bin/test_integration: lib/libchtl_core.a \
   lib/libchtljs_core.a \
+  lib/libcmod.a \
   lib/libcss_compiler.a \
   lib/libdispatcher.a \
   lib/libjs_compiler.a \
@@ -308,8 +309,6 @@ tests/CMakeFiles/test_integration.dir/Integration/test_integration.cpp.o: /works
 
 /usr/include/c++/14/bits/uses_allocator_args.h:
 
-/usr/include/c++/14/bits/uses_allocator.h:
-
 /usr/include/c++/14/bits/stringfwd.h:
 
 /usr/include/c++/14/bits/streambuf_iterator.h:
@@ -373,6 +372,8 @@ tests/CMakeFiles/test_integration.dir/Integration/test_integration.cpp.o: /works
 /usr/include/c++/14/bits/allocator.h:
 
 /usr/include/c++/14/bits/alloc_traits.h:
+
+/usr/include/c++/14/bit:
 
 /usr/include/c++/14/bits/hash_bytes.h:
 
@@ -440,23 +441,15 @@ lib/libutils.a:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
-/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
-
-/lib/x86_64-linux-gnu/Scrt1.o:
-
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
 /lib/x86_64-linux-gnu/libc.so:
 
-/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
+/lib/x86_64-linux-gnu/Scrt1.o:
 
-/usr/include/c++/14/bits/functexcept.h:
-
-/usr/include/pthread.h:
-
-lib/libcss_compiler.a:
+/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
 lib/libscanner.a:
 
@@ -486,6 +479,12 @@ lib/libscanner.a:
 
 /usr/include/features.h:
 
+/usr/include/c++/14/bits/functexcept.h:
+
+/usr/include/pthread.h:
+
+lib/libcss_compiler.a:
+
 /lib/x86_64-linux-gnu/crtn.o:
 
 /usr/include/c++/14/bits/locale_classes.tcc:
@@ -493,6 +492,22 @@ lib/libscanner.a:
 /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so:
 
 /usr/include/linux/posix_types.h:
+
+/usr/include/c++/14/bits/stl_iterator.h:
+
+/usr/include/c++/14/bits/stl_algobase.h:
+
+/usr/include/asm-generic/types.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
+
+/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
+
+/usr/include/c++/14/bits/uses_allocator.h:
+
+lib/libcmod.a:
 
 /usr/include/c++/14/bits/functional_hash.h:
 
@@ -547,16 +562,6 @@ lib/libjs_compiler.a:
 /usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
 
 /usr/include/locale.h:
-
-/usr/include/c++/14/bits/stl_iterator.h:
-
-/usr/include/c++/14/bits/stl_algobase.h:
-
-/usr/include/asm-generic/types.h:
-
-/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
-
-/usr/include/asm-generic/errno-base.h:
 
 /usr/include/c++/14/bits/localefwd.h:
 
@@ -715,5 +720,3 @@ lib/libdispatcher.a:
 /usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
 /usr/include/c++/14/backward/binders.h:
-
-/usr/include/c++/14/bit:

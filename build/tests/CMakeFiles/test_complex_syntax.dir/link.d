@@ -5,6 +5,7 @@
   CMakeFiles/test_complex_syntax.dir/CHTL/test_complex_syntax.cpp.o \
   ../lib/libchtl_core.a \
   ../lib/libutils.a \
+  ../lib/libcmod.a \
   /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
   /lib/x86_64-linux-gnu/libm.so \
   /lib/x86_64-linux-gnu/libm.so \
@@ -44,6 +45,8 @@ CMakeFiles/test_complex_syntax.dir/CHTL/test_complex_syntax.cpp.o:
 ../lib/libchtl_core.a:
 
 ../lib/libutils.a:
+
+../lib/libcmod.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so:
 

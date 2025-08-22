@@ -250,6 +250,19 @@ js_compiler/fast:
 .PHONY : js_compiler/fast
 
 #=============================================================================
+# Target rules for targets named cmod
+
+# Build rule for target.
+cmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cmod
+.PHONY : cmod
+
+# fast build rule for target.
+cmod/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod.dir/build.make src/CMakeFiles/cmod.dir/build
+.PHONY : cmod/fast
+
+#=============================================================================
 # Target rules for targets named utils
 
 # Build rule for target.
@@ -367,6 +380,32 @@ test_advanced_features/fast:
 .PHONY : test_advanced_features/fast
 
 #=============================================================================
+# Target rules for targets named test_cmod
+
+# Build rule for target.
+test_cmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_cmod
+.PHONY : test_cmod
+
+# fast build rule for target.
+test_cmod/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cmod.dir/build.make tests/CMakeFiles/test_cmod.dir/build
+.PHONY : test_cmod/fast
+
+#=============================================================================
+# Target rules for targets named test_cmod_simple
+
+# Build rule for target.
+test_cmod_simple: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_cmod_simple
+.PHONY : test_cmod_simple
+
+# fast build rule for target.
+test_cmod_simple/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cmod_simple.dir/build.make tests/CMakeFiles/test_cmod_simple.dir/build
+.PHONY : test_cmod_simple/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -421,6 +460,7 @@ help:
 	@echo "... chtl_compiler"
 	@echo "... chtl_core"
 	@echo "... chtljs_core"
+	@echo "... cmod"
 	@echo "... css_compiler"
 	@echo "... dispatcher"
 	@echo "... js_compiler"
@@ -431,6 +471,8 @@ help:
 	@echo "... test_chtl_core"
 	@echo "... test_chtl_simple"
 	@echo "... test_chtljs_core"
+	@echo "... test_cmod"
+	@echo "... test_cmod_simple"
 	@echo "... test_complex_syntax"
 	@echo "... test_inheritance_simple"
 	@echo "... test_integration"

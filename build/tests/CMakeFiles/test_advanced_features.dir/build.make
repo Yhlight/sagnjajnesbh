@@ -98,6 +98,7 @@ bin/test_advanced_features: tests/CMakeFiles/test_advanced_features.dir/build.ma
 bin/test_advanced_features: tests/CMakeFiles/test_advanced_features.dir/compiler_depend.ts
 bin/test_advanced_features: lib/libchtl_core.a
 bin/test_advanced_features: lib/libutils.a
+bin/test_advanced_features: lib/libcmod.a
 bin/test_advanced_features: tests/CMakeFiles/test_advanced_features.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/test_advanced_features"
 	cd /workspace/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_advanced_features.dir/link.txt --verbose=$(VERBOSE)

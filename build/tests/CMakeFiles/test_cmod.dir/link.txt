@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_cmod.dir/link.d CMakeFiles/test_cmod.dir/CMOD/test_cmod.cpp.o -o ../bin/test_cmod   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libcmod.a ../lib/libutils.a

@@ -3,6 +3,7 @@
 
 bin/test_chtl_simple
  /workspace/build/lib/libchtl_core.a
+ /workspace/build/lib/libcmod.a
  /workspace/build/lib/libutils.a
  /lib/x86_64-linux-gnu/Scrt1.o
  /lib/x86_64-linux-gnu/crti.o

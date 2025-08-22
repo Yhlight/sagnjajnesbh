@@ -9,6 +9,7 @@
   ../lib/libdispatcher.a \
   ../lib/libcss_compiler.a \
   ../lib/libjs_compiler.a \
+  ../lib/libcmod.a \
   ../lib/libutils.a \
   /workspace/ANTLR4/lib/libantlr4-runtime-static.a \
   /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
@@ -58,6 +59,8 @@ CMakeFiles/chtl_compiler.dir/main.cpp.o:
 ../lib/libcss_compiler.a:
 
 ../lib/libjs_compiler.a:
+
+../lib/libcmod.a:
 
 ../lib/libutils.a:
 

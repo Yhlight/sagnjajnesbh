@@ -16,6 +16,8 @@ target_include_directories(chtl_core PUBLIC
     ${CMAKE_SOURCE_DIR}/include/CHTL
 )
 
+target_link_libraries(chtl_core cmod)
+
 # CHTL JS编译器核心库
 add_library(chtljs_core STATIC
     CHTLJS/Core/CHTLJSToken.cpp
@@ -84,6 +86,15 @@ target_include_directories(js_compiler PUBLIC
 
 target_link_libraries(js_compiler ${ANTLR4_LIBRARIES})
 
+# CMOD模块系统库
+add_library(cmod STATIC
+    CMOD/CMODManager.cpp
+)
+
+target_include_directories(cmod PUBLIC
+    ${CMAKE_SOURCE_DIR}/include/CMOD
+)
+
 # 工具库
 add_library(utils STATIC
     Utils/FileUtils.cpp
@@ -107,6 +118,7 @@ target_link_libraries(chtl_compiler
     dispatcher
     css_compiler
     js_compiler
+    cmod
     utils
     ${ANTLR4_LIBRARIES}
 )

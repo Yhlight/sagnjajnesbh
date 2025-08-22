@@ -270,6 +270,34 @@ test_advanced_features/fast:
 .PHONY : test_advanced_features/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_cmod.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_cmod.dir/rule
+.PHONY : tests/CMakeFiles/test_cmod.dir/rule
+
+# Convenience name for target.
+test_cmod: tests/CMakeFiles/test_cmod.dir/rule
+.PHONY : test_cmod
+
+# fast build rule for target.
+test_cmod/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cmod.dir/build.make tests/CMakeFiles/test_cmod.dir/build
+.PHONY : test_cmod/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_cmod_simple.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_cmod_simple.dir/rule
+.PHONY : tests/CMakeFiles/test_cmod_simple.dir/rule
+
+# Convenience name for target.
+test_cmod_simple: tests/CMakeFiles/test_cmod_simple.dir/rule
+.PHONY : test_cmod_simple
+
+# fast build rule for target.
+test_cmod_simple/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cmod_simple.dir/build.make tests/CMakeFiles/test_cmod_simple.dir/build
+.PHONY : test_cmod_simple/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -503,6 +531,54 @@ CHTLJS/test_chtljs_core.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_core.dir/build.make tests/CMakeFiles/test_chtljs_core.dir/CHTLJS/test_chtljs_core.cpp.s
 .PHONY : CHTLJS/test_chtljs_core.cpp.s
 
+CMOD/test_cmod.o: CMOD/test_cmod.cpp.o
+.PHONY : CMOD/test_cmod.o
+
+# target to build an object file
+CMOD/test_cmod.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cmod.dir/build.make tests/CMakeFiles/test_cmod.dir/CMOD/test_cmod.cpp.o
+.PHONY : CMOD/test_cmod.cpp.o
+
+CMOD/test_cmod.i: CMOD/test_cmod.cpp.i
+.PHONY : CMOD/test_cmod.i
+
+# target to preprocess a source file
+CMOD/test_cmod.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cmod.dir/build.make tests/CMakeFiles/test_cmod.dir/CMOD/test_cmod.cpp.i
+.PHONY : CMOD/test_cmod.cpp.i
+
+CMOD/test_cmod.s: CMOD/test_cmod.cpp.s
+.PHONY : CMOD/test_cmod.s
+
+# target to generate assembly for a file
+CMOD/test_cmod.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cmod.dir/build.make tests/CMakeFiles/test_cmod.dir/CMOD/test_cmod.cpp.s
+.PHONY : CMOD/test_cmod.cpp.s
+
+CMOD/test_cmod_simple.o: CMOD/test_cmod_simple.cpp.o
+.PHONY : CMOD/test_cmod_simple.o
+
+# target to build an object file
+CMOD/test_cmod_simple.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cmod_simple.dir/build.make tests/CMakeFiles/test_cmod_simple.dir/CMOD/test_cmod_simple.cpp.o
+.PHONY : CMOD/test_cmod_simple.cpp.o
+
+CMOD/test_cmod_simple.i: CMOD/test_cmod_simple.cpp.i
+.PHONY : CMOD/test_cmod_simple.i
+
+# target to preprocess a source file
+CMOD/test_cmod_simple.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cmod_simple.dir/build.make tests/CMakeFiles/test_cmod_simple.dir/CMOD/test_cmod_simple.cpp.i
+.PHONY : CMOD/test_cmod_simple.cpp.i
+
+CMOD/test_cmod_simple.s: CMOD/test_cmod_simple.cpp.s
+.PHONY : CMOD/test_cmod_simple.s
+
+# target to generate assembly for a file
+CMOD/test_cmod_simple.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_cmod_simple.dir/build.make tests/CMakeFiles/test_cmod_simple.dir/CMOD/test_cmod_simple.cpp.s
+.PHONY : CMOD/test_cmod_simple.cpp.s
+
 Integration/test_integration.o: Integration/test_integration.cpp.o
 .PHONY : Integration/test_integration.o
 
@@ -570,6 +646,8 @@ help:
 	@echo "... test_chtl_core"
 	@echo "... test_chtl_simple"
 	@echo "... test_chtljs_core"
+	@echo "... test_cmod"
+	@echo "... test_cmod_simple"
 	@echo "... test_complex_syntax"
 	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
@@ -598,6 +676,12 @@ help:
 	@echo "... CHTLJS/test_chtljs_core.o"
 	@echo "... CHTLJS/test_chtljs_core.i"
 	@echo "... CHTLJS/test_chtljs_core.s"
+	@echo "... CMOD/test_cmod.o"
+	@echo "... CMOD/test_cmod.i"
+	@echo "... CMOD/test_cmod.s"
+	@echo "... CMOD/test_cmod_simple.o"
+	@echo "... CMOD/test_cmod_simple.i"
+	@echo "... CMOD/test_cmod_simple.s"
 	@echo "... Integration/test_integration.o"
 	@echo "... Integration/test_integration.i"
 	@echo "... Integration/test_integration.s"

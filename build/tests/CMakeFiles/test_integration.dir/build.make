@@ -103,6 +103,7 @@ bin/test_integration: lib/libdispatcher.a
 bin/test_integration: lib/libcss_compiler.a
 bin/test_integration: lib/libjs_compiler.a
 bin/test_integration: lib/libutils.a
+bin/test_integration: lib/libcmod.a
 bin/test_integration: tests/CMakeFiles/test_integration.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/test_integration"
 	cd /workspace/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_integration.dir/link.txt --verbose=$(VERBOSE)

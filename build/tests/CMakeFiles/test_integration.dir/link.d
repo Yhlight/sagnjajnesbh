@@ -11,6 +11,7 @@
   ../lib/libjs_compiler.a \
   ../lib/libutils.a \
   /workspace/ANTLR4/lib/libantlr4-runtime-static.a \
+  ../lib/libcmod.a \
   /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
   /lib/x86_64-linux-gnu/libm.so \
   /lib/x86_64-linux-gnu/libm.so \
@@ -62,6 +63,8 @@ CMakeFiles/test_integration.dir/Integration/test_integration.cpp.o:
 ../lib/libutils.a:
 
 /workspace/ANTLR4/lib/libantlr4-runtime-static.a:
+
+../lib/libcmod.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so:
 

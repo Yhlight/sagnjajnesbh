@@ -256,6 +256,20 @@ js_compiler/fast:
 .PHONY : js_compiler/fast
 
 # Convenience name for target.
+src/CMakeFiles/cmod.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/cmod.dir/rule
+.PHONY : src/CMakeFiles/cmod.dir/rule
+
+# Convenience name for target.
+cmod: src/CMakeFiles/cmod.dir/rule
+.PHONY : cmod
+
+# fast build rule for target.
+cmod/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod.dir/build.make src/CMakeFiles/cmod.dir/build
+.PHONY : cmod/fast
+
+# Convenience name for target.
 src/CMakeFiles/utils.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/utils.dir/rule
 .PHONY : src/CMakeFiles/utils.dir/rule
@@ -715,6 +729,30 @@ CHTLJS/Parser/CHTLJSParser.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtljs_core.dir/build.make src/CMakeFiles/chtljs_core.dir/CHTLJS/Parser/CHTLJSParser.cpp.s
 .PHONY : CHTLJS/Parser/CHTLJSParser.cpp.s
 
+CMOD/CMODManager.o: CMOD/CMODManager.cpp.o
+.PHONY : CMOD/CMODManager.o
+
+# target to build an object file
+CMOD/CMODManager.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod.dir/build.make src/CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.o
+.PHONY : CMOD/CMODManager.cpp.o
+
+CMOD/CMODManager.i: CMOD/CMODManager.cpp.i
+.PHONY : CMOD/CMODManager.i
+
+# target to preprocess a source file
+CMOD/CMODManager.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod.dir/build.make src/CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.i
+.PHONY : CMOD/CMODManager.cpp.i
+
+CMOD/CMODManager.s: CMOD/CMODManager.cpp.s
+.PHONY : CMOD/CMODManager.s
+
+# target to generate assembly for a file
+CMOD/CMODManager.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod.dir/build.make src/CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.s
+.PHONY : CMOD/CMODManager.cpp.s
+
 CSS/CSSCompiler.o: CSS/CSSCompiler.cpp.o
 .PHONY : CSS/CSSCompiler.o
 
@@ -1163,6 +1201,7 @@ help:
 	@echo "... chtl_compiler"
 	@echo "... chtl_core"
 	@echo "... chtljs_core"
+	@echo "... cmod"
 	@echo "... css_compiler"
 	@echo "... dispatcher"
 	@echo "... js_compiler"
@@ -1222,6 +1261,9 @@ help:
 	@echo "... CHTLJS/Parser/CHTLJSParser.o"
 	@echo "... CHTLJS/Parser/CHTLJSParser.i"
 	@echo "... CHTLJS/Parser/CHTLJSParser.s"
+	@echo "... CMOD/CMODManager.o"
+	@echo "... CMOD/CMODManager.i"
+	@echo "... CMOD/CMODManager.s"
 	@echo "... CSS/CSSCompiler.o"
 	@echo "... CSS/CSSCompiler.i"
 	@echo "... CSS/CSSCompiler.s"

@@ -9,6 +9,7 @@
 #include "CHTL/AST/CHTLASTNodes.h"
 #include "CHTL/AST/CHTLASTVisitor.h"
 #include "CHTL/Core/CHTLGlobalMap.h"
+#include "CMOD/CMODManager.h"
 
 namespace CHTL {
 namespace Generator {
@@ -70,6 +71,15 @@ public:
      */
     explicit CHTLGenerator(Core::CHTLGlobalMap& globalMap, 
                           const GeneratorConfig& config = GeneratorConfig());
+    
+    /**
+     * @brief 构造函数（带CMOD管理器）
+     * @param globalMap 全局映射表
+     * @param cmodManager CMOD管理器
+     * @param config 生成器配置
+     */
+    CHTLGenerator(Core::CHTLGlobalMap& globalMap, CMOD::CMODManager& cmodManager, 
+                 const GeneratorConfig& config = GeneratorConfig());
     
     /**
      * @brief 析构函数
@@ -408,6 +418,7 @@ private:
 private:
     GeneratorConfig config_;                // 生成器配置
     Core::CHTLGlobalMap& globalMap_;        // 全局映射表引用
+    CMOD::CMODManager* cmodManager_;        // CMOD管理器指针（可选）
     GenerationContext context_;             // 生成上下文
     std::ostringstream output_;             // 输出流
     int currentIndent_;                     // 当前缩进级别

@@ -3,6 +3,7 @@
 
 bin/test_complex_syntax
  /workspace/build/lib/libchtl_core.a
+ /workspace/build/lib/libcmod.a
  /workspace/build/lib/libutils.a
  /lib/x86_64-linux-gnu/Scrt1.o
  /lib/x86_64-linux-gnu/crti.o
@@ -298,5 +299,6 @@ tests/CMakeFiles/test_complex_syntax.dir/CHTL/test_complex_syntax.cpp.o
  /workspace/include/CHTL/Generator/CHTLGenerator.h
  /workspace/include/CHTL/Lexer/CHTLLexer.h
  /workspace/include/CHTL/Parser/CHTLParser.h
+ /workspace/include/CMOD/CMODManager.h
  /workspace/include/Utils/ErrorHandler.h
 

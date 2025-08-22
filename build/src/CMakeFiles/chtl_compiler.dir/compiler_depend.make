@@ -3,6 +3,7 @@
 
 bin/chtl_compiler: lib/libchtl_core.a \
   lib/libchtljs_core.a \
+  lib/libcmod.a \
   lib/libcss_compiler.a \
   lib/libdispatcher.a \
   lib/libjs_compiler.a \
@@ -363,6 +364,8 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o: /workspace/src/main.cpp \
 
 /usr/include/c++/14/stdexcept:
 
+/usr/include/c++/14/sstream:
+
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
 /usr/include/c++/14/bits/shared_ptr.h:
@@ -465,12 +468,6 @@ lib/libchtljs_core.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/libgcc.a:
 
-/usr/include/asm-generic/errno-base.h:
-
-/usr/include/c++/14/bits/stl_algobase.h:
-
-/usr/include/c++/14/bits/stl_iterator.h:
-
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/c++allocator.h:
@@ -525,6 +522,30 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o:
 
 lib/libchtl_core.a:
 
+lib/libcmod.a:
+
+/usr/include/c++/14/bits/uses_allocator.h:
+
+/usr/include/c++/14/bits/shared_ptr_base.h:
+
+/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
+
+/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+/usr/include/c++/14/bits/stl_algobase.h:
+
+/usr/include/c++/14/bits/stl_iterator.h:
+
+/usr/include/c++/14/bits/memory_resource.h:
+
+lib/libcss_compiler.a:
+
+/usr/include/pthread.h:
+
+/usr/include/c++/14/bits/functexcept.h:
+
 /workspace/ANTLR4/lib/libantlr4-runtime-static.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/crtendS.o:
@@ -559,27 +580,9 @@ lib/libdispatcher.a:
 
 /usr/include/c++/14/bits/predefined_ops.h:
 
-/usr/include/x86_64-linux-gnu/sys/single_threaded.h:
-
-lib/libscanner.a:
-
 /usr/include/c++/14/bits/stl_raw_storage_iter.h:
 
 /lib/x86_64-linux-gnu/crti.o:
-
-/usr/include/c++/14/bits/memory_resource.h:
-
-lib/libcss_compiler.a:
-
-/usr/include/pthread.h:
-
-/usr/include/c++/14/bits/functexcept.h:
-
-/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
-
-/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
-
-/usr/include/c++/14/bits/shared_ptr_base.h:
 
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
@@ -694,6 +697,10 @@ lib/libcss_compiler.a:
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
 /usr/include/c++/14/bits/hash_bytes.h:
+
+lib/libscanner.a:
+
+/usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
 /usr/include/c++/14/backward/auto_ptr.h:
 
@@ -823,8 +830,6 @@ lib/libjs_compiler.a:
 
 /usr/include/c++/14/bits/unique_ptr.h:
 
-/usr/include/c++/14/bits/uses_allocator.h:
-
 /usr/include/c++/14/bits/uses_allocator_args.h:
 
 /usr/include/c++/14/bits/vector.tcc:
@@ -883,14 +888,12 @@ lib/libutils.a:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
 
-/usr/include/asm-generic/types.h:
-
 /usr/include/asm-generic/bitsperlong.h:
+
+/usr/include/asm-generic/types.h:
 
 /usr/include/c++/14/pstl/execution_defs.h:
 
 /usr/include/x86_64-linux-gnu/bits/sched.h:
 
 /usr/include/c++/14/ratio:
-
-/usr/include/c++/14/sstream:

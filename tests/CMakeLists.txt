@@ -89,6 +89,30 @@ if(NOT GTest_FOUND)
     
     add_test(NAME CHTLAdvancedFeaturesTest COMMAND test_advanced_features)
     
+    # CMOD系统测试
+    add_executable(test_cmod
+        CMOD/test_cmod.cpp
+    )
+    
+    target_link_libraries(test_cmod
+        cmod
+        utils
+    )
+    
+    add_test(NAME CMODTest COMMAND test_cmod)
+    
+    # CMOD简化测试
+    add_executable(test_cmod_simple
+        CMOD/test_cmod_simple.cpp
+    )
+    
+    target_link_libraries(test_cmod_simple
+        cmod
+        utils
+    )
+    
+    add_test(NAME CMODSimpleTest COMMAND test_cmod_simple)
+    
     # CHTL JS核心测试
     add_executable(test_chtljs_core
         CHTLJS/test_chtljs_core.cpp

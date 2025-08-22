@@ -5,12 +5,18 @@
 #include <algorithm>
 #include <regex>
 #include <sstream>
+#include <filesystem>
 
 namespace CHTL {
 namespace Generator {
 
 CHTLGenerator::CHTLGenerator(Core::CHTLGlobalMap& globalMap, const GeneratorConfig& config)
-    : config_(config), globalMap_(globalMap), currentIndent_(0),
+    : config_(config), globalMap_(globalMap), cmodManager_(nullptr), currentIndent_(0),
+      elementCount_(0), templateExpandCount_(0), customExpandCount_(0), variableSubstitutionCount_(0) {}
+
+CHTLGenerator::CHTLGenerator(Core::CHTLGlobalMap& globalMap, CMOD::CMODManager& cmodManager, 
+                           const GeneratorConfig& config)
+    : config_(config), globalMap_(globalMap), cmodManager_(&cmodManager), currentIndent_(0),
       elementCount_(0), templateExpandCount_(0), customExpandCount_(0), variableSubstitutionCount_(0) {}
 
 std::string CHTLGenerator::Generate(AST::ASTNodePtr ast) {
@@ -1261,10 +1267,25 @@ bool CHTLGenerator::LoadImportFile(const std::string& path, AST::ImportNode::Imp
                 CollectGlobalScript(content);
                 break;
                 
-            case AST::ImportNode::ImportType::CHTL:
-                // CHTL文件需要重新解析
-                ParseImportedSymbols(content, importType, "");
-                break;
+                         case AST::ImportNode::ImportType::CHTL:
+                 // CHTL文件需要重新解析
+                 if (cmodManager_) {
+                     // 尝试作为CMOD模块导入
+                     std::string moduleName = std::filesystem::path(path).stem().string();
+                     if (cmodManager_->ImportModule(moduleName)) {
+                         // 获取模块源文件内容并解析
+                         auto moduleContents = cmodManager_->GetModuleSourceContent(moduleName);
+                         for (const auto& moduleContent : moduleContents) {
+                             ParseImportedSymbols(moduleContent, importType, "");
+                         }
+                     } else {
+                         // 作为普通CHTL文件处理
+                         ParseImportedSymbols(content, importType, "");
+                     }
+                 } else {
+                     ParseImportedSymbols(content, importType, "");
+                 }
+                 break;
                 
             case AST::ImportNode::ImportType::CONFIG:
                 // 配置文件处理

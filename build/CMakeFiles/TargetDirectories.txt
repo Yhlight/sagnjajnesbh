@@ -11,6 +11,7 @@
 /workspace/build/src/CMakeFiles/dispatcher.dir
 /workspace/build/src/CMakeFiles/css_compiler.dir
 /workspace/build/src/CMakeFiles/js_compiler.dir
+/workspace/build/src/CMakeFiles/cmod.dir
 /workspace/build/src/CMakeFiles/utils.dir
 /workspace/build/src/CMakeFiles/chtl_compiler.dir
 /workspace/build/src/CMakeFiles/test.dir
@@ -27,6 +28,8 @@
 /workspace/build/tests/CMakeFiles/test_complex_syntax.dir
 /workspace/build/tests/CMakeFiles/test_inheritance_simple.dir
 /workspace/build/tests/CMakeFiles/test_advanced_features.dir
+/workspace/build/tests/CMakeFiles/test_cmod.dir
+/workspace/build/tests/CMakeFiles/test_cmod_simple.dir
 /workspace/build/tests/CMakeFiles/test_chtljs_core.dir
 /workspace/build/tests/CMakeFiles/test_scanner.dir
 /workspace/build/tests/CMakeFiles/test_integration.dir

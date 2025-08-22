@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/workspace/include -I/workspace/ANTLR4/include -I/workspace/include/CHTL -I/workspace/include/Utils
+CXX_INCLUDES = -I/workspace/include -I/workspace/ANTLR4/include -I/workspace/include/CHTL -I/workspace/include/CMOD -I/workspace/include/Utils
 
 CXX_FLAGS = -O3 -DNDEBUG -std=c++17 -finput-charset=UTF-8 -fexec-charset=UTF-8
 

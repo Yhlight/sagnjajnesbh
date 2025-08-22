@@ -102,6 +102,7 @@ bin/chtl_compiler: lib/libscanner.a
 bin/chtl_compiler: lib/libdispatcher.a
 bin/chtl_compiler: lib/libcss_compiler.a
 bin/chtl_compiler: lib/libjs_compiler.a
+bin/chtl_compiler: lib/libcmod.a
 bin/chtl_compiler: lib/libutils.a
 bin/chtl_compiler: src/CMakeFiles/chtl_compiler.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/chtl_compiler"

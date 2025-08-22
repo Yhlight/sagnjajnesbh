@@ -1918,6 +1918,7 @@ src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o: /workspace/src/
   /workspace/include/CHTL/Core/CHTLGlobalMap.h \
   /workspace/include/CHTL/Core/CHTLToken.h \
   /workspace/include/CHTL/Generator/CHTLGenerator.h \
+  /workspace/include/CMOD/CMODManager.h \
   /workspace/include/Utils/ErrorHandler.h \
   /workspace/include/Utils/FileUtils.h \
   /workspace/include/Utils/StringUtils.h
@@ -2455,6 +2456,8 @@ src/CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o: /workspace/src/CHTL/P
 
 
 /workspace/include/CHTL/Lexer/CHTLLexer.h:
+
+/workspace/include/CMOD/CMODManager.h:
 
 /workspace/src/CHTL/Generator/CHTLGenerator.cpp:
 
