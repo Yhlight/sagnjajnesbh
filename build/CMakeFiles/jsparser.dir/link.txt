@@ -1,0 +1,2 @@
+/usr/bin/ar qc libjsparser.a CMakeFiles/jsparser.dir/js/JavaScriptLexer.cpp.o CMakeFiles/jsparser.dir/js/JavaScriptLexerBase.cpp.o CMakeFiles/jsparser.dir/js/JavaScriptParser.cpp.o CMakeFiles/jsparser.dir/js/JavaScriptParserBase.cpp.o CMakeFiles/jsparser.dir/js/JavaScriptParserBaseListener.cpp.o CMakeFiles/jsparser.dir/js/JavaScriptParserListener.cpp.o
+/usr/bin/ranlib libjsparser.a

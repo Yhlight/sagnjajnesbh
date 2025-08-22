@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcssparser.a CMakeFiles/cssparser.dir/css/css3Lexer.cpp.o CMakeFiles/cssparser.dir/css/css3Parser.cpp.o CMakeFiles/cssparser.dir/css/css3ParserBaseListener.cpp.o CMakeFiles/cssparser.dir/css/css3ParserListener.cpp.o
+/usr/bin/ranlib libcssparser.a

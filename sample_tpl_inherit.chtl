@@ -1,0 +1,4 @@
+[Template] @Style Base { color: red; }
+[Template] @Style A { @Style Base; line-height: 1.2; }
+[Template] @Style B { inherit @Style A; color: blue; }
+div { style { /*CHTL_STYLE_REF:B*/ } }
