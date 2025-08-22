@@ -28,27 +28,13 @@ enum class NodeType {
     IDENTIFIER,                 // 标识符
     LITERAL,                    // 字面量
     
-    // CHTL JS核心节点（不包含JS语法）
-    ENHANCED_SELECTOR,          // 增强选择器 {{selector}}
-    VIRTUAL_OBJECT,             // 虚对象 vir
-    LISTEN_BLOCK,               // 监听器块 listen({...})
-    DELEGATE_BLOCK,             // 事件委托块 delegate({...})
-    ANIMATE_BLOCK,              // 动画块 animate({...})
-    
-    // 箭头函数（CHTL JS特有）
-    ARROW_FUNCTION,             // 箭头函数 () => {}
-    
-    // 错误的节点类型已移除：
-    // I_NEVER_AWAY_BLOCK - iNeverAway是CJMOD扩展，不是CHTL JS核心
-    // FUNCTION_DEFINITION - function是JavaScript语法，不是CHTL JS
-    // FUNCTION_CALL - 这是JavaScript语法
-    // OBJECT_LITERAL - 这是JavaScript语法
-    // ARRAY_LITERAL - 这是JavaScript语法
-    // PROPERTY_ACCESS - 这是JavaScript语法
-    // METHOD_CALL - 这是JavaScript语法
-    // VOID_TYPE - Void是CJMOD扩展，不是CHTL JS核心
-    // VOID_STATE - Void<State>是CJMOD扩展
-    // VIRTUAL_METHOD_CALL - 这属于CJMOD扩展
+    // CHTL JS核心语法节点（严格按照语法文档第1099-1531行）
+    ENHANCED_SELECTOR,          // 增强选择器 {{selector}} - 语法文档第1130行
+    VIRTUAL_OBJECT,             // 虚对象 vir - 语法文档第1274行
+    LISTEN_BLOCK,               // 监听器块 listen({...}) - 语法文档第1184行
+    DELEGATE_BLOCK,             // 事件委托块 delegate({...}) - 语法文档第1215行
+    ANIMATE_BLOCK,              // 动画块 animate({...}) - 语法文档第1233行
+    ARROW_FUNCTION,             // 箭头函数 () => {} - 语法文档第1202行支持
     
     // 事件相关
     EVENT_HANDLER,              // 事件处理器
@@ -61,13 +47,6 @@ enum class NodeType {
     
     // 注释
     COMMENT,
-    
-    // 错误的节点类型已移除：
-    // BINARY_EXPRESSION - 这是JavaScript语法，不是CHTL JS
-    // UNARY_EXPRESSION - 这是JavaScript语法，不是CHTL JS
-    // ASSIGNMENT_EXPRESSION - 这是JavaScript语法，不是CHTL JS
-    // EXPRESSION_STATEMENT - 这是JavaScript语句，不是CHTL JS
-    // VARIABLE_DECLARATION - 这是JavaScript语句，不是CHTL JS
     
     NODE_TYPE_COUNT
 };
@@ -326,47 +305,11 @@ private:
     ASTNodePtr callback_;
 };
 
-/**
- * @brief iNeverAway块节点
- */
-class INeverAwayBlockNode : public ASTNode {
-public:
-    INeverAwayBlockNode(const Core::CHTLJSToken& token);
-    void Accept(ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    void AddVoidMethod(const std::string& state, ASTNodePtr method);
-    void AddCustomMethod(const std::string& name, ASTNodePtr method);
-    const std::unordered_map<std::string, ASTNodePtr>& GetVoidMethods() const { return voidMethods_; }
-    const std::unordered_map<std::string, ASTNodePtr>& GetCustomMethods() const { return customMethods_; }
+// INeverAwayBlockNode已移除 - iNeverAway是CJMOD扩展功能，不属于CHTL JS核心语法
+// 语法文档第1485行明确说明iNeverAway属于CJMOD扩展
 
-private:
-    std::unordered_map<std::string, ASTNodePtr> voidMethods_;    // Void<State>方法
-    std::unordered_map<std::string, ASTNodePtr> customMethods_;  // 自定义方法
-};
-
-/**
- * @brief 函数定义节点
- */
-class FunctionDefinitionNode : public ASTNode {
-public:
-    FunctionDefinitionNode(const std::string& name, const Core::CHTLJSToken& token);
-    void Accept(ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    const std::string& GetName() const { return name_; }
-    void AddParameter(const std::string& param) { parameters_.push_back(param); }
-    const std::vector<std::string>& GetParameters() const { return parameters_; }
-    void SetBody(ASTNodePtr body) { body_ = body; }
-    ASTNodePtr GetBody() const { return body_; }
-
-private:
-    std::string name_;
-    std::vector<std::string> parameters_;
-    ASTNodePtr body_;
-};
+// FunctionDefinitionNode已移除 - function是JavaScript语法，不属于CHTL JS
+// 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
 /**
  * @brief 箭头函数节点
@@ -388,39 +331,11 @@ private:
     ASTNodePtr body_;
 };
 
-/**
- * @brief 对象字面量节点
- */
-class ObjectLiteralNode : public ASTNode {
-public:
-    ObjectLiteralNode(const Core::CHTLJSToken& token);
-    void Accept(ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    void AddProperty(const std::string& key, ASTNodePtr value);
-    const std::unordered_map<std::string, ASTNodePtr>& GetProperties() const { return properties_; }
+// ObjectLiteralNode已移除 - 对象字面量是JavaScript语法，不属于CHTL JS
+// 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
-private:
-    std::unordered_map<std::string, ASTNodePtr> properties_;
-};
-
-/**
- * @brief 数组字面量节点
- */
-class ArrayLiteralNode : public ASTNode {
-public:
-    ArrayLiteralNode(const Core::CHTLJSToken& token);
-    void Accept(ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    void AddElement(ASTNodePtr element) { elements_.push_back(element); }
-    const ASTNodeList& GetElements() const { return elements_; }
-
-private:
-    ASTNodeList elements_;
-};
+// ArrayLiteralNode已移除 - 数组字面量是JavaScript语法，不属于CHTL JS
+// 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
 /**
  * @brief 方法调用节点
@@ -492,68 +407,14 @@ private:
     std::unordered_map<std::string, std::string> cssProperties_;
 };
 
-/**
- * @brief 变量声明节点
- */
-class VariableDeclarationNode : public ASTNode {
-public:
-    enum class DeclarationType {
-        CONST,
-        LET,
-        VAR
-    };
-    
-    VariableDeclarationNode(DeclarationType type, const std::string& name, const Core::CHTLJSToken& token);
-    void Accept(ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    DeclarationType GetDeclarationType() const { return declarationType_; }
-    const std::string& GetName() const { return name_; }
-    void SetInitializer(ASTNodePtr initializer) { initializer_ = initializer; }
-    ASTNodePtr GetInitializer() const { return initializer_; }
+// VariableDeclarationNode已移除 - 变量声明是JavaScript语法，不属于CHTL JS
+// 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
-private:
-    DeclarationType declarationType_;
-    std::string name_;
-    ASTNodePtr initializer_;
-};
+// AssignmentExpressionNode已移除 - 赋值表达式是JavaScript语法，不属于CHTL JS
+// 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
-/**
- * @brief 赋值表达式节点
- */
-class AssignmentExpressionNode : public ASTNode {
-public:
-    AssignmentExpressionNode(ASTNodePtr left, ASTNodePtr right, const Core::CHTLJSToken& token);
-    void Accept(ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    ASTNodePtr GetLeft() const { return left_; }
-    ASTNodePtr GetRight() const { return right_; }
-
-private:
-    ASTNodePtr left_;
-    ASTNodePtr right_;
-};
-
-/**
- * @brief 属性访问节点
- */
-class PropertyAccessNode : public ASTNode {
-public:
-    PropertyAccessNode(ASTNodePtr object, const std::string& property, const Core::CHTLJSToken& token);
-    void Accept(ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    ASTNodePtr GetObject() const { return object_; }
-    const std::string& GetProperty() const { return property_; }
-
-private:
-    ASTNodePtr object_;
-    std::string property_;
-};
+// PropertyAccessNode已移除 - 属性访问是JavaScript语法，不属于CHTL JS
+// 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
 /**
  * @brief 注释节点

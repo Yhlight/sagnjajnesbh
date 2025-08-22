@@ -237,60 +237,13 @@ std::string AnimateBlockNode::ToString() const {
            std::to_string(keyframes_.size()) + " keyframes)";
 }
 
-// INeverAwayBlockNode实现
-INeverAwayBlockNode::INeverAwayBlockNode(const Core::CHTLJSToken& token)
-    : ASTNode(NodeType::I_NEVER_AWAY_BLOCK, token) {}
+// INeverAwayBlockNode实现已移除 - iNeverAway是CJMOD扩展功能，不属于CHTL JS核心语法
+// 语法文档第1485行明确说明iNeverAway属于CJMOD扩展
 
-void INeverAwayBlockNode::Accept(ASTVisitor& visitor) {
-    visitor.VisitINeverAwayBlockNode(*this);
-}
+// FunctionDefinitionNode实现已移除 - function是JavaScript语法，不属于CHTL JS
+// 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
-ASTNodePtr INeverAwayBlockNode::Clone() const {
-    auto clone = std::make_shared<INeverAwayBlockNode>(token_);
-    for (const auto& voidMethod : voidMethods_) {
-        clone->AddVoidMethod(voidMethod.first, voidMethod.second->Clone());
-    }
-    for (const auto& customMethod : customMethods_) {
-        clone->AddCustomMethod(customMethod.first, customMethod.second->Clone());
-    }
-    return clone;
-}
-
-std::string INeverAwayBlockNode::ToString() const {
-    return "I_NEVER_AWAY_BLOCK(" + std::to_string(voidMethods_.size()) + " void methods, " +
-           std::to_string(customMethods_.size()) + " custom methods)";
-}
-
-void INeverAwayBlockNode::AddVoidMethod(const std::string& state, ASTNodePtr method) {
-    voidMethods_[state] = method;
-}
-
-void INeverAwayBlockNode::AddCustomMethod(const std::string& name, ASTNodePtr method) {
-    customMethods_[name] = method;
-}
-
-// FunctionDefinitionNode实现
-FunctionDefinitionNode::FunctionDefinitionNode(const std::string& name, const Core::CHTLJSToken& token)
-    : ASTNode(NodeType::FUNCTION_DEFINITION, token), name_(name) {}
-
-void FunctionDefinitionNode::Accept(ASTVisitor& visitor) {
-    visitor.VisitFunctionDefinitionNode(*this);
-}
-
-ASTNodePtr FunctionDefinitionNode::Clone() const {
-    auto clone = std::make_shared<FunctionDefinitionNode>(name_, token_);
-    for (const auto& param : parameters_) {
-        clone->AddParameter(param);
-    }
-    if (body_) {
-        clone->SetBody(body_->Clone());
-    }
-    return clone;
-}
-
-std::string FunctionDefinitionNode::ToString() const {
-    return "FUNCTION_DEFINITION(" + name_ + ", " + std::to_string(parameters_.size()) + " params)";
-}
+// FunctionDefinitionNode的所有方法实现已移除 - function是JavaScript语法
 
 // ArrowFunctionNode实现
 ArrowFunctionNode::ArrowFunctionNode(const Core::CHTLJSToken& token)
@@ -315,96 +268,19 @@ std::string ArrowFunctionNode::ToString() const {
     return "ARROW_FUNCTION(" + std::to_string(parameters_.size()) + " params)";
 }
 
-// ObjectLiteralNode实现
-ObjectLiteralNode::ObjectLiteralNode(const Core::CHTLJSToken& token)
-    : ASTNode(NodeType::OBJECT_LITERAL, token) {}
+// ObjectLiteralNode实现已移除 - 对象字面量是JavaScript语法，不属于CHTL JS
+// 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
-void ObjectLiteralNode::Accept(ASTVisitor& visitor) {
-    visitor.VisitObjectLiteralNode(*this);
-}
+// 所有JavaScript语法节点实现已移除：
+// - ArrayLiteralNode - 数组字面量是JavaScript语法
+// - MethodCallNode - 方法调用是JavaScript语法
+// 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
-ASTNodePtr ObjectLiteralNode::Clone() const {
-    auto clone = std::make_shared<ObjectLiteralNode>(token_);
-    for (const auto& prop : properties_) {
-        clone->AddProperty(prop.first, prop.second->Clone());
-    }
-    return clone;
-}
-
-std::string ObjectLiteralNode::ToString() const {
-    return "OBJECT_LITERAL(" + std::to_string(properties_.size()) + " properties)";
-}
-
-void ObjectLiteralNode::AddProperty(const std::string& key, ASTNodePtr value) {
-    properties_[key] = value;
-}
-
-// ArrayLiteralNode实现
-ArrayLiteralNode::ArrayLiteralNode(const Core::CHTLJSToken& token)
-    : ASTNode(NodeType::ARRAY_LITERAL, token) {}
-
-void ArrayLiteralNode::Accept(ASTVisitor& visitor) {
-    visitor.VisitArrayLiteralNode(*this);
-}
-
-ASTNodePtr ArrayLiteralNode::Clone() const {
-    auto clone = std::make_shared<ArrayLiteralNode>(token_);
-    for (const auto& element : elements_) {
-        clone->AddElement(element->Clone());
-    }
-    return clone;
-}
-
-std::string ArrayLiteralNode::ToString() const {
-    return "ARRAY_LITERAL(" + std::to_string(elements_.size()) + " elements)";
-}
-
-// MethodCallNode实现
-MethodCallNode::MethodCallNode(ASTNodePtr object, const std::string& method, const Core::CHTLJSToken& token)
-    : ASTNode(NodeType::METHOD_CALL, token), object_(object), method_(method), isArrowCall_(false) {}
-
-void MethodCallNode::Accept(ASTVisitor& visitor) {
-    visitor.VisitMethodCallNode(*this);
-}
-
-ASTNodePtr MethodCallNode::Clone() const {
-    auto clone = std::make_shared<MethodCallNode>(object_->Clone(), method_, token_);
-    for (const auto& arg : arguments_) {
-        clone->AddArgument(arg->Clone());
-    }
-    clone->SetIsArrowCall(isArrowCall_);
-    return clone;
-}
-
-std::string MethodCallNode::ToString() const {
-    std::string op = isArrowCall_ ? "->" : ".";
-    return "METHOD_CALL(" + object_->ToString() + op + method_ + ", " + 
-           std::to_string(arguments_.size()) + " args)";
-}
-
-// VirtualMethodCallNode实现
-VirtualMethodCallNode::VirtualMethodCallNode(const std::string& objectName, const std::string& method, const Core::CHTLJSToken& token)
-    : ASTNode(NodeType::VIRTUAL_METHOD_CALL, token), objectName_(objectName), method_(method), isVoidStateCall_(false) {}
-
-void VirtualMethodCallNode::Accept(ASTVisitor& visitor) {
-    visitor.VisitVirtualMethodCallNode(*this);
-}
-
-ASTNodePtr VirtualMethodCallNode::Clone() const {
-    auto clone = std::make_shared<VirtualMethodCallNode>(objectName_, method_, token_);
-    for (const auto& arg : arguments_) {
-        clone->AddArgument(arg->Clone());
-    }
-    clone->SetIsVoidStateCall(isVoidStateCall_);
-    clone->SetVoidState(voidState_);
-    return clone;
-}
-
-std::string VirtualMethodCallNode::ToString() const {
-    std::string methodCall = isVoidStateCall_ ? 
-                           "Void<" + voidState_ + ">" : method_;
-    return "VIRTUAL_METHOD_CALL(" + objectName_ + "->" + methodCall + ")";
-}
+// 所有JavaScript语法和CJMOD扩展节点实现已移除：
+// - MethodCallNode - 方法调用是JavaScript语法
+// - VirtualMethodCallNode - 虚方法调用属于CJMOD扩展
+// 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
+// 语法文档第1485行明确说明虚对象调用属于CJMOD扩展
 
 // AnimationKeyframeNode实现
 AnimationKeyframeNode::AnimationKeyframeNode(double time, const Core::CHTLJSToken& token)
@@ -431,63 +307,11 @@ void AnimationKeyframeNode::AddCSSProperty(const std::string& property, const st
     cssProperties_[property] = value;
 }
 
-// VariableDeclarationNode实现
-VariableDeclarationNode::VariableDeclarationNode(DeclarationType type, const std::string& name, const Core::CHTLJSToken& token)
-    : ASTNode(NodeType::VARIABLE_DECLARATION, token), declarationType_(type), name_(name) {}
-
-void VariableDeclarationNode::Accept(ASTVisitor& visitor) {
-    visitor.VisitVariableDeclarationNode(*this);
-}
-
-ASTNodePtr VariableDeclarationNode::Clone() const {
-    auto clone = std::make_shared<VariableDeclarationNode>(declarationType_, name_, token_);
-    if (initializer_) {
-        clone->SetInitializer(initializer_->Clone());
-    }
-    return clone;
-}
-
-std::string VariableDeclarationNode::ToString() const {
-    std::string typeStr;
-    switch (declarationType_) {
-        case DeclarationType::CONST: typeStr = "const"; break;
-        case DeclarationType::LET: typeStr = "let"; break;
-        case DeclarationType::VAR: typeStr = "var"; break;
-    }
-    return "VARIABLE_DECLARATION(" + typeStr + " " + name_ + ")";
-}
-
-// AssignmentExpressionNode实现
-AssignmentExpressionNode::AssignmentExpressionNode(ASTNodePtr left, ASTNodePtr right, const Core::CHTLJSToken& token)
-    : ASTNode(NodeType::ASSIGNMENT_EXPRESSION, token), left_(left), right_(right) {}
-
-void AssignmentExpressionNode::Accept(ASTVisitor& visitor) {
-    visitor.VisitAssignmentExpressionNode(*this);
-}
-
-ASTNodePtr AssignmentExpressionNode::Clone() const {
-    return std::make_shared<AssignmentExpressionNode>(left_->Clone(), right_->Clone(), token_);
-}
-
-std::string AssignmentExpressionNode::ToString() const {
-    return "ASSIGNMENT_EXPRESSION(" + left_->ToString() + " = " + right_->ToString() + ")";
-}
-
-// PropertyAccessNode实现
-PropertyAccessNode::PropertyAccessNode(ASTNodePtr object, const std::string& property, const Core::CHTLJSToken& token)
-    : ASTNode(NodeType::PROPERTY_ACCESS, token), object_(object), property_(property) {}
-
-void PropertyAccessNode::Accept(ASTVisitor& visitor) {
-    visitor.VisitPropertyAccessNode(*this);
-}
-
-ASTNodePtr PropertyAccessNode::Clone() const {
-    return std::make_shared<PropertyAccessNode>(object_->Clone(), property_, token_);
-}
-
-std::string PropertyAccessNode::ToString() const {
-    return "PROPERTY_ACCESS(" + object_->ToString() + "." + property_ + ")";
-}
+// 所有JavaScript语法节点实现已移除：
+// - VariableDeclarationNode - 变量声明是JavaScript语法
+// - AssignmentExpressionNode - 赋值表达式是JavaScript语法  
+// - PropertyAccessNode - 属性访问是JavaScript语法
+// 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
 // CommentNode实现
 CommentNode::CommentNode(const std::string& content, const Core::CHTLJSToken& token)

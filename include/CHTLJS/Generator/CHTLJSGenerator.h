@@ -89,17 +89,19 @@ public:
     void VisitListenBlockNode(AST::ListenBlockNode& node) override;
     void VisitDelegateBlockNode(AST::DelegateBlockNode& node) override;
     void VisitAnimateBlockNode(AST::AnimateBlockNode& node) override;
-    void VisitINeverAwayBlockNode(AST::INeverAwayBlockNode& node) override;
-    void VisitFunctionDefinitionNode(AST::FunctionDefinitionNode& node) override;
+    // 错误的访问方法声明已移除 - 这些节点属于JavaScript语法或CJMOD扩展
+    // void VisitINeverAwayBlockNode(AST::INeverAwayBlockNode& node) override; - CJMOD扩展
+    // void VisitFunctionDefinitionNode(AST::FunctionDefinitionNode& node) override; - JavaScript语法
+    // void VisitObjectLiteralNode(AST::ObjectLiteralNode& node) override; - JavaScript语法
+    // void VisitArrayLiteralNode(AST::ArrayLiteralNode& node) override; - JavaScript语法
+    // void VisitMethodCallNode(AST::MethodCallNode& node) override; - JavaScript语法
+    // void VisitVirtualMethodCallNode(AST::VirtualMethodCallNode& node) override; - CJMOD扩展
+    // void VisitVariableDeclarationNode(AST::VariableDeclarationNode& node) override; - JavaScript语法
+    
     void VisitArrowFunctionNode(AST::ArrowFunctionNode& node) override;
-    void VisitObjectLiteralNode(AST::ObjectLiteralNode& node) override;
-    void VisitArrayLiteralNode(AST::ArrayLiteralNode& node) override;
-    void VisitMethodCallNode(AST::MethodCallNode& node) override;
-    void VisitVirtualMethodCallNode(AST::VirtualMethodCallNode& node) override;
     void VisitAnimationKeyframeNode(AST::AnimationKeyframeNode& node) override;
-    void VisitVariableDeclarationNode(AST::VariableDeclarationNode& node) override;
-    void VisitAssignmentExpressionNode(AST::AssignmentExpressionNode& node) override;
-    void VisitPropertyAccessNode(AST::PropertyAccessNode& node) override;
+    // void VisitAssignmentExpressionNode(AST::AssignmentExpressionNode& node) override; - JavaScript语法
+    // void VisitPropertyAccessNode(AST::PropertyAccessNode& node) override; - JavaScript语法
     void VisitCommentNode(AST::CommentNode& node) override;
 
 private:
@@ -128,10 +130,8 @@ private:
      */
     std::string GenerateAnimation(AST::AnimateBlockNode& animateBlock);
     
-    /**
-     * @brief 生成iNeverAway函数
-     */
-    void GenerateINeverAwayFunctions(AST::INeverAwayBlockNode& iNeverAwayBlock);
+    // GenerateINeverAwayFunctions已移除 - iNeverAway是CJMOD扩展，不属于CHTL JS核心
+    // 语法文档第1485行明确说明iNeverAway属于CJMOD扩展
     
     /**
      * @brief 生成全局函数名
@@ -182,7 +182,7 @@ private:
     int eventListenerCount_;
     int eventDelegateCount_;
     int animationCount_;
-    int iNeverAwayCount_;
+    // int iNeverAwayCount_; - 已移除，iNeverAway是CJMOD扩展
 };
 
 } // namespace Generator

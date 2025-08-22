@@ -15,23 +15,27 @@ namespace Core {
  */
 enum class CompileState {
     INITIAL = 0,                    // 初始状态
-    PARSING_ENHANCED_SELECTOR,      // 解析增强选择器
-    PARSING_VIRTUAL_OBJECT,         // 解析虚对象
-    PARSING_LISTEN_BLOCK,           // 解析监听器块
-    PARSING_DELEGATE_BLOCK,         // 解析事件委托块
-    PARSING_ANIMATE_BLOCK,          // 解析动画块
-    PARSING_I_NEVER_AWAY,           // 解析iNeverAway函数
-    PARSING_FUNCTION_DEFINITION,    // 解析函数定义
-    PARSING_OBJECT_LITERAL,         // 解析对象字面量
-    PARSING_ARRAY_LITERAL,          // 解析数组字面量
-    PARSING_ARROW_FUNCTION,         // 解析箭头函数
-    PARSING_VOID_TYPE,              // 解析Void类型
-    PARSING_VOID_STATE,             // 解析Void状态类型
+    
+    // CHTL JS核心语法状态（严格按照语法文档第1099-1531行）
+    PARSING_ENHANCED_SELECTOR,      // 解析增强选择器 - 语法文档第1130行
+    PARSING_VIRTUAL_OBJECT,         // 解析虚对象 vir - 语法文档第1274行
+    PARSING_LISTEN_BLOCK,           // 解析监听器块 listen - 语法文档第1184行
+    PARSING_DELEGATE_BLOCK,         // 解析事件委托块 delegate - 语法文档第1215行
+    PARSING_ANIMATE_BLOCK,          // 解析动画块 animate - 语法文档第1233行
+    PARSING_ARROW_FUNCTION,         // 解析箭头函数 () => {} - 语法文档第1202行支持
     PARSING_EVENT_HANDLER,          // 解析事件处理器
     PARSING_ANIMATION_KEYFRAME,     // 解析动画关键帧
     PARSING_CSS_IN_ANIMATION,       // 解析动画中的CSS
     PARSING_SELECTOR_CONTENT,       // 解析选择器内容
     ERROR_STATE,                    // 错误状态
+    
+    // 错误的状态已移除：
+    // PARSING_I_NEVER_AWAY - iNeverAway是CJMOD扩展，不是CHTL JS核心
+    // PARSING_FUNCTION_DEFINITION - function是JavaScript语法
+    // PARSING_OBJECT_LITERAL - 对象字面量是JavaScript语法
+    // PARSING_ARRAY_LITERAL - 数组字面量是JavaScript语法
+    // PARSING_VOID_TYPE - Void是CJMOD扩展
+    // PARSING_VOID_STATE - Void<State>是CJMOD扩展
     
     STATE_COUNT
 };

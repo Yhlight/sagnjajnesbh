@@ -129,13 +129,15 @@ std::string CHTLJSState::GetStateName(CompileState state) {
         case CompileState::PARSING_LISTEN_BLOCK: return "PARSING_LISTEN_BLOCK";
         case CompileState::PARSING_DELEGATE_BLOCK: return "PARSING_DELEGATE_BLOCK";
         case CompileState::PARSING_ANIMATE_BLOCK: return "PARSING_ANIMATE_BLOCK";
-        case CompileState::PARSING_I_NEVER_AWAY: return "PARSING_I_NEVER_AWAY";
-        case CompileState::PARSING_FUNCTION_DEFINITION: return "PARSING_FUNCTION_DEFINITION";
-        case CompileState::PARSING_OBJECT_LITERAL: return "PARSING_OBJECT_LITERAL";
-        case CompileState::PARSING_ARRAY_LITERAL: return "PARSING_ARRAY_LITERAL";
+        // 错误的状态名称已移除 - 这些状态属于JavaScript语法或CJMOD扩展
+        // case CompileState::PARSING_I_NEVER_AWAY: return "PARSING_I_NEVER_AWAY"; - CJMOD扩展
+        // case CompileState::PARSING_FUNCTION_DEFINITION: return "PARSING_FUNCTION_DEFINITION"; - JavaScript语法
+        // case CompileState::PARSING_OBJECT_LITERAL: return "PARSING_OBJECT_LITERAL"; - JavaScript语法
+        // case CompileState::PARSING_ARRAY_LITERAL: return "PARSING_ARRAY_LITERAL"; - JavaScript语法
+        // case CompileState::PARSING_VOID_TYPE: return "PARSING_VOID_TYPE"; - CJMOD扩展
+        // case CompileState::PARSING_VOID_STATE: return "PARSING_VOID_STATE"; - CJMOD扩展
+        
         case CompileState::PARSING_ARROW_FUNCTION: return "PARSING_ARROW_FUNCTION";
-        case CompileState::PARSING_VOID_TYPE: return "PARSING_VOID_TYPE";
-        case CompileState::PARSING_VOID_STATE: return "PARSING_VOID_STATE";
         case CompileState::PARSING_EVENT_HANDLER: return "PARSING_EVENT_HANDLER";
         case CompileState::PARSING_ANIMATION_KEYFRAME: return "PARSING_ANIMATION_KEYFRAME";
         case CompileState::PARSING_CSS_IN_ANIMATION: return "PARSING_CSS_IN_ANIMATION";
@@ -164,23 +166,22 @@ void CHTLJSState::InitializeDefaultTransitions() {
         // 虚对象相关的I_NEVER_AWAY转换已移除
         {CompileState::PARSING_VIRTUAL_OBJECT, CompileState::INITIAL, TokenType::SEMICOLON},
         
-        // 监听器相关转换
-        {CompileState::PARSING_LISTEN_BLOCK, CompileState::PARSING_OBJECT_LITERAL, TokenType::LEFT_BRACE},
+        // 监听器相关转换（移除对PARSING_OBJECT_LITERAL的错误引用）
+        // {CompileState::PARSING_LISTEN_BLOCK, CompileState::PARSING_OBJECT_LITERAL, TokenType::LEFT_BRACE}, - 对象字面量是JavaScript语法
         {CompileState::PARSING_LISTEN_BLOCK, CompileState::PARSING_EVENT_HANDLER, TokenType::IDENTIFIER},
+        {CompileState::PARSING_LISTEN_BLOCK, CompileState::INITIAL, TokenType::RIGHT_BRACE},
         
-        // 事件委托相关转换
-        {CompileState::PARSING_DELEGATE_BLOCK, CompileState::PARSING_OBJECT_LITERAL, TokenType::LEFT_BRACE},
+        // 事件委托相关转换（移除对PARSING_OBJECT_LITERAL的错误引用）
+        // {CompileState::PARSING_DELEGATE_BLOCK, CompileState::PARSING_OBJECT_LITERAL, TokenType::LEFT_BRACE}, - 对象字面量是JavaScript语法
         {CompileState::PARSING_DELEGATE_BLOCK, CompileState::PARSING_EVENT_HANDLER, TokenType::TARGET},
+        {CompileState::PARSING_DELEGATE_BLOCK, CompileState::INITIAL, TokenType::RIGHT_BRACE},
         
-        // 动画相关转换
-        {CompileState::PARSING_ANIMATE_BLOCK, CompileState::PARSING_OBJECT_LITERAL, TokenType::LEFT_BRACE},
+        // 动画相关转换（移除对PARSING_OBJECT_LITERAL的错误引用）
+        // {CompileState::PARSING_ANIMATE_BLOCK, CompileState::PARSING_OBJECT_LITERAL, TokenType::LEFT_BRACE}, - 对象字面量是JavaScript语法
         {CompileState::PARSING_ANIMATE_BLOCK, CompileState::PARSING_ANIMATION_KEYFRAME, TokenType::WHEN},
         {CompileState::PARSING_ANIMATE_BLOCK, CompileState::PARSING_CSS_IN_ANIMATION, TokenType::BEGIN},
         {CompileState::PARSING_ANIMATE_BLOCK, CompileState::PARSING_CSS_IN_ANIMATION, TokenType::END},
-        
-        // 对象字面量相关转换
-        {CompileState::PARSING_OBJECT_LITERAL, CompileState::PARSING_ARROW_FUNCTION, TokenType::ARROW},
-        {CompileState::PARSING_OBJECT_LITERAL, CompileState::INITIAL, TokenType::RIGHT_BRACE},
+        {CompileState::PARSING_ANIMATE_BLOCK, CompileState::INITIAL, TokenType::RIGHT_BRACE},
         
         // 箭头函数相关转换
         {CompileState::PARSING_ARROW_FUNCTION, CompileState::INITIAL, TokenType::SEMICOLON},
@@ -193,9 +194,9 @@ void CHTLJSState::InitializeDefaultTransitions() {
         {CompileState::PARSING_CSS_IN_ANIMATION, CompileState::PARSING_ANIMATE_BLOCK, TokenType::RIGHT_BRACE},
         
         // 事件处理器相关转换
-        // 事件处理器相关的FUNCTION转换已移除
+        // 事件处理器相关的FUNCTION和OBJECT_LITERAL转换已移除 - JavaScript语法
         {CompileState::PARSING_EVENT_HANDLER, CompileState::PARSING_ARROW_FUNCTION, TokenType::ARROW},
-        {CompileState::PARSING_EVENT_HANDLER, CompileState::PARSING_OBJECT_LITERAL, TokenType::COMMA},
+        {CompileState::PARSING_EVENT_HANDLER, CompileState::INITIAL, TokenType::COMMA},
         
         // 通用转换（任何状态都可以转换到错误状态）
         {CompileState::INITIAL, CompileState::ERROR_STATE, TokenType::ERROR_TOKEN},

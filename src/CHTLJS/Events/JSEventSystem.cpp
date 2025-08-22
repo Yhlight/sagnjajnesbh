@@ -220,7 +220,7 @@ void JSEventManager::AddCustomEvent(const std::string& eventName) {
     if (!eventName.empty() && eventMap_.find(eventName) == eventMap_.end()) {
         customEvents_.insert(eventName);
         
-        Utils::ErrorHandler::GetInstance().LogInfo(
+        CHTL::Utils::ErrorHandler::GetInstance().LogInfo(
             "添加自定义JS事件: " + eventName
         );
     }
@@ -264,13 +264,13 @@ std::unordered_map<std::string, std::string> KeyValueFlexibilityManager::ParseKe
     // 格式：{ key1: value1, key2: value2, ... }
     
     std::string cleanString = keyValueString;
-    cleanString = Utils::StringUtils::Trim(cleanString);
+    cleanString = CHTL::Utils::StringUtils::Trim(cleanString);
     
     // 移除外层大括号
     if (cleanString.front() == '{') cleanString = cleanString.substr(1);
     if (cleanString.back() == '}') cleanString = cleanString.substr(0, cleanString.length() - 1);
     
-    cleanString = Utils::StringUtils::Trim(cleanString);
+    cleanString = CHTL::Utils::StringUtils::Trim(cleanString);
     
     // 解析键值对
     std::regex keyValueRegex(R"((\w+)\s*:\s*([^,}]+))");
@@ -279,8 +279,8 @@ std::unordered_map<std::string, std::string> KeyValueFlexibilityManager::ParseKe
     
     for (; iter != end; ++iter) {
         const std::smatch& match = *iter;
-        std::string key = Utils::StringUtils::Trim(match[1].str());
-        std::string value = Utils::StringUtils::Trim(match[2].str());
+        std::string key = CHTL::Utils::StringUtils::Trim(match[1].str());
+        std::string value = CHTL::Utils::StringUtils::Trim(match[2].str());
         
         // 移除值的引号
         if ((value.front() == '"' && value.back() == '"') ||
@@ -311,7 +311,7 @@ bool KeyValueFlexibilityManager::ValidateKeyValuePairs(
     // 检查所有必需的键是否存在
     for (const auto& requiredKey : requiredKeys) {
         if (keyValueMap.find(requiredKey) == keyValueMap.end()) {
-            Utils::ErrorHandler::GetInstance().LogError(
+            CHTL::Utils::ErrorHandler::GetInstance().LogError(
                 "缺少必需的键: " + requiredKey
             );
             return false;

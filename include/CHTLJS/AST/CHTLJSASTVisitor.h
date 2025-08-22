@@ -13,17 +13,19 @@ class VirtualObjectNode;
 class ListenBlockNode;
 class DelegateBlockNode;
 class AnimateBlockNode;
-class INeverAwayBlockNode;
-class FunctionDefinitionNode;
+// 错误的前向声明已移除 - 这些类属于JavaScript语法或CJMOD扩展，不属于CHTL JS核心
+// class INeverAwayBlockNode; - CJMOD扩展
+// class FunctionDefinitionNode; - JavaScript语法
+// class ObjectLiteralNode; - JavaScript语法
+// class ArrayLiteralNode; - JavaScript语法
+// class MethodCallNode; - JavaScript语法
+// class VirtualMethodCallNode; - CJMOD扩展
+// class VariableDeclarationNode; - JavaScript语法
+// class AssignmentExpressionNode; - JavaScript语法
+// class PropertyAccessNode; - JavaScript语法
+
 class ArrowFunctionNode;
-class ObjectLiteralNode;
-class ArrayLiteralNode;
-class MethodCallNode;
-class VirtualMethodCallNode;
 class AnimationKeyframeNode;
-class VariableDeclarationNode;
-class AssignmentExpressionNode;
-class PropertyAccessNode;
 class CommentNode;
 
 /**
@@ -45,27 +47,22 @@ public:
     virtual void VisitListenBlockNode(ListenBlockNode& node) = 0;
     virtual void VisitDelegateBlockNode(DelegateBlockNode& node) = 0;
     virtual void VisitAnimateBlockNode(AnimateBlockNode& node) = 0;
-    virtual void VisitINeverAwayBlockNode(INeverAwayBlockNode& node) = 0;
+    // 错误的访问方法已移除 - 这些节点属于JavaScript语法或CJMOD扩展
+    // virtual void VisitINeverAwayBlockNode(INeverAwayBlockNode& node) = 0; - CJMOD扩展
+    // virtual void VisitFunctionDefinitionNode(FunctionDefinitionNode& node) = 0; - JavaScript语法
+    // virtual void VisitObjectLiteralNode(ObjectLiteralNode& node) = 0; - JavaScript语法
+    // virtual void VisitArrayLiteralNode(ArrayLiteralNode& node) = 0; - JavaScript语法
+    // virtual void VisitMethodCallNode(MethodCallNode& node) = 0; - JavaScript语法
+    // virtual void VisitVirtualMethodCallNode(VirtualMethodCallNode& node) = 0; - CJMOD扩展
+    // virtual void VisitVariableDeclarationNode(VariableDeclarationNode& node) = 0; - JavaScript语法
+    // virtual void VisitAssignmentExpressionNode(AssignmentExpressionNode& node) = 0; - JavaScript语法
+    // virtual void VisitPropertyAccessNode(PropertyAccessNode& node) = 0; - JavaScript语法
     
-    // 函数相关节点访问
-    virtual void VisitFunctionDefinitionNode(FunctionDefinitionNode& node) = 0;
+    // 箭头函数访问（CHTL JS支持）
     virtual void VisitArrowFunctionNode(ArrowFunctionNode& node) = 0;
-    
-    // 对象和数组节点访问
-    virtual void VisitObjectLiteralNode(ObjectLiteralNode& node) = 0;
-    virtual void VisitArrayLiteralNode(ArrayLiteralNode& node) = 0;
-    
-    // 方法调用节点访问
-    virtual void VisitMethodCallNode(MethodCallNode& node) = 0;
-    virtual void VisitVirtualMethodCallNode(VirtualMethodCallNode& node) = 0;
     
     // 动画节点访问
     virtual void VisitAnimationKeyframeNode(AnimationKeyframeNode& node) = 0;
-    
-    // 表达式节点访问
-    virtual void VisitVariableDeclarationNode(VariableDeclarationNode& node) = 0;
-    virtual void VisitAssignmentExpressionNode(AssignmentExpressionNode& node) = 0;
-    virtual void VisitPropertyAccessNode(PropertyAccessNode& node) = 0;
 };
 
 /**
@@ -82,17 +79,19 @@ public:
     void VisitListenBlockNode(ListenBlockNode& node) override {}
     void VisitDelegateBlockNode(DelegateBlockNode& node) override {}
     void VisitAnimateBlockNode(AnimateBlockNode& node) override {}
-    void VisitINeverAwayBlockNode(INeverAwayBlockNode& node) override {}
-    void VisitFunctionDefinitionNode(FunctionDefinitionNode& node) override {}
+    // 错误的访问方法已移除 - 这些节点属于JavaScript语法或CJMOD扩展
+    // void VisitINeverAwayBlockNode(INeverAwayBlockNode& node) override {} - CJMOD扩展
+    // void VisitFunctionDefinitionNode(FunctionDefinitionNode& node) override {} - JavaScript语法
+    // void VisitObjectLiteralNode(ObjectLiteralNode& node) override {} - JavaScript语法
+    // void VisitArrayLiteralNode(ArrayLiteralNode& node) override {} - JavaScript语法
+    // void VisitMethodCallNode(MethodCallNode& node) override {} - JavaScript语法
+    // void VisitVirtualMethodCallNode(VirtualMethodCallNode& node) override {} - CJMOD扩展
+    // void VisitVariableDeclarationNode(VariableDeclarationNode& node) override {} - JavaScript语法
+    // void VisitAssignmentExpressionNode(AssignmentExpressionNode& node) override {} - JavaScript语法
+    // void VisitPropertyAccessNode(PropertyAccessNode& node) override {} - JavaScript语法
+    
     void VisitArrowFunctionNode(ArrowFunctionNode& node) override {}
-    void VisitObjectLiteralNode(ObjectLiteralNode& node) override {}
-    void VisitArrayLiteralNode(ArrayLiteralNode& node) override {}
-    void VisitMethodCallNode(MethodCallNode& node) override {}
-    void VisitVirtualMethodCallNode(VirtualMethodCallNode& node) override {}
     void VisitAnimationKeyframeNode(AnimationKeyframeNode& node) override {}
-    void VisitVariableDeclarationNode(VariableDeclarationNode& node) override {}
-    void VisitAssignmentExpressionNode(AssignmentExpressionNode& node) override {}
-    void VisitPropertyAccessNode(PropertyAccessNode& node) override {}
 };
 
 } // namespace AST
