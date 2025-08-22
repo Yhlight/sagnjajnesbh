@@ -248,4 +248,6 @@ tests/CMakeFiles/test_chtl_simple.dir/CHTL/test_chtl_simple.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
   /workspace/include/CHTL/AST/CHTLASTNodes.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/variant \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
+  /workspace/include/CHTL/Constraints/CHTLConstraintValidator.h \
+  /workspace/include/CHTL/Constraints/ExceptConstraintParser.h

@@ -305,6 +305,8 @@ src/CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.o
  /usr/lib/llvm-20/lib/clang/20/include/stddef.h
  /usr/lib/llvm-20/lib/clang/20/include/stdint.h
  /workspace/include/CHTL/AST/CHTLASTNodes.h
+ /workspace/include/CHTL/Constraints/CHTLConstraintValidator.h
+ /workspace/include/CHTL/Constraints/ExceptConstraintParser.h
  /workspace/include/CHTL/Core/CHTLGlobalMap.h
  /workspace/include/CHTL/Core/CHTLState.h
  /workspace/include/CHTL/Core/CHTLToken.h

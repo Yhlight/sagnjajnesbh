@@ -484,6 +484,19 @@ test_chtholly_yuigahama/fast:
 .PHONY : test_chtholly_yuigahama/fast
 
 #=============================================================================
+# Target rules for targets named test_constraint_validator
+
+# Build rule for target.
+test_constraint_validator: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_constraint_validator
+.PHONY : test_constraint_validator
+
+# fast build rule for target.
+test_constraint_validator/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_constraint_validator.dir/build.make tests/CMakeFiles/test_constraint_validator.dir/build
+.PHONY : test_constraint_validator/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -599,6 +612,7 @@ help:
 	@echo "... test_cmod"
 	@echo "... test_cmod_simple"
 	@echo "... test_complex_syntax"
+	@echo "... test_constraint_validator"
 	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
 	@echo "... test_scanner"

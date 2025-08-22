@@ -12,7 +12,12 @@ namespace Parser {
 CHTLParser::CHTLParser(Core::CHTLGlobalMap& globalMap, Core::CHTLState& stateManager,
                       const ParserConfig& config)
     : config_(config), globalMap_(globalMap), stateManager_(stateManager),
-      tokens_(nullptr), nodeCount_(0), inErrorRecovery_(false), errorCount_(0) {}
+      tokens_(nullptr), nodeCount_(0), inErrorRecovery_(false), errorCount_(0) {
+    
+    // 初始化语法约束系统
+    constraintValidator_ = std::make_unique<Constraints::CHTLConstraintValidator>();
+    constraintIntegrator_ = std::make_unique<Constraints::ExceptConstraintIntegrator>(*constraintValidator_);
+}
 
 AST::ASTNodePtr CHTLParser::Parse(Core::TokenStream& tokens, const std::string& fileName) {
     tokens_ = &tokens;
@@ -529,6 +534,13 @@ AST::ASTNodePtr CHTLParser::ParseHTMLElement() {
     // 创建元素节点
     auto element = std::make_shared<AST::ElementNode>(tagName, Current());
     
+    // 验证元素约束
+    Constraints::SyntaxContext context = Constraints::SyntaxContextDetector::DetectContext(element, Constraints::SyntaxContext::ELEMENT_BODY);
+    if (!ValidateConstraints(element, context)) {
+        ReportError("元素约束验证失败: " + constraintValidator_->GetLastError());
+        return nullptr;
+    }
+    
     // 使用状态保护
     Core::StateGuard guard(stateManager_, Core::CompileState::PARSING_HTML_ELEMENT);
     
@@ -735,6 +747,10 @@ AST::ASTNodePtr CHTLParser::ParseStyleBlock() {
     
     // 创建样式块节点
     auto styleBlock = std::make_shared<AST::StyleBlockNode>(Current());
+    
+    // 验证样式块约束
+    Constraints::SyntaxContext styleContext = Constraints::SyntaxContextDetector::IsLocalStyleBlock(styleBlock) ? 
+        Constraints::SyntaxContext::LOCAL_STYLE : Constraints::SyntaxContext::GLOBAL_STYLE;
     
     // 使用状态保护
     Core::StateGuard guard(stateManager_, Core::CompileState::PARSING_STYLE_BLOCK);
@@ -1744,6 +1760,29 @@ AST::ASTNodePtr CHTLParser::ParseConstraintDeclaration() {
     // 使用状态保护
     Core::StateGuard guard(stateManager_, Core::CompileState::PARSING_CONSTRAINTS);
     
+    // 使用新的约束验证器处理except语句
+    Constraints::SyntaxContext context = Constraints::SyntaxContextDetector::DetectContext(nullptr, Constraints::SyntaxContext::ELEMENT_BODY);
+    
+    // 处理except约束
+    if (constraintIntegrator_) {
+        // 收集Token直到分号
+        std::vector<Core::CHTLToken> constraintTokens;
+        size_t startPos = tokens_->GetPosition() - 1; // 包含except关键字
+        
+        while (!IsAtEnd() && !Check(Core::TokenType::SEMICOLON)) {
+            constraintTokens.push_back(Current());
+            Advance();
+        }
+        
+        if (Check(Core::TokenType::SEMICOLON)) {
+            constraintTokens.push_back(Current());
+            Advance();
+        }
+        
+        // 处理约束
+        constraintIntegrator_->ProcessExceptConstraints(constraintTokens, context, 0);
+    }
+    
     std::vector<std::string> targets;
     AST::ConstraintNode::ConstraintType constraintType = AST::ConstraintNode::ConstraintType::PRECISE;
     
@@ -1931,6 +1970,53 @@ std::unique_ptr<CHTLParser> ParserFactory::CreateDebugParser(
     config.enableErrorRecovery = true;
     config.validateSemantics = true;
     return std::make_unique<CHTLParser>(globalMap, stateManager, config);
+}
+
+bool CHTLParser::ValidateConstraints(const std::shared_ptr<AST::ASTNode>& node, 
+                                    Constraints::SyntaxContext context) const {
+    if (!constraintValidator_) {
+        return true; // 如果没有约束验证器，默认通过
+    }
+    
+    return constraintValidator_->ValidateNode(node, context);
+}
+
+bool CHTLParser::ProcessExceptConstraints(Constraints::SyntaxContext context) {
+    if (!constraintIntegrator_ || !tokens_) {
+        return false;
+    }
+    
+    // 检查当前Token是否为except关键字
+    if (Current().GetType() != Core::TokenType::EXCEPT) {
+        return false;
+    }
+    
+    // 收集当前Token流
+    std::vector<Core::CHTLToken> tokenVector;
+    size_t currentPos = tokens_->GetPosition();
+    
+    // 从当前位置开始收集Token，直到分号或块结束
+    while (!IsAtEnd()) {
+        tokenVector.push_back(Current());
+        
+        if (Current().GetType() == Core::TokenType::SEMICOLON || 
+            Current().GetType() == Core::TokenType::RIGHT_BRACE) {
+            break;
+        }
+        
+        Advance();
+    }
+    
+    // 处理except约束
+    bool success = constraintIntegrator_->ProcessExceptConstraints(tokenVector, context, 0);
+    
+    if (success) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "成功处理except约束语句"
+        );
+    }
+    
+    return success;
 }
 
 } // namespace Parser

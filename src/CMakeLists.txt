@@ -10,6 +10,8 @@ add_library(chtl_core STATIC
     CHTL/AST/CHTLASTVisitor.cpp
     CHTL/AST/CHTLASTBuilder.cpp
     CHTL/Generator/CHTLGenerator.cpp
+    CHTL/Constraints/CHTLConstraintValidator.cpp
+    CHTL/Constraints/ExceptConstraintParser.cpp
 )
 
 target_include_directories(chtl_core PUBLIC

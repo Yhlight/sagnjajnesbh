@@ -8,6 +8,8 @@
 #include "CHTL/Core/CHTLState.h"
 #include "CHTL/AST/CHTLASTNodes.h"
 #include "CHTL/Lexer/CHTLLexer.h"
+#include "CHTL/Constraints/CHTLConstraintValidator.h"
+#include "CHTL/Constraints/ExceptConstraintParser.h"
 
 namespace CHTL {
 namespace Parser {
@@ -98,6 +100,22 @@ public:
      * @return 统计信息字符串
      */
     std::string GetStatistics() const;
+    
+    /**
+     * @brief 验证节点是否符合语法约束
+     * @param node AST节点
+     * @param context 语法上下文
+     * @return 是否通过验证
+     */
+    bool ValidateConstraints(const std::shared_ptr<AST::ASTNode>& node, 
+                           Constraints::SyntaxContext context) const;
+    
+    /**
+     * @brief 处理except约束语句
+     * @param context 语法上下文
+     * @return 是否处理成功
+     */
+    bool ProcessExceptConstraints(Constraints::SyntaxContext context);
 
 private:
     // 顶层解析方法
@@ -401,6 +419,10 @@ private:
     // 错误恢复状态
     bool inErrorRecovery_;              // 是否在错误恢复中
     size_t errorCount_;                 // 错误计数
+    
+    // 语法约束系统
+    std::unique_ptr<Constraints::CHTLConstraintValidator> constraintValidator_;     // 约束验证器
+    std::unique_ptr<Constraints::ExceptConstraintIntegrator> constraintIntegrator_; // 约束集成器
 };
 
 /**

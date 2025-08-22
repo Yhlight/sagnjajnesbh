@@ -354,6 +354,20 @@ test_chtholly_yuigahama/fast:
 .PHONY : test_chtholly_yuigahama/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_constraint_validator.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_constraint_validator.dir/rule
+.PHONY : tests/CMakeFiles/test_constraint_validator.dir/rule
+
+# Convenience name for target.
+test_constraint_validator: tests/CMakeFiles/test_constraint_validator.dir/rule
+.PHONY : test_constraint_validator
+
+# fast build rule for target.
+test_constraint_validator/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_constraint_validator.dir/build.make tests/CMakeFiles/test_constraint_validator.dir/build
+.PHONY : test_constraint_validator/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -580,6 +594,30 @@ CHTL/test_complex_syntax.s: CHTL/test_complex_syntax.cpp.s
 CHTL/test_complex_syntax.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_complex_syntax.dir/build.make tests/CMakeFiles/test_complex_syntax.dir/CHTL/test_complex_syntax.cpp.s
 .PHONY : CHTL/test_complex_syntax.cpp.s
+
+CHTL/test_constraint_validator_simple.o: CHTL/test_constraint_validator_simple.cpp.o
+.PHONY : CHTL/test_constraint_validator_simple.o
+
+# target to build an object file
+CHTL/test_constraint_validator_simple.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_constraint_validator.dir/build.make tests/CMakeFiles/test_constraint_validator.dir/CHTL/test_constraint_validator_simple.cpp.o
+.PHONY : CHTL/test_constraint_validator_simple.cpp.o
+
+CHTL/test_constraint_validator_simple.i: CHTL/test_constraint_validator_simple.cpp.i
+.PHONY : CHTL/test_constraint_validator_simple.i
+
+# target to preprocess a source file
+CHTL/test_constraint_validator_simple.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_constraint_validator.dir/build.make tests/CMakeFiles/test_constraint_validator.dir/CHTL/test_constraint_validator_simple.cpp.i
+.PHONY : CHTL/test_constraint_validator_simple.cpp.i
+
+CHTL/test_constraint_validator_simple.s: CHTL/test_constraint_validator_simple.cpp.s
+.PHONY : CHTL/test_constraint_validator_simple.s
+
+# target to generate assembly for a file
+CHTL/test_constraint_validator_simple.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_constraint_validator.dir/build.make tests/CMakeFiles/test_constraint_validator.dir/CHTL/test_constraint_validator_simple.cpp.s
+.PHONY : CHTL/test_constraint_validator_simple.cpp.s
 
 CHTL/test_inheritance_simple.o: CHTL/test_inheritance_simple.cpp.o
 .PHONY : CHTL/test_inheritance_simple.o
@@ -921,6 +959,7 @@ help:
 	@echo "... test_cmod"
 	@echo "... test_cmod_simple"
 	@echo "... test_complex_syntax"
+	@echo "... test_constraint_validator"
 	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
 	@echo "... test_scanner"
@@ -943,6 +982,9 @@ help:
 	@echo "... CHTL/test_complex_syntax.o"
 	@echo "... CHTL/test_complex_syntax.i"
 	@echo "... CHTL/test_complex_syntax.s"
+	@echo "... CHTL/test_constraint_validator_simple.o"
+	@echo "... CHTL/test_constraint_validator_simple.i"
+	@echo "... CHTL/test_constraint_validator_simple.s"
 	@echo "... CHTL/test_inheritance_simple.o"
 	@echo "... CHTL/test_inheritance_simple.i"
 	@echo "... CHTL/test_inheritance_simple.s"

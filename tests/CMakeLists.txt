@@ -162,6 +162,18 @@ if(NOT GTest_FOUND)
     
     add_test(NAME ChthollyYuigahamaTest COMMAND test_chtholly_yuigahama)
     
+    # CHTL语法约束验证器测试
+    add_executable(test_constraint_validator
+        CHTL/test_constraint_validator_simple.cpp
+    )
+    
+    target_link_libraries(test_constraint_validator
+        chtl_core
+        utils
+    )
+    
+    add_test(NAME ConstraintValidatorTest COMMAND test_constraint_validator)
+    
     # CHTL JS核心测试
     add_executable(test_chtljs_core
         CHTLJS/test_chtljs_core.cpp

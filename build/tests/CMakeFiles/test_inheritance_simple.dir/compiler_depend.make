@@ -282,6 +282,8 @@ tests/CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.o:
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h \
   /workspace/include/CHTL/AST/CHTLASTNodes.h \
+  /workspace/include/CHTL/Constraints/CHTLConstraintValidator.h \
+  /workspace/include/CHTL/Constraints/ExceptConstraintParser.h \
   /workspace/include/CHTL/Core/CHTLGlobalMap.h \
   /workspace/include/CHTL/Core/CHTLState.h \
   /workspace/include/CHTL/Core/CHTLToken.h \
@@ -298,6 +300,8 @@ tests/CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.o:
 
 /workspace/include/CHTL/Core/CHTLGlobalMap.h:
 
+/workspace/include/CHTL/Constraints/ExceptConstraintParser.h:
+
 /workspace/include/CHTL/AST/CHTLASTNodes.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/stdint.h:
@@ -307,6 +311,8 @@ tests/CMakeFiles/test_inheritance_simple.dir/CHTL/test_inheritance_simple.cpp.o:
 /usr/lib/llvm-20/lib/clang/20/include/sanitizer/tsan_interface.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/__stddef_wchar_t.h:
+
+/workspace/include/CHTL/Constraints/CHTLConstraintValidator.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h:
 

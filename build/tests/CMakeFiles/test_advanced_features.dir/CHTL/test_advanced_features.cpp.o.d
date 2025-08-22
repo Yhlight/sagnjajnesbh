@@ -250,6 +250,8 @@ tests/CMakeFiles/test_advanced_features.dir/CHTL/test_advanced_features.cpp.o: \
   /workspace/include/CHTL/AST/CHTLASTNodes.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/variant \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
+  /workspace/include/CHTL/Constraints/CHTLConstraintValidator.h \
+  /workspace/include/CHTL/Constraints/ExceptConstraintParser.h \
   /workspace/include/CHTL/Generator/CHTLGenerator.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
