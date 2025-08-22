@@ -4,9 +4,9 @@ set(CHTL_SOURCES
     CHTLState.cpp
     CHTLContext.cpp
     CHTLLexer.cpp
-    CHTLParser.cpp
-    CHTLGenerator.cpp
-    CHTLCompiler.cpp
+    # CHTLParser.cpp      # 暂时注释
+    # CHTLGenerator.cpp   # 暂时注释
+    # CHTLCompiler.cpp    # 暂时注释
 )
 
 set(CHTL_HEADERS
@@ -15,9 +15,9 @@ set(CHTL_HEADERS
     ../../include/CHTL/CHTLState.hpp
     ../../include/CHTL/CHTLContext.hpp
     ../../include/CHTL/CHTLLexer.hpp
-    ../../include/CHTL/CHTLParser.hpp
-    ../../include/CHTL/CHTLGenerator.hpp
-    ../../include/CHTL/CHTLCompiler.hpp
+    # ../../include/CHTL/CHTLParser.hpp      # 暂时注释
+    # ../../include/CHTL/CHTLGenerator.hpp   # 暂时注释
+    # ../../include/CHTL/CHTLCompiler.hpp    # 暂时注释
 )
 
 add_library(CHTL_Compiler STATIC ${CHTL_SOURCES} ${CHTL_HEADERS})

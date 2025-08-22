@@ -33,17 +33,17 @@ add_subdirectory(src/CHTL)
 # CHTL JS编译器库
 add_subdirectory(src/CHTLJS)
 
-# CSS编译器库（基于ANTLR4）
-add_subdirectory(src/CSS)
+# CSS编译器库（基于ANTLR4）- 暂时注释
+# add_subdirectory(src/CSS)
 
-# JavaScript编译器库（基于ANTLR4）
-add_subdirectory(src/JavaScript)
+# JavaScript编译器库（基于ANTLR4）- 暂时注释
+# add_subdirectory(src/JavaScript)
 
-# 模块系统
-add_subdirectory(src/Module)
+# 模块系统 - 暂时注释
+# add_subdirectory(src/Module)
 
-# 工具库
-add_subdirectory(src/Utils)
+# 工具库 - 暂时注释
+# add_subdirectory(src/Utils)
 
 # 主编译器可执行文件
 add_executable(chtl_compiler
@@ -54,10 +54,10 @@ target_link_libraries(chtl_compiler
     CHTL_Core
     CHTL_Compiler
     CHTLJS_Compiler
-    CSS_Compiler
-    JavaScript_Compiler
-    Module_System
-    Utils
+    # CSS_Compiler      # 暂时注释
+    # JavaScript_Compiler # 暂时注释
+    # Module_System     # 暂时注释
+    # Utils             # 暂时注释
 )
 
 # 如果是Windows平台，链接ANTLR4库

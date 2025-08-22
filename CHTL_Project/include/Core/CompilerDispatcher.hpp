@@ -87,10 +87,10 @@ private:
 
     // 编译器实例
     UniquePtr<CHTLUnifiedScanner> scanner_;
-    UniquePtr<CHTLCompiler> chtlCompiler_;
-    UniquePtr<CHTLJSCompiler> chtljsCompiler_;
-    UniquePtr<CSSCompiler> cssCompiler_;
-    UniquePtr<JavaScriptCompiler> jsCompiler_;
+    // UniquePtr<CHTLCompiler> chtlCompiler_;           // 暂时注释
+    // UniquePtr<CHTLJSCompiler> chtljsCompiler_;       // 暂时注释
+    // UniquePtr<CSSCompiler> cssCompiler_;             // 暂时注释
+    // UniquePtr<JavaScriptCompiler> jsCompiler_;       // 暂时注释
 
     // 编译选项
     bool debugMode_;

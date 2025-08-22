@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libCHTL_Compiler.a CMakeFiles/CHTL_Compiler.dir/CHTLToken.cpp.o CMakeFiles/CHTL_Compiler.dir/CHTLGlobalMap.cpp.o CMakeFiles/CHTL_Compiler.dir/CHTLState.cpp.o CMakeFiles/CHTL_Compiler.dir/CHTLContext.cpp.o CMakeFiles/CHTL_Compiler.dir/CHTLLexer.cpp.o
+/usr/bin/ranlib ../../lib/libCHTL_Compiler.a

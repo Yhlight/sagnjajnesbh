@@ -76,12 +76,32 @@ private:
 
     // 内部方法
     void InitializePatterns();
-    FragmentType DetermineFragmentType(const String& content, const ScanContext& context);
-    bool IsCompleteFragment(const String& content, FragmentType type);
-    std::vector<String> SplitIntoMinimalUnits(const String& content, FragmentType type);
-    bool ShouldMergeFragments(const CodeFragment& current, const CodeFragment& next);
+    FragmentType DetermineFragmentType(const String& source, size_t position, const ScanContext& context);
+    FragmentType DetermineOriginType(const String& source, size_t position);
+    void UpdateScanState(ScanContext& context, const String& source, size_t position);
+    bool ShouldSplitFragment(const String& source, size_t position, FragmentType currentType);
+    std::vector<CodeFragment> PostProcessFragments(const std::vector<CodeFragment>& fragments);
+    bool ShouldMergeFragments(const CodeFragment& first, const CodeFragment& second);
     void UpdateStatistics(FragmentType type);
-    SourceLocation CalculateLocation(const String& source, size_t offset, const String& filename);
+    void LogDebugInfo(const String& message) const;
+    String FragmentTypeToString(FragmentType type);
+    
+    // 语法检测方法
+    bool IsStartOfComment(const String& source, size_t position);
+    bool IsStartOfString(const String& source, size_t position);
+    bool IsStartOfTemplate(const String& source, size_t position);
+    bool IsStartOfCustom(const String& source, size_t position);
+    bool IsStartOfOrigin(const String& source, size_t position);
+    bool IsStartOfConfiguration(const String& source, size_t position);
+    bool IsStartOfNamespace(const String& source, size_t position);
+    bool IsStartOfImport(const String& source, size_t position);
+    bool IsStartOfStyle(const String& source, size_t position);
+    bool IsStartOfScript(const String& source, size_t position);
+    bool IsStartOfElement(const String& source, size_t position);
+    bool IsStartOfNewSyntaxBlock(const String& source, size_t position);
+    bool IsInLocalStyleBlock(const String& source, size_t position);
+    bool IsHtmlElement(const String& identifier);
+    bool MatchesPattern(const String& source, size_t position, const String& pattern);
 
     // 正则表达式模式
     std::regex elementPattern_;

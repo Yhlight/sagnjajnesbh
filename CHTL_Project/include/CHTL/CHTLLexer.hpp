@@ -182,6 +182,7 @@ private:
     CHTLTokenType DetermineIdentifierType(const String& identifier);
     bool IsValidIdentifierStart(char c) const;
     bool IsValidIdentifierChar(char c) const;
+    bool IsValidUnquotedChar(char c) const;
     
     // HTML元素列表初始化
     void InitializeHtmlElements();

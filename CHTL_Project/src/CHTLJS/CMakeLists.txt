@@ -1,23 +1,23 @@
 set(CHTLJS_SOURCES
     CHTLJSToken.cpp
-    CHTLJSGlobalMap.cpp
-    CHTLJSState.cpp
-    CHTLJSContext.cpp
-    CHTLJSLexer.cpp
-    CHTLJSParser.cpp
-    CHTLJSGenerator.cpp
-    CHTLJSCompiler.cpp
+    # CHTLJSGlobalMap.cpp   # 暂时注释
+    # CHTLJSState.cpp       # 暂时注释
+    # CHTLJSContext.cpp     # 暂时注释
+    # CHTLJSLexer.cpp       # 暂时注释
+    # CHTLJSParser.cpp      # 暂时注释
+    # CHTLJSGenerator.cpp   # 暂时注释
+    # CHTLJSCompiler.cpp    # 暂时注释
 )
 
 set(CHTLJS_HEADERS
     ../../include/CHTLJS/CHTLJSToken.hpp
-    ../../include/CHTLJS/CHTLJSGlobalMap.hpp
-    ../../include/CHTLJS/CHTLJSState.hpp
-    ../../include/CHTLJS/CHTLJSContext.hpp
-    ../../include/CHTLJS/CHTLJSLexer.hpp
-    ../../include/CHTLJS/CHTLJSParser.hpp
-    ../../include/CHTLJS/CHTLJSGenerator.hpp
-    ../../include/CHTLJS/CHTLJSCompiler.hpp
+    # ../../include/CHTLJS/CHTLJSGlobalMap.hpp   # 暂时注释
+    # ../../include/CHTLJS/CHTLJSState.hpp       # 暂时注释
+    # ../../include/CHTLJS/CHTLJSContext.hpp     # 暂时注释
+    # ../../include/CHTLJS/CHTLJSLexer.hpp       # 暂时注释
+    # ../../include/CHTLJS/CHTLJSParser.hpp      # 暂时注释
+    # ../../include/CHTLJS/CHTLJSGenerator.hpp   # 暂时注释
+    # ../../include/CHTLJS/CHTLJSCompiler.hpp    # 暂时注释
 )
 
 add_library(CHTLJS_Compiler STATIC ${CHTLJS_SOURCES} ${CHTLJS_HEADERS})

@@ -1,0 +1,1 @@
+/usr/bin/c++ -Xlinker --dependency-file=CMakeFiles/chtl_compiler.dir/link.d CMakeFiles/chtl_compiler.dir/src/main.cpp.o -o bin/chtl_compiler   -L/workspace/CHTL_Project/third_party/ANTLR4/lib  -Wl,-rpath,/workspace/CHTL_Project/third_party/ANTLR4/lib lib/libCHTL_Core.a lib/libCHTL_Compiler.a lib/libCHTLJS_Compiler.a -lantlr4-runtime lib/libCHTL_Core.a
