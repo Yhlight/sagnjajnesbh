@@ -18,6 +18,7 @@ CompilationResult CompilerDispatcher::DispatchAndCompile(const std::vector<Segme
 	std::string styleBuffer;
 	std::string scriptBuffer;
 
+	// 将CHTL编译器生成的局部style也合并到全局样式中
 	for (const auto& seg : segments) {
 		switch (seg.type) {
 			case SegmentType::CSS: {
@@ -45,8 +46,13 @@ CompilationResult CompilerDispatcher::DispatchAndCompile(const std::vector<Segme
 				break;
 			}
 			case SegmentType::CHTL: {
-				if (chtlCompiler) htmlBuffer += chtlCompiler->Compile(seg.text);
-				else htmlBuffer += seg.text;
+				if (chtlCompiler) {
+					auto r = chtlCompiler->CompileAll(seg.text);
+					htmlBuffer += r.html;
+					styleBuffer += r.localStyle;
+				} else {
+					htmlBuffer += seg.text;
+				}
 				break;
 			}
 			case SegmentType::CHTLJS: {

@@ -26,6 +26,12 @@ namespace {
 		if (id == "inherit") return TokenType::KeywordInherit;
 		if (id == "delete") return TokenType::KeywordDelete;
 		if (id == "insert") return TokenType::KeywordInsert;
+		if (id == "Template") return TokenType::KeywordTemplate;
+		if (id == "Custom") return TokenType::KeywordCustom;
+		if (id == "Origin") return TokenType::KeywordOrigin;
+		if (id == "Import") return TokenType::KeywordImport;
+		if (id == "Namespace") return TokenType::KeywordNamespace;
+		if (id == "Configuration") return TokenType::KeywordConfiguration;
 		return TokenType::Identifier;
 	}
 }

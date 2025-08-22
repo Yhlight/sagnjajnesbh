@@ -57,6 +57,9 @@ add_executable(chtlc
 	${SRC_DIR}/CSS/CssCompiler.cpp
 	${SRC_DIR}/JS/JsCompiler.cpp
 	${SRC_DIR}/CHTL/Lexer.cpp
+	${SRC_DIR}/CHTL/AST.cpp
+	${SRC_DIR}/CHTL/Parser.cpp
+	${SRC_DIR}/CHTL/Generator.cpp
 	${SRC_DIR}/CHTL/CHTLCompiler.cpp
 	${SRC_DIR}/CHTLJS/Lexer.cpp
 	${SRC_DIR}/CHTLJS/CHTLJSCompiler.cpp

@@ -150,6 +150,15 @@ CMakeFiles/chtlc.dir/src/Core/CompilerDispatcher.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/charconv.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/basic_string.tcc \
   /workspace/src/Core/Segment.h /workspace/src/Core/SegmentType.h \
-  /workspace/src/CHTL/CHTLCompiler.h \
+  /workspace/src/CHTL/CHTLCompiler.h /workspace/src/CHTL/Generator.h \
+  /workspace/src/CHTL/AST.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable_policy.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/aligned_buffer.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
   /workspace/src/CHTLJS/CHTLJSCompiler.h \
   /workspace/src/CSS/CssCompiler.h /workspace/src/JS/JsCompiler.h

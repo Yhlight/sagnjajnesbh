@@ -24,6 +24,7 @@ namespace CHTLNS {
 		KeywordOrigin,
 		KeywordImport,
 		KeywordNamespace,
+		KeywordConfiguration,
 		KeywordInherit,
 		KeywordDelete,
 		KeywordInsert,

@@ -3672,6 +3672,30 @@ js/JavaScriptParserListener.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/jsparser.dir/build.make CMakeFiles/jsparser.dir/js/JavaScriptParserListener.cpp.s
 .PHONY : js/JavaScriptParserListener.cpp.s
 
+src/CHTL/AST.o: src/CHTL/AST.cpp.o
+.PHONY : src/CHTL/AST.o
+
+# target to build an object file
+src/CHTL/AST.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtlc.dir/build.make CMakeFiles/chtlc.dir/src/CHTL/AST.cpp.o
+.PHONY : src/CHTL/AST.cpp.o
+
+src/CHTL/AST.i: src/CHTL/AST.cpp.i
+.PHONY : src/CHTL/AST.i
+
+# target to preprocess a source file
+src/CHTL/AST.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtlc.dir/build.make CMakeFiles/chtlc.dir/src/CHTL/AST.cpp.i
+.PHONY : src/CHTL/AST.cpp.i
+
+src/CHTL/AST.s: src/CHTL/AST.cpp.s
+.PHONY : src/CHTL/AST.s
+
+# target to generate assembly for a file
+src/CHTL/AST.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtlc.dir/build.make CMakeFiles/chtlc.dir/src/CHTL/AST.cpp.s
+.PHONY : src/CHTL/AST.cpp.s
+
 src/CHTL/CHTLCompiler.o: src/CHTL/CHTLCompiler.cpp.o
 .PHONY : src/CHTL/CHTLCompiler.o
 
@@ -3696,6 +3720,30 @@ src/CHTL/CHTLCompiler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtlc.dir/build.make CMakeFiles/chtlc.dir/src/CHTL/CHTLCompiler.cpp.s
 .PHONY : src/CHTL/CHTLCompiler.cpp.s
 
+src/CHTL/Generator.o: src/CHTL/Generator.cpp.o
+.PHONY : src/CHTL/Generator.o
+
+# target to build an object file
+src/CHTL/Generator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtlc.dir/build.make CMakeFiles/chtlc.dir/src/CHTL/Generator.cpp.o
+.PHONY : src/CHTL/Generator.cpp.o
+
+src/CHTL/Generator.i: src/CHTL/Generator.cpp.i
+.PHONY : src/CHTL/Generator.i
+
+# target to preprocess a source file
+src/CHTL/Generator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtlc.dir/build.make CMakeFiles/chtlc.dir/src/CHTL/Generator.cpp.i
+.PHONY : src/CHTL/Generator.cpp.i
+
+src/CHTL/Generator.s: src/CHTL/Generator.cpp.s
+.PHONY : src/CHTL/Generator.s
+
+# target to generate assembly for a file
+src/CHTL/Generator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtlc.dir/build.make CMakeFiles/chtlc.dir/src/CHTL/Generator.cpp.s
+.PHONY : src/CHTL/Generator.cpp.s
+
 src/CHTL/Lexer.o: src/CHTL/Lexer.cpp.o
 .PHONY : src/CHTL/Lexer.o
 
@@ -3719,6 +3767,30 @@ src/CHTL/Lexer.s: src/CHTL/Lexer.cpp.s
 src/CHTL/Lexer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtlc.dir/build.make CMakeFiles/chtlc.dir/src/CHTL/Lexer.cpp.s
 .PHONY : src/CHTL/Lexer.cpp.s
+
+src/CHTL/Parser.o: src/CHTL/Parser.cpp.o
+.PHONY : src/CHTL/Parser.o
+
+# target to build an object file
+src/CHTL/Parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtlc.dir/build.make CMakeFiles/chtlc.dir/src/CHTL/Parser.cpp.o
+.PHONY : src/CHTL/Parser.cpp.o
+
+src/CHTL/Parser.i: src/CHTL/Parser.cpp.i
+.PHONY : src/CHTL/Parser.i
+
+# target to preprocess a source file
+src/CHTL/Parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtlc.dir/build.make CMakeFiles/chtlc.dir/src/CHTL/Parser.cpp.i
+.PHONY : src/CHTL/Parser.cpp.i
+
+src/CHTL/Parser.s: src/CHTL/Parser.cpp.s
+.PHONY : src/CHTL/Parser.s
+
+# target to generate assembly for a file
+src/CHTL/Parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtlc.dir/build.make CMakeFiles/chtlc.dir/src/CHTL/Parser.cpp.s
+.PHONY : src/CHTL/Parser.cpp.s
 
 src/CHTLJS/CHTLJSCompiler.o: src/CHTLJS/CHTLJSCompiler.cpp.o
 .PHONY : src/CHTLJS/CHTLJSCompiler.o
@@ -4386,12 +4458,21 @@ help:
 	@echo "... js/JavaScriptParserListener.o"
 	@echo "... js/JavaScriptParserListener.i"
 	@echo "... js/JavaScriptParserListener.s"
+	@echo "... src/CHTL/AST.o"
+	@echo "... src/CHTL/AST.i"
+	@echo "... src/CHTL/AST.s"
 	@echo "... src/CHTL/CHTLCompiler.o"
 	@echo "... src/CHTL/CHTLCompiler.i"
 	@echo "... src/CHTL/CHTLCompiler.s"
+	@echo "... src/CHTL/Generator.o"
+	@echo "... src/CHTL/Generator.i"
+	@echo "... src/CHTL/Generator.s"
 	@echo "... src/CHTL/Lexer.o"
 	@echo "... src/CHTL/Lexer.i"
 	@echo "... src/CHTL/Lexer.s"
+	@echo "... src/CHTL/Parser.o"
+	@echo "... src/CHTL/Parser.i"
+	@echo "... src/CHTL/Parser.s"
 	@echo "... src/CHTLJS/CHTLJSCompiler.o"
 	@echo "... src/CHTLJS/CHTLJSCompiler.i"
 	@echo "... src/CHTLJS/CHTLJSCompiler.s"

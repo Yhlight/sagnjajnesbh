@@ -204,7 +204,16 @@ CMakeFiles/chtlc.dir/src/main.cpp.o: /workspace/src/main.cpp \
   /workspace/src/Core/SegmentType.h \
   /workspace/src/Core/CompilerDispatcher.h \
   /workspace/src/Core/CompilationResult.h \
-  /workspace/src/CHTL/CHTLCompiler.h \
+  /workspace/src/CHTL/CHTLCompiler.h /workspace/src/CHTL/Generator.h \
+  /workspace/src/CHTL/AST.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable_policy.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/aligned_buffer.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
   /workspace/src/CHTLJS/CHTLJSCompiler.h \
   /workspace/src/Core/Merge/ResultMerger.h /workspace/src/Utils/FileIO.h \
   /workspace/src/CSS/CssCompiler.h /workspace/src/JS/JsCompiler.h

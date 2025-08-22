@@ -8,8 +8,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/workspace/src/CHTL/AST.cpp" "CMakeFiles/chtlc.dir/src/CHTL/AST.cpp.o" "gcc" "CMakeFiles/chtlc.dir/src/CHTL/AST.cpp.o.d"
   "/workspace/src/CHTL/CHTLCompiler.cpp" "CMakeFiles/chtlc.dir/src/CHTL/CHTLCompiler.cpp.o" "gcc" "CMakeFiles/chtlc.dir/src/CHTL/CHTLCompiler.cpp.o.d"
+  "/workspace/src/CHTL/Generator.cpp" "CMakeFiles/chtlc.dir/src/CHTL/Generator.cpp.o" "gcc" "CMakeFiles/chtlc.dir/src/CHTL/Generator.cpp.o.d"
   "/workspace/src/CHTL/Lexer.cpp" "CMakeFiles/chtlc.dir/src/CHTL/Lexer.cpp.o" "gcc" "CMakeFiles/chtlc.dir/src/CHTL/Lexer.cpp.o.d"
+  "/workspace/src/CHTL/Parser.cpp" "CMakeFiles/chtlc.dir/src/CHTL/Parser.cpp.o" "gcc" "CMakeFiles/chtlc.dir/src/CHTL/Parser.cpp.o.d"
   "/workspace/src/CHTLJS/CHTLJSCompiler.cpp" "CMakeFiles/chtlc.dir/src/CHTLJS/CHTLJSCompiler.cpp.o" "gcc" "CMakeFiles/chtlc.dir/src/CHTLJS/CHTLJSCompiler.cpp.o.d"
   "/workspace/src/CHTLJS/Lexer.cpp" "CMakeFiles/chtlc.dir/src/CHTLJS/Lexer.cpp.o" "gcc" "CMakeFiles/chtlc.dir/src/CHTLJS/Lexer.cpp.o.d"
   "/workspace/src/CSS/CssCompiler.cpp" "CMakeFiles/chtlc.dir/src/CSS/CssCompiler.cpp.o" "gcc" "CMakeFiles/chtlc.dir/src/CSS/CssCompiler.cpp.o.d"

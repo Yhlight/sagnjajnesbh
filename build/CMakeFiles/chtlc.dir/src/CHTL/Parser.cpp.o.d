@@ -1,6 +1,5 @@
-CMakeFiles/chtlc.dir/src/CHTL/CHTLCompiler.cpp.o: \
-  /workspace/src/CHTL/CHTLCompiler.cpp \
-  /workspace/src/CHTL/CHTLCompiler.h \
+CMakeFiles/chtlc.dir/src/CHTL/Parser.cpp.o: \
+  /workspace/src/CHTL/Parser.cpp /workspace/src/CHTL/Parser.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/string \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++config.h \
@@ -143,12 +142,12 @@ CMakeFiles/chtlc.dir/src/CHTL/CHTLCompiler.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uses_allocator_args.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tuple \
-  /workspace/src/CHTL/Generator.h /workspace/src/CHTL/AST.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/vector \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_uninitialized.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
+  /workspace/src/CHTL/AST.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
@@ -157,5 +156,4 @@ CMakeFiles/chtlc.dir/src/CHTL/CHTLCompiler.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
-  /workspace/src/CHTL/Parser.h /workspace/src/CHTL/Lexer.h \
-  /workspace/src/CHTL/Token.h
+  /workspace/src/CHTL/Lexer.h /workspace/src/CHTL/Token.h
