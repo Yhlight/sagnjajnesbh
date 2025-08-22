@@ -198,6 +198,20 @@ src/CMakeFiles/chtljs_core.dir/CHTLJS/Events/JSEventSystem.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtljs_core.dir/CHTLJS/Events/JSEventSystem.cpp.s"
 	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJS/Events/JSEventSystem.cpp -o CMakeFiles/chtljs_core.dir/CHTLJS/Events/JSEventSystem.cpp.s
 
+src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o: src/CMakeFiles/chtljs_core.dir/flags.make
+src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o: /workspace/src/CHTLJS/Core/CHTLJSStateContext.cpp
+src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o: src/CMakeFiles/chtljs_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o -MF CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o.d -o CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o -c /workspace/src/CHTLJS/Core/CHTLJSStateContext.cpp
+
+src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.i"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTLJS/Core/CHTLJSStateContext.cpp > CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.i
+
+src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.s"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTLJS/Core/CHTLJSStateContext.cpp -o CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.s
+
 # Object files for target chtljs_core
 chtljs_core_OBJECTS = \
 "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSToken.cpp.o" \
@@ -208,7 +222,8 @@ chtljs_core_OBJECTS = \
 "CMakeFiles/chtljs_core.dir/CHTLJS/Parser/CHTLJSParser.cpp.o" \
 "CMakeFiles/chtljs_core.dir/CHTLJS/AST/CHTLJSASTNodes.cpp.o" \
 "CMakeFiles/chtljs_core.dir/CHTLJS/Generator/CHTLJSGenerator.cpp.o" \
-"CMakeFiles/chtljs_core.dir/CHTLJS/Events/JSEventSystem.cpp.o"
+"CMakeFiles/chtljs_core.dir/CHTLJS/Events/JSEventSystem.cpp.o" \
+"CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o"
 
 # External object files for target chtljs_core
 chtljs_core_EXTERNAL_OBJECTS =
@@ -222,9 +237,10 @@ lib/libchtljs_core.a: src/CMakeFiles/chtljs_core.dir/CHTLJS/Parser/CHTLJSParser.
 lib/libchtljs_core.a: src/CMakeFiles/chtljs_core.dir/CHTLJS/AST/CHTLJSASTNodes.cpp.o
 lib/libchtljs_core.a: src/CMakeFiles/chtljs_core.dir/CHTLJS/Generator/CHTLJSGenerator.cpp.o
 lib/libchtljs_core.a: src/CMakeFiles/chtljs_core.dir/CHTLJS/Events/JSEventSystem.cpp.o
+lib/libchtljs_core.a: src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o
 lib/libchtljs_core.a: src/CMakeFiles/chtljs_core.dir/build.make
 lib/libchtljs_core.a: src/CMakeFiles/chtljs_core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX static library ../lib/libchtljs_core.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX static library ../lib/libchtljs_core.a"
 	cd /workspace/build/src && $(CMAKE_COMMAND) -P CMakeFiles/chtljs_core.dir/cmake_clean_target.cmake
 	cd /workspace/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtljs_core.dir/link.txt --verbose=$(VERBOSE)
 

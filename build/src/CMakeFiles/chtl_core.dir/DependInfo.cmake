@@ -17,6 +17,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspace/src/CHTL/Core/CHTLContext.cpp" "src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLContext.cpp.o" "gcc" "src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLContext.cpp.o.d"
   "/workspace/src/CHTL/Core/CHTLGlobalMap.cpp" "src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLGlobalMap.cpp.o" "gcc" "src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLGlobalMap.cpp.o.d"
   "/workspace/src/CHTL/Core/CHTLState.cpp" "src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLState.cpp.o" "gcc" "src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLState.cpp.o.d"
+  "/workspace/src/CHTL/Core/CHTLStateContext.cpp" "src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLStateContext.cpp.o" "gcc" "src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLStateContext.cpp.o.d"
   "/workspace/src/CHTL/Core/CHTLToken.cpp" "src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLToken.cpp.o" "gcc" "src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLToken.cpp.o.d"
   "/workspace/src/CHTL/Generator/CHTLGenerator.cpp" "src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o" "gcc" "src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o.d"
   "/workspace/src/CHTL/Import/EnhancedImportSystem.cpp" "src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o" "gcc" "src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o.d"

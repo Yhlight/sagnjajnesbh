@@ -19,6 +19,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLGlobalMap.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLState.cpp.o"
   "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLState.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLStateContext.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLStateContext.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLToken.cpp.o"
   "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLToken.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o"

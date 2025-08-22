@@ -541,6 +541,30 @@ CHTL/Core/CHTLState.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLState.cpp.s
 .PHONY : CHTL/Core/CHTLState.cpp.s
 
+CHTL/Core/CHTLStateContext.o: CHTL/Core/CHTLStateContext.cpp.o
+.PHONY : CHTL/Core/CHTLStateContext.o
+
+# target to build an object file
+CHTL/Core/CHTLStateContext.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLStateContext.cpp.o
+.PHONY : CHTL/Core/CHTLStateContext.cpp.o
+
+CHTL/Core/CHTLStateContext.i: CHTL/Core/CHTLStateContext.cpp.i
+.PHONY : CHTL/Core/CHTLStateContext.i
+
+# target to preprocess a source file
+CHTL/Core/CHTLStateContext.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLStateContext.cpp.i
+.PHONY : CHTL/Core/CHTLStateContext.cpp.i
+
+CHTL/Core/CHTLStateContext.s: CHTL/Core/CHTLStateContext.cpp.s
+.PHONY : CHTL/Core/CHTLStateContext.s
+
+# target to generate assembly for a file
+CHTL/Core/CHTLStateContext.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Core/CHTLStateContext.cpp.s
+.PHONY : CHTL/Core/CHTLStateContext.cpp.s
+
 CHTL/Core/CHTLToken.o: CHTL/Core/CHTLToken.cpp.o
 .PHONY : CHTL/Core/CHTLToken.o
 
@@ -780,6 +804,30 @@ CHTLJS/Core/CHTLJSState.s: CHTLJS/Core/CHTLJSState.cpp.s
 CHTLJS/Core/CHTLJSState.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtljs_core.dir/build.make src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSState.cpp.s
 .PHONY : CHTLJS/Core/CHTLJSState.cpp.s
+
+CHTLJS/Core/CHTLJSStateContext.o: CHTLJS/Core/CHTLJSStateContext.cpp.o
+.PHONY : CHTLJS/Core/CHTLJSStateContext.o
+
+# target to build an object file
+CHTLJS/Core/CHTLJSStateContext.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtljs_core.dir/build.make src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o
+.PHONY : CHTLJS/Core/CHTLJSStateContext.cpp.o
+
+CHTLJS/Core/CHTLJSStateContext.i: CHTLJS/Core/CHTLJSStateContext.cpp.i
+.PHONY : CHTLJS/Core/CHTLJSStateContext.i
+
+# target to preprocess a source file
+CHTLJS/Core/CHTLJSStateContext.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtljs_core.dir/build.make src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.i
+.PHONY : CHTLJS/Core/CHTLJSStateContext.cpp.i
+
+CHTLJS/Core/CHTLJSStateContext.s: CHTLJS/Core/CHTLJSStateContext.cpp.s
+.PHONY : CHTLJS/Core/CHTLJSStateContext.s
+
+# target to generate assembly for a file
+CHTLJS/Core/CHTLJSStateContext.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtljs_core.dir/build.make src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.s
+.PHONY : CHTLJS/Core/CHTLJSStateContext.cpp.s
 
 CHTLJS/Core/CHTLJSToken.o: CHTLJS/Core/CHTLJSToken.cpp.o
 .PHONY : CHTLJS/Core/CHTLJSToken.o
@@ -1504,6 +1552,9 @@ help:
 	@echo "... CHTL/Core/CHTLState.o"
 	@echo "... CHTL/Core/CHTLState.i"
 	@echo "... CHTL/Core/CHTLState.s"
+	@echo "... CHTL/Core/CHTLStateContext.o"
+	@echo "... CHTL/Core/CHTLStateContext.i"
+	@echo "... CHTL/Core/CHTLStateContext.s"
 	@echo "... CHTL/Core/CHTLToken.o"
 	@echo "... CHTL/Core/CHTLToken.i"
 	@echo "... CHTL/Core/CHTLToken.s"
@@ -1534,6 +1585,9 @@ help:
 	@echo "... CHTLJS/Core/CHTLJSState.o"
 	@echo "... CHTLJS/Core/CHTLJSState.i"
 	@echo "... CHTLJS/Core/CHTLJSState.s"
+	@echo "... CHTLJS/Core/CHTLJSStateContext.o"
+	@echo "... CHTLJS/Core/CHTLJSStateContext.i"
+	@echo "... CHTLJS/Core/CHTLJSStateContext.s"
 	@echo "... CHTLJS/Core/CHTLJSToken.o"
 	@echo "... CHTLJS/Core/CHTLJSToken.i"
 	@echo "... CHTLJS/Core/CHTLJSToken.s"

@@ -4,6 +4,7 @@ add_library(chtl_core STATIC
     CHTL/Core/CHTLGlobalMap.cpp
     CHTL/Core/CHTLState.cpp
     CHTL/Core/CHTLContext.cpp
+    CHTL/Core/CHTLStateContext.cpp
     CHTL/Lexer/CHTLLexer.cpp
     CHTL/Parser/CHTLParser.cpp
     CHTL/AST/CHTLASTNodes.cpp
@@ -34,6 +35,7 @@ add_library(chtljs_core STATIC
     CHTLJS/AST/CHTLJSASTNodes.cpp
     CHTLJS/Generator/CHTLJSGenerator.cpp
     CHTLJS/Events/JSEventSystem.cpp
+    CHTLJS/Core/CHTLJSStateContext.cpp
 )
 
 target_include_directories(chtljs_core PUBLIC

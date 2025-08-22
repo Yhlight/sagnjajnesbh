@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSGlobalMap.cpp.o.d"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSState.cpp.o"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSState.cpp.o.d"
+  "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o"
+  "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSStateContext.cpp.o.d"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSToken.cpp.o"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSToken.cpp.o.d"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Events/JSEventSystem.cpp.o"
