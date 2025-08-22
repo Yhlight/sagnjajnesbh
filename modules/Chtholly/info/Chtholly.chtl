@@ -1,65 +1,35 @@
-// 珂朵莉主题模块 - 世界上最幸福的女孩
-// 语法文档第1455-1470行：珂朵莉模块采用CMOD + CJMOD的混合模块
+// 珂朵莉模块主信息文件
+// 语法文档第1455-1457行：珂朵莉模块采用CMOD + CJMOD的混合模块
 
 [Info]
 {
-    name = "chtholly";
+    name = "Chtholly";
     version = "1.0.0";
-    description = "珂朵莉主题模块 - 世界上最幸福的女孩";
+    description = "珂朵莉主题模块 - 世界上最幸福的女孩，CMOD + CJMOD混合模块";
     author = "CHTL Team";
     license = "MIT";
     dependencies = "";
-    type = "mixed"; // CMOD + CJMOD混合模块
-    
-    // 珂朵莉模块特色功能
-    features = [
-        "手风琴效果",
-        "四叶窗相册",
-        "备忘录组件",
-        "暖色笔记",
-        "樱花雨特效",
-        "鼠标特效",
-        "鼠标拖尾",
-        "视差滚动背景",
-        "右键菜单栏",
-        "进度条组件",
-        "printMylove图片转字符",
-        "iNeverAway函数重载"
-    ];
+    category = "theme-mixed";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
 }
 
+// 外部查询表，优化性能用，无实际作用
+// 不需要写这个，此由系统生成
 [Export]
 {
-    // CMOD组件导出（使用全缀名）
-    [Custom] @Element Accordion;          // 手风琴
-    [Custom] @Element CloverAlbum;        // 四叶窗相册
-    [Custom] @Element Memo;               // 备忘录
-    [Custom] @Element WarmNote;           // 暖色笔记
-    [Custom] @Element SakuraRain;         // 樱花雨
-    [Custom] @Element MouseEffect;        // 鼠标特效
-    [Custom] @Element MouseTrail;         // 鼠标拖尾
-    [Custom] @Element ParallaxBg;         // 视差滚动背景
-    [Custom] @Element ContextMenu;        // 右键菜单栏
-    [Custom] @Element ProgressBar;        // 进度条
-    
-    // CMOD样式导出（使用全缀名）
-    [Custom] @Style AccordionStyle;       // 手风琴样式
-    [Custom] @Style CloverAlbumStyle;     // 四叶窗相册样式
-    [Custom] @Style MemoStyle;            // 备忘录样式
-    [Custom] @Style WarmNoteStyle;        // 暖色笔记样式
-    [Custom] @Style SakuraRainStyle;      // 樱花雨样式
-    [Custom] @Style MouseEffectStyle;     // 鼠标特效样式
-    [Custom] @Style MouseTrailStyle;      // 鼠标拖尾样式
-    [Custom] @Style ParallaxBgStyle;      // 视差滚动背景样式
-    [Custom] @Style ContextMenuStyle;     // 右键菜单栏样式
-    [Custom] @Style ProgressBarStyle;     // 进度条样式
-    
-    // CMOD变量导出（使用全缀名）
-    [Custom] @Var ChthollyTheme;          // 珂朵莉主题变量
-    [Custom] @Var SakuraColors;           // 樱花颜色变量
-    [Custom] @Var WarmColors;             // 暖色调变量
-    
-    // CJMOD功能导出（由CJMOD扩展提供）
-    // printMylove - 图片转字符功能
-    // iNeverAway - 函数重载功能
+    // CMOD部分导出（语法文档第1459-1469行）
+    [Custom] @Element Accordion, CloverAlbum, Memo, WarmNote, SakuraRain,
+             MouseEffect, MouseTrail, ParallaxBg, ContextMenu, ProgressBar;
+
+    [Custom] @Style AccordionTheme, CloverAlbumTheme, MemoTheme, WarmNoteTheme,
+           SakuraRainTheme, MouseEffectTheme, MouseTrailTheme, ParallaxBgTheme,
+           ContextMenuTheme, ProgressBarTheme;
+
+    [Template] @Var AccordionConfig, CloverAlbumConfig, MemoConfig, WarmNoteConfig,
+         SakuraRainConfig, MouseEffectConfig, MouseTrailConfig, ParallaxBgConfig,
+         ContextMenuConfig, ProgressBarConfig;
+
+    // CJMOD部分导出（语法文档第1471-1520行）
+    // 注意：CJMOD扩展不在此导出，通过[Import] @CJmod单独管理
 }

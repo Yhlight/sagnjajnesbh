@@ -97,6 +97,7 @@ target_link_libraries(js_compiler ${ANTLR4_LIBRARIES})
 # CMOD模块系统库
 add_library(cmod STATIC
     CMOD/CMODManager.cpp
+    CMOD/CompleteCMODSystem.cpp
 )
 
 target_include_directories(cmod PUBLIC
@@ -108,6 +109,7 @@ add_library(cjmod STATIC
     CJMOD/CJMODApi.cpp
     CJMOD/Extensions/PrintMyloveExtension.cpp
     CJMOD/Extensions/INeverAwayExtension.cpp
+    CJMOD/CompleteCJMODSystem.cpp
 )
 
 target_include_directories(cjmod PUBLIC

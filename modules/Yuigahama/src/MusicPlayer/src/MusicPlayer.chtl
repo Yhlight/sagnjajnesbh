@@ -1,0 +1,131 @@
+// 由比滨结衣音乐播放器组件 - 语法文档第1524行
+// 纯CMOD模块，使用全缀名导出
+
+[Custom] @Element MusicPlayer
+{
+    div
+    {
+        class: yuigahama-music-player;
+        
+        div
+        {
+            class: player-header;
+            
+            text { "由比滨结衣的音乐播放器" }
+            
+            style
+            {
+                .player-header
+                {
+                    text-align: center;
+                    padding: 15px;
+                    background: linear-gradient(135deg, #FF7F50, #FF6347);
+                    color: white;
+                    border-radius: 15px 15px 0 0;
+                    font-weight: bold;
+                }
+            }
+        }
+        
+        div
+        {
+            class: player-controls;
+            
+            div
+            {
+                class: play-button;
+                text { "▶" }
+                
+                style
+                {
+                    .play-button
+                    {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        background: linear-gradient(45deg, #FF7F50, #FF6347);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                        font-size: 24px;
+                        cursor: pointer;
+                        transition: transform 0.3s ease;
+                    }
+                    
+                    &:hover
+                    {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+            
+            div
+            {
+                class: progress-bar;
+                
+                div
+                {
+                    class: progress-fill;
+                    
+                    style
+                    {
+                        .progress-fill
+                        {
+                            height: 100%;
+                            width: 30%;
+                            background: linear-gradient(90deg, #FF7F50, #FF6347);
+                            border-radius: inherit;
+                            transition: width 0.3s ease;
+                        }
+                    }
+                }
+                
+                style
+                {
+                    .progress-bar
+                    {
+                        flex: 1;
+                        height: 8px;
+                        background: rgba(255, 127, 80, 0.3);
+                        border-radius: 4px;
+                        margin: 0 20px;
+                        cursor: pointer;
+                    }
+                }
+            }
+            
+            style
+            {
+                .player-controls
+                {
+                    display: flex;
+                    align-items: center;
+                    padding: 20px;
+                    background: rgba(255, 127, 80, 0.1);
+                }
+            }
+        }
+        
+        style
+        {
+            .yuigahama-music-player
+            {
+                width: 400px;
+                background: white;
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(255, 127, 80, 0.3);
+                overflow: hidden;
+                font-family: 'Microsoft YaHei', sans-serif;
+            }
+        }
+    }
+}
+
+[Custom] @Style YuiMusicTheme
+{
+    primary-color: "#FF7F50";
+    secondary-color: "#FF6347";
+    background-alpha: "0.1";
+    text-color: "white";
+}

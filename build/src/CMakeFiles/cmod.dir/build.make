@@ -86,17 +86,33 @@ src/CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.s"
 	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CMOD/CMODManager.cpp -o CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.s
 
+src/CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o: src/CMakeFiles/cmod.dir/flags.make
+src/CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o: /workspace/src/CMOD/CompleteCMODSystem.cpp
+src/CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o: src/CMakeFiles/cmod.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o -MF CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o.d -o CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o -c /workspace/src/CMOD/CompleteCMODSystem.cpp
+
+src/CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.i"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CMOD/CompleteCMODSystem.cpp > CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.i
+
+src/CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.s"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CMOD/CompleteCMODSystem.cpp -o CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.s
+
 # Object files for target cmod
 cmod_OBJECTS = \
-"CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.o"
+"CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.o" \
+"CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o"
 
 # External object files for target cmod
 cmod_EXTERNAL_OBJECTS =
 
 lib/libcmod.a: src/CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.o
+lib/libcmod.a: src/CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o
 lib/libcmod.a: src/CMakeFiles/cmod.dir/build.make
 lib/libcmod.a: src/CMakeFiles/cmod.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library ../lib/libcmod.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library ../lib/libcmod.a"
 	cd /workspace/build/src && $(CMAKE_COMMAND) -P CMakeFiles/cmod.dir/cmake_clean_target.cmake
 	cd /workspace/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cmod.dir/link.txt --verbose=$(VERBOSE)
 

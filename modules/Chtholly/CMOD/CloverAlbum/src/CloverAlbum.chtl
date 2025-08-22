@@ -1,0 +1,64 @@
+// 珂朵莉四叶窗相册组件 - 语法文档第1461行
+
+[Custom] @Element CloverAlbum
+{
+    div
+    {
+        class: chtholly-clover-album;
+        
+        div
+        {
+            class: clover-grid;
+            
+            div { class: clover-item; }
+            div { class: clover-item; }
+            div { class: clover-item; }
+            div { class: clover-item; }
+            
+            style
+            {
+                .clover-grid
+                {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 10px;
+                    aspect-ratio: 1;
+                }
+                
+                .clover-item
+                {
+                    background: linear-gradient(45deg, #FFB6C1, #FF69B4);
+                    border-radius: 50% 10% 50% 10%;
+                    transition: transform 0.3s ease;
+                    cursor: pointer;
+                }
+                
+                .clover-item:hover
+                {
+                    transform: scale(1.1) rotate(10deg);
+                }
+            }
+        }
+        
+        style
+        {
+            .chtholly-clover-album
+            {
+                width: 300px;
+                height: 300px;
+                padding: 20px;
+                background: radial-gradient(circle, rgba(255, 182, 193, 0.2), rgba(255, 105, 180, 0.1));
+                border-radius: 20px;
+                box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
+            }
+        }
+    }
+}
+
+[Custom] @Style CloverAlbumTheme
+{
+    primary-color: "#FFB6C1";
+    accent-color: "#FF69B4";
+    background-alpha: "0.2";
+    border-radius: "20px";
+}

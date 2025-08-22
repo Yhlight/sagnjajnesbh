@@ -1,0 +1,18 @@
+[Info]
+{
+    name = "MusicPlayer";
+    version = "1.0.0";
+    description = "由比滨结衣音乐播放器组件 - 优雅的音频播放控制器";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "media-component";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export]
+{
+    [Custom] @Element MusicPlayer;
+    [Custom] @Style YuiMusicTheme;
+}

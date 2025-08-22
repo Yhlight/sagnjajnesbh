@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "../lib/libcmod.pdb"
   "CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.o"
   "CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.o.d"
+  "CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o"
+  "CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

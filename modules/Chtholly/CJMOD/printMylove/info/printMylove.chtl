@@ -1,0 +1,22 @@
+// printMylove CJMOD扩展信息文件
+// 严格按照语法文档第1472-1483行的功能定义
+
+[Info]
+{
+    name = "printMylove";
+    version = "1.0.0";
+    description = "printMylove CJMOD扩展 - 将图片转换成字符像素块或ASCII形式";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "cjmod-extension";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+    targetCHTLJS = "1.0.0";
+}
+
+[Export]
+{
+    // CJMOD扩展导出
+    printMylove;  // 扩展函数
+}

@@ -114,11 +114,26 @@ src/CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.s"
 	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CJMOD/Extensions/INeverAwayExtension.cpp -o CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.s
 
+src/CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o: src/CMakeFiles/cjmod.dir/flags.make
+src/CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o: /workspace/src/CJMOD/CompleteCJMODSystem.cpp
+src/CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o: src/CMakeFiles/cjmod.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o -MF CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o.d -o CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o -c /workspace/src/CJMOD/CompleteCJMODSystem.cpp
+
+src/CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.i"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CJMOD/CompleteCJMODSystem.cpp > CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.i
+
+src/CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.s"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CJMOD/CompleteCJMODSystem.cpp -o CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.s
+
 # Object files for target cjmod
 cjmod_OBJECTS = \
 "CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o" \
 "CMakeFiles/cjmod.dir/CJMOD/Extensions/PrintMyloveExtension.cpp.o" \
-"CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.o"
+"CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.o" \
+"CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o"
 
 # External object files for target cjmod
 cjmod_EXTERNAL_OBJECTS =
@@ -126,9 +141,10 @@ cjmod_EXTERNAL_OBJECTS =
 lib/libcjmod.a: src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o
 lib/libcjmod.a: src/CMakeFiles/cjmod.dir/CJMOD/Extensions/PrintMyloveExtension.cpp.o
 lib/libcjmod.a: src/CMakeFiles/cjmod.dir/CJMOD/Extensions/INeverAwayExtension.cpp.o
+lib/libcjmod.a: src/CMakeFiles/cjmod.dir/CJMOD/CompleteCJMODSystem.cpp.o
 lib/libcjmod.a: src/CMakeFiles/cjmod.dir/build.make
 lib/libcjmod.a: src/CMakeFiles/cjmod.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library ../lib/libcjmod.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library ../lib/libcjmod.a"
 	cd /workspace/build/src && $(CMAKE_COMMAND) -P CMakeFiles/cjmod.dir/cmake_clean_target.cmake
 	cd /workspace/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cjmod.dir/link.txt --verbose=$(VERBOSE)
 

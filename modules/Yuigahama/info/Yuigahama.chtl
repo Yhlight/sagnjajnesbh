@@ -1,58 +1,30 @@
-// 由比滨结衣模块 - 温柔可爱的女孩
-// 语法文档第1521-1531行：由比滨结衣模块使用CMOD
+// 由比滨结衣模块主信息文件
+// 语法文档第1521-1522行：由比滨结衣模块使用CMOD（纯CMOD模块）
 
 [Info]
 {
-    name = "yuigahama";
+    name = "Yuigahama";
     version = "1.0.0";
-    description = "由比滨结衣模块 - 温柔可爱的女孩";
+    description = "由比滨结衣模块 - 纯CMOD主题组件集合";
     author = "CHTL Team";
     license = "MIT";
     dependencies = "";
-    type = "cmod"; // 纯CMOD模块
-    
-    // 由比滨结衣模块特色功能
-    features = [
-        "音乐播放器",
-        "手风琴效果",
-        "四叶窗相册",
-        "备忘录组件",
-        "暖色笔记",
-        "樱花雨特效",
-        "鼠标特效"
-    ];
-    
-    // 由比滨结衣的温柔主题
-    theme = {
-        primaryColor: "#FFE4E1";     // 温柔粉色
-        secondaryColor: "#FFF0F5";   // 淡雅色
-        accentColor: "#FF6347";      // 活泼色
-        warmth: "gentle";            // 温柔风格
-    };
+    category = "theme-cmod";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
 }
 
+// 外部查询表，优化性能用，无实际作用
+// 不需要写这个，此由系统生成
 [Export]
 {
-    // CMOD组件导出
-    @Element MusicPlayer;        // 音乐播放器
-    @Element YuiAccordion;       // 由比滨手风琴
-    @Element YuiCloverAlbum;     // 由比滨四叶窗相册
-    @Element YuiMemo;            // 由比滨备忘录
-    @Element YuiWarmNote;        // 由比滨暖色笔记
-    @Element YuiSakuraRain;      // 由比滨樱花雨
-    @Element YuiMouseEffect;     // 由比滨鼠标特效
-    
-    // CMOD样式导出
-    @Style MusicPlayerStyle;     // 音乐播放器样式
-    @Style YuiAccordionStyle;    // 由比滨手风琴样式
-    @Style YuiCloverAlbumStyle;  // 由比滨四叶窗相册样式
-    @Style YuiMemoStyle;         // 由比滨备忘录样式
-    @Style YuiWarmNoteStyle;     // 由比滨暖色笔记样式
-    @Style YuiSakuraRainStyle;   // 由比滨樱花雨样式
-    @Style YuiMouseEffectStyle;  // 由比滨鼠标特效样式
-    
-    // CMOD变量导出
-    @Var YuigahamaTheme;         // 由比滨结衣主题变量
-    @Var GentleColors;           // 温柔色彩变量
-    @Var MusicConfig;            // 音乐配置变量
+    // 纯CMOD组件导出（语法文档第1524-1531行）
+    [Custom] @Element MusicPlayer, YuiAccordion, YuiCloverAlbum, YuiMemo,
+             YuiWarmNote, YuiSakuraRain, YuiMouseEffect;
+
+    [Custom] @Style YuiMusicTheme, YuiAccordionTheme, YuiCloverAlbumTheme,
+           YuiMemoTheme, YuiWarmNoteTheme, YuiSakuraRainTheme, YuiMouseEffectTheme;
+
+    [Template] @Var YuiMusicConfig, YuiAccordionConfig, YuiCloverAlbumConfig,
+         YuiMemoConfig, YuiWarmNoteConfig, YuiSakuraRainConfig, YuiMouseEffectConfig;
 }
