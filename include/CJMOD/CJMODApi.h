@@ -4,61 +4,120 @@
 #include <vector>
 #include <unordered_map>
 #include <functional>
-#include <memory>
 #include <variant>
+#include <memory>
 
 namespace CHTL {
 namespace CJMOD {
 
-/**
- * @brief CJMOD扫描策略枚举
- */
-enum class ScanPolicy {
-    NORMAL,     // 常规扫描
-    COLLECT,    // 收集模式（收集所有内容）
-    SKIP        // 跳过模式
-};
+// 前向声明
+class Syntax;
+class CJMODScanner;
 
 /**
- * @brief 参数值类型变体
+ * @brief 参数值类型 - 支持多种类型的参数
  */
 using ArgValue = std::variant<std::string, int, double, bool>;
 
 /**
  * @brief 参数绑定函数类型
  */
-using ArgBindFunction = std::function<std::string(const ArgValue&)>;
+template<typename T>
+using ArgBindFunction = std::function<std::string(T)>;
 
 /**
- * @brief 参数类
+ * @brief 扫描策略枚举
+ */
+enum class ScanPolicy {
+    NORMAL,     // 常规扫描
+    COLLECT,    // 收集模式
+    SKIP        // 跳过模式
+};
+
+/**
+ * @brief Arg类 - 参数处理核心
+ * 按照用户的原始API设计：支持bind、match、transform、operator()
  */
 class Arg {
 public:
     /**
      * @brief 构造函数
      * @param name 参数名称
-     * @param isPlaceholder 是否为占位符
+     * @param isPlaceholder 是否为占位符($)
      */
     Arg(const std::string& name, bool isPlaceholder = false);
     
     /**
-     * @brief 绑定处理函数
+     * @brief 模板化bind方法 - 绑定处理函数
      * @param func 处理函数
      */
-    void Bind(const ArgBindFunction& func);
+    template<typename T>
+    void Bind(const std::function<std::string(T)>& func) {
+        // 存储类型安全的绑定函数
+        if constexpr (std::is_same_v<T, std::string>) {
+            stringBindFunction_ = func;
+        } else if constexpr (std::is_same_v<T, int>) {
+            intBindFunction_ = func;
+        } else if constexpr (std::is_same_v<T, double>) {
+            doubleBindFunction_ = func;
+        } else if constexpr (std::is_same_v<T, bool>) {
+            boolBindFunction_ = func;
+        }
+        
+        hasBoundFunction_ = true;
+    }
     
     /**
-     * @brief 匹配并处理值
+     * @brief 重载operator() - 接受参数并调用绑定函数
      * @param value 参数值
-     * @return 处理后的结果
+     * @return 处理后的字符串
      */
-    std::string Match(const ArgValue& value);
+    template<typename T>
+    std::string operator()(T value) {
+        if constexpr (std::is_same_v<T, std::string>) {
+            if (stringBindFunction_) {
+                currentValue_ = stringBindFunction_(value);
+                return currentValue_;
+            }
+        } else if constexpr (std::is_same_v<T, int>) {
+            if (intBindFunction_) {
+                currentValue_ = intBindFunction_(value);
+                return currentValue_;
+            }
+        } else if constexpr (std::is_same_v<T, double>) {
+            if (doubleBindFunction_) {
+                currentValue_ = doubleBindFunction_(value);
+                return currentValue_;
+            }
+        } else if constexpr (std::is_same_v<T, bool>) {
+            if (boolBindFunction_) {
+                currentValue_ = boolBindFunction_(value);
+                return currentValue_;
+            }
+        }
+        
+        // 如果没有绑定函数，直接转换为字符串
+        if constexpr (std::is_same_v<T, std::string>) {
+            currentValue_ = value;
+        } else {
+            currentValue_ = std::to_string(value);
+        }
+        
+        return currentValue_;
+    }
     
     /**
-     * @brief 设置转换模板
-     * @param jsTemplate JavaScript代码模板
+     * @brief match方法 - 匹配参数值并调用绑定函数
+     * @param value 参数值
      */
-    void Transform(const std::string& jsTemplate);
+    void Match(const ArgValue& value);
+    
+    /**
+     * @brief transform方法 - 将参数转换为JS代码
+     * @param jsTemplate JS代码模板
+     * @return 转换后的JS代码
+     */
+    std::string Transform(const std::string& jsTemplate);
     
     /**
      * @brief 获取参数名称
@@ -66,14 +125,14 @@ public:
     const std::string& GetName() const { return name_; }
     
     /**
-     * @brief 检查是否为占位符
+     * @brief 是否为占位符
      */
     bool IsPlaceholder() const { return isPlaceholder_; }
     
     /**
-     * @brief 检查是否已绑定
+     * @brief 是否已绑定函数
      */
-    bool IsBound() const { return bindFunction_ != nullptr; }
+    bool IsBound() const { return hasBoundFunction_; }
     
     /**
      * @brief 获取当前值
@@ -86,93 +145,100 @@ public:
     void Reset();
 
 private:
-    // 完整的JS代码转换辅助方法
-    std::string GetValueType() const;
-    bool IsStringValue() const;
-    bool IsNumberValue() const;
-    bool IsBooleanValue() const;
-    std::string EscapeJavaScript(const std::string& value) const;
-    std::string ToJSON(const std::string& value) const;
-    std::string FormatAsParameter(const std::string& value) const;
-    std::string FormatAsArrayElement(const std::string& value) const;
-    std::string FormatAsObjectProperty(const std::string& name, const std::string& value) const;
-    std::string ApplyCustomTransformations(const std::string& template_str) const;
-    bool EvaluateCondition(const std::string& condition) const;
-    std::string ProcessForLoop(const std::string& arrayName, const std::string& itemName, const std::string& template_content) const;
-    std::string ProcessFunctionCall(const std::string& functionName, const std::string& params) const;
-
-public:
-
-private:
-    std::string name_;                  // 参数名称
-    bool isPlaceholder_;                // 是否为占位符
-    ArgBindFunction bindFunction_;      // 绑定的处理函数
-    std::string jsTemplate_;            // JavaScript模板
-    std::string currentValue_;          // 当前值
-    int matchCount_;                    // 匹配计数（用于占位符）
+    std::string name_;                          // 参数名称
+    bool isPlaceholder_;                        // 是否为占位符
+    std::string currentValue_;                  // 当前值
+    bool hasBoundFunction_;                     // 是否已绑定函数
+    
+    // 类型安全的绑定函数
+    std::function<std::string(std::string)> stringBindFunction_;
+    std::function<std::string(int)> intBindFunction_;
+    std::function<std::string(double)> doubleBindFunction_;
+    std::function<std::string(bool)> boolBindFunction_;
 };
 
 /**
- * @brief 参数集合类
+ * @brief ArgCollection类 - 参数集合管理
  */
 class ArgCollection {
 public:
     /**
      * @brief 添加参数
+     * @param name 参数名称
+     * @param isPlaceholder 是否为占位符
      */
     void AddArg(const std::string& name, bool isPlaceholder = false);
     
     /**
-     * @brief 通过名称绑定参数
+     * @brief 模板化bind方法 - 按名称绑定
      * @param name 参数名称
      * @param func 处理函数
      */
-    void Bind(const std::string& name, const ArgBindFunction& func);
+    template<typename T>
+    void Bind(const std::string& name, const std::function<std::string(T)>& func) {
+        auto it = nameToIndex_.find(name);
+        if (it != nameToIndex_.end()) {
+            args_[it->second].Bind<T>(func);
+        } else {
+            // 对于占位符，绑定第一个未绑定的占位符
+            for (auto& arg : args_) {
+                if (arg.IsPlaceholder() && !arg.IsBound()) {
+                    arg.Bind<T>(func);
+                    break;
+                }
+            }
+        }
+    }
     
     /**
-     * @brief 通过索引绑定参数
+     * @brief 按索引绑定
      * @param index 参数索引
      * @param func 处理函数
      */
-    void Bind(size_t index, const ArgBindFunction& func);
+    template<typename T>
+    void Bind(size_t index, const std::function<std::string(T)>& func) {
+        if (index < args_.size()) {
+            args_[index].Bind<T>(func);
+        }
+    }
     
     /**
-     * @brief 通过名称匹配参数
+     * @brief 匹配参数值
      * @param name 参数名称
      * @param value 参数值
      */
     void Match(const std::string& name, const ArgValue& value);
     
     /**
-     * @brief 通过索引匹配参数
+     * @brief 按索引匹配参数值
      * @param index 参数索引
      * @param value 参数值
      */
     void Match(size_t index, const ArgValue& value);
     
     /**
-     * @brief 设置参数转换模板
+     * @brief transform方法 - 转换指定参数为JS代码
      * @param name 参数名称
-     * @param jsTemplate JavaScript模板
+     * @param jsTemplate JS代码模板
      */
     void Transform(const std::string& name, const std::string& jsTemplate);
     
     /**
-     * @brief 通过索引访问参数
+     * @brief 索引访问操作符
      */
     Arg& operator[](size_t index);
     const Arg& operator[](size_t index) const;
     
     /**
-     * @brief 获取参数数量
-     */
-    size_t Size() const { return args_.size(); }
-    
-    /**
-     * @brief 生成最终结果
-     * @return 组合后的JavaScript代码
+     * @brief result方法 - 组合所有参数的结果
+     * @return 组合后的字符串
      */
     std::string Result() const;
+    
+    /**
+     * @brief 获取参数数量
+     */
+    size_t Length() const { return args_.size(); }
     
     /**
      * @brief 重置所有参数
@@ -185,7 +251,8 @@ private:
 };
 
 /**
- * @brief 语法分析结果类
+ * @brief Syntax类 - 语法分析结果
+ * 按照用户的原始API设计：维护args和result
  */
 class Syntax {
 public:
@@ -203,25 +270,31 @@ public:
     const ArgCollection& GetArgs() const { return args_; }
     
     /**
-     * @brief 获取语法模式
+     * @brief 模板化bind方法 - 便捷绑定
+     * @param name 参数名称
+     * @param func 处理函数
      */
-    const std::string& GetPattern() const { return pattern_; }
+    template<typename T>
+    void Bind(const std::string& name, const std::function<std::string(T)>& func) {
+        args_.Bind<T>(name, func);
+    }
     
     /**
-     * @brief 获取忽略字符
+     * @brief result方法 - 生成最终代码
+     * @return 生成的代码
      */
-    const std::string& GetIgnoreChars() const { return ignoreChars_; }
+    std::string Result() const;
     
     /**
-     * @brief 生成最终JavaScript代码
-     * @return 生成的JavaScript代码
+     * @brief 生成代码（兼容性方法）
      */
-    std::string GenerateCode() const;
+    std::string GenerateCode() const { return Result(); }
 
 private:
-    std::string pattern_;           // 语法模式
+    std::string pattern_;           // 原始语法模式
     std::string ignoreChars_;       // 忽略的字符
     ArgCollection args_;            // 参数集合
+    std::string result_;            // 结果缓存
     
     /**
      * @brief 解析语法模式
@@ -230,104 +303,82 @@ private:
 };
 
 /**
- * @brief CJMOD扫描器接口
+ * @brief CJMODScanner类 - 扫描器核心
+ * 按照用户的原始API设计：scanKeyword、policyChange、peekKeyword
  */
 class CJMODScanner {
 public:
-    /**
-     * @brief 构造函数
-     */
     CJMODScanner();
     
     /**
-     * @brief 注册关键字扫描
+     * @brief scanKeyword - 扫描关键字的核心接口
      * @param keyword 关键字
      * @param handler 处理函数
      */
     void ScanKeyword(const std::string& keyword, std::function<void()> handler);
     
     /**
-     * @brief 注册参数扫描
+     * @brief scanKeyword - 扫描Arg关键字
      * @param arg 参数对象
      * @param handler 处理函数
      */
     void ScanKeyword(const Arg& arg, std::function<void()> handler);
     
     /**
-     * @brief 查看前后关键字
+     * @brief peekKeyword - 查看指定偏移的关键字
      * @param offset 偏移量（负数向前，正数向后）
-     * @return 关键字内容
+     * @return 关键字字符串
      */
     std::string PeekKeyword(int offset) const;
     
     /**
-     * @brief 策略更改开始
+     * @brief policyChangeBegin - 开始策略改变
      * @param trigger 触发字符
      * @param policy 新策略
      */
     void PolicyChangeBegin(const std::string& trigger, ScanPolicy policy);
     
     /**
-     * @brief 策略更改结束
-     * @param trigger 触发字符
-     * @param policy 恢复策略
-     * @return 收集的内容（如果策略为COLLECT）
+     * @brief policyChangeEnd - 结束策略改变
+     * @param trigger 结束字符
+     * @param policy 恢复的策略
+     * @return 收集的内容（COLLECT模式下）
      */
     std::string PolicyChangeEnd(const std::string& trigger, ScanPolicy policy);
     
     /**
-     * @brief 检查是否为对象
-     * @param content 内容
+     * @brief 辅助函数：判断是否为对象
+     * @param content 内容字符串
      * @return 是否为对象
      */
-    static bool IsObject(const std::string& content);
+    bool IsObject(const std::string& content);
     
     /**
-     * @brief 检查是否为函数
-     * @param content 内容
+     * @brief 辅助函数：判断是否为函数
+     * @param content 内容字符串
      * @return 是否为函数
      */
-    static bool IsFunction(const std::string& content);
+    bool IsFunction(const std::string& content);
 
 private:
-    std::unordered_map<std::string, std::function<void()>> keywordHandlers_;  // 关键字处理器
-    std::vector<std::string> currentTokens_;                                  // 当前Token序列
-    size_t currentPosition_;                                                  // 当前位置
-    ScanPolicy currentPolicy_;                                                // 当前策略
-    std::string collectBuffer_;                                               // 收集缓冲区
+    std::unordered_map<std::string, std::function<void()>> keywordHandlers_;   // 关键字处理器
+    std::vector<std::string> currentTokens_;                                   // 当前Token流
+    size_t currentPosition_;                                                   // 当前位置
+    ScanPolicy currentPolicy_;                                                 // 当前策略
+    std::string collectBuffer_;                                                // 收集缓冲区
 };
 
 /**
- * @brief 语法分析函数
- * @param pattern 语法模式字符串
- * @param ignoreChars 忽略的字符（可选）
- * @return 语法分析结果
- */
-std::unique_ptr<Syntax> SyntaxAnalys(const std::string& pattern, const std::string& ignoreChars = "");
-
-/**
- * @brief 代码生成函数
- * @param syntax 语法对象
- * @return 生成的JavaScript代码
- */
-std::string GenerateCode(const Syntax& syntax);
-
-/**
- * @brief CJMOD扩展基类
- * 
- * 所有CJMOD扩展都应该继承此类
+ * @brief CJMODExtension基类 - 扩展接口
  */
 class CJMODExtension {
 public:
-    /**
-     * @brief 虚析构函数
-     */
     virtual ~CJMODExtension() = default;
     
     /**
-     * @brief 初始化扩展
+     * @brief 初始化扩展 - 注册语法处理器
      * @param scanner 扫描器引用
-     * @return 是否成功初始化
+     * @return 是否初始化成功
      */
     virtual bool Initialize(CJMODScanner& scanner) = 0;
     
@@ -348,116 +399,49 @@ public:
 };
 
 /**
- * @brief CJMOD管理器
+ * @brief 全局函数：syntaxAnalys - 语法分析核心
+ * @param pattern 语法模式字符串
+ * @param ignoreChars 需要忽略的字符
+ * @return Syntax对象智能指针
+ */
+std::unique_ptr<Syntax> SyntaxAnalys(const std::string& pattern, const std::string& ignoreChars = "");
+
+/**
+ * @brief 全局函数：generateCode - 代码生成
+ * @param syntax 语法对象
+ * @return 生成的JavaScript代码
+ */
+std::string GenerateCode(const Syntax& syntax);
+
+/**
+ * @brief CJMODManager类 - CJMOD管理器
+ * 纯API管理，不包含具体扩展实现
  */
 class CJMODManager {
 public:
+    CJMODManager();
+    ~CJMODManager() = default;
+    
     /**
-     * @brief 注册CJMOD扩展
+     * @brief 注册扩展
      * @param extension 扩展对象
-     * @return 是否成功注册
+     * @return 是否注册成功
      */
     bool RegisterExtension(std::unique_ptr<CJMODExtension> extension);
     
     /**
-     * @brief 获取扫描器
+     * @brief 获取扫描器引用
      */
     CJMODScanner& GetScanner() { return scanner_; }
     
     /**
-     * @brief 处理CHTL JS代码（完整实现）
+     * @brief 处理CHTL JS代码（纯API驱动）
      * @param source CHTL JS源代码
      * @return 处理后的JavaScript代码
      */
     std::string ProcessCHTLJS(const std::string& source);
 
 private:
-    /**
-     * @brief 处理扩展语法
-     * @param source 源代码
-     * @param extension 扩展对象
-     * @param syntaxPattern 语法模式
-     * @return 处理后的代码
-     */
-    std::string ProcessExtensionSyntax(const std::string& source, 
-                                      CJMODExtension* extension, 
-                                      const std::string& syntaxPattern);
-    
-    /**
-     * @brief 处理printMylove扩展（完整实现）
-     * @param source 源代码
-     * @param syntaxPattern 语法模式
-     * @return 处理后的代码
-     */
-    std::string ProcessPrintMyloveExtension(const std::string& source, 
-                                           const std::string& syntaxPattern);
-    
-    /**
-     * @brief 处理iNeverAway扩展（完整实现）
-     * @param source 源代码
-     * @param syntaxPattern 语法模式
-     * @return 处理后的代码
-     */
-    std::string ProcessINeverAwayExtension(const std::string& source, 
-                                          const std::string& syntaxPattern);
-    
-    /**
-     * @brief 处理通用扩展
-     * @param source 源代码
-     * @param extension 扩展对象
-     * @param syntaxPattern 语法模式
-     * @return 处理后的代码
-     */
-    std::string ProcessGenericExtension(const std::string& source, 
-                                       CJMODExtension* extension, 
-                                       const std::string& syntaxPattern);
-    
-    /**
-     * @brief 解析并匹配printMylove参数
-     * @param paramContent 参数内容
-     * @param syntax 语法对象
-     */
-    void ParseAndMatchPrintMyloveParams(const std::string& paramContent, Syntax& syntax);
-    
-    /**
-     * @brief 生成printMylove JavaScript代码
-     * @param syntax 语法对象
-     * @return 生成的JavaScript代码
-     */
-    std::string GeneratePrintMyloveJS(const Syntax& syntax);
-    
-    /**
-     * @brief 生成iNeverAway JavaScript代码
-     * @param objectName 虚对象名称
-     * @param methodContent 方法内容
-     * @param syntax 语法对象
-     * @return 生成的JavaScript代码
-     */
-    std::string GenerateINeverAwayJS(const std::string& objectName, 
-                                    const std::string& methodContent, 
-                                    const Syntax& syntax);
-    
-    /**
-     * @brief 处理虚对象调用
-     * @param source 源代码
-     * @return 处理后的代码
-     */
-    std::string ProcessVirtualObjectCalls(const std::string& source);
-    
-    /**
-     * @brief 解析iNeverAway方法定义
-     * @param methodContent 方法内容
-     * @param methods 输出的方法列表
-     */
-    void ParseINeverAwayMethods(const std::string& methodContent, 
-                               std::vector<std::pair<std::string, std::string>>& methods);
-    
-    /**
-     * @brief 提取状态标识符
-     * @param methodName 方法名称
-     * @return 状态标识符
-     */
-    std::string ExtractStateIdentifier(const std::string& methodName);
     CJMODScanner scanner_;                                          // 扫描器
     std::vector<std::unique_ptr<CJMODExtension>> extensions_;       // 已注册的扩展
 };
