@@ -57,10 +57,10 @@ void test_printmylove_extension() {
     
     CJMOD::CJMODManager cjmodManager;
     
-    // 注册printMylove扩展
-    auto printMyloveExt = std::make_unique<CJMOD::Extensions::PrintMyloveExtension>();
-    bool registered = cjmodManager.RegisterExtension(std::move(printMyloveExt));
-    assert(registered);
+    // Extensions现在通过模块分发，不在源代码中
+    // auto printMyloveExt = std::make_unique<CJMOD::Extensions::PrintMyloveExtension>();
+    // bool registered = cjmodManager.RegisterExtension(std::move(printMyloveExt));
+    // assert(registered);
     
     // 测试printMylove语法处理
     std::string testCode = R"(
@@ -85,10 +85,10 @@ void test_ineveraway_extension() {
     
     CJMOD::CJMODManager cjmodManager;
     
-    // 注册iNeverAway扩展
-    auto iNeverAwayExt = std::make_unique<CJMOD::Extensions::INeverAwayExtension>();
-    bool registered = cjmodManager.RegisterExtension(std::move(iNeverAwayExt));
-    assert(registered);
+    // Extensions现在通过模块分发，不在源代码中
+    // auto iNeverAwayExt = std::make_unique<CJMOD::Extensions::INeverAwayExtension>();
+    // bool registered = cjmodManager.RegisterExtension(std::move(iNeverAwayExt));
+    // assert(registered);
     
     // 测试iNeverAway语法处理（语法文档第1491-1509行示例）
     std::string testCode = R"(
@@ -127,12 +127,12 @@ void test_chtholly_cjmod_integration() {
     
     CJMOD::CJMODManager cjmodManager;
     
-    // 注册所有珂朵莉相关的CJMOD扩展
-    auto printMyloveExt = std::make_unique<CJMOD::Extensions::PrintMyloveExtension>();
-    auto iNeverAwayExt = std::make_unique<CJMOD::Extensions::INeverAwayExtension>();
+    // Extensions现在通过模块分发，不在源代码中
+    // auto printMyloveExt = std::make_unique<CJMOD::Extensions::PrintMyloveExtension>();
+    // auto iNeverAwayExt = std::make_unique<CJMOD::Extensions::INeverAwayExtension>();
     
-    assert(cjmodManager.RegisterExtension(std::move(printMyloveExt)));
-    assert(cjmodManager.RegisterExtension(std::move(iNeverAwayExt)));
+    // assert(cjmodManager.RegisterExtension(std::move(printMyloveExt)));
+    // assert(cjmodManager.RegisterExtension(std::move(iNeverAwayExt)));
     
     // 测试混合使用（语法文档：珂朵莉模块采用CMOD + CJMOD的混合模块）
     std::string mixedCode = R"(
@@ -402,13 +402,13 @@ void test_complete_module_workflow() {
         std::cout << "    珂朵莉模块加载: " << (chthollyLoaded ? "成功" : "跳过") << "\n";
         std::cout << "    由比滨模块加载: " << (yuigahamaLoaded ? "成功" : "跳过") << "\n";
         
-        // 2. 初始化CJMOD扩展
+        // 2. 初始化CJMOD扩展（Extensions现在通过模块分发）
         CJMOD::CJMODManager cjmodManager;
-        auto printMyloveExt = std::make_unique<CJMOD::Extensions::PrintMyloveExtension>();
-        auto iNeverAwayExt = std::make_unique<CJMOD::Extensions::INeverAwayExtension>();
+        // auto printMyloveExt = std::make_unique<CJMOD::Extensions::PrintMyloveExtension>();
+        // auto iNeverAwayExt = std::make_unique<CJMOD::Extensions::INeverAwayExtension>();
         
-        assert(cjmodManager.RegisterExtension(std::move(printMyloveExt)));
-        assert(cjmodManager.RegisterExtension(std::move(iNeverAwayExt)));
+        // assert(cjmodManager.RegisterExtension(std::move(printMyloveExt)));
+        // assert(cjmodManager.RegisterExtension(std::move(iNeverAwayExt)));
         
         // 3. 处理混合模块代码
         std::string complexCode = R"(

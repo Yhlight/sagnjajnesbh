@@ -277,7 +277,5 @@ tests/CMakeFiles/test_chtholly_yuigahama.dir/Modules/test_chtholly_yuigahama.cpp
  /usr/lib/llvm-20/lib/clang/20/include/stddef.h
  /usr/lib/llvm-20/lib/clang/20/include/stdint.h
  /workspace/include/CJMOD/CJMODApi.h
- /workspace/include/CJMOD/Extensions/INeverAwayExtension.h
- /workspace/include/CJMOD/Extensions/PrintMyloveExtension.h
  /workspace/include/CMOD/CMODManager.h
 

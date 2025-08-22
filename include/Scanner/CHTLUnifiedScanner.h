@@ -108,6 +108,71 @@ private:
      */
     void InitializeKeywords();
     
+    // 精准代码切割的四个核心阶段 - 严格按照目标规划第48-55行
+    
+    /**
+     * @brief 第一阶段：基于可变长度切片的精准扫描
+     * @param source 源代码
+     * @return 原始代码片段
+     */
+    std::vector<CodeFragment> PerformVariableLengthSlicing(const std::string& source);
+    
+    /**
+     * @brief 第二阶段：向前扩增检查，确保切片完整性
+     * @param fragments 原始片段
+     * @param source 源代码
+     * @return 扩增后的片段
+     */
+    std::vector<CodeFragment> PerformForwardExpansion(const std::vector<CodeFragment>& fragments, const std::string& source);
+    
+    /**
+     * @brief 第三阶段：基于最小单元的二次切割，确保结果绝对精确
+     * @param fragments 扩增后的片段
+     * @param source 源代码
+     * @return 精确切割后的片段
+     */
+    std::vector<CodeFragment> PerformMinimalUnitSlicing(const std::vector<CodeFragment>& fragments, const std::string& source);
+    
+    /**
+     * @brief 第四阶段：上下文检查，确保代码片段不会过小
+     * @param fragments 精确切割后的片段
+     * @param source 源代码
+     * @return 上下文优化后的片段
+     */
+    std::vector<CodeFragment> PerformContextualOptimization(const std::vector<CodeFragment>& fragments, const std::string& source);
+    
+    // 精准切割的辅助方法
+    
+    /**
+     * @brief 查找下一个代码块边界
+     */
+    size_t FindNextBlockBoundary(const std::string& source, size_t pos);
+    
+    /**
+     * @brief 检查是否需要向前扩增
+     */
+    bool ShouldExpandForward(const CodeFragment& current, const CodeFragment& next, const std::string& source);
+    
+    /**
+     * @brief 计算扩增长度
+     */
+    size_t CalculateExpansionLength(const CodeFragment& current, const CodeFragment& next, const std::string& source);
+    
+    /**
+     * @brief 分割为最小单元
+     */
+    std::vector<CodeFragment> SplitIntoMinimalUnits(const CodeFragment& fragment, const std::string& source);
+    
+    /**
+     * @brief 查找最小单元边界
+     */
+    size_t FindMinimalUnitBoundary(const std::string& content, size_t pos);
+    
+    /**
+     * @brief 检查是否应该与下一个片段合并
+     */
+    bool ShouldMergeWithNext(const CodeFragment& current, const CodeFragment* next);
+    
     /**
      * @brief 检测代码片段类型
      * @param content 代码内容

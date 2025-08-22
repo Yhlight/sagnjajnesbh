@@ -275,14 +275,10 @@ tests/CMakeFiles/test_chtholly_yuigahama.dir/Modules/test_chtholly_yuigahama.cpp
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h \
   /workspace/include/CJMOD/CJMODApi.h \
-  /workspace/include/CJMOD/Extensions/INeverAwayExtension.h \
-  /workspace/include/CJMOD/Extensions/PrintMyloveExtension.h \
   /workspace/include/CMOD/CMODManager.h
 
 
 /workspace/include/CMOD/CMODManager.h:
-
-/workspace/include/CJMOD/Extensions/INeverAwayExtension.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/stdint.h:
 
@@ -439,8 +435,6 @@ tests/CMakeFiles/test_chtholly_yuigahama.dir/Modules/test_chtholly_yuigahama.cpp
 /usr/include/c++/14/bits/invoke.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
-
-/workspace/include/CJMOD/Extensions/PrintMyloveExtension.h:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/error_constants.h:
 
