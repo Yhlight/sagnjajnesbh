@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_chtljs_core_complete.dir/link.d CMakeFiles/test_chtljs_core_complete.dir/CHTLJS/test_chtljs_core_complete.cpp.o -o ../bin/test_chtljs_core_complete   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libchtljs_core.a ../lib/libutils.a

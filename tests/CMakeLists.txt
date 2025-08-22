@@ -149,6 +149,18 @@ if(NOT GTest_FOUND)
     
     add_test(NAME CHTLJSCoreTest COMMAND test_chtljs_core)
     
+    # CHTL JS核心功能完整测试
+    add_executable(test_chtljs_core_complete
+        CHTLJS/test_chtljs_core_complete.cpp
+    )
+    
+    target_link_libraries(test_chtljs_core_complete
+        chtljs_core
+        utils
+    )
+    
+    add_test(NAME CHTLJSCoreCompleteTest COMMAND test_chtljs_core_complete)
+    
     # 扫描器测试
     add_executable(test_scanner
         Scanner/test_scanner.cpp

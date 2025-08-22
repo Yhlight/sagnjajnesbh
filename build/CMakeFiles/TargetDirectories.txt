@@ -34,6 +34,7 @@
 /workspace/build/tests/CMakeFiles/test_auto_export.dir
 /workspace/build/tests/CMakeFiles/test_testmodule_auto.dir
 /workspace/build/tests/CMakeFiles/test_chtljs_core.dir
+/workspace/build/tests/CMakeFiles/test_chtljs_core_complete.dir
 /workspace/build/tests/CMakeFiles/test_scanner.dir
 /workspace/build/tests/CMakeFiles/test_integration.dir
 /workspace/build/tests/CMakeFiles/test.dir

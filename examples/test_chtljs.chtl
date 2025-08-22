@@ -1,0 +1,173 @@
+// CHTL JS特性测试文件
+// 展示增强选择器、箭头操作符、虚对象、监听器、事件委托、动画等
+
+html
+{
+    head
+    {
+        title { text { CHTL JS测试 } }
+    }
+    
+    body
+    {
+        div
+        {
+            id: container;
+            class: main-wrapper;
+            
+            style
+            {
+                .box
+                {
+                    width: 100px;
+                    height: 100px;
+                    background-color: #007bff;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                
+                .card
+                {
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                    padding: 16px;
+                    margin: 8px;
+                }
+            }
+            
+            script
+            {
+                // 增强选择器和箭头操作符测试
+                {{.box}}->listen({
+                    click: () => {
+                        console.log('Box clicked!');
+                        {{.box}}->animate({
+                            duration: 500,
+                            begin: {
+                                transform: 'scale(1.0)'
+                            },
+                            end: {
+                                transform: 'scale(1.2)'
+                            }
+                        });
+                    },
+                    
+                    mouseenter: function() {
+                        {{.box}}->style.backgroundColor = '#28a745';
+                    },
+                    
+                    mouseleave: () => {
+                        {{.box}}->style.backgroundColor = '#007bff';
+                    }
+                });
+                
+                // 虚对象测试
+                vir eventManager = listen({
+                    handleClick: () => {
+                        console.log('Event handled by virtual object');
+                    },
+                    
+                    handleHover: function(event) {
+                        event.target.style.opacity = '0.8';
+                    }
+                });
+                
+                // 事件委托测试
+                {{document}}->delegate({
+                    target: [{{.button}}, {{.card}}],
+                    click: eventManager->handleClick,
+                    mouseenter: eventManager->handleHover,
+                    mouseleave: (event) => {
+                        event.target.style.opacity = '1.0';
+                    }
+                });
+                
+                // 动画测试
+                const fadeInAnimation = animate({
+                    target: {{.card}},
+                    duration: 1000,
+                    easing: 'ease-in-out',
+                    
+                    begin: {
+                        opacity: 0,
+                        transform: 'translateY(-20px)'
+                    },
+                    
+                    when: [
+                        {
+                            at: 0.3,
+                            opacity: 0.3,
+                            transform: 'translateY(-10px)'
+                        },
+                        {
+                            at: 0.7,
+                            opacity: 0.7,
+                            transform: 'translateY(-5px)'
+                        }
+                    ],
+                    
+                    end: {
+                        opacity: 1,
+                        transform: 'translateY(0px)'
+                    },
+                    
+                    loop: 1,
+                    delay: 200,
+                    callback: () => {
+                        console.log('动画完成');
+                    }
+                });
+                
+                // iNeverAway特殊函数测试
+                vir specialHandler = iNeverAway({
+                    Void<A>: function(x, y) {
+                        console.log('状态A处理:', x, y);
+                    },
+                    
+                    Void<B>: function(x, y) {
+                        console.log('状态B处理:', x, y);
+                    },
+                    
+                    Void: {
+                        defaultAction: () => {
+                            console.log('默认动作');
+                        }
+                    },
+                    
+                    customMethod: function() {
+                        console.log('自定义方法');
+                    }
+                });
+                
+                // 调用虚对象方法
+                specialHandler->Void<A>(10, 20);
+                specialHandler->Void<B>(30, 40);
+                specialHandler->customMethod();
+                
+                // 多选择器操作
+                [{{.box}}, {{.card}}, {{#container}}]->listen({
+                    click: (event) => {
+                        console.log('多选择器点击:', event.target.className);
+                    }
+                });
+                
+                // 精确索引访问
+                {{.box[0]}}->style.border = '2px solid red';
+                {{button[1]}}->textContent = '第二个按钮';
+            }
+        }
+        
+        button
+        {
+            class: btn;
+            text { 点击我 }
+        }
+        
+        div
+        {
+            class: card;
+            
+            text { 卡片内容 }
+        }
+    }
+}

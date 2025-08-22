@@ -458,6 +458,19 @@ test_chtljs_core/fast:
 .PHONY : test_chtljs_core/fast
 
 #=============================================================================
+# Target rules for targets named test_chtljs_core_complete
+
+# Build rule for target.
+test_chtljs_core_complete: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtljs_core_complete
+.PHONY : test_chtljs_core_complete
+
+# fast build rule for target.
+test_chtljs_core_complete/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_core_complete.dir/build.make tests/CMakeFiles/test_chtljs_core_complete.dir/build
+.PHONY : test_chtljs_core_complete/fast
+
+#=============================================================================
 # Target rules for targets named test_scanner
 
 # Build rule for target.
@@ -512,6 +525,7 @@ help:
 	@echo "... test_chtl_core"
 	@echo "... test_chtl_simple"
 	@echo "... test_chtljs_core"
+	@echo "... test_chtljs_core_complete"
 	@echo "... test_cmod"
 	@echo "... test_cmod_simple"
 	@echo "... test_complex_syntax"

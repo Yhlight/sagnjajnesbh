@@ -79,6 +79,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "tests/CMakeFiles/test_auto_export.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_testmodule_auto.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_chtljs_core.dir/DependInfo.cmake"
+  "tests/CMakeFiles/test_chtljs_core_complete.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_scanner.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_integration.dir/DependInfo.cmake"
   )
