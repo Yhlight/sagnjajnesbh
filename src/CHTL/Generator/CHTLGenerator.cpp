@@ -1,8 +1,10 @@
 #include "CHTL/Generator/CHTLGenerator.h"
 #include "Utils/StringUtils.h"
 #include "Utils/ErrorHandler.h"
+#include "Utils/FileUtils.h"
 #include <algorithm>
 #include <regex>
+#include <sstream>
 
 namespace CHTL {
 namespace Generator {
@@ -300,7 +302,8 @@ void CHTLGenerator::VisitOriginNode(AST::OriginNode& node) {
 }
 
 void CHTLGenerator::VisitImportNode(AST::ImportNode& node) {
-    // 导入节点在编译时处理，不生成运行时输出
+    // 处理导入节点
+    ProcessImport(node);
 }
 
 void CHTLGenerator::VisitNamespaceNode(AST::NamespaceNode& node) {
@@ -318,11 +321,20 @@ void CHTLGenerator::VisitNamespaceNode(AST::NamespaceNode& node) {
 }
 
 void CHTLGenerator::VisitConfigurationNode(AST::ConfigurationNode& node) {
-    // 配置节点在编译时处理，不生成运行时输出
+    // 应用配置设置
+    ApplyConfiguration(node);
 }
 
 void CHTLGenerator::VisitTemplateReferenceNode(AST::TemplateReferenceNode& node) {
     templateExpandCount_++;
+    
+    // 尝试从缓存获取
+    std::string cacheKey = node.GetTemplateType() + ":" + node.GetTemplateName();
+    std::string cachedContent = GetCachedSymbol(cacheKey);
+    if (!cachedContent.empty() && node.GetTemplateType() == "@Style") {
+        context_.variables["__inline_style__"] += cachedContent;
+        return;
+    }
     
     // 查找模板定义
     Core::SymbolType symbolType = (node.GetTemplateType() == "@Style") ? 
@@ -370,6 +382,9 @@ void CHTLGenerator::VisitTemplateReferenceNode(AST::TemplateReferenceNode& node)
         }
         
         context_.variables["__inline_style__"] = inlineStyle;
+        
+        // 缓存样式内容以提高性能
+        CacheSymbol(cacheKey, inlineStyle);
         
     } else if (node.GetTemplateType() == "@Element") {
         // 元素模板展开为实际元素
@@ -908,6 +923,275 @@ std::string CHTLGenerator::GetStatistics() const {
     return oss.str();
 }
 
+void CHTLGenerator::VisitLiteralNode(AST::LiteralNode& node) {
+    // 字面量直接输出其值
+    output_ << node.GetValue();
+}
+
+void CHTLGenerator::VisitInheritanceNode(AST::InheritanceNode& node) {
+    // 继承节点在模板/自定义引用时处理，这里不需要直接输出
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "处理继承: " + node.GetTargetType() + " " + node.GetTargetName()
+        );
+    }
+}
+
+void CHTLGenerator::VisitDeletionNode(AST::DeletionNode& node) {
+    // 删除操作的执行
+    if (node.GetDeletionType() == AST::DeletionNode::DeletionType::ELEMENT) {
+        ExecuteElementDeletion(node);
+    }
+    // 属性删除和继承删除在特例化处理时执行
+}
+
+void CHTLGenerator::VisitInsertionNode(AST::InsertionNode& node) {
+    // 执行实际的元素插入操作
+    
+    // 获取当前正在处理的元素上下文
+    std::string currentElement = context_.variables["__current_element__"];
+    if (currentElement.empty()) {
+        Utils::ErrorHandler::GetInstance().LogError(
+            "插入操作必须在元素上下文中执行"
+        );
+        return;
+    }
+    
+    // 根据插入位置执行不同的插入策略
+    switch (node.GetPosition()) {
+        case AST::InsertionNode::InsertionPosition::AFTER:
+            ExecuteAfterInsertion(node);
+            break;
+        case AST::InsertionNode::InsertionPosition::BEFORE:
+            ExecuteBeforeInsertion(node);
+            break;
+        case AST::InsertionNode::InsertionPosition::REPLACE:
+            ExecuteReplaceInsertion(node);
+            break;
+        case AST::InsertionNode::InsertionPosition::AT_TOP:
+            ExecuteAtTopInsertion(node);
+            break;
+        case AST::InsertionNode::InsertionPosition::AT_BOTTOM:
+            ExecuteAtBottomInsertion(node);
+            break;
+    }
+}
+
+void CHTLGenerator::VisitIndexAccessNode(AST::IndexAccessNode& node) {
+    // 索引访问在元素处理时使用，这里记录信息
+    context_.variables["__index_access__"] = node.GetElementName() + "[" + std::to_string(node.GetIndex()) + "]";
+    
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "索引访问: " + node.GetElementName() + "[" + std::to_string(node.GetIndex()) + "]"
+        );
+    }
+}
+
+void CHTLGenerator::VisitConstraintNode(AST::ConstraintNode& node) {
+    // 验证约束条件
+    if (!ValidateConstraints(node)) {
+        Utils::ErrorHandler::GetInstance().LogError(
+            "约束验证失败: " + Utils::StringUtils::Join(node.GetTargets(), ", ")
+        );
+    }
+}
+
+void CHTLGenerator::VisitVariableGroupNode(AST::VariableGroupNode& node) {
+    // 变量组在变量引用时处理，这里存储到上下文
+    for (const auto& var : node.GetVariables()) {
+        std::string fullName = node.GetName() + "." + var.first;
+        context_.variables[fullName] = var.second;
+        
+        if (node.IsValuelessStyleGroup() && var.second.empty()) {
+            context_.variables["__valueless_group__" + node.GetName()] = "true";
+        }
+    }
+}
+
+void CHTLGenerator::VisitSpecializationNode(AST::SpecializationNode& node) {
+    // 特例化节点在自定义引用时处理，这里不需要直接处理
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "处理特例化节点，属性覆盖数量: " + std::to_string(node.GetPropertyOverrides().size())
+        );
+    }
+}
+
+// 插入操作的具体实现
+void CHTLGenerator::ExecuteAfterInsertion(AST::InsertionNode& node) {
+    // 在指定元素后插入内容
+    std::string target = node.GetTarget();
+    
+    // 解析索引（如果有）
+    int targetIndex = -1;
+    std::string elementName = target;
+    size_t bracketPos = target.find('[');
+    if (bracketPos != std::string::npos) {
+        elementName = target.substr(0, bracketPos);
+        std::string indexStr = target.substr(bracketPos + 1);
+        indexStr = indexStr.substr(0, indexStr.find(']'));
+        targetIndex = std::stoi(indexStr);
+    }
+    
+    // 标记插入点
+    context_.variables["__insert_after__"] = target;
+    context_.variables["__insert_position__"] = "after";
+    
+    // 处理插入的内容
+    for (const auto& content : node.GetInsertContents()) {
+        content->Accept(*this);
+    }
+    
+    // 清除插入标记
+    context_.variables.erase("__insert_after__");
+    context_.variables.erase("__insert_position__");
+}
+
+void CHTLGenerator::ExecuteBeforeInsertion(AST::InsertionNode& node) {
+    // 在指定元素前插入内容
+    std::string target = node.GetTarget();
+    
+    // 标记插入点
+    context_.variables["__insert_before__"] = target;
+    context_.variables["__insert_position__"] = "before";
+    
+    // 处理插入的内容
+    for (const auto& content : node.GetInsertContents()) {
+        content->Accept(*this);
+    }
+    
+    // 清除插入标记
+    context_.variables.erase("__insert_before__");
+    context_.variables.erase("__insert_position__");
+}
+
+void CHTLGenerator::ExecuteReplaceInsertion(AST::InsertionNode& node) {
+    // 替换指定元素
+    std::string target = node.GetTarget();
+    
+    // 标记替换
+    context_.variables["__replace_target__"] = target;
+    context_.variables["__insert_position__"] = "replace";
+    
+    // 处理替换的内容
+    for (const auto& content : node.GetInsertContents()) {
+        content->Accept(*this);
+    }
+    
+    // 清除替换标记
+    context_.variables.erase("__replace_target__");
+    context_.variables.erase("__insert_position__");
+}
+
+void CHTLGenerator::ExecuteAtTopInsertion(AST::InsertionNode& node) {
+    // 在容器顶部插入内容
+    context_.variables["__insert_position__"] = "at_top";
+    
+    // 处理插入的内容
+    for (const auto& content : node.GetInsertContents()) {
+        content->Accept(*this);
+    }
+    
+    // 清除插入标记
+    context_.variables.erase("__insert_position__");
+}
+
+void CHTLGenerator::ExecuteAtBottomInsertion(AST::InsertionNode& node) {
+    // 在容器底部插入内容
+    context_.variables["__insert_position__"] = "at_bottom";
+    
+    // 处理插入的内容
+    for (const auto& content : node.GetInsertContents()) {
+        content->Accept(*this);
+    }
+    
+    // 清除插入标记
+    context_.variables.erase("__insert_position__");
+}
+
+void CHTLGenerator::ExecuteElementDeletion(AST::DeletionNode& node) {
+    // 执行元素删除
+    for (const auto& target : node.GetTargets()) {
+        // 标记要删除的元素
+        context_.variables["__delete_element__"] = target;
+        
+        if (config_.enableDebug) {
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "标记删除元素: " + target
+            );
+        }
+    }
+}
+
+bool CHTLGenerator::ValidateConstraints(AST::ConstraintNode& node) {
+    // 验证约束条件
+    bool isValid = true;
+    
+    for (const auto& target : node.GetTargets()) {
+        // 检查当前上下文是否违反约束
+        std::string currentElement = context_.variables["__current_element__"];
+        
+        if (node.GetConstraintType() == AST::ConstraintNode::ConstraintType::PRECISE) {
+            // 精确约束：当前元素不能是指定的标签
+            if (currentElement == target) {
+                isValid = false;
+                Utils::ErrorHandler::GetInstance().LogError(
+                    "约束违反: 不允许使用元素 " + target
+                );
+            }
+        } else if (node.GetConstraintType() == AST::ConstraintNode::ConstraintType::TYPE) {
+            // 类型约束：检查类型限制
+            if (target.find("@") == 0) {
+                // 类型标识符约束
+                std::string currentType = context_.variables["__current_type__"];
+                if (currentType == target) {
+                    isValid = false;
+                    Utils::ErrorHandler::GetInstance().LogError(
+                        "约束违反: 不允许使用类型 " + target
+                    );
+                }
+            }
+        }
+    }
+    
+    return isValid;
+}
+
+void CHTLGenerator::ApplyConfiguration(AST::ConfigurationNode& node) {
+    // 应用配置设置
+    for (const auto& config : node.GetSettings()) {
+        const std::string& key = config.first;
+        const std::string& value = config.second;
+        
+        // 根据配置键应用不同的设置
+        if (key == "pretty_print") {
+            config_.prettyPrint = (value == "true");
+        } else if (key == "minify") {
+            config_.minify = (value == "true");
+        } else if (key == "include_comments") {
+            config_.includeComments = (value == "true");
+        } else if (key == "validate_output") {
+            config_.validateOutput = (value == "true");
+        } else if (key == "auto_doctype") {
+            config_.autoDoctype = (value == "true");
+        } else if (key == "auto_charset") {
+            config_.autoCharset = (value == "true");
+        } else if (key == "auto_viewport") {
+            config_.autoViewport = (value == "true");
+        } else {
+            // 自定义配置存储到上下文
+            context_.variables["__config__" + key] = value;
+        }
+        
+        if (config_.enableDebug) {
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "应用配置: " + key + " = " + value
+            );
+        }
+    }
+}
+
 // 存根实现
 AST::ASTNodeList CHTLGenerator::ExpandTemplate(AST::TemplateReferenceNode& templateRef) {
     return AST::ASTNodeList();
@@ -915,6 +1199,185 @@ AST::ASTNodeList CHTLGenerator::ExpandTemplate(AST::TemplateReferenceNode& templ
 
 AST::ASTNodeList CHTLGenerator::ExpandCustom(AST::CustomReferenceNode& customRef) {
     return AST::ASTNodeList();
+}
+
+void CHTLGenerator::ProcessImport(AST::ImportNode& node) {
+    // 处理导入操作
+    std::string path = node.GetPath();
+    std::string name = node.GetName();
+    std::string alias = node.GetAlias();
+    AST::ImportNode::ImportType importType = node.GetImportType();
+    
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "处理导入: " + path + " (类型: " + std::to_string(static_cast<int>(importType)) + ")"
+        );
+    }
+    
+    // 尝试加载导入文件
+    if (LoadImportFile(path, importType)) {
+        // 记录成功导入
+        context_.variables["__import_" + (alias.empty() ? name : alias)] = path;
+        
+        if (config_.enableDebug) {
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "成功导入: " + path
+            );
+        }
+    } else {
+        Utils::ErrorHandler::GetInstance().LogError(
+            "导入失败: " + path
+        );
+    }
+}
+
+bool CHTLGenerator::LoadImportFile(const std::string& path, AST::ImportNode::ImportType importType) {
+    // 加载导入文件
+    try {
+        std::string content = Utils::FileUtils::ReadFile(path);
+        if (content.empty()) {
+            return false;
+        }
+        
+        // 根据导入类型处理不同的文件内容
+        switch (importType) {
+            case AST::ImportNode::ImportType::HTML:
+            case AST::ImportNode::ImportType::ORIGIN_HTML:
+                // 直接添加HTML内容到输出
+                CollectGlobalContent(content, "html");
+                break;
+                
+            case AST::ImportNode::ImportType::STYLE:
+            case AST::ImportNode::ImportType::ORIGIN_STYLE:
+            case AST::ImportNode::ImportType::TEMPLATE_STYLE:
+            case AST::ImportNode::ImportType::CUSTOM_STYLE:
+                // 添加CSS内容到全局样式
+                CollectGlobalStyle(content);
+                break;
+                
+            case AST::ImportNode::ImportType::JAVASCRIPT:
+            case AST::ImportNode::ImportType::ORIGIN_JAVASCRIPT:
+                // 添加JavaScript内容到全局脚本
+                CollectGlobalScript(content);
+                break;
+                
+            case AST::ImportNode::ImportType::CHTL:
+                // CHTL文件需要重新解析
+                ParseImportedSymbols(content, importType, "");
+                break;
+                
+            case AST::ImportNode::ImportType::CONFIG:
+                // 配置文件处理
+                ProcessConfigFile(content);
+                break;
+                
+            default:
+                // 其他类型暂时作为文本处理
+                context_.variables["__imported_content__"] = content;
+                break;
+        }
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        Utils::ErrorHandler::GetInstance().LogError(
+            "加载导入文件失败: " + path + " - " + e.what()
+        );
+        return false;
+    }
+}
+
+void CHTLGenerator::ParseImportedSymbols(const std::string& content, 
+                                       AST::ImportNode::ImportType importType, 
+                                       const std::string& alias) {
+    // 解析导入的符号（简化实现）
+    // 在完整实现中，这里需要重新调用词法分析器和语法分析器
+    
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "解析导入符号，内容长度: " + std::to_string(content.length())
+        );
+    }
+    
+    // 暂时将内容存储到上下文中，供后续处理
+    std::string key = "__imported_symbols__" + (alias.empty() ? "default" : alias);
+    context_.variables[key] = content;
+}
+
+void CHTLGenerator::ProcessConfigFile(const std::string& content) {
+    // 处理配置文件内容
+    std::istringstream iss(content);
+    std::string line;
+    
+    while (std::getline(iss, line)) {
+        line = Utils::StringUtils::Trim(line);
+        
+        // 跳过注释和空行
+        if (line.empty() || line[0] == '#' || line[0] == ';') {
+            continue;
+        }
+        
+        // 解析键值对
+        size_t equalPos = line.find('=');
+        if (equalPos != std::string::npos) {
+            std::string key = Utils::StringUtils::Trim(line.substr(0, equalPos));
+            std::string value = Utils::StringUtils::Trim(line.substr(equalPos + 1));
+            
+            // 移除引号
+            if (!value.empty() && (value.front() == '"' || value.front() == '\'')) {
+                if (value.length() > 1 && value.back() == value.front()) {
+                    value = value.substr(1, value.length() - 2);
+                }
+            }
+            
+            // 应用配置
+            if (key == "pretty_print") {
+                config_.prettyPrint = (value == "true");
+            } else if (key == "minify") {
+                config_.minify = (value == "true");
+            } else if (key == "include_comments") {
+                config_.includeComments = (value == "true");
+            } else {
+                // 存储自定义配置
+                context_.variables["__config__" + key] = value;
+            }
+            
+            if (config_.enableDebug) {
+                Utils::ErrorHandler::GetInstance().LogInfo(
+                    "加载配置: " + key + " = " + value
+                );
+            }
+        }
+    }
+}
+
+void CHTLGenerator::CollectGlobalContent(const std::string& content, const std::string& type) {
+    // 收集全局内容
+    if (type == "html") {
+        context_.globalHtmlContent += content + "\n";
+    } else if (type == "style") {
+        CollectGlobalStyle(content);
+    } else if (type == "script") {
+        CollectGlobalScript(content);
+    }
+}
+
+std::string CHTLGenerator::GetCachedSymbol(const std::string& symbolName) {
+    auto it = context_.symbolCache.find(symbolName);
+    return (it != context_.symbolCache.end()) ? it->second : "";
+}
+
+void CHTLGenerator::CacheSymbol(const std::string& symbolName, const std::string& content) {
+    context_.symbolCache[symbolName] = content;
+}
+
+std::vector<std::string> CHTLGenerator::GetCachedInheritanceChain(const std::string& symbolName) {
+    auto it = context_.inheritanceCache.find(symbolName);
+    return (it != context_.inheritanceCache.end()) ? it->second : std::vector<std::string>();
+}
+
+void CHTLGenerator::CacheInheritanceChain(const std::string& symbolName, const std::vector<std::string>& chain) {
+    context_.inheritanceCache[symbolName] = chain;
 }
 
 // GeneratorFactory 实现

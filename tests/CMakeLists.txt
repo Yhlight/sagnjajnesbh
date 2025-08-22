@@ -77,6 +77,18 @@ if(NOT GTest_FOUND)
     
     add_test(NAME CHTLInheritanceSimpleTest COMMAND test_inheritance_simple)
     
+    # CHTL高级特性测试
+    add_executable(test_advanced_features
+        CHTL/test_advanced_features.cpp
+    )
+    
+    target_link_libraries(test_advanced_features
+        chtl_core
+        utils
+    )
+    
+    add_test(NAME CHTLAdvancedFeaturesTest COMMAND test_advanced_features)
+    
     # CHTL JS核心测试
     add_executable(test_chtljs_core
         CHTLJS/test_chtljs_core.cpp

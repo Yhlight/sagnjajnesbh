@@ -256,6 +256,20 @@ test_inheritance_simple/fast:
 .PHONY : test_inheritance_simple/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_advanced_features.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_advanced_features.dir/rule
+.PHONY : tests/CMakeFiles/test_advanced_features.dir/rule
+
+# Convenience name for target.
+test_advanced_features: tests/CMakeFiles/test_advanced_features.dir/rule
+.PHONY : test_advanced_features
+
+# fast build rule for target.
+test_advanced_features/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_advanced_features.dir/build.make tests/CMakeFiles/test_advanced_features.dir/build
+.PHONY : test_advanced_features/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -296,6 +310,30 @@ test_integration: tests/CMakeFiles/test_integration.dir/rule
 test_integration/fast:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_integration.dir/build.make tests/CMakeFiles/test_integration.dir/build
 .PHONY : test_integration/fast
+
+CHTL/test_advanced_features.o: CHTL/test_advanced_features.cpp.o
+.PHONY : CHTL/test_advanced_features.o
+
+# target to build an object file
+CHTL/test_advanced_features.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_advanced_features.dir/build.make tests/CMakeFiles/test_advanced_features.dir/CHTL/test_advanced_features.cpp.o
+.PHONY : CHTL/test_advanced_features.cpp.o
+
+CHTL/test_advanced_features.i: CHTL/test_advanced_features.cpp.i
+.PHONY : CHTL/test_advanced_features.i
+
+# target to preprocess a source file
+CHTL/test_advanced_features.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_advanced_features.dir/build.make tests/CMakeFiles/test_advanced_features.dir/CHTL/test_advanced_features.cpp.i
+.PHONY : CHTL/test_advanced_features.cpp.i
+
+CHTL/test_advanced_features.s: CHTL/test_advanced_features.cpp.s
+.PHONY : CHTL/test_advanced_features.s
+
+# target to generate assembly for a file
+CHTL/test_advanced_features.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_advanced_features.dir/build.make tests/CMakeFiles/test_advanced_features.dir/CHTL/test_advanced_features.cpp.s
+.PHONY : CHTL/test_advanced_features.cpp.s
 
 CHTL/test_chtl_ast.o: CHTL/test_chtl_ast.cpp.o
 .PHONY : CHTL/test_chtl_ast.o
@@ -526,6 +564,7 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... test_advanced_features"
 	@echo "... test_chtl_ast"
 	@echo "... test_chtl_compiler"
 	@echo "... test_chtl_core"
@@ -535,6 +574,9 @@ help:
 	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
 	@echo "... test_scanner"
+	@echo "... CHTL/test_advanced_features.o"
+	@echo "... CHTL/test_advanced_features.i"
+	@echo "... CHTL/test_advanced_features.s"
 	@echo "... CHTL/test_chtl_ast.o"
 	@echo "... CHTL/test_chtl_ast.i"
 	@echo "... CHTL/test_chtl_ast.s"

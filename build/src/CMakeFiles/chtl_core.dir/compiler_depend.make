@@ -1734,6 +1734,7 @@ src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o: /workspace/src/
   /usr/include/c++/14/bits/basic_string.tcc \
   /usr/include/c++/14/bits/char_traits.h \
   /usr/include/c++/14/bits/charconv.h \
+  /usr/include/c++/14/bits/chrono.h \
   /usr/include/c++/14/bits/codecvt.h \
   /usr/include/c++/14/bits/concept_check.h \
   /usr/include/c++/14/bits/cpp_type_traits.h \
@@ -1745,6 +1746,10 @@ src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o: /workspace/src/
   /usr/include/c++/14/bits/exception.h \
   /usr/include/c++/14/bits/exception_defines.h \
   /usr/include/c++/14/bits/exception_ptr.h \
+  /usr/include/c++/14/bits/fs_dir.h \
+  /usr/include/c++/14/bits/fs_fwd.h \
+  /usr/include/c++/14/bits/fs_ops.h \
+  /usr/include/c++/14/bits/fs_path.h \
   /usr/include/c++/14/bits/functexcept.h \
   /usr/include/c++/14/bits/functional_hash.h \
   /usr/include/c++/14/bits/hash_bytes.h \
@@ -1773,6 +1778,7 @@ src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o: /workspace/src/
   /usr/include/c++/14/bits/postypes.h \
   /usr/include/c++/14/bits/predefined_ops.h \
   /usr/include/c++/14/bits/ptr_traits.h \
+  /usr/include/c++/14/bits/quoted_string.h \
   /usr/include/c++/14/bits/range_access.h \
   /usr/include/c++/14/bits/refwrap.h \
   /usr/include/c++/14/bits/regex.h \
@@ -1829,8 +1835,10 @@ src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o: /workspace/src/
   /usr/include/c++/14/cctype \
   /usr/include/c++/14/cerrno \
   /usr/include/c++/14/clocale \
+  /usr/include/c++/14/codecvt \
   /usr/include/c++/14/concepts \
   /usr/include/c++/14/cstddef \
+  /usr/include/c++/14/cstdint \
   /usr/include/c++/14/cstdio \
   /usr/include/c++/14/cstdlib \
   /usr/include/c++/14/ctime \
@@ -1847,11 +1855,14 @@ src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o: /workspace/src/
   /usr/include/c++/14/ext/numeric_traits.h \
   /usr/include/c++/14/ext/string_conversions.h \
   /usr/include/c++/14/ext/type_traits.h \
+  /usr/include/c++/14/filesystem \
   /usr/include/c++/14/initializer_list \
+  /usr/include/c++/14/iomanip \
   /usr/include/c++/14/ios \
   /usr/include/c++/14/iosfwd \
   /usr/include/c++/14/iostream \
   /usr/include/c++/14/istream \
+  /usr/include/c++/14/limits \
   /usr/include/c++/14/locale \
   /usr/include/c++/14/memory \
   /usr/include/c++/14/new \
@@ -1860,6 +1871,7 @@ src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o: /workspace/src/
   /usr/include/c++/14/pstl/glue_algorithm_defs.h \
   /usr/include/c++/14/pstl/glue_memory_defs.h \
   /usr/include/c++/14/pstl/pstl_config.h \
+  /usr/include/c++/14/ratio \
   /usr/include/c++/14/regex \
   /usr/include/c++/14/sstream \
   /usr/include/c++/14/stack \
@@ -1907,6 +1919,7 @@ src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o: /workspace/src/
   /workspace/include/CHTL/Core/CHTLToken.h \
   /workspace/include/CHTL/Generator/CHTLGenerator.h \
   /workspace/include/Utils/ErrorHandler.h \
+  /workspace/include/Utils/FileUtils.h \
   /workspace/include/Utils/StringUtils.h
 
 src/CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o: /workspace/src/CHTL/Lexer/CHTLLexer.cpp \

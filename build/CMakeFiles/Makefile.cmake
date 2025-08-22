@@ -71,6 +71,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "tests/CMakeFiles/test_chtl_simple.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_complex_syntax.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_inheritance_simple.dir/DependInfo.cmake"
+  "tests/CMakeFiles/test_advanced_features.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_chtljs_core.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_scanner.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_integration.dir/DependInfo.cmake"

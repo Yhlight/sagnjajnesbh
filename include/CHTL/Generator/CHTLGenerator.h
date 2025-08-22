@@ -22,12 +22,17 @@ struct GeneratorConfig {
     bool includeComments;           // 是否包含注释
     bool includeGeneratorComments;  // 是否包含生成器注释
     bool validateOutput;            // 是否验证输出
+    bool enableDebug;               // 是否启用调试模式
+    bool autoDoctype;               // 是否自动添加DOCTYPE
+    bool autoCharset;               // 是否自动添加字符集
+    bool autoViewport;              // 是否自动添加视口
     int indentSize;                 // 缩进大小
     std::string indentChar;         // 缩进字符
     
     GeneratorConfig() : prettyPrint(true), minify(false), includeComments(false),
                        includeGeneratorComments(true), validateOutput(true),
-                       indentSize(2), indentChar(" ") {}
+                       enableDebug(false), autoDoctype(true), autoCharset(true), 
+                       autoViewport(true), indentSize(2), indentChar(" ") {}
 };
 
 /**
@@ -40,8 +45,13 @@ struct GenerationContext {
     std::unordered_set<std::string> generatedIds;           // 已生成的CSS ID
     std::vector<std::string> globalStyles;                  // 全局样式
     std::vector<std::string> globalScripts;                 // 全局脚本
+    std::string globalHtmlContent;                          // 全局HTML内容
     int autoClassCounter;                                   // 自动类名计数器
     int autoIdCounter;                                      // 自动ID计数器
+    
+    // 性能优化缓存
+    std::unordered_map<std::string, std::string> symbolCache;  // 符号缓存
+    std::unordered_map<std::string, std::vector<std::string>> inheritanceCache; // 继承链缓存
     
     GenerationContext() : autoClassCounter(0), autoIdCounter(0) {}
 };
@@ -115,6 +125,14 @@ public:
     void VisitCustomReferenceNode(AST::CustomReferenceNode& node) override;
     void VisitVariableReferenceNode(AST::VariableReferenceNode& node) override;
     void VisitCommentNode(AST::CommentNode& node) override;
+    void VisitLiteralNode(AST::LiteralNode& node) override;
+    void VisitInheritanceNode(AST::InheritanceNode& node) override;
+    void VisitDeletionNode(AST::DeletionNode& node) override;
+    void VisitInsertionNode(AST::InsertionNode& node) override;
+    void VisitIndexAccessNode(AST::IndexAccessNode& node) override;
+    void VisitConstraintNode(AST::ConstraintNode& node) override;
+    void VisitVariableGroupNode(AST::VariableGroupNode& node) override;
+    void VisitSpecializationNode(AST::SpecializationNode& node) override;
 
 private:
     /**
@@ -178,6 +196,120 @@ private:
      * @param selector CSS选择器节点
      */
     void ProcessGlobalStyleSelector(AST::CSSSelectorNode& selector);
+    
+    /**
+     * @brief 执行after插入操作
+     * @param node 插入节点
+     */
+    void ExecuteAfterInsertion(AST::InsertionNode& node);
+    
+    /**
+     * @brief 执行before插入操作
+     * @param node 插入节点
+     */
+    void ExecuteBeforeInsertion(AST::InsertionNode& node);
+    
+    /**
+     * @brief 执行replace插入操作
+     * @param node 插入节点
+     */
+    void ExecuteReplaceInsertion(AST::InsertionNode& node);
+    
+    /**
+     * @brief 执行at top插入操作
+     * @param node 插入节点
+     */
+    void ExecuteAtTopInsertion(AST::InsertionNode& node);
+    
+    /**
+     * @brief 执行at bottom插入操作
+     * @param node 插入节点
+     */
+    void ExecuteAtBottomInsertion(AST::InsertionNode& node);
+    
+    /**
+     * @brief 执行元素删除操作
+     * @param node 删除节点
+     */
+    void ExecuteElementDeletion(AST::DeletionNode& node);
+    
+    /**
+     * @brief 验证约束条件
+     * @param node 约束节点
+     * @return 是否满足约束
+     */
+    bool ValidateConstraints(AST::ConstraintNode& node);
+    
+    /**
+     * @brief 应用配置设置
+     * @param node 配置节点
+     */
+    void ApplyConfiguration(AST::ConfigurationNode& node);
+    
+    /**
+     * @brief 处理导入节点
+     * @param node 导入节点
+     */
+    void ProcessImport(AST::ImportNode& node);
+    
+    /**
+     * @brief 加载导入文件
+     * @param path 文件路径
+     * @param importType 导入类型
+     * @return 是否成功加载
+     */
+    bool LoadImportFile(const std::string& path, AST::ImportNode::ImportType importType);
+    
+    /**
+     * @brief 解析导入的符号
+     * @param content 文件内容
+     * @param importType 导入类型
+     * @param alias 别名
+     */
+         void ParseImportedSymbols(const std::string& content, 
+                              AST::ImportNode::ImportType importType, 
+                              const std::string& alias);
+    
+    /**
+     * @brief 处理配置文件
+     * @param content 配置文件内容
+     */
+    void ProcessConfigFile(const std::string& content);
+    
+    /**
+     * @brief 收集全局内容
+     * @param content 内容
+     * @param type 内容类型
+     */
+         void CollectGlobalContent(const std::string& content, const std::string& type);
+    
+    /**
+     * @brief 获取缓存的符号
+     * @param symbolName 符号名称
+     * @return 缓存的符号内容，如果不存在则返回空字符串
+     */
+    std::string GetCachedSymbol(const std::string& symbolName);
+    
+    /**
+     * @brief 缓存符号
+     * @param symbolName 符号名称
+     * @param content 符号内容
+     */
+    void CacheSymbol(const std::string& symbolName, const std::string& content);
+    
+    /**
+     * @brief 获取缓存的继承链
+     * @param symbolName 符号名称
+     * @return 继承链，如果不存在则返回空向量
+     */
+    std::vector<std::string> GetCachedInheritanceChain(const std::string& symbolName);
+    
+    /**
+     * @brief 缓存继承链
+     * @param symbolName 符号名称
+     * @param chain 继承链
+     */
+    void CacheInheritanceChain(const std::string& symbolName, const std::vector<std::string>& chain);
     
     /**
      * @brief 收集全局样式

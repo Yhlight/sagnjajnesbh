@@ -354,6 +354,19 @@ test_inheritance_simple/fast:
 .PHONY : test_inheritance_simple/fast
 
 #=============================================================================
+# Target rules for targets named test_advanced_features
+
+# Build rule for target.
+test_advanced_features: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_advanced_features
+.PHONY : test_advanced_features
+
+# fast build rule for target.
+test_advanced_features/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_advanced_features.dir/build.make tests/CMakeFiles/test_advanced_features.dir/build
+.PHONY : test_advanced_features/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -412,6 +425,7 @@ help:
 	@echo "... dispatcher"
 	@echo "... js_compiler"
 	@echo "... scanner"
+	@echo "... test_advanced_features"
 	@echo "... test_chtl_ast"
 	@echo "... test_chtl_compiler"
 	@echo "... test_chtl_core"
