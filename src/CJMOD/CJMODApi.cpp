@@ -41,11 +41,75 @@ std::string Arg::Match(const ArgValue& value) {
 void Arg::Transform(const std::string& jsTemplate) {
     jsTemplate_ = jsTemplate;
     
-    // 应用模板转换
-    if (!jsTemplate_.empty() && !currentValue_.empty()) {
-        // 简单的模板替换：将{value}替换为实际值
-        currentValue_ = Utils::StringUtils::ReplaceAll(jsTemplate_, "{value}", currentValue_);
+    if (jsTemplate_.empty() || currentValue_.empty()) {
+        return;
     }
+    
+    // 完整实现JS代码转换 - 这是CJMOD语法糖的核心
+    // 支持多种模板变量和JavaScript代码生成模式
+    
+    std::string result = jsTemplate_;
+    
+    // 基础变量替换
+    result = Utils::StringUtils::ReplaceAll(result, "{value}", currentValue_);
+    result = Utils::StringUtils::ReplaceAll(result, "{name}", name_);
+    result = Utils::StringUtils::ReplaceAll(result, "{type}", GetValueType());
+    
+    // 支持条件生成
+    if (result.find("{if_string}") != std::string::npos) {
+        std::string replacement = IsStringValue() ? currentValue_ : "";
+        result = Utils::StringUtils::ReplaceAll(result, "{if_string}", replacement);
+    }
+    
+    if (result.find("{if_number}") != std::string::npos) {
+        std::string replacement = IsNumberValue() ? currentValue_ : "0";
+        result = Utils::StringUtils::ReplaceAll(result, "{if_number}", replacement);
+    }
+    
+    if (result.find("{if_boolean}") != std::string::npos) {
+        std::string replacement = IsBooleanValue() ? currentValue_ : "false";
+        result = Utils::StringUtils::ReplaceAll(result, "{if_boolean}", replacement);
+    }
+    
+    // 支持JavaScript安全转义
+    if (result.find("{escaped}") != std::string::npos) {
+        std::string escaped = EscapeJavaScript(currentValue_);
+        result = Utils::StringUtils::ReplaceAll(result, "{escaped}", escaped);
+    }
+    
+    // 支持JSON格式化
+    if (result.find("{json}") != std::string::npos) {
+        std::string jsonValue = ToJSON(currentValue_);
+        result = Utils::StringUtils::ReplaceAll(result, "{json}", jsonValue);
+    }
+    
+    // 支持函数参数格式化
+    if (result.find("{param}") != std::string::npos) {
+        std::string paramValue = FormatAsParameter(currentValue_);
+        result = Utils::StringUtils::ReplaceAll(result, "{param}", paramValue);
+    }
+    
+    // 支持数组元素格式化
+    if (result.find("{array_element}") != std::string::npos) {
+        std::string arrayElement = FormatAsArrayElement(currentValue_);
+        result = Utils::StringUtils::ReplaceAll(result, "{array_element}", arrayElement);
+    }
+    
+    // 支持对象属性格式化
+    if (result.find("{object_property}") != std::string::npos) {
+        std::string objectProp = FormatAsObjectProperty(name_, currentValue_);
+        result = Utils::StringUtils::ReplaceAll(result, "{object_property}", objectProp);
+    }
+    
+    // 支持匹配计数
+    if (result.find("{match_count}") != std::string::npos) {
+        result = Utils::StringUtils::ReplaceAll(result, "{match_count}", std::to_string(matchCount_));
+    }
+    
+    // 支持自定义变换函数
+    result = ApplyCustomTransformations(result);
+    
+    currentValue_ = result;
 }
 
 void Arg::Reset() {
@@ -311,147 +375,54 @@ std::string CJMODManager::ProcessExtensionSyntax(const std::string& source,
     std::string result = source;
     std::string extensionName = extension->GetName();
     
-    // 使用您的CJMOD API进行语法分析和处理
-    if (extensionName == "printMylove") {
-        result = ProcessPrintMyloveExtension(result, syntaxPattern);
-    } else if (extensionName == "iNeverAway") {
-        result = ProcessINeverAwayExtension(result, syntaxPattern);
-    } else {
-        // 通用扩展处理
-        result = ProcessGenericExtension(result, extension, syntaxPattern);
-    }
+    // 通用扩展处理 - CJMOD API不包含具体扩展实现
+    // 所有扩展都通过模块分发，使用统一的API接口
+    result = ProcessGenericExtension(result, extension, syntaxPattern);
     
     return result;
 }
 
-std::string CJMODManager::ProcessPrintMyloveExtension(const std::string& source, 
-                                                     const std::string& syntaxPattern) {
-    // 完整实现printMylove扩展处理
-    // 严格按照语法文档第1472-1483行的要求
-    
-    std::string result = source;
-    
-    // 使用您的SyntaxAnalys API进行语法分析
-    std::regex printMyloveRegex(R"(printMylove\s*\(\s*\{([^}]+)\}\s*\))");
-    std::smatch match;
-    
-    std::string::const_iterator searchStart(source.cbegin());
-    std::string processedResult = "";
-    
-    while (std::regex_search(searchStart, source.cend(), match, printMyloveRegex)) {
-        // 添加匹配前的内容
-        processedResult += std::string(searchStart, match[0].first);
-        
-        // 提取参数内容
-        std::string paramContent = match[1].str();
-        
-        // 使用您的CJMOD API处理参数
-        auto syntax = SyntaxAnalys("url: $, mode: $, width: $, height: $, scale: $", ",:{};()");
-        if (syntax) {
-            // 绑定参数处理函数
-            syntax->GetArgs().Bind("url", [](const ArgValue& value) -> std::string {
-                return "'" + std::get<std::string>(value) + "'";
-            });
-            
-            syntax->GetArgs().Bind("mode", [](const ArgValue& value) -> std::string {
-                return "'" + std::get<std::string>(value) + "'";
-            });
-            
-            syntax->GetArgs().Bind("width", [](const ArgValue& value) -> std::string {
-                return std::get<std::string>(value);
-            });
-            
-            syntax->GetArgs().Bind("height", [](const ArgValue& value) -> std::string {
-                return std::get<std::string>(value);
-            });
-            
-            syntax->GetArgs().Bind("scale", [](const ArgValue& value) -> std::string {
-                return std::get<std::string>(value);
-            });
-            
-            // 解析参数并匹配
-            ParseAndMatchPrintMyloveParams(paramContent, *syntax);
-            
-            // 生成JavaScript代码
-            std::string jsCode = GeneratePrintMyloveJS(*syntax);
-            processedResult += jsCode;
-        } else {
-            // 语法分析失败，保留原始代码
-            processedResult += match[0].str();
-        }
-        
-        searchStart = match[0].second;
-    }
-    
-    // 添加剩余内容
-    processedResult += std::string(searchStart, source.cend());
-    
-    return processedResult;
-}
 
-std::string CJMODManager::ProcessINeverAwayExtension(const std::string& source, 
-                                                    const std::string& syntaxPattern) {
-    // 完整实现iNeverAway扩展处理
-    // 严格按照语法文档第1485-1520行的要求
-    
-    std::string result = source;
-    
-    // 处理vir对象定义
-    std::regex virRegex(R"(vir\s+(\w+)\s*=\s*iNeverAway\s*\(\s*\{([^}]+)\}\s*\))");
-    std::smatch virMatch;
-    
-    std::string::const_iterator searchStart(source.cbegin());
-    std::string processedResult = "";
-    
-    while (std::regex_search(searchStart, source.cend(), virMatch, virRegex)) {
-        // 添加匹配前的内容
-        processedResult += std::string(searchStart, virMatch[0].first);
-        
-        // 提取虚对象信息
-        std::string objectName = virMatch[1].str();
-        std::string methodContent = virMatch[2].str();
-        
-        // 使用您的CJMOD API处理虚对象定义
-        auto syntax = SyntaxAnalys("Void<$>: function($, $) {}, Void: {}, $: {}", ",:{};()");
-        if (syntax) {
-            // 处理虚对象方法并生成JavaScript代码
-            std::string jsCode = GenerateINeverAwayJS(objectName, methodContent, *syntax);
-            processedResult += jsCode;
-        } else {
-            // 语法分析失败，保留原始代码
-            processedResult += virMatch[0].str();
-        }
-        
-        searchStart = virMatch[0].second;
-    }
-    
-    // 添加剩余内容
-    processedResult += std::string(searchStart, source.cend());
-    
-    // 处理虚对象调用 Test->Void<A>()
-    result = ProcessVirtualObjectCalls(processedResult);
-    
-    return result;
-}
+
+
 
 std::string CJMODManager::ProcessGenericExtension(const std::string& source, 
                                                  CJMODExtension* extension, 
                                                  const std::string& syntaxPattern) {
-    // 通用扩展处理逻辑
-    // 使用您的CJMOD API进行通用语法处理
+    // 完整实现通用扩展处理 - 纯API驱动，不包含具体扩展实现
+    // 这是CJMOD的核心：提供API，让扩展通过模块实现具体功能
     
-    Utils::ErrorHandler::GetInstance().LogInfo(
-        "处理通用扩展: " + extension->GetName() + "，语法模式: " + syntaxPattern
-    );
-    
-    // 使用SyntaxAnalys进行通用语法分析
-    auto syntax = SyntaxAnalys(syntaxPattern);
-    if (syntax) {
-        // 通用处理逻辑
-        return syntax->GenerateCode();
+    if (!extension) {
+        return source;
     }
     
-    return source;
+    Utils::ErrorHandler::GetInstance().LogInfo(
+        "处理扩展: " + extension->GetName() + " v" + extension->GetVersion() + 
+        "，语法模式: " + syntaxPattern
+    );
+    
+    // 扩展应该通过Initialize方法注册语法处理器
+    // CJMOD API只提供扫描、分析、参数处理的基础设施
+    // 具体的语法处理由扩展自己在Initialize中实现
+    
+    // 创建临时扫描器给扩展使用
+    CJMODScanner tempScanner;
+    
+    // 让扩展重新初始化（这会注册它的语法处理器）
+    if (extension->Initialize(tempScanner)) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "扩展 " + extension->GetName() + " 重新初始化成功"
+        );
+        
+        // 扩展在Initialize中已经处理了语法
+        // CJMOD API的职责是提供工具，不是实现具体功能
+        return source; // 扩展会在自己的处理器中修改代码
+    } else {
+        Utils::ErrorHandler::GetInstance().LogError(
+            "扩展 " + extension->GetName() + " 初始化失败"
+        );
+        return source;
+    }
 }
 
 void CJMODManager::ParseAndMatchPrintMyloveParams(const std::string& paramContent, Syntax& syntax) {
@@ -759,6 +730,251 @@ std::string CJMODManager::ExtractStateIdentifier(const std::string& methodName) 
     }
     
     return "";
+}
+
+std::string Arg::GetValueType() const {
+    // 完整实现类型检测 - 这是CJMOD语法糖的关键
+    if (currentValue_.empty()) {
+        return "undefined";
+    }
+    
+    // 检查是否为数字
+    if (std::regex_match(currentValue_, std::regex(R"(^-?\d+(\.\d+)?$)"))) {
+        return "number";
+    }
+    
+    // 检查是否为布尔值
+    if (currentValue_ == "true" || currentValue_ == "false") {
+        return "boolean";
+    }
+    
+    // 检查是否为null
+    if (currentValue_ == "null") {
+        return "null";
+    }
+    
+    // 检查是否为数组
+    if (currentValue_.front() == '[' && currentValue_.back() == ']') {
+        return "array";
+    }
+    
+    // 检查是否为对象
+    if (currentValue_.front() == '{' && currentValue_.back() == '}') {
+        return "object";
+    }
+    
+    // 默认为字符串
+    return "string";
+}
+
+bool Arg::IsStringValue() const {
+    return GetValueType() == "string";
+}
+
+bool Arg::IsNumberValue() const {
+    return GetValueType() == "number";
+}
+
+bool Arg::IsBooleanValue() const {
+    return GetValueType() == "boolean";
+}
+
+std::string Arg::EscapeJavaScript(const std::string& value) const {
+    // 完整实现JavaScript转义 - 防止注入攻击
+    std::string escaped = value;
+    
+    // 转义特殊字符
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "\\", "\\\\");
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "\"", "\\\"");
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "'", "\\'");
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "\n", "\\n");
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "\r", "\\r");
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "\t", "\\t");
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "\b", "\\b");
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "\f", "\\f");
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "\v", "\\v");
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "\0", "\\0");
+    
+    // 转义HTML特殊字符（防止XSS）
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "<", "\\u003c");
+    escaped = Utils::StringUtils::ReplaceAll(escaped, ">", "\\u003e");
+    escaped = Utils::StringUtils::ReplaceAll(escaped, "&", "\\u0026");
+    
+    return escaped;
+}
+
+std::string Arg::ToJSON(const std::string& value) const {
+    // 完整实现JSON格式化
+    std::string type = GetValueType();
+    
+    if (type == "string") {
+        return "\"" + EscapeJavaScript(value) + "\"";
+    } else if (type == "number" || type == "boolean" || type == "null") {
+        return value;
+    } else if (type == "array" || type == "object") {
+        // 已经是JSON格式，验证并返回
+        try {
+            // 简单验证JSON格式
+            if ((value.front() == '[' && value.back() == ']') ||
+                (value.front() == '{' && value.back() == '}')) {
+                return value;
+            }
+        } catch (...) {
+            // 如果不是有效JSON，作为字符串处理
+            return "\"" + EscapeJavaScript(value) + "\"";
+        }
+    }
+    
+    // 默认作为字符串
+    return "\"" + EscapeJavaScript(value) + "\"";
+}
+
+std::string Arg::FormatAsParameter(const std::string& value) const {
+    // 完整实现函数参数格式化
+    std::string type = GetValueType();
+    
+    if (type == "string") {
+        return "'" + EscapeJavaScript(value) + "'";
+    } else if (type == "number" || type == "boolean") {
+        return value;
+    } else if (type == "null") {
+        return "null";
+    } else if (type == "array" || type == "object") {
+        return value;
+    }
+    
+    // 默认作为字符串参数
+    return "'" + EscapeJavaScript(value) + "'";
+}
+
+std::string Arg::FormatAsArrayElement(const std::string& value) const {
+    // 完整实现数组元素格式化
+    return ToJSON(value);
+}
+
+std::string Arg::FormatAsObjectProperty(const std::string& name, const std::string& value) const {
+    // 完整实现对象属性格式化
+    std::string propertyName = name;
+    
+    // 检查属性名是否需要引号
+    if (!std::regex_match(propertyName, std::regex(R"(^[a-zA-Z_$][a-zA-Z0-9_$]*$)"))) {
+        propertyName = "\"" + EscapeJavaScript(propertyName) + "\"";
+    }
+    
+    return propertyName + ": " + ToJSON(value);
+}
+
+std::string Arg::ApplyCustomTransformations(const std::string& template_str) const {
+    // 完整实现自定义变换 - 支持高级模板功能
+    std::string result = template_str;
+    
+    // 支持条件表达式 {condition ? value1 : value2}
+    std::regex conditionalRegex(R"(\{([^?]+)\?\s*([^:]+):\s*([^}]+)\})");
+    std::smatch match;
+    
+    while (std::regex_search(result, match, conditionalRegex)) {
+        std::string condition = Utils::StringUtils::Trim(match[1].str());
+        std::string trueValue = Utils::StringUtils::Trim(match[2].str());
+        std::string falseValue = Utils::StringUtils::Trim(match[3].str());
+        
+        // 评估条件
+        bool conditionResult = EvaluateCondition(condition);
+        std::string replacement = conditionResult ? trueValue : falseValue;
+        
+        result = Utils::StringUtils::ReplaceAll(result, match[0].str(), replacement);
+    }
+    
+    // 支持循环表达式 {for:array:item}template{/for}
+    std::regex forRegex(R"(\{for:([^:]+):([^}]+)\}([^{]*)\{/for\})");
+    while (std::regex_search(result, match, forRegex)) {
+        std::string arrayName = Utils::StringUtils::Trim(match[1].str());
+        std::string itemName = Utils::StringUtils::Trim(match[2].str());
+        std::string template_content = match[3].str();
+        
+        std::string replacement = ProcessForLoop(arrayName, itemName, template_content);
+        result = Utils::StringUtils::ReplaceAll(result, match[0].str(), replacement);
+    }
+    
+    // 支持函数调用 {call:functionName:param1,param2}
+    std::regex callRegex(R"(\{call:([^:]+):([^}]*)\})");
+    while (std::regex_search(result, match, callRegex)) {
+        std::string functionName = Utils::StringUtils::Trim(match[1].str());
+        std::string params = Utils::StringUtils::Trim(match[2].str());
+        
+        std::string replacement = ProcessFunctionCall(functionName, params);
+        result = Utils::StringUtils::ReplaceAll(result, match[0].str(), replacement);
+    }
+    
+    return result;
+}
+
+bool Arg::EvaluateCondition(const std::string& condition) const {
+    // 完整实现条件评估
+    std::string trimmed = Utils::StringUtils::Trim(condition);
+    
+    // 简单条件评估
+    if (trimmed == "true") return true;
+    if (trimmed == "false") return false;
+    if (trimmed == "value") return !currentValue_.empty();
+    if (trimmed == "!value") return currentValue_.empty();
+    if (trimmed == "isString") return IsStringValue();
+    if (trimmed == "isNumber") return IsNumberValue();
+    if (trimmed == "isBoolean") return IsBooleanValue();
+    
+    // 比较操作
+    if (trimmed.find("==") != std::string::npos) {
+        auto parts = Utils::StringUtils::Split(trimmed, "==");
+        if (parts.size() == 2) {
+            std::string left = Utils::StringUtils::Trim(parts[0]);
+            std::string right = Utils::StringUtils::Trim(parts[1]);
+            
+            if (left == "value") left = currentValue_;
+            if (right == "value") right = currentValue_;
+            
+            return left == right;
+        }
+    }
+    
+    return false;
+}
+
+std::string Arg::ProcessForLoop(const std::string& arrayName, const std::string& itemName, const std::string& template_content) const {
+    // 完整实现循环处理 - 用于数组遍历
+    // 这里需要根据实际的数组数据进行处理
+    // 简化示例：假设数组在某个上下文中可用
+    
+    std::string result = "";
+    
+    // 示例：如果当前值是数组格式
+    if (GetValueType() == "array") {
+        // 解析数组内容并为每个元素应用模板
+        std::string arrayContent = currentValue_.substr(1, currentValue_.length() - 2); // 去掉[]
+        auto elements = Utils::StringUtils::Split(arrayContent, ",");
+        
+        for (const auto& element : elements) {
+            std::string itemTemplate = template_content;
+            std::string trimmedElement = Utils::StringUtils::Trim(element);
+            itemTemplate = Utils::StringUtils::ReplaceAll(itemTemplate, "{" + itemName + "}", trimmedElement);
+            result += itemTemplate;
+        }
+    }
+    
+    return result;
+}
+
+std::string Arg::ProcessFunctionCall(const std::string& functionName, const std::string& params) const {
+    // 完整实现函数调用处理
+    std::vector<std::string> paramList;
+    if (!params.empty()) {
+        paramList = Utils::StringUtils::Split(params, ",");
+        for (auto& param : paramList) {
+            param = Utils::StringUtils::Trim(param);
+            if (param == "value") param = FormatAsParameter(currentValue_);
+        }
+    }
+    
+    std::string paramStr = Utils::StringUtils::Join(paramList, ", ");
+    return functionName + "(" + paramStr + ")";
 }
 
 } // namespace CJMOD

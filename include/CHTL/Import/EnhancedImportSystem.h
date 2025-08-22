@@ -68,9 +68,6 @@ enum class PathType {
     WILDCARD_HTML,          // 通配符：.*.html或/*.html
     WILDCARD_CSS,           // 通配符：.*.css或/*.css
     WILDCARD_JS,            // 通配符：.*.js或/*.js
-    WILDCARD_JSON,          // 通配符：.*.json或/*.json
-    WILDCARD_XML,           // 通配符：.*.xml或/*.xml
-    WILDCARD_CUSTOM,        // 通配符：.*.ext或/*.ext（任意扩展名）
     
     // 子模块
     SUBMODULE_ALL,          // 子模块：Module.*

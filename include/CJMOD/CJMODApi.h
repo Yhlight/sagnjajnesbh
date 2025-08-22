@@ -86,6 +86,24 @@ public:
     void Reset();
 
 private:
+    // 完整的JS代码转换辅助方法
+    std::string GetValueType() const;
+    bool IsStringValue() const;
+    bool IsNumberValue() const;
+    bool IsBooleanValue() const;
+    std::string EscapeJavaScript(const std::string& value) const;
+    std::string ToJSON(const std::string& value) const;
+    std::string FormatAsParameter(const std::string& value) const;
+    std::string FormatAsArrayElement(const std::string& value) const;
+    std::string FormatAsObjectProperty(const std::string& name, const std::string& value) const;
+    std::string ApplyCustomTransformations(const std::string& template_str) const;
+    bool EvaluateCondition(const std::string& condition) const;
+    std::string ProcessForLoop(const std::string& arrayName, const std::string& itemName, const std::string& template_content) const;
+    std::string ProcessFunctionCall(const std::string& functionName, const std::string& params) const;
+
+public:
+
+private:
     std::string name_;                  // 参数名称
     bool isPlaceholder_;                // 是否为占位符
     ArgBindFunction bindFunction_;      // 绑定的处理函数
