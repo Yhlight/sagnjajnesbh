@@ -905,20 +905,32 @@ std::vector<std::shared_ptr<AST::ASTNode>> EnhancedImportSystem::ProcessOriginIm
     std::vector<std::shared_ptr<AST::ASTNode>> results;
     
     // 处理[Origin] @CustomType导入
+    // 注意：这是导入其他CHTL文件内部中存在的相同类型的原始嵌入，而不是导入对应的文件
+    // CHTL未必能够解析这些文件，这需要解析CHTL文件并提取其中的原始嵌入节点
+    
     auto resolvedPaths = pathResolver_.ResolvePath(importInfo);
     
     for (const auto& path : resolvedPaths) {
-        std::string content = ReadFileContent(path);
-        if (!content.empty()) {
-            auto originNode = std::make_shared<AST::OriginNode>(
-                AST::OriginNode::OriginType::CUSTOM, 
-                content, 
-                importInfo.asName.empty() ? "CustomOrigin" : importInfo.asName
-            );
-            
-            results.push_back(originNode);
-            originImportCount_++;
-        }
+        // 这里应该解析CHTL文件，查找其中的[Origin] @CustomType节点
+        // 而不是直接读取文件内容作为原始嵌入
+        
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "处理[Origin]自定义类型导入: " + path + 
+            "，查找类型: " + importInfo.originalPath +
+            "，别名: " + importInfo.asName
+        );
+        
+        // 简化实现：创建导入节点，实际应该解析CHTL文件并提取原始嵌入节点
+        auto importNode = std::make_shared<AST::ImportNode>(
+            AST::ImportNode::ImportType::ALL_ORIGINS,
+            path,
+            importInfo.asName,
+            "",
+            Core::CHTLToken()
+        );
+        
+        results.push_back(importNode);
+        originImportCount_++;
     }
     
     return results;

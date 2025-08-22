@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSState.cpp.o.d"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSToken.cpp.o"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSToken.cpp.o.d"
+  "CMakeFiles/chtljs_core.dir/CHTLJS/Events/JSEventSystem.cpp.o"
+  "CMakeFiles/chtljs_core.dir/CHTLJS/Events/JSEventSystem.cpp.o.d"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Generator/CHTLJSGenerator.cpp.o"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Generator/CHTLJSGenerator.cpp.o.d"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Lexer/CHTLJSLexer.cpp.o"

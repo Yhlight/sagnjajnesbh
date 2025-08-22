@@ -52,9 +52,7 @@ AST::ASTNodePtr CHTLJSParser::ParseStatement() {
         case Core::TokenType::VIR:
             return ParseVirtualObject();
             
-        case Core::TokenType::CONST:
-        case Core::TokenType::LET:
-        case Core::TokenType::VAR:
+        // 错误的Token已移除：CONST、LET、VAR不是CHTL JS的内容
             return ParseVariableDeclaration();
             
         case Core::TokenType::ENHANCED_SELECTOR:
@@ -92,11 +90,9 @@ AST::ASTNodePtr CHTLJSParser::ParsePrimaryExpression() {
         case Core::TokenType::ANIMATE:
             return ParseAnimateBlock();
             
-        case Core::TokenType::I_NEVER_AWAY:
-            return ParseINeverAwayBlock();
-            
-        case Core::TokenType::FUNCTION:
-            return ParseFunctionDefinition();
+        // 错误的Token已移除：I_NEVER_AWAY、FUNCTION不是CHTL JS的内容
+            // return ParseINeverAwayBlock();  // 方法已移除
+            // return ParseFunctionDefinition(); // 方法已移除
             
         case Core::TokenType::LEFT_PAREN:
             // 检查是否为箭头函数的参数
@@ -455,14 +451,11 @@ AST::ASTNodePtr CHTLJSParser::ParseAnimateBlock() {
 }
 
 AST::ASTNodePtr CHTLJSParser::ParseINeverAwayBlock() {
-    if (!Consume(Core::TokenType::I_NEVER_AWAY, "期望 'iNeverAway'")) {
-        return nullptr;
-    }
+    // 错误的Token已移除：I_NEVER_AWAY不是CHTL JS的内容
+    // CHTL JS不直接支持iNeverAway关键字，应该使用CJMOD扩展
     
-    // 使用状态保护
-    Core::CHTLJSStateGuard guard(stateManager_, Core::CompileState::PARSING_I_NEVER_AWAY);
-    
-    auto iNeverAwayNode = std::make_shared<AST::INeverAwayBlockNode>(Current());
+    ReportError("CHTL JS不支持iNeverAway关键字，请使用CJMOD扩展");
+    return nullptr;
     
     // 解析iNeverAway对象
     if (!Consume(Core::TokenType::LEFT_PAREN, "期望 '('")) {
@@ -524,45 +517,12 @@ AST::ASTNodePtr CHTLJSParser::ParseINeverAwayBlock() {
 AST::ASTNodePtr CHTLJSParser::ParseVariableDeclaration() {
     const auto& token = Current();
     
-    AST::VariableDeclarationNode::DeclarationType declType;
-    if (token.GetType() == Core::TokenType::CONST) {
-        declType = AST::VariableDeclarationNode::DeclarationType::CONST;
-    } else if (token.GetType() == Core::TokenType::LET) {
-        declType = AST::VariableDeclarationNode::DeclarationType::LET;
-    } else if (token.GetType() == Core::TokenType::VAR) {
-        declType = AST::VariableDeclarationNode::DeclarationType::VAR;
-    } else {
-        ReportError("期望变量声明关键字");
-        return nullptr;
-    }
+    // 错误的Token已移除：CONST、LET、VAR不是CHTL JS的内容
+    // CHTL JS不直接支持这些JavaScript关键字
+    // 变量声明应该通过其他CHTL JS语法实现
     
-    Advance(); // 消费关键字
-    
-    std::string varName = ParseIdentifier();
-    if (varName.empty()) {
-        ReportError("期望变量名");
-        return nullptr;
-    }
-    
-    auto varDecl = std::make_shared<AST::VariableDeclarationNode>(declType, varName, token);
-    
-    // 解析初始化器
-    if (Consume(Core::TokenType::EQUAL, "")) {
-        auto initializer = ParseExpression();
-        if (initializer) {
-            varDecl->SetInitializer(initializer);
-        }
-    }
-    
-    // 消费可选的分号
-    if (Check(Core::TokenType::SEMICOLON)) {
-        Advance();
-    }
-    
-    // 更新上下文
-    context_.variables[varName] = "declared";
-    
-    return varDecl;
+    ReportError("CHTL JS不支持直接的变量声明关键字，请使用CHTL JS语法");
+    return nullptr;
 }
 
 AST::ASTNodePtr CHTLJSParser::ParseAssignmentExpression() {
@@ -811,10 +771,7 @@ void CHTLJSParser::Synchronize() {
         
         switch (Current().GetType()) {
             case Core::TokenType::VIR:
-            case Core::TokenType::CONST:
-            case Core::TokenType::LET:
-            case Core::TokenType::VAR:
-            case Core::TokenType::FUNCTION:
+            // 错误的Token已移除：CONST、LET、VAR、FUNCTION不是CHTL JS的内容
                 return;
             default:
                 break;
@@ -861,9 +818,11 @@ void CHTLJSParser::SkipWhitespaceAndComments() {
 }
 
 AST::ASTNodePtr CHTLJSParser::ParseFunctionDefinition() {
-    if (!Consume(Core::TokenType::FUNCTION, "期望 'function'")) {
-        return nullptr;
-    }
+    // 错误的Token已移除：FUNCTION不是CHTL JS的内容
+    // CHTL JS不直接支持function关键字，应该使用箭头函数或其他CHTL JS语法
+    
+    ReportError("CHTL JS不支持function关键字，请使用箭头函数语法");
+    return nullptr;
     
     std::string functionName = ParseIdentifier();
     if (functionName.empty()) {

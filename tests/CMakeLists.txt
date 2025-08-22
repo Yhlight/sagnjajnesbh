@@ -198,6 +198,19 @@ if(NOT GTest_FOUND)
     
     add_test(NAME EnhancedImportTest COMMAND test_enhanced_import)
     
+    # CHTL JS增强功能测试
+    add_executable(test_chtljs_enhancements
+        CHTLJS/test_chtljs_enhancements.cpp
+    )
+    
+    target_link_libraries(test_chtljs_enhancements
+        chtljs_core
+        chtl_core
+        utils
+    )
+    
+    add_test(NAME CHTLJSEnhancementsTest COMMAND test_chtljs_enhancements)
+    
     # CHTL JS核心测试
     add_executable(test_chtljs_core
         CHTLJS/test_chtljs_core.cpp

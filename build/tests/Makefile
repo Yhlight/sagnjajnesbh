@@ -396,6 +396,20 @@ test_enhanced_import/fast:
 .PHONY : test_enhanced_import/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_chtljs_enhancements.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_enhancements.dir/rule
+.PHONY : tests/CMakeFiles/test_chtljs_enhancements.dir/rule
+
+# Convenience name for target.
+test_chtljs_enhancements: tests/CMakeFiles/test_chtljs_enhancements.dir/rule
+.PHONY : test_chtljs_enhancements
+
+# fast build rule for target.
+test_chtljs_enhancements/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_enhancements.dir/build.make tests/CMakeFiles/test_chtljs_enhancements.dir/build
+.PHONY : test_chtljs_enhancements/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -767,6 +781,30 @@ CHTLJS/test_chtljs_core_complete.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_core_complete.dir/build.make tests/CMakeFiles/test_chtljs_core_complete.dir/CHTLJS/test_chtljs_core_complete.cpp.s
 .PHONY : CHTLJS/test_chtljs_core_complete.cpp.s
 
+CHTLJS/test_chtljs_enhancements.o: CHTLJS/test_chtljs_enhancements.cpp.o
+.PHONY : CHTLJS/test_chtljs_enhancements.o
+
+# target to build an object file
+CHTLJS/test_chtljs_enhancements.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_enhancements.dir/build.make tests/CMakeFiles/test_chtljs_enhancements.dir/CHTLJS/test_chtljs_enhancements.cpp.o
+.PHONY : CHTLJS/test_chtljs_enhancements.cpp.o
+
+CHTLJS/test_chtljs_enhancements.i: CHTLJS/test_chtljs_enhancements.cpp.i
+.PHONY : CHTLJS/test_chtljs_enhancements.i
+
+# target to preprocess a source file
+CHTLJS/test_chtljs_enhancements.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_enhancements.dir/build.make tests/CMakeFiles/test_chtljs_enhancements.dir/CHTLJS/test_chtljs_enhancements.cpp.i
+.PHONY : CHTLJS/test_chtljs_enhancements.cpp.i
+
+CHTLJS/test_chtljs_enhancements.s: CHTLJS/test_chtljs_enhancements.cpp.s
+.PHONY : CHTLJS/test_chtljs_enhancements.s
+
+# target to generate assembly for a file
+CHTLJS/test_chtljs_enhancements.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_enhancements.dir/build.make tests/CMakeFiles/test_chtljs_enhancements.dir/CHTLJS/test_chtljs_enhancements.cpp.s
+.PHONY : CHTLJS/test_chtljs_enhancements.cpp.s
+
 CHTLJS/test_chtljs_parser_generator.o: CHTLJS/test_chtljs_parser_generator.cpp.o
 .PHONY : CHTLJS/test_chtljs_parser_generator.o
 
@@ -1029,6 +1067,7 @@ help:
 	@echo "... test_chtl_simple"
 	@echo "... test_chtljs_core"
 	@echo "... test_chtljs_core_complete"
+	@echo "... test_chtljs_enhancements"
 	@echo "... test_chtljs_parser_generator"
 	@echo "... test_chtljs_simple_parser"
 	@echo "... test_cjmod_api"
@@ -1078,6 +1117,9 @@ help:
 	@echo "... CHTLJS/test_chtljs_core_complete.o"
 	@echo "... CHTLJS/test_chtljs_core_complete.i"
 	@echo "... CHTLJS/test_chtljs_core_complete.s"
+	@echo "... CHTLJS/test_chtljs_enhancements.o"
+	@echo "... CHTLJS/test_chtljs_enhancements.i"
+	@echo "... CHTLJS/test_chtljs_enhancements.s"
 	@echo "... CHTLJS/test_chtljs_parser_generator.o"
 	@echo "... CHTLJS/test_chtljs_parser_generator.i"
 	@echo "... CHTLJS/test_chtljs_parser_generator.s"

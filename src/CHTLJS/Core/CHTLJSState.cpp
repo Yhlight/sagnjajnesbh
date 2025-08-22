@@ -153,8 +153,7 @@ void CHTLJSState::InitializeDefaultTransitions() {
         {CompileState::INITIAL, CompileState::PARSING_LISTEN_BLOCK, TokenType::LISTEN},
         {CompileState::INITIAL, CompileState::PARSING_DELEGATE_BLOCK, TokenType::DELEGATE},
         {CompileState::INITIAL, CompileState::PARSING_ANIMATE_BLOCK, TokenType::ANIMATE},
-        {CompileState::INITIAL, CompileState::PARSING_I_NEVER_AWAY, TokenType::I_NEVER_AWAY},
-        {CompileState::INITIAL, CompileState::PARSING_FUNCTION_DEFINITION, TokenType::FUNCTION},
+        // 错误的Token转换已移除：I_NEVER_AWAY、FUNCTION不是CHTL JS的内容
         
         // 增强选择器相关转换
         {CompileState::PARSING_ENHANCED_SELECTOR, CompileState::PARSING_SELECTOR_CONTENT, TokenType::SELECTOR_START},
@@ -162,7 +161,7 @@ void CHTLJSState::InitializeDefaultTransitions() {
         
         // 虚对象相关转换
         {CompileState::PARSING_VIRTUAL_OBJECT, CompileState::PARSING_LISTEN_BLOCK, TokenType::LISTEN},
-        {CompileState::PARSING_VIRTUAL_OBJECT, CompileState::PARSING_I_NEVER_AWAY, TokenType::I_NEVER_AWAY},
+        // 虚对象相关的I_NEVER_AWAY转换已移除
         {CompileState::PARSING_VIRTUAL_OBJECT, CompileState::INITIAL, TokenType::SEMICOLON},
         
         // 监听器相关转换
@@ -180,21 +179,13 @@ void CHTLJSState::InitializeDefaultTransitions() {
         {CompileState::PARSING_ANIMATE_BLOCK, CompileState::PARSING_CSS_IN_ANIMATION, TokenType::END},
         
         // 对象字面量相关转换
-        {CompileState::PARSING_OBJECT_LITERAL, CompileState::PARSING_FUNCTION_DEFINITION, TokenType::FUNCTION},
         {CompileState::PARSING_OBJECT_LITERAL, CompileState::PARSING_ARROW_FUNCTION, TokenType::ARROW},
         {CompileState::PARSING_OBJECT_LITERAL, CompileState::INITIAL, TokenType::RIGHT_BRACE},
         
-        // 函数相关转换
-        {CompileState::PARSING_FUNCTION_DEFINITION, CompileState::INITIAL, TokenType::RIGHT_BRACE},
+        // 箭头函数相关转换
         {CompileState::PARSING_ARROW_FUNCTION, CompileState::INITIAL, TokenType::SEMICOLON},
         
-        // iNeverAway相关转换
-        {CompileState::PARSING_I_NEVER_AWAY, CompileState::PARSING_OBJECT_LITERAL, TokenType::LEFT_BRACE},
-        {CompileState::PARSING_I_NEVER_AWAY, CompileState::PARSING_VOID_TYPE, TokenType::VOID},
-        
-        // Void类型相关转换
-        {CompileState::PARSING_VOID_TYPE, CompileState::PARSING_VOID_STATE, TokenType::LEFT_BRACKET},
-        {CompileState::PARSING_VOID_STATE, CompileState::PARSING_FUNCTION_DEFINITION, TokenType::RIGHT_BRACKET},
+        // 错误的状态转换已移除：FUNCTION、I_NEVER_AWAY、VOID相关转换不是CHTL JS的内容
         
         // 动画关键帧相关转换
         {CompileState::PARSING_ANIMATION_KEYFRAME, CompileState::PARSING_CSS_IN_ANIMATION, TokenType::AT},
@@ -202,7 +193,7 @@ void CHTLJSState::InitializeDefaultTransitions() {
         {CompileState::PARSING_CSS_IN_ANIMATION, CompileState::PARSING_ANIMATE_BLOCK, TokenType::RIGHT_BRACE},
         
         // 事件处理器相关转换
-        {CompileState::PARSING_EVENT_HANDLER, CompileState::PARSING_FUNCTION_DEFINITION, TokenType::FUNCTION},
+        // 事件处理器相关的FUNCTION转换已移除
         {CompileState::PARSING_EVENT_HANDLER, CompileState::PARSING_ARROW_FUNCTION, TokenType::ARROW},
         {CompileState::PARSING_EVENT_HANDLER, CompileState::PARSING_OBJECT_LITERAL, TokenType::COMMA},
         

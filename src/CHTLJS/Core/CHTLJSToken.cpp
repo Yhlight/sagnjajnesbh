@@ -24,14 +24,11 @@ bool CHTLJSToken::IsCHTLJSKeyword() const {
            type_ == TokenType::LISTEN || 
            type_ == TokenType::DELEGATE || 
            type_ == TokenType::ANIMATE ||
-           type_ == TokenType::I_NEVER_AWAY;
+           type_ == TokenType::ANIMATE;
 }
 
 bool CHTLJSToken::IsVirtualObjectToken() const {
-    return type_ == TokenType::VIR || 
-           type_ == TokenType::I_NEVER_AWAY ||
-           type_ == TokenType::VOID ||
-           type_ == TokenType::VOID_STATE;
+    return type_ == TokenType::VIR;
 }
 
 bool CHTLJSToken::IsEventToken() const {
@@ -86,10 +83,6 @@ std::string CHTLJSToken::GetTokenTypeName(TokenType type) {
         case TokenType::SELECTOR_START: return "SELECTOR_START";
         case TokenType::SELECTOR_END: return "SELECTOR_END";
         case TokenType::SELECTOR_CONTENT: return "SELECTOR_CONTENT";
-        case TokenType::FUNCTION: return "FUNCTION";
-        case TokenType::CONST: return "CONST";
-        case TokenType::LET: return "LET";
-        case TokenType::VAR: return "VAR";
         case TokenType::TARGET: return "TARGET";
         case TokenType::DURATION: return "DURATION";
         case TokenType::EASING: return "EASING";
@@ -101,9 +94,7 @@ std::string CHTLJSToken::GetTokenTypeName(TokenType type) {
         case TokenType::DELAY: return "DELAY";
         case TokenType::CALLBACK: return "CALLBACK";
         case TokenType::AT: return "AT";
-        case TokenType::I_NEVER_AWAY: return "I_NEVER_AWAY";
-        case TokenType::VOID: return "VOID";
-        case TokenType::VOID_STATE: return "VOID_STATE";
+        // 错误的Token已移除：I_NEVER_AWAY、VOID、VOID_STATE不是CHTL JS的内容
         case TokenType::COMMENT: return "COMMENT";
         case TokenType::WHITESPACE: return "WHITESPACE";
         case TokenType::NEWLINE: return "NEWLINE";
@@ -136,13 +127,6 @@ void CHTLJSToken::InitializeKeywordMap() {
         {"listen", TokenType::LISTEN},
         {"delegate", TokenType::DELEGATE},
         {"animate", TokenType::ANIMATE},
-        {"iNeverAway", TokenType::I_NEVER_AWAY},
-        
-        // JavaScript基础关键字
-        {"function", TokenType::FUNCTION},
-        {"const", TokenType::CONST},
-        {"let", TokenType::LET},
-        {"var", TokenType::VAR},
         
         // 事件委托关键字
         {"target", TokenType::TARGET},
@@ -159,8 +143,7 @@ void CHTLJSToken::InitializeKeywordMap() {
         {"callback", TokenType::CALLBACK},
         {"at", TokenType::AT},
         
-        // 虚对象关键字
-        {"Void", TokenType::VOID}
+        // 其他关键字已移除，iNeverAway、function、const、let、var、Void不是CHTL JS的内容
     };
     
     keywordMapInitialized_ = true;

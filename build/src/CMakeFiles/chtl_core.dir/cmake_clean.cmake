@@ -7,6 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTNodes.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTVisitor.cpp.o"
   "CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTVisitor.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/Comments/ContextualCommentSystem.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/Comments/ContextualCommentSystem.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/Constraints/CHTLConstraintValidator.cpp.o"
   "CMakeFiles/chtl_core.dir/CHTL/Constraints/CHTLConstraintValidator.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/Constraints/ExceptConstraintParser.cpp.o"

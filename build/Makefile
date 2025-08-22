@@ -523,6 +523,19 @@ test_enhanced_import/fast:
 .PHONY : test_enhanced_import/fast
 
 #=============================================================================
+# Target rules for targets named test_chtljs_enhancements
+
+# Build rule for target.
+test_chtljs_enhancements: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtljs_enhancements
+.PHONY : test_chtljs_enhancements
+
+# fast build rule for target.
+test_chtljs_enhancements/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_enhancements.dir/build.make tests/CMakeFiles/test_chtljs_enhancements.dir/build
+.PHONY : test_chtljs_enhancements/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -632,6 +645,7 @@ help:
 	@echo "... test_chtl_simple"
 	@echo "... test_chtljs_core"
 	@echo "... test_chtljs_core_complete"
+	@echo "... test_chtljs_enhancements"
 	@echo "... test_chtljs_parser_generator"
 	@echo "... test_chtljs_simple_parser"
 	@echo "... test_cjmod_api"

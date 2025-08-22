@@ -49,12 +49,6 @@ enum class TokenType {
     SELECTOR_END,       // }}
     SELECTOR_CONTENT,   // 选择器内容
     
-    // 函数和对象
-    FUNCTION,           // function关键字
-    CONST,              // const关键字
-    LET,                // let关键字
-    VAR,                // var关键字
-    
     // 事件委托相关
     TARGET,             // target属性
     
@@ -69,11 +63,6 @@ enum class TokenType {
     DELAY,              // delay属性
     CALLBACK,           // callback属性
     AT,                 // at关键字（动画时间点）
-    
-    // 虚对象相关
-    I_NEVER_AWAY,       // iNeverAway特殊函数
-    VOID,               // Void类型
-    VOID_STATE,         // Void<State>状态类型
     
     // 注释
     COMMENT,            // 注释

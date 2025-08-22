@@ -84,6 +84,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "tests/CMakeFiles/test_constraint_validator.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_selector_automation.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_enhanced_import.dir/DependInfo.cmake"
+  "tests/CMakeFiles/test_chtljs_enhancements.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_chtljs_core.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_chtljs_core_complete.dir/DependInfo.cmake"
   "tests/CMakeFiles/test_chtljs_parser_generator.dir/DependInfo.cmake"

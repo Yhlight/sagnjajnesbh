@@ -14,6 +14,7 @@ add_library(chtl_core STATIC
     CHTL/Constraints/ExceptConstraintParser.cpp
     CHTL/Selector/SelectorAutomation.cpp
     CHTL/Import/EnhancedImportSystem.cpp
+    CHTL/Comments/ContextualCommentSystem.cpp
 )
 
 target_include_directories(chtl_core PUBLIC
@@ -32,6 +33,7 @@ add_library(chtljs_core STATIC
     CHTLJS/Parser/CHTLJSParser.cpp
     CHTLJS/AST/CHTLJSASTNodes.cpp
     CHTLJS/Generator/CHTLJSGenerator.cpp
+    CHTLJS/Events/JSEventSystem.cpp
 )
 
 target_include_directories(chtljs_core PUBLIC

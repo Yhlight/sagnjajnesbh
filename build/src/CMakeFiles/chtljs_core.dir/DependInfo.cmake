@@ -13,6 +13,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspace/src/CHTLJS/Core/CHTLJSGlobalMap.cpp" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSGlobalMap.cpp.o" "gcc" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSGlobalMap.cpp.o.d"
   "/workspace/src/CHTLJS/Core/CHTLJSState.cpp" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSState.cpp.o" "gcc" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSState.cpp.o.d"
   "/workspace/src/CHTLJS/Core/CHTLJSToken.cpp" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSToken.cpp.o" "gcc" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSToken.cpp.o.d"
+  "/workspace/src/CHTLJS/Events/JSEventSystem.cpp" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Events/JSEventSystem.cpp.o" "gcc" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Events/JSEventSystem.cpp.o.d"
   "/workspace/src/CHTLJS/Generator/CHTLJSGenerator.cpp" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Generator/CHTLJSGenerator.cpp.o" "gcc" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Generator/CHTLJSGenerator.cpp.o.d"
   "/workspace/src/CHTLJS/Lexer/CHTLJSLexer.cpp" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Lexer/CHTLJSLexer.cpp.o" "gcc" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Lexer/CHTLJSLexer.cpp.o.d"
   "/workspace/src/CHTLJS/Parser/CHTLJSParser.cpp" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Parser/CHTLJSParser.cpp.o" "gcc" "src/CMakeFiles/chtljs_core.dir/CHTLJS/Parser/CHTLJSParser.cpp.o.d"
