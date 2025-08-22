@@ -25,15 +25,18 @@ namespace {
 }
 
 CMODManager::CMODManager() {
-    // 错误的搜索路径已移除，应该按照用户要求的路径搜索策略：
-    // 1. 官方模块目录（源码编译后生成的module文件夹，通常和编译器同一个文件夹）
-    // 2. 编译文件所在的目录module文件夹
-    // 3. 编译文件所在目录
+    // 按照目标规划.ini第78-89行的要求：
+    // 对于@Chtl导入语法的路径搜索：
+    // 1. 官方模块目录（源码编译后生成的module文件夹，里面存放着编译src/Module好的cmod和cjmod文件）
+    // 2. 当前目录的module文件夹
+    // 3. 当前目录
     // 
-    // 不应该有固定的搜索路径，应该根据当前编译文件动态确定
+    // 对于@CJmod导入语法的路径搜索：
+    // 1. 官方模块目录（源码编译后生成的module文件夹，里面存放着编译src/Module好的cjmod文件）
+    // 2. 当前目录的module文件夹
+    // 3. 当前目录
     
-    // 初始化为空，路径应该在运行时根据当前编译文件确定
-    searchPaths_.clear();
+    // 搜索路径在运行时根据当前编译文件动态确定，不使用固定路径
 }
 
 bool CMODManager::LoadModule(const std::string& modulePath) {
