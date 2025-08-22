@@ -1,8 +1,8 @@
 [Info]
 {
-    name = "printMylove";
+    name = "iNeverAway";
     version = "1.0.0";
-    description = "printMylove CJMOD扩展 - 将图片转换成字符像素块或ASCII形式";
+    description = "iNeverAway CJMOD扩展 - 创建一组标记函数，使用状态区分同名键";
     author = "CHTL Team";
     license = "MIT";
     dependencies = "";
@@ -13,5 +13,5 @@
 
 [Export]
 {
-    printMylove;  // CJMOD扩展函数
+    iNeverAway;  // CJMOD扩展函数
 }

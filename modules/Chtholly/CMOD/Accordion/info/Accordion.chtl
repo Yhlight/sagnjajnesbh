@@ -1,6 +1,3 @@
-// 珂朵莉手风琴组件信息文件
-// 严格按照语法文档第1346-1357行的[Info]块格式
-
 [Info]
 {
     name = "Accordion";
@@ -14,11 +11,8 @@
     maxCHTLVersion = "2.0.0";
 }
 
-// 外部查询表，优化性能用，无实际作用
-// 不需要写这个，此由系统生成
 [Export]
 {
     [Custom] @Element Accordion;
     [Custom] @Style AccordionTheme;
-    [Template] @Var AccordionConfig;
 }

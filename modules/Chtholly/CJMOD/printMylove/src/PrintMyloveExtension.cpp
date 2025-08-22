@@ -1,14 +1,14 @@
-#include "printMylove.h"
-#include "Utils/ErrorHandler.h"
+#include "PrintMyloveExtension.h"
 #include <iostream>
 #include <sstream>
 #include <regex>
 
-namespace CHTL {
+namespace Chtholly {
 namespace CJMOD {
 
 // printMylove扩展实现 - 语法文档第1472-1483行
 // 功能：将图片转换成字符像素块或ASCII形式，然后输出到控制台
+// 通过CJMOD模块分发，不修改CHTL源码
 
 std::vector<std::string> PrintMyloveExtension::GetSupportedSyntaxPatterns() const {
     return {
@@ -23,68 +23,28 @@ bool PrintMyloveExtension::MatchesSyntax(const std::string& syntaxPattern, const
     return std::regex_search(syntaxPattern, printMyloveRegex);
 }
 
-CHTLJS::AST::ASTNodePtr PrintMyloveExtension::ParseSyntax(const std::string& input, const std::any& context) const {
-    // 解析printMylove语法
-    // 语法文档第1476-1482行：
-    // const str = printMylove({
-    //     url: ,
-    //     mode: ,  // 模式可以选择ASCII或Pixel
-    //     width: ,  // 宽度，支持的单位有CSS单位以及百分比，小数，纯数字(像素)
-    //     height: ,  // 高度
-    //     scale:  ,  // 缩放倍数，限定为等比缩放策略
-    // });
-    
+std::string PrintMyloveExtension::ParseSyntax(const std::string& input, const std::any& context) const {
+    // 解析printMylove语法并返回生成的JavaScript代码
     PrintMyloveParams params = ParseParameters(input);
     
     if (!params.IsValid()) {
-        Utils::ErrorHandler::GetInstance().LogError(
-            "printMylove参数无效: " + input
-        );
-        return nullptr;
+        return "console.error('printMylove参数无效');";
     }
     
-    // 创建特殊的AST节点表示printMylove调用
-    // 这里返回一个标识符节点，实际的代码生成在GenerateJavaScript中进行
-    auto node = std::make_shared<CHTLJS::AST::IdentifierNode>("printMylove_call", 
-                                                              CHTLJS::Core::CHTLJSToken());
-    
-    Utils::ErrorHandler::GetInstance().LogInfo(
-        "printMylove语法解析完成，模式: " + params.mode + "，URL: " + params.url
-    );
-    
-    return node;
+    return GeneratePrintMyloveJS(params);
 }
 
-std::string PrintMyloveExtension::GenerateJavaScript(CHTLJS::AST::ASTNodePtr ast, const std::any& context) const {
-    // 生成printMylove的JavaScript实现
-    // 语法文档第1473-1474行：将图片转换成字符像素块或ASCII形式，然后输出到控制台
-    
-    // 从context中获取原始输入来解析参数
-    std::string input;
-    try {
-        input = std::any_cast<std::string>(context);
-    } catch (const std::bad_any_cast&) {
-        Utils::ErrorHandler::GetInstance().LogError(
-            "printMylove代码生成失败：无法获取输入上下文"
-        );
-        return "";
-    }
-    
-    PrintMyloveParams params = ParseParameters(input);
+std::string PrintMyloveExtension::GenerateJavaScript(const PrintMyloveParams& params) const {
     return GeneratePrintMyloveJS(params);
 }
 
 bool PrintMyloveExtension::Initialize() {
-    Utils::ErrorHandler::GetInstance().LogInfo(
-        "printMylove扩展初始化完成"
-    );
+    std::cout << "printMylove扩展初始化完成" << std::endl;
     return true;
 }
 
 void PrintMyloveExtension::Cleanup() {
-    Utils::ErrorHandler::GetInstance().LogInfo(
-        "printMylove扩展清理完成"
-    );
+    std::cout << "printMylove扩展清理完成" << std::endl;
 }
 
 PrintMyloveExtension::PrintMyloveParams PrintMyloveExtension::ParseParameters(const std::string& paramString) {
@@ -95,9 +55,6 @@ PrintMyloveExtension::PrintMyloveParams PrintMyloveExtension::ParseParameters(co
     std::smatch blockMatch;
     
     if (!std::regex_search(paramString, blockMatch, paramBlockRegex)) {
-        Utils::ErrorHandler::GetInstance().LogError(
-            "printMylove参数块解析失败: " + paramString
-        );
         return params;
     }
     
@@ -110,10 +67,15 @@ PrintMyloveExtension::PrintMyloveParams PrintMyloveExtension::ParseParameters(co
     
     for (; iter != end; ++iter) {
         const std::smatch& match = *iter;
-        std::string key = Utils::StringUtils::Trim(match[1].str());
-        std::string value = Utils::StringUtils::Trim(match[2].str());
+        std::string key = match[1].str();
+        std::string value = match[2].str();
         
-        // 移除引号
+        // 移除空白和引号
+        key.erase(0, key.find_first_not_of(" \t"));
+        key.erase(key.find_last_not_of(" \t") + 1);
+        value.erase(0, value.find_first_not_of(" \t"));
+        value.erase(value.find_last_not_of(" \t") + 1);
+        
         if ((value.front() == '"' && value.back() == '"') ||
             (value.front() == '\'' && value.back() == '\'')) {
             value = value.substr(1, value.length() - 2);
@@ -152,9 +114,7 @@ std::string PrintMyloveExtension::GeneratePrintMyloveJS(const PrintMyloveParams&
     js << "        scale: '" << params.scale << "'\n";
     js << "    };\n\n";
     
-    js << "    // 图片处理函数\n";
     js << "    function convertImageToASCII(imageUrl, width, height) {\n";
-    js << "        // ASCII转换实现\n";
     js << "        const canvas = document.createElement('canvas');\n";
     js << "        const ctx = canvas.getContext('2d');\n";
     js << "        const img = new Image();\n";
@@ -189,24 +149,17 @@ std::string PrintMyloveExtension::GeneratePrintMyloveJS(const PrintMyloveParams&
     js << "        img.src = imageUrl;\n";
     js << "    }\n\n";
     
-    js << "    function convertImageToPixel(imageUrl, width, height) {\n";
-    js << "        // 像素块转换实现\n";
-    js << "        console.log('像素块模式暂未实现');\n";
-    js << "    }\n\n";
-    
     js << "    // 根据模式选择转换方式\n";
     js << "    if (printMyloveConfig.mode === 'ASCII') {\n";
     js << "        convertImageToASCII(printMyloveConfig.url, \n";
     js << "                           parseInt(printMyloveConfig.width) || 80, \n";
     js << "                           parseInt(printMyloveConfig.height) || 40);\n";
     js << "    } else if (printMyloveConfig.mode === 'Pixel') {\n";
-    js << "        convertImageToPixel(printMyloveConfig.url, \n";
-    js << "                           parseInt(printMyloveConfig.width) || 80, \n";
-    js << "                           parseInt(printMyloveConfig.height) || 40);\n";
+    js << "        console.log('像素块模式待实现');\n";
     js << "    } else {\n";
     js << "        console.error('printMylove: 不支持的模式 ' + printMyloveConfig.mode);\n";
     js << "    }\n";
-    js << "})()";
+    js << "})();";
     
     return js.str();
 }
@@ -217,35 +170,5 @@ bool PrintMyloveExtension::PrintMyloveParams::IsValid() const {
            !width.empty() && !height.empty();
 }
 
-std::pair<int, int> PrintMyloveExtension::ParseDimensions(const std::string& width, const std::string& height) {
-    // 解析宽度和高度
-    // 语法文档第1479-1480行：支持CSS单位、百分比、小数、纯数字(像素)
-    
-    int w = 80, h = 40;  // 默认值
-    
-    try {
-        // 简化实现：只处理纯数字
-        if (!width.empty() && std::isdigit(width[0])) {
-            w = std::stoi(width);
-        }
-        if (!height.empty() && std::isdigit(height[0])) {
-            h = std::stoi(height);
-        }
-    } catch (const std::exception&) {
-        // 使用默认值
-    }
-    
-    return {w, h};
-}
-
-double PrintMyloveExtension::ParseScale(const std::string& scale) {
-    // 解析缩放倍数 - 语法文档第1481行：等比缩放策略
-    try {
-        return std::stod(scale);
-    } catch (const std::exception&) {
-        return 1.0;  // 默认不缩放
-    }
-}
-
 } // namespace CJMOD
-} // namespace CHTL
+} // namespace Chtholly
