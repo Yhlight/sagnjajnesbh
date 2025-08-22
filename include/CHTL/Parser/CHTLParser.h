@@ -6,6 +6,7 @@
 #include "CHTL/Core/CHTLToken.h"
 #include "CHTL/Core/CHTLGlobalMap.h"
 #include "CHTL/Core/CHTLState.h"
+#include "CHTL/Core/CHTLStateContext.h"
 #include "CHTL/AST/CHTLASTNodes.h"
 #include "CHTL/Lexer/CHTLLexer.h"
 #include "CHTL/Constraints/CHTLConstraintValidator.h"
@@ -157,10 +158,22 @@ private:
     AST::ASTNodePtr ParseImportDeclaration();
     
     /**
-     * @brief 解析命名空间声明
+     * @brief 解析命名空间声明（支持省略大括号 - 语法文档第998行）
      * @return 命名空间节点
      */
     AST::ASTNodePtr ParseNamespaceDeclaration();
+    
+    /**
+     * @brief 解析省略大括号的单个命名空间声明 - 语法文档第998行
+     * @return 声明节点
+     */
+    AST::ASTNodePtr ParseSingleNamespaceDeclaration();
+    
+    /**
+     * @brief 解析平级命名空间声明 - 语法文档第998行
+     * @param parentNode 父命名空间节点
+     */
+    void ParseParallelNamespaceDeclarations(std::shared_ptr<AST::NamespaceNode> parentNode);
     
     /**
      * @brief 解析配置声明
@@ -410,11 +423,16 @@ private:
 private:
     ParserConfig config_;               // 解析器配置
     Core::CHTLGlobalMap& globalMap_;    // 全局映射表引用
-    Core::CHTLState& stateManager_;     // 状态管理器引用
+    Core::CHTLState& stateManager_;     // 状态管理器引用（兼容性保留）
     Core::TokenStream* tokens_;         // Token流指针
     std::string fileName_;              // 当前文件名
     ParseContext context_;              // 解析上下文
     size_t nodeCount_;                  // 节点计数
+    
+    // RAII状态机和Context系统 - 增强的状态管理
+    std::unique_ptr<Core::CHTLStateMachine> stateMachine_;        // RAII状态机
+    std::shared_ptr<Core::CHTLStateContext> stateContext_;        // 状态上下文
+    std::unique_ptr<Core::CHTLStateInferenceEngine> stateInferenceEngine_;  // 状态推断引擎
     
     // 错误恢复状态
     bool inErrorRecovery_;              // 是否在错误恢复中

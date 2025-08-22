@@ -219,6 +219,7 @@ src/CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
+  /workspace/include/CHTL/Core/CHTLStateContext.h \
   /workspace/include/CHTL/AST/CHTLASTNodes.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/variant \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \

@@ -74,6 +74,9 @@ enum class CHTLCompileState {
     PARSING_NAMESPACE,                  // 解析命名空间 - 语法文档第962行
     PARSING_NAMESPACE_NESTED,           // 解析嵌套命名空间 - 语法文档第993-1051行
     PARSING_NAMESPACE_USAGE,            // 解析命名空间使用 - 语法文档第987-990行
+    PARSING_NAMESPACE_BRACE_OMISSION,   // 解析省略大括号命名空间 - 语法文档第998行
+    PARSING_NAMESPACE_SINGLE_RELATION,  // 解析单层关系命名空间 - 语法文档第998行
+    PARSING_NAMESPACE_PARALLEL_LEVEL,   // 解析平级命名空间 - 语法文档第998行
     
     // 约束系统状态 - 语法文档第1062-1097行
     PARSING_CONSTRAINT_PRECISE,        // 解析精确约束 - 语法文档第1065-1073行
@@ -110,7 +113,10 @@ enum class ContextInferenceType {
     STATE_DISAMBIGUATION,               // 状态消歧推断
     SCOPE_RESOLUTION,                   // 作用域解析推断
     TYPE_INFERENCE,                     // 类型推断
-    NAMESPACE_RESOLUTION                // 命名空间解析推断
+    NAMESPACE_RESOLUTION,               // 命名空间解析推断
+    NAMESPACE_BRACE_INFERENCE,          // 命名空间大括号推断 - 语法文档第998行
+    SINGLE_RELATION_INFERENCE,          // 单层关系推断 - 语法文档第998行
+    PARALLEL_LEVEL_INFERENCE            // 平级关系推断 - 语法文档第998行
 };
 
 /**
@@ -427,6 +433,27 @@ public:
      * @return 推断的状态
      */
     CHTLCompileState InferFromNesting(int nestingLevel, CHTLCompileState parentState) const;
+    
+    /**
+     * @brief 推断命名空间省略大括号情况 - 语法文档第998行
+     * @param namespaceTokens 命名空间相关Token序列
+     * @return 推断的命名空间状态
+     */
+    CHTLCompileState InferNamespaceBraceOmission(const std::vector<CHTLToken>& namespaceTokens) const;
+    
+    /**
+     * @brief 检查是否为单层关系 - 语法文档第998行
+     * @param tokens Token序列
+     * @return 是否为单层关系
+     */
+    bool IsSingleRelation(const std::vector<CHTLToken>& tokens) const;
+    
+    /**
+     * @brief 检查是否为平级关系 - 语法文档第998行
+     * @param tokens Token序列
+     * @return 是否为平级关系
+     */
+    bool IsParallelLevel(const std::vector<CHTLToken>& tokens) const;
 
 private:
     std::shared_ptr<CHTLStateContext> context_;

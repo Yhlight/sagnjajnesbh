@@ -4103,6 +4103,7 @@ src/CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o: /workspace/src/CHTL/P
   /workspace/include/CHTL/Constraints/ExceptConstraintParser.h \
   /workspace/include/CHTL/Core/CHTLGlobalMap.h \
   /workspace/include/CHTL/Core/CHTLState.h \
+  /workspace/include/CHTL/Core/CHTLStateContext.h \
   /workspace/include/CHTL/Core/CHTLToken.h \
   /workspace/include/CHTL/Lexer/CHTLLexer.h \
   /workspace/include/CHTL/Parser/CHTLParser.h \

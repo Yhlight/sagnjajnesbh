@@ -17,6 +17,8 @@ CHTLParser::CHTLParser(Core::CHTLGlobalMap& globalMap, Core::CHTLState& stateMan
     // 初始化语法约束系统
     constraintValidator_ = std::make_unique<Constraints::CHTLConstraintValidator>();
     constraintIntegrator_ = std::make_unique<Constraints::ExceptConstraintIntegrator>(*constraintValidator_);
+    
+    // RAII状态机和Context系统将在Parse方法中初始化
 }
 
 AST::ASTNodePtr CHTLParser::Parse(Core::TokenStream& tokens, const std::string& fileName) {
@@ -32,6 +34,13 @@ AST::ASTNodePtr CHTLParser::Parse(Core::TokenStream& tokens, const std::string& 
     
     // 重置状态管理器
     stateManager_.Reset();
+    
+    // 初始化RAII状态机和Context系统 - 增强的状态管理
+    // 先创建一个空的Token向量，稍后在需要时更新
+    std::vector<Core::CHTLToken> emptyTokens;
+    stateContext_ = std::make_shared<Core::CHTLStateContext>(fileName, emptyTokens);
+    stateMachine_ = std::make_unique<Core::CHTLStateMachine>(stateContext_);
+    stateInferenceEngine_ = std::make_unique<Core::CHTLStateInferenceEngine>(stateContext_);
     
     if (config_.enableDebug) {
         Utils::ErrorHandler::GetInstance().LogInfo(
@@ -1248,8 +1257,8 @@ AST::ASTNodePtr CHTLParser::ParseNamespaceDeclaration() {
         return nullptr;
     }
     
-    // 使用状态保护
-    Core::StateGuard guard(stateManager_, Core::CompileState::PARSING_NAMESPACE);
+    // 使用RAII状态保护 - 充分利用状态机和Context系统
+    Core::CHTLStateGuard guard(*stateMachine_, Core::CHTLCompileState::PARSING_NAMESPACE, "解析命名空间声明");
     
     // 解析命名空间名称
     std::string namespaceName = ParseIdentifier();
@@ -1273,8 +1282,15 @@ AST::ASTNodePtr CHTLParser::ParseNamespaceDeclaration() {
     globalMap_.AddNamespace(nsInfo);
     globalMap_.EnterNamespace(namespaceName);
     
+    // 使用Context系统推断命名空间结构 - 语法文档第998行
+    // "如果仅仅是只有一层关系 或 只有一层平级，可以不用写花括号"
+    Core::CHTLCompileState inferredState = Core::CHTLCompileState::PARSING_NAMESPACE_BRACE_OMISSION;
+    
     // 解析命名空间内容
     if (Check(Core::TokenType::LEFT_BRACE)) {
+        // 传统语法：带大括号的命名空间
+        Core::CHTLStateGuard braceGuard(*stateMachine_, Core::CHTLCompileState::PARSING_NAMESPACE, "解析带大括号命名空间");
+        
         Advance(); // 消费 '{'
         
         // 解析命名空间体
@@ -1307,13 +1323,130 @@ AST::ASTNodePtr CHTLParser::ParseNamespaceDeclaration() {
                 Synchronize({Core::TokenType::RIGHT_BRACE});
             }
         }
+        
+        braceGuard.Commit();
+    } else {
+        // 新功能：省略大括号的命名空间 - 语法文档第998行
+        Core::CHTLStateGuard omissionGuard(*stateMachine_, inferredState, "解析省略大括号命名空间");
+        
+        // 使用状态机和Context推断解析策略
+        if (inferredState == Core::CHTLCompileState::PARSING_NAMESPACE_SINGLE_RELATION) {
+            // 单层关系：解析一个声明
+            auto declaration = ParseSingleNamespaceDeclaration();
+            if (declaration) {
+                namespaceNode->AddChild(declaration);
+                nodeCount_++;
+            }
+        } else if (inferredState == Core::CHTLCompileState::PARSING_NAMESPACE_PARALLEL_LEVEL) {
+            // 平级关系：解析多个平级声明
+            ParseParallelNamespaceDeclarations(namespaceNode);
+        } else {
+            // 默认省略大括号处理
+            auto declaration = ParseSingleNamespaceDeclaration();
+            if (declaration) {
+                namespaceNode->AddChild(declaration);
+                nodeCount_++;
+            }
+        }
+        
+        omissionGuard.Commit();
     }
     
     // 恢复解析上下文
     context_.currentNamespace = previousNamespace;
     globalMap_.ExitNamespace();
     
+    guard.Commit();
     return namespaceNode;
+}
+
+AST::ASTNodePtr CHTLParser::ParseSingleNamespaceDeclaration() {
+    // 解析省略大括号的单个命名空间声明 - 语法文档第998行
+    // "如果仅仅是只有一层关系，可以不用写花括号"
+    
+    Core::CHTLStateGuard guard(*stateMachine_, Core::CHTLCompileState::PARSING_NAMESPACE_SINGLE_RELATION, 
+                               "解析单层关系命名空间声明");
+    
+    SkipWhitespaceAndComments();
+    
+    // 使用Context系统预测下一个Token类型
+    const Core::CHTLToken* lookAhead = stateContext_->LookAhead(1);
+    if (!lookAhead) {
+        ReportError("省略大括号命名空间中期望声明");
+        return nullptr;
+    }
+    
+    // 解析约束（except关键字） - 可以在省略大括号的命名空间中使用
+    if (Check(Core::TokenType::EXCEPT)) {
+        auto constraint = ParseConstraintDeclaration();
+        guard.Commit();
+        return constraint;
+    }
+    
+    // 解析嵌套命名空间
+    if (Check(Core::TokenType::LEFT_BRACKET) && 
+        stateContext_->LookAhead(1) && stateContext_->LookAhead(1)->GetValue() == "Namespace") {
+        auto nestedNamespace = ParseNamespaceDeclaration();
+        guard.Commit();
+        return nestedNamespace;
+    }
+    
+    // 解析普通声明
+    auto declaration = ParseDeclaration();
+    if (declaration) {
+        guard.Commit();
+        return declaration;
+    }
+    
+    ReportError("省略大括号命名空间中期望有效声明");
+    return nullptr;
+}
+
+void CHTLParser::ParseParallelNamespaceDeclarations(std::shared_ptr<AST::NamespaceNode> parentNode) {
+    // 解析平级命名空间声明 - 语法文档第998行
+    // "如果仅仅是只有一层平级，可以不用写花括号"
+    
+    Core::CHTLStateGuard guard(*stateMachine_, Core::CHTLCompileState::PARSING_NAMESPACE_PARALLEL_LEVEL,
+                               "解析平级命名空间声明");
+    
+    // 解析当前命名空间中的声明
+    while (!IsAtEnd()) {
+        SkipWhitespaceAndComments();
+        
+        if (IsAtEnd()) {
+            break;
+        }
+        
+        // 使用Context系统检查是否遇到下一个平级命名空间
+        if (Check(Core::TokenType::LEFT_BRACKET)) {
+            const Core::CHTLToken* next1 = stateContext_->LookAhead(1);
+            if (next1 && next1->GetValue() == "Namespace") {
+                // 遇到下一个平级命名空间，停止当前命名空间的解析
+                break;
+            }
+        }
+        
+        // 解析约束
+        if (Check(Core::TokenType::EXCEPT)) {
+            auto constraint = ParseConstraintDeclaration();
+            if (constraint) {
+                parentNode->AddConstraint(constraint);
+            }
+            continue;
+        }
+        
+        // 解析声明
+        auto declaration = ParseDeclaration();
+        if (declaration) {
+            parentNode->AddChild(declaration);
+            nodeCount_++;
+        } else {
+            // 如果无法解析声明，可能已到达命名空间边界
+            break;
+        }
+    }
+    
+    guard.Commit();
 }
 
 AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {

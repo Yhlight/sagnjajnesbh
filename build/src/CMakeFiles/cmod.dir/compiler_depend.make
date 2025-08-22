@@ -308,6 +308,7 @@ src/CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.o: /workspace/src/CMOD/CMODManager.
   /workspace/include/CHTL/Constraints/ExceptConstraintParser.h \
   /workspace/include/CHTL/Core/CHTLGlobalMap.h \
   /workspace/include/CHTL/Core/CHTLState.h \
+  /workspace/include/CHTL/Core/CHTLStateContext.h \
   /workspace/include/CHTL/Core/CHTLToken.h \
   /workspace/include/CHTL/Lexer/CHTLLexer.h \
   /workspace/include/CHTL/Parser/CHTLParser.h \
@@ -627,6 +628,7 @@ src/CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o: /workspace/src/CMOD/Compl
   /workspace/include/CHTL/Constraints/ExceptConstraintParser.h \
   /workspace/include/CHTL/Core/CHTLGlobalMap.h \
   /workspace/include/CHTL/Core/CHTLState.h \
+  /workspace/include/CHTL/Core/CHTLStateContext.h \
   /workspace/include/CHTL/Core/CHTLToken.h \
   /workspace/include/CHTL/Lexer/CHTLLexer.h \
   /workspace/include/CHTL/Parser/CHTLParser.h \
@@ -655,6 +657,8 @@ src/CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o: /workspace/src/CMOD/Compl
 /workspace/include/CMOD/CMODManager.h:
 
 /workspace/include/CHTL/Lexer/CHTLLexer.h:
+
+/workspace/include/CHTL/Core/CHTLStateContext.h:
 
 /workspace/include/CHTL/Core/CHTLState.h:
 

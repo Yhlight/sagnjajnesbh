@@ -455,6 +455,9 @@ std::string CHTLStateMachine::GetStateName(CHTLCompileState state) const {
         case CHTLCompileState::PARSING_NAMESPACE: return "PARSING_NAMESPACE";
         case CHTLCompileState::PARSING_NAMESPACE_NESTED: return "PARSING_NAMESPACE_NESTED";
         case CHTLCompileState::PARSING_NAMESPACE_USAGE: return "PARSING_NAMESPACE_USAGE";
+        case CHTLCompileState::PARSING_NAMESPACE_BRACE_OMISSION: return "PARSING_NAMESPACE_BRACE_OMISSION";
+        case CHTLCompileState::PARSING_NAMESPACE_SINGLE_RELATION: return "PARSING_NAMESPACE_SINGLE_RELATION";
+        case CHTLCompileState::PARSING_NAMESPACE_PARALLEL_LEVEL: return "PARSING_NAMESPACE_PARALLEL_LEVEL";
         case CHTLCompileState::PARSING_CONSTRAINT_PRECISE: return "PARSING_CONSTRAINT_PRECISE";
         case CHTLCompileState::PARSING_CONSTRAINT_TYPE: return "PARSING_CONSTRAINT_TYPE";
         case CHTLCompileState::PARSING_CONSTRAINT_GLOBAL: return "PARSING_CONSTRAINT_GLOBAL";
@@ -783,6 +786,7 @@ void CHTLStateMachine::InitializeImportTransitions() {
 void CHTLStateMachine::InitializeNamespaceTransitions() {
     // 命名空间转换 - 语法文档第956-1061行
     
+    // 基础命名空间转换
     transitionRules_.push_back({
         CHTLCompileState::INITIAL,
         CHTLCompileState::PARSING_NAMESPACE,
@@ -794,6 +798,39 @@ void CHTLStateMachine::InitializeNamespaceTransitions() {
                     next2 && next2->GetType() == TokenType::RIGHT_BRACKET;
          },
          "命名空间", true, false},
+        2
+    });
+    
+        // 命名空间省略大括号转换 - 语法文档第998行
+    // "如果仅仅是只有一层关系 或 只有一层平级，可以不用写花括号"
+    transitionRules_.push_back({
+        CHTLCompileState::PARSING_NAMESPACE,
+        CHTLCompileState::PARSING_NAMESPACE_BRACE_OMISSION,
+        {TokenType::IDENTIFIER, nullptr, "命名空间省略大括号", true, true},
+        3
+    });
+    
+    // 单层关系命名空间转换 - 语法文档第998行
+    transitionRules_.push_back({
+        CHTLCompileState::PARSING_NAMESPACE_BRACE_OMISSION,
+        CHTLCompileState::PARSING_NAMESPACE_SINGLE_RELATION,
+        {TokenType::LEFT_BRACKET, nullptr, "单层关系命名空间", true, true},
+        3
+    });
+    
+    // 嵌套命名空间省略大括号转换
+    transitionRules_.push_back({
+        CHTLCompileState::PARSING_NAMESPACE,
+        CHTLCompileState::PARSING_NAMESPACE_NESTED,
+        {TokenType::LEFT_BRACKET, nullptr, "嵌套命名空间", true, true},
+        4
+    });
+    
+    // 平级命名空间转换
+    transitionRules_.push_back({
+        CHTLCompileState::PARSING_NAMESPACE_SINGLE_RELATION,
+        CHTLCompileState::PARSING_NAMESPACE_PARALLEL_LEVEL,
+        {TokenType::LEFT_BRACKET, nullptr, "平级命名空间", true, false},
         2
     });
 }
@@ -862,6 +899,10 @@ bool CHTLStateMachine::RequiresContextInference(CHTLCompileState state) const {
         case CHTLCompileState::PARSING_ORIGIN_HTML:
         case CHTLCompileState::PARSING_ORIGIN_STYLE:
         case CHTLCompileState::PARSING_ORIGIN_JAVASCRIPT:
+        // 命名空间省略大括号状态需要Context推断 - 语法文档第998行
+        case CHTLCompileState::PARSING_NAMESPACE_BRACE_OMISSION:
+        case CHTLCompileState::PARSING_NAMESPACE_SINGLE_RELATION:
+        case CHTLCompileState::PARSING_NAMESPACE_PARALLEL_LEVEL:
             return true;
         default:
             return false;
@@ -994,6 +1035,12 @@ CHTLCompileState CHTLStateInferenceEngine::InferFromNesting(int nestingLevel, CH
                 return CHTLCompileState::PARSING_NAMESPACE_NESTED;
             }
             break;
+        case CHTLCompileState::PARSING_NAMESPACE_BRACE_OMISSION:
+            // 语法文档第998行：省略大括号时的单层关系推断
+            return CHTLCompileState::PARSING_NAMESPACE_SINGLE_RELATION;
+        case CHTLCompileState::PARSING_NAMESPACE_SINGLE_RELATION:
+            // 如果检测到平级关系，转换为平级状态
+            return CHTLCompileState::PARSING_NAMESPACE_PARALLEL_LEVEL;
         default:
             break;
     }
@@ -1031,8 +1078,31 @@ void CHTLStateInferenceEngine::InitializeInferenceRules() {
         {"[Import] @Chtl", CHTLCompileState::PARSING_IMPORT_CHTL, 95, nullptr},
         {"[Import] @CJmod", CHTLCompileState::PARSING_IMPORT_CJMOD, 95, nullptr},
         
-        // 命名空间推断规则
+        // 命名空间推断规则 - 语法文档第956-1061行
         {"[Namespace]", CHTLCompileState::PARSING_NAMESPACE, 90, nullptr},
+        
+        // 命名空间省略大括号推断规则 - 语法文档第998行
+        {"[Namespace] name [Custom]", CHTLCompileState::PARSING_NAMESPACE_BRACE_OMISSION, 95, 
+         [](const CHTLStateContext& ctx) {
+             // 推断是否为省略大括号的单层关系
+             const CHTLToken* lookAhead = ctx.LookAhead(1);
+             return lookAhead && lookAhead->GetType() != TokenType::LEFT_BRACE;
+         }},
+        
+        {"[Namespace] name [Template]", CHTLCompileState::PARSING_NAMESPACE_BRACE_OMISSION, 95,
+         [](const CHTLStateContext& ctx) {
+             // 推断是否为省略大括号的单层关系
+             const CHTLToken* lookAhead = ctx.LookAhead(1);
+             return lookAhead && lookAhead->GetType() != TokenType::LEFT_BRACE;
+         }},
+        
+        // 嵌套命名空间省略大括号推断
+        {"[Namespace] outer [Namespace] inner", CHTLCompileState::PARSING_NAMESPACE_NESTED, 90,
+         [](const CHTLStateContext& ctx) {
+             // 推断嵌套命名空间的省略大括号情况
+             const CHTLToken* lookAhead = ctx.LookAhead(1);
+             return lookAhead && lookAhead->GetType() == TokenType::LEFT_BRACKET;
+         }},
         
         // 约束系统推断规则
         {"except", CHTLCompileState::PARSING_CONSTRAINT_PRECISE, 85, nullptr},
@@ -1046,6 +1116,86 @@ void CHTLStateInferenceEngine::InitializeInferenceRules() {
     Utils::ErrorHandler::GetInstance().LogInfo(
         "状态推断规则初始化完成，共 " + std::to_string(inferenceRules_.size()) + " 条规则"
     );
+}
+
+CHTLCompileState CHTLStateInferenceEngine::InferNamespaceBraceOmission(const std::vector<CHTLToken>& namespaceTokens) const {
+    // 推断命名空间省略大括号情况 - 语法文档第998行
+    // "如果仅仅是只有一层关系 或 只有一层平级，可以不用写花括号"
+    
+    if (namespaceTokens.size() < 3) {
+        return CHTLCompileState::ERROR_STATE;
+    }
+    
+    // 检查基本的命名空间模式：[Namespace] name
+    if (namespaceTokens[0].GetType() == TokenType::LEFT_BRACKET &&
+        namespaceTokens[1].GetValue() == "Namespace" &&
+        namespaceTokens[2].GetType() == TokenType::RIGHT_BRACKET &&
+        namespaceTokens.size() > 3 &&
+        namespaceTokens[3].GetType() == TokenType::IDENTIFIER) {
+        
+        // 检查后续Token以确定是否省略大括号
+        if (namespaceTokens.size() > 4) {
+            const CHTLToken& nextToken = namespaceTokens[4];
+            
+            // 如果下一个Token不是左大括号，则是省略大括号语法
+            if (nextToken.GetType() != TokenType::LEFT_BRACE) {
+                // 进一步判断是单层关系还是平级关系
+                if (IsSingleRelation(namespaceTokens)) {
+                    return CHTLCompileState::PARSING_NAMESPACE_SINGLE_RELATION;
+                } else if (IsParallelLevel(namespaceTokens)) {
+                    return CHTLCompileState::PARSING_NAMESPACE_PARALLEL_LEVEL;
+                } else {
+                    return CHTLCompileState::PARSING_NAMESPACE_BRACE_OMISSION;
+                }
+            }
+        }
+    }
+    
+    return CHTLCompileState::PARSING_NAMESPACE;
+}
+
+bool CHTLStateInferenceEngine::IsSingleRelation(const std::vector<CHTLToken>& tokens) const {
+    // 检查是否为单层关系 - 语法文档第998行
+    // 单层关系：命名空间后只有一个直接的声明
+    
+    int declarationCount = 0;
+    int nestedNamespaceCount = 0;
+    
+    for (size_t i = 0; i < tokens.size() - 1; ++i) {
+        // 统计声明数量
+        if (tokens[i].GetType() == TokenType::LEFT_BRACKET) {
+            if (i + 1 < tokens.size()) {
+                const std::string& keyword = tokens[i + 1].GetValue();
+                if (keyword == "Custom" || keyword == "Template" || keyword == "Origin") {
+                    declarationCount++;
+                } else if (keyword == "Namespace") {
+                    nestedNamespaceCount++;
+                }
+            }
+        }
+    }
+    
+    // 单层关系：只有一个声明，没有嵌套命名空间，或只有一个嵌套命名空间
+    return (declarationCount == 1 && nestedNamespaceCount == 0) ||
+           (declarationCount == 0 && nestedNamespaceCount == 1);
+}
+
+bool CHTLStateInferenceEngine::IsParallelLevel(const std::vector<CHTLToken>& tokens) const {
+    // 检查是否为平级关系 - 语法文档第998行
+    // 平级关系：多个同级的命名空间声明
+    
+    int namespaceCount = 0;
+    
+    for (size_t i = 0; i < tokens.size() - 1; ++i) {
+        if (tokens[i].GetType() == TokenType::LEFT_BRACKET &&
+            i + 1 < tokens.size() &&
+            tokens[i + 1].GetValue() == "Namespace") {
+            namespaceCount++;
+        }
+    }
+    
+    // 平级关系：有多个命名空间声明
+    return namespaceCount > 1;
 }
 
 } // namespace Core
