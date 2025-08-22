@@ -3,314 +3,263 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <unordered_set>
-#include "Utils/ErrorHandler.h"
 
 namespace CHTL {
 namespace Scanner {
 
 /**
- * @brief 代码片段类型枚举
+ * @brief 代码片段类型
  */
 enum class FragmentType {
-    CHTL,       // CHTL语法片段
-    CHTLJS,     // CHTL JS语法片段
-    CSS,        // CSS样式片段
-    JavaScript, // JavaScript代码片段
-    Unknown     // 未知类型
+    CHTL,        // CHTL代码块
+    CHTL_JS,     // CHTL JS语法片段（最小单元）
+    CSS,         // CSS代码块
+    JS,          // JavaScript代码块
+    Unknown
 };
 
 /**
- * @brief 代码片段结构体
+ * @brief 代码片段结构
  */
 struct CodeFragment {
-    FragmentType type;          // 片段类型
-    std::string content;        // 片段内容
-    size_t startPos;           // 起始位置
-    size_t endPos;             // 结束位置
-    int startLine;             // 起始行号
-    int startColumn;           // 起始列号
-    int endLine;               // 结束行号
-    int endColumn;             // 结束列号
-    std::string context;       // 上下文信息
+    FragmentType type;
+    std::string content;
+    size_t startPos;
+    size_t endPos;
+    size_t startLine;
+    size_t startColumn;
+    size_t endLine;
+    size_t endColumn;
     
-    CodeFragment(FragmentType t, const std::string& c, size_t start, size_t end)
-        : type(t), content(c), startPos(start), endPos(end), 
-          startLine(1), startColumn(1), endLine(1), endColumn(1) {}
+    CodeFragment() : type(FragmentType::Unknown), startPos(0), endPos(0), 
+                    startLine(1), startColumn(1), endLine(1), endColumn(1) {}
 };
 
 /**
- * @brief 扫描配置结构体
+ * @brief 扫描器状态
  */
-struct ScanConfig {
-    size_t maxFragmentSize;     // 最大片段大小
-    bool enableContextCheck;    // 是否启用上下文检查
-    bool enableMinimalUnit;     // 是否启用最小单元切割
-    bool preserveWhitespace;    // 是否保留空白字符
-    
-    ScanConfig() : maxFragmentSize(1024 * 1024), enableContextCheck(true),
-                   enableMinimalUnit(true), preserveWhitespace(false) {}
+enum class ScannerState {
+    GLOBAL,           // 全局状态（扫描CHTL块）
+    IN_CHTL_BLOCK,    // 在CHTL块内
+    IN_GLOBAL_STYLE,  // 在全局style块内
+    IN_LOCAL_STYLE,   // 在局部style块内
+    IN_GLOBAL_SCRIPT, // 在全局script块内
+    IN_LOCAL_SCRIPT,  // 在局部script块内
+    COLLECTING_CSS,   // 收集CSS代码状态
+    COLLECTING_JS     // 收集JS代码状态
 };
 
 /**
- * @brief CHTL统一扫描器类
- * 
- * 负责将CHTL源代码精准切割成不同类型的代码片段，
- * 支持CHTL、CHTL JS、CSS、JavaScript四种类型的代码识别和分离
+ * @brief CHTL统一扫描器
+ * 实现基于CHTL/CHTL JS切割点位的状态改变机制
  */
 class CHTLUnifiedScanner {
 public:
-    /**
-     * @brief 构造函数
-     * @param config 扫描配置
-     */
-    explicit CHTLUnifiedScanner(const ScanConfig& config = ScanConfig());
-    
-    /**
-     * @brief 析构函数
-     */
+    CHTLUnifiedScanner();
     ~CHTLUnifiedScanner() = default;
-    
+
     /**
-     * @brief 扫描CHTL源代码
-     * @param source CHTL源代码
-     * @param fileName 文件名（用于错误报告）
+     * @brief 扫描CHTL源代码，产生代码片段流
+     * @param source 源代码
+     * @param fileName 文件名
      * @return 代码片段列表
      */
-    std::vector<CodeFragment> Scan(const std::string& source, const std::string& fileName = "");
-    
+    std::vector<CodeFragment> ScanSource(const std::string& source, const std::string& fileName = "");
+
     /**
-     * @brief 设置扫描配置
-     * @param config 新的扫描配置
+     * @brief 设置详细输出模式
      */
-    void SetConfig(const ScanConfig& config) { config_ = config; }
-    
-    /**
-     * @brief 获取扫描配置
-     * @return 当前扫描配置
-     */
-    const ScanConfig& GetConfig() const { return config_; }
-    
-    /**
-     * @brief 清空扫描器状态
-     */
-    void Clear();
-    
-    /**
-     * @brief 获取错误数量
-     * @return 错误数量
-     */
-    size_t GetErrorCount() const;
+    void SetVerbose(bool verbose) { verbose_ = verbose; }
 
 private:
     /**
-     * @brief 初始化CHTL关键字集合
+     * @brief 扫描器状态
      */
-    void InitializeKeywords();
-    
-    // 精准代码切割的四个核心阶段 - 严格按照目标规划第48-55行
+    ScannerState currentState_;
     
     /**
-     * @brief 第一阶段：基于可变长度切片的精准扫描
-     * @param source 源代码
-     * @return 原始代码片段
+     * @brief 当前位置
      */
-    std::vector<CodeFragment> PerformVariableLengthSlicing(const std::string& source);
+    size_t currentPos_;
+    size_t currentLine_;
+    size_t currentColumn_;
     
     /**
-     * @brief 第二阶段：向前扩增检查，确保切片完整性
-     * @param fragments 原始片段
-     * @param source 源代码
-     * @return 扩增后的片段
+     * @brief 源代码
      */
-    std::vector<CodeFragment> PerformForwardExpansion(const std::vector<CodeFragment>& fragments, const std::string& source);
+    std::string source_;
+    std::string fileName_;
     
     /**
-     * @brief 第三阶段：基于最小单元的二次切割，确保结果绝对精确
-     * @param fragments 扩增后的片段
-     * @param source 源代码
-     * @return 精确切割后的片段
+     * @brief 代码片段列表
      */
-    std::vector<CodeFragment> PerformMinimalUnitSlicing(const std::vector<CodeFragment>& fragments, const std::string& source);
+    std::vector<CodeFragment> fragments_;
     
     /**
-     * @brief 第四阶段：上下文检查，确保代码片段不会过小
-     * @param fragments 精确切割后的片段
-     * @param source 源代码
-     * @return 上下文优化后的片段
+     * @brief 当前收集的代码缓冲区
      */
-    std::vector<CodeFragment> PerformContextualOptimization(const std::vector<CodeFragment>& fragments, const std::string& source);
-    
-    // 精准切割的辅助方法
+    std::string currentBuffer_;
+    size_t bufferStartPos_;
+    size_t bufferStartLine_;
+    size_t bufferStartColumn_;
     
     /**
-     * @brief 查找下一个代码块边界
+     * @brief 详细输出模式
      */
-    size_t FindNextBlockBoundary(const std::string& source, size_t pos);
+    bool verbose_;
+
+    // ============ 核心扫描逻辑 ============
     
     /**
-     * @brief 检查是否需要向前扩增
+     * @brief 主扫描循环
      */
-    bool ShouldExpandForward(const CodeFragment& current, const CodeFragment& next, const std::string& source);
+    void ScanLoop();
     
     /**
-     * @brief 计算扩增长度
+     * @brief 处理全局状态
      */
-    size_t CalculateExpansionLength(const CodeFragment& current, const CodeFragment& next, const std::string& source);
+    void HandleGlobalState();
     
     /**
-     * @brief 分割为最小单元
+     * @brief 处理CHTL块内状态
      */
-    std::vector<CodeFragment> SplitIntoMinimalUnits(const CodeFragment& fragment, const std::string& source);
+    void HandleCHTLBlockState();
     
     /**
-     * @brief 查找最小单元边界
+     * @brief 处理style块状态
      */
-    size_t FindMinimalUnitBoundary(const std::string& content, size_t pos);
+    void HandleStyleBlockState();
     
     /**
-     * @brief 检查是否应该与下一个片段合并
+     * @brief 处理script块状态
      */
-    bool ShouldMergeWithNext(const CodeFragment& current, const CodeFragment* next);
+    void HandleScriptBlockState();
+    
+    // ============ 切割点位检测 ============
     
     /**
-     * @brief 检测代码片段类型
-     * @param content 代码内容
-     * @param context 上下文信息
-     * @return 片段类型
+     * @brief 检测CHTL语法切割点位
+     * @return 如果检测到CHTL语法，返回语法长度；否则返回0
      */
-    FragmentType DetectFragmentType(const std::string& content, const std::string& context = "");
+    size_t DetectCHTLSyntax();
     
     /**
-     * @brief 查找下一个代码块的边界
-     * @param source 源代码
-     * @param startPos 起始位置
-     * @param blockType 块类型标识符
-     * @return 块的结束位置，如果未找到返回string::npos
+     * @brief 检测CHTL JS语法切割点位
+     * @return 如果检测到CHTL JS语法，返回语法长度；否则返回0
      */
-    size_t FindBlockEnd(const std::string& source, size_t startPos, const std::string& blockType);
+    size_t DetectCHTLJSSyntax();
     
     /**
-     * @brief 处理CHTL代码块
-     * @param source 源代码
-     * @param startPos 起始位置
-     * @param endPos 结束位置
-     * @param fragments 片段列表
+     * @brief 检测变量模板语法：ThemeColor(), Colors()等
      */
-    void ProcessCHTLBlock(const std::string& source, size_t startPos, size_t endPos,
-                         std::vector<CodeFragment>& fragments);
+    size_t DetectVariableTemplate();
     
     /**
-     * @brief 处理样式块（style{}）
-     * @param source 源代码
-     * @param startPos 起始位置
-     * @param endPos 结束位置
-     * @param fragments 片段列表
+     * @brief 检测增强选择器语法：{{.selector}}
      */
-    void ProcessStyleBlock(const std::string& source, size_t startPos, size_t endPos,
-                          std::vector<CodeFragment>& fragments);
+    size_t DetectEnhancedSelector();
     
     /**
-     * @brief 处理脚本块（script{}）
-     * @param source 源代码
-     * @param startPos 起始位置
-     * @param endPos 结束位置
-     * @param fragments 片段列表
+     * @brief 检测虚对象语法：obj->method(), listen(), delegate()等
      */
-    void ProcessScriptBlock(const std::string& source, size_t startPos, size_t endPos,
-                           std::vector<CodeFragment>& fragments);
+    size_t DetectVirtualObjectSyntax();
+    
+    // ============ 状态转换 ============
     
     /**
-     * @brief 处理全局样式块
-     * @param source 源代码
-     * @param startPos 起始位置
-     * @param endPos 结束位置
-     * @param fragments 片段列表
+     * @brief 进入CHTL块
      */
-    void ProcessGlobalStyleBlock(const std::string& source, size_t startPos, size_t endPos,
-                               std::vector<CodeFragment>& fragments);
+    void EnterCHTLBlock();
     
     /**
-     * @brief 处理原始嵌入块（[Origin]）
-     * @param source 源代码
-     * @param startPos 起始位置
-     * @param endPos 结束位置
-     * @param fragments 片段列表
+     * @brief 退出CHTL块
      */
-    void ProcessOriginBlock(const std::string& source, size_t startPos, size_t endPos,
-                           std::vector<CodeFragment>& fragments);
+    void ExitCHTLBlock();
     
     /**
-     * @brief 进行最小单元切割
-     * @param fragment 代码片段
-     * @return 切割后的片段列表
+     * @brief 进入style块
+     * @param isGlobal 是否为全局style
      */
-    std::vector<CodeFragment> PerformMinimalUnitSplit(const CodeFragment& fragment);
+    void EnterStyleBlock(bool isGlobal);
     
     /**
-     * @brief 检查上下文合理性
-     * @param fragment 代码片段
-     * @param prevFragment 前一个片段
-     * @param nextFragment 后一个片段
-     * @return 是否需要扩展片段
+     * @brief 退出style块
      */
-    bool CheckContextValidity(const CodeFragment& fragment, 
-                             const CodeFragment* prevFragment = nullptr,
-                             const CodeFragment* nextFragment = nullptr);
+    void ExitStyleBlock();
     
     /**
-     * @brief 扩展片段边界
-     * @param source 源代码
-     * @param fragment 要扩展的片段
-     * @param expandSize 扩展大小
-     * @return 扩展后的片段
+     * @brief 进入script块
+     * @param isGlobal 是否为全局script
      */
-    CodeFragment ExpandFragment(const std::string& source, const CodeFragment& fragment, size_t expandSize);
+    void EnterScriptBlock(bool isGlobal);
+    
+    /**
+     * @brief 退出script块
+     */
+    void ExitScriptBlock();
+    
+    // ============ 片段管理 ============
+    
+    /**
+     * @brief 开始收集代码到缓冲区
+     */
+    void StartCollecting();
+    
+    /**
+     * @brief 推送收集的代码作为片段
+     * @param type 片段类型
+     */
+    void PushCollectedFragment(FragmentType type);
+    
+    /**
+     * @brief 推送CHTL/CHTL JS语法片段
+     * @param type 片段类型
+     * @param content 语法内容
+     * @param length 语法长度
+     */
+    void PushSyntaxFragment(FragmentType type, const std::string& content, size_t length);
+    
+    // ============ 工具方法 ============
+    
+    /**
+     * @brief 获取当前字符
+     */
+    char CurrentChar();
+    
+    /**
+     * @brief 向前移动一个字符
+     */
+    void AdvanceChar();
+    
+    /**
+     * @brief 向前移动指定长度
+     */
+    void Advance(size_t length);
+    
+    /**
+     * @brief 检查是否到达文件末尾
+     */
+    bool IsAtEnd();
     
     /**
      * @brief 跳过空白字符
-     * @param source 源代码
-     * @param pos 当前位置
-     * @return 跳过空白字符后的位置
      */
-    size_t SkipWhitespace(const std::string& source, size_t pos);
+    void SkipWhitespace();
     
     /**
-     * @brief 跳过注释
-     * @param source 源代码
-     * @param pos 当前位置
-     * @return 跳过注释后的位置
+     * @brief 匹配字符串
      */
-    size_t SkipComments(const std::string& source, size_t pos);
+    bool Match(const std::string& str);
     
     /**
-     * @brief 计算位置的行号和列号
-     * @param source 源代码
-     * @param pos 位置
-     * @param line 输出行号
-     * @param column 输出列号
+     * @brief 查找字符串
      */
-    void CalculateLineColumn(const std::string& source, size_t pos, int& line, int& column);
+    size_t Find(const std::string& str);
     
     /**
-     * @brief 检查是否为CHTL关键字
-     * @param word 单词
-     * @return 是否为CHTL关键字
+     * @brief 输出调试信息
      */
-    bool IsCHTLKeyword(const std::string& word);
-    
-    /**
-     * @brief 检查是否为CHTL JS特征
-     * @param content 代码内容
-     * @return 是否包含CHTL JS特征
-     */
-    bool HasCHTLJSFeatures(const std::string& content);
-
-private:
-    ScanConfig config_;                                 // 扫描配置
-    std::string currentFileName_;                       // 当前文件名
-    std::unordered_set<std::string> chtlKeywords_;     // CHTL关键字集合
-    std::unordered_set<std::string> chtlJSKeywords_;   // CHTL JS关键字集合
+    void LogDebug(const std::string& message);
 };
 
 } // namespace Scanner
