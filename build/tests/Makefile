@@ -354,6 +354,34 @@ test_chtljs_core_complete/fast:
 .PHONY : test_chtljs_core_complete/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_chtljs_parser_generator.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_parser_generator.dir/rule
+.PHONY : tests/CMakeFiles/test_chtljs_parser_generator.dir/rule
+
+# Convenience name for target.
+test_chtljs_parser_generator: tests/CMakeFiles/test_chtljs_parser_generator.dir/rule
+.PHONY : test_chtljs_parser_generator
+
+# fast build rule for target.
+test_chtljs_parser_generator/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_parser_generator.dir/build.make tests/CMakeFiles/test_chtljs_parser_generator.dir/build
+.PHONY : test_chtljs_parser_generator/fast
+
+# Convenience name for target.
+tests/CMakeFiles/test_chtljs_simple_parser.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_simple_parser.dir/rule
+.PHONY : tests/CMakeFiles/test_chtljs_simple_parser.dir/rule
+
+# Convenience name for target.
+test_chtljs_simple_parser: tests/CMakeFiles/test_chtljs_simple_parser.dir/rule
+.PHONY : test_chtljs_simple_parser
+
+# fast build rule for target.
+test_chtljs_simple_parser/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_simple_parser.dir/build.make tests/CMakeFiles/test_chtljs_simple_parser.dir/build
+.PHONY : test_chtljs_simple_parser/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_scanner.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_scanner.dir/rule
 .PHONY : tests/CMakeFiles/test_scanner.dir/rule
@@ -597,6 +625,54 @@ CHTLJS/test_chtljs_core_complete.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_core_complete.dir/build.make tests/CMakeFiles/test_chtljs_core_complete.dir/CHTLJS/test_chtljs_core_complete.cpp.s
 .PHONY : CHTLJS/test_chtljs_core_complete.cpp.s
 
+CHTLJS/test_chtljs_parser_generator.o: CHTLJS/test_chtljs_parser_generator.cpp.o
+.PHONY : CHTLJS/test_chtljs_parser_generator.o
+
+# target to build an object file
+CHTLJS/test_chtljs_parser_generator.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_parser_generator.dir/build.make tests/CMakeFiles/test_chtljs_parser_generator.dir/CHTLJS/test_chtljs_parser_generator.cpp.o
+.PHONY : CHTLJS/test_chtljs_parser_generator.cpp.o
+
+CHTLJS/test_chtljs_parser_generator.i: CHTLJS/test_chtljs_parser_generator.cpp.i
+.PHONY : CHTLJS/test_chtljs_parser_generator.i
+
+# target to preprocess a source file
+CHTLJS/test_chtljs_parser_generator.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_parser_generator.dir/build.make tests/CMakeFiles/test_chtljs_parser_generator.dir/CHTLJS/test_chtljs_parser_generator.cpp.i
+.PHONY : CHTLJS/test_chtljs_parser_generator.cpp.i
+
+CHTLJS/test_chtljs_parser_generator.s: CHTLJS/test_chtljs_parser_generator.cpp.s
+.PHONY : CHTLJS/test_chtljs_parser_generator.s
+
+# target to generate assembly for a file
+CHTLJS/test_chtljs_parser_generator.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_parser_generator.dir/build.make tests/CMakeFiles/test_chtljs_parser_generator.dir/CHTLJS/test_chtljs_parser_generator.cpp.s
+.PHONY : CHTLJS/test_chtljs_parser_generator.cpp.s
+
+CHTLJS/test_chtljs_simple_parser.o: CHTLJS/test_chtljs_simple_parser.cpp.o
+.PHONY : CHTLJS/test_chtljs_simple_parser.o
+
+# target to build an object file
+CHTLJS/test_chtljs_simple_parser.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_simple_parser.dir/build.make tests/CMakeFiles/test_chtljs_simple_parser.dir/CHTLJS/test_chtljs_simple_parser.cpp.o
+.PHONY : CHTLJS/test_chtljs_simple_parser.cpp.o
+
+CHTLJS/test_chtljs_simple_parser.i: CHTLJS/test_chtljs_simple_parser.cpp.i
+.PHONY : CHTLJS/test_chtljs_simple_parser.i
+
+# target to preprocess a source file
+CHTLJS/test_chtljs_simple_parser.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_simple_parser.dir/build.make tests/CMakeFiles/test_chtljs_simple_parser.dir/CHTLJS/test_chtljs_simple_parser.cpp.i
+.PHONY : CHTLJS/test_chtljs_simple_parser.cpp.i
+
+CHTLJS/test_chtljs_simple_parser.s: CHTLJS/test_chtljs_simple_parser.cpp.s
+.PHONY : CHTLJS/test_chtljs_simple_parser.s
+
+# target to generate assembly for a file
+CHTLJS/test_chtljs_simple_parser.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_simple_parser.dir/build.make tests/CMakeFiles/test_chtljs_simple_parser.dir/CHTLJS/test_chtljs_simple_parser.cpp.s
+.PHONY : CHTLJS/test_chtljs_simple_parser.cpp.s
+
 CMOD/test_auto_export.o: CMOD/test_auto_export.cpp.o
 .PHONY : CMOD/test_auto_export.o
 
@@ -762,6 +838,8 @@ help:
 	@echo "... test_chtl_simple"
 	@echo "... test_chtljs_core"
 	@echo "... test_chtljs_core_complete"
+	@echo "... test_chtljs_parser_generator"
+	@echo "... test_chtljs_simple_parser"
 	@echo "... test_cmod"
 	@echo "... test_cmod_simple"
 	@echo "... test_complex_syntax"
@@ -796,6 +874,12 @@ help:
 	@echo "... CHTLJS/test_chtljs_core_complete.o"
 	@echo "... CHTLJS/test_chtljs_core_complete.i"
 	@echo "... CHTLJS/test_chtljs_core_complete.s"
+	@echo "... CHTLJS/test_chtljs_parser_generator.o"
+	@echo "... CHTLJS/test_chtljs_parser_generator.i"
+	@echo "... CHTLJS/test_chtljs_parser_generator.s"
+	@echo "... CHTLJS/test_chtljs_simple_parser.o"
+	@echo "... CHTLJS/test_chtljs_simple_parser.i"
+	@echo "... CHTLJS/test_chtljs_simple_parser.s"
 	@echo "... CMOD/test_auto_export.o"
 	@echo "... CMOD/test_auto_export.i"
 	@echo "... CMOD/test_auto_export.s"

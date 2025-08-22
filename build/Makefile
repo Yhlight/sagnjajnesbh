@@ -471,6 +471,32 @@ test_chtljs_core_complete/fast:
 .PHONY : test_chtljs_core_complete/fast
 
 #=============================================================================
+# Target rules for targets named test_chtljs_parser_generator
+
+# Build rule for target.
+test_chtljs_parser_generator: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtljs_parser_generator
+.PHONY : test_chtljs_parser_generator
+
+# fast build rule for target.
+test_chtljs_parser_generator/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_parser_generator.dir/build.make tests/CMakeFiles/test_chtljs_parser_generator.dir/build
+.PHONY : test_chtljs_parser_generator/fast
+
+#=============================================================================
+# Target rules for targets named test_chtljs_simple_parser
+
+# Build rule for target.
+test_chtljs_simple_parser: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_chtljs_simple_parser
+.PHONY : test_chtljs_simple_parser
+
+# fast build rule for target.
+test_chtljs_simple_parser/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_simple_parser.dir/build.make tests/CMakeFiles/test_chtljs_simple_parser.dir/build
+.PHONY : test_chtljs_simple_parser/fast
+
+#=============================================================================
 # Target rules for targets named test_scanner
 
 # Build rule for target.
@@ -526,6 +552,8 @@ help:
 	@echo "... test_chtl_simple"
 	@echo "... test_chtljs_core"
 	@echo "... test_chtljs_core_complete"
+	@echo "... test_chtljs_parser_generator"
+	@echo "... test_chtljs_simple_parser"
 	@echo "... test_cmod"
 	@echo "... test_cmod_simple"
 	@echo "... test_complex_syntax"

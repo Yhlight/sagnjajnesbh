@@ -161,6 +161,30 @@ if(NOT GTest_FOUND)
     
     add_test(NAME CHTLJSCoreCompleteTest COMMAND test_chtljs_core_complete)
     
+    # CHTL JS Parser和Generator测试
+    add_executable(test_chtljs_parser_generator
+        CHTLJS/test_chtljs_parser_generator.cpp
+    )
+    
+    target_link_libraries(test_chtljs_parser_generator
+        chtljs_core
+        utils
+    )
+    
+    add_test(NAME CHTLJSParserGeneratorTest COMMAND test_chtljs_parser_generator)
+    
+    # CHTL JS简单Parser测试
+    add_executable(test_chtljs_simple_parser
+        CHTLJS/test_chtljs_simple_parser.cpp
+    )
+    
+    target_link_libraries(test_chtljs_simple_parser
+        chtljs_core
+        utils
+    )
+    
+    add_test(NAME CHTLJSSimpleParserTest COMMAND test_chtljs_simple_parser)
+    
     # 扫描器测试
     add_executable(test_scanner
         Scanner/test_scanner.cpp
