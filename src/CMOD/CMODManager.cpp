@@ -25,13 +25,15 @@ namespace {
 }
 
 CMODManager::CMODManager() {
-    // 默认搜索路径
-    searchPaths_ = {
-        "./modules",
-        "./cmod",
-        "../modules",
-        "../cmod"
-    };
+    // 错误的搜索路径已移除，应该按照用户要求的路径搜索策略：
+    // 1. 官方模块目录（源码编译后生成的module文件夹，通常和编译器同一个文件夹）
+    // 2. 编译文件所在的目录module文件夹
+    // 3. 编译文件所在目录
+    // 
+    // 不应该有固定的搜索路径，应该根据当前编译文件动态确定
+    
+    // 初始化为空，路径应该在运行时根据当前编译文件确定
+    searchPaths_.clear();
 }
 
 bool CMODManager::LoadModule(const std::string& modulePath) {
