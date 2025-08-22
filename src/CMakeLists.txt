@@ -54,6 +54,7 @@ target_include_directories(scanner PUBLIC
 # 编译器调度器库
 add_library(dispatcher STATIC
     Dispatcher/CompilerDispatcher.cpp
+    Dispatcher/FragmentProcessors.cpp
 )
 
 target_include_directories(dispatcher PUBLIC

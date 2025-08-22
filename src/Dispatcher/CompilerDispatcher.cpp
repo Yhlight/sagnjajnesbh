@@ -1,15 +1,7 @@
 #include "Dispatcher/CompilerDispatcher.h"
+#include "Dispatcher/FragmentProcessors.h"
 #include "CSS/CSSCompiler.h"
 #include "JavaScript/JavaScriptCompiler.h"
-#include "CHTL/Core/CHTLGlobalMap.h"
-#include "CHTL/Core/CHTLState.h"
-#include "CHTL/Lexer/CHTLLexer.h"
-#include "CHTL/Parser/CHTLParser.h"
-#include "CHTL/Generator/CHTLGenerator.h"
-#include "CHTLJS/Core/CHTLJSState.h"
-#include "CHTLJS/Lexer/CHTLJSLexer.h"
-#include "CHTLJS/Parser/CHTLJSParser.h"
-#include "CHTLJS/Generator/CHTLJSGenerator.h"
 #include "Utils/ErrorHandler.h"
 #include "Utils/StringUtils.h"
 #include <map>
@@ -89,133 +81,90 @@ CompilationResult CompilerDispatcher::Compile(const std::string& source, const s
 CompilationResult CompilerDispatcher::DispatchFragments(const std::vector<Scanner::CodeFragment>& fragments, const std::string& fileName) {
     CompilationResult result;
     
-    // 按类型分组代码片段
-    auto groupedFragments = GroupFragmentsByType(fragments);
-    
-    std::string htmlOutput = "";
-    std::string cssOutput = "";
-    std::string jsOutput = "";
-    
     try {
-        // 处理CHTL片段
-        if (groupedFragments.count(Scanner::FragmentType::CHTL)) {
-            htmlOutput = ProcessCHTLFragments(groupedFragments[Scanner::FragmentType::CHTL], fileName);
-        }
+        // 革命性的片段协作编译 - 每个片段独立处理
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "开始片段协作编译，共 " + std::to_string(fragments.size()) + " 个片段"
+        );
         
-        // 处理CSS片段 - 目标规划第44行：全局style → CSS编译器
-        if (groupedFragments.count(Scanner::FragmentType::CSS)) {
-            cssOutput = ProcessCSSFragments(groupedFragments[Scanner::FragmentType::CSS], fileName);
-        }
+        // 创建片段处理器
+        CHTLFragmentProcessor chtlProcessor;
+        CHTLJSFragmentProcessor chtlJSProcessor;
+        CSSFragmentProcessor cssProcessor;
+        JavaScriptFragmentProcessor jsProcessor;
         
-        // 处理CHTL JS片段
-        if (groupedFragments.count(Scanner::FragmentType::CHTLJS)) {
-            std::string chtlJSOutput = ProcessCHTLJSFragments(groupedFragments[Scanner::FragmentType::CHTLJS], fileName);
-            jsOutput += chtlJSOutput;
-        }
+        // 处理每个片段
+        std::vector<ProcessedFragment> processedFragments;
         
-        // 处理JavaScript片段
-        if (groupedFragments.count(Scanner::FragmentType::JavaScript)) {
-            std::string pureJSOutput = ProcessJavaScriptFragments(groupedFragments[Scanner::FragmentType::JavaScript], fileName);
-            jsOutput += pureJSOutput;
-        }
-        
-        // 处理Script的共同管理 - 目标规划第46行：script → 由CHTL，CHTL JS，JS编译器共同管理
-        std::vector<Scanner::CodeFragment> allScriptFragments;
-        if (groupedFragments.count(Scanner::FragmentType::CHTL)) {
-            // 提取CHTL中的script片段
-            for (const auto& fragment : groupedFragments[Scanner::FragmentType::CHTL]) {
-                if (fragment.content.find("script") != std::string::npos) {
-                    allScriptFragments.push_back(fragment);
-                }
+        for (const auto& fragment : fragments) {
+            ProcessedFragment processed;
+            
+            switch (fragment.type) {
+                case Scanner::FragmentType::CHTL:
+                    processed = chtlProcessor.ProcessFragment(fragment);
+                    break;
+                case Scanner::FragmentType::CHTLJS:
+                    processed = chtlJSProcessor.ProcessFragment(fragment);
+                    break;
+                case Scanner::FragmentType::CSS:
+                    processed = cssProcessor.ProcessFragment(fragment);
+                    break;
+                case Scanner::FragmentType::JavaScript:
+                    processed = jsProcessor.ProcessFragment(fragment);
+                    break;
+                default:
+                    // 跳过未知片段
+                    continue;
             }
-        }
-        if (groupedFragments.count(Scanner::FragmentType::CHTLJS)) {
-            allScriptFragments.insert(allScriptFragments.end(), 
-                                    groupedFragments[Scanner::FragmentType::CHTLJS].begin(),
-                                    groupedFragments[Scanner::FragmentType::CHTLJS].end());
-        }
-        if (groupedFragments.count(Scanner::FragmentType::JavaScript)) {
-            allScriptFragments.insert(allScriptFragments.end(), 
-                                    groupedFragments[Scanner::FragmentType::JavaScript].begin(),
-                                    groupedFragments[Scanner::FragmentType::JavaScript].end());
+            
+            processedFragments.push_back(processed);
         }
         
-        if (!allScriptFragments.empty()) {
-            std::string sharedScriptOutput = ProcessSharedScriptFragments(allScriptFragments, fileName);
-            jsOutput += sharedScriptOutput;
+        // 使用智能合并器合并结果
+        IntelligentMerger merger;
+        auto mergedResult = merger.Merge(processedFragments, true); // 支持SPA
+        
+        // 构建最终输出
+        if (mergedResult.isSPAComponent) {
+            // SPA组件模式
+            result.htmlOutput = merger.BuildHTMLStructure(
+                mergedResult.htmlOutput, mergedResult.cssOutput, 
+                mergedResult.jsOutput, true);
+        } else {
+            // 完整页面模式
+            result.htmlOutput = merger.BuildHTMLStructure(
+                mergedResult.htmlOutput, mergedResult.cssOutput, 
+                mergedResult.jsOutput, false);
         }
         
-        // 合并编译结果
-        result.htmlOutput = MergeCompilationResults(htmlOutput, cssOutput, jsOutput);
-        result.cssOutput = cssOutput;
-        result.javascriptOutput = jsOutput;
+        result.cssOutput = mergedResult.cssOutput;
+        result.javascriptOutput = mergedResult.jsOutput;
         result.success = true;
+        
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "片段协作编译完成，SPA模式: " + std::string(mergedResult.isSPAComponent ? "是" : "否")
+        );
         
     } catch (const std::exception& e) {
         result.success = false;
-        result.errors.push_back("片段分发处理异常: " + std::string(e.what()));
+        result.errors.push_back("片段协作编译异常: " + std::string(e.what()));
+        
+        Utils::ErrorHandler::GetInstance().LogError(
+            "片段协作编译异常: " + std::string(e.what())
+        );
     }
     
     return result;
 }
 
 std::string CompilerDispatcher::ProcessCHTLFragments(const std::vector<Scanner::CodeFragment>& fragments, const std::string& fileName) {
-    // 处理CHTL片段 - 使用真正的CHTL解析器和生成器
-    std::string htmlOutput = "";
+    // 革命性的片段协作处理 - 每个片段独立处理
+    Utils::ErrorHandler::GetInstance().LogInfo(
+        "使用片段协作架构处理 " + std::to_string(fragments.size()) + " 个CHTL片段"
+    );
     
-    try {
-        // 重新组合CHTL片段为完整的源代码
-        std::string chtlSource = "";
-        for (const auto& fragment : fragments) {
-            chtlSource += fragment.content + " ";
-        }
-        
-        if (chtlSource.empty()) {
-            return htmlOutput;
-        }
-        
-        // 使用真正的CHTL编译流程
-        CHTL::Lexer::CHTLLexer lexer;
-        auto tokens = lexer.Tokenize(chtlSource, fileName);
-        
-        CHTL::Core::CHTLGlobalMap globalMap;
-        CHTL::Core::CHTLState state;
-        CHTL::Parser::CHTLParser parser(globalMap, state);
-        
-        auto ast = parser.Parse(tokens, fileName);
-        if (ast) {
-            // 配置生成器支持SPA页面
-            CHTL::Generator::GeneratorConfig genConfig;
-            genConfig.autoDoctype = false;      // 禁用自动DOCTYPE
-            genConfig.autoCharset = false;      // 禁用自动字符集
-            genConfig.autoViewport = false;     // 禁用自动视口
-            genConfig.enableDebug = config_.enableDebugOutput;
-            
-            CHTL::Generator::CHTLGenerator generator(globalMap, genConfig);
-            htmlOutput = generator.Generate(ast);
-            
-            Utils::ErrorHandler::GetInstance().LogInfo(
-                "CHTL解析和生成成功: " + fileName
-            );
-        } else {
-            Utils::ErrorHandler::GetInstance().LogError(
-                "CHTL解析失败: " + fileName
-            );
-            
-            // 回退到基础处理
-            htmlOutput = ProcessCHTLFragmentsBasic(fragments);
-        }
-        
-    } catch (const std::exception& e) {
-        Utils::ErrorHandler::GetInstance().LogError(
-            "CHTL处理异常: " + std::string(e.what()) + " - 回退到基础处理"
-        );
-        
-        // 回退到基础处理
-        htmlOutput = ProcessCHTLFragmentsBasic(fragments);
-    }
-    
-    return htmlOutput;
+    // 移除错误的重新组合逻辑，改为片段独立处理
+    return ProcessCHTLFragmentsBasic(fragments);
 }
 
 std::string CompilerDispatcher::ProcessCHTLFragmentsBasic(const std::vector<Scanner::CodeFragment>& fragments) {

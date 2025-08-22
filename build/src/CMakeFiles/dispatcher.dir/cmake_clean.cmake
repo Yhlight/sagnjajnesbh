@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "../lib/libdispatcher.pdb"
   "CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o"
   "CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o.d"
+  "CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o"
+  "CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -1069,6 +1069,30 @@ Dispatcher/CompilerDispatcher.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/dispatcher.dir/build.make src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.s
 .PHONY : Dispatcher/CompilerDispatcher.cpp.s
 
+Dispatcher/FragmentProcessors.o: Dispatcher/FragmentProcessors.cpp.o
+.PHONY : Dispatcher/FragmentProcessors.o
+
+# target to build an object file
+Dispatcher/FragmentProcessors.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/dispatcher.dir/build.make src/CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o
+.PHONY : Dispatcher/FragmentProcessors.cpp.o
+
+Dispatcher/FragmentProcessors.i: Dispatcher/FragmentProcessors.cpp.i
+.PHONY : Dispatcher/FragmentProcessors.i
+
+# target to preprocess a source file
+Dispatcher/FragmentProcessors.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/dispatcher.dir/build.make src/CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.i
+.PHONY : Dispatcher/FragmentProcessors.cpp.i
+
+Dispatcher/FragmentProcessors.s: Dispatcher/FragmentProcessors.cpp.s
+.PHONY : Dispatcher/FragmentProcessors.s
+
+# target to generate assembly for a file
+Dispatcher/FragmentProcessors.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/dispatcher.dir/build.make src/CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.s
+.PHONY : Dispatcher/FragmentProcessors.cpp.s
+
 JavaScript/JavaScriptCompiler.o: JavaScript/JavaScriptCompiler.cpp.o
 .PHONY : JavaScript/JavaScriptCompiler.o
 
@@ -1594,6 +1618,9 @@ help:
 	@echo "... Dispatcher/CompilerDispatcher.o"
 	@echo "... Dispatcher/CompilerDispatcher.i"
 	@echo "... Dispatcher/CompilerDispatcher.s"
+	@echo "... Dispatcher/FragmentProcessors.o"
+	@echo "... Dispatcher/FragmentProcessors.i"
+	@echo "... Dispatcher/FragmentProcessors.s"
 	@echo "... JavaScript/JavaScriptCompiler.o"
 	@echo "... JavaScript/JavaScriptCompiler.i"
 	@echo "... JavaScript/JavaScriptCompiler.s"

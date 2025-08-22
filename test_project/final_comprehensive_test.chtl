@@ -1,0 +1,87 @@
+// 最终综合测试 - 验证革命性片段协作编译器
+
+// 变量组模板
+[Template] @Var Colors
+{
+    primary: "#007bff";
+    secondary: "#6c757d";
+}
+
+// 自定义元素
+[Custom] @Element TestCard
+{
+    div
+    {
+        class: test-card;
+        
+        style
+        {
+            .test-card
+            {
+                background: white;
+                border: 1px solid Colors(secondary);
+                padding: 20px;
+                border-radius: 8px;
+            }
+        }
+        
+        h2
+        {
+            text
+            {
+                Test Card Title
+            }
+            
+            style
+            {
+                color: Colors(primary);
+                margin-bottom: 10px;
+            }
+        }
+        
+        p
+        {
+            text
+            {
+                This is test content
+            }
+        }
+        
+        script
+        {
+            // CHTL JS语法测试
+            {{.test-card}}->listen({
+                click: () => {
+                    console.log('Card clicked!');
+                }
+            });
+            
+            // 虚对象测试
+            vir CardController = listen({
+                show: () => {
+                    {{.test-card}}->style->display = 'block';
+                }
+            });
+            
+            CardController->show();
+        }
+    }
+}
+
+// SPA组件 - 不包含html根节点
+div
+{
+    class: spa-app;
+    
+    style
+    {
+        .spa-app
+        {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    }
+    
+    @Element TestCard;
+}
