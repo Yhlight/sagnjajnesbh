@@ -231,11 +231,29 @@ std::string CHTLGlobalMap::GetSymbolTypeName(SymbolType type) {
         case SymbolType::ORIGIN_CUSTOM: return "Origin Custom";
         case SymbolType::NAMESPACE: return "Namespace";
         case SymbolType::CONFIGURATION: return "Configuration";
-        case SymbolType::IMPORT: return "Import";
+        case SymbolType::CONFIGURATION_CONFIG: return "Configuration Config";
+        
+        // 导入类型
+        case SymbolType::IMPORT_HTML: return "Import HTML";
+        case SymbolType::IMPORT_STYLE: return "Import Style";
+        case SymbolType::IMPORT_JAVASCRIPT: return "Import JavaScript";
+        case SymbolType::IMPORT_CHTL: return "Import CHTL";
+        case SymbolType::IMPORT_CJMOD: return "Import CJmod";
+        case SymbolType::IMPORT_CONFIG: return "Import Config";
+        case SymbolType::IMPORT_TEMPLATE_STYLE: return "Import Template Style";
+        case SymbolType::IMPORT_TEMPLATE_ELEMENT: return "Import Template Element";
+        case SymbolType::IMPORT_TEMPLATE_VAR: return "Import Template Var";
+        case SymbolType::IMPORT_CUSTOM_STYLE: return "Import Custom Style";
+        case SymbolType::IMPORT_CUSTOM_ELEMENT: return "Import Custom Element";
+        case SymbolType::IMPORT_CUSTOM_VAR: return "Import Custom Var";
+        case SymbolType::IMPORT_ORIGIN_HTML: return "Import Origin HTML";
+        case SymbolType::IMPORT_ORIGIN_STYLE: return "Import Origin Style";
+        case SymbolType::IMPORT_ORIGIN_JAVASCRIPT: return "Import Origin JavaScript";
+        case SymbolType::IMPORT_ORIGIN_CUSTOM: return "Import Origin Custom";
+        
         case SymbolType::HTML_ELEMENT: return "HTML Element";
-        case SymbolType::VARIABLE: return "Variable";
-        case SymbolType::FUNCTION: return "Function";
         case SymbolType::UNKNOWN: return "Unknown";
+        // 错误的类型已移除：IMPORT、VARIABLE、FUNCTION不存在于CHTL语法中
         default: return "Unknown Type";
     }
 }

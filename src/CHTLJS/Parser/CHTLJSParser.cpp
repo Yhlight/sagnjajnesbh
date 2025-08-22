@@ -456,62 +456,6 @@ AST::ASTNodePtr CHTLJSParser::ParseINeverAwayBlock() {
     
     ReportError("CHTL JS不支持iNeverAway关键字，请使用CJMOD扩展");
     return nullptr;
-    
-    // 解析iNeverAway对象
-    if (!Consume(Core::TokenType::LEFT_PAREN, "期望 '('")) {
-        return nullptr;
-    }
-    
-    if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{'")) {
-        return nullptr;
-    }
-    
-    // 解析方法定义
-    while (!IsAtEnd() && !Check(Core::TokenType::RIGHT_BRACE)) {
-        SkipWhitespaceAndComments();
-        
-        if (IsAtEnd() || Check(Core::TokenType::RIGHT_BRACE)) {
-            break;
-        }
-        
-        std::string methodName = ParseIdentifier();
-        if (methodName.empty()) {
-            ReportError("期望方法名");
-            break;
-        }
-        
-        if (!Consume(Core::TokenType::COLON, "期望 ':'")) {
-            break;
-        }
-        
-        auto methodDef = ParseExpression();
-        if (methodDef) {
-            // 检查是否为Void<State>方法
-            if (methodName.find("Void<") == 0 && methodName.back() == '>') {
-                std::string state = methodName.substr(5, methodName.length() - 6);
-                iNeverAwayNode->AddVoidMethod(state, methodDef);
-            } else if (methodName == "Void") {
-                iNeverAwayNode->AddVoidMethod("", methodDef); // 默认Void
-            } else {
-                iNeverAwayNode->AddCustomMethod(methodName, methodDef);
-            }
-        }
-        
-        // 消费可选的逗号
-        if (Check(Core::TokenType::COMMA)) {
-            Advance();
-        }
-    }
-    
-    if (!Consume(Core::TokenType::RIGHT_BRACE, "期望 '}'")) {
-        return nullptr;
-    }
-    
-    if (!Consume(Core::TokenType::RIGHT_PAREN, "期望 ')'")) {
-        return nullptr;
-    }
-    
-    return iNeverAwayNode;
 }
 
 AST::ASTNodePtr CHTLJSParser::ParseVariableDeclaration() {

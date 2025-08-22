@@ -14,22 +14,49 @@ namespace Core {
  * @brief CHTL符号类型枚举
  */
 enum class SymbolType {
-    TEMPLATE_STYLE,         // 模板样式组
-    TEMPLATE_ELEMENT,       // 模板元素
-    TEMPLATE_VAR,           // 模板变量组
-    CUSTOM_STYLE,           // 自定义样式组
-    CUSTOM_ELEMENT,         // 自定义元素
-    CUSTOM_VAR,             // 自定义变量组
-    ORIGIN_HTML,            // 原始HTML嵌入
-    ORIGIN_STYLE,           // 原始样式嵌入
-    ORIGIN_JAVASCRIPT,      // 原始JavaScript嵌入
-    ORIGIN_CUSTOM,          // 自定义类型原始嵌入
-    NAMESPACE,              // 命名空间
-    CONFIGURATION,          // 配置
-    IMPORT,                 // 导入
+    // 模板类型
+    TEMPLATE_STYLE,         // [Template] @Style 样式组模板
+    TEMPLATE_ELEMENT,       // [Template] @Element 元素模板
+    TEMPLATE_VAR,           // [Template] @Var 变量组模板
+    
+    // 自定义类型
+    CUSTOM_STYLE,           // [Custom] @Style 自定义样式组
+    CUSTOM_ELEMENT,         // [Custom] @Element 自定义元素
+    CUSTOM_VAR,             // [Custom] @Var 自定义变量组
+    
+    // 原始嵌入类型
+    ORIGIN_HTML,            // [Origin] @Html 原始HTML嵌入
+    ORIGIN_STYLE,           // [Origin] @Style 原始样式嵌入
+    ORIGIN_JAVASCRIPT,      // [Origin] @JavaScript 原始JavaScript嵌入
+    ORIGIN_CUSTOM,          // [Origin] @CustomType 自定义类型原始嵌入
+    
+    // 配置类型
+    CONFIGURATION,          // [Configuration] 配置
+    CONFIGURATION_CONFIG,   // [Configuration] @Config 配置组
+    
+    // 导入类型
+    IMPORT_HTML,            // [Import] @Html
+    IMPORT_STYLE,           // [Import] @Style
+    IMPORT_JAVASCRIPT,      // [Import] @JavaScript
+    IMPORT_CHTL,            // [Import] @Chtl
+    IMPORT_CJMOD,           // [Import] @CJmod
+    IMPORT_CONFIG,          // [Import] @Config
+    IMPORT_TEMPLATE_STYLE,  // [Import] [Template] @Style
+    IMPORT_TEMPLATE_ELEMENT,// [Import] [Template] @Element
+    IMPORT_TEMPLATE_VAR,    // [Import] [Template] @Var
+    IMPORT_CUSTOM_STYLE,    // [Import] [Custom] @Style
+    IMPORT_CUSTOM_ELEMENT,  // [Import] [Custom] @Element
+    IMPORT_CUSTOM_VAR,      // [Import] [Custom] @Var
+    IMPORT_ORIGIN_HTML,     // [Import] [Origin] @Html
+    IMPORT_ORIGIN_STYLE,    // [Import] [Origin] @Style
+    IMPORT_ORIGIN_JAVASCRIPT,// [Import] [Origin] @JavaScript
+    IMPORT_ORIGIN_CUSTOM,   // [Import] [Origin] @CustomType
+    
+    // 结构类型
+    NAMESPACE,              // [Namespace] 命名空间
     HTML_ELEMENT,           // HTML元素
-    VARIABLE,               // 变量
-    FUNCTION,               // 函数
+    
+    // 其他
     UNKNOWN                 // 未知类型
 };
 

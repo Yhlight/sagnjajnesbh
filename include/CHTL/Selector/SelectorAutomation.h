@@ -20,11 +20,16 @@ namespace Selector {
  * @brief 选择器类型枚举
  */
 enum class SelectorType {
-    CLASS,          // 类选择器 (.class)
-    ID,             // ID选择器 (#id)
-    ENHANCED_CLASS, // 增强类选择器 ({{.class}})
-    ENHANCED_ID,    // 增强ID选择器 ({{#id}})
-    REFERENCE       // 引用选择器 (&)
+    // CHTL选择器
+    CLASS,              // 类选择器 (.class)
+    ID,                 // ID选择器 (#id)
+    REFERENCE,          // 引用选择器 (&) - CHTL中的&
+    CHTL_REFERENCE,     // CHTL引用选择器 ({{&}}) - CHTL中的{{&}}
+    
+    // CHTL JS选择器（属于CHTL JS，不是CHTL）
+    CHTLJS_ENHANCED_CLASS,  // CHTL JS增强类选择器 ({{.class}})
+    CHTLJS_ENHANCED_ID,     // CHTL JS增强ID选择器 ({{#id}})
+    CHTLJS_ENHANCED_TAG     // CHTL JS增强标签选择器 ({{tag}})
 };
 
 /**

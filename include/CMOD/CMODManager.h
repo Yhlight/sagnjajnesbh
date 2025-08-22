@@ -29,16 +29,25 @@ struct ModuleInfo {
  * @brief 模块导出信息
  */
 struct ModuleExports {
-    std::vector<std::string> customStyles;      // 自定义样式
-    std::vector<std::string> customElements;    // 自定义元素
-    std::vector<std::string> customVars;        // 自定义变量
-    std::vector<std::string> templateStyles;    // 模板样式
-    std::vector<std::string> templateElements;  // 模板元素
-    std::vector<std::string> templateVars;      // 模板变量
-    std::vector<std::string> originHtml;        // 原始HTML
-    std::vector<std::string> originStyle;       // 原始样式
-    std::vector<std::string> originJavascript;  // 原始JavaScript
-    std::vector<std::string> configurations;    // 配置
+    // 自定义类型
+    std::vector<std::string> customStyles;      // [Custom] @Style 自定义样式
+    std::vector<std::string> customElements;    // [Custom] @Element 自定义元素
+    std::vector<std::string> customVars;        // [Custom] @Var 自定义变量
+    
+    // 模板类型
+    std::vector<std::string> templateStyles;    // [Template] @Style 模板样式
+    std::vector<std::string> templateElements;  // [Template] @Element 模板元素
+    std::vector<std::string> templateVars;      // [Template] @Var 模板变量
+    
+    // 原始嵌入类型
+    std::vector<std::string> originHtml;        // [Origin] @Html 原始HTML
+    std::vector<std::string> originStyle;       // [Origin] @Style 原始样式
+    std::vector<std::string> originJavascript;  // [Origin] @JavaScript 原始JavaScript
+    std::vector<std::string> originCustom;      // [Origin] @CustomType 自定义类型原始嵌入
+    
+    // 配置类型
+    std::vector<std::string> configurations;    // [Configuration] 配置
+    std::vector<std::string> configurationConfigs; // [Configuration] @Config 配置组
     
     ModuleExports() = default;
 };

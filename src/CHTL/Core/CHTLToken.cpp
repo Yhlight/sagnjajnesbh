@@ -25,7 +25,7 @@ bool CHTLToken::IsMarkerKeyword() const {
 }
 
 bool CHTLToken::IsTypeKeyword() const {
-    return type_ >= TokenType::AT_STYLE && type_ <= TokenType::AT_CSS_LOWER;
+    return type_ >= TokenType::AT_STYLE && type_ <= TokenType::AT_CONFIG;
 }
 
 bool CHTLToken::IsLiteral() const {
@@ -137,9 +137,7 @@ std::string CHTLToken::GetTokenTypeName(TokenType type) {
         case TokenType::AT_CHTL: return "AT_CHTL";
         case TokenType::AT_CJMOD: return "AT_CJMOD";
         case TokenType::AT_CONFIG: return "AT_CONFIG";
-        case TokenType::AT_VUE: return "AT_VUE";
-        case TokenType::AT_CSS: return "AT_CSS";
-        case TokenType::AT_CSS_LOWER: return "AT_CSS_LOWER";
+        // 错误的Token类型已移除：AT_VUE、AT_CSS、AT_CSS_LOWER不存在于语法文档中
         case TokenType::HTML_TAG: return "HTML_TAG";
         case TokenType::CLASS_SELECTOR: return "CLASS_SELECTOR";
         case TokenType::ID_SELECTOR: return "ID_SELECTOR";
@@ -243,9 +241,7 @@ void CHTLToken::InitializeKeywordMaps() {
     keywordMap_["@Chtl"] = TokenType::AT_CHTL;
     keywordMap_["@CJmod"] = TokenType::AT_CJMOD;
     keywordMap_["@Config"] = TokenType::AT_CONFIG;
-    keywordMap_["@Vue"] = TokenType::AT_VUE;
-    keywordMap_["@CSS"] = TokenType::AT_CSS;
-    keywordMap_["@css"] = TokenType::AT_CSS_LOWER;
+    // 错误的关键字映射已移除：@Vue、@CSS、@css不存在于语法文档中
     
     // HTML标签映射表（常用HTML标签）
     std::vector<std::string> htmlTags = {

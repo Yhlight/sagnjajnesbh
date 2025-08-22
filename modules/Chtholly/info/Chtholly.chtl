@@ -30,34 +30,34 @@
 
 [Export]
 {
-    // CMOD组件导出
-    @Element Accordion;          // 手风琴
-    @Element CloverAlbum;        // 四叶窗相册
-    @Element Memo;               // 备忘录
-    @Element WarmNote;           // 暖色笔记
-    @Element SakuraRain;         // 樱花雨
-    @Element MouseEffect;        // 鼠标特效
-    @Element MouseTrail;         // 鼠标拖尾
-    @Element ParallaxBg;         // 视差滚动背景
-    @Element ContextMenu;        // 右键菜单栏
-    @Element ProgressBar;        // 进度条
+    // CMOD组件导出（使用全缀名）
+    [Custom] @Element Accordion;          // 手风琴
+    [Custom] @Element CloverAlbum;        // 四叶窗相册
+    [Custom] @Element Memo;               // 备忘录
+    [Custom] @Element WarmNote;           // 暖色笔记
+    [Custom] @Element SakuraRain;         // 樱花雨
+    [Custom] @Element MouseEffect;        // 鼠标特效
+    [Custom] @Element MouseTrail;         // 鼠标拖尾
+    [Custom] @Element ParallaxBg;         // 视差滚动背景
+    [Custom] @Element ContextMenu;        // 右键菜单栏
+    [Custom] @Element ProgressBar;        // 进度条
     
-    // CMOD样式导出
-    @Style AccordionStyle;       // 手风琴样式
-    @Style CloverAlbumStyle;     // 四叶窗相册样式
-    @Style MemoStyle;            // 备忘录样式
-    @Style WarmNoteStyle;        // 暖色笔记样式
-    @Style SakuraRainStyle;      // 樱花雨样式
-    @Style MouseEffectStyle;     // 鼠标特效样式
-    @Style MouseTrailStyle;      // 鼠标拖尾样式
-    @Style ParallaxBgStyle;      // 视差滚动背景样式
-    @Style ContextMenuStyle;     // 右键菜单栏样式
-    @Style ProgressBarStyle;     // 进度条样式
+    // CMOD样式导出（使用全缀名）
+    [Custom] @Style AccordionStyle;       // 手风琴样式
+    [Custom] @Style CloverAlbumStyle;     // 四叶窗相册样式
+    [Custom] @Style MemoStyle;            // 备忘录样式
+    [Custom] @Style WarmNoteStyle;        // 暖色笔记样式
+    [Custom] @Style SakuraRainStyle;      // 樱花雨样式
+    [Custom] @Style MouseEffectStyle;     // 鼠标特效样式
+    [Custom] @Style MouseTrailStyle;      // 鼠标拖尾样式
+    [Custom] @Style ParallaxBgStyle;      // 视差滚动背景样式
+    [Custom] @Style ContextMenuStyle;     // 右键菜单栏样式
+    [Custom] @Style ProgressBarStyle;     // 进度条样式
     
-    // CMOD变量导出
-    @Var ChthollyTheme;          // 珂朵莉主题变量
-    @Var SakuraColors;           // 樱花颜色变量
-    @Var WarmColors;             // 暖色调变量
+    // CMOD变量导出（使用全缀名）
+    [Custom] @Var ChthollyTheme;          // 珂朵莉主题变量
+    [Custom] @Var SakuraColors;           // 樱花颜色变量
+    [Custom] @Var WarmColors;             // 暖色调变量
     
     // CJMOD功能导出（由CJMOD扩展提供）
     // printMylove - 图片转字符功能

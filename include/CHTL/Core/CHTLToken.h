@@ -77,9 +77,7 @@ enum class TokenType {
     AT_CHTL,                // @Chtl
     AT_CJMOD,               // @CJmod
     AT_CONFIG,              // @Config
-    AT_VUE,                 // @Vue
-    AT_CSS,                 // @CSS
-    AT_CSS_LOWER,           // @css
+    // 错误的类型已移除：AT_VUE、AT_CSS、AT_CSS_LOWER不存在于语法文档中
     
     // HTML元素（常用）
     HTML_TAG,               // html, head, body, div, span等

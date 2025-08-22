@@ -25,32 +25,30 @@ enum class NodeType {
     ROOT = 0,
     
     // 基础节点
-    IDENTIFIER,
-    LITERAL,
+    IDENTIFIER,                 // 标识符
+    LITERAL,                    // 字面量
     
-    // CHTL JS特殊节点
+    // CHTL JS核心节点（不包含JS语法）
     ENHANCED_SELECTOR,          // 增强选择器 {{selector}}
     VIRTUAL_OBJECT,             // 虚对象 vir
     LISTEN_BLOCK,               // 监听器块 listen({...})
     DELEGATE_BLOCK,             // 事件委托块 delegate({...})
     ANIMATE_BLOCK,              // 动画块 animate({...})
-    I_NEVER_AWAY_BLOCK,         // iNeverAway块
     
-    // 函数相关
-    FUNCTION_DEFINITION,        // 函数定义
-    ARROW_FUNCTION,             // 箭头函数
-    FUNCTION_CALL,              // 函数调用
+    // 箭头函数（CHTL JS特有）
+    ARROW_FUNCTION,             // 箭头函数 () => {}
     
-    // 对象和数组
-    OBJECT_LITERAL,             // 对象字面量
-    ARRAY_LITERAL,              // 数组字面量
-    PROPERTY_ACCESS,            // 属性访问
-    METHOD_CALL,                // 方法调用
-    
-    // 虚对象相关
-    VOID_TYPE,                  // Void类型
-    VOID_STATE,                 // Void<State>状态类型
-    VIRTUAL_METHOD_CALL,        // 虚对象方法调用
+    // 错误的节点类型已移除：
+    // I_NEVER_AWAY_BLOCK - iNeverAway是CJMOD扩展，不是CHTL JS核心
+    // FUNCTION_DEFINITION - function是JavaScript语法，不是CHTL JS
+    // FUNCTION_CALL - 这是JavaScript语法
+    // OBJECT_LITERAL - 这是JavaScript语法
+    // ARRAY_LITERAL - 这是JavaScript语法
+    // PROPERTY_ACCESS - 这是JavaScript语法
+    // METHOD_CALL - 这是JavaScript语法
+    // VOID_TYPE - Void是CJMOD扩展，不是CHTL JS核心
+    // VOID_STATE - Void<State>是CJMOD扩展
+    // VIRTUAL_METHOD_CALL - 这属于CJMOD扩展
     
     // 事件相关
     EVENT_HANDLER,              // 事件处理器
@@ -61,17 +59,15 @@ enum class NodeType {
     ANIMATION_PROPERTY,         // 动画属性
     CSS_IN_ANIMATION,           // 动画中的CSS
     
-    // 表达式
-    BINARY_EXPRESSION,          // 二元表达式
-    UNARY_EXPRESSION,           // 一元表达式
-    ASSIGNMENT_EXPRESSION,      // 赋值表达式
-    
-    // 语句
-    EXPRESSION_STATEMENT,       // 表达式语句
-    VARIABLE_DECLARATION,       // 变量声明
-    
     // 注释
     COMMENT,
+    
+    // 错误的节点类型已移除：
+    // BINARY_EXPRESSION - 这是JavaScript语法，不是CHTL JS
+    // UNARY_EXPRESSION - 这是JavaScript语法，不是CHTL JS
+    // ASSIGNMENT_EXPRESSION - 这是JavaScript语法，不是CHTL JS
+    // EXPRESSION_STATEMENT - 这是JavaScript语句，不是CHTL JS
+    // VARIABLE_DECLARATION - 这是JavaScript语句，不是CHTL JS
     
     NODE_TYPE_COUNT
 };

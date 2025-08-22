@@ -19,28 +19,62 @@ namespace Import {
  * @brief 导入类型枚举
  */
 enum class ImportType {
-    HTML,           // @Html
-    STYLE,          // @Style  
-    JAVASCRIPT,     // @JavaScript
-    CHTL,           // @Chtl
-    CJMOD,          // @CJmod
-    ORIGIN_CUSTOM,  // [Origin] @CustomType
-    UNKNOWN         // 未知类型
+    // 基础Web资源导入
+    HTML,                   // @Html
+    STYLE,                  // @Style  
+    JAVASCRIPT,             // @JavaScript
+    
+    // 模块导入
+    CHTL,                   // @Chtl
+    CJMOD,                  // @CJmod
+    CONFIG,                 // @Config
+    
+    // 模板导入
+    TEMPLATE_STYLE,         // [Template] @Style
+    TEMPLATE_ELEMENT,       // [Template] @Element
+    TEMPLATE_VAR,           // [Template] @Var
+    
+    // 自定义导入
+    CUSTOM_STYLE,           // [Custom] @Style
+    CUSTOM_ELEMENT,         // [Custom] @Element
+    CUSTOM_VAR,             // [Custom] @Var
+    
+    // 原始嵌入导入
+    ORIGIN_HTML,            // [Origin] @Html
+    ORIGIN_STYLE,           // [Origin] @Style
+    ORIGIN_JAVASCRIPT,      // [Origin] @JavaScript
+    ORIGIN_CUSTOM,          // [Origin] @CustomType
+    
+    // 配置导入
+    CONFIGURATION_CONFIG,   // [Configuration] @Config
+    
+    UNKNOWN                 // 未知类型
 };
 
 /**
  * @brief 路径类型枚举
  */
 enum class PathType {
-    NAME_ONLY,          // 名称（不带后缀）
-    SPECIFIC_FILE,      // 具体文件名（带后缀）
-    SPECIFIC_PATH,      // 具体路径（含文件信息）
-    DIRECTORY_PATH,     // 目录路径（不含文件信息）
-    WILDCARD_ALL,       // 通配符：.*或/*
-    WILDCARD_CMOD,      // 通配符：.*.cmod或/*.cmod
-    WILDCARD_CHTL,      // 通配符：.*.chtl或/*.chtl
-    SUBMODULE_ALL,      // 子模块：Module.*
-    SUBMODULE_SPECIFIC  // 子模块：Module.SubModule
+    NAME_ONLY,              // 名称（不带后缀）
+    SPECIFIC_FILE,          // 具体文件名（带后缀）
+    SPECIFIC_PATH,          // 具体路径（含文件信息）
+    DIRECTORY_PATH,         // 目录路径（不含文件信息）
+    
+    // 通配符：支持所有文件类型
+    WILDCARD_ALL,           // 通配符：.*或/*（所有文件）
+    WILDCARD_CHTL,          // 通配符：.*.chtl或/*.chtl
+    WILDCARD_CMOD,          // 通配符：.*.cmod或/*.cmod
+    WILDCARD_CJMOD,         // 通配符：.*.cjmod或/*.cjmod
+    WILDCARD_HTML,          // 通配符：.*.html或/*.html
+    WILDCARD_CSS,           // 通配符：.*.css或/*.css
+    WILDCARD_JS,            // 通配符：.*.js或/*.js
+    WILDCARD_JSON,          // 通配符：.*.json或/*.json
+    WILDCARD_XML,           // 通配符：.*.xml或/*.xml
+    WILDCARD_CUSTOM,        // 通配符：.*.ext或/*.ext（任意扩展名）
+    
+    // 子模块
+    SUBMODULE_ALL,          // 子模块：Module.*
+    SUBMODULE_SPECIFIC      // 子模块：Module.SubModule
 };
 
 /**

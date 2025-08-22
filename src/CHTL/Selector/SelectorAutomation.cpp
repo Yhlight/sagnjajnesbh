@@ -159,7 +159,7 @@ std::vector<SelectorInfo> SelectorAnalyzer::ParseEnhancedSelectors(const std::st
     for (; classIter != end; ++classIter) {
         const std::smatch& match = *classIter;
         SelectorInfo info;
-        info.type = SelectorType::ENHANCED_CLASS;
+        info.type = SelectorType::CHTLJS_ENHANCED_CLASS;
         info.name = match[1].str();
         info.fullSelector = match[0].str();
         info.position = match.position();
@@ -174,7 +174,7 @@ std::vector<SelectorInfo> SelectorAnalyzer::ParseEnhancedSelectors(const std::st
     for (; idIter != end; ++idIter) {
         const std::smatch& match = *idIter;
         SelectorInfo info;
-        info.type = SelectorType::ENHANCED_ID;
+        info.type = SelectorType::CHTLJS_ENHANCED_ID;
         info.name = match[1].str();
         info.fullSelector = match[0].str();
         info.position = match.position();
@@ -348,7 +348,7 @@ bool SelectorAutomationEngine::ProcessScriptBlockAutomation(std::shared_ptr<AST:
         // 如果局部style没有触发class自动化添加，第一个{{.box}}会被自动添加
         if (!styleHasClassSelectors) {
             for (const auto& selector : selectors) {
-                if (selector.type == SelectorType::ENHANCED_CLASS) {
+                if (selector.type == SelectorType::CHTLJS_ENHANCED_CLASS) {
                     if (AutoAddClassAttribute(element, selector.name)) {
                         Utils::ErrorHandler::GetInstance().LogInfo(
                             "局部脚本块自动添加类选择器: " + selector.name
@@ -381,7 +381,7 @@ bool SelectorAutomationEngine::ProcessScriptBlockAutomation(std::shared_ptr<AST:
         // 如果局部style没有触发id自动化添加，第一个{{#box}}会被自动添加
         if (!styleHasIdSelectors) {
             for (const auto& selector : selectors) {
-                if (selector.type == SelectorType::ENHANCED_ID) {
+                if (selector.type == SelectorType::CHTLJS_ENHANCED_ID) {
                     if (AutoAddIdAttribute(element, selector.name)) {
                         Utils::ErrorHandler::GetInstance().LogInfo(
                             "局部脚本块自动添加ID选择器: " + selector.name
