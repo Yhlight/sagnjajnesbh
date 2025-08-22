@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libCHTLJS_Compiler.a CMakeFiles/CHTLJS_Compiler.dir/CHTLJSToken.cpp.o
+/usr/bin/ranlib ../../lib/libCHTLJS_Compiler.a

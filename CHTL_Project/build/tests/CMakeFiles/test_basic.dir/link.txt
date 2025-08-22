@@ -1,0 +1,1 @@
+/usr/bin/c++ -Xlinker --dependency-file=CMakeFiles/test_basic.dir/link.d CMakeFiles/test_basic.dir/test_basic.cpp.o -o ../bin/test_basic   -L/workspace/CHTL_Project/third_party/ANTLR4/lib  -Wl,-rpath,/workspace/CHTL_Project/third_party/ANTLR4/lib ../lib/libCHTL_Core.a ../lib/libCHTL_Compiler.a ../lib/libCHTL_Core.a
