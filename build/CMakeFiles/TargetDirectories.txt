@@ -38,6 +38,7 @@
 /workspace/build/tests/CMakeFiles/test_chtholly_yuigahama.dir
 /workspace/build/tests/CMakeFiles/test_constraint_validator.dir
 /workspace/build/tests/CMakeFiles/test_selector_automation.dir
+/workspace/build/tests/CMakeFiles/test_enhanced_import.dir
 /workspace/build/tests/CMakeFiles/test_chtljs_core.dir
 /workspace/build/tests/CMakeFiles/test_chtljs_core_complete.dir
 /workspace/build/tests/CMakeFiles/test_chtljs_parser_generator.dir

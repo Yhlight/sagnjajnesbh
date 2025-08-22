@@ -186,6 +186,18 @@ if(NOT GTest_FOUND)
     
     add_test(NAME SelectorAutomationTest COMMAND test_selector_automation)
     
+    # CHTL增强Import系统测试
+    add_executable(test_enhanced_import
+        CHTL/test_enhanced_import.cpp
+    )
+    
+    target_link_libraries(test_enhanced_import
+        chtl_core
+        utils
+    )
+    
+    add_test(NAME EnhancedImportTest COMMAND test_enhanced_import)
+    
     # CHTL JS核心测试
     add_executable(test_chtljs_core
         CHTLJS/test_chtljs_core.cpp

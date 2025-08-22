@@ -382,6 +382,20 @@ test_selector_automation/fast:
 .PHONY : test_selector_automation/fast
 
 # Convenience name for target.
+tests/CMakeFiles/test_enhanced_import.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_enhanced_import.dir/rule
+.PHONY : tests/CMakeFiles/test_enhanced_import.dir/rule
+
+# Convenience name for target.
+test_enhanced_import: tests/CMakeFiles/test_enhanced_import.dir/rule
+.PHONY : test_enhanced_import
+
+# fast build rule for target.
+test_enhanced_import/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_enhanced_import.dir/build.make tests/CMakeFiles/test_enhanced_import.dir/build
+.PHONY : test_enhanced_import/fast
+
+# Convenience name for target.
 tests/CMakeFiles/test_chtljs_core.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_core.dir/rule
 .PHONY : tests/CMakeFiles/test_chtljs_core.dir/rule
@@ -632,6 +646,30 @@ CHTL/test_constraint_validator_simple.s: CHTL/test_constraint_validator_simple.c
 CHTL/test_constraint_validator_simple.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_constraint_validator.dir/build.make tests/CMakeFiles/test_constraint_validator.dir/CHTL/test_constraint_validator_simple.cpp.s
 .PHONY : CHTL/test_constraint_validator_simple.cpp.s
+
+CHTL/test_enhanced_import.o: CHTL/test_enhanced_import.cpp.o
+.PHONY : CHTL/test_enhanced_import.o
+
+# target to build an object file
+CHTL/test_enhanced_import.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_enhanced_import.dir/build.make tests/CMakeFiles/test_enhanced_import.dir/CHTL/test_enhanced_import.cpp.o
+.PHONY : CHTL/test_enhanced_import.cpp.o
+
+CHTL/test_enhanced_import.i: CHTL/test_enhanced_import.cpp.i
+.PHONY : CHTL/test_enhanced_import.i
+
+# target to preprocess a source file
+CHTL/test_enhanced_import.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_enhanced_import.dir/build.make tests/CMakeFiles/test_enhanced_import.dir/CHTL/test_enhanced_import.cpp.i
+.PHONY : CHTL/test_enhanced_import.cpp.i
+
+CHTL/test_enhanced_import.s: CHTL/test_enhanced_import.cpp.s
+.PHONY : CHTL/test_enhanced_import.s
+
+# target to generate assembly for a file
+CHTL/test_enhanced_import.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_enhanced_import.dir/build.make tests/CMakeFiles/test_enhanced_import.dir/CHTL/test_enhanced_import.cpp.s
+.PHONY : CHTL/test_enhanced_import.cpp.s
 
 CHTL/test_inheritance_simple.o: CHTL/test_inheritance_simple.cpp.o
 .PHONY : CHTL/test_inheritance_simple.o
@@ -998,6 +1036,7 @@ help:
 	@echo "... test_cmod_simple"
 	@echo "... test_complex_syntax"
 	@echo "... test_constraint_validator"
+	@echo "... test_enhanced_import"
 	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
 	@echo "... test_scanner"
@@ -1024,6 +1063,9 @@ help:
 	@echo "... CHTL/test_constraint_validator_simple.o"
 	@echo "... CHTL/test_constraint_validator_simple.i"
 	@echo "... CHTL/test_constraint_validator_simple.s"
+	@echo "... CHTL/test_enhanced_import.o"
+	@echo "... CHTL/test_enhanced_import.i"
+	@echo "... CHTL/test_enhanced_import.s"
 	@echo "... CHTL/test_inheritance_simple.o"
 	@echo "... CHTL/test_inheritance_simple.i"
 	@echo "... CHTL/test_inheritance_simple.s"

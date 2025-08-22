@@ -510,6 +510,19 @@ test_selector_automation/fast:
 .PHONY : test_selector_automation/fast
 
 #=============================================================================
+# Target rules for targets named test_enhanced_import
+
+# Build rule for target.
+test_enhanced_import: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_enhanced_import
+.PHONY : test_enhanced_import
+
+# fast build rule for target.
+test_enhanced_import/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_enhanced_import.dir/build.make tests/CMakeFiles/test_enhanced_import.dir/build
+.PHONY : test_enhanced_import/fast
+
+#=============================================================================
 # Target rules for targets named test_chtljs_core
 
 # Build rule for target.
@@ -626,6 +639,7 @@ help:
 	@echo "... test_cmod_simple"
 	@echo "... test_complex_syntax"
 	@echo "... test_constraint_validator"
+	@echo "... test_enhanced_import"
 	@echo "... test_inheritance_simple"
 	@echo "... test_integration"
 	@echo "... test_scanner"

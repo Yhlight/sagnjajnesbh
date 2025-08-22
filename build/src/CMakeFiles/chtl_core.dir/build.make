@@ -254,6 +254,20 @@ src/CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.s"
 	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTL/Selector/SelectorAutomation.cpp -o CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.s
 
+src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o: src/CMakeFiles/chtl_core.dir/flags.make
+src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o: /workspace/src/CHTL/Import/EnhancedImportSystem.cpp
+src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o: src/CMakeFiles/chtl_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o -MF CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o.d -o CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o -c /workspace/src/CHTL/Import/EnhancedImportSystem.cpp
+
+src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.i"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTL/Import/EnhancedImportSystem.cpp > CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.i
+
+src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.s"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTL/Import/EnhancedImportSystem.cpp -o CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.s
+
 # Object files for target chtl_core
 chtl_core_OBJECTS = \
 "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLToken.cpp.o" \
@@ -268,7 +282,8 @@ chtl_core_OBJECTS = \
 "CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o" \
 "CMakeFiles/chtl_core.dir/CHTL/Constraints/CHTLConstraintValidator.cpp.o" \
 "CMakeFiles/chtl_core.dir/CHTL/Constraints/ExceptConstraintParser.cpp.o" \
-"CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o"
+"CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o" \
+"CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o"
 
 # External object files for target chtl_core
 chtl_core_EXTERNAL_OBJECTS =
@@ -286,9 +301,10 @@ lib/libchtl_core.a: src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cp
 lib/libchtl_core.a: src/CMakeFiles/chtl_core.dir/CHTL/Constraints/CHTLConstraintValidator.cpp.o
 lib/libchtl_core.a: src/CMakeFiles/chtl_core.dir/CHTL/Constraints/ExceptConstraintParser.cpp.o
 lib/libchtl_core.a: src/CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o
+lib/libchtl_core.a: src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o
 lib/libchtl_core.a: src/CMakeFiles/chtl_core.dir/build.make
 lib/libchtl_core.a: src/CMakeFiles/chtl_core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX static library ../lib/libchtl_core.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library ../lib/libchtl_core.a"
 	cd /workspace/build/src && $(CMAKE_COMMAND) -P CMakeFiles/chtl_core.dir/cmake_clean_target.cmake
 	cd /workspace/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chtl_core.dir/link.txt --verbose=$(VERBOSE)
 

@@ -1,0 +1,276 @@
+// 增强Import功能演示
+// 展示CHTL的强大导入系统和各种导入语法
+
+// 配置导入系统
+[Configuration]
+{
+    // 禁用默认命名空间功能
+    DISABLE_DEFAULT_NAMESPACE = false;
+    
+    // 选择器自动化配置
+    DISABLE_STYLE_AUTO_ADD_CLASS = false;
+    DISABLE_STYLE_AUTO_ADD_ID = false;
+    DISABLE_SCRIPT_AUTO_ADD_CLASS = true;
+    DISABLE_SCRIPT_AUTO_ADD_ID = true;
+}
+
+// ========== Web资源导入示例 ==========
+
+// @Html导入（没有as语法，直接跳过）
+[Import] @Html from "template.html"  // 跳过
+
+// @Html导入（有as语法，创建带名原始嵌入节点）
+[Import] @Html from "header.html" as headerTemplate
+[Import] @Html from "footer.html" as footerTemplate
+
+// @Style导入（需要as语法）
+[Import] @Style from "main.css" as mainStyles
+[Import] @Style from "components.css" as componentStyles
+[Import] @Style from "themes/light.css" as lightTheme
+
+// @JavaScript导入（需要as语法）
+[Import] @JavaScript from "utils.js" as utilities
+[Import] @JavaScript from "animations.js" as animationHelpers
+[Import] @JavaScript from "libs/jquery.min.js" as jQuery
+
+// ========== CHTL模块导入示例 ==========
+
+// 基本@Chtl导入（名称不带后缀）
+// 搜索优先级：官方模块目录 → 当前目录module文件夹 → 当前目录
+// 优先匹配.cmod文件，其次.chtl文件
+[Import] @Chtl from "Chtholly" {
+    import: [Accordion, CloverAlbum, Memo, WarmNote, SakuraRain];
+}
+
+[Import] @Chtl from "Yuigahama" {
+    import: [MusicPlayer, YuiAccordion, YuiMemo];
+}
+
+// 官方模块前缀导入
+[Import] @Chtl from "chtl::Chtholly" {
+    import: [MouseEffect, MouseTrail, ParallaxBg];
+}
+
+// 具体文件名导入（带后缀）
+[Import] @Chtl from "CustomModule.cmod" {
+    import: [CustomElement, CustomStyle];
+}
+
+// 具体路径导入（含文件信息）
+[Import] @Chtl from "./modules/SpecialModule/Special.chtl" {
+    import: [SpecialComponent];
+}
+
+// 通配符导入：导入所有.cmod和.chtl文件
+[Import] @Chtl from "components/*"
+
+// 通配符导入：仅导入.cmod文件
+[Import] @Chtl from "components/*.cmod"
+
+// 通配符导入：仅导入.chtl文件
+[Import] @Chtl from "components/*.chtl"
+
+// 等价的通配符语法
+[Import] @Chtl from "themes/.*"        // 等价于 themes/*
+[Import] @Chtl from "themes/.*.cmod"   // 等价于 themes/*.cmod
+[Import] @Chtl from "themes/.*.chtl"   // 等价于 themes/*.chtl
+
+// 子模块导入：导入Chtholly模块的所有子模块
+[Import] @Chtl from "Chtholly.*"
+
+// 子模块导入：导入Chtholly模块的特定子模块
+[Import] @Chtl from "Chtholly.Space"
+[Import] @Chtl from "Chtholly.Memory"
+
+// 支持使用'/'替代'.'作为路径分隔符
+[Import] @Chtl from "Chtholly/Space"
+[Import] @Chtl from "Chtholly/Memory"
+
+// ========== CJmod扩展导入示例 ==========
+
+// 基本@CJmod导入
+[Import] @CJmod from "PrintMylove"
+[Import] @CJmod from "INeverAway"
+
+// 官方CJmod导入
+[Import] @CJmod from "chtl::PrintMylove"
+[Import] @CJmod from "chtl::INeverAway"
+
+// 具体CJmod文件导入
+[Import] @CJmod from "CustomExtension.cjmod"
+[Import] @CJmod from "./extensions/SpecialExtension.cjmod"
+
+// ========== [Origin]自定义类型导入示例 ==========
+
+// Vue组件导入
+[Import] [Origin] @Vue from "components/Header.vue" as VueHeader
+[Import] [Origin] @Vue from "components/Sidebar.vue" as VueSidebar
+
+// React组件导入
+[Import] [Origin] @React from "components/Button.jsx" as ReactButton
+[Import] [Origin] @React from "components/Modal.tsx" as ReactModal
+
+// Svelte组件导入
+[Import] [Origin] @Svelte from "components/Card.svelte" as SvelteCard
+
+// 自定义文件类型导入
+[Import] [Origin] @Markdown from "docs/README.md" as ReadmeContent
+[Import] [Origin] @XML from "config/settings.xml" as ConfigXML
+
+// ========== 主页面结构 ==========
+
+html {
+    head {
+        meta { charset: "UTF-8"; }
+        meta { name: "viewport"; content: "width=device-width, initial-scale=1.0"; }
+        title { text: "增强Import功能演示"; }
+        
+        // 使用导入的样式
+        [Origin] @Style mainStyles;
+        [Origin] @Style componentStyles;
+        [Origin] @Style lightTheme;
+    }
+    
+    body {
+        // 使用导入的HTML模板
+        [Origin] @Html headerTemplate;
+        
+        div {
+            class: "main-container";
+            
+            h1 { text: "CHTL增强Import功能演示"; }
+            
+            // 使用导入的珂朵莉模块组件
+            @Element Accordion {
+                title: "珂朵莉的回忆";
+                content: "世界上最幸福的女孩的美好回忆...";
+            }
+            
+            @Element CloverAlbum {
+                image1: "images/chtholly1.jpg";
+                image2: "images/chtholly2.jpg";
+                image3: "images/chtholly3.jpg";
+                image4: "images/chtholly4.jpg";
+            }
+            
+            // 使用导入的由比滨结衣模块组件
+            @Element MusicPlayer {
+                songTitle: "青春的旋律";
+                songArtist: "由比滨结衣";
+                albumArt: "images/yui_album.jpg";
+            }
+            
+            @Element YuiMemo;
+            
+            // 使用导入的Vue组件
+            [Origin] @Vue VueHeader;
+            [Origin] @Vue VueSidebar;
+            
+            // 使用导入的React组件
+            [Origin] @React ReactButton;
+            [Origin] @React ReactModal;
+            
+            // 使用导入的Svelte组件
+            [Origin] @Svelte SvelteCard;
+            
+            // 演示不同的引用选择器用法
+            div {
+                style {
+                    .demo-style {
+                        background: white;
+                        padding: 20px;
+                    }
+                    
+                    // 局部style使用&引用选择器（优先class）
+                    & {
+                        border: 1px solid #ccc;
+                        border-radius: 8px;
+                    }
+                    
+                    &:hover {
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                    }
+                }
+                
+                script {
+                    {{.demo-script}}->listen({
+                        click: () => {
+                            console.log('Demo clicked');
+                        }
+                    });
+                    
+                    // 局部script使用{{&}}引用选择器（优先id）
+                    {{&}}->animate({
+                        duration: 300,
+                        begin: { opacity: 1 },
+                        end: { opacity: 0.8 }
+                    });
+                }
+                
+                h2 { text: "引用选择器演示"; }
+                p { text: "样式块使用&引用（优先class），脚本块使用{{&}}引用（优先id）"; }
+            }
+        }
+        
+        // 使用导入的HTML模板
+        [Origin] @Html footerTemplate;
+        
+        // 使用导入的JavaScript工具
+        script {
+            // 导入的工具函数
+            [Origin] @JavaScript utilities;
+            [Origin] @JavaScript animationHelpers;
+            [Origin] @JavaScript jQuery;
+            
+            // 使用导入的CJmod扩展功能
+            const chthollyArt = printMylove({
+                url: "images/chtholly_portrait.jpg",
+                mode: "ASCII",
+                width: 80,
+                height: 60,
+                scale: 1.0
+            });
+            
+            // 使用iNeverAway虚对象系统
+            vir DemoSystem = iNeverAway({
+                Void<Init>: function() {
+                    console.log('Demo system initialized');
+                    return 'System ready';
+                },
+                
+                Void<Process>: function(data) {
+                    console.log('Processing data:', data);
+                    return 'Data processed';
+                },
+                
+                Void: {
+                    status: 'idle',
+                    version: '1.0.0'
+                }
+            });
+            
+            // 调用虚对象方法
+            DemoSystem->Void<Init>();
+            DemoSystem->Void<Process>('test data');
+            
+            // 使用导入的Markdown内容
+            console.log('README内容:', '[Origin] @Markdown ReadmeContent');
+            
+            // 页面初始化
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('增强Import功能演示页面已加载');
+                console.log('成功导入了多种类型的资源和模块');
+                
+                // 显示导入统计
+                console.log('导入的资源类型：');
+                console.log('- HTML模板: headerTemplate, footerTemplate');
+                console.log('- CSS样式: mainStyles, componentStyles, lightTheme');
+                console.log('- JavaScript工具: utilities, animationHelpers, jQuery');
+                console.log('- CHTL模块: Chtholly, Yuigahama, CustomModule等');
+                console.log('- CJmod扩展: PrintMylove, INeverAway');
+                console.log('- 自定义组件: Vue, React, Svelte组件');
+                console.log('- 自定义文件: Markdown, XML等');
+            });
+        }
+    }
+}

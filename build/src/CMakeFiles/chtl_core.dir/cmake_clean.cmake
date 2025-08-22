@@ -21,6 +21,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLToken.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o"
   "CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o"
   "CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o.d"
   "CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o"

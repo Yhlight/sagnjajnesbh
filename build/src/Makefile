@@ -565,6 +565,30 @@ CHTL/Generator/CHTLGenerator.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.s
 .PHONY : CHTL/Generator/CHTLGenerator.cpp.s
 
+CHTL/Import/EnhancedImportSystem.o: CHTL/Import/EnhancedImportSystem.cpp.o
+.PHONY : CHTL/Import/EnhancedImportSystem.o
+
+# target to build an object file
+CHTL/Import/EnhancedImportSystem.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o
+.PHONY : CHTL/Import/EnhancedImportSystem.cpp.o
+
+CHTL/Import/EnhancedImportSystem.i: CHTL/Import/EnhancedImportSystem.cpp.i
+.PHONY : CHTL/Import/EnhancedImportSystem.i
+
+# target to preprocess a source file
+CHTL/Import/EnhancedImportSystem.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.i
+.PHONY : CHTL/Import/EnhancedImportSystem.cpp.i
+
+CHTL/Import/EnhancedImportSystem.s: CHTL/Import/EnhancedImportSystem.cpp.s
+.PHONY : CHTL/Import/EnhancedImportSystem.s
+
+# target to generate assembly for a file
+CHTL/Import/EnhancedImportSystem.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.s
+.PHONY : CHTL/Import/EnhancedImportSystem.cpp.s
+
 CHTL/Lexer/CHTLLexer.o: CHTL/Lexer/CHTLLexer.cpp.o
 .PHONY : CHTL/Lexer/CHTLLexer.o
 
@@ -1435,6 +1459,9 @@ help:
 	@echo "... CHTL/Generator/CHTLGenerator.o"
 	@echo "... CHTL/Generator/CHTLGenerator.i"
 	@echo "... CHTL/Generator/CHTLGenerator.s"
+	@echo "... CHTL/Import/EnhancedImportSystem.o"
+	@echo "... CHTL/Import/EnhancedImportSystem.i"
+	@echo "... CHTL/Import/EnhancedImportSystem.s"
 	@echo "... CHTL/Lexer/CHTLLexer.o"
 	@echo "... CHTL/Lexer/CHTLLexer.i"
 	@echo "... CHTL/Lexer/CHTLLexer.s"
