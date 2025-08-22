@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libcss_compiler.a CMakeFiles/css_compiler.dir/CSS/CSSCompiler.cpp.o CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.o CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.o CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.o CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.o
+/usr/bin/ranlib ../lib/libcss_compiler.a

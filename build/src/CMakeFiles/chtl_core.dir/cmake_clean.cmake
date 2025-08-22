@@ -1,0 +1,25 @@
+file(REMOVE_RECURSE
+  "../lib/libchtl_core.a"
+  "../lib/libchtl_core.pdb"
+  "CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTNodes.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/AST/CHTLASTNodes.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLContext.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLContext.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLGlobalMap.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLGlobalMap.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLState.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLState.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLToken.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLToken.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o.d"
+  "CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o"
+  "CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o.d"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/chtl_core.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

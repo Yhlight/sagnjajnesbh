@@ -1,0 +1,5 @@
+CHTLCoreTest 1 0.00149882
+CHTLJSCoreTest 1 0.00143867
+ScannerTest 1 0.00276841
+IntegrationTest 1 0.00121397
+---
