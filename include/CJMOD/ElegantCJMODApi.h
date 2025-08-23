@@ -168,13 +168,7 @@ private:
  */
 class CHTLJSFunction {
 public:
-    enum class FunctionType {
-        NORMAL,        // 普通JS函数：functionName({...}); 或 const $ = functionName({...});
-        VIR_OBJECT     // 虚对象函数：vir $ = functionName({...});
-    };
-    
-    CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames, 
-                   FunctionType type = FunctionType::NORMAL);
+    CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames);
     
     // 托管的步骤：简化语法创建和参数绑定
     void bindKeyProcessor(const std::string& keyName, std::function<std::string(const std::string&)> processor);
@@ -195,7 +189,6 @@ public:
 private:
     std::string functionName_;
     std::vector<std::string> keyNames_;
-    FunctionType functionType_;
     std::unique_ptr<Keyword> keyword_;
     std::unordered_map<std::string, std::function<std::string(const std::string&)>> keyProcessors_;
     std::unordered_map<std::string, std::string> defaultValues_;
@@ -212,21 +205,22 @@ private:
  * 
  * 使用示例：
  * ```cpp
- * // 普通JS函数：printMylove({...}); 或 const result = myFunction({...});
- * auto myFunc = createCHTLJSFunction("printMylove", {"url", "mode"});  // 默认NORMAL
+ * // CHTL JS函数天然支持vir，无需区分类型
+ * auto printFunc = createCHTLJSFunction("printMylove", {"url", "mode"});
+ * auto virFunc = createCHTLJSFunction("iNeverAway", {"MyPromise"});
  * 
- * // 虚对象函数：vir myVir = iNeverAway({...}); - 只有vir需要特殊对接
- * auto virFunc = createCHTLJSFunction("iNeverAway", {"MyPromise"}, CHTLJSFunction::FunctionType::VIR_OBJECT);
+ * // 使用时可以选择是否使用vir：
+ * // printMylove({...});              ← 直接调用
+ * // const result = printMylove({...}); ← 赋值调用
+ * // vir myVir = iNeverAway({...});   ← 虚对象调用（优化支持）
  * ```
  * 
  * @param functionName CHTL JS函数名称
  * @param keyNames 键名列表
- * @param type 函数类型（普通JS函数或虚对象函数）
- * @return CHTLJSFunction对象，可以继续使用标准CJMOD流程
+ * @return CHTLJSFunction对象，天然支持vir，可以继续使用标准CJMOD流程
  */
 std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& functionName, 
-                                                   const std::vector<std::string>& keyNames,
-                                                   CHTLJSFunction::FunctionType type = CHTLJSFunction::FunctionType::ASSIGNMENT);
+                                                   const std::vector<std::string>& keyNames);
 
 // ==========================================
 // 核心API函数 - 表面简单，内在精妙

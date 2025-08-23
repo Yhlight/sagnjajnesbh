@@ -24,11 +24,11 @@ std::string generateINeverAwayCode(const std::string& virObjectContent);
 void implementPrintMylove() {
     std::cout << "=== 实现 printMylove 功能（支持CHTL JS官方特性）===" << std::endl;
     
-    // 使用createCHTLJSFunction托管语法创建 - printMylove是普通JS函数
+    // 使用createCHTLJSFunction托管语法创建 - CHTL JS函数天然支持vir
     auto printMyloveFunc = createCHTLJSFunction("printMylove", 
-        {"url", "mode", "width", "height", "scale"});  // 默认NORMAL类型
+        {"url", "mode", "width", "height", "scale"});
     
-    std::cout << "✓ printMylove是普通JS函数，返回什么内容由函数功能决定" << std::endl;
+    std::cout << "✓ printMylove是CHTL JS函数，天然支持vir，返回什么内容由函数功能决定" << std::endl;
     
     std::cout << "✓ 支持CHTL JS官方特性：" << std::endl;
     std::cout << "  - 无序键值对：键可以任意顺序" << std::endl;
@@ -87,12 +87,11 @@ void implementINeverAway() {
     // 初始化全局状态管理 - 利用CJMOD的高自由度
     INeverAwaySystem::initializeGlobalState();
     
-    // 使用createCHTLJSFunction托管语法创建 - iNeverAway是虚对象类型
+    // 使用createCHTLJSFunction托管语法创建 - CHTL JS函数天然支持vir
     auto iNeverAwayFunc = createCHTLJSFunction("iNeverAway", 
-        {"MyPromise", "GameEvent", "UserAction", "ChthollyData"}, 
-        CHTLJSFunction::FunctionType::VIR_OBJECT);
+        {"MyPromise", "GameEvent", "UserAction", "ChthollyData"});
     
-    std::cout << "✓ iNeverAway与虚对象(vir)完美对接，专门服务于CHTL JS函数" << std::endl;
+    std::cout << "✓ iNeverAway是CHTL JS函数，天然支持vir，统一扫描器会优化处理" << std::endl;
     
     // 第2步：使用托管的参数绑定 - 支持任意自定义键
     iNeverAwayFunc->bindKeyProcessor("MyPromise", [](const std::string& keyDef) -> std::string {

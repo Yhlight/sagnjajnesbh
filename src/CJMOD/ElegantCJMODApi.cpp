@@ -736,8 +736,8 @@ function convertToPixel(ctx, scale) {
 // CHTL JS函数快速创建系统实现
 // ==========================================
 
-CHTLJSFunction::CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames, FunctionType type)
-    : functionName_(functionName), keyNames_(keyNames), functionType_(type),
+CHTLJSFunction::CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames)
+    : functionName_(functionName), keyNames_(keyNames),
       supportUnordered_(true), supportOptional_(true), supportUndecoratedLiterals_(true) {
     
     std::cout << "托管CHTL JS函数创建: " << functionName_ << std::endl;
@@ -764,20 +764,13 @@ void CHTLJSFunction::initializeKeyword() {
 }
 
 std::string CHTLJSFunction::generateSyntaxPattern() {
-    // 只有vir需要特殊处理，其他都是普通JS语法
+    // CHTL JS函数天然支持vir，生成基础语法模式
+    // 统一扫描器会识别vir关键字，我们只需要提供函数调用模式
     std::ostringstream pattern;
     
-    if (functionType_ == FunctionType::VIR_OBJECT) {
-        // 虚对象类型：vir $ = functionName({...}); - 需要特殊对接
-        pattern << "vir $ = " << functionName_ << "({\n";
-        pattern << "    $\n";
-        pattern << "});";
-    } else {
-        // 普通JS函数：functionName({...}); - JS原有特征
-        pattern << functionName_ << "({\n";
-        pattern << "    $\n";
-        pattern << "});";
-    }
+    pattern << functionName_ << "({\n";
+    pattern << "    $\n";
+    pattern << "});";
     
     return pattern.str();
 }
@@ -790,14 +783,8 @@ void CHTLJSFunction::bindKeyProcessor(const std::string& keyName,
     // 托管步骤：自动调用标准bind方法
     // 开发者无需手动为每个键调用keyword->args.bind
     if (keyProcessors_.size() == 1) {
-        // 只有虚对象需要特殊处理varName参数
-        if (functionType_ == FunctionType::VIR_OBJECT) {
-            // 虚对象类型需要varName参数
-            keyword_->args.bind<std::string>("varName", [this](const std::string& varName) -> std::string {
-                std::cout << "  → 处理虚对象名称: " << varName << std::endl;
-                return varName;
-            });
-        }
+        // CHTL JS函数天然支持vir，统一扫描器会处理vir关键字
+        // 我们只需要绑定configObject参数即可
         
         // 所有类型都需要configObject参数
         keyword_->args.bind<std::string>("configObject", [this](const std::string& configStr) -> std::string {
@@ -907,19 +894,16 @@ std::string CHTLJSFunction::processConfigObject(const std::string& configStr) {
 // 开发者应该手动执行标准流程：scanKeyword -> match -> generateCode
 
 std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& functionName, 
-                                                   const std::vector<std::string>& keyNames,
-                                                   CHTLJSFunction::FunctionType type) {
+                                                   const std::vector<std::string>& keyNames) {
     std::cout << "=== 托管CHTL JS函数创建: " << functionName << " ===" << std::endl;
+    std::cout << "✓ CHTL JS函数天然支持vir，无需区分类型" << std::endl;
+    std::cout << "✓ 统一扫描器会识别vir关键字，优化vir对CHTL JS函数的支持" << std::endl;
+    std::cout << "✓ 使用方式：" << std::endl;
+    std::cout << "  - " << functionName << "({...});              ← 直接调用" << std::endl;
+    std::cout << "  - const result = " << functionName << "({...}); ← 赋值调用" << std::endl;
+    std::cout << "  - vir myVir = " << functionName << "({...});   ← 虚对象调用（优化支持）" << std::endl;
     
-    if (type == CHTLJSFunction::FunctionType::VIR_OBJECT) {
-        std::cout << "函数类型: 虚对象类型 (vir $ = " << functionName << "({...}));" << std::endl;
-        std::cout << "✓ 虚对象是CHTL JS原生功能，需要特殊对接" << std::endl;
-    } else {
-        std::cout << "函数类型: 普通JS函数 (" << functionName << "({...}));" << std::endl;
-        std::cout << "✓ 使用JS原有特征，返回什么内容由函数功能决定" << std::endl;
-    }
-    
-    auto chtljsFunc = std::make_unique<CHTLJSFunction>(functionName, keyNames, type);
+    auto chtljsFunc = std::make_unique<CHTLJSFunction>(functionName, keyNames);
     
     // 默认启用所有CHTL JS特性
     chtljsFunc->enableCHTLJSFeatures(true, true, true);
