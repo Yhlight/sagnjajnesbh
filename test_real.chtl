@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>真正的CJMOD测试</title>
+</head>
+<body>
+    <h1>CJMOD扩展实战测试</h1>
+    
+    <!-- 导入test CJMOD模块 -->
+    [Import] @CJmod from "test"
+    
+    <script>
+    {
+        // 这些代码会被统一扫描器扫描
+        // 当扫描到testFunction时，会调用CJMOD扩展
+        
+        testFunction({
+            name: "实战测试",
+            value: 42,
+            type: "string"
+        });
+        
+        // 普通JS代码，不会被CJMOD处理
+        console.log("这是普通JS代码");
+        
+        // 另一个CJMOD调用
+        simpleTest("Hello", "upper");
+        
+        // 更多普通代码
+        var x = 10;
+        function normalFunc() {
+            return "normal";
+        }
+        
+        // 复杂的CJMOD调用
+        testFunction({
+            name: "复杂测试",
+            value: 999,
+            type: "number",
+            nested: {
+                inner: "value"
+            }
+        });
+    }
+    </script>
+</body>
+</html>
