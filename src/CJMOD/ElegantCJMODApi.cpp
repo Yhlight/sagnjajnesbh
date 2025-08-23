@@ -740,8 +740,8 @@ CHTLJSFunction::CHTLJSFunction(const std::string& functionName, const std::vecto
     : functionName_(functionName), keyNames_(keyNames),
       supportUnordered_(true), supportOptional_(true), supportUndecoratedLiterals_(true) {
     
-    std::cout << "创建CHTL JS函数: " << functionName_ << std::endl;
-    std::cout << "支持的键: ";
+    std::cout << "托管CHTL JS函数创建: " << functionName_ << std::endl;
+    std::cout << "托管的键: ";
     for (const auto& key : keyNames_) {
         std::cout << key << " ";
     }
@@ -751,15 +751,16 @@ CHTLJSFunction::CHTLJSFunction(const std::string& functionName, const std::vecto
 }
 
 void CHTLJSFunction::initializeKeyword() {
-    // 自动生成语法模式
+    // 托管步骤1：自动生成语法模式
     std::string pattern = generateSyntaxPattern();
-    std::cout << "自动生成的语法模式: " << pattern << std::endl;
+    std::cout << "托管生成的语法模式: " << pattern << std::endl;
     
-    // 使用标准CJMOD流程创建Keyword
+    // 托管步骤2：调用标准syntaxAnalys
     std::string ignoreChars = ",:{};()";
     keyword_ = syntaxAnalys(pattern, ignoreChars);
     
-    std::cout << "✓ CHTL JS函数初始化完成" << std::endl;
+    std::cout << "✓ 语法创建托管完成，返回标准Keyword对象" << std::endl;
+    std::cout << "✓ 开发者可继续使用标准CJMOD流程：bind -> scanKeyword -> match -> generateCode" << std::endl;
 }
 
 std::string CHTLJSFunction::generateSyntaxPattern() {
@@ -775,11 +776,13 @@ std::string CHTLJSFunction::generateSyntaxPattern() {
 
 void CHTLJSFunction::bindKeyProcessor(const std::string& keyName, 
                                     std::function<std::string(const std::string&)> processor) {
-    std::cout << "绑定键处理器: " << keyName << std::endl;
+    std::cout << "托管键处理器绑定: " << keyName << std::endl;
     keyProcessors_[keyName] = processor;
     
-    // 如果是第一次绑定，设置配置对象处理器
+    // 托管步骤：自动调用标准bind方法
+    // 开发者无需手动为每个键调用keyword->args.bind
     if (keyProcessors_.size() == 1) {
+        // 第一次绑定时，设置标准的参数处理器
         keyword_->args.bind<std::string>("varName", [](const std::string& varName) -> std::string {
             return varName;
         });
@@ -787,6 +790,8 @@ void CHTLJSFunction::bindKeyProcessor(const std::string& keyName,
         keyword_->args.bind<std::string>("configObject", [this](const std::string& configStr) -> std::string {
             return this->processConfigObject(configStr);
         });
+        
+        std::cout << "✓ 标准bind步骤已托管，开发者仍需手动执行：scanKeyword -> match -> generateCode" << std::endl;
     }
 }
 
@@ -884,74 +889,26 @@ std::string CHTLJSFunction::processConfigObject(const std::string& configStr) {
     return result.str();
 }
 
-std::string CHTLJSFunction::process(const std::string& chtlCode) {
-    std::cout << "处理CHTL代码: " << functionName_ << std::endl;
-    
-    // 使用标准CJMOD流程
-    auto& scanner = getCJMODScanner();
-    std::string result;
-    
-    scanner.scanKeyword(functionName_, [&]() {
-        std::cout << "✓ 检测到 " << functionName_ << " 函数调用" << std::endl;
-        
-        // 模拟提取参数（实际实现中需要更复杂的解析）
-        std::string varName = "result";  // 简化处理
-        std::string configObject = chtlCode; // 简化处理
-        
-        keyword_->args.match("varName", varName);
-        keyword_->args.match("configObject", configObject);
-        
-        result = generateCode(*keyword_);
-    });
-    
-    return result;
-}
-
-std::string CHTLJSFunction::generateJavaScript() {
-    std::cout << "生成JavaScript代码: " << functionName_ << std::endl;
-    
-    std::ostringstream js;
-    
-    js << "// " << functionName_ << " - CHTL JS函数（由createCHTLJSFunction生成）\n";
-    js << "function " << functionName_ << "(config) {\n";
-    js << "    // 参数验证和默认值处理\n";
-    js << "    const processedConfig = {\n";
-    
-    bool first = true;
-    for (const auto& keyName : keyNames_) {
-        if (!first) js << ",\n";
-        
-        if (defaultValues_.find(keyName) != defaultValues_.end()) {
-            js << "        " << keyName << ": config." << keyName << " || " << defaultValues_[keyName];
-        } else {
-            js << "        " << keyName << ": config." << keyName;
-        }
-        first = false;
-    }
-    
-    js << "\n    };\n";
-    js << "    \n";
-    js << "    console.log('" << functionName_ << " 处理配置:', processedConfig);\n";
-    js << "    \n";
-    js << "    // 在这里添加具体的功能实现\n";
-    js << "    // TODO: 实现 " << functionName_ << " 的具体逻辑\n";
-    js << "    \n";
-    js << "    return processedConfig;\n";
-    js << "}\n";
-    
-    return js.str();
-}
+// 注意：process和generateJavaScript方法已移除
+// 这些方法颠覆了标准CJMOD流程，不符合"托管部分步骤"的设计理念
+// 开发者应该手动执行标准流程：scanKeyword -> match -> generateCode
 
 std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& functionName, 
                                                    const std::vector<std::string>& keyNames) {
-    std::cout << "=== 快速创建CHTL JS函数: " << functionName << " ===" << std::endl;
+    std::cout << "=== 托管CHTL JS函数创建: " << functionName << " ===" << std::endl;
     
     auto chtljsFunc = std::make_unique<CHTLJSFunction>(functionName, keyNames);
     
     // 默认启用所有CHTL JS特性
     chtljsFunc->enableCHTLJSFeatures(true, true, true);
     
-    std::cout << "✅ CHTL JS函数创建完成，可以继续使用标准CJMOD流程" << std::endl;
+    std::cout << "✅ 部分步骤托管完成，返回标准Keyword对象" << std::endl;
+    std::cout << "✅ 开发者需继续执行标准CJMOD流程：" << std::endl;
+    std::cout << "   1. [已托管] syntaxAnalys - 语法模式已自动生成" << std::endl;
+    std::cout << "   2. [需手动] bind - 或使用托管的bindKeyProcessor" << std::endl;
+    std::cout << "   3. [需手动] scanKeyword - 扫描CHTL代码" << std::endl;
+    std::cout << "   4. [需手动] match - 匹配参数值" << std::endl;
+    std::cout << "   5. [需手动] generateCode - 生成最终JavaScript" << std::endl;
     
     return chtljsFunc;
 }

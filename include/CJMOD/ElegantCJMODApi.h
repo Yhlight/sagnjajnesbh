@@ -158,29 +158,29 @@ private:
 // ==========================================
 
 /**
- * @brief CHTL JS函数对象 - 简化CJMOD流程的核心类
+ * @brief CHTL JS函数对象 - 托管CJMOD标准流程的部分步骤
  * 
  * 设计理念：
- * - 表面简单：只需填写函数名和键名即可快速创建
- * - 内在精妙：自动生成语法模式，智能处理CHTL JS特性
- * - 标准兼容：仍遵守CJMOD标准流程，可与现有代码无缝集成
+ * - 托管语法创建：自动生成syntaxAnalys所需的语法模式
+ * - 托管参数绑定：简化bind步骤的重复代码
+ * - 保持标准流程：仍需要手动执行scanKeyword、match、generateCode
+ * - 完全兼容：返回标准Keyword对象，可无缝接入现有CJMOD代码
  */
 class CHTLJSFunction {
 public:
     CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames);
     
-    // 简化的CJMOD流程方法
+    // 托管的步骤：简化语法创建和参数绑定
     void bindKeyProcessor(const std::string& keyName, std::function<std::string(const std::string&)> processor);
     void setDefaultValues(const std::unordered_map<std::string, std::string>& defaults);
     void enableCHTLJSFeatures(bool unordered = true, bool optional = true, bool undecoratedLiterals = true);
     
-    // 执行标准CJMOD流程
-    std::string process(const std::string& chtlCode);
-    std::string generateJavaScript();
-    
-    // 获取内部Keyword对象（兼容标准流程）
+    // 标准流程接口：开发者仍需手动调用标准CJMOD步骤
     std::unique_ptr<Keyword>& getKeyword() { return keyword_; }
     const std::unique_ptr<Keyword>& getKeyword() const { return keyword_; }
+    
+    // 辅助方法：帮助处理配置对象（可选使用）
+    std::string processConfigObject(const std::string& configStr);
     
     // 获取函数信息
     const std::string& getFunctionName() const { return functionName_; }
@@ -198,7 +198,6 @@ private:
     
     void initializeKeyword();
     std::string generateSyntaxPattern();
-    std::string processConfigObject(const std::string& configStr);
 };
 
 /**
