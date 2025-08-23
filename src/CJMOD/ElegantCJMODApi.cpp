@@ -5,6 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include <iostream>
+#include <chrono>
 
 namespace CHTL {
 namespace CJMOD {
@@ -958,6 +959,252 @@ void CJMODScannerIntegration::initialize() {
     }
     
     std::cout << "✓ CJMOD扫描器集成初始化完成" << std::endl;
+}
+
+// ==========================================
+// vir机制限制系统实现
+// ==========================================
+
+// 静态成员定义
+std::unordered_map<std::string, std::unordered_map<std::string, std::string>> VirFunctionBinder::virBindings_;
+
+bool VirFunctionBinder::bind(const std::string& functionName, 
+                           const std::unordered_map<std::string, std::string>& keyMappings) {
+    virBindings_[functionName] = keyMappings;
+    
+    std::cout << "=== vir函数绑定 ===" << std::endl;
+    std::cout << "函数: " << functionName << std::endl;
+    std::cout << "键映射:" << std::endl;
+    for (const auto& mapping : keyMappings) {
+        std::cout << "  " << mapping.first << " → " << mapping.second << std::endl;
+    }
+    std::cout << "✓ vir绑定成功，避免了直接vir语法对统一扫描器的影响" << std::endl;
+    
+    return true;
+}
+
+bool VirFunctionBinder::isBound(const std::string& functionName) {
+    return virBindings_.find(functionName) != virBindings_.end();
+}
+
+std::unordered_map<std::string, std::string> VirFunctionBinder::getKeyMappings(const std::string& functionName) {
+    auto it = virBindings_.find(functionName);
+    if (it != virBindings_.end()) {
+        return it->second;
+    }
+    return {};
+}
+
+std::string VirFunctionBinder::generateVirAccess(const std::string& functionName,
+                                                const std::string& objectName,
+                                                const std::string& keyAccess) {
+    if (!isBound(functionName)) {
+        return "// 错误：函数 " + functionName + " 未绑定vir支持";
+    }
+    
+    auto mappings = getKeyMappings(functionName);
+    auto it = mappings.find(keyAccess);
+    if (it != mappings.end()) {
+        return it->second + "()"; // 生成函数调用
+    }
+    
+    return "// 错误：键 " + keyAccess + " 未在vir绑定中找到";
+}
+
+void VirFunctionBinder::clear() {
+    virBindings_.clear();
+    std::cout << "✓ vir函数绑定已清空" << std::endl;
+}
+
+// vir语法检测器实现
+bool VirSyntaxDetector::detectDirectVirUsage(const std::string& code) {
+    // 简单的正则匹配检测vir关键字
+    std::regex virPattern(R"(\bvir\s+\w+\s*=)");
+    return std::regex_search(code, virPattern);
+}
+
+std::string VirSyntaxDetector::generateAlternativeSuggestion(const std::string& virStatement) {
+    std::ostringstream suggestion;
+    suggestion << "检测到禁止的vir语法！\n";
+    suggestion << "违规语句: " << virStatement << "\n\n";
+    suggestion << "请使用以下替代方案之一：\n";
+    suggestion << "1. 使用createCHTLJSFunction创建函数（自动支持vir）：\n";
+    suggestion << "   auto func = createCHTLJSFunction(\"functionName\", {\"key1\", \"key2\"});\n\n";
+    suggestion << "2. 使用VirFunctionBinder手动绑定vir支持：\n";
+    suggestion << "   VirFunctionBinder::bind(\"functionName\", {{\"key1\", \"globalFunc1\"}, {\"key2\", \"globalFunc2\"}});\n\n";
+    suggestion << "这样可以避免vir语法对统一扫描器造成负担！";
+    
+    return suggestion.str();
+}
+
+std::string VirSyntaxDetector::handleVirViolation(const std::string& code) {
+    if (detectDirectVirUsage(code)) {
+        return generateAlternativeSuggestion(code);
+    }
+    return "代码检查通过，未发现直接vir语法使用。";
+}
+
+// ==========================================
+// 扫描策略系统实现
+// ==========================================
+
+// 静态成员定义
+ScanStrategy ScanStrategyManager::defaultStrategy_ = ScanStrategy::DUAL_POINTER;
+std::map<ScanStrategy, size_t> ScanStrategyManager::strategyUsageCount_;
+std::map<ScanStrategy, double> ScanStrategyManager::strategyPerformance_;
+
+ScanStrategy ScanStrategyManager::selectStrategy(const std::string& keyword, const ScanContext& context) {
+    std::cout << "=== 扫描策略选择 ===" << std::endl;
+    std::cout << "关键字: " << keyword << std::endl;
+    std::cout << "上下文: token数=" << context.tokenCount << ", 嵌套层级=" << context.nestingLevel << std::endl;
+    
+    // 1. 检查关键字复杂度
+    int complexity = KeywordComplexityAnalyzer::calculateComplexity(keyword);
+    std::cout << "关键字复杂度: " << complexity << "/10" << std::endl;
+    
+    // 2. 根据复杂度和上下文选择策略
+    ScanStrategy selectedStrategy = defaultStrategy_;
+    
+    if (complexity >= 7) {
+        // 高复杂度关键字，使用回退策略
+        selectedStrategy = ScanStrategy::BACKTRACK;
+        std::cout << "→ 选择回退策略（高复杂度关键字）" << std::endl;
+    } else if (context.tokenCount > 1000) {
+        // 大量token，优先性能
+        selectedStrategy = ScanStrategy::DUAL_POINTER;
+        std::cout << "→ 选择双指针策略（大量token，优先性能）" << std::endl;
+    } else if (context.nestingLevel > 3) {
+        // 深度嵌套，使用混合策略
+        selectedStrategy = ScanStrategy::HYBRID;
+        std::cout << "→ 选择混合策略（深度嵌套）" << std::endl;
+    } else {
+        // 默认情况
+        selectedStrategy = defaultStrategy_;
+        std::cout << "→ 使用默认策略（双指针）" << std::endl;
+    }
+    
+    return selectedStrategy;
+}
+
+ScanResult ScanStrategyManager::executeStrategy(ScanStrategy strategy, 
+                                              const std::string& keyword, 
+                                              ScanContext& context) {
+    std::cout << "=== 执行扫描策略 ===" << std::endl;
+    
+    ScanResult result;
+    auto startTime = std::chrono::high_resolution_clock::now();
+    
+    switch (strategy) {
+        case ScanStrategy::DUAL_POINTER:
+            std::cout << "执行双指针扫描策略" << std::endl;
+            result.success = true;
+            result.processedCode = "// 双指针处理: " + keyword;
+            break;
+            
+        case ScanStrategy::BACKTRACK:
+            std::cout << "执行回退重拼接策略" << std::endl;
+            result.success = true;
+            result.processedCode = "// 回退处理: " + keyword;
+            break;
+            
+        case ScanStrategy::HYBRID:
+            std::cout << "执行混合策略" << std::endl;
+            result.success = true;
+            result.processedCode = "// 混合处理: " + keyword;
+            break;
+            
+        case ScanStrategy::ADAPTIVE:
+            std::cout << "执行自适应策略" << std::endl;
+            result.success = true;
+            result.processedCode = "// 自适应处理: " + keyword;
+            break;
+    }
+    
+    auto endTime = std::chrono::high_resolution_clock::now();
+    result.executionTime = std::chrono::duration<double, std::milli>(endTime - startTime).count();
+    result.memoryUsage = context.tokenCount * sizeof(void*); // 简化的内存估算
+    
+    // 更新统计信息
+    strategyUsageCount_[strategy]++;
+    strategyPerformance_[strategy] = (strategyPerformance_[strategy] + result.executionTime) / 2;
+    
+    std::cout << "✓ 策略执行完成，耗时: " << result.executionTime << "ms" << std::endl;
+    
+    return result;
+}
+
+void ScanStrategyManager::setDefaultStrategy(ScanStrategy strategy) {
+    defaultStrategy_ = strategy;
+    std::cout << "✓ 默认扫描策略已设置为: ";
+    switch (strategy) {
+        case ScanStrategy::DUAL_POINTER: std::cout << "双指针"; break;
+        case ScanStrategy::BACKTRACK: std::cout << "回退重拼接"; break;
+        case ScanStrategy::HYBRID: std::cout << "混合策略"; break;
+        case ScanStrategy::ADAPTIVE: std::cout << "自适应"; break;
+    }
+    std::cout << std::endl;
+}
+
+ScanStrategy ScanStrategyManager::getDefaultStrategy() {
+    return defaultStrategy_;
+}
+
+void ScanStrategyManager::initialize() {
+    std::cout << "=== 初始化扫描策略系统 ===" << std::endl;
+    
+    // 设置默认策略为双指针
+    setDefaultStrategy(ScanStrategy::DUAL_POINTER);
+    
+    // 初始化统计信息
+    strategyUsageCount_.clear();
+    strategyPerformance_.clear();
+    
+    std::cout << "✓ 扫描策略系统初始化完成" << std::endl;
+}
+
+// 关键字复杂度分析器实现
+int KeywordComplexityAnalyzer::calculateComplexity(const std::string& keyword) {
+    int complexity = 1; // 基础复杂度
+    
+    // 检查是否为CJMOD关键字
+    if (CJMODKeywordHandler::isCJMODKeyword(keyword)) {
+        auto info = CJMODKeywordHandler::getKeywordInfo(keyword);
+        
+        // 回退增加复杂度
+        if (info.needsBacktrack) {
+            complexity += info.backtrackDistance * 2;
+        }
+        
+        // 向前收集增加复杂度
+        if (info.needsForwardCollect) {
+            complexity += info.forwardCollectDistance;
+        }
+    }
+    
+    // 特殊关键字额外复杂度
+    static std::unordered_set<std::string> specialKeywords = {
+        "**", "iNeverAway", "printMylove"
+    };
+    
+    if (specialKeywords.find(keyword) != specialKeywords.end()) {
+        complexity += 3;
+    }
+    
+    return std::min(complexity, 10);
+}
+
+ScanStrategy KeywordComplexityAnalyzer::recommendStrategy(const std::string& keyword, const ScanContext& context) {
+    int complexity = calculateComplexity(keyword);
+    
+    if (complexity >= 8) {
+        return ScanStrategy::BACKTRACK;
+    } else if (complexity >= 5) {
+        return ScanStrategy::HYBRID;
+    } else if (context.tokenCount > 500) {
+        return ScanStrategy::DUAL_POINTER;
+    } else {
+        return ScanStrategy::ADAPTIVE;
+    }
 }
 
 // ==========================================

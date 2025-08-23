@@ -388,6 +388,199 @@ public:
 };
 
 // ==========================================
+// vir机制限制系统 - 禁止直接vir语法
+// ==========================================
+
+/**
+ * @brief vir函数绑定器
+ * 
+ * 替代直接vir语法，通过编程方式绑定函数的vir支持
+ * 避免vir语法对统一扫描器造成负担
+ */
+class VirFunctionBinder {
+public:
+    /**
+     * @brief 绑定函数的vir支持
+     * @param functionName 函数名称
+     * @param keyMappings 键映射表：键名 -> 全局函数名
+     * @return 绑定是否成功
+     */
+    static bool bind(const std::string& functionName, 
+                    const std::unordered_map<std::string, std::string>& keyMappings);
+    
+    /**
+     * @brief 检查函数是否已绑定vir支持
+     * @param functionName 函数名称
+     * @return true如果已绑定，false否则
+     */
+    static bool isBound(const std::string& functionName);
+    
+    /**
+     * @brief 获取函数的vir键映射
+     * @param functionName 函数名称
+     * @return 键映射表，如果未绑定则返回空
+     */
+    static std::unordered_map<std::string, std::string> getKeyMappings(const std::string& functionName);
+    
+    /**
+     * @brief 生成vir对象访问代码
+     * @param functionName 函数名称
+     * @param objectName 虚对象名称
+     * @param keyAccess 键访问路径（如 "MyPromise.Happy"）
+     * @return 生成的JS访问代码
+     */
+    static std::string generateVirAccess(const std::string& functionName,
+                                        const std::string& objectName,
+                                        const std::string& keyAccess);
+    
+    /**
+     * @brief 清空所有vir绑定（主要用于测试）
+     */
+    static void clear();
+
+private:
+    static std::unordered_map<std::string, std::unordered_map<std::string, std::string>> virBindings_;
+};
+
+/**
+ * @brief vir语法检测器
+ * 
+ * 检测并拦截开发者直接使用vir语法的行为
+ */
+class VirSyntaxDetector {
+public:
+    /**
+     * @brief 检测代码中是否包含直接vir语法
+     * @param code 源代码
+     * @return 检测结果
+     */
+    static bool detectDirectVirUsage(const std::string& code);
+    
+    /**
+     * @brief 生成vir语法替代建议
+     * @param virStatement vir语句
+     * @return 替代建议
+     */
+    static std::string generateAlternativeSuggestion(const std::string& virStatement);
+    
+    /**
+     * @brief 处理检测到的vir违规
+     * @param code 源代码
+     * @return 处理结果和建议
+     */
+    static std::string handleVirViolation(const std::string& code);
+};
+
+// ==========================================
+// 扫描策略系统 - 智能选择扫描算法
+// ==========================================
+
+/**
+ * @brief 扫描策略类型
+ */
+enum class ScanStrategy {
+    DUAL_POINTER,      // 双指针扫描（默认）
+    BACKTRACK,         // 回退重拼接
+    HYBRID,            // 混合策略
+    ADAPTIVE           // 自适应策略
+};
+
+/**
+ * @brief 扫描上下文
+ */
+struct ScanContext {
+    size_t currentPosition;
+    size_t tokenCount;
+    int nestingLevel;
+    double memoryPressure;
+    std::string currentKeyword;
+    
+    ScanContext() : currentPosition(0), tokenCount(0), nestingLevel(0), memoryPressure(0.0) {}
+};
+
+/**
+ * @brief 扫描结果
+ */
+struct ScanResult {
+    bool success;
+    double executionTime;
+    size_t memoryUsage;
+    std::string processedCode;
+    
+    ScanResult() : success(false), executionTime(0.0), memoryUsage(0) {}
+};
+
+/**
+ * @brief 扫描策略管理器
+ * 
+ * 管理不同的扫描策略，根据情况智能选择最优策略
+ */
+class ScanStrategyManager {
+public:
+    /**
+     * @brief 选择扫描策略
+     * @param keyword 关键字
+     * @param context 上下文信息
+     * @return 选择的策略
+     */
+    static ScanStrategy selectStrategy(const std::string& keyword, const ScanContext& context);
+    
+    /**
+     * @brief 执行扫描策略
+     * @param strategy 策略类型
+     * @param keyword 关键字
+     * @param context 上下文
+     * @return 执行结果
+     */
+    static ScanResult executeStrategy(ScanStrategy strategy, 
+                                    const std::string& keyword, 
+                                    ScanContext& context);
+    
+    /**
+     * @brief 设置默认策略
+     * @param strategy 默认策略
+     */
+    static void setDefaultStrategy(ScanStrategy strategy);
+    
+    /**
+     * @brief 获取当前默认策略
+     * @return 默认策略
+     */
+    static ScanStrategy getDefaultStrategy();
+    
+    /**
+     * @brief 初始化策略系统
+     */
+    static void initialize();
+
+private:
+    static ScanStrategy defaultStrategy_;
+    static std::map<ScanStrategy, size_t> strategyUsageCount_;
+    static std::map<ScanStrategy, double> strategyPerformance_;
+};
+
+/**
+ * @brief 关键字复杂度分析器
+ */
+class KeywordComplexityAnalyzer {
+public:
+    /**
+     * @brief 计算关键字处理复杂度
+     * @param keyword 关键字
+     * @return 复杂度评分（1-10）
+     */
+    static int calculateComplexity(const std::string& keyword);
+    
+    /**
+     * @brief 推荐最优策略
+     * @param keyword 关键字
+     * @param context 上下文
+     * @return 推荐的策略
+     */
+    static ScanStrategy recommendStrategy(const std::string& keyword, const ScanContext& context);
+};
+
+// ==========================================
 // 核心API函数 - 表面简单，内在精妙
 // ==========================================
 
