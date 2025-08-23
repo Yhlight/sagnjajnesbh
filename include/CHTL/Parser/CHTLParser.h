@@ -445,6 +445,12 @@ private:
      * @return 是否违反约束
      */
     bool CheckConstraints(const std::string& nodeName, const std::string& nodeType);
+    
+    /**
+     * @brief 注册自定义原始嵌入类型（自动化功能）
+     * @param originType 原始嵌入类型（如@Vue）
+     */
+    void RegisterCustomOriginType(const std::string& originType);
 
 private:
     ParserConfig config_;               // 解析器配置
@@ -473,6 +479,9 @@ private:
     // 语法约束系统
     std::unique_ptr<Constraints::CHTLConstraintValidator> constraintValidator_;     // 约束验证器
     std::unique_ptr<Constraints::ExceptConstraintIntegrator> constraintIntegrator_; // 约束集成器
+    
+    // 自动化OriginType系统
+    std::unordered_set<std::string> autoRegisteredOriginTypes_;  // 自动注册的原始嵌入类型
 };
 
 /**

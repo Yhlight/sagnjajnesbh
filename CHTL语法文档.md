@@ -922,7 +922,7 @@ body
 导入原始嵌入  
 [Import] [Origin] @Html 名称 from chtl文件路径 as(可选) 命名为  
 [Import] [Origin] @Style 名称 from chtl文件路径 as(可选) 命名为  
-[Import] [Origin] @Javascript 名称 from chtl文件路径 as(可选) 命名为  
+[Import] [Origin] @JavaScript 名称 from chtl文件路径 as(可选) 命名为  
 
 导入所有模板  
 [Import] [Template] from chtl文件路径 as(无效) 命名为  

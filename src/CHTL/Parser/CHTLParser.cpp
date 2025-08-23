@@ -490,9 +490,12 @@ AST::ASTNodePtr CHTLParser::ParseOriginDeclaration() {
     } else if (originType == "@JavaScript") {
         type = AST::OriginNode::OriginType::JAVASCRIPT;
     } else {
-        // 自定义类型
+        // 自定义类型 - 支持隐式创建OriginType配置
         type = AST::OriginNode::OriginType::CUSTOM;
         customTypeName = originType;
+        
+        // 自动化功能：隐式创建[OriginType]配置条目
+        RegisterCustomOriginType(originType);
     }
     
     // 解析原始嵌入内容
@@ -2741,6 +2744,38 @@ bool CHTLParser::ProcessExceptConstraints(Constraints::SyntaxContext context) {
     }
     
     return success;
+}
+
+void CHTLParser::RegisterCustomOriginType(const std::string& originType) {
+    // 跳过官方三种基本类型
+    if (originType == "@Html" || originType == "@Style" || originType == "@JavaScript") {
+        return;
+    }
+    
+    // 避免重复注册
+    if (autoRegisteredOriginTypes_.find(originType) != autoRegisteredOriginTypes_.end()) {
+        return;
+    }
+    
+    // 添加到自动注册集合
+    autoRegisteredOriginTypes_.insert(originType);
+    
+    // 根据CHTL语法文档第760行：隐式创建[OriginType]配置条目
+    // 格式：ORIGINTYPE_全写的类型名称 = @全大写后
+    std::string typeNameUpper = originType.substr(1); // 去掉@前缀
+    std::transform(typeNameUpper.begin(), typeNameUpper.end(), typeNameUpper.begin(), ::toupper);
+    
+    std::string configKey = "ORIGINTYPE_" + typeNameUpper;
+    std::string configValue = originType;
+    
+    // 通过全局映射表注册自定义原始嵌入类型
+    globalMap_.SetOriginTypeMapping(configKey, configValue);
+    
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "自动注册原始嵌入类型: " + configKey + " = " + configValue
+        );
+    }
 }
 
 } // namespace Parser
