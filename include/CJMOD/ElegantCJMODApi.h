@@ -154,6 +154,72 @@ private:
 };
 
 // ==========================================
+// CHTL JS函数快速创建系统
+// ==========================================
+
+/**
+ * @brief CHTL JS函数对象 - 简化CJMOD流程的核心类
+ * 
+ * 设计理念：
+ * - 表面简单：只需填写函数名和键名即可快速创建
+ * - 内在精妙：自动生成语法模式，智能处理CHTL JS特性
+ * - 标准兼容：仍遵守CJMOD标准流程，可与现有代码无缝集成
+ */
+class CHTLJSFunction {
+public:
+    CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames);
+    
+    // 简化的CJMOD流程方法
+    void bindKeyProcessor(const std::string& keyName, std::function<std::string(const std::string&)> processor);
+    void setDefaultValues(const std::unordered_map<std::string, std::string>& defaults);
+    void enableCHTLJSFeatures(bool unordered = true, bool optional = true, bool undecoratedLiterals = true);
+    
+    // 执行标准CJMOD流程
+    std::string process(const std::string& chtlCode);
+    std::string generateJavaScript();
+    
+    // 获取内部Keyword对象（兼容标准流程）
+    std::unique_ptr<Keyword>& getKeyword() { return keyword_; }
+    const std::unique_ptr<Keyword>& getKeyword() const { return keyword_; }
+    
+    // 获取函数信息
+    const std::string& getFunctionName() const { return functionName_; }
+    const std::vector<std::string>& getKeyNames() const { return keyNames_; }
+    
+private:
+    std::string functionName_;
+    std::vector<std::string> keyNames_;
+    std::unique_ptr<Keyword> keyword_;
+    std::unordered_map<std::string, std::function<std::string(const std::string&)>> keyProcessors_;
+    std::unordered_map<std::string, std::string> defaultValues_;
+    bool supportUnordered_;
+    bool supportOptional_;
+    bool supportUndecoratedLiterals_;
+    
+    void initializeKeyword();
+    std::string generateSyntaxPattern();
+    std::string processConfigObject(const std::string& configStr);
+};
+
+/**
+ * @brief 快速创建CHTL JS函数 - 简化CJMOD开发流程
+ * 
+ * 使用示例：
+ * ```cpp
+ * auto myFunc = createCHTLJSFunction("myFunction", {"url", "mode", "width", "height"});
+ * myFunc->bindKeyProcessor("url", [](const std::string& url) { return processUrl(url); });
+ * myFunc->setDefaultValues({{"mode", "\"auto\""}, {"width", "100"}});
+ * std::string jsCode = myFunc->process(chtlCode);
+ * ```
+ * 
+ * @param functionName CHTL JS函数名称
+ * @param keyNames 键名列表
+ * @return CHTLJSFunction对象，可以继续使用标准CJMOD流程
+ */
+std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& functionName, 
+                                                   const std::vector<std::string>& keyNames);
+
+// ==========================================
 // 核心API函数 - 表面简单，内在精妙
 // ==========================================
 

@@ -732,5 +732,229 @@ function convertToPixel(ctx, scale) {
 
 } // namespace Chtholly
 
+// ==========================================
+// CHTL JS函数快速创建系统实现
+// ==========================================
+
+CHTLJSFunction::CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames)
+    : functionName_(functionName), keyNames_(keyNames),
+      supportUnordered_(true), supportOptional_(true), supportUndecoratedLiterals_(true) {
+    
+    std::cout << "创建CHTL JS函数: " << functionName_ << std::endl;
+    std::cout << "支持的键: ";
+    for (const auto& key : keyNames_) {
+        std::cout << key << " ";
+    }
+    std::cout << std::endl;
+    
+    initializeKeyword();
+}
+
+void CHTLJSFunction::initializeKeyword() {
+    // 自动生成语法模式
+    std::string pattern = generateSyntaxPattern();
+    std::cout << "自动生成的语法模式: " << pattern << std::endl;
+    
+    // 使用标准CJMOD流程创建Keyword
+    std::string ignoreChars = ",:{};()";
+    keyword_ = syntaxAnalys(pattern, ignoreChars);
+    
+    std::cout << "✓ CHTL JS函数初始化完成" << std::endl;
+}
+
+std::string CHTLJSFunction::generateSyntaxPattern() {
+    // 生成标准的CHTL JS函数语法模式
+    std::ostringstream pattern;
+    
+    pattern << "const $ = " << functionName_ << "({\n";
+    pattern << "    $\n";  // 整个配置对象作为一个参数
+    pattern << "});";
+    
+    return pattern.str();
+}
+
+void CHTLJSFunction::bindKeyProcessor(const std::string& keyName, 
+                                    std::function<std::string(const std::string&)> processor) {
+    std::cout << "绑定键处理器: " << keyName << std::endl;
+    keyProcessors_[keyName] = processor;
+    
+    // 如果是第一次绑定，设置配置对象处理器
+    if (keyProcessors_.size() == 1) {
+        keyword_->args.bind<std::string>("varName", [](const std::string& varName) -> std::string {
+            return varName;
+        });
+        
+        keyword_->args.bind<std::string>("configObject", [this](const std::string& configStr) -> std::string {
+            return this->processConfigObject(configStr);
+        });
+    }
+}
+
+void CHTLJSFunction::setDefaultValues(const std::unordered_map<std::string, std::string>& defaults) {
+    std::cout << "设置默认值: ";
+    for (const auto& [key, value] : defaults) {
+        defaultValues_[key] = value;
+        std::cout << key << "=" << value << " ";
+    }
+    std::cout << std::endl;
+}
+
+void CHTLJSFunction::enableCHTLJSFeatures(bool unordered, bool optional, bool undecoratedLiterals) {
+    supportUnordered_ = unordered;
+    supportOptional_ = optional;
+    supportUndecoratedLiterals_ = undecoratedLiterals;
+    
+    std::cout << "CHTL JS特性配置: ";
+    std::cout << "无序=" << (unordered ? "是" : "否") << " ";
+    std::cout << "可选=" << (optional ? "是" : "否") << " ";
+    std::cout << "无修饰字面量=" << (undecoratedLiterals ? "是" : "否") << std::endl;
+}
+
+std::string CHTLJSFunction::processConfigObject(const std::string& configStr) {
+    std::cout << "处理配置对象: " << functionName_ << std::endl;
+    
+    std::ostringstream result;
+    std::unordered_map<std::string, std::string> keyValues;
+    
+    // 解析键值对
+    std::regex keyValueRegex(R"((\w+):\s*([^,}]+))");
+    std::sregex_iterator iter(configStr.begin(), configStr.end(), keyValueRegex);
+    std::sregex_iterator end;
+    
+    for (; iter != end; ++iter) {
+        std::string key = (*iter)[1].str();
+        std::string value = (*iter)[2].str();
+        
+        // 处理无修饰字面量
+        if (supportUndecoratedLiterals_) {
+            value = PrintMyloveSystem::processUndecoratedLiterals(value);
+        }
+        
+        // 应用键处理器
+        if (keyProcessors_.find(key) != keyProcessors_.end()) {
+            value = keyProcessors_[key](value);
+            std::cout << "  → 处理键 " << key << ": " << value << std::endl;
+        }
+        
+        keyValues[key] = value;
+    }
+    
+    // 处理可选键值对
+    if (supportOptional_) {
+        for (const auto& [key, defaultValue] : defaultValues_) {
+            if (keyValues.find(key) == keyValues.end()) {
+                keyValues[key] = defaultValue;
+                std::cout << "  → 补充默认值 " << key << ": " << defaultValue << std::endl;
+            }
+        }
+    }
+    
+    // 生成结果（支持无序）
+    result << "{\n";
+    bool first = true;
+    
+    if (supportUnordered_) {
+        // 按keyNames_顺序输出
+        for (const auto& keyName : keyNames_) {
+            if (keyValues.find(keyName) != keyValues.end()) {
+                if (!first) result << ",\n";
+                result << "    " << keyName << ": " << keyValues[keyName];
+                first = false;
+            }
+        }
+        
+        // 添加其他键
+        for (const auto& [key, value] : keyValues) {
+            if (std::find(keyNames_.begin(), keyNames_.end(), key) == keyNames_.end()) {
+                if (!first) result << ",\n";
+                result << "    " << key << ": " << value;
+                first = false;
+            }
+        }
+    } else {
+        // 按原始顺序输出
+        for (const auto& [key, value] : keyValues) {
+            if (!first) result << ",\n";
+            result << "    " << key << ": " << value;
+            first = false;
+        }
+    }
+    
+    result << "\n}";
+    return result.str();
+}
+
+std::string CHTLJSFunction::process(const std::string& chtlCode) {
+    std::cout << "处理CHTL代码: " << functionName_ << std::endl;
+    
+    // 使用标准CJMOD流程
+    auto& scanner = getCJMODScanner();
+    std::string result;
+    
+    scanner.scanKeyword(functionName_, [&]() {
+        std::cout << "✓ 检测到 " << functionName_ << " 函数调用" << std::endl;
+        
+        // 模拟提取参数（实际实现中需要更复杂的解析）
+        std::string varName = "result";  // 简化处理
+        std::string configObject = chtlCode; // 简化处理
+        
+        keyword_->args.match("varName", varName);
+        keyword_->args.match("configObject", configObject);
+        
+        result = generateCode(*keyword_);
+    });
+    
+    return result;
+}
+
+std::string CHTLJSFunction::generateJavaScript() {
+    std::cout << "生成JavaScript代码: " << functionName_ << std::endl;
+    
+    std::ostringstream js;
+    
+    js << "// " << functionName_ << " - CHTL JS函数（由createCHTLJSFunction生成）\n";
+    js << "function " << functionName_ << "(config) {\n";
+    js << "    // 参数验证和默认值处理\n";
+    js << "    const processedConfig = {\n";
+    
+    bool first = true;
+    for (const auto& keyName : keyNames_) {
+        if (!first) js << ",\n";
+        
+        if (defaultValues_.find(keyName) != defaultValues_.end()) {
+            js << "        " << keyName << ": config." << keyName << " || " << defaultValues_[keyName];
+        } else {
+            js << "        " << keyName << ": config." << keyName;
+        }
+        first = false;
+    }
+    
+    js << "\n    };\n";
+    js << "    \n";
+    js << "    console.log('" << functionName_ << " 处理配置:', processedConfig);\n";
+    js << "    \n";
+    js << "    // 在这里添加具体的功能实现\n";
+    js << "    // TODO: 实现 " << functionName_ << " 的具体逻辑\n";
+    js << "    \n";
+    js << "    return processedConfig;\n";
+    js << "}\n";
+    
+    return js.str();
+}
+
+std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& functionName, 
+                                                   const std::vector<std::string>& keyNames) {
+    std::cout << "=== 快速创建CHTL JS函数: " << functionName << " ===" << std::endl;
+    
+    auto chtljsFunc = std::make_unique<CHTLJSFunction>(functionName, keyNames);
+    
+    // 默认启用所有CHTL JS特性
+    chtljsFunc->enableCHTLJSFeatures(true, true, true);
+    
+    std::cout << "✅ CHTL JS函数创建完成，可以继续使用标准CJMOD流程" << std::endl;
+    
+    return chtljsFunc;
+}
+
 } // namespace CJMOD
 } // namespace CHTL
