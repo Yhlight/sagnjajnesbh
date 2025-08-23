@@ -23,68 +23,63 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-echo [Step 2/4] Packaging CMOD modules...
+echo [Step 2/4] Auto-packaging modules with unified detection...
 
-REM Step 2: Auto-package CMOD modules
+REM Step 2: Use unified packaging to detect and package all module types (CMOD, CJMOD, Hybrid)
+set MODULE_FOUND=0
+
+REM Check module directory for all module types
 if exist "module" (
+    echo Scanning module directory...
     for /d %%i in ("module\*") do (
-        if exist "%%i\src" (
-            if exist "%%i\info" (
-                echo Packaging CMOD: %%~ni
-                call scripts\windows\pack_cmod.bat "%%i"
-            )
-        )
-    )
-    echo CMOD packaging completed
-) else (
-    echo No module directory found, skipping CMOD packaging
-)
-
-echo.
-echo [Step 3/4] Packaging CJMOD modules...
-
-REM Step 3: Auto-package CJMOD modules from various locations
-set CJMOD_FOUND=0
-
-REM Check module directory for CJMOD structures
-if exist "module" (
-    for /d %%i in ("module\*") do (
-        REM Check for C++ files to identify CJMOD
-        dir /b "%%i\src\*.cpp" "%%i\src\*.h" >nul 2>&1
+        echo Analyzing module: %%~ni
+        call scripts\windows\pack_unified.bat "%%i"
         if not errorlevel 1 (
-            if exist "%%i\info" (
-                echo Packaging CJMOD: %%~ni
-                call scripts\windows\pack_cjmod.bat "%%i"
-                set CJMOD_FOUND=1
-            )
+            set MODULE_FOUND=1
         )
     )
 )
 
-REM Check examples directory for CJMOD modules
+REM Check examples directory for all module types
 if exist "examples" (
+    echo Scanning examples directory...
     for /d %%i in ("examples\*") do (
-        dir /b "%%i\src\*.cpp" "%%i\src\*.h" >nul 2>&1
+        echo Analyzing example module: %%~ni
+        call scripts\windows\pack_unified.bat "%%i"
         if not errorlevel 1 (
-            if exist "%%i\info" (
-                echo Packaging example CJMOD: %%~ni
-                call scripts\windows\pack_cjmod.bat "%%i"
-                set CJMOD_FOUND=1
-            )
+            set MODULE_FOUND=1
         )
     )
 )
 
-if %CJMOD_FOUND%==0 (
-    echo No CJMOD modules found for packaging
+REM Check for official modules (Chtholly, Yuigahama) in project root
+if exist "Chtholly" (
+    echo Analyzing official module: Chtholly
+    call scripts\windows\pack_unified.bat "Chtholly"
+    if not errorlevel 1 (
+        set MODULE_FOUND=1
+    )
+)
+
+if exist "Yuigahama" (
+    echo Analyzing official module: Yuigahama
+    call scripts\windows\pack_unified.bat "Yuigahama"
+    if not errorlevel 1 (
+        set MODULE_FOUND=1
+    )
+)
+
+if %MODULE_FOUND%==0 (
+    echo No modules found for packaging
 ) else (
-    echo CJMOD packaging completed
+    echo Module packaging completed with unified detection
+    echo Supported: CMOD, CJMOD, and Hybrid CMOD+CJMOD modules
 )
 
 echo.
-echo [Step 4/4] Building VSCode extension with integrated components...
+echo [Step 3/3] Building VSCode extension with integrated components...
 
-REM Step 4: Prepare VSCode extension with all components
+REM Step 3: Prepare VSCode extension with all components
 if not exist "vscode-chtl-extension\resources" mkdir vscode-chtl-extension\resources
 
 REM Copy compiler binaries to extension resources

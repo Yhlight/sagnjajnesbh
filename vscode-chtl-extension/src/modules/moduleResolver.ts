@@ -6,12 +6,17 @@ import * as glob from 'glob';
 export interface ModuleInfo {
     name: string;
     path: string;
-    type: 'chtl' | 'cmod' | 'cjmod' | 'html' | 'css' | 'js' | 'vue' | 'react' | 'angular';
+    type: 'chtl' | 'cmod' | 'cjmod' | 'hybrid' | 'html' | 'css' | 'js' | 'vue' | 'react' | 'angular';
     exports: string[];
     imports: string[];
     version?: string;
     description?: string;
     isOfficial: boolean;
+    // 混合模块特有属性
+    subModules?: {
+        cmod: string[];  // CMOD子模块列表
+        cjmod: string[]; // CJMOD子模块列表
+    };
 }
 
 export interface ModuleSearchResult {
@@ -564,6 +569,12 @@ export class ModuleResolver {
             isOfficial
         };
 
+        // 处理混合模块
+        if (type === 'hybrid') {
+            const modulePath = path.dirname(filePath);
+            moduleInfo.subModules = this.getHybridSubModules(modulePath);
+        }
+
         // 解析模块内容获取导出和导入信息
         try {
             const content = fs.readFileSync(filePath, 'utf8');
@@ -607,6 +618,31 @@ export class ModuleResolver {
                     }
                 }
                 break;
+
+            case 'hybrid':
+                // 混合模块：同时支持CHTL和CJMOD导出格式
+                // 解析CHTL导出
+                const hybridChtlMatches = content.match(/\[(Template|Custom)\]\s*@(Style|Element|Var)\s+(\w+)/g);
+                if (hybridChtlMatches) {
+                    for (const match of hybridChtlMatches) {
+                        const nameMatch = match.match(/(\w+)$/);
+                        if (nameMatch) {
+                            exports.push(`${nameMatch[1]} (CMOD)`);
+                        }
+                    }
+                }
+                
+                // 解析CJMOD导出
+                const hybridFunctionMatches = content.match(/function\s+(\w+)/g);
+                if (hybridFunctionMatches) {
+                    for (const match of hybridFunctionMatches) {
+                        const nameMatch = match.match(/function\s+(\w+)/);
+                        if (nameMatch) {
+                            exports.push(`${nameMatch[1]} (CJMOD)`);
+                        }
+                    }
+                }
+                break;
         }
 
         return exports;
@@ -634,7 +670,13 @@ export class ModuleResolver {
         
         switch (extension) {
             case 'chtl': return 'chtl';
-            case 'cmod': return 'cmod';
+            case 'cmod': 
+                // 检查是否是混合模块
+                const dirPath = path.dirname(filePath);
+                if (this.isHybridModule(dirPath)) {
+                    return 'hybrid';
+                }
+                return 'cmod';
             case 'cjmod': return 'cjmod';
             case 'html': return 'html';
             case 'css': return 'css';
@@ -644,6 +686,88 @@ export class ModuleResolver {
             case 'tsx': return 'react';
             default: return 'chtl';
         }
+    }
+
+    /**
+     * 检测是否为混合模块结构
+     * 混合模块应该包含 CMOD 和 CJMOD 两个子目录
+     */
+    private isHybridModule(modulePath: string): boolean {
+        if (!fs.existsSync(modulePath)) {
+            return false;
+        }
+
+        const cmodVariants = ['CMOD', 'Cmod', 'cmod'];
+        const cjmodVariants = ['CJMOD', 'CJmod', 'cjmod'];
+        
+        let hasCMOD = false;
+        let hasCJMOD = false;
+
+        // 检查CMOD目录
+        for (const variant of cmodVariants) {
+            const cmodPath = path.join(modulePath, variant);
+            if (fs.existsSync(cmodPath) && fs.lstatSync(cmodPath).isDirectory()) {
+                hasCMOD = true;
+                break;
+            }
+        }
+
+        // 检查CJMOD目录
+        for (const variant of cjmodVariants) {
+            const cjmodPath = path.join(modulePath, variant);
+            if (fs.existsSync(cjmodPath) && fs.lstatSync(cjmodPath).isDirectory()) {
+                hasCJMOD = true;
+                break;
+            }
+        }
+
+        return hasCMOD && hasCJMOD;
+    }
+
+    /**
+     * 获取混合模块的子模块信息
+     */
+    private getHybridSubModules(modulePath: string): { cmod: string[], cjmod: string[] } {
+        const result = { cmod: [] as string[], cjmod: [] as string[] };
+        
+        const cmodVariants = ['CMOD', 'Cmod', 'cmod'];
+        const cjmodVariants = ['CJMOD', 'CJmod', 'cjmod'];
+
+        // 获取CMOD子模块
+        for (const variant of cmodVariants) {
+            const cmodPath = path.join(modulePath, variant);
+            if (fs.existsSync(cmodPath)) {
+                try {
+                    const subDirs = fs.readdirSync(cmodPath).filter(item => {
+                        const itemPath = path.join(cmodPath, item);
+                        return fs.lstatSync(itemPath).isDirectory();
+                    });
+                    result.cmod.push(...subDirs);
+                } catch (error) {
+                    console.warn(`读取CMOD子模块失败: ${cmodPath}`, error);
+                }
+                break;
+            }
+        }
+
+        // 获取CJMOD子模块
+        for (const variant of cjmodVariants) {
+            const cjmodPath = path.join(modulePath, variant);
+            if (fs.existsSync(cjmodPath)) {
+                try {
+                    const subDirs = fs.readdirSync(cjmodPath).filter(item => {
+                        const itemPath = path.join(cjmodPath, item);
+                        return fs.lstatSync(itemPath).isDirectory();
+                    });
+                    result.cjmod.push(...subDirs);
+                } catch (error) {
+                    console.warn(`读取CJMOD子模块失败: ${cjmodPath}`, error);
+                }
+                break;
+            }
+        }
+
+        return result;
     }
 
     public async getAllModules(workspaceRoot: string): Promise<ModuleInfo[]> {
@@ -735,6 +859,7 @@ export class ModuleResolver {
         debugInfo += '支持的目录结构:\n';
         debugInfo += '- 无序结构：所有文件直接在 module 文件夹根目录\n';
         debugInfo += '- 有序结构：CMOD/Cmod/cmod 和 CJMOD/CJmod/cjmod 分类文件夹\n';
+        debugInfo += '- 混合结构：同时包含 CMOD 和 CJMOD 子目录的混合模块\n';
 
         // 创建并显示输出面板
         const outputChannel = vscode.window.createOutputChannel('CHTL Module Paths');
