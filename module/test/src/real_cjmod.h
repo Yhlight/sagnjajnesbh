@@ -49,14 +49,14 @@ public:
     
     // 前置截取机制
     RealCodeFragment frontExtract(const RealCodeFragment& fragment, const std::string& pattern);
+    
+    // 公开词法分析方法
+    std::vector<Token> tokenize(const std::string& code);
 
 private:
     std::string sourceCode_;
     std::vector<std::string> keywords_;
     std::vector<Token> tokens_;
-    
-    // 真正的词法分析
-    std::vector<Token> tokenize(const std::string& code);
     
     // 双指针算法实现
     std::pair<size_t, size_t> findFragmentBounds(size_t keywordPos);
@@ -75,10 +75,12 @@ public:
     
     // 生成JS代码
     std::string generateJS(const std::string& jsTemplate) const;
-
-private:
+    
+    // 公开成员访问
     std::string name_;
     Token token_;
+
+private:
     std::string processedValue_;
 };
 
