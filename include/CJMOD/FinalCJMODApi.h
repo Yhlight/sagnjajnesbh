@@ -462,72 +462,83 @@ private:
 };
 
 // ============================================================================
-// 虚函数支持系统
+// 虚对象支持系统
 // ============================================================================
 
 /**
- * @brief 虚函数类型枚举
+ * @brief 虚对象信息
+ * 
+ * 基于语法文档第1274-1311行的虚对象设计：
+ * - vir是CHTL JS层面的语法糖，不涉及JS
+ * - 编译器扫描到vir时，创建C++对象负责vir的解析
+ * - 记录虚对象名称，解析CHTL JS函数中的函数键，创建对应表
+ * - 遇到Test->click时，创建对应的全局函数并替换成函数引用
  */
-enum class VirtualFunctionType {
-    CALLBACK,       // 回调函数
-    EVENT_HANDLER,  // 事件处理器
-    ASYNC_FUNCTION, // 异步函数
-    GENERATOR,      // 生成器函数
-    LAMBDA,         // Lambda表达式
-    ARROW_FUNCTION, // 箭头函数
-    CUSTOM          // 自定义虚函数
-};
-
-/**
- * @brief 虚函数信息
- */
-struct VirtualFunctionInfo {
-    std::string name;                    // 函数名
-    VirtualFunctionType type;            // 函数类型
-    std::vector<std::string> parameters; // 参数列表
-    std::string body;                    // 函数体
-    std::string returnType;              // 返回类型
-    bool isAsync;                        // 是否异步
-    std::string jsTemplate;              // JS模板
+struct VirtualObjectInfo {
+    std::string name;                           // 虚对象名称
+    std::string sourceFunction;                // 源CHTL JS函数（如listen）
+    std::unordered_map<std::string, std::string> functionKeys; // 函数键映射
+    std::unordered_map<std::string, std::string> globalFunctions; // 全局函数注册表
     
-    VirtualFunctionInfo() : type(VirtualFunctionType::CUSTOM), isAsync(false) {}
+    VirtualObjectInfo() = default;
+    VirtualObjectInfo(const std::string& virName, const std::string& srcFunc) 
+        : name(virName), sourceFunction(srcFunc) {}
 };
 
 /**
- * @brief 虚函数管理器
+ * @brief 虚对象管理器
+ * 
+ * 负责虚对象的创建、解析、全局函数生成和调用处理
  */
-class VirtualFunctionManager {
+class VirtualObjectManager {
 public:
-    VirtualFunctionManager();
+    VirtualObjectManager();
     
     /**
-     * @brief 注册虚函数
+     * @brief 注册虚对象
+     * 用法：virManager.registerVirtualObject("Test", "listen");
      */
-    void registerVirtualFunction(const std::string& name, const VirtualFunctionInfo& info);
+    void registerVirtualObject(const std::string& virName, const std::string& sourceFunction);
     
     /**
-     * @brief 创建虚函数实例
+     * @brief 解析CHTL JS函数中的函数键
+     * 用法：virManager.parseFunctionKeys("Test", "{ click: ()=>{}, hover: ()=>{} }");
      */
-    std::string createVirtualFunction(const std::string& name, 
-                                    const std::vector<std::string>& args = {});
+    void parseFunctionKeys(const std::string& virName, const std::string& functionObject);
     
     /**
-     * @brief 检查是否为虚函数
+     * @brief 处理虚对象调用
+     * 用法：virManager.processVirtualCall("Test", "click"); // Test->click()
+     * 返回：全局函数引用名称
      */
-    bool isVirtualFunction(const std::string& name) const;
+    std::string processVirtualCall(const std::string& virName, const std::string& methodName);
     
     /**
-     * @brief 获取虚函数信息
+     * @brief 生成全局函数
+     * 内部使用，创建特殊命名的全局函数
      */
-    const VirtualFunctionInfo* getVirtualFunctionInfo(const std::string& name) const;
+    std::string generateGlobalFunction(const std::string& virName, const std::string& methodName);
     
     /**
-     * @brief 预定义常用虚函数
+     * @brief 检查是否为已注册的虚对象
      */
-    void setupBuiltinVirtualFunctions();
+    bool isVirtualObject(const std::string& name) const;
+    
+    /**
+     * @brief 获取虚对象信息
+     */
+    const VirtualObjectInfo* getVirtualObjectInfo(const std::string& name) const;
+    
+    /**
+     * @brief 清理虚对象注册表
+     */
+    void clearVirtualObjects();
 
 private:
-    std::unordered_map<std::string, VirtualFunctionInfo> virtualFunctions_;
+    std::unordered_map<std::string, VirtualObjectInfo> virtualObjects_;
+    
+    std::string generateGlobalFunctionName(const std::string& virName, const std::string& methodName);
+    void preventDuplicateGlobalFunction(const std::string& globalFuncName);
 };
 
 // ============================================================================
@@ -604,6 +615,12 @@ public:
      */
     ScanResult semanticScan(const std::string& content, 
                           const std::string& semanticPattern);
+    
+    /**
+     * @brief 虚对象语法扫描
+     * 专门扫描 "vir name = function(...)" 和 "name->method()" 语法
+     */
+    std::vector<ScanResult> scanVirtualObjectSyntax(const std::string& content);
 
 private:
     ScannerType currentType_;
@@ -628,9 +645,9 @@ public:
     CJMODCoreSystem();
     
     /**
-     * @brief 获取虚函数管理器
+     * @brief 获取虚对象管理器
      */
-    VirtualFunctionManager& getVirtualFunctionManager() { return virtualFunctionManager_; }
+    VirtualObjectManager& getVirtualObjectManager() { return virtualObjectManager_; }
     
     /**
      * @brief 获取高级扫描系统
@@ -659,11 +676,11 @@ public:
                                         const std::vector<std::vector<std::string>>& valuesList);
 
 private:
-    VirtualFunctionManager virtualFunctionManager_;
+    VirtualObjectManager virtualObjectManager_;
     AdvancedScannerSystem advancedScanner_;
 };
 
-// 更新CHTLJSFunction类，集成新功能
+// 更新CHTLJSFunction类，集成虚对象支持
 class CHTLJSFunction {
 public:
     CHTLJSFunction();
@@ -682,10 +699,34 @@ public:
     QuickBuilder quickBuild(const std::string& pattern, const std::string& ignoreChars = ",:{};()");
     
     /**
-     * @brief 虚函数处理
+     * @brief virBind - 手动绑定虚对象支持
+     * 用法：processor->virBind("printMylove");
+     * 为指定函数启用虚对象支持
      */
-    std::string processVirtualFunction(const std::string& functionName, 
-                                     const std::vector<std::string>& args = {});
+    void virBind(const std::string& functionName);
+    
+    /**
+     * @brief 启用虚对象支持（针对createCHTLJSFunction创建的函数）
+     * createCHTLJSFunction创建的CHTL JS函数能够直接支持虚对象的使用
+     */
+    void enableVirtualObjectSupport(bool enable = true);
+    
+    /**
+     * @brief 检查是否支持虚对象
+     */
+    bool isVirtualObjectSupported() const { return virtualObjectSupported_; }
+    
+    /**
+     * @brief 处理虚对象定义
+     * 用法：processor->processVirtualObjectDefinition("vir Test = listen({...})");
+     */
+    void processVirtualObjectDefinition(const std::string& virDefinition);
+    
+    /**
+     * @brief 处理虚对象调用
+     * 用法：processor->processVirtualObjectCall("Test->click()");
+     */
+    std::string processVirtualObjectCall(const std::string& virCall);
     
     /**
      * @brief 高级扫描
@@ -706,6 +747,8 @@ public:
 private:
     // ... 原有成员变量 ...
     CJMODCoreSystem coreSystem_;
+    bool virtualObjectSupported_;  // 是否支持虚对象
+    std::string boundFunctionName_; // 通过virBind绑定的函数名
 };
 
 // ============================================================================
@@ -719,10 +762,10 @@ private:
     QuickBuilder::create(pattern).values(__VA_ARGS__).build()
 
 /**
- * @brief 虚函数宏
+ * @brief 虚对象绑定宏
  */
-#define VIRTUAL_FUNC(name, type, ...) \
-    processor->getCoreSystem().getVirtualFunctionManager().createVirtualFunction(name, {__VA_ARGS__})
+#define VIR_BIND(processor, funcName) \
+    processor->virBind(funcName)
 
 /**
  * @brief 高级扫描宏
@@ -734,23 +777,24 @@ private:
 } // namespace CHTL
 
 /**
- * @brief 🚀 增强功能总结：
+ * @brief 🚀 修正后的功能总结：
  * 
  * 【简化流程】
- * - QuickBuilder：一行代码快速构建
+ * - QuickBuilder：一行代码快速构建CHTL JS函数
  * - 链式调用：create().values().templates().build()
  * - 宏支持：QUICK_CJMOD(pattern, args...)
  * 
- * 【虚函数支持】
- * - VirtualFunctionManager：虚函数管理
- * - 多种函数类型：回调、事件、异步、生成器等
- * - 自动JS代码生成：智能模板系统
+ * 【虚对象支持】（基于语法文档第1274-1311行）
+ * - VirtualObjectManager：虚对象管理和全局函数生成
+ * - createCHTLJSFunction创建的函数直接支持虚对象
+ * - virBind("函数名称")：手动绑定虚对象支持
+ * - 自动扫描机制：处理vir定义和->调用
  * 
  * 【高级扫描机制】
- * - 多模式扫描：双指针、正则、AST、上下文
+ * - 多模式扫描：双指针、正则、AST、上下文、混合
  * - 智能前置截取：上下文感知
  * - 嵌套结构扫描：处理复杂语法
- * - 语义扫描：理解代码含义
+ * - 虚对象语法扫描：专门处理vir语法
  * 
  * 【核心机制集成】
  * - CJMODCoreSystem：统一管理所有核心功能
@@ -758,12 +802,17 @@ private:
  * - 批量处理：高效处理多个函数
  * 
  * 💡 使用示例：
- * // 简化流程
+ * // 简化流程创建CHTL JS函数
  * auto result = QUICK_CJMOD("printMylove($, $)", "photo.jpg", "ASCII");
  * 
- * // 虚函数
- * auto callback = VIRTUAL_FUNC("onClick", CALLBACK, "event");
+ * // createCHTLJSFunction创建的函数直接支持虚对象
+ * auto func = createCHTLJSFunction("listen");
+ * func->enableVirtualObjectSupport(); // 自动支持
  * 
- * // 高级扫描
- * auto results = ADVANCED_SCAN(sourceCode, {"printMylove", "iNeverAway"});
+ * // 手动绑定虚对象支持
+ * VIR_BIND(processor, "printMylove");
+ * 
+ * // 虚对象自动扫描处理
+ * processor->processVirtualObjectDefinition("vir Test = listen({click: ()=>{}})");
+ * auto call = processor->processVirtualObjectCall("Test->click()");
  */
