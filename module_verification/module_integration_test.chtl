@@ -1,0 +1,505 @@
+// ==========================================
+// CMOD/CJMOD模块系统完整集成测试
+// 测试模块的导入、使用和功能集成
+// ==========================================
+
+// ========== 模块导入测试 ==========
+
+// 导入整个TestCMOD模块
+[Import] @Chtl from "TestCMOD";
+
+// 精确导入特定组件
+[Import] [Custom] @Element TestCard from "TestCMOD";
+[Import] [Custom] @Element TestButton from "TestCMOD";
+[Import] [Custom] @Element TestInput from "TestCMOD";
+
+// 导入样式组
+[Import] [Custom] @Style TestCardTheme from "TestCMOD";
+[Import] [Custom] @Style TestButtonTheme from "TestCMOD";
+
+// 导入模板
+[Import] [Template] @Element BaseCard from "TestCMOD";
+[Import] [Template] @Style BaseTheme from "TestCMOD";
+
+// 导入变量组
+[Import] [Template] @Var TestColors from "TestCMOD";
+[Import] [Template] @Var TestSpacing from "TestCMOD";
+
+// 导入原始嵌入
+[Import] [Origin] @Html TestWidget from "TestCMOD";
+[Import] [Origin] @Style TestCSS from "TestCMOD";
+[Import] [Origin] @JavaScript TestJS from "TestCMOD";
+
+// ========== 配置导入测试 ==========
+[Import] @Config from "TestCMOD";
+
+// ========== 主应用结构 ==========
+
+html {
+    lang: "zh-CN";
+    
+    head {
+        meta { charset: "UTF-8"; }
+        meta { 
+            name: "viewport"; 
+            content: "width=device-width, initial-scale=1.0"; 
+        }
+        title { text { "CMOD模块系统集成测试" } }
+    }
+    
+    body {
+        style {
+            @Style BaseTheme;
+            margin: 0;
+            padding: TestSpacing(lg);
+        }
+        
+        div {
+            class: container;
+            
+            style {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            // 页面标题
+            header {
+                style {
+                    text-align: center;
+                    margin-bottom: TestSpacing(xl);
+                    padding: TestSpacing(xl) 0;
+                    border-bottom: 2px solid TestColors(primary);
+                }
+                
+                h1 {
+                    style {
+                        color: TestColors(primary);
+                        font-size: 2.5rem;
+                        margin-bottom: TestSpacing(md);
+                    }
+                    text { "CMOD模块系统集成测试" }
+                }
+                
+                p {
+                    style {
+                        color: TestColors(secondary);
+                        font-size: 1.125rem;
+                    }
+                    text { "验证TestCMOD模块的所有功能组件" }
+                }
+            }
+            
+            // 测试区域1：基础组件测试
+            section {
+                class: test-section;
+                
+                style {
+                    margin-bottom: TestSpacing(xl);
+                }
+                
+                h2 {
+                    style {
+                        color: TestColors(dark);
+                        border-left: 4px solid TestColors(success);
+                        padding-left: TestSpacing(md);
+                        margin-bottom: TestSpacing(lg);
+                    }
+                    text { "基础组件测试" }
+                }
+                
+                div {
+                    class: component-grid;
+                    
+                    style {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                        gap: TestSpacing(lg);
+                    }
+                    
+                    // 使用导入的TestCard组件
+                    @Element TestCard {
+                        class: card-primary;
+                        
+                        div {
+                            class: card-header;
+                            text { "测试卡片组件" }
+                        }
+                        
+                        div {
+                            class: card-body;
+                            
+                            h5 {
+                                class: card-title;
+                                text { "卡片标题" }
+                            }
+                            
+                            p {
+                                class: card-text;
+                                text { "这是从TestCMOD模块导入的TestCard组件，具有完整的样式和交互功能。" }
+                            }
+                        }
+                        
+                        div {
+                            class: card-footer;
+                            text { "卡片底部信息" }
+                        }
+                    }
+                    
+                    // 使用基础模板组件
+                    @Element BaseCard {
+                        div {
+                            style {
+                                padding: TestSpacing(md);
+                            }
+                            
+                            h5 {
+                                style {
+                                    color: TestColors(primary);
+                                    margin-bottom: TestSpacing(sm);
+                                }
+                                text { "基础卡片模板" }
+                            }
+                            
+                            p {
+                                text { "这是从TestCMOD模块导入的BaseCard模板组件。" }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // 测试区域2：按钮组件测试
+            section {
+                class: test-section;
+                
+                style {
+                    margin-bottom: TestSpacing(xl);
+                }
+                
+                h2 {
+                    style {
+                        color: TestColors(dark);
+                        border-left: 4px solid TestColors(info);
+                        padding-left: TestSpacing(md);
+                        margin-bottom: TestSpacing(lg);
+                    }
+                    text { "按钮组件测试" }
+                }
+                
+                div {
+                    class: button-showcase;
+                    
+                    style {
+                        @Style TestButtonTheme;
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: TestSpacing(md);
+                        align-items: center;
+                    }
+                    
+                    // 不同变体的按钮
+                    @Element TestButton {
+                        class: test-button;
+                        text { "主要按钮" }
+                    }
+                    
+                    @Element TestButton {
+                        class: test-button btn-secondary;
+                        text { "次要按钮" }
+                    }
+                    
+                    @Element TestButton {
+                        class: test-button btn-success;
+                        text { "成功按钮" }
+                    }
+                    
+                    @Element TestButton {
+                        class: test-button btn-danger;
+                        text { "危险按钮" }
+                    }
+                    
+                    @Element TestButton {
+                        class: test-button btn-outline;
+                        text { "轮廓按钮" }
+                    }
+                    
+                    // 不同尺寸的按钮
+                    @Element TestButton {
+                        class: test-button btn-sm;
+                        text { "小按钮" }
+                    }
+                    
+                    @Element TestButton {
+                        class: test-button btn-lg;
+                        text { "大按钮" }
+                    }
+                }
+                
+                // 按钮组测试
+                div {
+                    style {
+                        margin-top: TestSpacing(lg);
+                    }
+                    
+                    h3 {
+                        style {
+                            margin-bottom: TestSpacing(md);
+                            color: TestColors(dark);
+                        }
+                        text { "按钮组测试" }
+                    }
+                    
+                    div {
+                        class: btn-group;
+                        
+                        @Element TestButton {
+                            class: test-button;
+                            text { "左" }
+                        }
+                        
+                        @Element TestButton {
+                            class: test-button;
+                            text { "中" }
+                        }
+                        
+                        @Element TestButton {
+                            class: test-button;
+                            text { "右" }
+                        }
+                    }
+                }
+            }
+            
+            // 测试区域3：输入组件测试
+            section {
+                class: test-section;
+                
+                style {
+                    margin-bottom: TestSpacing(xl);
+                }
+                
+                h2 {
+                    style {
+                        color: TestColors(dark);
+                        border-left: 4px solid TestColors(warning);
+                        padding-left: TestSpacing(md);
+                        margin-bottom: TestSpacing(lg);
+                    }
+                    text { "输入组件测试" }
+                }
+                
+                form {
+                    style {
+                        max-width: 600px;
+                        margin: 0 auto;
+                    }
+                    
+                    div {
+                        class: form-group;
+                        
+                        style {
+                            margin-bottom: TestSpacing(lg);
+                        }
+                        
+                        label {
+                            style {
+                                display: block;
+                                margin-bottom: TestSpacing(sm);
+                                font-weight: 500;
+                                color: TestColors(dark);
+                            }
+                            text { "用户名" }
+                        }
+                        
+                        @Element TestInput {
+                            type: "text";
+                            placeholder: "请输入用户名";
+                            required: "true";
+                        }
+                    }
+                    
+                    div {
+                        class: form-group;
+                        
+                        style {
+                            margin-bottom: TestSpacing(lg);
+                        }
+                        
+                        label {
+                            style {
+                                display: block;
+                                margin-bottom: TestSpacing(sm);
+                                font-weight: 500;
+                                color: TestColors(dark);
+                            }
+                            text { "邮箱" }
+                        }
+                        
+                        @Element TestInput {
+                            type: "email";
+                            placeholder: "请输入邮箱地址";
+                            required: "true";
+                        }
+                    }
+                    
+                    div {
+                        class: form-group;
+                        
+                        style {
+                            margin-bottom: TestSpacing(lg);
+                        }
+                        
+                        label {
+                            style {
+                                display: block;
+                                margin-bottom: TestSpacing(sm);
+                                font-weight: 500;
+                                color: TestColors(dark);
+                            }
+                            text { "密码" }
+                        }
+                        
+                        @Element TestInput {
+                            type: "password";
+                            placeholder: "请输入密码";
+                            required: "true";
+                        }
+                    }
+                    
+                    div {
+                        class: form-actions;
+                        
+                        style {
+                            display: flex;
+                            gap: TestSpacing(md);
+                            justify-content: center;
+                        }
+                        
+                        @Element TestButton {
+                            class: test-button btn-success;
+                            type: "submit";
+                            text { "提交" }
+                        }
+                        
+                        @Element TestButton {
+                            class: test-button btn-secondary;
+                            type: "reset";
+                            text { "重置" }
+                        }
+                    }
+                }
+            }
+            
+            // 测试区域4：原始嵌入测试
+            section {
+                class: test-section;
+                
+                style {
+                    margin-bottom: TestSpacing(xl);
+                }
+                
+                h2 {
+                    style {
+                        color: TestColors(dark);
+                        border-left: 4px solid TestColors(danger);
+                        padding-left: TestSpacing(md);
+                        margin-bottom: TestSpacing(lg);
+                    }
+                    text { "原始嵌入测试" }
+                }
+                
+                // 使用原始嵌入的HTML组件
+                [Origin] @Html TestWidget;
+                
+                div {
+                    style {
+                        margin-top: TestSpacing(lg);
+                        padding: TestSpacing(lg);
+                        background: TestColors(light);
+                        border-radius: 8px;
+                        border: 1px solid TestColors(primary);
+                    }
+                    
+                    h3 {
+                        style {
+                            color: TestColors(primary);
+                            margin-bottom: TestSpacing(md);
+                        }
+                        text { "模块功能验证" }
+                    }
+                    
+                    p {
+                        text { "此页面成功集成了TestCMOD模块的所有组件，包括：" }
+                    }
+                    
+                    ul {
+                        style {
+                            margin: TestSpacing(md) 0;
+                            padding-left: TestSpacing(lg);
+                        }
+                        
+                        li { text { "变量组模板 (TestColors, TestSpacing)" } }
+                        li { text { "样式组模板 (BaseTheme, ButtonBase)" } }
+                        li { text { "元素模板 (BaseCard, BaseButton)" } }
+                        li { text { "自定义组件 (TestCard, TestButton, TestInput)" } }
+                        li { text { "自定义样式 (TestCardTheme, TestButtonTheme)" } }
+                        li { text { "原始嵌入 (TestWidget, TestCSS, TestJS)" } }
+                    }
+                }
+            }
+        }
+        
+        // 引用原始嵌入的CSS和JS
+        [Origin] @Style TestCSS;
+        [Origin] @JavaScript TestJS;
+        
+        // 附加的交互脚本
+        script {
+            {{document}}->addEventListener('DOMContentLoaded', () => {
+                console.log('模块集成测试页面加载完成');
+                
+                // 测试模块提供的工具函数
+                if (typeof TestCMODUtils !== 'undefined') {
+                    console.log('TestCMOD模块信息:', TestCMODUtils.getModuleInfo());
+                    console.log('当前时间:', TestCMODUtils.formatDate(new Date()));
+                    console.log('随机颜色:', TestCMODUtils.randomColor());
+                }
+                
+                // 表单提交处理
+                {{form}}->listen({
+                    submit: (event) => {
+                        event.preventDefault();
+                        
+                        const formData = new FormData(event.target);
+                        const data = Object.fromEntries(formData.entries());
+                        
+                        console.log('表单数据:', data);
+                        
+                        // 模拟提交成功
+                        setTimeout(() => {
+                            alert('提交成功！这是一个模块集成测试演示。');
+                        }, 500);
+                    }
+                });
+                
+                // 卡片交互增强
+                {{.test-card}}->listen({
+                    click: (event) => {
+                        event.currentTarget.style.transform = 'scale(1.02)';
+                        setTimeout(() => {
+                            event.currentTarget.style.transform = '';
+                        }, 200);
+                    }
+                });
+                
+                // 性能监控
+                console.log('模块加载性能:', {
+                    loadTime: performance.now(),
+                    modules: ['TestCMOD'],
+                    components: ['TestCard', 'TestButton', 'TestInput'],
+                    success: true
+                });
+            });
+        }
+    }
+}
