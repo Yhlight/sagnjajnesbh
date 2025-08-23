@@ -643,4 +643,161 @@ export class CHTLIntelliSenseProvider {
 
         return undefined;
     }
+
+    /**
+     * 获取模块导入相关的智能提示
+     */
+    private async getModuleImportCompletions(document: vscode.TextDocument, position: vscode.Position): Promise<vscode.CompletionItem[]> {
+        const line = document.lineAt(position).text;
+        const beforeCursor = line.substring(0, position.character);
+        
+        const suggestions: vscode.CompletionItem[] = [];
+        
+        // 检测Import语句的不同部分
+        if (beforeCursor.includes('[Import]')) {
+            // Import类型建议
+            if (beforeCursor.includes('@')) {
+                suggestions.push(...this.getImportTypeCompletions());
+            } else if (beforeCursor.includes('from')) {
+                // 模块路径建议
+                suggestions.push(...await this.getModulePathCompletions(beforeCursor));
+            } else if (beforeCursor.includes('as')) {
+                // as别名建议
+                suggestions.push(...this.getAsAliasCompletions());
+            } else {
+                // 基础Import类型
+                suggestions.push(...this.getImportTypeCompletions());
+            }
+        }
+        
+        return suggestions;
+    }
+
+    /**
+     * 获取Import类型提示
+     */
+    private getImportTypeCompletions(): vscode.CompletionItem[] {
+        return [
+            {
+                label: '@Html',
+                kind: vscode.CompletionItemKind.Module,
+                detail: 'HTML文件导入',
+                documentation: '导入HTML文件资源',
+                insertText: new vscode.SnippetString('@Html from "${1:path}" as ${2:alias}'),
+                sortText: '01'
+            },
+            {
+                label: '@Style',
+                kind: vscode.CompletionItemKind.Module,
+                detail: 'CSS样式文件导入',
+                documentation: '导入CSS样式文件',
+                insertText: new vscode.SnippetString('@Style from "${1:path}" as ${2:alias}'),
+                sortText: '02'
+            },
+            {
+                label: '@JavaScript',
+                kind: vscode.CompletionItemKind.Module,
+                detail: 'JavaScript文件导入',
+                documentation: '导入JavaScript文件',
+                insertText: new vscode.SnippetString('@JavaScript from "${1:path}" as ${2:alias}'),
+                sortText: '03'
+            },
+            {
+                label: '@Chtl',
+                kind: vscode.CompletionItemKind.Module,
+                detail: 'CHTL模块导入',
+                documentation: '导入CHTL模块文件（.chtl/.cmod）',
+                insertText: new vscode.SnippetString('@Chtl from ${1:moduleName}'),
+                sortText: '04'
+            },
+            {
+                label: '@CJmod',
+                kind: vscode.CompletionItemKind.Module,
+                detail: 'CJMOD扩展导入',
+                documentation: '导入CJMOD扩展文件（.cjmod）',
+                insertText: new vscode.SnippetString('@CJmod from ${1:moduleName}'),
+                sortText: '05'
+            }
+        ];
+    }
+
+    /**
+     * 获取模块路径提示
+     */
+    private async getModulePathCompletions(beforeCursor: string): Promise<vscode.CompletionItem[]> {
+        const suggestions: vscode.CompletionItem[] = [];
+        
+        // 获取所有已知模块
+        const allModules = this.moduleResolver.getAllModules();
+        const officialModules = this.moduleResolver.getOfficialModules();
+        
+        // 官方模块建议
+        for (const module of officialModules) {
+            suggestions.push({
+                label: module.name,
+                kind: vscode.CompletionItemKind.Module,
+                detail: `官方模块 (${module.type})`,
+                documentation: this.getModuleDocumentation(module),
+                insertText: module.name,
+                sortText: `00${module.name}`
+            });
+        }
+        
+        // 项目模块建议
+        const projectModules = allModules.filter(m => !m.isOfficial);
+        for (const module of projectModules) {
+            suggestions.push({
+                label: module.name,
+                kind: vscode.CompletionItemKind.Module,
+                detail: `项目模块 (${module.type})`,
+                documentation: this.getModuleDocumentation(module),
+                insertText: module.name,
+                sortText: `10${module.name}`
+            });
+        }
+        
+        return suggestions;
+    }
+
+    /**
+     * 获取模块文档信息
+     */
+    private getModuleDocumentation(module: ModuleInfo): vscode.MarkdownString {
+        const doc = new vscode.MarkdownString();
+        doc.appendCodeblock(`模块: ${module.name}`, 'chtl');
+        doc.appendMarkdown(`**类型**: ${module.type}\n\n`);
+        doc.appendMarkdown(`**路径**: ${module.path}\n\n`);
+        
+        if (module.exports && module.exports.length > 0) {
+            doc.appendMarkdown(`**导出**: ${module.exports.join(', ')}\n\n`);
+        }
+        
+        if (module.imports && module.imports.length > 0) {
+            doc.appendMarkdown(`**依赖**: ${module.imports.join(', ')}\n\n`);
+        }
+        
+        if (module.description) {
+            doc.appendMarkdown(`**描述**: ${module.description}\n\n`);
+        }
+        
+        doc.appendMarkdown(`**来源**: ${module.isOfficial ? '官方模块' : '项目模块'}`);
+        
+        return doc;
+    }
+
+    /**
+     * 获取as别名建议
+     */
+    private getAsAliasCompletions(): vscode.CompletionItem[] {
+        return [
+            {
+                label: 'alias',
+                kind: vscode.CompletionItemKind.Variable,
+                detail: '别名',
+                documentation: '为导入的模块指定别名',
+                insertText: new vscode.SnippetString('${1:alias}'),
+                sortText: '01'
+            }
+        ];
+    }
 }

@@ -70,7 +70,18 @@ export class ModuleResolver {
         
         const searchPaths: string[] = [];
 
-        // 1. 官方模块目录
+        // 1. 官方模块目录（内置编译器同级的module目录）
+        // 这是最重要的搜索路径，因为官方模块与编译器一起打包
+        const builtInOfficialPath = path.join(this.context.extensionPath, 'bin', 'module');
+        this.addModulePaths(searchPaths, builtInOfficialPath);
+        
+        // 验证官方模块目录是否存在
+        if (!fs.existsSync(builtInOfficialPath)) {
+            console.warn(`内置官方模块目录不存在: ${builtInOfficialPath}`);
+            console.warn('这可能是因为扩展打包时未包含内置编译器和官方模块');
+        }
+        
+        // 兼容配置的官方模块路径（用于开发测试）
         if (officialModulePath) {
             const resolvedOfficialPath = this.resolvePlaceholders(officialModulePath, workspaceRoot);
             this.addModulePaths(searchPaths, resolvedOfficialPath);
