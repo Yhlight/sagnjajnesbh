@@ -106,6 +106,7 @@ bin/chtl_compiler: lib/libcmod.a
 bin/chtl_compiler: lib/libutils.a
 bin/chtl_compiler: lib/libchtl_core.a
 bin/chtl_compiler: lib/libcmod.a
+bin/chtl_compiler: lib/libutils.a
 bin/chtl_compiler: lib/libchtljs_core.a
 bin/chtl_compiler: lib/libscanner.a
 bin/chtl_compiler: src/CMakeFiles/chtl_compiler.dir/link.txt

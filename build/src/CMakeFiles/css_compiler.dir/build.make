@@ -86,81 +86,17 @@ src/CMakeFiles/css_compiler.dir/CSS/CSSCompiler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/css_compiler.dir/CSS/CSSCompiler.cpp.s"
 	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CSS/CSSCompiler.cpp -o CMakeFiles/css_compiler.dir/CSS/CSSCompiler.cpp.s
 
-src/CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.o: src/CMakeFiles/css_compiler.dir/flags.make
-src/CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.o: /workspace/css/css3Lexer.cpp
-src/CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.o: src/CMakeFiles/css_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.o"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.o -MF CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.o.d -o CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.o -c /workspace/css/css3Lexer.cpp
-
-src/CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.i"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/css/css3Lexer.cpp > CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.i
-
-src/CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.s"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/css/css3Lexer.cpp -o CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.s
-
-src/CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.o: src/CMakeFiles/css_compiler.dir/flags.make
-src/CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.o: /workspace/css/css3Parser.cpp
-src/CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.o: src/CMakeFiles/css_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.o"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.o -MF CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.o.d -o CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.o -c /workspace/css/css3Parser.cpp
-
-src/CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.i"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/css/css3Parser.cpp > CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.i
-
-src/CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.s"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/css/css3Parser.cpp -o CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.s
-
-src/CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.o: src/CMakeFiles/css_compiler.dir/flags.make
-src/CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.o: /workspace/css/css3ParserBaseListener.cpp
-src/CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.o: src/CMakeFiles/css_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.o"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.o -MF CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.o.d -o CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.o -c /workspace/css/css3ParserBaseListener.cpp
-
-src/CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.i"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/css/css3ParserBaseListener.cpp > CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.i
-
-src/CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.s"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/css/css3ParserBaseListener.cpp -o CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.s
-
-src/CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.o: src/CMakeFiles/css_compiler.dir/flags.make
-src/CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.o: /workspace/css/css3ParserListener.cpp
-src/CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.o: src/CMakeFiles/css_compiler.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.o"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.o -MF CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.o.d -o CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.o -c /workspace/css/css3ParserListener.cpp
-
-src/CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.i"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/css/css3ParserListener.cpp > CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.i
-
-src/CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.s"
-	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/css/css3ParserListener.cpp -o CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.s
-
 # Object files for target css_compiler
 css_compiler_OBJECTS = \
-"CMakeFiles/css_compiler.dir/CSS/CSSCompiler.cpp.o" \
-"CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.o" \
-"CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.o" \
-"CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.o" \
-"CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.o"
+"CMakeFiles/css_compiler.dir/CSS/CSSCompiler.cpp.o"
 
 # External object files for target css_compiler
 css_compiler_EXTERNAL_OBJECTS =
 
 lib/libcss_compiler.a: src/CMakeFiles/css_compiler.dir/CSS/CSSCompiler.cpp.o
-lib/libcss_compiler.a: src/CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.o
-lib/libcss_compiler.a: src/CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.o
-lib/libcss_compiler.a: src/CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.o
-lib/libcss_compiler.a: src/CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.o
 lib/libcss_compiler.a: src/CMakeFiles/css_compiler.dir/build.make
 lib/libcss_compiler.a: src/CMakeFiles/css_compiler.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library ../lib/libcss_compiler.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library ../lib/libcss_compiler.a"
 	cd /workspace/build/src && $(CMAKE_COMMAND) -P CMakeFiles/css_compiler.dir/cmake_clean_target.cmake
 	cd /workspace/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/css_compiler.dir/link.txt --verbose=$(VERBOSE)
 

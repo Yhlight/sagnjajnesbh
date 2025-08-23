@@ -99,6 +99,7 @@ bin/test_selector_automation: tests/CMakeFiles/test_selector_automation.dir/comp
 bin/test_selector_automation: lib/libchtl_core.a
 bin/test_selector_automation: lib/libutils.a
 bin/test_selector_automation: lib/libcmod.a
+bin/test_selector_automation: lib/libutils.a
 bin/test_selector_automation: tests/CMakeFiles/test_selector_automation.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/test_selector_automation"
 	cd /workspace/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_selector_automation.dir/link.txt --verbose=$(VERBOSE)

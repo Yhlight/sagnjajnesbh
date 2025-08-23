@@ -9,7 +9,7 @@ void test_scanner_basic() {
     Scanner::CHTLUnifiedScanner scanner;
     std::string testCode = "html { body { text { Hello World } } }";
     
-    auto fragments = scanner.Scan(testCode, "test.chtl");
+    auto fragments = scanner.ScanSource(testCode, "test.chtl");
     
     // 应该至少有一个片段
     assert(!fragments.empty());
@@ -20,12 +20,12 @@ void test_scanner_chtl_js_detection() {
     Scanner::CHTLUnifiedScanner scanner;
     std::string testCode = "script { {{box}}->click(); }";
     
-    auto fragments = scanner.Scan(testCode, "test.chtl");
+    auto fragments = scanner.ScanSource(testCode, "test.chtl");
     
     // 应该检测到CHTL JS特征
     bool foundCHTLJS = false;
     for (const auto& fragment : fragments) {
-        if (fragment.type == Scanner::FragmentType::CHTLJS) {
+        if (fragment.type == Scanner::FragmentType::CHTL_JS) {
             foundCHTLJS = true;
             break;
         }
@@ -39,7 +39,7 @@ void test_scanner_css_detection() {
     Scanner::CHTLUnifiedScanner scanner;
     std::string testCode = "style { color: red; background-color: blue; }";
     
-    auto fragments = scanner.Scan(testCode, "test.chtl");
+    auto fragments = scanner.ScanSource(testCode, "test.chtl");
     
     // 应该检测到CSS特征
     bool foundCSS = false;

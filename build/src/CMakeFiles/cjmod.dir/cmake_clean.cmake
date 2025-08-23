@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "../lib/libcjmod.a"
   "../lib/libcjmod.pdb"
-  "CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o"
-  "CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o.d"
+  "CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.o"
+  "CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

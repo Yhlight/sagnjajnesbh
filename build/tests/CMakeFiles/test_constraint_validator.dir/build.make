@@ -99,6 +99,7 @@ bin/test_constraint_validator: tests/CMakeFiles/test_constraint_validator.dir/co
 bin/test_constraint_validator: lib/libchtl_core.a
 bin/test_constraint_validator: lib/libutils.a
 bin/test_constraint_validator: lib/libcmod.a
+bin/test_constraint_validator: lib/libutils.a
 bin/test_constraint_validator: tests/CMakeFiles/test_constraint_validator.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/test_constraint_validator"
 	cd /workspace/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_constraint_validator.dir/link.txt --verbose=$(VERBOSE)

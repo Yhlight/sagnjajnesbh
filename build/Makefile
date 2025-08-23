@@ -224,6 +224,19 @@ dispatcher/fast:
 .PHONY : dispatcher/fast
 
 #=============================================================================
+# Target rules for targets named utils
+
+# Build rule for target.
+utils: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 utils
+.PHONY : utils
+
+# fast build rule for target.
+utils/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/build
+.PHONY : utils/fast
+
+#=============================================================================
 # Target rules for targets named css_compiler
 
 # Build rule for target.
@@ -276,17 +289,17 @@ cjmod/fast:
 .PHONY : cjmod/fast
 
 #=============================================================================
-# Target rules for targets named utils
+# Target rules for targets named module_builder
 
 # Build rule for target.
-utils: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 utils
-.PHONY : utils
+module_builder: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 module_builder
+.PHONY : module_builder
 
 # fast build rule for target.
-utils/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/build
-.PHONY : utils/fast
+module_builder/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/module_builder.dir/build.make src/CMakeFiles/module_builder.dir/build
+.PHONY : module_builder/fast
 
 #=============================================================================
 # Target rules for targets named chtl_compiler
@@ -313,6 +326,58 @@ cmod_export_generator: cmake_check_build_system
 cmod_export_generator/fast:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod_export_generator.dir/build.make src/CMakeFiles/cmod_export_generator.dir/build
 .PHONY : cmod_export_generator/fast
+
+#=============================================================================
+# Target rules for targets named build_module_Chtholly
+
+# Build rule for target.
+build_module_Chtholly: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 build_module_Chtholly
+.PHONY : build_module_Chtholly
+
+# fast build rule for target.
+build_module_Chtholly/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/build_module_Chtholly.dir/build.make src/CMakeFiles/build_module_Chtholly.dir/build
+.PHONY : build_module_Chtholly/fast
+
+#=============================================================================
+# Target rules for targets named Chtholly_cjmod
+
+# Build rule for target.
+Chtholly_cjmod: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Chtholly_cjmod
+.PHONY : Chtholly_cjmod
+
+# fast build rule for target.
+Chtholly_cjmod/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/build
+.PHONY : Chtholly_cjmod/fast
+
+#=============================================================================
+# Target rules for targets named build_all_modules
+
+# Build rule for target.
+build_all_modules: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 build_all_modules
+.PHONY : build_all_modules
+
+# fast build rule for target.
+build_all_modules/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/build_all_modules.dir/build.make src/CMakeFiles/build_all_modules.dir/build
+.PHONY : build_all_modules/fast
+
+#=============================================================================
+# Target rules for targets named clean_modules
+
+# Build rule for target.
+clean_modules: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean_modules
+.PHONY : clean_modules
+
+# fast build rule for target.
+clean_modules/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/clean_modules.dir/build.make src/CMakeFiles/clean_modules.dir/build
+.PHONY : clean_modules/fast
 
 #=============================================================================
 # Target rules for targets named test_chtl_core
@@ -626,6 +691,10 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... build_all_modules"
+	@echo "... build_module_Chtholly"
+	@echo "... clean_modules"
+	@echo "... Chtholly_cjmod"
 	@echo "... chtl_compiler"
 	@echo "... chtl_core"
 	@echo "... chtljs_core"
@@ -635,6 +704,7 @@ help:
 	@echo "... css_compiler"
 	@echo "... dispatcher"
 	@echo "... js_compiler"
+	@echo "... module_builder"
 	@echo "... scanner"
 	@echo "... test_advanced_features"
 	@echo "... test_auto_export"

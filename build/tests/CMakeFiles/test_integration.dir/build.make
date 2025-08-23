@@ -105,6 +105,7 @@ bin/test_integration: lib/libjs_compiler.a
 bin/test_integration: lib/libutils.a
 bin/test_integration: lib/libchtl_core.a
 bin/test_integration: lib/libcmod.a
+bin/test_integration: lib/libutils.a
 bin/test_integration: lib/libchtljs_core.a
 bin/test_integration: lib/libscanner.a
 bin/test_integration: tests/CMakeFiles/test_integration.dir/link.txt

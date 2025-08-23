@@ -228,6 +228,20 @@ dispatcher/fast:
 .PHONY : dispatcher/fast
 
 # Convenience name for target.
+src/CMakeFiles/utils.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/utils.dir/rule
+.PHONY : src/CMakeFiles/utils.dir/rule
+
+# Convenience name for target.
+utils: src/CMakeFiles/utils.dir/rule
+.PHONY : utils
+
+# fast build rule for target.
+utils/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/build
+.PHONY : utils/fast
+
+# Convenience name for target.
 src/CMakeFiles/css_compiler.dir/rule:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/css_compiler.dir/rule
 .PHONY : src/CMakeFiles/css_compiler.dir/rule
@@ -284,18 +298,18 @@ cjmod/fast:
 .PHONY : cjmod/fast
 
 # Convenience name for target.
-src/CMakeFiles/utils.dir/rule:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/utils.dir/rule
-.PHONY : src/CMakeFiles/utils.dir/rule
+src/CMakeFiles/module_builder.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/module_builder.dir/rule
+.PHONY : src/CMakeFiles/module_builder.dir/rule
 
 # Convenience name for target.
-utils: src/CMakeFiles/utils.dir/rule
-.PHONY : utils
+module_builder: src/CMakeFiles/module_builder.dir/rule
+.PHONY : module_builder
 
 # fast build rule for target.
-utils/fast:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/build
-.PHONY : utils/fast
+module_builder/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/module_builder.dir/build.make src/CMakeFiles/module_builder.dir/build
+.PHONY : module_builder/fast
 
 # Convenience name for target.
 src/CMakeFiles/chtl_compiler.dir/rule:
@@ -324,6 +338,62 @@ cmod_export_generator: src/CMakeFiles/cmod_export_generator.dir/rule
 cmod_export_generator/fast:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod_export_generator.dir/build.make src/CMakeFiles/cmod_export_generator.dir/build
 .PHONY : cmod_export_generator/fast
+
+# Convenience name for target.
+src/CMakeFiles/build_module_Chtholly.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/build_module_Chtholly.dir/rule
+.PHONY : src/CMakeFiles/build_module_Chtholly.dir/rule
+
+# Convenience name for target.
+build_module_Chtholly: src/CMakeFiles/build_module_Chtholly.dir/rule
+.PHONY : build_module_Chtholly
+
+# fast build rule for target.
+build_module_Chtholly/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/build_module_Chtholly.dir/build.make src/CMakeFiles/build_module_Chtholly.dir/build
+.PHONY : build_module_Chtholly/fast
+
+# Convenience name for target.
+src/CMakeFiles/Chtholly_cjmod.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/Chtholly_cjmod.dir/rule
+.PHONY : src/CMakeFiles/Chtholly_cjmod.dir/rule
+
+# Convenience name for target.
+Chtholly_cjmod: src/CMakeFiles/Chtholly_cjmod.dir/rule
+.PHONY : Chtholly_cjmod
+
+# fast build rule for target.
+Chtholly_cjmod/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/build
+.PHONY : Chtholly_cjmod/fast
+
+# Convenience name for target.
+src/CMakeFiles/build_all_modules.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/build_all_modules.dir/rule
+.PHONY : src/CMakeFiles/build_all_modules.dir/rule
+
+# Convenience name for target.
+build_all_modules: src/CMakeFiles/build_all_modules.dir/rule
+.PHONY : build_all_modules
+
+# fast build rule for target.
+build_all_modules/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/build_all_modules.dir/build.make src/CMakeFiles/build_all_modules.dir/build
+.PHONY : build_all_modules/fast
+
+# Convenience name for target.
+src/CMakeFiles/clean_modules.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/clean_modules.dir/rule
+.PHONY : src/CMakeFiles/clean_modules.dir/rule
+
+# Convenience name for target.
+clean_modules: src/CMakeFiles/clean_modules.dir/rule
+.PHONY : clean_modules
+
+# fast build rule for target.
+clean_modules/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/clean_modules.dir/build.make src/CMakeFiles/clean_modules.dir/build
+.PHONY : clean_modules/fast
 
 CHTL/AST/CHTLASTBuilder.o: CHTL/AST/CHTLASTBuilder.cpp.o
 .PHONY : CHTL/AST/CHTLASTBuilder.o
@@ -949,29 +1019,29 @@ CHTLJS/Parser/CHTLJSParser.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtljs_core.dir/build.make src/CMakeFiles/chtljs_core.dir/CHTLJS/Parser/CHTLJSParser.cpp.s
 .PHONY : CHTLJS/Parser/CHTLJSParser.cpp.s
 
-CJMOD/CJMODApi.o: CJMOD/CJMODApi.cpp.o
-.PHONY : CJMOD/CJMODApi.o
+CJMOD/SimpleCJMODApi.o: CJMOD/SimpleCJMODApi.cpp.o
+.PHONY : CJMOD/SimpleCJMODApi.o
 
 # target to build an object file
-CJMOD/CJMODApi.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o
-.PHONY : CJMOD/CJMODApi.cpp.o
+CJMOD/SimpleCJMODApi.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.o
+.PHONY : CJMOD/SimpleCJMODApi.cpp.o
 
-CJMOD/CJMODApi.i: CJMOD/CJMODApi.cpp.i
-.PHONY : CJMOD/CJMODApi.i
+CJMOD/SimpleCJMODApi.i: CJMOD/SimpleCJMODApi.cpp.i
+.PHONY : CJMOD/SimpleCJMODApi.i
 
 # target to preprocess a source file
-CJMOD/CJMODApi.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.i
-.PHONY : CJMOD/CJMODApi.cpp.i
+CJMOD/SimpleCJMODApi.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.i
+.PHONY : CJMOD/SimpleCJMODApi.cpp.i
 
-CJMOD/CJMODApi.s: CJMOD/CJMODApi.cpp.s
-.PHONY : CJMOD/CJMODApi.s
+CJMOD/SimpleCJMODApi.s: CJMOD/SimpleCJMODApi.cpp.s
+.PHONY : CJMOD/SimpleCJMODApi.s
 
 # target to generate assembly for a file
-CJMOD/CJMODApi.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.s
-.PHONY : CJMOD/CJMODApi.cpp.s
+CJMOD/SimpleCJMODApi.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.s
+.PHONY : CJMOD/SimpleCJMODApi.cpp.s
 
 CMOD/CMODManager.o: CMOD/CMODManager.cpp.o
 .PHONY : CMOD/CMODManager.o
@@ -1117,6 +1187,30 @@ JavaScript/JavaScriptCompiler.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/JavaScript/JavaScriptCompiler.cpp.s
 .PHONY : JavaScript/JavaScriptCompiler.cpp.s
 
+Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.o: Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.o
+.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.o
+
+# target to build an object file
+Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.o
+.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.o
+
+Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.i: Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.i
+.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.i
+
+# target to preprocess a source file
+Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.i
+.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.i
+
+Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.s: Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.s
+.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.s
+
+# target to generate assembly for a file
+Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.s
+.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.s
+
 Scanner/CHTLUnifiedScanner.o: Scanner/CHTLUnifiedScanner.cpp.o
 .PHONY : Scanner/CHTLUnifiedScanner.o
 
@@ -1164,6 +1258,30 @@ Tools/cmod_export_generator.s: Tools/cmod_export_generator.cpp.s
 Tools/cmod_export_generator.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cmod_export_generator.dir/build.make src/CMakeFiles/cmod_export_generator.dir/Tools/cmod_export_generator.cpp.s
 .PHONY : Tools/cmod_export_generator.cpp.s
+
+Tools/module_builder.o: Tools/module_builder.cpp.o
+.PHONY : Tools/module_builder.o
+
+# target to build an object file
+Tools/module_builder.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/module_builder.dir/build.make src/CMakeFiles/module_builder.dir/Tools/module_builder.cpp.o
+.PHONY : Tools/module_builder.cpp.o
+
+Tools/module_builder.i: Tools/module_builder.cpp.i
+.PHONY : Tools/module_builder.i
+
+# target to preprocess a source file
+Tools/module_builder.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/module_builder.dir/build.make src/CMakeFiles/module_builder.dir/Tools/module_builder.cpp.i
+.PHONY : Tools/module_builder.cpp.i
+
+Tools/module_builder.s: Tools/module_builder.cpp.s
+.PHONY : Tools/module_builder.s
+
+# target to generate assembly for a file
+Tools/module_builder.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/module_builder.dir/build.make src/CMakeFiles/module_builder.dir/Tools/module_builder.cpp.s
+.PHONY : Tools/module_builder.cpp.s
 
 Utils/ErrorHandler.o: Utils/ErrorHandler.cpp.o
 .PHONY : Utils/ErrorHandler.o
@@ -1237,246 +1355,6 @@ Utils/StringUtils.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/Utils/StringUtils.cpp.s
 .PHONY : Utils/StringUtils.cpp.s
 
-__/css/css3Lexer.o: __/css/css3Lexer.cpp.o
-.PHONY : __/css/css3Lexer.o
-
-# target to build an object file
-__/css/css3Lexer.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.o
-.PHONY : __/css/css3Lexer.cpp.o
-
-__/css/css3Lexer.i: __/css/css3Lexer.cpp.i
-.PHONY : __/css/css3Lexer.i
-
-# target to preprocess a source file
-__/css/css3Lexer.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.i
-.PHONY : __/css/css3Lexer.cpp.i
-
-__/css/css3Lexer.s: __/css/css3Lexer.cpp.s
-.PHONY : __/css/css3Lexer.s
-
-# target to generate assembly for a file
-__/css/css3Lexer.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3Lexer.cpp.s
-.PHONY : __/css/css3Lexer.cpp.s
-
-__/css/css3Parser.o: __/css/css3Parser.cpp.o
-.PHONY : __/css/css3Parser.o
-
-# target to build an object file
-__/css/css3Parser.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.o
-.PHONY : __/css/css3Parser.cpp.o
-
-__/css/css3Parser.i: __/css/css3Parser.cpp.i
-.PHONY : __/css/css3Parser.i
-
-# target to preprocess a source file
-__/css/css3Parser.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.i
-.PHONY : __/css/css3Parser.cpp.i
-
-__/css/css3Parser.s: __/css/css3Parser.cpp.s
-.PHONY : __/css/css3Parser.s
-
-# target to generate assembly for a file
-__/css/css3Parser.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3Parser.cpp.s
-.PHONY : __/css/css3Parser.cpp.s
-
-__/css/css3ParserBaseListener.o: __/css/css3ParserBaseListener.cpp.o
-.PHONY : __/css/css3ParserBaseListener.o
-
-# target to build an object file
-__/css/css3ParserBaseListener.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.o
-.PHONY : __/css/css3ParserBaseListener.cpp.o
-
-__/css/css3ParserBaseListener.i: __/css/css3ParserBaseListener.cpp.i
-.PHONY : __/css/css3ParserBaseListener.i
-
-# target to preprocess a source file
-__/css/css3ParserBaseListener.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.i
-.PHONY : __/css/css3ParserBaseListener.cpp.i
-
-__/css/css3ParserBaseListener.s: __/css/css3ParserBaseListener.cpp.s
-.PHONY : __/css/css3ParserBaseListener.s
-
-# target to generate assembly for a file
-__/css/css3ParserBaseListener.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3ParserBaseListener.cpp.s
-.PHONY : __/css/css3ParserBaseListener.cpp.s
-
-__/css/css3ParserListener.o: __/css/css3ParserListener.cpp.o
-.PHONY : __/css/css3ParserListener.o
-
-# target to build an object file
-__/css/css3ParserListener.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.o
-.PHONY : __/css/css3ParserListener.cpp.o
-
-__/css/css3ParserListener.i: __/css/css3ParserListener.cpp.i
-.PHONY : __/css/css3ParserListener.i
-
-# target to preprocess a source file
-__/css/css3ParserListener.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.i
-.PHONY : __/css/css3ParserListener.cpp.i
-
-__/css/css3ParserListener.s: __/css/css3ParserListener.cpp.s
-.PHONY : __/css/css3ParserListener.s
-
-# target to generate assembly for a file
-__/css/css3ParserListener.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/css_compiler.dir/build.make src/CMakeFiles/css_compiler.dir/__/css/css3ParserListener.cpp.s
-.PHONY : __/css/css3ParserListener.cpp.s
-
-__/js/JavaScriptLexer.o: __/js/JavaScriptLexer.cpp.o
-.PHONY : __/js/JavaScriptLexer.o
-
-# target to build an object file
-__/js/JavaScriptLexer.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptLexer.cpp.o
-.PHONY : __/js/JavaScriptLexer.cpp.o
-
-__/js/JavaScriptLexer.i: __/js/JavaScriptLexer.cpp.i
-.PHONY : __/js/JavaScriptLexer.i
-
-# target to preprocess a source file
-__/js/JavaScriptLexer.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptLexer.cpp.i
-.PHONY : __/js/JavaScriptLexer.cpp.i
-
-__/js/JavaScriptLexer.s: __/js/JavaScriptLexer.cpp.s
-.PHONY : __/js/JavaScriptLexer.s
-
-# target to generate assembly for a file
-__/js/JavaScriptLexer.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptLexer.cpp.s
-.PHONY : __/js/JavaScriptLexer.cpp.s
-
-__/js/JavaScriptLexerBase.o: __/js/JavaScriptLexerBase.cpp.o
-.PHONY : __/js/JavaScriptLexerBase.o
-
-# target to build an object file
-__/js/JavaScriptLexerBase.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptLexerBase.cpp.o
-.PHONY : __/js/JavaScriptLexerBase.cpp.o
-
-__/js/JavaScriptLexerBase.i: __/js/JavaScriptLexerBase.cpp.i
-.PHONY : __/js/JavaScriptLexerBase.i
-
-# target to preprocess a source file
-__/js/JavaScriptLexerBase.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptLexerBase.cpp.i
-.PHONY : __/js/JavaScriptLexerBase.cpp.i
-
-__/js/JavaScriptLexerBase.s: __/js/JavaScriptLexerBase.cpp.s
-.PHONY : __/js/JavaScriptLexerBase.s
-
-# target to generate assembly for a file
-__/js/JavaScriptLexerBase.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptLexerBase.cpp.s
-.PHONY : __/js/JavaScriptLexerBase.cpp.s
-
-__/js/JavaScriptParser.o: __/js/JavaScriptParser.cpp.o
-.PHONY : __/js/JavaScriptParser.o
-
-# target to build an object file
-__/js/JavaScriptParser.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParser.cpp.o
-.PHONY : __/js/JavaScriptParser.cpp.o
-
-__/js/JavaScriptParser.i: __/js/JavaScriptParser.cpp.i
-.PHONY : __/js/JavaScriptParser.i
-
-# target to preprocess a source file
-__/js/JavaScriptParser.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParser.cpp.i
-.PHONY : __/js/JavaScriptParser.cpp.i
-
-__/js/JavaScriptParser.s: __/js/JavaScriptParser.cpp.s
-.PHONY : __/js/JavaScriptParser.s
-
-# target to generate assembly for a file
-__/js/JavaScriptParser.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParser.cpp.s
-.PHONY : __/js/JavaScriptParser.cpp.s
-
-__/js/JavaScriptParserBase.o: __/js/JavaScriptParserBase.cpp.o
-.PHONY : __/js/JavaScriptParserBase.o
-
-# target to build an object file
-__/js/JavaScriptParserBase.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParserBase.cpp.o
-.PHONY : __/js/JavaScriptParserBase.cpp.o
-
-__/js/JavaScriptParserBase.i: __/js/JavaScriptParserBase.cpp.i
-.PHONY : __/js/JavaScriptParserBase.i
-
-# target to preprocess a source file
-__/js/JavaScriptParserBase.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParserBase.cpp.i
-.PHONY : __/js/JavaScriptParserBase.cpp.i
-
-__/js/JavaScriptParserBase.s: __/js/JavaScriptParserBase.cpp.s
-.PHONY : __/js/JavaScriptParserBase.s
-
-# target to generate assembly for a file
-__/js/JavaScriptParserBase.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParserBase.cpp.s
-.PHONY : __/js/JavaScriptParserBase.cpp.s
-
-__/js/JavaScriptParserBaseListener.o: __/js/JavaScriptParserBaseListener.cpp.o
-.PHONY : __/js/JavaScriptParserBaseListener.o
-
-# target to build an object file
-__/js/JavaScriptParserBaseListener.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParserBaseListener.cpp.o
-.PHONY : __/js/JavaScriptParserBaseListener.cpp.o
-
-__/js/JavaScriptParserBaseListener.i: __/js/JavaScriptParserBaseListener.cpp.i
-.PHONY : __/js/JavaScriptParserBaseListener.i
-
-# target to preprocess a source file
-__/js/JavaScriptParserBaseListener.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParserBaseListener.cpp.i
-.PHONY : __/js/JavaScriptParserBaseListener.cpp.i
-
-__/js/JavaScriptParserBaseListener.s: __/js/JavaScriptParserBaseListener.cpp.s
-.PHONY : __/js/JavaScriptParserBaseListener.s
-
-# target to generate assembly for a file
-__/js/JavaScriptParserBaseListener.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParserBaseListener.cpp.s
-.PHONY : __/js/JavaScriptParserBaseListener.cpp.s
-
-__/js/JavaScriptParserListener.o: __/js/JavaScriptParserListener.cpp.o
-.PHONY : __/js/JavaScriptParserListener.o
-
-# target to build an object file
-__/js/JavaScriptParserListener.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParserListener.cpp.o
-.PHONY : __/js/JavaScriptParserListener.cpp.o
-
-__/js/JavaScriptParserListener.i: __/js/JavaScriptParserListener.cpp.i
-.PHONY : __/js/JavaScriptParserListener.i
-
-# target to preprocess a source file
-__/js/JavaScriptParserListener.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParserListener.cpp.i
-.PHONY : __/js/JavaScriptParserListener.cpp.i
-
-__/js/JavaScriptParserListener.s: __/js/JavaScriptParserListener.cpp.s
-.PHONY : __/js/JavaScriptParserListener.s
-
-# target to generate assembly for a file
-__/js/JavaScriptParserListener.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/__/js/JavaScriptParserListener.cpp.s
-.PHONY : __/js/JavaScriptParserListener.cpp.s
-
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -1514,6 +1392,10 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... build_all_modules"
+	@echo "... build_module_Chtholly"
+	@echo "... clean_modules"
+	@echo "... Chtholly_cjmod"
 	@echo "... chtl_compiler"
 	@echo "... chtl_core"
 	@echo "... chtljs_core"
@@ -1523,6 +1405,7 @@ help:
 	@echo "... css_compiler"
 	@echo "... dispatcher"
 	@echo "... js_compiler"
+	@echo "... module_builder"
 	@echo "... scanner"
 	@echo "... utils"
 	@echo "... CHTL/AST/CHTLASTBuilder.o"
@@ -1603,9 +1486,9 @@ help:
 	@echo "... CHTLJS/Parser/CHTLJSParser.o"
 	@echo "... CHTLJS/Parser/CHTLJSParser.i"
 	@echo "... CHTLJS/Parser/CHTLJSParser.s"
-	@echo "... CJMOD/CJMODApi.o"
-	@echo "... CJMOD/CJMODApi.i"
-	@echo "... CJMOD/CJMODApi.s"
+	@echo "... CJMOD/SimpleCJMODApi.o"
+	@echo "... CJMOD/SimpleCJMODApi.i"
+	@echo "... CJMOD/SimpleCJMODApi.s"
 	@echo "... CMOD/CMODManager.o"
 	@echo "... CMOD/CMODManager.i"
 	@echo "... CMOD/CMODManager.s"
@@ -1624,12 +1507,18 @@ help:
 	@echo "... JavaScript/JavaScriptCompiler.o"
 	@echo "... JavaScript/JavaScriptCompiler.i"
 	@echo "... JavaScript/JavaScriptCompiler.s"
+	@echo "... Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.o"
+	@echo "... Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.i"
+	@echo "... Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.s"
 	@echo "... Scanner/CHTLUnifiedScanner.o"
 	@echo "... Scanner/CHTLUnifiedScanner.i"
 	@echo "... Scanner/CHTLUnifiedScanner.s"
 	@echo "... Tools/cmod_export_generator.o"
 	@echo "... Tools/cmod_export_generator.i"
 	@echo "... Tools/cmod_export_generator.s"
+	@echo "... Tools/module_builder.o"
+	@echo "... Tools/module_builder.i"
+	@echo "... Tools/module_builder.s"
 	@echo "... Utils/ErrorHandler.o"
 	@echo "... Utils/ErrorHandler.i"
 	@echo "... Utils/ErrorHandler.s"
@@ -1639,36 +1528,6 @@ help:
 	@echo "... Utils/StringUtils.o"
 	@echo "... Utils/StringUtils.i"
 	@echo "... Utils/StringUtils.s"
-	@echo "... __/css/css3Lexer.o"
-	@echo "... __/css/css3Lexer.i"
-	@echo "... __/css/css3Lexer.s"
-	@echo "... __/css/css3Parser.o"
-	@echo "... __/css/css3Parser.i"
-	@echo "... __/css/css3Parser.s"
-	@echo "... __/css/css3ParserBaseListener.o"
-	@echo "... __/css/css3ParserBaseListener.i"
-	@echo "... __/css/css3ParserBaseListener.s"
-	@echo "... __/css/css3ParserListener.o"
-	@echo "... __/css/css3ParserListener.i"
-	@echo "... __/css/css3ParserListener.s"
-	@echo "... __/js/JavaScriptLexer.o"
-	@echo "... __/js/JavaScriptLexer.i"
-	@echo "... __/js/JavaScriptLexer.s"
-	@echo "... __/js/JavaScriptLexerBase.o"
-	@echo "... __/js/JavaScriptLexerBase.i"
-	@echo "... __/js/JavaScriptLexerBase.s"
-	@echo "... __/js/JavaScriptParser.o"
-	@echo "... __/js/JavaScriptParser.i"
-	@echo "... __/js/JavaScriptParser.s"
-	@echo "... __/js/JavaScriptParserBase.o"
-	@echo "... __/js/JavaScriptParserBase.i"
-	@echo "... __/js/JavaScriptParserBase.s"
-	@echo "... __/js/JavaScriptParserBaseListener.o"
-	@echo "... __/js/JavaScriptParserBaseListener.i"
-	@echo "... __/js/JavaScriptParserBaseListener.s"
-	@echo "... __/js/JavaScriptParserListener.o"
-	@echo "... __/js/JavaScriptParserListener.i"
-	@echo "... __/js/JavaScriptParserListener.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

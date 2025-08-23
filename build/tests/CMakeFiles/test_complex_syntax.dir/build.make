@@ -99,6 +99,7 @@ bin/test_complex_syntax: tests/CMakeFiles/test_complex_syntax.dir/compiler_depen
 bin/test_complex_syntax: lib/libchtl_core.a
 bin/test_complex_syntax: lib/libutils.a
 bin/test_complex_syntax: lib/libcmod.a
+bin/test_complex_syntax: lib/libutils.a
 bin/test_complex_syntax: tests/CMakeFiles/test_complex_syntax.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/test_complex_syntax"
 	cd /workspace/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_complex_syntax.dir/link.txt --verbose=$(VERBOSE)

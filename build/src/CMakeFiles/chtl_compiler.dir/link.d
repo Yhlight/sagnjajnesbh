@@ -14,6 +14,7 @@
   /workspace/ANTLR4/lib/libantlr4-runtime-static.a \
   ../lib/libchtl_core.a \
   ../lib/libcmod.a \
+  ../lib/libutils.a \
   ../lib/libchtljs_core.a \
   ../lib/libscanner.a \
   /usr/lib/gcc/x86_64-linux-gnu/14/libstdc++.so \
@@ -73,6 +74,8 @@ CMakeFiles/chtl_compiler.dir/main.cpp.o:
 ../lib/libchtl_core.a:
 
 ../lib/libcmod.a:
+
+../lib/libutils.a:
 
 ../lib/libchtljs_core.a:
 

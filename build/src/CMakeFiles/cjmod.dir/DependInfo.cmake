@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/workspace/src/CJMOD/CJMODApi.cpp" "src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o" "gcc" "src/CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o.d"
+  "/workspace/src/CJMOD/SimpleCJMODApi.cpp" "src/CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.o" "gcc" "src/CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

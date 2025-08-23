@@ -99,6 +99,7 @@ bin/test_chtl_ast: tests/CMakeFiles/test_chtl_ast.dir/compiler_depend.ts
 bin/test_chtl_ast: lib/libchtl_core.a
 bin/test_chtl_ast: lib/libutils.a
 bin/test_chtl_ast: lib/libcmod.a
+bin/test_chtl_ast: lib/libutils.a
 bin/test_chtl_ast: tests/CMakeFiles/test_chtl_ast.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/test_chtl_ast"
 	cd /workspace/build/tests && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_chtl_ast.dir/link.txt --verbose=$(VERBOSE)
