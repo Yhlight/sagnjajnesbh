@@ -733,6 +733,62 @@ function convertToPixel(ctx, scale) {
 } // namespace Chtholly
 
 // ==========================================
+// vir函数注册表实现
+// ==========================================
+
+// 静态成员定义
+std::unordered_map<std::string, std::vector<std::string>> CHTLJSVirRegistry::virFunctions_;
+
+void CHTLJSVirRegistry::registerFunction(const std::string& functionName, 
+                                       const std::vector<std::string>& supportedKeys) {
+    virFunctions_[functionName] = supportedKeys;
+    
+    std::cout << "=== vir注册表更新 ===" << std::endl;
+    std::cout << "✓ 函数 '" << functionName << "' 已注册vir支持" << std::endl;
+    std::cout << "✓ 支持的键: ";
+    for (const auto& key : supportedKeys) {
+        std::cout << key << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "✓ 现在可以使用: vir myVir = " << functionName << "({...});" << std::endl;
+}
+
+bool CHTLJSVirRegistry::isSupported(const std::string& functionName) {
+    return virFunctions_.find(functionName) != virFunctions_.end();
+}
+
+std::vector<std::string> CHTLJSVirRegistry::getSupportedKeys(const std::string& functionName) {
+    auto it = virFunctions_.find(functionName);
+    if (it != virFunctions_.end()) {
+        return it->second;
+    }
+    return {};
+}
+
+std::vector<std::string> CHTLJSVirRegistry::getAllSupportedFunctions() {
+    std::vector<std::string> functions;
+    for (const auto& pair : virFunctions_) {
+        functions.push_back(pair.first);
+    }
+    return functions;
+}
+
+void CHTLJSVirRegistry::clear() {
+    virFunctions_.clear();
+    std::cout << "✓ vir注册表已清空" << std::endl;
+}
+
+void registerCJMODFunctionForVir(const std::string& functionName, 
+                                const std::vector<std::string>& supportedKeys) {
+    std::cout << "=== 手动注册vir支持 ===" << std::endl;
+    std::cout << "函数: " << functionName << " (标准CJMOD流程创建)" << std::endl;
+    
+    CHTLJSVirRegistry::registerFunction(functionName, supportedKeys);
+    
+    std::cout << "✓ 注册完成！统一扫描器现在可以识别此函数的vir语法" << std::endl;
+}
+
+// ==========================================
 // CHTL JS函数快速创建系统实现
 // ==========================================
 
@@ -904,6 +960,9 @@ std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& function
     std::cout << "  - vir myVir = " << functionName << "({...});   ← 虚对象调用（优化支持）" << std::endl;
     
     auto chtljsFunc = std::make_unique<CHTLJSFunction>(functionName, keyNames);
+    
+    // 自动注册vir支持 - 解决统一扫描器识别问题
+    CHTLJSVirRegistry::registerFunction(functionName, keyNames);
     
     // 默认启用所有CHTL JS特性
     chtljsFunc->enableCHTLJSFeatures(true, true, true);

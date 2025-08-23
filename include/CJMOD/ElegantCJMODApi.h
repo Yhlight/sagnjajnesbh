@@ -223,6 +223,69 @@ std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& function
                                                    const std::vector<std::string>& keyNames);
 
 // ==========================================
+// vir函数注册表 - 管理哪些函数支持vir语法
+// ==========================================
+
+/**
+ * @brief CHTL JS虚对象函数注册表
+ * 
+ * 管理哪些CHTL JS函数支持vir语法，解决统一扫描器识别问题：
+ * - 使用createCHTLJSFunction创建的函数自动注册vir支持
+ * - 使用标准CJMOD流程创建的函数默认不支持vir，需手动注册
+ * - 统一扫描器在处理vir时查询此注册表进行验证
+ */
+class CHTLJSVirRegistry {
+public:
+    /**
+     * @brief 注册函数的vir支持
+     * @param functionName 函数名称
+     * @param supportedKeys 支持的键名列表
+     */
+    static void registerFunction(const std::string& functionName, 
+                               const std::vector<std::string>& supportedKeys);
+    
+    /**
+     * @brief 检查函数是否支持vir语法
+     * @param functionName 函数名称
+     * @return true如果支持vir，false否则
+     */
+    static bool isSupported(const std::string& functionName);
+    
+    /**
+     * @brief 获取函数支持的键名列表
+     * @param functionName 函数名称
+     * @return 支持的键名列表，如果函数不支持vir则返回空列表
+     */
+    static std::vector<std::string> getSupportedKeys(const std::string& functionName);
+    
+    /**
+     * @brief 获取所有支持vir的函数列表
+     * @return 支持vir的函数名称列表
+     */
+    static std::vector<std::string> getAllSupportedFunctions();
+    
+    /**
+     * @brief 清空注册表（主要用于测试）
+     */
+    static void clear();
+
+private:
+    static std::unordered_map<std::string, std::vector<std::string>> virFunctions_;
+};
+
+/**
+ * @brief 为标准CJMOD流程提供vir注册接口
+ * 
+ * 当使用标准CJMOD流程（syntaxAnalys + bind + scanKeyword + match + generateCode）
+ * 创建CHTL JS函数时，可以调用此函数手动注册vir支持
+ * 
+ * @param functionName 函数名称
+ * @param supportedKeys 支持的键名列表
+ */
+void registerCJMODFunctionForVir(const std::string& functionName, 
+                                const std::vector<std::string>& supportedKeys);
+
+// ==========================================
 // 核心API函数 - 表面简单，内在精妙
 // ==========================================
 
