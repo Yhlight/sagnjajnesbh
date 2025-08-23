@@ -1,0 +1,21 @@
+[Info] {
+    name = "ChthollyContextMenu";
+    version = "1.0.0";
+    description = "珂朵莉右键菜单栏 - 自定义右键上下文菜单，集成珂朵莉特效控制和常用操作";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "ChthollyCore";
+    category = "ui-menu";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+    keywords = "context-menu,right-click,submenu,effects-control,shortcuts";
+    features = "custom-menu-items,submenu-support,effect-integration,magical-mode,keyboard-shortcuts";
+}
+
+[Export] {
+    [Template] @Style ChthollyContextMenuStyle;
+    [Template] @Element ChthollyContextMenuSystem;
+    
+    [Origin] @JavaScript ContextMenuScript;
+    [Origin] @Style ContextMenuAnimations;
+}

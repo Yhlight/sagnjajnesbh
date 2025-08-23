@@ -230,17 +230,7 @@ ConstraintTarget CHTLConstraintValidator::GetNodeConstraintTarget(const std::sha
             }
             break;
             
-        case AST::NodeType::VARIABLE_GROUP:
-            // 检查是否为自定义变量或模板变量
-            if (auto varNode = std::dynamic_pointer_cast<AST::VariableGroupNode>(node)) {
-                const std::string& name = varNode->GetName();
-                if (name.find("[Custom]") != std::string::npos) {
-                    return ConstraintTarget::CUSTOM_VAR;
-                } else if (name.find("[Template]") != std::string::npos) {
-                    return ConstraintTarget::TEMPLATE_VAR;
-                }
-            }
-            break;
+        // VARIABLE_GROUP节点已删除，变量组功能通过TEMPLATE_VAR和CUSTOM_VAR实现
             
         case AST::NodeType::STYLE_BLOCK:
             // 检查是否为自定义样式或模板样式
@@ -318,11 +308,7 @@ std::string CHTLConstraintValidator::GetNodeName(const std::shared_ptr<AST::ASTN
             }
             break;
             
-        case AST::NodeType::VARIABLE_GROUP:
-            if (auto varNode = std::dynamic_pointer_cast<AST::VariableGroupNode>(node)) {
-                return varNode->GetName();
-            }
-            break;
+        // VARIABLE_GROUP节点已删除
             
         default:
             break;

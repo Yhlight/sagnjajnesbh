@@ -18,6 +18,12 @@ CHTLParser::CHTLParser(Core::CHTLGlobalMap& globalMap, Core::CHTLState& stateMan
     constraintValidator_ = std::make_unique<Constraints::CHTLConstraintValidator>();
     constraintIntegrator_ = std::make_unique<Constraints::ExceptConstraintIntegrator>(*constraintValidator_);
     
+    // 初始化增强导入系统 - 严格按照目标规划.ini要求
+    importManager_ = std::make_unique<Core::ImportManager>();
+    
+    // 初始化增强命名空间系统 - 严格按照目标规划.ini第107行要求
+    namespaceMerger_ = std::make_unique<Core::NamespaceMerger>();
+    
     // RAII状态机和Context系统将在Parse方法中初始化
 }
 
@@ -236,10 +242,9 @@ AST::ASTNodePtr CHTLParser::ParseTemplateDeclaration() {
                     Advance(); // 消费分隔符
                     std::string varValue = ParseStringValue();
                     
-                                         // 创建变量节点（暂时不添加到符号表，在模板结束时统一处理）
-                     auto varNode = std::make_shared<AST::VariableGroupNode>(varName, Current());
-                     varNode->AddVariable(varName, varValue);
-                     templateNode->AddChild(varNode);
+                                         // 变量组功能通过TEMPLATE_VAR节点实现
+                     // 将变量添加到模板节点的变量映射中
+                     templateNode->AddVariable(varName, varValue);
                     
                     // 消费可选的分号
                     if (Check(Core::TokenType::SEMICOLON)) {
@@ -380,11 +385,9 @@ AST::ASTNodePtr CHTLParser::ParseCustomDeclaration() {
                 std::string varName = ParseIdentifier();
                 
                                  if (Check(Core::TokenType::COMMA) || Check(Core::TokenType::SEMICOLON)) {
-                     // 无值样式组
-                     auto varNode = std::make_shared<AST::VariableGroupNode>(varName, Current());
-                     varNode->AddVariable(varName, ""); // 空值
-                     varNode->SetIsValuelessStyleGroup(true);
-                     customNode->AddChild(varNode);
+                     // 无值样式组功能通过CUSTOM_VAR节点实现
+                     // 将无值变量添加到自定义节点的变量映射中
+                     customNode->AddVariable(varName, ""); // 空值表示无值样式组
                     
                     if (Check(Core::TokenType::COMMA)) {
                         Advance();
@@ -396,9 +399,8 @@ AST::ASTNodePtr CHTLParser::ParseCustomDeclaration() {
                      Advance(); // 消费分隔符
                      std::string varValue = ParseStringValue();
                      
-                     auto varNode = std::make_shared<AST::VariableGroupNode>(varName, Current());
-                     varNode->AddVariable(varName, varValue);
-                     customNode->AddChild(varNode);
+                     // 将变量添加到自定义节点的变量映射中
+                     customNode->AddVariable(varName, varValue);
                     
                     // 消费可选的分号
                     if (Check(Core::TokenType::SEMICOLON)) {
@@ -488,9 +490,12 @@ AST::ASTNodePtr CHTLParser::ParseOriginDeclaration() {
     } else if (originType == "@JavaScript") {
         type = AST::OriginNode::OriginType::JAVASCRIPT;
     } else {
-        // 自定义类型
+        // 自定义类型 - 支持隐式创建OriginType配置
         type = AST::OriginNode::OriginType::CUSTOM;
         customTypeName = originType;
+        
+        // 自动化功能：隐式创建[OriginType]配置条目
+        RegisterCustomOriginType(originType);
     }
     
     // 解析原始嵌入内容
@@ -1182,42 +1187,94 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
     std::string name = "";
     std::string path = "";
     std::string alias = "";
+    bool needsAsClause = false;
     
-    // 检查是否有限定符 [Template], [Custom], [Origin], [Configuration]
-    if (Check(Core::TokenType::TEMPLATE) || Check(Core::TokenType::CUSTOM) || 
-        Check(Core::TokenType::ORIGIN) || Check(Core::TokenType::CONFIGURATION)) {
+    // 解析类型标识符（支持@Html、@Style、@JavaScript、@Chtl、@CJmod等）
+    std::string typeId = ParseTypeIdentifier();
+    if (typeId.empty()) {
+        ReportError("期望类型标识符");
+        return nullptr;
+    }
+    
+    // 根据用户要求，确定导入类型和处理策略
+    if (typeId == "@Html") {
+        importType = AST::ImportNode::ImportType::MEDIA_HTML;
+        needsAsClause = true; // 没有as语法则跳过
+    } else if (typeId == "@Style") {
+        importType = AST::ImportNode::ImportType::MEDIA_STYLE;
+        needsAsClause = true; // 没有as语法则跳过
+    } else if (typeId == "@JavaScript") {
+        importType = AST::ImportNode::ImportType::MEDIA_JAVASCRIPT;
+        needsAsClause = true; // 没有as语法则跳过
+    } else if (typeId == "@Chtl") {
+        importType = AST::ImportNode::ImportType::CHTL;
+        needsAsClause = false; // 可以没有as语法
+    } else if (typeId == "@CJmod") {
+        importType = AST::ImportNode::ImportType::CJMOD;
+        needsAsClause = false; // 可以没有as语法
+
+    
+    // 检查是否有[Origin]前缀 - 用于自定义原始嵌入类型
+    if (Check(Core::TokenType::ORIGIN)) {
+        Advance(); // 消费[Origin]
         
-        std::string qualifier = Current().GetValue();
-        Advance();
-        
-        // 解析类型标识符
-        std::string typeId = ParseTypeIdentifier();
+        // 重新解析类型标识符
+        typeId = ParseTypeIdentifier();
         if (typeId.empty()) {
-            ReportError("期望类型标识符");
+            ReportError("期望原始嵌入类型标识符");
             return nullptr;
         }
         
-        // 确定导入类型
-        if (qualifier == "[Template]") {
-            if (typeId == "@Style") importType = AST::ImportNode::ImportType::TEMPLATE_STYLE;
-            else if (typeId == "@Element") importType = AST::ImportNode::ImportType::TEMPLATE_ELEMENT;
-            else if (typeId == "@Var") importType = AST::ImportNode::ImportType::TEMPLATE_VAR;
-        } else if (qualifier == "[Custom]") {
-            if (typeId == "@Style") importType = AST::ImportNode::ImportType::CUSTOM_STYLE;
-            else if (typeId == "@Element") importType = AST::ImportNode::ImportType::CUSTOM_ELEMENT;
-            else if (typeId == "@Var") importType = AST::ImportNode::ImportType::CUSTOM_VAR;
-        } else if (qualifier == "[Origin]") {
-            if (typeId == "@Html") importType = AST::ImportNode::ImportType::ORIGIN_HTML;
-            else if (typeId == "@Style") importType = AST::ImportNode::ImportType::ORIGIN_STYLE;
-            else if (typeId == "@JavaScript") importType = AST::ImportNode::ImportType::ORIGIN_JAVASCRIPT;
+        // 自定义原始嵌入类型（所有非标准类型都作为ORIGIN_CUSTOM处理）
+        importType = AST::ImportNode::ImportType::ORIGIN_CUSTOM;
+        name = typeId; // 保存自定义类型名
+    }
+    
+    // 消费 'from' 关键字
+    if (!Consume(Core::TokenType::FROM, "期望 'from'")) {
+        return nullptr;
+    }
+    
+    // 解析导入路径（支持无修饰字符串和通配符）
+    path = ParseImportPath();
+    if (path.empty()) {
+        ReportError("期望导入路径");
+        return nullptr;
+    }
+    
+    // 检查是否有 'as' 语法
+    bool hasAsClause = false;
+    if (Check(Core::TokenType::AS)) {
+        Advance(); // 消费 'as'
+        alias = ParseIdentifier();
+        if (alias.empty()) {
+            ReportError("期望别名");
+            return nullptr;
+        }
+        hasAsClause = true;
+    }
+    
+    // 对于需要as语法的类型，如果没有as语法则跳过
+    if (needsAsClause && !hasAsClause) {
+        if (config_.enableDebug) {
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "跳过导入 " + typeId + " from \"" + path + "\" - 缺少as语法"
+            );
         }
         
-        // 解析具体名称（可选）
-        if (Check(Core::TokenType::IDENTIFIER)) {
-            name = ParseIdentifier();
+        // 消费分号并返回空节点（表示跳过）
+        if (Check(Core::TokenType::SEMICOLON)) {
+            Advance();
         }
-    } else {
-        // 直接的类型导入
+        guard.Commit();
+        return nullptr; // 跳过此导入
+    }
+    
+    // 创建导入节点
+    auto importNode = std::make_shared<AST::ImportNode>(importType, path, alias, Current());
+    if (!name.empty()) {
+        importNode->SetName(name);
+    }
         std::string typeId = ParseTypeIdentifier();
         if (typeId == "@Html") importType = AST::ImportNode::ImportType::HTML;
         else if (typeId == "@Style") importType = AST::ImportNode::ImportType::STYLE;
@@ -1245,10 +1302,100 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
         alias = ParseIdentifier();
     }
     
+    // 使用ImportManager进行增强导入处理 - 严格按照目标规划.ini要求
+    if (importManager_) {
+        // 检查重复导入
+        if (importManager_->CheckDuplicateImport(fileName_, path, importType)) {
+            ReportError("重复导入: " + path);
+            return nullptr;
+        }
+        
+        // 解析导入路径
+        auto searchResult = importManager_->ResolveImportPath(path, importType);
+        if (!searchResult.success) {
+            ReportError("导入路径解析失败: " + searchResult.errorMessage);
+            return nullptr;
+        }
+        
+        // 检查循环依赖
+        for (const auto& foundPath : searchResult.foundPaths) {
+            if (importManager_->CheckCircularDependency(fileName_, foundPath)) {
+                ReportError("检测到循环依赖: " + fileName_ + " -> " + foundPath);
+                return nullptr;
+            }
+            
+            // 注册导入关系
+            importManager_->RegisterImport(fileName_, foundPath, importType);
+        }
+        
+        // 使用第一个找到的路径作为主要导入路径
+        if (!searchResult.foundPaths.empty()) {
+            path = searchResult.foundPaths[0];
+        }
+    }
+    
     // 创建导入节点
     auto importNode = std::make_shared<AST::ImportNode>(importType, path, name, alias, Current());
     
     return importNode;
+}
+
+std::string CHTLParser::ParseImportPath() {
+    std::string importPath;
+    
+    if (currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
+        // 字符串字面量路径
+        importPath = currentToken_.GetValue();
+        // 移除字符串字面量的引号
+        if (importPath.length() >= 2 && 
+            ((importPath.front() == '"' && importPath.back() == '"') ||
+             (importPath.front() == '\'' && importPath.back() == '\''))) {
+            importPath = importPath.substr(1, importPath.length() - 2);
+        }
+        Advance();
+    } else if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+        // 无修饰字符串路径（支持连续的标识符、路径分隔符和通配符）
+        std::string pathBuilder = "";
+        
+        while (!IsAtEnd() && 
+               (currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
+                currentToken_.GetType() == Core::TokenType::DOT ||
+                currentToken_.GetType() == Core::TokenType::SLASH ||
+                currentToken_.GetType() == Core::TokenType::STAR)) {
+            
+            if (currentToken_.GetType() == Core::TokenType::DOT) {
+                pathBuilder += ".";
+            } else if (currentToken_.GetType() == Core::TokenType::SLASH) {
+                pathBuilder += "/";
+            } else if (currentToken_.GetType() == Core::TokenType::STAR) {
+                pathBuilder += "*";
+            } else {
+                pathBuilder += currentToken_.GetValue();
+            }
+            
+            Advance();
+            
+            // 检查是否到达 'as' 关键字或语句结束
+            if (Check(Core::TokenType::AS) || Check(Core::TokenType::SEMICOLON)) {
+                break;
+            }
+        }
+        
+        importPath = pathBuilder;
+        
+        // 处理通配符语法转换：.* 等价于 /*
+        if (importPath.find(".*") != std::string::npos) {
+            size_t pos = 0;
+            while ((pos = importPath.find(".*", pos)) != std::string::npos) {
+                importPath.replace(pos, 2, "/*");
+                pos += 2;
+            }
+        }
+    } else {
+        return ""; // 无效路径
+    }
+    
+    return importPath;
 }
 
 AST::ASTNodePtr CHTLParser::ParseNamespaceDeclaration() {
@@ -1352,6 +1499,33 @@ AST::ASTNodePtr CHTLParser::ParseNamespaceDeclaration() {
         omissionGuard.Commit();
     }
     
+    // 增强命名空间处理 - 同名命名空间合并，冲突检测策略
+    if (namespaceMerger_) {
+        // 检查是否有同名命名空间已注册
+        auto existingNamespaces = namespaceMerger_->GetRegisteredNamespaces(namespaceName);
+        if (!existingNamespaces.empty()) {
+            // 尝试合并同名命名空间
+            for (auto& existingNS : existingNamespaces) {
+                auto mergeResult = namespaceMerger_->MergeNamespaces(namespaceNode, existingNS);
+                if (mergeResult.success) {
+                    // 合并成功，使用合并后的命名空间
+                    namespaceNode = mergeResult.mergedNamespace;
+                    Utils::ErrorHandler::GetInstance().LogInfo(
+                        "成功合并同名命名空间: " + namespaceName
+                    );
+                } else if (!mergeResult.conflicts.empty()) {
+                    // 存在冲突，报告错误
+                    for (const auto& conflict : mergeResult.conflicts) {
+                        ReportError("命名空间冲突: " + conflict.description);
+                    }
+                }
+            }
+        }
+        
+        // 注册新的命名空间
+        namespaceMerger_->RegisterNamespace(namespaceNode, fileName_);
+    }
+    
     // 恢复解析上下文
     context_.currentNamespace = previousNamespace;
     globalMap_.ExitNamespace();
@@ -1450,13 +1624,380 @@ void CHTLParser::ParseParallelNamespaceDeclarations(std::shared_ptr<AST::Namespa
 }
 
 AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
-    Advance(); // 跳过Token
-    return nullptr;
+    // 严格按照语法文档第773-878行实现配置声明解析
+    // 支持 [Configuration] @Config 配置名 { ... }
+    
+    if (!Consume(Core::TokenType::CONFIGURATION, "期望 '[Configuration]'")) {
+        return nullptr;
+    }
+    
+    // 检查@Config
+    if (!Consume(Core::TokenType::AT_CONFIG, "期望 '@Config'")) {
+        return nullptr;
+    }
+    
+    // 解析配置名称（可选）
+    std::string configName = "";
+    if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+        configName = currentToken_.GetValue();
+        Advance();
+    }
+    
+    // 创建配置节点
+    auto configNode = std::make_shared<AST::ConfigurationNode>(configName, currentToken_);
+    
+    // 解析配置块
+    if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{'")) {
+        return nullptr;
+    }
+    
+    // 解析配置项
+    while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
+        if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+            // 普通配置项：INDEX_INITIAL_COUNT = 0;
+            std::string configKey = currentToken_.GetValue();
+            Advance();
+            
+            if (!Consume(Core::TokenType::EQUAL, "期望 '='")) {
+                continue; // 跳过错误，继续解析
+            }
+            
+            // 解析配置值
+            std::string configValue = "";
+            if (currentToken_.GetType() == Core::TokenType::NUMBER ||
+                currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
+                currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
+                configValue = currentToken_.GetValue();
+                Advance();
+            } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+                // 数组值：[@Style, @style, @CSS, @Css, @css]
+                configValue = "[";
+                Advance();
+                
+                while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACKET) {
+                    configValue += currentToken_.GetValue();
+                    Advance();
+                    
+                    if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::COMMA) {
+                        configValue += ", ";
+                        Advance();
+                    }
+                }
+                
+                if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::RIGHT_BRACKET) {
+                    configValue += "]";
+                    Advance();
+                }
+            }
+            
+            // 添加配置项到节点
+            configNode->AddSetting(configKey, configValue);
+            
+            // 跳过分号
+            if (currentToken_.GetType() == Core::TokenType::SEMICOLON) {
+                Advance();
+            }
+            
+        } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+            // 配置组：[Name] { ... } 或 [OriginType] { ... }
+            Advance(); // 跳过 [
+            
+            if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+                std::string groupName = currentToken_.GetValue();
+                Advance();
+                
+                if (!Consume(Core::TokenType::RIGHT_BRACKET, "期望 ']'")) {
+                    continue;
+                }
+                
+                if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{'")) {
+                    continue;
+                }
+                
+                // 解析配置组内容
+                std::vector<std::string> groupItems;
+                while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
+                    if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+                        std::string itemKey = currentToken_.GetValue();
+                        Advance();
+                        
+                        if (!Consume(Core::TokenType::EQUAL, "期望 '='")) {
+                            continue;
+                        }
+                        
+                        std::string itemValue = "";
+                        if (currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
+                            currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
+                            itemValue = currentToken_.GetValue();
+                            Advance();
+                        } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+                            // 数组值处理
+                            itemValue = "[";
+                            Advance();
+                            
+                            while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACKET) {
+                                itemValue += currentToken_.GetValue();
+                                Advance();
+                                
+                                if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::COMMA) {
+                                    itemValue += ", ";
+                                    Advance();
+                                }
+                            }
+                            
+                            if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::RIGHT_BRACKET) {
+                                itemValue += "]";
+                                Advance();
+                            }
+                        }
+                        
+                        groupItems.push_back(itemKey + "=" + itemValue);
+                        
+                        // 跳过分号
+                        if (currentToken_.GetType() == Core::TokenType::SEMICOLON) {
+                            Advance();
+                        }
+                    } else {
+                        Advance(); // 跳过未知token
+                    }
+                }
+                
+                if (!Consume(Core::TokenType::RIGHT_BRACE, "期望 '}'")) {
+                    continue;
+                }
+                
+                // 添加配置组到节点
+                configNode->AddGroup(groupName, groupItems);
+            }
+        } else {
+            Advance(); // 跳过未知token
+        }
+    }
+    
+    if (!Consume(Core::TokenType::RIGHT_BRACE, "期望 '}'")) {
+        return nullptr;
+    }
+    
+    // 添加到全局映射表
+    if (globalMap_) {
+        Core::ConfigurationInfo configInfo(configName.empty() ? "default" : configName);
+        for (const auto& setting : configNode->GetSettings()) {
+            configInfo.settings[setting.first] = setting.second;
+        }
+        for (const auto& group : configNode->GetGroups()) {
+            configInfo.groups[group.first] = group.second;
+        }
+        globalMap_->AddConfiguration(configInfo);
+    }
+    
+    return configNode;
 }
 
 AST::ASTNodePtr CHTLParser::ParseScriptBlock() {
-    Advance(); // 跳过Token
-    return nullptr;
+    // 消费 script Token
+    if (!Consume(Core::TokenType::SCRIPT, "期望 'script'")) {
+        return nullptr;
+    }
+    
+    // 创建脚本块节点
+    auto scriptBlock = std::make_shared<AST::ScriptBlockNode>(Current());
+    
+    // 验证脚本块约束
+    Constraints::SyntaxContext scriptContext = Constraints::SyntaxContextDetector::IsLocalScriptBlock(scriptBlock) ? 
+        Constraints::SyntaxContext::LOCAL_SCRIPT : Constraints::SyntaxContext::GLOBAL_SCRIPT;
+    
+    // 使用状态保护
+    Core::StateGuard guard(stateManager_, Core::CompileState::PARSING_SCRIPT_BLOCK);
+    
+    // 消费开始的花括号
+    if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{'")) {
+        return nullptr;
+    }
+    
+    // 解析脚本内容
+    while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
+        const Core::CHTLToken& token = Current();
+        AST::ASTNodePtr child = nullptr;
+        
+        switch (token.GetType()) {
+            case Core::TokenType::STRING_LITERAL:
+            case Core::TokenType::IDENTIFIER:
+                // JavaScript代码片段或标识符
+                child = ParseJavaScriptFragment();
+                break;
+                
+            case Core::TokenType::LEFT_BRACE:
+                // 检查是否为CHTL JS语法 {{...}}
+                if (Peek().GetType() == Core::TokenType::LEFT_BRACE) {
+                    child = ParseCHTLJSExpression();
+                } else {
+                    // 普通的JavaScript块
+                    child = ParseJavaScriptFragment();
+                }
+                break;
+                
+            case Core::TokenType::AT_STYLE:
+            case Core::TokenType::AT_VAR:
+                // 脚本中的模板变量引用
+                child = ParseTemplateReference();
+                break;
+                
+            case Core::TokenType::DELETE:
+                child = ParseDeletionDeclaration();
+                break;
+                
+            case Core::TokenType::EXCEPT:
+                child = ParseConstraintDeclaration();
+                break;
+                
+            case Core::TokenType::SINGLE_LINE_COMMENT:
+            case Core::TokenType::MULTI_LINE_COMMENT:
+            case Core::TokenType::GENERATOR_COMMENT:
+                // 注释处理
+                child = ParseComment();
+                break;
+                
+            default:
+                // 其他内容作为JavaScript片段处理
+                child = ParseJavaScriptFragment();
+                break;
+        }
+        
+        if (child) {
+            scriptBlock->AddChild(child);
+            nodeCount_++;
+        } else {
+            // 如果无法解析，跳过当前Token
+            ReportError("无法解析脚本内容: " + token.GetValue());
+            Advance();
+        }
+    }
+    
+    // 消费结束的花括号
+    if (!Consume(Core::TokenType::RIGHT_BRACE, "期望 '}'")) {
+        return nullptr;
+    }
+    
+    // 验证脚本块约束
+    if (constraintValidator_ && !constraintValidator_->ValidateNode(scriptBlock, scriptContext)) {
+        ReportError("脚本块违反语法约束");
+    }
+    
+    guard.Commit();
+    return scriptBlock;
+}
+
+AST::ASTNodePtr CHTLParser::ParseJavaScriptFragment() {
+    // 创建JavaScript片段节点
+    std::string jsContent = "";
+    
+    // 收集JavaScript代码，直到遇到CHTL语法
+    while (!IsAtEnd() && 
+           currentToken_.GetType() != Core::TokenType::RIGHT_BRACE &&
+           currentToken_.GetType() != Core::TokenType::AT_STYLE &&
+           currentToken_.GetType() != Core::TokenType::AT_VAR &&
+           currentToken_.GetType() != Core::TokenType::DELETE &&
+           currentToken_.GetType() != Core::TokenType::EXCEPT) {
+        
+        // 检查是否为CHTL JS语法开始 {{
+        if (currentToken_.GetType() == Core::TokenType::LEFT_BRACE && 
+            Peek().GetType() == Core::TokenType::LEFT_BRACE) {
+            break; // 让ParseCHTLJSExpression处理
+        }
+        
+        jsContent += currentToken_.GetValue();
+        
+        // 如果下一个token不是结束符，添加空格
+        if (!IsAtEnd() && Peek().GetType() != Core::TokenType::RIGHT_BRACE) {
+            jsContent += " ";
+        }
+        
+        Advance();
+    }
+    
+    if (jsContent.empty()) {
+        return nullptr;
+    }
+    
+    // 创建JavaScript片段节点
+    auto jsFragment = std::make_shared<AST::JavaScriptNode>(Utils::StringUtils::Trim(jsContent), Current());
+    
+    return jsFragment;
+}
+
+AST::ASTNodePtr CHTLParser::ParseCHTLJSExpression() {
+    // 消费第一个 {
+    if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{'")) {
+        return nullptr;
+    }
+    
+    // 消费第二个 {
+    if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{{'")) {
+        return nullptr;
+    }
+    
+    std::string expression = "";
+    int braceCount = 2; // 已经消费了两个左花括号
+    
+    // 收集CHTL JS表达式内容，处理嵌套的花括号
+    while (!IsAtEnd() && braceCount > 0) {
+        if (currentToken_.GetType() == Core::TokenType::LEFT_BRACE) {
+            braceCount++;
+            expression += "{";
+        } else if (currentToken_.GetType() == Core::TokenType::RIGHT_BRACE) {
+            braceCount--;
+            if (braceCount > 0) {
+                expression += "}";
+            }
+        } else {
+            expression += currentToken_.GetValue();
+            
+            // 如果下一个token不是结束符，添加空格
+            if (!IsAtEnd() && braceCount > 2) {
+                expression += " ";
+            }
+        }
+        
+        Advance();
+    }
+    
+    // 检查是否有引用选择器 {{&}} - script中的引用语法
+    if (Utils::StringUtils::Trim(expression) == "&") {
+        // 创建script引用选择器节点，优先选择id
+        auto referenceNode = std::make_shared<AST::ReferenceNode>("&", Current());
+        referenceNode->SetReferenceType(AST::ReferenceNode::ReferenceType::SCRIPT_REFERENCE);
+        return referenceNode;
+    }
+    
+    // 创建CHTL JS表达式节点
+    auto chtljsNode = std::make_shared<AST::CHTLJSNode>(Utils::StringUtils::Trim(expression), Current());
+    
+    return chtljsNode;
+}
+
+AST::ASTNodePtr CHTLParser::ParseComment() {
+    std::string commentText = currentToken_.GetValue();
+    
+    AST::CommentNode::CommentType commentType;
+    switch (currentToken_.GetType()) {
+        case Core::TokenType::SINGLE_LINE_COMMENT:
+            commentType = AST::CommentNode::CommentType::SINGLE_LINE;
+            break;
+        case Core::TokenType::MULTI_LINE_COMMENT:
+            commentType = AST::CommentNode::CommentType::MULTI_LINE;
+            break;
+        case Core::TokenType::GENERATOR_COMMENT:
+            commentType = AST::CommentNode::CommentType::GENERATOR;
+            break;
+        default:
+            commentType = AST::CommentNode::CommentType::SINGLE_LINE;
+            break;
+    }
+    
+    auto commentNode = std::make_shared<AST::CommentNode>(commentType, commentText, currentToken_);
+    Advance();
+    
+    return commentNode;
 }
 
 AST::ASTNodePtr CHTLParser::ParseInheritanceDeclaration() {
@@ -1814,8 +2355,10 @@ AST::ASTNodePtr CHTLParser::ParseVariableReference() {
         return nullptr;
     }
     
-    // 创建变量引用节点
-    auto varRefNode = std::make_shared<AST::VariableReferenceNode>(groupName, variableName, Current());
+    // 变量引用现在通过上下文和状态机处理
+    // 创建一个标识符节点来表示变量引用
+    auto varRefNode = std::make_shared<AST::LiteralNode>(AST::LiteralNode::LiteralType::UNQUOTED, 
+                                                        groupName + "(" + variableName + ")", Current());
     
     // 检查是否有特例化参数
     if (Check(Core::TokenType::EQUAL)) {
@@ -1823,7 +2366,7 @@ AST::ASTNodePtr CHTLParser::ParseVariableReference() {
         
         std::string specializationValue = ParseStringValue();
         if (!specializationValue.empty()) {
-            varRefNode->AddSpecializationParam(variableName, specializationValue);
+            // 变量引用的特例化现在通过上下文处理，LiteralNode不需要这个方法
         }
     }
     
@@ -1991,74 +2534,16 @@ AST::ASTNodePtr CHTLParser::ParseVariableGroup() {
         return nullptr;
     }
     
-    // 创建变量组节点
-    auto varGroupNode = std::make_shared<AST::VariableGroupNode>(groupName, Current());
+    // 变量组功能现在通过TEMPLATE_VAR和CUSTOM_VAR节点实现
+    // 这里应该根据上下文创建相应的节点类型
+    AST::ASTNodePtr varGroupNode = nullptr;
     
-    // 解析变量组内容
-    if (Check(Core::TokenType::LEFT_BRACE)) {
-        Advance(); // 消费 '{'
-        
-        bool isValuelessGroup = false;
-        
-        // 解析变量定义
-        while (!IsAtEnd() && !Check(Core::TokenType::RIGHT_BRACE)) {
-            SkipWhitespaceAndComments();
-            
-            if (IsAtEnd() || Check(Core::TokenType::RIGHT_BRACE)) {
-                break;
-            }
-            
-            // 解析变量名
-            std::string varName = ParseIdentifier();
-            if (varName.empty()) {
-                ReportError("期望变量名");
-                break;
-            }
-            
-            // 检查是否为无值样式组（只有逗号或分号，没有值）
-            if (Check(Core::TokenType::COMMA) || Check(Core::TokenType::SEMICOLON)) {
-                // 无值样式组
-                isValuelessGroup = true;
-                varGroupNode->AddVariable(varName, ""); // 空值
-                
-                if (Check(Core::TokenType::COMMA)) {
-                    Advance();
-                } else if (Check(Core::TokenType::SEMICOLON)) {
-                    Advance();
-                }
-            } else if (Check(Core::TokenType::COLON) || Check(Core::TokenType::EQUAL)) {
-                // 有值变量
-                Advance(); // 消费分隔符
-                
-                std::string varValue = ParseStringValue();
-                if (varValue.empty()) {
-                    ReportError("期望变量值");
-                    break;
-                }
-                
-                varGroupNode->AddVariable(varName, varValue);
-                
-                // 消费可选的分号
-                if (Check(Core::TokenType::SEMICOLON)) {
-                    Advance();
-                }
-            } else {
-                ReportError("期望 ':' 或 '=' 或 ',' 在变量 " + varName + " 后");
-                break;
-            }
-        }
-        
-        // 设置是否为无值样式组
-        varGroupNode->SetIsValuelessStyleGroup(isValuelessGroup);
-        
-        if (!Consume(Core::TokenType::RIGHT_BRACE, "期望 '}'")) {
-            if (config_.enableErrorRecovery) {
-                Synchronize({Core::TokenType::RIGHT_BRACE});
-            }
-        }
-    }
+    // 变量组解析现在通过现有的模板和自定义解析逻辑处理
+    // 这个方法可能不再需要，因为变量组应该在ParseTemplate和ParseCustom中处理
+    // 暂时返回nullptr，让调用者处理
+    return nullptr;
     
-    return varGroupNode;
+    // 变量组解析已简化，现在通过现有的模板和自定义节点处理
 }
 
 bool CHTLParser::ValidateSemantics(AST::ASTNodePtr node) {
@@ -2259,6 +2744,38 @@ bool CHTLParser::ProcessExceptConstraints(Constraints::SyntaxContext context) {
     }
     
     return success;
+}
+
+void CHTLParser::RegisterCustomOriginType(const std::string& originType) {
+    // 跳过官方三种基本类型
+    if (originType == "@Html" || originType == "@Style" || originType == "@JavaScript") {
+        return;
+    }
+    
+    // 避免重复注册
+    if (autoRegisteredOriginTypes_.find(originType) != autoRegisteredOriginTypes_.end()) {
+        return;
+    }
+    
+    // 添加到自动注册集合
+    autoRegisteredOriginTypes_.insert(originType);
+    
+    // 根据CHTL语法文档第760行：隐式创建[OriginType]配置条目
+    // 格式：ORIGINTYPE_全写的类型名称 = @全大写后
+    std::string typeNameUpper = originType.substr(1); // 去掉@前缀
+    std::transform(typeNameUpper.begin(), typeNameUpper.end(), typeNameUpper.begin(), ::toupper);
+    
+    std::string configKey = "ORIGINTYPE_" + typeNameUpper;
+    std::string configValue = originType;
+    
+    // 通过全局映射表注册自定义原始嵌入类型
+    globalMap_.SetOriginTypeMapping(configKey, configValue);
+    
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "自动注册原始嵌入类型: " + configKey + " = " + configValue
+        );
+    }
 }
 
 } // namespace Parser

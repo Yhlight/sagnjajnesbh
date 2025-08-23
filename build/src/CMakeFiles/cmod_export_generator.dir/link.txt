@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/cmod_export_generator.dir/link.d CMakeFiles/cmod_export_generator.dir/Tools/cmod_export_generator.cpp.o -o ../bin/cmod_export_generator   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libcmod.a ../lib/libutils.a

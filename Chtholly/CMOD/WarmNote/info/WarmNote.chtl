@@ -1,0 +1,21 @@
+[Info] {
+    name = "ChthollyWarmNote";
+    version = "1.0.0";
+    description = "珂朵莉暖色笔记 - 温暖人心的文字编辑器，带有特殊的暖色特效";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "ChthollyCore";
+    category = "ui-editor";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+    keywords = "note,editor,warm,chtholly,writing";
+    features = "autosave,export,statistics,particle-effects,keyboard-shortcuts";
+}
+
+[Export] {
+    [Template] @Style ChthollyWarmNoteStyle;
+    [Template] @Element ChthollyWarmNoteEditor;
+    
+    [Origin] @JavaScript WarmNoteScript;
+    [Origin] @Style WarmToastAnimations;
+}

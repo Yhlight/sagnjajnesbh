@@ -223,6 +223,13 @@ public:
     void SetCurrentConfiguration(const std::string& configName);
     
     /**
+     * @brief 设置原始嵌入类型映射（自动化功能）
+     * @param configKey 配置键名（如ORIGINTYPE_VUE）
+     * @param configValue 配置值（如@Vue）
+     */
+    void SetOriginTypeMapping(const std::string& configKey, const std::string& configValue);
+    
+    /**
      * @brief 检查符号是否存在
      * @param name 符号名称
      * @param namespaceName 命名空间名称（可选）

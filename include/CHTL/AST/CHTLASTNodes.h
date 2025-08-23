@@ -73,9 +73,7 @@ enum class NodeType {
     INDEX_ACCESS,           // 索引访问节点
     CONSTRAINT,             // 约束节点
     
-    // 变量和引用
-    VARIABLE_GROUP,         // 变量组节点
-    VARIABLE_REFERENCE,     // 变量引用节点
+    // 引用节点
     TEMPLATE_REFERENCE,     // 模板引用节点
     CUSTOM_REFERENCE,       // 自定义引用节点
     
@@ -576,11 +574,27 @@ public:
      * @brief 获取继承列表
      */
     const ASTNodeList& GetInheritances() const { return inheritances_; }
+    
+    /**
+     * @brief 添加变量（用于VAR类型模板）
+     */
+    void AddVariable(const std::string& name, const std::string& value);
+    
+    /**
+     * @brief 获取变量值
+     */
+    std::string GetVariable(const std::string& name) const;
+    
+    /**
+     * @brief 获取所有变量
+     */
+    const std::unordered_map<std::string, std::string>& GetVariables() const { return variables_; }
 
 protected:
     TemplateType templateType_;
     std::string name_;
     ASTNodeList inheritances_;
+    std::unordered_map<std::string, std::string> variables_;
 };
 
 /**
@@ -634,12 +648,28 @@ public:
      * @brief 获取特例化列表
      */
     const ASTNodeList& GetSpecializations() const { return specializations_; }
+    
+    /**
+     * @brief 添加变量（用于VAR类型自定义）
+     */
+    void AddVariable(const std::string& name, const std::string& value);
+    
+    /**
+     * @brief 获取变量值
+     */
+    std::string GetVariable(const std::string& name) const;
+    
+    /**
+     * @brief 获取所有变量
+     */
+    const std::unordered_map<std::string, std::string>& GetVariables() const { return variables_; }
 
 protected:
     CustomType customType_;
     std::string name_;
     ASTNodeList inheritances_;
     ASTNodeList specializations_;
+    std::unordered_map<std::string, std::string> variables_;
 };
 
 /**
@@ -651,7 +681,7 @@ public:
         HTML,               // @Html
         STYLE,              // @Style
         JAVASCRIPT,         // @JavaScript
-        CUSTOM              // 自定义类型（如@Vue）
+        CUSTOM              // 自定义类型（通过[OriginType]配置定义）
     };
     
     OriginNode(OriginType originType, const std::string& content,
@@ -713,21 +743,33 @@ private:
 class ImportNode : public ASTNode {
 public:
     enum class ImportType {
-        HTML,               // @Html
-        STYLE,              // @Style
-        JAVASCRIPT,         // @JavaScript
+        HTML,               // @Html (旧版本，保持兼容)
+        STYLE,              // @Style (旧版本，保持兼容)
+        JAVASCRIPT,         // @JavaScript (旧版本，保持兼容)
         CHTL,               // @Chtl
         CJMOD,              // @CJmod
         CONFIG,             // @Config
+        
+        // 媒体文件导入（需要as语法）
+        MEDIA_HTML,         // @Html (新版本，需要as)
+        MEDIA_STYLE,        // @Style (新版本，需要as)
+        MEDIA_JAVASCRIPT,   // @JavaScript (新版本，需要as)
+        
+        // 原始嵌入导入
+        ORIGIN_HTML,        // [Origin] @Html
+        ORIGIN_STYLE,       // [Origin] @Style
+        ORIGIN_JAVASCRIPT,  // [Origin] @JavaScript
+        ORIGIN_CUSTOM,      // [Origin] @CustomType (用户通过[OriginType]配置定义的自定义类型)
+        
+        // 模板导入（保持兼容性）
         TEMPLATE_STYLE,     // [Template] @Style
         TEMPLATE_ELEMENT,   // [Template] @Element
         TEMPLATE_VAR,       // [Template] @Var
         CUSTOM_STYLE,       // [Custom] @Style
         CUSTOM_ELEMENT,     // [Custom] @Element
         CUSTOM_VAR,         // [Custom] @Var
-        ORIGIN_HTML,        // [Origin] @Html
-        ORIGIN_STYLE,       // [Origin] @Style
-        ORIGIN_JAVASCRIPT,  // [Origin] @JavaScript
+        
+        // 批量导入
         ALL_TEMPLATES,      // [Template]
         ALL_CUSTOMS,        // [Custom]
         ALL_ORIGINS         // [Origin]
@@ -764,6 +806,11 @@ public:
      * @brief 检查是否有别名
      */
     bool HasAlias() const { return !alias_.empty(); }
+    
+    /**
+     * @brief 设置导入名称
+     */
+    void SetName(const std::string& name) { name_ = name; }
     
     /**
      * @brief 检查是否为批量导入
@@ -853,6 +900,21 @@ public:
     const std::unordered_map<std::string, std::string>& GetSettings() const { return settings_; }
     
     /**
+     * @brief 添加配置组
+     */
+    void AddGroup(const std::string& groupName, const std::vector<std::string>& items);
+    
+    /**
+     * @brief 获取配置组
+     */
+    std::vector<std::string> GetGroup(const std::string& groupName) const;
+    
+    /**
+     * @brief 获取所有配置组
+     */
+    const std::unordered_map<std::string, std::vector<std::string>>& GetGroups() const { return groups_; }
+    
+    /**
      * @brief 检查是否为命名配置
      */
     bool IsNamed() const { return !name_.empty(); }
@@ -860,6 +922,7 @@ public:
 private:
     std::string name_;
     std::unordered_map<std::string, std::string> settings_;
+    std::unordered_map<std::string, std::vector<std::string>> groups_;
 };
 
 /**
@@ -1061,95 +1124,7 @@ private:
     std::vector<std::string> targets_;
 };
 
-/**
- * @brief 变量组节点类
- */
-class VariableGroupNode : public ASTNode {
-public:
-    VariableGroupNode(const std::string& name, const Core::CHTLToken& token = Core::CHTLToken());
-    void Accept(class ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    /**
-     * @brief 获取变量组名称
-     */
-    const std::string& GetName() const { return name_; }
-    
-    /**
-     * @brief 添加变量
-     */
-    void AddVariable(const std::string& name, const std::string& value);
-    
-    /**
-     * @brief 获取变量值
-     */
-    std::string GetVariable(const std::string& name) const;
-    
-    /**
-     * @brief 获取所有变量
-     */
-    const std::unordered_map<std::string, std::string>& GetVariables() const { return variables_; }
-    
-    /**
-     * @brief 检查是否为无值样式组
-     */
-    bool IsValuelessStyleGroup() const { return isValuelessStyleGroup_; }
-    
-    /**
-     * @brief 设置是否为无值样式组
-     */
-    void SetIsValuelessStyleGroup(bool isValueless) { isValuelessStyleGroup_ = isValueless; }
 
-private:
-    std::string name_;
-    std::unordered_map<std::string, std::string> variables_;
-    bool isValuelessStyleGroup_;
-};
-
-/**
- * @brief 变量引用节点类
- */
-class VariableReferenceNode : public ASTNode {
-public:
-    VariableReferenceNode(const std::string& groupName, const std::string& variableName,
-                         const Core::CHTLToken& token = Core::CHTLToken());
-    void Accept(class ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    /**
-     * @brief 获取变量组名称
-     */
-    const std::string& GetGroupName() const { return groupName_; }
-    
-    /**
-     * @brief 获取变量名称
-     */
-    const std::string& GetVariableName() const { return variableName_; }
-    
-    /**
-     * @brief 添加特例化参数
-     */
-    void AddSpecializationParam(const std::string& param, const std::string& value);
-    
-    /**
-     * @brief 获取特例化参数
-     */
-    const std::unordered_map<std::string, std::string>& GetSpecializationParams() const { 
-        return specializationParams_; 
-    }
-    
-    /**
-     * @brief 检查是否有特例化
-     */
-    bool HasSpecialization() const { return !specializationParams_.empty(); }
-
-private:
-    std::string groupName_;
-    std::string variableName_;
-    std::unordered_map<std::string, std::string> specializationParams_;
-};
 
 /**
  * @brief 模板引用节点类

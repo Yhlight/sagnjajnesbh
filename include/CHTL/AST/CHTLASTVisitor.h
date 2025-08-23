@@ -25,8 +25,7 @@ class DeletionNode;
 class InsertionNode;
 class IndexAccessNode;
 class ConstraintNode;
-class VariableGroupNode;
-class VariableReferenceNode;
+
 class TemplateReferenceNode;
 class CustomReferenceNode;
 class SpecializationNode;
@@ -86,8 +85,7 @@ public:
     virtual void VisitConstraintNode(ConstraintNode& node) = 0;
     
     // 变量相关访问方法
-    virtual void VisitVariableGroupNode(VariableGroupNode& node) = 0;
-    virtual void VisitVariableReferenceNode(VariableReferenceNode& node) = 0;
+
 };
 
 /**
@@ -123,8 +121,7 @@ public:
     void VisitInsertionNode(InsertionNode& node) override {}
     void VisitIndexAccessNode(IndexAccessNode& node) override {}
     void VisitConstraintNode(ConstraintNode& node) override {}
-    void VisitVariableGroupNode(VariableGroupNode& node) override {}
-    void VisitVariableReferenceNode(VariableReferenceNode& node) override {}
+
 };
 
 /**
@@ -160,8 +157,7 @@ public:
     void VisitInsertionNode(InsertionNode& node) override;
     void VisitIndexAccessNode(IndexAccessNode& node) override;
     void VisitConstraintNode(ConstraintNode& node) override;
-    void VisitVariableGroupNode(VariableGroupNode& node) override;
-    void VisitVariableReferenceNode(VariableReferenceNode& node) override;
+
     
     /**
      * @brief 获取打印结果

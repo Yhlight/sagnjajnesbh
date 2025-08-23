@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_chtholly_yuigahama.dir/link.d CMakeFiles/test_chtholly_yuigahama.dir/Modules/test_chtholly_yuigahama.cpp.o -o ../bin/test_chtholly_yuigahama   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libcjmod.a ../lib/libcmod.a ../lib/libutils.a

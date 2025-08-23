@@ -6,6 +6,11 @@
 #include <memory>
 
 namespace CHTL {
+
+// 前向声明
+namespace Parser { class CHTLParser; }
+namespace CHTLJS { namespace Parser { class CHTLJSParser; } }
+
 namespace Dispatcher {
 
 /**
@@ -53,6 +58,12 @@ public:
  */
 class CHTLFragmentProcessor : public FragmentProcessor {
 public:
+    /**
+     * @brief 构造函数
+     * @param parser CHTL解析器指针
+     */
+    CHTLFragmentProcessor(Parser::CHTLParser* parser = nullptr);
+    
     ProcessedFragment ProcessFragment(const Scanner::CodeFragment& fragment) override;
     std::string GetName() const override { return "CHTL"; }
 
@@ -76,6 +87,9 @@ private:
      * @brief 检查是否为文本内容
      */
     bool IsTextContent(const std::string& content);
+
+private:
+    Parser::CHTLParser* parser_;  // CHTL解析器指针
 };
 
 /**
@@ -84,6 +98,12 @@ private:
  */
 class CHTLJSFragmentProcessor : public FragmentProcessor {
 public:
+    /**
+     * @brief 构造函数
+     * @param parser CHTL JS解析器指针
+     */
+    CHTLJSFragmentProcessor(CHTLJS::Parser::CHTLJSParser* parser = nullptr);
+    
     ProcessedFragment ProcessFragment(const Scanner::CodeFragment& fragment) override;
     std::string GetName() const override { return "CHTL JS"; }
 
@@ -102,6 +122,9 @@ private:
      * @brief 处理监听器语法
      */
     std::string ProcessListenerSyntax(const std::string& content);
+
+private:
+    CHTLJS::Parser::CHTLJSParser* parser_;  // CHTL JS解析器指针
 };
 
 /**

@@ -84,9 +84,9 @@ public:
 private:
     DispatcherConfig config_;                           // 调度器配置
     std::unique_ptr<Scanner::CHTLUnifiedScanner> scanner_;  // 统一扫描器
-    // 基础实现：暂时不使用复杂的解析器
-    // std::unique_ptr<Parser::CHTLParser> chtlParser_;        // CHTL解析器
-    // std::unique_ptr<CHTLJS::Parser::CHTLJSParser> chtlJSParser_; // CHTL JS解析器
+    // 完整实现：使用所有必需的解析器 - 严格按照目标规划.ini
+    std::unique_ptr<Parser::CHTLParser> chtlParser_;        // CHTL解析器
+    std::unique_ptr<CHTLJS::Parser::CHTLJSParser> chtlJSParser_; // CHTL JS解析器
     std::unique_ptr<CSS::CSSCompiler> cssCompiler_;         // CSS编译器
     std::unique_ptr<JavaScript::JavaScriptCompiler> jsCompiler_; // JavaScript编译器
     

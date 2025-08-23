@@ -32,42 +32,38 @@ std::string ContextualCommentGenerator::GenerateComment(const std::string& comme
 }
 
 ProgrammingContext ContextualCommentGenerator::DetectContext(const std::string& surroundingCode) const {
-    // 检测当前编程语言上下文
+    // 增强的上下文检测逻辑
     
-    // 检查是否在样式块中
-    if (surroundingCode.find("style {") != std::string::npos ||
-        surroundingCode.find(".") != std::string::npos ||
-        surroundingCode.find("#") != std::string::npos ||
-        surroundingCode.find("background:") != std::string::npos ||
-        surroundingCode.find("color:") != std::string::npos) {
+    // 使用正则表达式进行更精确的检测
+    
+    // 检查是否在[Origin] @Style块中或CSS样式块中
+    std::regex cssPatterns(R"((\[Origin\]\s*@Style|style\s*\{|\.[\w-]+\s*\{|#[\w-]+\s*\{|@media|@keyframes|background\s*:|color\s*:|font\s*:|margin\s*:|padding\s*:|display\s*:|position\s*:))");
+    if (std::regex_search(surroundingCode, cssPatterns)) {
         return ProgrammingContext::CSS;
     }
     
-    // 检查是否在脚本块中
-    if (surroundingCode.find("script {") != std::string::npos ||
-        surroundingCode.find("{{") != std::string::npos ||
-        surroundingCode.find("->") != std::string::npos ||
-        surroundingCode.find("listen") != std::string::npos ||
-        surroundingCode.find("animate") != std::string::npos) {
+    // 检查是否在[Origin] @JavaScript块中或CHTL JS脚本块中
+    std::regex chtlJSPatterns(R"((\[Origin\]\s*@JavaScript|script\s*\{|\{\{[^}]*\}\}|vir\s+\w+|printMylove|iNeverAway|listen\s*\(|delegate\s*\(|->|\$\(\w+\)))");
+    if (std::regex_search(surroundingCode, chtlJSPatterns)) {
         return ProgrammingContext::CHTL_JS;
     }
     
-    // 检查是否在原始JavaScript中
-    if (surroundingCode.find("function") != std::string::npos ||
-        surroundingCode.find("var ") != std::string::npos ||
-        surroundingCode.find("const ") != std::string::npos ||
-        surroundingCode.find("let ") != std::string::npos ||
-        surroundingCode.find("console.log") != std::string::npos) {
+    // 检查是否在原始JavaScript代码中
+    std::regex jsPatterns(R"((function\s+\w+|var\s+\w+|const\s+\w+|let\s+\w+|console\.(log|error|warn)|document\.|window\.|addEventListener|setTimeout|setInterval|new\s+\w+))");
+    if (std::regex_search(surroundingCode, jsPatterns)) {
         return ProgrammingContext::JAVASCRIPT;
     }
     
-    // 检查是否在HTML元素中
-    if (surroundingCode.find("<") != std::string::npos ||
-        surroundingCode.find(">") != std::string::npos ||
-        surroundingCode.find("html {") != std::string::npos ||
-        surroundingCode.find("body {") != std::string::npos ||
-        surroundingCode.find("div {") != std::string::npos) {
+    // 检查是否在[Origin] @Html块中或HTML元素中
+    std::regex htmlPatterns(R"((\[Origin\]\s*@Html|<[\w\-]+[^>]*>|</[\w\-]+>|html\s*\{|body\s*\{|div\s*\{|span\s*\{|p\s*\{|a\s*\{|img\s*\{|input\s*\{))");
+    if (std::regex_search(surroundingCode, htmlPatterns)) {
         return ProgrammingContext::HTML;
+    }
+    
+    // 检查是否在CHTL模板或自定义定义中
+    std::regex chtlPatterns(R"((\[Template\]|\[Custom\]|\[Import\]|\[Namespace\]|\[Configuration\]|@Style\s+\w+|@Element\s+\w+|@Var\s+\w+))");
+    if (std::regex_search(surroundingCode, chtlPatterns)) {
+        return ProgrammingContext::CHTL;
     }
     
     // 默认为CHTL上下文
@@ -152,16 +148,11 @@ std::string OriginAnywhereManager::GetOriginUsageSuggestion(const std::string& c
 }
 
 bool OriginAnywhereManager::IsContextCompatible(const std::string& originType, const std::string& context) const {
-    // 提供一些常见的兼容性建议
+    // 提供官方支持的三种原始嵌入类型的兼容性建议
     std::unordered_map<std::string, std::vector<std::string>> compatibilityMap = {
         {"@Html", {"HTML", "CHTL", "element"}},
         {"@Style", {"CSS", "style", "CHTL"}},
-        {"@JavaScript", {"JavaScript", "script", "CHTL_JS"}},
-        {"@Vue", {"HTML", "element", "component"}},
-        {"@React", {"HTML", "element", "component"}},
-        {"@Svelte", {"HTML", "element", "component"}},
-        {"@Markdown", {"HTML", "text", "content"}},
-        {"@XML", {"HTML", "data", "config"}}
+        {"@JavaScript", {"JavaScript", "script", "CHTL_JS"}}
     };
     
     auto it = compatibilityMap.find(originType);

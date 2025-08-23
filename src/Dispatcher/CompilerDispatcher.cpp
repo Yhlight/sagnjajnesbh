@@ -1,5 +1,7 @@
 #include "Dispatcher/CompilerDispatcher.h"
 #include "Dispatcher/FragmentProcessors.h"
+#include "CHTL/Parser/CHTLParser.h"
+#include "CHTLJS/Parser/CHTLJSParser.h"
 #include "CSS/CSSCompiler.h"
 #include "JavaScript/JavaScriptCompiler.h"
 #include "Utils/ErrorHandler.h"
@@ -24,10 +26,14 @@ void CompilerDispatcher::InitializeCompilers() {
     scanner_ = std::make_unique<Scanner::CHTLUnifiedScanner>();
     scanner_->SetVerbose(config_.enableDebugOutput);
     
-    // 基础实现：暂时不初始化复杂的解析器
-    // 实际实现需要完整的解析器集成
-    // chtlParser_ = ...;
-    // chtlJSParser_ = ...;
+    // 完整实现：初始化所有必需的解析器 - 严格按照目标规划.ini要求
+    chtlParser_ = std::make_unique<Parser::CHTLParser>();
+    chtlJSParser_ = std::make_unique<CHTLJS::Parser::CHTLJSParser>();
+    
+    // 解析器初始化完成
+    if (config_.enableDebugOutput) {
+        Utils::ErrorHandler::GetInstance().LogInfo("CHTL和CHTL JS解析器初始化完成");
+    }
     
     // 初始化CSS编译器（ANTLR4）
     cssCompiler_ = std::make_unique<CSS::CSSCompiler>();
@@ -84,9 +90,9 @@ CompilationResult CompilerDispatcher::DispatchFragments(const std::vector<Scanne
             "开始片段协作编译，共 " + std::to_string(fragments.size()) + " 个片段"
         );
         
-        // 创建片段处理器
-        CHTLFragmentProcessor chtlProcessor;
-        CHTLJSFragmentProcessor chtlJSProcessor;
+        // 创建片段处理器，传入对应的解析器
+        CHTLFragmentProcessor chtlProcessor(chtlParser_.get());
+        CHTLJSFragmentProcessor chtlJSProcessor(chtlJSParser_.get());
         CSSFragmentProcessor cssProcessor;
         JavaScriptFragmentProcessor jsProcessor;
         

@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_testmodule_auto.dir/link.d CMakeFiles/test_testmodule_auto.dir/CMOD/test_testmodule_auto.cpp.o -o ../bin/test_testmodule_auto   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libcmod.a ../lib/libutils.a

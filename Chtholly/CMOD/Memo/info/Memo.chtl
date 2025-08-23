@@ -1,0 +1,19 @@
+[Info] {
+    name = "ChthollyMemo";
+    version = "1.0.0";
+    description = "珂朵莉备忘录 - 记录美好回忆的待办事项组件";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "ChthollyCore";
+    category = "ui-component";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export] {
+    [Template] @Style ChthollyMemoStyle;
+    [Template] @Element ChthollyMemoBoard;
+    
+    [Origin] @JavaScript ChthollyMemoScript;
+    [Origin] @Style MemoToastStyles;
+}

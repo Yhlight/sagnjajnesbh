@@ -320,15 +320,7 @@ void ASTPrintVisitor::VisitConstraintNode(ConstraintNode& node) {
     result_ += node.ToString() + "\n";
 }
 
-void ASTPrintVisitor::VisitVariableGroupNode(VariableGroupNode& node) {
-    PrintIndent();
-    result_ += node.ToString() + "\n";
-}
 
-void ASTPrintVisitor::VisitVariableReferenceNode(VariableReferenceNode& node) {
-    PrintIndent();
-    result_ += node.ToString() + "\n";
-}
 
 void ASTValidationVisitor::AddError(const std::string& error) {
     errors_.push_back(error);

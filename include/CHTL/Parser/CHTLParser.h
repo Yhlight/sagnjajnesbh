@@ -7,6 +7,8 @@
 #include "CHTL/Core/CHTLGlobalMap.h"
 #include "CHTL/Core/CHTLState.h"
 #include "CHTL/Core/CHTLStateContext.h"
+#include "CHTL/Core/ImportManager.h"
+#include "CHTL/Core/NamespaceMerger.h"
 #include "CHTL/AST/CHTLASTNodes.h"
 #include "CHTL/Lexer/CHTLLexer.h"
 #include "CHTL/Constraints/CHTLConstraintValidator.h"
@@ -158,6 +160,12 @@ private:
     AST::ASTNodePtr ParseImportDeclaration();
     
     /**
+     * @brief 解析导入路径（支持无修饰字符串和通配符）
+     * @return 导入路径
+     */
+    std::string ParseImportPath();
+    
+    /**
      * @brief 解析命名空间声明（支持省略大括号 - 语法文档第998行）
      * @return 命名空间节点
      */
@@ -218,6 +226,24 @@ private:
      * @return 脚本块节点
      */
     AST::ASTNodePtr ParseScriptBlock();
+    
+    /**
+     * @brief 解析JavaScript代码片段
+     * @return JavaScript片段节点
+     */
+    AST::ASTNodePtr ParseJavaScriptFragment();
+    
+    /**
+     * @brief 解析CHTL JS表达式 {{...}}
+     * @return CHTL JS表达式节点
+     */
+    AST::ASTNodePtr ParseCHTLJSExpression();
+    
+    /**
+     * @brief 解析注释
+     * @return 注释节点
+     */
+    AST::ASTNodePtr ParseComment();
     
     /**
      * @brief 解析样式内容
@@ -419,6 +445,12 @@ private:
      * @return 是否违反约束
      */
     bool CheckConstraints(const std::string& nodeName, const std::string& nodeType);
+    
+    /**
+     * @brief 注册自定义原始嵌入类型（自动化功能）
+     * @param originType 原始嵌入类型（如@Vue）
+     */
+    void RegisterCustomOriginType(const std::string& originType);
 
 private:
     ParserConfig config_;               // 解析器配置
@@ -434,6 +466,12 @@ private:
     std::shared_ptr<Core::CHTLStateContext> stateContext_;        // 状态上下文
     std::unique_ptr<Core::CHTLStateInferenceEngine> stateInferenceEngine_;  // 状态推断引擎
     
+    // 增强导入系统 - 严格按照目标规划.ini要求
+    std::unique_ptr<Core::ImportManager> importManager_;         // 导入管理器
+    
+    // 增强命名空间系统 - 严格按照目标规划.ini第107行要求
+    std::unique_ptr<Core::NamespaceMerger> namespaceMerger_;     // 命名空间合并管理器
+    
     // 错误恢复状态
     bool inErrorRecovery_;              // 是否在错误恢复中
     size_t errorCount_;                 // 错误计数
@@ -441,6 +479,9 @@ private:
     // 语法约束系统
     std::unique_ptr<Constraints::CHTLConstraintValidator> constraintValidator_;     // 约束验证器
     std::unique_ptr<Constraints::ExceptConstraintIntegrator> constraintIntegrator_; // 约束集成器
+    
+    // 自动化OriginType系统
+    std::unordered_set<std::string> autoRegisteredOriginTypes_;  // 自动注册的原始嵌入类型
 };
 
 /**

@@ -1,0 +1,325 @@
+// 珂朵莉模块使用示例 - 根据CHTL语法文档严格实现
+// 展示混合模块（CMOD + CJMOD）的完整使用方式
+
+[Import] @Chtl from Chtholly.Core
+[Import] @Chtl from Chtholly.Accordion
+[Import] @CJmod from Chtholly.ChthollyJS
+
+[Namespace] ChthollyDemo {
+
+    // 演示[Origin]可以在任意位置使用
+    [Origin] @Html DemoHeader {
+        <header class="demo-header">
+            <h1>珂朵莉模块演示</h1>
+            <p>世界上最幸福的女孩</p>
+        </header>
+    }
+
+    // 使用珂朵莉核心变量
+    [Template] @Style DemoPageStyle {
+        body {
+            font-family: ChthollyFonts();
+            background: linear-gradient(135deg, Colors(), ChthollyColors());
+            margin: 0;
+            padding: ChthollySpacing();
+            transition: ChthollyAnimations();
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: ChthollySpacing();
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--chtholly-radius-xl);
+            box-shadow: var(--chtholly-shadow-magical);
+        }
+        
+        .demo-section {
+            margin-bottom: ChthollySpacing();
+            padding: ChthollySpacing();
+            border: 1px solid var(--chtholly-border-light);
+            border-radius: var(--chtholly-radius-lg);
+        }
+        
+        .demo-title {
+            color: var(--chtholly-primary);
+            font-size: var(--chtholly-font-2xl);
+            font-weight: var(--chtholly-font-bold);
+            margin-bottom: ChthollySpacing();
+        }
+    }
+
+    [Template] @Element DemoPage {
+        html {
+            lang: "zh-CN";
+            
+            head {
+                meta { charset: "UTF-8"; }
+                meta { 
+                    name: "viewport"; 
+                    content: "width=device-width, initial-scale=1.0"; 
+                }
+                title { text: "珂朵莉模块演示"; }
+            }
+            
+            body {
+                // 插入原始嵌入的头部
+                [Origin] @Html {
+                    [Import] DemoHeader
+                }
+                
+                div {
+                    class: "demo-container";
+                    
+                    // 演示1：手风琴组件
+                    div {
+                        class: "demo-section";
+                        
+                        h2 { 
+                            class: "demo-title";
+                            text: "手风琴组件演示"; 
+                        }
+                        
+                        // 使用珂朵莉手风琴
+                        ChthollyAccordionPanel {
+                            ChthollyAccordion {
+                                title: "珂朵莉的故事";
+                                content: "在浮游大陆群的天空上，住着被称为"妖精"的种族...";
+                            }
+                            
+                            ChthollyAccordion {
+                                title: "最后的战士";
+                                content: "作为最后一位能够使用圣剑的战士，珂朵莉肩负着保护大家的使命...";
+                            }
+                            
+                            ChthollyAccordion {
+                                title: "短暂而美好的日子";
+                                content: "与威廉相遇后，珂朵莉第一次体验到了普通女孩的生活...";
+                            }
+                        }
+                    }
+                    
+                    // 演示2：CHTL JS功能
+                    div {
+                        class: "demo-section";
+                        
+                        h2 { 
+                            class: "demo-title";
+                            text: "CHTL JS功能演示"; 
+                        }
+                        
+                        div {
+                            class: "cjmod-demo";
+                            
+                            script {
+                                -- 这是一个上下文注释，会生成JavaScript注释
+                                -- 演示printMylove功能
+                                
+                                // 使用新的CJMOD API
+                                const myLoveImage = printMylove({
+                                    url: "chtholly_portrait.jpg",
+                                    mode: "ASCII",
+                                    width: 80,
+                                    height: 24,
+                                    scale: 1.0
+                                });
+                                
+                                console.log("珂朵莉的ASCII艺术：");
+                                console.log(myLoveImage);
+                                
+                                -- 演示iNeverAway功能（支持自定义键）
+                                vir ChthollyMagic = iNeverAway({
+                                    Void<Blessing>: function(target) {
+                                        console.log("珂朵莉给予了" + target + "祝福");
+                                        return "祝福之光闪耀着...";
+                                    },
+                                    
+                                    Void<Protection>: function(target) {
+                                        console.log("珂朵莉保护着" + target);
+                                        return "温暖的保护之光包围着" + target;
+                                    },
+                                    
+                                    String<Memory>: function() {
+                                        return "珂朵莉珍贵的记忆片段...";
+                                    },
+                                    
+                                    Promise<Wish>: function(wish) {
+                                        return new Promise(resolve => {
+                                            setTimeout(() => {
+                                                resolve("珂朵莉的愿望: " + wish + " 将会实现");
+                                            }, 1000);
+                                        });
+                                    }
+                                });
+                                
+                                // 使用vir对象
+                                ChthollyMagic->Blessing("威廉");
+                                ChthollyMagic->Protection("孩子们");
+                                
+                                const memory = ChthollyMagic->Memory();
+                                console.log(memory);
+                                
+                                ChthollyMagic->Wish("和大家一起过平凡的生活").then(result => {
+                                    console.log(result);
+                                });
+                            }
+                        }
+                    }
+                    
+                    // 演示3：混合原始嵌入
+                    div {
+                        class: "demo-section";
+                        
+                        h2 { 
+                            class: "demo-title";
+                            text: "原始嵌入演示"; 
+                        }
+                        
+                        // 在元素中使用[Origin] - 证明可以在任意位置使用
+                        [Origin] @Style MixedStyles {
+                            /* 这是CSS上下文中的注释 */
+                            .mixed-demo {
+                                background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+                                padding: 20px;
+                                border-radius: 15px;
+                                color: white;
+                                text-align: center;
+                                box-shadow: 0 8px 32px rgba(253, 121, 168, 0.3);
+                            }
+                            
+                            .sakura-animation {
+                                animation: sakuraFall 3s ease-in-out infinite;
+                            }
+                            
+                            @keyframes sakuraFall {
+                                0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+                                50% { transform: translateY(10px) rotate(180deg); opacity: 1; }
+                                100% { transform: translateY(40px) rotate(360deg); opacity: 0; }
+                            }
+                        }
+                        
+                        div {
+                            class: "mixed-demo";
+                            
+                            [Origin] @Html MixedContent {
+                                <div class="sakura-animation">🌸</div>
+                                <p>这是珂朵莉的樱花特效</p>
+                                <div class="sakura-animation" style="animation-delay: 1s;">🌸</div>
+                            }
+                        }
+                        
+                        // 在块的末尾也可以使用[Origin]
+                        [Origin] @JavaScript AnimationControl {
+                            // 动画控制脚本
+                            function startSakuraEffect() {
+                                const sakuras = document.querySelectorAll('.sakura-animation');
+                                sakuras.forEach((sakura, index) => {
+                                    sakura.style.animationDelay = (index * 0.5) + 's';
+                                });
+                            }
+                            
+                            document.addEventListener('DOMContentLoaded', startSakuraEffect);
+                        }
+                    }
+                }
+                
+                // 页脚也使用原始嵌入
+                [Origin] @Html DemoFooter {
+                    <footer style="text-align: center; padding: 20px; color: #666;">
+                        <p>珂朵莉模块 - CHTL语法文档严格实现</p>
+                        <p>"我想要成为大人，想要知道什么是恋爱。"</p>
+                    </footer>
+                }
+            }
+        }
+    }
+    
+    // 在命名空间末尾使用[Origin] - 再次证明位置无限制
+    [Origin] @JavaScript GlobalUtilities {
+        // 全局工具函数
+        window.ChthollyUtils = {
+            showMessage: function(message) {
+                const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+                    color: white;
+                    padding: 15px;
+                    border-radius: 10px;
+                    box-shadow: 0 8px 32px rgba(253, 121, 168, 0.3);
+                    z-index: 9999;
+                    animation: slideIn 0.3s ease-out;
+                `;
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease-in';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            },
+            
+            // 使用重新设计的CJMOD API
+            testCJMODIntegration: function() {
+                // 这里会调用ChthollyJS CJMOD模块
+                console.log("测试CJMOD集成...");
+                
+                // 测试双指针滑动窗口扫描
+                if (window.setScanStrategy) {
+                    window.setScanStrategy(1); // SLIDING_WINDOW
+                    console.log("扫描策略已设置为滑动窗口");
+                }
+                
+                // 测试vir函数绑定
+                if (window.virFunctionBind) {
+                    window.virFunctionBind("printMylove");
+                    window.virFunctionBind("iNeverAway");
+                    console.log("vir函数绑定完成");
+                }
+            }
+        };
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            ChthollyUtils.showMessage("珂朵莉模块演示加载完成！");
+            ChthollyUtils.testCJMODIntegration();
+            
+            console.log("=== 珂朵莉模块演示 ===");
+            console.log("✓ CMOD组件已加载");
+            console.log("✓ CJMOD扩展已加载");
+            console.log("✓ 新的统一API已启用");
+            console.log("✓ [Origin]原始嵌入可在任意位置使用");
+            console.log("✓ \"--\"注释上下文感知已启用");
+        });
+    }
+}
+
+// 在文件末尾使用[Origin] - 最终证明真的可以在任意位置使用
+[Origin] @Style DocumentEndStyles {
+    /* 文档末尾的样式定义 */
+    @media (prefers-color-scheme: dark) {
+        body {
+            background: linear-gradient(135deg, #2d3436, #636e72);
+            color: #ddd;
+        }
+        
+        .demo-container {
+            background: rgba(45, 52, 54, 0.9);
+            border: 1px solid #636e72;
+        }
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .demo-container {
+            margin: 10px;
+            padding: 15px;
+        }
+        
+        .demo-title {
+            font-size: var(--chtholly-font-xl);
+        }
+    }
+}

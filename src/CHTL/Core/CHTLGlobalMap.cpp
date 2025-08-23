@@ -175,6 +175,49 @@ void CHTLGlobalMap::SetCurrentConfiguration(const std::string& configName) {
     currentConfiguration_ = configName;
 }
 
+void CHTLGlobalMap::SetOriginTypeMapping(const std::string& configKey, const std::string& configValue) {
+    // 获取或创建默认配置
+    ConfigurationInfo* config = nullptr;
+    if (currentConfiguration_.empty()) {
+        // 创建默认配置
+        ConfigurationInfo defaultConfig("__auto_origin_types__");
+        configurations_["__auto_origin_types__"] = defaultConfig;
+        config = &configurations_["__auto_origin_types__"];
+    } else {
+        auto it = configurations_.find(currentConfiguration_);
+        if (it != configurations_.end()) {
+            config = &it->second;
+        } else {
+            // 创建当前配置
+            ConfigurationInfo newConfig(currentConfiguration_);
+            configurations_[currentConfiguration_] = newConfig;
+            config = &configurations_[currentConfiguration_];
+        }
+    }
+    
+    // 添加到OriginType组
+    if (config->groups.find("OriginType") == config->groups.end()) {
+        config->groups["OriginType"] = std::vector<std::string>();
+    }
+    
+    // 添加映射项，格式：ORIGINTYPE_VUE = @Vue
+    std::string mappingEntry = configKey + " = " + configValue;
+    auto& originTypeGroup = config->groups["OriginType"];
+    
+    // 避免重复添加
+    bool exists = false;
+    for (const auto& entry : originTypeGroup) {
+        if (entry.find(configKey) != std::string::npos) {
+            exists = true;
+            break;
+        }
+    }
+    
+    if (!exists) {
+        originTypeGroup.push_back(mappingEntry);
+    }
+}
+
 bool CHTLGlobalMap::HasSymbol(const std::string& name, const std::string& namespaceName) const {
     return FindSymbol(name, namespaceName) != nullptr;
 }

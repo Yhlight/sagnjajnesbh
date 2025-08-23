@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_auto_export.dir/link.d CMakeFiles/test_auto_export.dir/CMOD/test_auto_export.cpp.o -o ../bin/test_auto_export   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libcmod.a ../lib/libutils.a

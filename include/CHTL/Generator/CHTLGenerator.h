@@ -134,7 +134,7 @@ public:
     void VisitConfigurationNode(AST::ConfigurationNode& node) override;
     void VisitTemplateReferenceNode(AST::TemplateReferenceNode& node) override;
     void VisitCustomReferenceNode(AST::CustomReferenceNode& node) override;
-    void VisitVariableReferenceNode(AST::VariableReferenceNode& node) override;
+
     void VisitCommentNode(AST::CommentNode& node) override;
     void VisitLiteralNode(AST::LiteralNode& node) override;
     void VisitInheritanceNode(AST::InheritanceNode& node) override;
@@ -142,7 +142,7 @@ public:
     void VisitInsertionNode(AST::InsertionNode& node) override;
     void VisitIndexAccessNode(AST::IndexAccessNode& node) override;
     void VisitConstraintNode(AST::ConstraintNode& node) override;
-    void VisitVariableGroupNode(AST::VariableGroupNode& node) override;
+
     void VisitSpecializationNode(AST::SpecializationNode& node) override;
 
 private:
@@ -186,7 +186,7 @@ private:
      * @param varRef 变量引用节点
      * @return 替换后的值
      */
-    std::string ExpandVariable(AST::VariableReferenceNode& varRef);
+    std::string ExpandVariable(const std::string& variableReference);
     
     /**
      * @brief 生成自动类名
@@ -207,6 +207,64 @@ private:
      * @param selector CSS选择器节点
      */
     void ProcessGlobalStyleSelector(AST::CSSSelectorNode& selector);
+    
+    /**
+     * @brief 解析特例化参数
+     * @param params 参数字符串
+     * @return 解析后的参数映射
+     */
+    std::unordered_map<std::string, std::string> ParseSpecializationParameters(const std::string& params);
+    
+    /**
+     * @brief 应用特例化参数到变量值
+     * @param value 原始值
+     * @param params 特例化参数
+     * @return 应用特例化后的值
+     */
+    std::string ApplySpecializationToValue(const std::string& value, 
+                                          const std::unordered_map<std::string, std::string>& params);
+    
+    /**
+     * @brief 展开变量值中的表达式和占位符
+     * @param value 包含表达式的值
+     * @return 展开后的值
+     */
+    std::string ExpandVariableExpressions(const std::string& value);
+    
+    /**
+     * @brief 处理内置函数调用
+     * @param funcName 函数名
+     * @param args 参数
+     * @return 处理后的结果
+     */
+    std::string ProcessBuiltinFunction(const std::string& funcName, const std::string& args);
+    
+    /**
+     * @brief 展开元素模板
+     * @param symbol 模板符号
+     * @param templateRef 模板引用
+     * @return 展开的节点列表
+     */
+    AST::ASTNodeList ExpandElementTemplate(std::shared_ptr<Core::Symbol> symbol, 
+                                          AST::TemplateReferenceNode& templateRef);
+    
+    /**
+     * @brief 展开样式模板
+     * @param symbol 模板符号
+     * @param templateRef 模板引用
+     * @return 展开的节点列表
+     */
+    AST::ASTNodeList ExpandStyleTemplate(std::shared_ptr<Core::Symbol> symbol, 
+                                        AST::TemplateReferenceNode& templateRef);
+    
+    /**
+     * @brief 展开变量模板
+     * @param symbol 模板符号
+     * @param templateRef 模板引用
+     * @return 展开的节点列表
+     */
+    AST::ASTNodeList ExpandVariableTemplate(std::shared_ptr<Core::Symbol> symbol, 
+                                           AST::TemplateReferenceNode& templateRef);
     
     /**
      * @brief 执行after插入操作

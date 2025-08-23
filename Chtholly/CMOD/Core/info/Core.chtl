@@ -1,0 +1,20 @@
+[Info] {
+    name = "ChthollyCore";
+    version = "1.0.0";
+    description = "珂朵莉核心主题 - 提供基础变量和样式重置";
+    author = "CHTL Team";
+    license = "MIT";
+    category = "theme-core";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export] {
+    [Template] @Var ChthollyColors, ChthollyFonts, ChthollySpacing, 
+                    ChthollyBreakpoints, ChthollyAnimations;
+    
+    [Custom] @Var ChthollyThemeConfig;
+    
+    [Origin] @Style ChthollyReset;
+    [Origin] @JavaScript ChthollyVarUtils;
+}

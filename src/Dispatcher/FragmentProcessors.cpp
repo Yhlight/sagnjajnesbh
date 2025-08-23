@@ -8,6 +8,9 @@ namespace CHTL {
 namespace Dispatcher {
 
 // CHTL片段处理器实现
+CHTLFragmentProcessor::CHTLFragmentProcessor(Parser::CHTLParser* parser) 
+    : parser_(parser) {}
+
 ProcessedFragment CHTLFragmentProcessor::ProcessFragment(const Scanner::CodeFragment& fragment) {
     ProcessedFragment result;
     result.originalType = fragment.type;
@@ -122,6 +125,9 @@ bool CHTLFragmentProcessor::IsTextContent(const std::string& content) {
 }
 
 // CHTL JS片段处理器实现
+CHTLJSFragmentProcessor::CHTLJSFragmentProcessor(CHTLJS::Parser::CHTLJSParser* parser) 
+    : parser_(parser) {}
+
 ProcessedFragment CHTLJSFragmentProcessor::ProcessFragment(const Scanner::CodeFragment& fragment) {
     ProcessedFragment result;
     result.originalType = fragment.type;
