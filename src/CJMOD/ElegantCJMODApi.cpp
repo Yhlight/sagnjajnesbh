@@ -546,36 +546,141 @@ std::string PrintMyloveSystem::processDimension(const std::string& dimension) {
 }
 
 std::string PrintMyloveSystem::processConfigObject(const std::string& configStr) {
-    // 处理配置对象字符串，提取键值对 - 官方键值对版本
-    std::ostringstream result;
+    // 处理配置对象字符串 - 支持CHTL JS官方特性
+    std::string processedConfig = parseUnorderedKeyValue(configStr);
+    processedConfig = handleOptionalKeys(processedConfig);
     
-    // 简单的键值对解析（实际项目中可能需要更复杂的JSON解析）
+    return processedConfig;
+}
+
+std::string PrintMyloveSystem::parseUnorderedKeyValue(const std::string& configStr) {
+    // 支持无序键值对 - CHTL JS官方特性
+    std::ostringstream result;
+    std::unordered_map<std::string, std::string> keyValues;
+    
+    // 解析所有键值对，不依赖顺序
     std::regex keyValueRegex(R"((\w+):\s*([^,}]+))");
     std::sregex_iterator iter(configStr.begin(), configStr.end(), keyValueRegex);
     std::sregex_iterator end;
     
-    result << "{\n";
-    bool first = true;
     for (; iter != end; ++iter) {
-        if (!first) result << ",\n";
         std::string key = (*iter)[1].str();
         std::string value = (*iter)[2].str();
         
+        // 处理无修饰字面量
+        value = processUndecoratedLiterals(value);
+        
         // 根据键名进行特殊处理
         if (key == "url") {
-            result << "    " << key << ": " << processImageUrl(value);
+            keyValues[key] = processImageUrl(value);
         } else if (key == "mode") {
-            result << "    " << key << ": " << validateMode(value);
+            keyValues[key] = validateMode(value);
         } else if (key == "width" || key == "height") {
-            result << "    " << key << ": " << processDimension(value);
+            keyValues[key] = processDimension(value);
         } else {
-            result << "    " << key << ": " << value;
+            keyValues[key] = value;
         }
-        first = false;
     }
-    result << "\n}";
     
+    // 按标准顺序输出（内部处理，用户无需关心顺序）
+    result << "{\n";
+    std::vector<std::string> standardOrder = {"url", "mode", "width", "height", "scale"};
+    bool first = true;
+    
+    for (const auto& key : standardOrder) {
+        if (keyValues.find(key) != keyValues.end()) {
+            if (!first) result << ",\n";
+            result << "    " << key << ": " << keyValues[key];
+            first = false;
+        }
+    }
+    
+    // 添加其他非标准键
+    for (const auto& [key, value] : keyValues) {
+        if (std::find(standardOrder.begin(), standardOrder.end(), key) == standardOrder.end()) {
+            if (!first) result << ",\n";
+            result << "    " << key << ": " << value;
+            first = false;
+        }
+    }
+    
+    result << "\n}";
     return result.str();
+}
+
+std::string PrintMyloveSystem::handleOptionalKeys(const std::string& configStr) {
+    // 支持可选键值对 - CHTL JS官方特性
+    std::ostringstream result;
+    
+    // 检查是否包含必需的键，为缺失的键提供默认值
+    std::unordered_map<std::string, std::string> defaults = {
+        {"mode", "\"ascii\""},
+        {"width", "80"},
+        {"height", "40"},
+        {"scale", "1.0"}
+    };
+    
+    std::string processed = configStr;
+    
+    // 检查每个默认键是否存在
+    for (const auto& [key, defaultValue] : defaults) {
+        std::regex keyRegex(key + ":");
+        if (!std::regex_search(processed, keyRegex)) {
+            // 键不存在，添加默认值
+            std::cout << "printMylove: 使用默认值 " << key << " = " << defaultValue << std::endl;
+            
+            // 在最后一个键值对后添加默认键
+            size_t lastComma = processed.find_last_of(',');
+            if (lastComma != std::string::npos) {
+                processed.insert(lastComma + 1, "\n    " + key + ": " + defaultValue + ",");
+            } else {
+                // 如果没有逗号，说明只有一个键或者是空对象
+                size_t closeBrace = processed.find_last_of('}');
+                if (closeBrace != std::string::npos) {
+                    processed.insert(closeBrace, ",\n    " + key + ": " + defaultValue + "\n");
+                }
+            }
+        }
+    }
+    
+    return processed;
+}
+
+std::string PrintMyloveSystem::processUndecoratedLiterals(const std::string& value) {
+    // 支持无修饰字面量 - CHTL JS官方特性
+    std::string trimmedValue = value;
+    
+    // 去除前后空格
+    trimmedValue.erase(0, trimmedValue.find_first_not_of(" \t\n\r"));
+    trimmedValue.erase(trimmedValue.find_last_not_of(" \t\n\r") + 1);
+    
+    // 如果已经有引号，直接返回
+    if ((trimmedValue.front() == '"' && trimmedValue.back() == '"') ||
+        (trimmedValue.front() == '\'' && trimmedValue.back() == '\'')) {
+        return trimmedValue;
+    }
+    
+    // 检查是否是数字
+    std::regex numberRegex(R"(^-?\d+(\.\d+)?$)");
+    if (std::regex_match(trimmedValue, numberRegex)) {
+        return trimmedValue; // 数字不需要引号
+    }
+    
+    // 检查是否是布尔值
+    if (trimmedValue == "true" || trimmedValue == "false") {
+        return trimmedValue;
+    }
+    
+    // 检查是否是特殊关键字
+    std::vector<std::string> keywords = {"null", "undefined", "ascii", "pixel"};
+    for (const auto& keyword : keywords) {
+        if (trimmedValue == keyword) {
+            return "\"" + trimmedValue + "\""; // 关键字需要引号
+        }
+    }
+    
+    // 其他情况视为无修饰字面量，添加引号
+    return "\"" + trimmedValue + "\"";
 }
 
 std::string PrintMyloveSystem::generateASCIIConverter() {

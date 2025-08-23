@@ -22,61 +22,59 @@ std::string generateINeverAwayCode(const std::string& virObjectContent);
 // ==========================================
 
 void implementPrintMylove() {
-    std::cout << "=== 实现 printMylove 功能 ===" << std::endl;
+    std::cout << "=== 实现 printMylove 功能（支持CHTL JS官方特性）===" << std::endl;
     
-    // 第1步：syntaxAnalys - 表面简单的语法分析
+    // 第1步：syntaxAnalys - 支持无序、可选键值对和无修饰字面量
     std::string ignoreChars = ",:{};()";
     auto keyword = syntaxAnalys(R"(
-        printMylove({
-            url: $,
-            mode: $,
-            width: $,
-            height: $,
-            scale: $
+        const $ = printMylove({
+            $
         });
     )", ignoreChars);
     
+    std::cout << "✓ 支持CHTL JS官方特性：" << std::endl;
+    std::cout << "  - 无序键值对：键可以任意顺序" << std::endl;
+    std::cout << "  - 可选键值对：某些键可以省略" << std::endl;
+    std::cout << "  - 无修饰字面量：支持不带引号的字符串" << std::endl;
+    
     std::cout << "语法分析完成，识别到 " << keyword->args.length() << " 个参数" << std::endl;
     
-    // 第2步：bind - 表面简单的绑定，内在智能的处理
-    keyword->args.bind<std::string>("url", [](const std::string& url) -> std::string {
-        return PrintMyloveSystem::processImageUrl(url);
+    // 第2步：bind - 支持CHTL JS官方特性的智能绑定
+    keyword->args.bind<std::string>("varName", [](const std::string& varName) -> std::string {
+        std::cout << "  → 处理变量名: " << varName << std::endl;
+        return varName;
     });
     
-    keyword->args.bind<std::string>("mode", [](const std::string& mode) -> std::string {
-        return PrintMyloveSystem::validateMode(mode);
+    keyword->args.bind<std::string>("configObject", [](const std::string& configStr) -> std::string {
+        std::cout << "  → 处理配置对象（支持无序、可选、无修饰字面量）" << std::endl;
+        
+        // 展示支持的特性
+        std::cout << "    - 检测无序键值对..." << std::endl;
+        std::cout << "    - 处理可选键值对..." << std::endl;  
+        std::cout << "    - 解析无修饰字面量..." << std::endl;
+        
+        return PrintMyloveSystem::processConfigObject(configStr);
     });
     
-    keyword->args.bind<std::string>("width", [](const std::string& width) -> std::string {
-        return PrintMyloveSystem::processDimension(width);
-    });
-    
-    keyword->args.bind<std::string>("height", [](const std::string& height) -> std::string {
-        return PrintMyloveSystem::processDimension(height);
-    });
-    
-    keyword->args.bind<double>("scale", [](double scale) -> std::string {
-        if (scale > 0 && scale <= 5.0) {
-            return std::to_string(scale);
-        }
-        return "1.0";  // 默认缩放
-    });
-    
-    // 第3步：scanKeyword - 表面简单的扫描，内在精妙的处理
+    // 第3步：scanKeyword - 智能扫描，支持CHTL JS官方特性
     auto& scanner = getCJMODScanner();
     scanner.scanKeyword("printMylove", [&]() {
-        std::cout << "检测到 printMylove 函数调用" << std::endl;
+        std::cout << "✓ 检测到 printMylove 函数调用（CHTL JS官方特性）" << std::endl;
         
-        // 第4步：match - 表面简单的匹配，内在智能的值处理
-        keyword->args.match("url", scanner.peekKeyword(2));      // 跳过 { 和 url:
-        keyword->args.match("mode", scanner.peekKeyword(4));     // mode 参数位置
-        keyword->args.match("width", scanner.peekKeyword(6));    // width 参数位置
-        keyword->args.match("height", scanner.peekKeyword(8));   // height 参数位置
-        keyword->args.match("scale", scanner.peekKeyword(10));   // scale 参数位置
+        // 第4步：match - 智能匹配，支持无序、可选、无修饰字面量
+        std::string varName = scanner.peekKeyword(0);  // const varName
+        std::string configObject = scanner.extractConfigObject(); // 提取整个配置对象
         
-        // 第5步：generateCode - 表面简单的调用，内在智能的组合
+        keyword->args.match("varName", varName);
+        keyword->args.match("configObject", configObject);
+        
+        std::cout << "✓ 成功解析CHTL JS官方特性：" << std::endl;
+        std::cout << "  - 变量名: " << varName << std::endl;
+        std::cout << "  - 配置对象长度: " << configObject.length() << " 字符" << std::endl;
+        
+        // 第5步：generateCode - 生成支持官方特性的JavaScript代码
         std::string jsCode = generateCode(*keyword);
-        std::cout << "生成的JavaScript代码：\n" << jsCode << std::endl;
+        std::cout << "✓ 生成的JavaScript代码（支持官方特性）：\n" << jsCode << std::endl;
     });
 }
 

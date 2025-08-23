@@ -251,7 +251,7 @@ private:
  */
 class PrintMyloveSystem {
 public:
-    // 表面简单的接口 - 官方键值对版本
+    // 表面简单的接口 - 官方键值对版本（支持无序、可选、无修饰字面量）
     static std::string generateImageProcessor(const std::string& configObject);
     
     // 内在精妙：智能参数处理
@@ -259,6 +259,11 @@ public:
     static std::string validateMode(const std::string& mode);
     static std::string processDimension(const std::string& dimension);
     static std::string processConfigObject(const std::string& configStr);
+    
+    // CHTL JS官方特性支持
+    static std::string parseUnorderedKeyValue(const std::string& configStr);
+    static std::string handleOptionalKeys(const std::string& configStr);
+    static std::string processUndecoratedLiterals(const std::string& value);
     
 private:
     static std::string generateASCIIConverter();
