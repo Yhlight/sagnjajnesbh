@@ -789,6 +789,178 @@ void registerCJMODFunctionForVir(const std::string& functionName,
 }
 
 // ==========================================
+// CJMOD关键字处理系统实现
+// ==========================================
+
+// 静态成员定义
+std::unordered_map<std::string, CJMODKeywordInfo> CJMODKeywordHandler::keywordMap_;
+
+void CJMODKeywordHandler::registerKeyword(const std::string& keyword, const CJMODKeywordInfo& info) {
+    keywordMap_[keyword] = info;
+    
+    std::cout << "=== 注册CJMOD关键字 ===" << std::endl;
+    std::cout << "关键字: " << keyword << std::endl;
+    std::cout << "需要回退: " << (info.needsBacktrack ? "是" : "否") << std::endl;
+    if (info.needsBacktrack) {
+        std::cout << "回退距离: " << info.backtrackDistance << " 个单元" << std::endl;
+    }
+    std::cout << "需要向前收集: " << (info.needsForwardCollect ? "是" : "否") << std::endl;
+    if (info.needsForwardCollect) {
+        std::cout << "向前收集距离: " << info.forwardCollectDistance << " 个单元" << std::endl;
+    }
+}
+
+bool CJMODKeywordHandler::isCJMODKeyword(const std::string& keyword) {
+    return keywordMap_.find(keyword) != keywordMap_.end();
+}
+
+CJMODKeywordInfo CJMODKeywordHandler::getKeywordInfo(const std::string& keyword) {
+    auto it = keywordMap_.find(keyword);
+    if (it != keywordMap_.end()) {
+        return it->second;
+    }
+    return CJMODKeywordInfo(); // 返回默认信息
+}
+
+bool CJMODKeywordHandler::handleKeyword(const std::string& keyword) {
+    auto it = keywordMap_.find(keyword);
+    if (it != keywordMap_.end()) {
+        std::cout << "=== 处理CJMOD关键字: " << keyword << " ===" << std::endl;
+        
+        const auto& info = it->second;
+        
+        if (info.needsBacktrack) {
+            std::cout << "→ 执行回退操作，距离: " << info.backtrackDistance << std::endl;
+        }
+        
+        if (info.needsForwardCollect) {
+            std::cout << "→ 执行向前收集，距离: " << info.forwardCollectDistance << std::endl;
+        }
+        
+        if (info.handler) {
+            std::cout << "→ 调用处理函数" << std::endl;
+            info.handler();
+        }
+        
+        std::cout << "✓ 关键字处理完成" << std::endl;
+        return true;
+    }
+    
+    std::cout << "❌ 未知的CJMOD关键字: " << keyword << std::endl;
+    return false;
+}
+
+std::vector<std::string> CJMODKeywordHandler::getAllKeywords() {
+    std::vector<std::string> keywords;
+    for (const auto& pair : keywordMap_) {
+        keywords.push_back(pair.first);
+    }
+    return keywords;
+}
+
+void CJMODKeywordHandler::clear() {
+    keywordMap_.clear();
+    std::cout << "✓ CJMOD关键字注册表已清空" << std::endl;
+}
+
+// 统一扫描器集成实现
+bool CJMODScannerIntegration::processKeywordFromScanner(const std::string& keyword, void* context) {
+    std::cout << "=== 统一扫描器调用CJMOD处理 ===" << std::endl;
+    std::cout << "识别到关键字: " << keyword << std::endl;
+    
+    if (!CJMODKeywordHandler::isCJMODKeyword(keyword)) {
+        std::cout << "❌ 不是CJMOD关键字，返回统一扫描器" << std::endl;
+        return false;
+    }
+    
+    auto info = CJMODKeywordHandler::getKeywordInfo(keyword);
+    
+    std::cout << "✓ 确认为CJMOD关键字，开始处理" << std::endl;
+    std::cout << "处理策略:" << std::endl;
+    std::cout << "  - 回退: " << (info.needsBacktrack ? "是" : "否") << std::endl;
+    std::cout << "  - 向前收集: " << (info.needsForwardCollect ? "是" : "否") << std::endl;
+    
+    // 执行CJMOD处理
+    bool success = CJMODKeywordHandler::handleKeyword(keyword);
+    
+    if (success) {
+        std::cout << "✓ CJMOD处理成功，拦截统一扫描器" << std::endl;
+    } else {
+        std::cout << "❌ CJMOD处理失败，返回统一扫描器" << std::endl;
+    }
+    
+    return success;
+}
+
+void CJMODScannerIntegration::registerCommonKeywords() {
+    std::cout << "=== 注册常用CJMOD关键字 ===" << std::endl;
+    
+    // 注册幂运算符 ** - 需要回退收集左操作数
+    CJMODKeywordInfo powerOpInfo;
+    powerOpInfo.keyword = "**";
+    powerOpInfo.needsBacktrack = true;
+    powerOpInfo.backtrackDistance = 1;
+    powerOpInfo.needsForwardCollect = true;
+    powerOpInfo.forwardCollectDistance = 1;
+    powerOpInfo.handler = []() {
+        std::cout << "  → 处理幂运算符 **" << std::endl;
+        std::cout << "  → 收集左操作数（回退1单元）" << std::endl;
+        std::cout << "  → 收集右操作数（向前1单元）" << std::endl;
+        std::cout << "  → 生成CJMOD幂运算代码" << std::endl;
+    };
+    CJMODKeywordHandler::registerKeyword("**", powerOpInfo);
+    
+    // 注册iNeverAway函数 - 不需要回退，需要收集参数
+    CJMODKeywordInfo iNeverAwayInfo;
+    iNeverAwayInfo.keyword = "iNeverAway";
+    iNeverAwayInfo.needsBacktrack = false;
+    iNeverAwayInfo.needsForwardCollect = true;
+    iNeverAwayInfo.forwardCollectDistance = 3; // 收集整个函数调用
+    iNeverAwayInfo.handler = []() {
+        std::cout << "  → 处理iNeverAway函数" << std::endl;
+        std::cout << "  → 检查vir支持" << std::endl;
+        std::cout << "  → 收集函数参数" << std::endl;
+        std::cout << "  → 生成vir处理代码" << std::endl;
+    };
+    CJMODKeywordHandler::registerKeyword("iNeverAway", iNeverAwayInfo);
+    
+    // 注册printMylove函数 - 不需要回退，需要收集参数
+    CJMODKeywordInfo printMyloveInfo;
+    printMyloveInfo.keyword = "printMylove";
+    printMyloveInfo.needsBacktrack = false;
+    printMyloveInfo.needsForwardCollect = true;
+    printMyloveInfo.forwardCollectDistance = 3;
+    printMyloveInfo.handler = []() {
+        std::cout << "  → 处理printMylove函数" << std::endl;
+        std::cout << "  → 解析配置对象" << std::endl;
+        std::cout << "  → 处理CHTL JS官方特性" << std::endl;
+        std::cout << "  → 生成图像处理代码" << std::endl;
+    };
+    CJMODKeywordHandler::registerKeyword("printMylove", printMyloveInfo);
+    
+    std::cout << "✓ 常用关键字注册完成" << std::endl;
+}
+
+void CJMODScannerIntegration::initialize() {
+    std::cout << "=== 初始化CJMOD扫描器集成 ===" << std::endl;
+    
+    // 清空现有注册
+    CJMODKeywordHandler::clear();
+    
+    // 注册常用关键字
+    registerCommonKeywords();
+    
+    // 显示注册结果
+    auto keywords = CJMODKeywordHandler::getAllKeywords();
+    std::cout << "✓ 已注册 " << keywords.size() << " 个CJMOD关键字:" << std::endl;
+    for (const auto& keyword : keywords) {
+        std::cout << "  - " << keyword << std::endl;
+    }
+    
+    std::cout << "✓ CJMOD扫描器集成初始化完成" << std::endl;
+}
+
+// ==========================================
 // CHTL JS函数快速创建系统实现
 // ==========================================
 

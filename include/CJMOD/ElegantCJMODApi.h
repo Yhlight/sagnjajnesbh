@@ -286,6 +286,108 @@ void registerCJMODFunctionForVir(const std::string& functionName,
                                 const std::vector<std::string>& supportedKeys);
 
 // ==========================================
+// CJMOD关键字处理系统 - 统一扫描器集成
+// ==========================================
+
+/**
+ * @brief CJMOD关键字处理信息
+ */
+struct CJMODKeywordInfo {
+    std::string keyword;                    // 关键字
+    bool needsBacktrack;                   // 是否需要回退
+    size_t backtrackDistance;             // 回退距离（单元数）
+    bool needsForwardCollect;             // 是否需要向前收集
+    size_t forwardCollectDistance;        // 向前收集距离
+    std::function<void()> handler;        // 处理函数
+    
+    CJMODKeywordInfo() : needsBacktrack(false), backtrackDistance(0), 
+                        needsForwardCollect(true), forwardCollectDistance(1) {}
+};
+
+/**
+ * @brief CJMOD关键字处理器
+ * 
+ * 管理CJMOD关键字的识别和处理策略，支持：
+ * - 关键字注册和查询
+ * - 回退机制配置
+ * - 向前收集配置
+ * - 统一扫描器集成接口
+ */
+class CJMODKeywordHandler {
+public:
+    /**
+     * @brief 注册CJMOD关键字
+     * @param keyword 关键字
+     * @param info 处理信息
+     */
+    static void registerKeyword(const std::string& keyword, const CJMODKeywordInfo& info);
+    
+    /**
+     * @brief 检查是否为CJMOD关键字
+     * @param keyword 待检查的关键字
+     * @return true如果是CJMOD关键字，false否则
+     */
+    static bool isCJMODKeyword(const std::string& keyword);
+    
+    /**
+     * @brief 获取关键字处理信息
+     * @param keyword 关键字
+     * @return 处理信息，如果关键字不存在则返回默认信息
+     */
+    static CJMODKeywordInfo getKeywordInfo(const std::string& keyword);
+    
+    /**
+     * @brief 处理关键字
+     * @param keyword 关键字
+     * @return true如果处理成功，false否则
+     */
+    static bool handleKeyword(const std::string& keyword);
+    
+    /**
+     * @brief 获取所有注册的关键字
+     * @return 关键字列表
+     */
+    static std::vector<std::string> getAllKeywords();
+    
+    /**
+     * @brief 清空所有注册的关键字（主要用于测试）
+     */
+    static void clear();
+
+private:
+    static std::unordered_map<std::string, CJMODKeywordInfo> keywordMap_;
+};
+
+/**
+ * @brief 统一扫描器集成接口
+ * 
+ * 提供统一扫描器与CJMOD的集成接口，支持：
+ * - 关键字识别和拦截
+ * - 回退和向前收集
+ * - 上下文管理
+ */
+class CJMODScannerIntegration {
+public:
+    /**
+     * @brief 处理统一扫描器识别到的关键字
+     * @param keyword 关键字
+     * @param context 扫描器上下文
+     * @return 处理结果
+     */
+    static bool processKeywordFromScanner(const std::string& keyword, void* context);
+    
+    /**
+     * @brief 注册常用的CJMOD关键字
+     */
+    static void registerCommonKeywords();
+    
+    /**
+     * @brief 初始化CJMOD扫描器集成
+     */
+    static void initialize();
+};
+
+// ==========================================
 // 核心API函数 - 表面简单，内在精妙
 // ==========================================
 
