@@ -1,0 +1,283 @@
+{
+  "name": "chtl-language-support",
+  "displayName": "CHTL Language Support",
+  "description": "Complete IDE support for CHTL (C++ HyperText Language) with built-in compiler, intelligent suggestions, and module resolution",
+  "version": "1.0.0",
+  "publisher": "chtl-team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-repo/chtl-vscode-extension.git"
+  },
+  "engines": {
+    "vscode": "^1.74.0",
+    "node": ">=16.0.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Debuggers",
+    "Snippets",
+    "Formatters"
+  ],
+  "keywords": [
+    "chtl",
+    "hypertext",
+    "template",
+    "html",
+    "css",
+    "javascript",
+    "compiler"
+  ],
+  "main": "./out/extension.js",
+  "icon": "assets/chtl-icon.png",
+  "activationEvents": [
+    "onLanguage:chtl",
+    "onLanguage:chtl-js",
+    "workspaceContains:**/*.chtl",
+    "workspaceContains:**/*.cmod",
+    "workspaceContains:**/*.cjmod"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "chtl",
+        "aliases": ["CHTL", "chtl"],
+        "extensions": [".chtl", ".cmod"],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./assets/chtl-file-light.svg",
+          "dark": "./assets/chtl-file-dark.svg"
+        }
+      },
+      {
+        "id": "chtl-js",
+        "aliases": ["CHTL JS", "cjmod"],
+        "extensions": [".cjmod"],
+        "configuration": "./language-configuration-js.json",
+        "icon": {
+          "light": "./assets/cjmod-file-light.svg",
+          "dark": "./assets/cjmod-file-dark.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "chtl",
+        "scopeName": "source.chtl",
+        "path": "./syntaxes/chtl.tmLanguage.json"
+      },
+      {
+        "language": "chtl-js",
+        "scopeName": "source.chtl-js",
+        "path": "./syntaxes/chtl-js.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "chtl",
+        "path": "./snippets/chtl.json"
+      },
+      {
+        "language": "chtl-js",
+        "path": "./snippets/chtl-js.json"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "CHTL Configuration",
+      "properties": {
+        "chtl.compiler.enableRealTimeCompilation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable real-time compilation and error checking"
+        },
+        "chtl.compiler.outputDirectory": {
+          "type": "string",
+          "default": "./build",
+          "description": "Output directory for compiled files"
+        },
+        "chtl.compiler.strictMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable strict syntax validation according to CHTL grammar documentation"
+        },
+        "chtl.intellisense.enableSmartSuggestions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable intelligent code suggestions and auto-completion"
+        },
+        "chtl.intellisense.enableModuleResolution": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic module resolution and import suggestions"
+        },
+        "chtl.intellisense.conflictResolution": {
+          "type": "string",
+          "enum": ["prefer-chtl", "prefer-vscode", "smart-detection"],
+          "default": "smart-detection",
+          "description": "How to handle conflicts between CHTL syntax and VSCode auto-completion"
+        },
+        "chtl.modules.searchPaths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["./modules", "./node_modules", "${workspaceFolder}/modules"],
+          "description": "Additional paths to search for CHTL modules"
+        },
+        "chtl.modules.officialModulePath": {
+          "type": "string",
+          "default": "${extensionPath}/built-in-modules",
+          "description": "Path to official CHTL modules bundled with the extension"
+        },
+        "chtl.validation.enableSyntaxBoundaryCheck": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable syntax boundary validation (different contexts have different allowed syntax)"
+        },
+        "chtl.validation.enableImportValidation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Validate import paths and module existence"
+        },
+        "chtl.debug.enableDetailedLogs": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable detailed debug logging for troubleshooting"
+        },
+        "chtl.format.enableAutoFormat": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic code formatting"
+        },
+        "chtl.format.indentSize": {
+          "type": "number",
+          "default": 4,
+          "description": "Number of spaces for indentation"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "chtl.compile.current",
+        "title": "Compile Current File",
+        "category": "CHTL"
+      },
+      {
+        "command": "chtl.compile.project",
+        "title": "Compile Project",
+        "category": "CHTL"
+      },
+      {
+        "command": "chtl.validate.syntax",
+        "title": "Validate Syntax",
+        "category": "CHTL"
+      },
+      {
+        "command": "chtl.modules.refresh",
+        "title": "Refresh Module Cache",
+        "category": "CHTL"
+      },
+      {
+        "command": "chtl.preview.open",
+        "title": "Open Live Preview",
+        "category": "CHTL"
+      },
+      {
+        "command": "chtl.debug.toggleLogs",
+        "title": "Toggle Debug Logs",
+        "category": "CHTL"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "chtl.compile.current",
+        "key": "ctrl+shift+b",
+        "when": "editorLangId == chtl"
+      },
+      {
+        "command": "chtl.preview.open",
+        "key": "ctrl+shift+p",
+        "when": "editorLangId == chtl"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "editorLangId == chtl",
+          "command": "chtl.compile.current",
+          "group": "chtl@1"
+        },
+        {
+          "when": "editorLangId == chtl",
+          "command": "chtl.preview.open",
+          "group": "chtl@2"
+        }
+      ],
+      "explorer/context": [
+        {
+          "when": "resourceExtname == .chtl",
+          "command": "chtl.compile.current",
+          "group": "chtl@1"
+        }
+      ]
+    },
+    "taskDefinitions": [
+      {
+        "type": "chtl",
+        "required": ["command"],
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "The CHTL command to run"
+          },
+          "args": {
+            "type": "array",
+            "description": "Arguments for the CHTL command"
+          }
+        }
+      }
+    ],
+    "problemMatchers": [
+      {
+        "name": "chtl",
+        "owner": "chtl",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error|info):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.4",
+    "@vscode/test-electron": "^2.2.0",
+    "@vscode/vsce": "^2.15.0"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "glob": "^8.1.0",
+    "tree-sitter": "^0.20.4",
+    "tree-sitter-javascript": "^0.20.1"
+  }
+}

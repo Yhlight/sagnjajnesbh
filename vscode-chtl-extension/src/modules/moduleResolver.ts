@@ -1,0 +1,488 @@
+import * as vscode from 'vscode';
+import * as path from 'path';
+import * as fs from 'fs';
+import * as glob from 'glob';
+
+export interface ModuleInfo {
+    name: string;
+    path: string;
+    type: 'chtl' | 'cmod' | 'cjmod' | 'html' | 'css' | 'js' | 'vue' | 'react' | 'angular';
+    exports: string[];
+    imports: string[];
+    version?: string;
+    description?: string;
+    isOfficial: boolean;
+}
+
+export interface ModuleSearchResult {
+    found: boolean;
+    module?: ModuleInfo;
+    candidates: ModuleInfo[];
+    searchPaths: string[];
+}
+
+export interface ImportSearchOptions {
+    importType: string; // @Html, @Style, @JavaScript, @Chtl, @CJmod, etc.
+    importPath: string;
+    hasAsClause: boolean;
+    isOriginImport: boolean;
+    workspaceRoot: string;
+}
+
+export class ModuleResolver {
+    private context: vscode.ExtensionContext;
+    private config: vscode.WorkspaceConfiguration;
+    private moduleCache: Map<string, ModuleInfo> = new Map();
+    private searchPathCache: Map<string, string[]> = new Map();
+    private lastCacheUpdate: number = 0;
+    private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+    constructor(context: vscode.ExtensionContext, config: vscode.WorkspaceConfiguration) {
+        this.context = context;
+        this.config = config;
+        this.initializeSearchPaths();
+    }
+
+    public updateConfig(newConfig: vscode.WorkspaceConfiguration): void {
+        this.config = newConfig;
+        this.invalidateCache();
+        this.initializeSearchPaths();
+    }
+
+    private initializeSearchPaths(): void {
+        const workspaceFolders = vscode.workspace.workspaceFolders;
+        if (!workspaceFolders) return;
+
+        for (const folder of workspaceFolders) {
+            const searchPaths = this.buildSearchPaths(folder.uri.fsPath);
+            this.searchPathCache.set(folder.uri.fsPath, searchPaths);
+        }
+    }
+
+    private buildSearchPaths(workspaceRoot: string): string[] {
+        const configuredPaths = this.config.get<string[]>('modules.searchPaths', []);
+        const officialModulePath = this.config.get<string>('modules.officialModulePath', '');
+        
+        const searchPaths: string[] = [];
+
+        // 1. 官方模块目录
+        if (officialModulePath) {
+            const resolvedOfficialPath = this.resolvePlaceholders(officialModulePath, workspaceRoot);
+            searchPaths.push(resolvedOfficialPath);
+        }
+
+        // 2. 当前目录的module文件夹
+        searchPaths.push(path.join(workspaceRoot, 'modules'));
+
+        // 3. 配置的搜索路径
+        for (const configuredPath of configuredPaths) {
+            const resolvedPath = this.resolvePlaceholders(configuredPath, workspaceRoot);
+            searchPaths.push(resolvedPath);
+        }
+
+        // 4. 当前目录
+        searchPaths.push(workspaceRoot);
+
+        return searchPaths.filter(p => fs.existsSync(p));
+    }
+
+    private resolvePlaceholders(pathTemplate: string, workspaceRoot: string): string {
+        return pathTemplate
+            .replace('${workspaceFolder}', workspaceRoot)
+            .replace('${extensionPath}', this.context.extensionPath)
+            .replace('${workspaceRoot}', workspaceRoot);
+    }
+
+    public async resolveImport(options: ImportSearchOptions): Promise<ModuleSearchResult> {
+        await this.ensureCacheValid();
+
+        const searchPaths = this.searchPathCache.get(options.workspaceRoot) || [];
+        const candidates: ModuleInfo[] = [];
+        let foundModule: ModuleInfo | undefined;
+
+        // 根据导入类型执行不同的搜索策略
+        switch (options.importType) {
+            case '@Html':
+            case '@Style':
+            case '@JavaScript':
+                foundModule = await this.resolveMediaImport(options, searchPaths, candidates);
+                break;
+
+            case '@Chtl':
+                foundModule = await this.resolveCHTLImport(options, searchPaths, candidates);
+                break;
+
+            case '@CJmod':
+                foundModule = await this.resolveCJMODImport(options, searchPaths, candidates);
+                break;
+
+            default:
+                if (options.isOriginImport) {
+                    foundModule = await this.resolveOriginImport(options, searchPaths, candidates);
+                }
+                break;
+        }
+
+        return {
+            found: !!foundModule,
+            module: foundModule,
+            candidates,
+            searchPaths
+        };
+    }
+
+    private async resolveMediaImport(options: ImportSearchOptions, searchPaths: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
+        // 媒体文件导入: @Html, @Style, @JavaScript
+        // 如果没有as语法，则跳过；如果有as语法，则创建相应类型的带名原始嵌入节点
+        
+        if (!options.hasAsClause) {
+            return undefined; // 跳过没有as语法的媒体导入
+        }
+
+        const targetExtension = this.getExtensionForMediaType(options.importType);
+        const importPath = options.importPath;
+
+        // 确定搜索策略
+        if (this.isSpecificFile(importPath)) {
+            // 具体文件名（带后缀）：在编译文件所在目录（非递归）直接搜索该文件
+            return this.searchSpecificFile(importPath, options.workspaceRoot, targetExtension, candidates);
+        } else if (this.isFileName(importPath)) {
+            // 文件名（不带后缀）：在编译文件所在目录（非递归）按类型搜索相关文件
+            return this.searchFileByName(importPath, options.workspaceRoot, targetExtension, candidates);
+        } else {
+            // 如果路径为文件夹或不包含具体文件信息时，触发报错
+            throw new Error(`Invalid media import path: ${importPath}. Expected file name or specific file path.`);
+        }
+    }
+
+    private async resolveCHTLImport(options: ImportSearchOptions, searchPaths: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
+        // CHTL导入搜索策略：
+        // 1. 名称（不带后缀）：优先搜索官方模块目录，其次搜索当前目录module文件夹，最后搜索当前目录
+        // 2. 具体名称（带后缀）：按官方模块目录→当前目录module文件夹→当前目录顺序搜索指定文件
+        // 3. 具体路径（含文件信息）：直接按路径查找
+        // 4. 通配符支持：*.cmod, *.chtl, 具体路径.*
+
+        const importPath = options.importPath;
+
+        if (this.isWildcardPath(importPath)) {
+            return this.searchWildcardFiles(importPath, searchPaths, ['cmod', 'chtl'], candidates);
+        } else if (this.isAbsolutePath(importPath)) {
+            return this.searchAbsolutePath(importPath, ['cmod', 'chtl'], candidates);
+        } else if (this.isSpecificFile(importPath)) {
+            return this.searchInOrderedPaths(importPath, searchPaths, candidates);
+        } else {
+            return this.searchModuleByName(importPath, searchPaths, ['cmod', 'chtl'], candidates);
+        }
+    }
+
+    private async resolveCJMODImport(options: ImportSearchOptions, searchPaths: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
+        // CJMOD导入搜索策略：与CHTL相同，但仅匹配cjmod文件
+        const importPath = options.importPath;
+
+        if (this.isWildcardPath(importPath)) {
+            return this.searchWildcardFiles(importPath, searchPaths, ['cjmod'], candidates);
+        } else if (this.isAbsolutePath(importPath)) {
+            return this.searchAbsolutePath(importPath, ['cjmod'], candidates);
+        } else if (this.isSpecificFile(importPath)) {
+            return this.searchInOrderedPaths(importPath, searchPaths, candidates);
+        } else {
+            return this.searchModuleByName(importPath, searchPaths, ['cjmod'], candidates);
+        }
+    }
+
+    private async resolveOriginImport(options: ImportSearchOptions, searchPaths: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
+        // 原始嵌入导入：直接从指定路径导入，不进行复杂的搜索策略
+        const importPath = options.importPath;
+        
+        if (fs.existsSync(importPath)) {
+            const moduleInfo = await this.createModuleInfo(importPath, this.getFileType(importPath), false);
+            candidates.push(moduleInfo);
+            return moduleInfo;
+        }
+
+        return undefined;
+    }
+
+    private getExtensionForMediaType(importType: string): string {
+        switch (importType) {
+            case '@Html': return 'html';
+            case '@Style': return 'css';
+            case '@JavaScript': return 'js';
+            default: return '';
+        }
+    }
+
+    private isSpecificFile(path: string): boolean {
+        return path.includes('.') && !path.endsWith('/') && !path.includes('*');
+    }
+
+    private isFileName(path: string): boolean {
+        return !path.includes('/') && !path.includes('.') && !path.includes('*');
+    }
+
+    private isWildcardPath(path: string): boolean {
+        return path.includes('*');
+    }
+
+    private isAbsolutePath(path: string): boolean {
+        return path.startsWith('/') || path.includes(':');
+    }
+
+    private async searchSpecificFile(fileName: string, baseDir: string, expectedExtension: string, candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
+        const fullPath = path.join(baseDir, fileName);
+        
+        if (fs.existsSync(fullPath)) {
+            const actualExtension = path.extname(fileName).slice(1);
+            if (!expectedExtension || actualExtension === expectedExtension) {
+                const moduleInfo = await this.createModuleInfo(fullPath, this.getFileType(fullPath), false);
+                candidates.push(moduleInfo);
+                return moduleInfo;
+            }
+        }
+
+        return undefined;
+    }
+
+    private async searchFileByName(fileName: string, baseDir: string, expectedExtension: string, candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
+        const targetFile = path.join(baseDir, `${fileName}.${expectedExtension}`);
+        
+        if (fs.existsSync(targetFile)) {
+            const moduleInfo = await this.createModuleInfo(targetFile, expectedExtension as any, false);
+            candidates.push(moduleInfo);
+            return moduleInfo;
+        }
+
+        return undefined;
+    }
+
+    private async searchModuleByName(moduleName: string, searchPaths: string[], allowedExtensions: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
+        // 按优先级搜索：官方模块目录 → 当前目录module文件夹 → 当前目录
+        for (const searchPath of searchPaths) {
+            // 支持CMOD/CJMOD分类目录结构
+            const structuredPaths = [
+                path.join(searchPath, 'CMOD'),
+                path.join(searchPath, 'CJMOD'),
+                searchPath
+            ];
+
+            for (const structuredPath of structuredPaths) {
+                if (!fs.existsSync(structuredPath)) continue;
+
+                for (const extension of allowedExtensions) {
+                    const targetFile = path.join(structuredPath, `${moduleName}.${extension}`);
+                    
+                    if (fs.existsSync(targetFile)) {
+                        const isOfficial = searchPath.includes('official') || searchPath.includes(this.context.extensionPath);
+                        const moduleInfo = await this.createModuleInfo(targetFile, extension as any, isOfficial);
+                        candidates.push(moduleInfo);
+                        
+                        // 返回第一个找到的模块（按优先级）
+                        if (!candidates.length || isOfficial) {
+                            return moduleInfo;
+                        }
+                    }
+                }
+            }
+        }
+
+        return candidates.length > 0 ? candidates[0] : undefined;
+    }
+
+    private async searchWildcardFiles(wildcardPath: string, searchPaths: string[], allowedExtensions: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
+        // 处理通配符导入：具体路径.*、具体路径/*.cmod等
+        const foundModules: ModuleInfo[] = [];
+
+        for (const searchPath of searchPaths) {
+            try {
+                const pattern = path.join(searchPath, wildcardPath);
+                const files = glob.sync(pattern);
+
+                for (const file of files) {
+                    const extension = path.extname(file).slice(1);
+                    if (allowedExtensions.includes(extension)) {
+                        const moduleInfo = await this.createModuleInfo(file, extension as any, false);
+                        foundModules.push(moduleInfo);
+                        candidates.push(moduleInfo);
+                    }
+                }
+            } catch (error) {
+                console.warn(`Error searching wildcard pattern ${wildcardPath} in ${searchPath}:`, error);
+            }
+        }
+
+        return foundModules.length > 0 ? foundModules[0] : undefined;
+    }
+
+    private async searchAbsolutePath(absolutePath: string, allowedExtensions: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
+        if (fs.existsSync(absolutePath)) {
+            const extension = path.extname(absolutePath).slice(1);
+            if (allowedExtensions.includes(extension)) {
+                const moduleInfo = await this.createModuleInfo(absolutePath, extension as any, false);
+                candidates.push(moduleInfo);
+                return moduleInfo;
+            }
+        }
+
+        return undefined;
+    }
+
+    private async searchInOrderedPaths(fileName: string, searchPaths: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
+        for (const searchPath of searchPaths) {
+            const fullPath = path.join(searchPath, fileName);
+            
+            if (fs.existsSync(fullPath)) {
+                const extension = path.extname(fileName).slice(1);
+                const moduleInfo = await this.createModuleInfo(fullPath, this.getFileType(fullPath), false);
+                candidates.push(moduleInfo);
+                return moduleInfo;
+            }
+        }
+
+        return undefined;
+    }
+
+    private async createModuleInfo(filePath: string, type: ModuleInfo['type'], isOfficial: boolean): Promise<ModuleInfo> {
+        const name = path.basename(filePath, path.extname(filePath));
+        
+        // 缓存检查
+        const cacheKey = `${filePath}:${type}`;
+        if (this.moduleCache.has(cacheKey)) {
+            return this.moduleCache.get(cacheKey)!;
+        }
+
+        const moduleInfo: ModuleInfo = {
+            name,
+            path: filePath,
+            type,
+            exports: [],
+            imports: [],
+            isOfficial
+        };
+
+        // 解析模块内容获取导出和导入信息
+        try {
+            const content = fs.readFileSync(filePath, 'utf8');
+            moduleInfo.exports = this.parseExports(content, type);
+            moduleInfo.imports = this.parseImports(content, type);
+        } catch (error) {
+            console.warn(`Error parsing module ${filePath}:`, error);
+        }
+
+        this.moduleCache.set(cacheKey, moduleInfo);
+        return moduleInfo;
+    }
+
+    private parseExports(content: string, type: ModuleInfo['type']): string[] {
+        const exports: string[] = [];
+        
+        switch (type) {
+            case 'chtl':
+            case 'cmod':
+                // 解析CHTL导出：[Template] @Style, [Custom] @Element等
+                const chtlExportMatches = content.match(/\[(Template|Custom)\]\s*@(Style|Element|Var)\s+(\w+)/g);
+                if (chtlExportMatches) {
+                    for (const match of chtlExportMatches) {
+                        const nameMatch = match.match(/(\w+)$/);
+                        if (nameMatch) {
+                            exports.push(nameMatch[1]);
+                        }
+                    }
+                }
+                break;
+
+            case 'cjmod':
+                // 解析CJMOD导出：function declarations等
+                const functionMatches = content.match(/function\s+(\w+)/g);
+                if (functionMatches) {
+                    for (const match of functionMatches) {
+                        const nameMatch = match.match(/function\s+(\w+)/);
+                        if (nameMatch) {
+                            exports.push(nameMatch[1]);
+                        }
+                    }
+                }
+                break;
+        }
+
+        return exports;
+    }
+
+    private parseImports(content: string, type: ModuleInfo['type']): string[] {
+        const imports: string[] = [];
+        
+        // 解析导入语句
+        const importMatches = content.match(/\[Import\]\s*@\w+\s+from\s+["`']([^"`']+)["`']/g);
+        if (importMatches) {
+            for (const match of importMatches) {
+                const pathMatch = match.match(/from\s+["`']([^"`']+)["`']/);
+                if (pathMatch) {
+                    imports.push(pathMatch[1]);
+                }
+            }
+        }
+
+        return imports;
+    }
+
+    private getFileType(filePath: string): ModuleInfo['type'] {
+        const extension = path.extname(filePath).slice(1).toLowerCase();
+        
+        switch (extension) {
+            case 'chtl': return 'chtl';
+            case 'cmod': return 'cmod';
+            case 'cjmod': return 'cjmod';
+            case 'html': return 'html';
+            case 'css': return 'css';
+            case 'js': return 'js';
+            case 'vue': return 'vue';
+            case 'jsx': return 'react';
+            case 'tsx': return 'react';
+            default: return 'chtl';
+        }
+    }
+
+    public async getAllModules(workspaceRoot: string): Promise<ModuleInfo[]> {
+        await this.ensureCacheValid();
+        
+        const searchPaths = this.searchPathCache.get(workspaceRoot) || [];
+        const allModules: ModuleInfo[] = [];
+
+        for (const searchPath of searchPaths) {
+            try {
+                const files = glob.sync('**/*.{chtl,cmod,cjmod}', { cwd: searchPath });
+                
+                for (const file of files) {
+                    const fullPath = path.join(searchPath, file);
+                    const type = this.getFileType(fullPath);
+                    const isOfficial = searchPath.includes(this.context.extensionPath);
+                    
+                    const moduleInfo = await this.createModuleInfo(fullPath, type, isOfficial);
+                    allModules.push(moduleInfo);
+                }
+            } catch (error) {
+                console.warn(`Error scanning modules in ${searchPath}:`, error);
+            }
+        }
+
+        return allModules;
+    }
+
+    public async refreshCache(): Promise<void> {
+        this.moduleCache.clear();
+        this.searchPathCache.clear();
+        this.lastCacheUpdate = 0;
+        this.initializeSearchPaths();
+    }
+
+    private async ensureCacheValid(): Promise<void> {
+        const now = Date.now();
+        if (now - this.lastCacheUpdate > this.CACHE_TTL) {
+            await this.refreshCache();
+            this.lastCacheUpdate = now;
+        }
+    }
+
+    private invalidateCache(): void {
+        this.lastCacheUpdate = 0;
+    }
+}
