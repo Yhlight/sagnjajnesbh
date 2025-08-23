@@ -8,3 +8,13 @@
     minCHTLVersion = "1.0.0";
     maxCHTLVersion = "2.0.0";
 }
+
+[Export] {
+    [Template] @Var ChthollyColors, ChthollyFonts, ChthollySpacing, 
+                    ChthollyBreakpoints, ChthollyAnimations;
+    
+    [Custom] @Var ChthollyThemeConfig;
+    
+    [Origin] @Style ChthollyReset;
+    [Origin] @JavaScript ChthollyVarUtils;
+}

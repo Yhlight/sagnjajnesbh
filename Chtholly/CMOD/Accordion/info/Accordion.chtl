@@ -9,3 +9,14 @@
     minCHTLVersion = "1.0.0";
     maxCHTLVersion = "2.0.0";
 }
+
+[Export] {
+    [Template] @Style ChthollyAccordionStyle;
+    [Template] @Element ChthollyAccordion;
+    
+    [Custom] @Style ChthollyAccordionGroup;
+    [Custom] @Element ChthollyAccordionPanel;
+    [Custom] @Var ChthollyAccordionVars;
+    
+    [Origin] @JavaScript AccordionScript;
+}
