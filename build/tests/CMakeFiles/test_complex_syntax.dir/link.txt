@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_complex_syntax.dir/link.d CMakeFiles/test_complex_syntax.dir/CHTL/test_complex_syntax.cpp.o -o ../bin/test_complex_syntax   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libchtl_core.a ../lib/libutils.a ../lib/libcmod.a ../lib/libutils.a

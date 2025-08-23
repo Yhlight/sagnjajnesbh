@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/Chtholly_cjmod.dir/link.d -shared -Wl,-soname,libChtholly_cjmod.so -o ../bin/module/Chtholly/lib/libChtholly_cjmod.so CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.o   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libcjmod.a ../lib/libutils.a

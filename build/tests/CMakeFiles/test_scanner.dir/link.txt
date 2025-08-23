@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_scanner.dir/link.d CMakeFiles/test_scanner.dir/Scanner/test_scanner.cpp.o -o ../bin/test_scanner   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libscanner.a ../lib/libutils.a

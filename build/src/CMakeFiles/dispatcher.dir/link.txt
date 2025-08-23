@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libdispatcher.a CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o
-/usr/bin/ranlib ../lib/libdispatcher.a
