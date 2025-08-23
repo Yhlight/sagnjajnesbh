@@ -1,0 +1,40 @@
+// 测试CMOD模块信息文件
+// 严格按照语法文档第285-287行的格式
+
+[Info]
+{
+    name = "TestCMOD";
+    version = "1.0.0"; 
+    description = "测试CMOD模块系统的功能完整性";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "test-module";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+// 外部查询表，优化性能用，无实际作用
+// 不需要写这个，此由系统生成 - 语法文档第286行
+[Export]
+{
+    // 自定义组件导出
+    [Custom] @Element TestCard, TestButton, TestInput;
+    
+    // 自定义样式导出
+    [Custom] @Style TestCardTheme, TestButtonTheme;
+    
+    // 模板组件导出
+    [Template] @Element BaseCard, BaseButton;
+    
+    // 模板样式导出
+    [Template] @Style BaseTheme, ButtonBase;
+    
+    // 变量组导出
+    [Template] @Var TestColors, TestSpacing;
+    
+    // 原始嵌入导出
+    [Origin] @Html TestWidget;
+    [Origin] @Style TestCSS;
+    [Origin] @JavaScript TestJS;
+}

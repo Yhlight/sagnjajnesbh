@@ -1,0 +1,55 @@
+<style>
+* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+  background: white;
+            border-top: 1px solid
+  ;
+            margin-top:
+  ;
+            padding:
+  0;
+            text-align: center;
+            color:
+;
+margin-top:
+  ; 
+                    font-size: 0.875rem;
+</style>
+
+
+<script>
+// 应用初始化
+document.querySelector('document')
+_()
+addEventListener('DOMContentLoaded', () => {
+        console.log('现代博客系统加载完成');
+        
+        // 虚对象：应用控制器
+// Virtual object: AppController
+=
+document.querySelector('.grid')
+;
+        
+        // 初始化应用
+        AppController
+_()
+init();
+        
+        // 文章交互统计
+document.querySelector('.blog-card')
+_()
+delegate({
+            target: '.read-more',
+            click: (event) => {
+                const articleTitle = event.target.closest('.blog-card').querySelector('.blog-title').textContent;
+                console.log('Read more clicked:', articleTitle);
+                
+                // 发送统计数据
+                if ('navigator' in window && 'sendBeacon' in navigator) {
+                    navigator.sendBeacon('/api/analytics', JSON.stringify({
+                        event: 'article_click',
+                        article: articleTitle,
+                        timestamp: Date.now()
+</script>

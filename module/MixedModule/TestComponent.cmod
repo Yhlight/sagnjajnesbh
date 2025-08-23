@@ -1,0 +1,27 @@
+// 测试CMOD文件 - 混乱结构
+// 直接放在MixedModule文件夹中，不使用CMOD子文件夹
+
+[Info]
+{
+    name = "TestComponent";
+    version = "1.0.0";
+    description = "测试组件 - 混乱结构";
+}
+
+[Export]
+{
+    [Custom] @Element TestElement;
+    [Custom] @Style TestStyle;
+}
+
+// 组件定义
+@Element TestElement {
+    template: "<div class='test-element'>混乱结构测试</div>";
+}
+
+@Style TestStyle {
+    .test-element {
+        color: blue;
+        font-size: 16px;
+    }
+}

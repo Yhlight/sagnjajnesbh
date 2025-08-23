@@ -1,0 +1,21 @@
+html
+{
+    head
+    {
+        title
+        {
+            text { CHTL简单测试 }
+        }
+    }
+    
+    body
+    {
+        div
+        {
+            id: main;
+            class: container;
+            
+            text { Hello CHTL World! }
+        }
+    }
+}

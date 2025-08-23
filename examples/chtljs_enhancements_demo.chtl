@@ -1,0 +1,711 @@
+// CHTL JS增强功能演示
+// 展示错误修正、完整JS事件支持、键值对灵活性、无修饰字面量和上下文注释
+
+html {
+    head {
+        meta { charset: "UTF-8"; }
+        title { text: "CHTL JS增强功能演示"; }
+        
+        style {
+            body {
+                font-family: 'Microsoft YaHei', sans-serif;
+                margin: 0;
+                padding: 20px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 12px;
+                padding: 30px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            }
+            
+            .event-demo {
+                margin: 20px 0;
+                padding: 15px;
+                border: 2px solid #f0f0f0;
+                border-radius: 8px;
+            }
+            
+            .highlight {
+                background: #fffbf0;
+                border-color: #ffd700;
+            }
+            
+            -- 这是CSS上下文中的注释，会生成/* CSS注释 */
+        }
+    }
+    
+    body {
+        div {
+            class: "container";
+            
+            h1 { text: "CHTL JS增强功能演示"; }
+            
+            -- 这是CHTL上下文中的注释，会生成// CHTL注释
+            
+            // ========== 完整JS事件支持演示 ==========
+            
+            div {
+                class: "event-demo";
+                
+                h2 { text: "完整JS事件支持演示"; }
+                
+                // 鼠标事件演示
+                button {
+                    text: "鼠标事件测试";
+                    
+                    script {
+                        -- 这是CHTL JS上下文中的注释，会生成// JavaScript风格注释
+                        
+                        // 支持所有鼠标事件
+                        {{&}}->listen({
+                            click: (e) => {
+                                console.log('点击事件');
+                                e.target.style.background = '#e3f2fd';
+                            },
+                            
+                            dblclick: (e) => {
+                                console.log('双击事件');
+                                e.target.style.background = '#f3e5f5';
+                            },
+                            
+                            mousedown: (e) => {
+                                console.log('鼠标按下');
+                            },
+                            
+                            mouseup: (e) => {
+                                console.log('鼠标释放');
+                            },
+                            
+                            mouseover: (e) => {
+                                console.log('鼠标悬停');
+                                e.target.style.transform = 'scale(1.05)';
+                            },
+                            
+                            mouseout: (e) => {
+                                console.log('鼠标离开');
+                                e.target.style.transform = 'scale(1)';
+                            },
+                            
+                            mousemove: (e) => {
+                                // console.log('鼠标移动', e.clientX, e.clientY);
+                            },
+                            
+                            mouseenter: (e) => {
+                                console.log('鼠标进入');
+                            },
+                            
+                            mouseleave: (e) => {
+                                console.log('鼠标离开区域');
+                            },
+                            
+                            contextmenu: (e) => {
+                                e.preventDefault();
+                                console.log('右键菜单');
+                            },
+                            
+                            wheel: (e) => {
+                                console.log('鼠标滚轮', e.deltaY);
+                            }
+                        });
+                    }
+                }
+                
+                // 键盘事件演示
+                input {
+                    type: "text";
+                    placeholder: "键盘事件测试";
+                    
+                    script {
+                        // 支持所有键盘事件
+                        {{&}}->listen({
+                            keydown: (e) => {
+                                console.log('按键按下:', e.key);
+                            },
+                            
+                            keyup: (e) => {
+                                console.log('按键释放:', e.key);
+                            },
+                            
+                            keypress: (e) => {
+                                console.log('按键按压:', e.key);
+                            }
+                        });
+                    }
+                }
+                
+                // 表单事件演示
+                form {
+                    script {
+                        // 支持所有表单事件
+                        {{&}}->listen({
+                            submit: (e) => {
+                                e.preventDefault();
+                                console.log('表单提交');
+                            },
+                            
+                            reset: (e) => {
+                                console.log('表单重置');
+                            },
+                            
+                            focus: (e) => {
+                                console.log('表单获得焦点');
+                            },
+                            
+                            blur: (e) => {
+                                console.log('表单失去焦点');
+                            },
+                            
+                            change: (e) => {
+                                console.log('表单内容改变');
+                            },
+                            
+                            input: (e) => {
+                                console.log('表单输入');
+                            },
+                            
+                            select: (e) => {
+                                console.log('表单选择');
+                            }
+                        });
+                    }
+                    
+                    input { type: "text"; name: "username"; }
+                    button { type: "submit"; text: "提交"; }
+                    button { type: "reset"; text: "重置"; }
+                }
+            }
+            
+            // ========== 键值对灵活性演示 ==========
+            
+            div {
+                class: "event-demo";
+                
+                h2 { text: "键值对灵活性演示"; }
+                
+                div {
+                    text: "动画演示元素";
+                    
+                    script {
+                        // 键值对无序支持
+                        {{&}}->animate({
+                            easing: "ease-in-out",      // 参数顺序可以任意调整
+                            delay: 100,                 // 数字无修饰字面量
+                            duration: 500,              // 无序排列
+                            loop: false                 // 布尔无修饰字面量
+                        });
+                        
+                        // 键值对可选支持（使用默认值）
+                        {{&}}->animate({
+                            duration: 300               // 只提供必需参数，其他使用默认值
+                            // easing: "ease" (默认)
+                            // delay: 0 (默认)
+                            // loop: false (默认)
+                            // direction: "normal" (默认)
+                        });
+                        
+                        // 完整参数演示
+                        {{&}}->animate({
+                            duration: 800,
+                            easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+                            delay: 200,
+                            loop: true,
+                            direction: "alternate",
+                            begin: {
+                                opacity: 1,
+                                scale: 1,
+                                rotate: 0
+                            },
+                            end: {
+                                opacity: 0.5,
+                                scale: 1.2,
+                                rotate: 360
+                            }
+                        });
+                    }
+                }
+            }
+            
+            // ========== 无修饰字面量演示 ==========
+            
+            div {
+                class: "event-demo";
+                
+                h2 { text: "无修饰字面量演示"; }
+                
+                div {
+                    text: "无修饰字面量测试";
+                    
+                    script {
+                        // 数字无修饰字面量
+                        let intValue = 123;
+                        let floatValue = 45.67;
+                        let negativeValue = -89;
+                        let scientificValue = 3.14e-2;
+                        
+                        // 布尔无修饰字面量
+                        let isActive = true;
+                        let isHidden = false;
+                        
+                        // 标识符无修饰字面量
+                        let myVariable = someValue;
+                        let _privateVar = _somePrivateValue;
+                        let $jqueryVar = $someJQueryValue;
+                        
+                        // 在函数调用中使用无修饰字面量
+                        {{&}}->animate({
+                            duration: 500,              // 数字无修饰字面量
+                            loop: true,                 // 布尔无修饰字面量
+                            easing: easingFunction      // 标识符无修饰字面量
+                        });
+                        
+                        {{&}}->listen({
+                            click: clickHandler,        // 标识符无修饰字面量
+                            delay: 100,                 // 数字无修饰字面量
+                            once: true                  // 布尔无修饰字面量
+                        });
+                    }
+                }
+            }
+            
+            // ========== 窗口和触摸事件演示 ==========
+            
+            div {
+                class: "event-demo";
+                
+                h2 { text: "窗口和触摸事件演示"; }
+                
+                div {
+                    text: "触摸和窗口事件测试";
+                    
+                    script {
+                        // 窗口事件
+                        window->listen({
+                            load: () => {
+                                console.log('页面加载完成');
+                            },
+                            
+                            unload: () => {
+                                console.log('页面卸载');
+                            },
+                            
+                            beforeunload: (e) => {
+                                e.returnValue = '确定要离开页面吗？';
+                            },
+                            
+                            resize: () => {
+                                console.log('窗口大小改变');
+                            },
+                            
+                            scroll: () => {
+                                console.log('页面滚动');
+                            }
+                        });
+                        
+                        // 触摸事件（移动设备）
+                        {{&}}->listen({
+                            touchstart: (e) => {
+                                console.log('触摸开始');
+                                e.preventDefault();
+                            },
+                            
+                            touchend: (e) => {
+                                console.log('触摸结束');
+                            },
+                            
+                            touchmove: (e) => {
+                                console.log('触摸移动');
+                            },
+                            
+                            touchcancel: (e) => {
+                                console.log('触摸取消');
+                            }
+                        });
+                    }
+                }
+            }
+            
+            // ========== 拖拽和媒体事件演示 ==========
+            
+            div {
+                class: "event-demo";
+                
+                h2 { text: "拖拽和媒体事件演示"; }
+                
+                // 拖拽演示
+                div {
+                    text: "可拖拽元素";
+                    draggable: "true";
+                    
+                    script {
+                        // 支持所有拖拽事件
+                        {{&}}->listen({
+                            drag: (e) => {
+                                console.log('拖拽中');
+                            },
+                            
+                            dragstart: (e) => {
+                                console.log('开始拖拽');
+                                e.dataTransfer.setData('text/plain', e.target.textContent);
+                            },
+                            
+                            dragend: (e) => {
+                                console.log('拖拽结束');
+                            }
+                        });
+                    }
+                }
+                
+                // 拖拽目标
+                div {
+                    text: "拖拽目标区域";
+                    
+                    script {
+                        {{&}}->listen({
+                            dragover: (e) => {
+                                e.preventDefault();
+                                console.log('拖拽悬停');
+                            },
+                            
+                            dragenter: (e) => {
+                                e.preventDefault();
+                                console.log('进入拖拽区域');
+                                e.target.style.background = '#e8f5e8';
+                            },
+                            
+                            dragleave: (e) => {
+                                console.log('离开拖拽区域');
+                                e.target.style.background = '';
+                            },
+                            
+                            drop: (e) => {
+                                e.preventDefault();
+                                console.log('拖拽放置');
+                                let data = e.dataTransfer.getData('text/plain');
+                                e.target.textContent = '已放置: ' + data;
+                            }
+                        });
+                    }
+                }
+                
+                // 媒体事件演示
+                audio {
+                    controls: "true";
+                    src: "demo.mp3";
+                    
+                    script {
+                        // 支持所有媒体事件
+                        {{&}}->listen({
+                            play: () => {
+                                console.log('音频开始播放');
+                            },
+                            
+                            pause: () => {
+                                console.log('音频暂停');
+                            },
+                            
+                            ended: () => {
+                                console.log('音频播放结束');
+                            },
+                            
+                            timeupdate: (e) => {
+                                // console.log('播放时间更新:', e.target.currentTime);
+                            },
+                            
+                            volumechange: (e) => {
+                                console.log('音量改变:', e.target.volume);
+                            },
+                            
+                            loadstart: () => {
+                                console.log('开始加载音频');
+                            },
+                            
+                            loadeddata: () => {
+                                console.log('音频数据加载完成');
+                            },
+                            
+                            loadedmetadata: () => {
+                                console.log('音频元数据加载完成');
+                            },
+                            
+                            canplay: () => {
+                                console.log('音频可以播放');
+                            },
+                            
+                            canplaythrough: () => {
+                                console.log('音频可以流畅播放');
+                            }
+                        });
+                    }
+                }
+            }
+            
+            // ========== 自定义事件演示 ==========
+            
+            div {
+                class: "event-demo";
+                
+                h2 { text: "自定义事件演示"; }
+                
+                button {
+                    text: "触发自定义事件";
+                    
+                    script {
+                        // 自定义事件支持
+                        {{&}}->listen({
+                            click: (e) => {
+                                // 触发自定义事件
+                                let customEvent = new CustomEvent('dataLoaded', {
+                                    detail: { message: '数据加载完成' }
+                                });
+                                e.target.dispatchEvent(customEvent);
+                            },
+                            
+                            // 监听自定义事件
+                            dataLoaded: (e) => {
+                                console.log('自定义事件:', e.detail.message);
+                                e.target.style.background = '#c8e6c9';
+                            },
+                            
+                            // 其他自定义事件
+                            userAction: (e) => {
+                                console.log('用户自定义操作');
+                            },
+                            
+                            customClick: (e) => {
+                                console.log('自定义点击事件');
+                            }
+                        });
+                    }
+                }
+            }
+            
+            // ========== [Origin]任意位置使用演示 ==========
+            
+            div {
+                class: "event-demo";
+                
+                h2 { text: "[Origin]任意位置使用演示"; }
+                
+                p { text: "[Origin]原始嵌入节点可以在任意地方使用，不应该被束缚"; }
+                
+                // 在HTML元素中使用[Origin]
+                div {
+                    [Origin] @Html customHtmlFragment;
+                    
+                    style {
+                        -- CSS上下文注释
+                        .custom-style {
+                            color: #333;
+                        }
+                        
+                        // 在样式块中使用[Origin]
+                        [Origin] @Style customCssRules;
+                    }
+                    
+                    script {
+                        -- CHTL JS上下文注释
+                        
+                        // 在脚本块中使用[Origin]
+                        [Origin] @JavaScript customJavaScript;
+                        
+                        // 在自定义位置使用[Origin]
+                        {{&}}->listen({
+                            click: () => {
+                                [Origin] @CustomLogic customBehavior;
+                                console.log('在事件处理中使用[Origin]');
+                            }
+                        });
+                    }
+                }
+                
+                // [Origin]可以在CHTL结构的任意位置
+                [Origin] @CustomComponent customComponent;
+                
+                @Element CustomButton {
+                    [Origin] @CustomBehavior buttonBehavior;
+                }
+            }
+            
+            // ========== 网络和其他事件演示 ==========
+            
+            div {
+                class: "event-demo";
+                
+                h2 { text: "网络和其他事件演示"; }
+                
+                div {
+                    text: "网络状态监控";
+                    
+                    script {
+                        // 网络事件
+                        window->listen({
+                            online: () => {
+                                console.log('网络连接');
+                                document.body.style.background = '#c8e6c9';
+                            },
+                            
+                            offline: () => {
+                                console.log('网络断开');
+                                document.body.style.background = '#ffcdd2';
+                            }
+                        });
+                        
+                        // 其他事件
+                        {{&}}->listen({
+                            error: (e) => {
+                                console.log('发生错误:', e.error);
+                            },
+                            
+                            abort: () => {
+                                console.log('操作中止');
+                            },
+                            
+                            toggle: () => {
+                                console.log('切换状态');
+                            },
+                            
+                            show: () => {
+                                console.log('显示元素');
+                                {{&}}->animate({
+                                    duration: 300,
+                                    begin: { opacity: 0 },
+                                    end: { opacity: 1 }
+                                });
+                            },
+                            
+                            hide: () => {
+                                console.log('隐藏元素');
+                                {{&}}->animate({
+                                    duration: 300,
+                                    begin: { opacity: 1 },
+                                    end: { opacity: 0 }
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+            
+            // ========== 综合演示 ==========
+            
+            div {
+                class: "event-demo highlight";
+                
+                h2 { text: "综合功能演示"; }
+                
+                div {
+                    text: "综合功能测试元素";
+                    
+                    script {
+                        -- 这里演示所有增强功能的综合使用
+                        
+                        // 使用无修饰字面量的完整事件监听
+                        {{&}}->listen({
+                            click: clickHandler,        // 标识符无修饰字面量
+                            dblclick: dblClickHandler,  // 标识符无修饰字面量
+                            keydown: keyDownHandler,    // 标识符无修饰字面量
+                            
+                            // 键值对可选和无序
+                            customEvent: (e) => {
+                                {{&}}->animate({
+                                    loop: true,                 // 布尔无修饰字面量
+                                    easing: customEasing,       // 标识符无修饰字面量
+                                    duration: 1000,             // 数字无修饰字面量
+                                    delay: 0                    // 数字无修饰字面量
+                                });
+                            }
+                        });
+                        
+                        // 事件委托支持所有事件
+                        {{&}}->delegate({
+                            target: ".child-element",
+                            events: {
+                                click: delegatedClickHandler,
+                                mouseover: delegatedHoverHandler,
+                                keydown: delegatedKeyHandler,
+                                touchstart: delegatedTouchHandler,
+                                dragstart: delegatedDragHandler
+                            }
+                        });
+                        
+                        // 在任意位置使用[Origin]
+                        [Origin] @CustomUtility utilityFunctions;
+                        
+                        // 定义事件处理器（使用无修饰字面量）
+                        function clickHandler(e) {
+                            console.log('点击处理器');
+                            [Origin] @CustomAction clickAction;
+                        }
+                        
+                        function dblClickHandler(e) {
+                            console.log('双击处理器');
+                        }
+                        
+                        function keyDownHandler(e) {
+                            console.log('按键处理器:', e.key);
+                        }
+                    }
+                }
+            }
+            
+            // 页面初始化脚本
+            script {
+                -- 全局脚本上下文注释
+                
+                document.addEventListener('DOMContentLoaded', function() {
+                    console.log('CHTL JS增强功能演示页面已加载');
+                    
+                    // 显示支持的事件统计
+                    const supportedEvents = [
+                        // 鼠标事件
+                        'click', 'dblclick', 'mousedown', 'mouseup', 'mouseover', 
+                        'mouseout', 'mousemove', 'mouseenter', 'mouseleave', 'contextmenu', 'wheel',
+                        
+                        // 键盘事件
+                        'keydown', 'keyup', 'keypress',
+                        
+                        // 表单事件
+                        'submit', 'reset', 'focus', 'blur', 'change', 'input', 'select',
+                        
+                        // 窗口事件
+                        'load', 'unload', 'beforeunload', 'resize', 'scroll',
+                        
+                        // 触摸事件
+                        'touchstart', 'touchend', 'touchmove', 'touchcancel',
+                        
+                        // 拖拽事件
+                        'drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop',
+                        
+                        // 媒体事件
+                        'play', 'pause', 'ended', 'timeupdate', 'volumechange', 
+                        'loadstart', 'loadeddata', 'loadedmetadata', 'canplay', 'canplaythrough',
+                        
+                        // 网络事件
+                        'online', 'offline',
+                        
+                        // 其他事件
+                        'error', 'abort', 'toggle', 'show', 'hide', 'open', 'close'
+                    ];
+                    
+                    console.log('CHTL JS支持的标准JS事件数量:', supportedEvents.length);
+                    console.log('支持的事件类型:', supportedEvents);
+                    
+                    console.log('CHTL JS增强功能总结:');
+                    console.log('✅ Token清理完成：移除了错误的iNeverAway、function、const、let、var、Void');
+                    console.log('✅ 完整JS事件支持：所有标准JS事件 + 自定义事件扩展');
+                    console.log('✅ 键值对灵活性：无序参数 + 可选参数 + 默认值');
+                    console.log('✅ 无修饰字面量：数字、布尔、标识符字面量支持');
+                    console.log('✅ [Origin]任意位置：原始嵌入节点可在任意地方使用');
+                    console.log('✅ 上下文注释：\"--\"注释根据上下文生成不同语言注释');
+                    
+                    [Origin] @CustomInitialization pageInit;
+                });
+            }
+        }
+    }
+}

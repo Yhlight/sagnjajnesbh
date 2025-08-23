@@ -1,0 +1,210 @@
+// 珂朵莉模块完整集成测试
+// 测试所有CMOD组件和CJMOD扩展的完整功能
+
+[Import] @Cmod Chtholly;
+[Import] @CJmod Chtholly.ChthollyJS;
+
+html {
+    head {
+        title { "珂朵莉的世界 - 最幸福的女孩" }
+        meta charset="utf-8" {}
+    }
+    
+    body {
+        // 测试珂朵莉主题全局样式
+        div class="main-container" {
+            
+            // 1. 测试手风琴组件
+            h2 { "手风琴组件测试" }
+            Accordion title="珂朵莉的记忆" {
+                p { "这里是珂朵莉珍贵的回忆..." }
+                ul {
+                    li { "与威廉的初遇" }
+                    li { "在岛上的美好时光" }
+                    li { "最后的告别" }
+                }
+            }
+            
+            // 2. 测试三叶草相册
+            h2 { "三叶草相册" }
+            CloverAlbum title="珂朵莉的照片集" albumId="chtholly-memories" count="5" {
+                [For] image in ${photos:list} {
+                    // 相册会自动处理图片列表
+                }
+            }
+            
+            // 3. 测试备忘录组件
+            h2 { "备忘录" }
+            Memo type="important" title="重要提醒" date="${currentDate:text}" {
+                记住要保护大家，这是我的使命...
+            }
+            
+            // 4. 测试温馨便签
+            h2 { "温馨便签" }
+            WarmNote color="pink" title="珂朵莉的心声" author="珂朵莉" time="下午3:25" {
+                虽然我可能会消失，但我希望大家都能幸福地生活下去。
+                这就是我最大的愿望。 ❀
+            }
+            
+            // 5. 测试樱花雨背景
+            SakuraRain density="25" petalCount="50" {}
+            
+            // 6. 测试鼠标特效
+            MouseEffect effectType="heart" {}
+            MouseTrail style="colorful" {}
+            
+            // 7. 测试视差背景
+            div class="parallax-section" {
+                ParallaxBg speed="0.6" 
+                          bgImage1="sky.jpg" 
+                          bgImage2="clouds.jpg" 
+                          bgImage3="mountains.jpg" {
+                    div class="content-overlay" {
+                        h1 { "珂朵莉的天空" }
+                        p { "在这片美丽的天空下，我找到了属于自己的幸福..." }
+                    }
+                }
+            }
+            
+            // 8. 测试右键菜单
+            ContextMenu {
+                [For] item in ${menuItems:list} {
+                    // 菜单项会自动生成
+                }
+            }
+            
+            // 9. 测试进度条
+            h2 { "任务进度" }
+            ProgressBar type="mission" label="保护任务完成度" progress="85" {}
+            ProgressBar type="happiness" label="幸福指数" progress="100" {}
+        }
+        
+        // 测试CJMOD扩展功能
+        script type="text/chtljs" {
+            // 10. 测试 printMylove 函数
+            printMylove({
+                url: "chtholly_portrait.jpg",
+                mode: "Pixel",
+                width: "400px", 
+                height: "300px",
+                scale: 1.2
+            });
+            
+            // 11. 测试 iNeverAway 承诺函数
+            iNeverAway("我永远不会离开大家的心中", 60);
+            
+            // 12. 测试珂朵莉全局功能
+            {{document}}->ready(() => {
+                // 显示欢迎通知
+                Chtholly.ui.showNotification("欢迎来到珂朵莉的世界 ❀", "info");
+                
+                // 设置随机便签颜色
+                let notes = {{".warm-note"}};
+                notes->forEach(note => {
+                    let color = Chtholly.utils.randomColor();
+                    note.dataset.noteColor = color;
+                });
+                
+                // 绑定快捷键
+                {{document}}->listen("keydown", (e) => {
+                    if (e.ctrlKey && e.key === 'h') {
+                        e.preventDefault();
+                        Chtholly.ui.showNotification("这是珂朵莉的秘密快捷键！", "success");
+                    }
+                });
+                
+                // 初始化进度条动画
+                let progressBars = {{".progress-bar-container"}};
+                progressBars->forEach((bar, index) => {
+                    setTimeout(() => {
+                        let targetProgress = bar.querySelector(".progress-bar-fill").dataset.progress;
+                        window.animateProgress(bar, parseInt(targetProgress), 2000);
+                    }, index * 500);
+                });
+                
+                // 珂朵莉的特殊效果
+                setInterval(() => {
+                    let sakuraPetals = {{".sakura-petal"}};
+                    if (sakuraPetals.length > 0) {
+                        let randomPetal = sakuraPetals[Math.floor(Math.random() * sakuraPetals.length)];
+                        randomPetal.style.animationDuration = (Math.random() * 2 + 3) + "s";
+                    }
+                }, 2000);
+            });
+            
+            // 13. 测试 Void<State> 虚拟状态管理
+            let chthollyState = Void<State>({
+                happiness: 100,
+                mission: "保护大家",
+                memories: ["威廉", "蕾恩", "艾瑟雅"],
+                currentMood: "幸福"
+            });
+            
+            // 监听状态变化
+            chthollyState.watch("happiness", (newValue, oldValue) => {
+                console.log(`珂朵莉的幸福度从 ${oldValue} 变为 ${newValue}`);
+                if (newValue === 100) {
+                    Chtholly.ui.showNotification("珂朵莉达到了最大幸福！", "success");
+                }
+            });
+        }
+        
+        // 测试全局样式和局部样式
+        style global {
+            /* 珂朵莉主题全局样式 */
+            .main-container {
+                background: linear-gradient(135deg, 
+                    var(--chtholly-bg) 0%, 
+                    #fff0f5 50%, 
+                    var(--chtholly-secondary) 100%);
+                min-height: 100vh;
+                padding: 20px;
+            }
+            
+            .parallax-section {
+                height: 100vh;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .content-overlay {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                color: white;
+                z-index: 10;
+            }
+            
+            h1, h2 {
+                color: var(--chtholly-accent);
+                font-family: 'Comic Sans MS', cursive;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            /* 珂朵莉的心跳动画 */
+            @keyframes heartbeat {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+            }
+            
+            .heartbeat {
+                animation: heartbeat 1.5s ease-in-out infinite;
+            }
+        }
+        
+        style local {
+            /* 页面特定样式 */
+            .main-container h2 {
+                margin: 30px 0 15px 0;
+                border-bottom: 2px solid var(--chtholly-primary);
+                padding-bottom: 10px;
+            }
+            
+            .main-container > * {
+                margin-bottom: 25px;
+            }
+        }
+    }
+}

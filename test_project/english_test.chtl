@@ -1,0 +1,36 @@
+// English CHTL Test - Simple HTML generation
+
+div
+{
+    id: main-box;
+    class: container;
+    
+    text
+    {
+        Hello World
+    }
+    
+    style
+    {
+        width: 300px;
+        height: 150px;
+        background-color: lightblue;
+        padding: 10px;
+    }
+}
+
+span
+{
+    class: info;
+    
+    text
+    {
+        This is a span element
+    }
+    
+    style
+    {
+        color: red;
+        font-weight: bold;
+    }
+}

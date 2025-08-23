@@ -1,0 +1,479 @@
+// ==========================================
+// 测试CMOD模块主文件
+// 验证CMOD模块系统的所有功能
+// ==========================================
+
+// ========== 配置系统 ==========
+[Configuration] {
+    DEBUG_MODE = true;
+    INDEX_INITIAL_COUNT = 1;
+    DISABLE_NAME_GROUP = false;
+    DISABLE_CUSTOM_ORIGIN_TYPE = false;
+}
+
+// ========== 变量组模板 ==========
+[Template] @Var TestColors {
+    primary: "#007bff";
+    secondary: "#6c757d";
+    success: "#28a745";
+    danger: "#dc3545";
+    warning: "#ffc107";
+    info: "#17a2b8";
+    light: "#f8f9fa";
+    dark: "#343a40";
+}
+
+[Template] @Var TestSpacing {
+    xs: "0.25rem";
+    sm: "0.5rem";
+    md: "1rem";
+    lg: "1.5rem";
+    xl: "3rem";
+}
+
+// ========== 样式组模板 ==========
+[Template] @Style BaseTheme {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    color: TestColors(dark);
+    background: TestColors(light);
+}
+
+[Template] @Style ButtonBase {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: TestSpacing(sm) TestSpacing(md);
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    text-decoration: none;
+}
+
+// ========== 元素模板 ==========
+[Template] @Element BaseCard {
+    div {
+        class: base-card;
+        
+        style {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 0.5rem;
+            padding: TestSpacing(lg);
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            transition: box-shadow 0.15s ease-in-out;
+            
+            &:hover {
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            }
+        }
+    }
+}
+
+[Template] @Element BaseButton {
+    button {
+        class: base-button;
+        
+        style {
+            @Style ButtonBase;
+            background: TestColors(primary);
+            color: white;
+            
+            &:hover {
+                background: #0056b3;
+                transform: translateY(-1px);
+            }
+            
+            &:active {
+                transform: translateY(0);
+            }
+            
+            &:disabled {
+                opacity: 0.65;
+                cursor: not-allowed;
+            }
+        }
+        
+        script {
+            {{.base-button}}->listen({
+                click: (event) => {
+                    // 基础按钮点击反馈
+                    event.target.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        event.target.style.transform = '';
+                    }, 100);
+                }
+            });
+        }
+    }
+}
+
+// ========== 自定义组件 ==========
+[Custom] @Element TestCard {
+    inherit @Element BaseCard;
+    
+    // 特例化操作：增加标题和内容结构
+    insert at top div {
+        class: card-header;
+        style {
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: TestSpacing(sm);
+            margin-bottom: TestSpacing(md);
+            font-weight: 600;
+        }
+    }
+    
+    insert at bottom div {
+        class: card-footer;
+        style {
+            border-top: 1px solid #e9ecef;
+            padding-top: TestSpacing(sm);
+            margin-top: TestSpacing(md);
+            font-size: 0.875rem;
+            color: TestColors(secondary);
+        }
+    }
+    
+    style {
+        .card-body {
+            padding: TestSpacing(md) 0;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: TestSpacing(sm);
+        }
+        
+        .card-text {
+            color: TestColors(dark);
+            line-height: 1.6;
+        }
+    }
+}
+
+[Custom] @Element TestButton {
+    inherit @Element BaseButton;
+    
+    // 特例化：添加变体支持
+    style {
+        &.btn-secondary {
+            background: TestColors(secondary);
+            color: white;
+            
+            &:hover {
+                background: #5a6268;
+            }
+        }
+        
+        &.btn-success {
+            background: TestColors(success);
+            color: white;
+            
+            &:hover {
+                background: #218838;
+            }
+        }
+        
+        &.btn-danger {
+            background: TestColors(danger);
+            color: white;
+            
+            &:hover {
+                background: #c82333;
+            }
+        }
+        
+        &.btn-outline {
+            background: transparent;
+            color: TestColors(primary);
+            border: 1px solid TestColors(primary);
+            
+            &:hover {
+                background: TestColors(primary);
+                color: white;
+            }
+        }
+        
+        &.btn-sm {
+            padding: TestSpacing(xs) TestSpacing(sm);
+            font-size: 0.875rem;
+        }
+        
+        &.btn-lg {
+            padding: TestSpacing(md) TestSpacing(lg);
+            font-size: 1.125rem;
+        }
+    }
+    
+    script {
+        // 增强的按钮交互
+        {{.test-button}}->listen({
+            mouseenter: (event) => {
+                if (!event.target.disabled) {
+                    event.target.style.transform = 'translateY(-2px)';
+                }
+            },
+            
+            mouseleave: (event) => {
+                event.target.style.transform = '';
+            },
+            
+            click: (event) => {
+                // 涟漪效果
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple-effect';
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255,255,255,0.6);
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                `;
+                
+                event.target.style.position = 'relative';
+                event.target.style.overflow = 'hidden';
+                event.target.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            }
+        });
+    }
+}
+
+[Custom] @Element TestInput {
+    input {
+        class: test-input;
+        
+        style {
+            width: 100%;
+            padding: TestSpacing(sm);
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            
+            &:focus {
+                outline: none;
+                border-color: TestColors(primary);
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+            
+            &:invalid {
+                border-color: TestColors(danger);
+                
+                &:focus {
+                    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+                }
+            }
+            
+            &:disabled {
+                background-color: #e9ecef;
+                opacity: 1;
+            }
+            
+            &::placeholder {
+                color: TestColors(secondary);
+            }
+        }
+        
+        script {
+            {{.test-input}}->listen({
+                focus: (event) => {
+                    event.target.parentElement.classList.add('input-focused');
+                },
+                
+                blur: (event) => {
+                    event.target.parentElement.classList.remove('input-focused');
+                    
+                    // 验证输入
+                    if (event.target.hasAttribute('required') && !event.target.value.trim()) {
+                        event.target.classList.add('is-invalid');
+                    } else {
+                        event.target.classList.remove('is-invalid');
+                    }
+                },
+                
+                input: (event) => {
+                    // 实时验证
+                    if (event.target.classList.contains('is-invalid') && event.target.value.trim()) {
+                        event.target.classList.remove('is-invalid');
+                    }
+                }
+            });
+        }
+    }
+}
+
+// ========== 自定义样式组 ==========
+[Custom] @Style TestCardTheme {
+    inherit @Style BaseTheme;
+    
+    .test-card {
+        margin-bottom: TestSpacing(lg);
+        
+        &.card-primary {
+            border-color: TestColors(primary);
+            
+            .card-header {
+                background: TestColors(primary);
+                color: white;
+            }
+        }
+        
+        &.card-success {
+            border-color: TestColors(success);
+            
+            .card-header {
+                background: TestColors(success);
+                color: white;
+            }
+        }
+        
+        &.card-warning {
+            border-color: TestColors(warning);
+            
+            .card-header {
+                background: TestColors(warning);
+                color: #212529;
+            }
+        }
+        
+        &.card-danger {
+            border-color: TestColors(danger);
+            
+            .card-header {
+                background: TestColors(danger);
+                color: white;
+            }
+        }
+    }
+}
+
+[Custom] @Style TestButtonTheme {
+    .test-button {
+        position: relative;
+        overflow: hidden;
+        
+        .ripple-effect {
+            animation: ripple 0.6s linear;
+        }
+    }
+    
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+    
+    .btn-group {
+        display: inline-flex;
+        vertical-align: middle;
+        
+        .test-button {
+            border-radius: 0;
+            
+            &:first-child {
+                border-top-left-radius: 0.375rem;
+                border-bottom-left-radius: 0.375rem;
+            }
+            
+            &:last-child {
+                border-top-right-radius: 0.375rem;
+                border-bottom-right-radius: 0.375rem;
+            }
+            
+            &:not(:last-child) {
+                border-right: 0;
+            }
+        }
+    }
+}
+
+// ========== 原始嵌入 ==========
+[Origin] @Html TestWidget {
+    <div class="test-widget">
+        <h3>测试小部件</h3>
+        <p>这是通过原始嵌入添加的HTML内容</p>
+        <div class="widget-content">
+            <span class="badge">原始HTML</span>
+        </div>
+    </div>
+}
+
+[Origin] @Style TestCSS {
+    .test-widget {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 10px 0;
+    }
+    
+    .test-widget h3 {
+        margin-top: 0;
+        font-size: 1.5rem;
+    }
+    
+    .test-widget .badge {
+        background: rgba(255,255,255,0.2);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+    
+    .test-widget .widget-content {
+        margin-top: 15px;
+    }
+}
+
+[Origin] @JavaScript TestJS {
+    // 测试模块的原始JavaScript功能
+    window.TestCMODUtils = {
+        // 实用工具函数
+        formatDate: function(date) {
+            return new Intl.DateTimeFormat('zh-CN').format(date);
+        },
+        
+        // 随机颜色生成器
+        randomColor: function() {
+            const colors = ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        },
+        
+        // 防抖函数
+        debounce: function(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        },
+        
+        // 模块信息
+        getModuleInfo: function() {
+            return {
+                name: 'TestCMOD',
+                version: '1.0.0',
+                description: '测试CMOD模块系统的功能完整性',
+                loadTime: performance.now()
+            };
+        }
+    };
+    
+    // 模块加载完成事件
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('TestCMOD模块加载完成:', TestCMODUtils.getModuleInfo());
+    });
+}

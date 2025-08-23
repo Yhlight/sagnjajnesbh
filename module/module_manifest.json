@@ -1,0 +1,14 @@
+{
+  "buildTime": "2025-08-23 01:18:14",
+  "totalModules": 1,
+  "modules": [
+    {
+      "name": "Chtholly",
+      "type": "MIXED",
+      "hasInfoFile": true,
+      "hasCJMOD": true,
+      "sourceFiles": 1,
+      "cjmodFiles": 1
+    }
+  ]
+}

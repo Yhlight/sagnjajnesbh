@@ -1,0 +1,48 @@
+// 简单CHTL测试 - 验证基础HTML生成
+
+div
+{
+    id: main-container;
+    class: container;
+    
+    text
+    {
+        Hello CHTL World!
+    }
+    
+    style
+    {
+        width: 400px;
+        height: 200px;
+        background-color: #f0f0f0;
+        padding: 20px;
+        
+        .highlight
+        {
+            color: red;
+            font-weight: bold;
+        }
+    }
+    
+    script
+    {
+        console.log('CHTL script loaded');
+        
+        // CHTL JS语法
+        {{.highlight}}->listen({
+            click: () => {
+                console.log('Highlight clicked');
+            }
+        });
+    }
+}
+
+span
+{
+    class: highlight;
+    
+    text
+    {
+        这是高亮文本
+    }
+}

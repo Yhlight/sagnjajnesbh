@@ -1,0 +1,192 @@
+<style>
+primary: "#007bff";
+    secondary: "#6c757d";
+    success: "#28a745";
+}
+background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 10px;
+}
+class: user-card;
+        
+        style
+        {
+width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background-color: ComponentColors(secondary);
+            }
+color: ComponentColors(primary);
+                font-size: 18px;
+                font-weight: bold;
+                margin: 10px 0;
+            }
+transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                transition: all 0.3s ease;
+            }
+class: user-avatar;
+        }
+class: user-info;
+            
+            h3
+            {
+class: user-name;
+                
+                text
+                {
+class: user-bio;
+                
+                text
+                {
+color: ComponentColors(secondary);
+                    font-size: 14px;
+                    line-height: 1.4;
+                }
+at: 0.5;
+                                transform: 'scale(1.02)',
+                                background: ComponentColors(success)
+                            }
+class: spa-container;
+    
+    style
+    {
+max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+text-align: center;
+            margin-bottom: 30px;
+            color: ComponentColors(primary);
+        }
+class: header;
+        
+        h1
+        {
+class: user-badge;
+                
+                text
+                {
+background-color: ComponentColors(success);
+                    color: white;
+                    padding: 2px 8px;
+                    border-radius: 12px;
+                    font-size: 12px;
+                    margin-left: 10px;
+                }
+class: safe-content;
+            
+            text
+            {
+
+</style>
+
+div
+@Style CardStyle;
+.user-avatar
+.user-name
+&:hover
+div
+div
+用户姓名
+p
+这是用户的个人简介
+style
+script
+(语法文档第1130-1213行)
+{{.user-card}}->listen({
+click:
+() =>
+console.log('用户卡片被点击');
+cardAnim = animate({
+target:
+{{.user-card}},
+duration: 200,
+easing: 'ease-out',
+begin:
+transform: 'scale(1.0)'
+},
+when: [
+],
+end:
+transform: 'scale(1.0)',
+background: 'white'
+});
+},
+mouseenter:
+() =>
+{{.user-name}}->style->color = ComponentColors(success);
+});
+{{document.body}}->delegate({
+target: [{{.user-card}},
+{{.user-avatar}}],
+dblclick:
+() =>
+console.log('用户卡片双击 - 通过事件委托');
+});
+show:
+() =>
+{{.user-card}}->style->display = 'block';
+},
+hide:
+() =>
+{{.user-card}}->style->display = 'none';
+},
+highlight:
+() =>
+{{.user-card}}->style->backgroundColor = ComponentColors(primary);
+});
+}
+}
+
+// 主要组件区域 - SPA组件，不需要html根节点
+div
+.spa-container
+.header
+div
+text
+SPA组件演示
+p
+text
+这是一个SPA组件，不包含html根节点
+@Element UserCard;
+@Element UserCard
+@Element UserCard
+span
+VIP
+style
+}
+}
+
+// 约束演示 - 语法文档第1062-1097行
+[Custom] @Element SafeContainer
+div
+div
+这是安全的内容区域
+}
+}
+
+<script>
+// CHTL JS Fragment
+ vir CardController = listen({
+// /CHTL JS Fragment
+// CHTL JS Fragment
+ CardController->show();
+// /CHTL JS Fragment
+const
+// Shared Script Processing - CHTL + CHTL JS + JavaScript
+// Pure JavaScript Processed
+script
+// Pure JavaScript Processed
+except script, iframe;
+// CHTL JS Processed
+ vir CardController = listen({
+// Pure JavaScript Processed
+CardController->show();
+// Pure JavaScript Processed
+const
+
+</script>

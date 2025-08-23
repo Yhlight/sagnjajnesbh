@@ -1,0 +1,24 @@
+// TestModule模块信息文件
+[Info]
+{
+    name = "TestModule";
+    version = "1.0.0";
+    description = "CHTL测试模块";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "test";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+// Export块将由系统自动生成
+// 外部查询表，由系统自动生成
+[Export]
+{
+    [Custom] @Style TestButton, TestCard;
+    [Custom] @Element TestBox, TestList;
+    [Custom] @Var TestColors, TestSizes;
+    [Template] @Style BaseStyle;
+    [Template] @Element BaseElement;
+}

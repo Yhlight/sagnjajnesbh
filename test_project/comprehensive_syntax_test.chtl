@@ -1,0 +1,539 @@
+// ==========================================
+// CHTL完整语法功能测试文件
+// 测试CHTL语法文档中的所有语法特性
+// ==========================================
+
+// ========== 注释系统测试 ==========
+// 这是普通注释，不会被生成器识别
+/* 这是多行注释
+   也不会被生成器识别 */
+-- 这是会被生成器识别的注释
+
+// ========== 配置系统测试 ==========
+[Configuration] {
+    INDEX_INITIAL_COUNT = 0;
+    DISABLE_NAME_GROUP = false;
+    DISABLE_CUSTOM_ORIGIN_TYPE = false;
+    DEBUG_MODE = true;
+}
+
+// ========== 变量组模板测试 ==========
+[Template] @Var ThemeColors {
+    primary: "#007bff";
+    secondary: "#6c757d";
+    success: "#28a745";
+    danger: "#dc3545";
+    warning: "#ffc107";
+    info: "#17a2b8";
+    light: "#f8f9fa";
+    dark: "#343a40";
+}
+
+[Template] @Var Spacing {
+    xs: "4px";
+    sm: "8px";
+    md: "16px";
+    lg: "24px";
+    xl: "32px";
+}
+
+// ========== 样式组模板测试 ==========
+[Template] @Style ButtonBase {
+    padding: Spacing(md) Spacing(lg);
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+[Template] @Style CardBase {
+    background: ThemeColors(light);
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: Spacing(lg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+// ========== 元素模板测试 ==========
+[Template] @Element PrimaryButton {
+    button {
+        class: btn btn-primary;
+        
+        style {
+            @Style ButtonBase;
+            background-color: ThemeColors(primary);
+            color: white;
+            
+            &:hover {
+                background-color: #0056b3;
+                transform: translateY(-1px);
+            }
+            
+            &:active {
+                transform: translateY(0);
+            }
+        }
+        
+        text { "Click Me" }
+        
+        script {
+            {{.btn-primary}}->listen({
+                click: () => {
+                    console.log('Primary button clicked!');
+                    this.style.backgroundColor = ThemeColors(success);
+                }
+            });
+        }
+    }
+}
+
+[Template] @Element Card {
+    div {
+        class: card;
+        
+        style {
+            @Style CardBase;
+            
+            .card-header {
+                border-bottom: 1px solid #dee2e6;
+                padding-bottom: Spacing(md);
+                margin-bottom: Spacing(md);
+                font-weight: 600;
+            }
+            
+            .card-body {
+                line-height: 1.6;
+            }
+        }
+        
+        div {
+            class: card-header;
+            text { "Card Title" }
+        }
+        
+        div {
+            class: card-body;
+            text { "This is the card content area." }
+        }
+    }
+}
+
+// ========== 自定义系统测试 ==========
+[Custom] @Style InteractiveCard {
+    inherit @Style CardBase;
+    
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
+    }
+}
+
+[Custom] @Element AnimatedButton {
+    inherit @Element PrimaryButton;
+    
+    // 特例化操作
+    insert after class: "animated";
+    
+    style {
+        animation: pulse 2s infinite;
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    }
+    
+    script {
+        vir ButtonController = listen({
+            show: () => {
+                {{.btn-primary}}->style->display = 'block';
+            },
+            hide: () => {
+                {{.btn-primary}}->style->display = 'none';
+            },
+            toggle: () => {
+                let btn = {{.btn-primary}};
+                btn->style->display = btn->style->display === 'none' ? 'block' : 'none';
+            }
+        });
+        
+        // 虚对象调用测试
+        ButtonController->show();
+        
+        // 事件委托测试
+        {{document}}->delegate({
+            target: ".animated",
+            click: (event) => {
+                console.log('Delegated click on animated button');
+                event.target.classList.add('clicked');
+            }
+        });
+    }
+}
+
+// ========== 自定义变量组特例化测试 ==========
+[Custom] @Var DarkTheme {
+    inherit @Var ThemeColors;
+    
+    // 特例化：覆盖部分变量
+    primary: "#4dabf7";
+    secondary: "#868e96";
+    light: "#212529";
+    dark: "#f8f9fa";
+}
+
+// ========== 原始嵌入系统测试 ==========
+[Origin] @Html CustomWidget {
+    <div class="custom-widget">
+        <h3>Custom HTML Widget</h3>
+        <p>This is raw HTML content embedded in CHTL.</p>
+    </div>
+}
+
+[Origin] @Style CustomCSS {
+    .custom-widget {
+        border: 2px dashed #007bff;
+        padding: 20px;
+        margin: 10px 0;
+        background: linear-gradient(45deg, #f0f8ff, #e6f3ff);
+    }
+    
+    .custom-widget h3 {
+        color: #007bff;
+        margin-top: 0;
+    }
+}
+
+[Origin] @JavaScript CustomJS {
+    function customAlert(message) {
+        alert('Custom: ' + message);
+    }
+    
+    window.customUtility = {
+        showMessage: function(text) {
+            console.log('Custom Utility:', text);
+        }
+    };
+}
+
+// ========== 命名空间测试 ==========
+[Namespace] Components {
+    [Template] @Element Header {
+        header {
+            class: site-header;
+            
+            style {
+                background: ThemeColors(primary);
+                color: white;
+                padding: Spacing(lg);
+                text-align: center;
+            }
+            
+            h1 {
+                margin: 0;
+                text { "CHTL Test Application" }
+            }
+        }
+    }
+    
+    [Template] @Element Navigation {
+        nav {
+            class: main-nav;
+            
+            style {
+                background: ThemeColors(secondary);
+                padding: Spacing(md);
+                
+                .nav-item {
+                    display: inline-block;
+                    margin-right: Spacing(md);
+                    color: white;
+                    text-decoration: none;
+                    padding: Spacing(sm) Spacing(md);
+                    border-radius: 4px;
+                    transition: background-color 0.3s;
+                    
+                    &:hover {
+                        background-color: rgba(255,255,255,0.1);
+                    }
+                }
+            }
+            
+            a {
+                class: nav-item;
+                href: "#home";
+                text { "Home" }
+            }
+            
+            a {
+                class: nav-item;
+                href: "#about";
+                text { "About" }
+            }
+            
+            a {
+                class: nav-item;
+                href: "#contact";
+                text { "Contact" }
+            }
+        }
+    }
+}
+
+// ========== 全局样式测试 ==========
+style {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        color: ThemeColors(dark);
+        background-color: #f5f5f5;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: Spacing(lg);
+    }
+    
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: Spacing(lg);
+        margin: Spacing(xl) 0;
+    }
+    
+    .fade-in {
+        opacity: 0;
+        animation: fadeIn 0.6s ease-in-out forwards;
+    }
+    
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+}
+
+// ========== 全局脚本测试 ==========
+script {
+    // CHTL JS语法测试
+    {{document}}->addEventListener('DOMContentLoaded', () => {
+        console.log('CHTL Test Application Loaded');
+        
+        // 增强选择器测试
+        let cards = {{.card}};
+        let buttons = {{.btn}};
+        
+        console.log('Found', cards.length, 'cards');
+        console.log('Found', buttons.length, 'buttons');
+        
+        // 动画系统测试
+        animate({
+            target: {{.fade-in}},
+            duration: 1000,
+            begin: { opacity: 0, transform: 'translateY(20px)' },
+            end: { opacity: 1, transform: 'translateY(0)' },
+            easing: 'ease-out'
+        });
+        
+        // 虚对象系统测试
+        vir AppController = listen({
+            init: () => {
+                console.log('App initialized');
+                {{.container}}->classList->add('loaded');
+            },
+            showSection: (sectionClass) => {
+                {{.section}}->forEach(section => {
+                    section->style->display = 'none';
+                });
+                {{sectionClass}}->style->display = 'block';
+            }
+        });
+        
+        AppController->init();
+        
+        // 性能监控
+        console.log('App startup time:', performance.now(), 'ms');
+    });
+    
+    // 纯JavaScript测试
+    function handleNavigation(event) {
+        event.preventDefault();
+        const href = event.target.getAttribute('href');
+        console.log('Navigating to:', href);
+        
+        // 模拟路由
+        history.pushState({}, '', href);
+    }
+    
+    // 工具函数
+    const utils = {
+        debounce: function(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        },
+        
+        formatDate: function(date) {
+            return new Intl.DateTimeFormat('zh-CN').format(date);
+        }
+    };
+}
+
+// ========== 主应用结构 ==========
+html {
+    lang: "zh-CN";
+    
+    head {
+        meta { charset: "UTF-8"; }
+        meta { 
+            name: "viewport"; 
+            content: "width=device-width, initial-scale=1.0"; 
+        }
+        title { text { "CHTL综合语法测试" } }
+    }
+    
+    body {
+        // 使用命名空间组件
+        @Element Header from Components;
+        @Element Navigation from Components;
+        
+        div {
+            class: container;
+            
+            section {
+                id: main-content;
+                class: fade-in;
+                
+                h2 {
+                    text { "CHTL功能演示" }
+                    style {
+                        color: ThemeColors(primary);
+                        margin-bottom: Spacing(lg);
+                        text-align: center;
+                    }
+                }
+                
+                div {
+                    class: grid;
+                    
+                    // 使用模板元素
+                    @Element Card;
+                    
+                    // 使用自定义元素
+                    [Custom] @Element AnimatedButton;
+                    
+                    // 使用原始嵌入
+                    [Origin] @Html CustomWidget;
+                    
+                    // 动态内容区域
+                    div {
+                        class: card;
+                        
+                        style {
+                            @Style InteractiveCard;
+                        }
+                        
+                        div {
+                            class: card-header;
+                            text { "动态内容测试" }
+                        }
+                        
+                        div {
+                            class: card-body;
+                            
+                            p {
+                                text { "当前时间: " }
+                                
+                                script {
+                                    {{.card-body p}}->textContent += utils.formatDate(new Date());
+                                }
+                            }
+                            
+                            @Element PrimaryButton;
+                        }
+                    }
+                    
+                    // 变量组使用测试
+                    div {
+                        class: card theme-demo;
+                        
+                        style {
+                            background: DarkTheme(light);
+                            border-color: DarkTheme(primary);
+                            
+                            .color-swatch {
+                                display: inline-block;
+                                width: 30px;
+                                height: 30px;
+                                margin: Spacing(xs);
+                                border-radius: 50%;
+                                border: 2px solid white;
+                            }
+                        }
+                        
+                        div {
+                            class: card-header;
+                            text { "主题色彩演示" }
+                        }
+                        
+                        div {
+                            class: card-body;
+                            
+                            div {
+                                class: color-swatch;
+                                style { background-color: ThemeColors(primary); }
+                            }
+                            
+                            div {
+                                class: color-swatch;
+                                style { background-color: ThemeColors(success); }
+                            }
+                            
+                            div {
+                                class: color-swatch;
+                                style { background-color: ThemeColors(warning); }
+                            }
+                            
+                            div {
+                                class: color-swatch;
+                                style { background-color: ThemeColors(danger); }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            footer {
+                style {
+                    text-align: center;
+                    padding: Spacing(xl);
+                    margin-top: Spacing(xl);
+                    border-top: 1px solid #dee2e6;
+                    color: ThemeColors(secondary);
+                }
+                
+                text { "CHTL综合语法测试 - 所有功能验证完成" }
+            }
+        }
+        
+        // 引用原始嵌入
+        [Origin] @Style CustomCSS;
+        [Origin] @JavaScript CustomJS;
+    }
+}

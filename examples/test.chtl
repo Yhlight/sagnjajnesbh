@@ -1,0 +1,135 @@
+// CHTL示例文件
+// 用于测试统一扫描器的功能
+
+[Template] @Style DefaultButton
+{
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+}
+
+[Custom] @Element Card
+{
+    div
+    {
+        style
+        {
+            .card
+            {
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 16px;
+                margin: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            &:hover
+            {
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            }
+        }
+        
+        script
+        {
+            {{card}}->addEventListener('click', function() {
+                console.log('Card clicked!');
+            });
+            
+            {{card}}->listen({
+                mouseenter: () => {
+                    {{card}}->style.transform = 'scale(1.02)';
+                },
+                mouseleave: () => {
+                    {{card}}->style.transform = 'scale(1)';
+                }
+            });
+        }
+    }
+}
+
+html
+{
+    head
+    {
+        title
+        {
+            text { CHTL测试页面 }
+        }
+    }
+    
+    body
+    {
+        @Element Card
+        {
+            div[0]
+            {
+                text { 这是一个测试卡片 }
+            }
+        }
+        
+        button
+        {
+            style
+            {
+                @Style DefaultButton;
+            }
+            
+            text { 点击我 }
+            
+            script
+            {
+                const btn = {{button}};
+                btn->click = function() {
+                    alert('按钮被点击了!');
+                };
+                
+                vir btnActions = listen({
+                    click: () => {
+                        console.log('Button action triggered');
+                    }
+                });
+            }
+        }
+        
+        script
+        {
+            // 全局JavaScript代码
+            function initPage() {
+                console.log('页面初始化完成');
+            }
+            
+            // CHTL JS增强功能
+            const pageElements = {{body}};
+            pageElements->delegate({
+                target: {{button}},
+                click: function(event) {
+                    console.log('委托事件触发');
+                }
+            });
+            
+            animate({
+                target: {{.card}},
+                duration: 1000,
+                begin: { opacity: 0 },
+                end: { opacity: 1 }
+            });
+        }
+    }
+}
+
+[Origin] @Style
+{
+    /* 全局CSS样式 */
+    * {
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+    }
+}

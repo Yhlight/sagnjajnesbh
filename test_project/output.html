@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CHTL Compiled Output</title>
+    <style>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <!-- CHTL Fragment -->
+// 综合CHTL测试项目 - 严格按照语法文档第1-1531行的所有语法特性
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+
+// 变量组模板 - 语法文档第221-229行
+[Template] @Var ThemeColor
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 样式组模板 - 语法文档第161-178行
+[Template] @Style DefaultText
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 元素模板 - 语法文档第180-218行
+[Template] @Element Card
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+卡片标题
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+style
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+@Style
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+这是卡片内容
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+style
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+@Style
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+}
+
+// 自定义样式组 - 语法文档第294-325行
+[Custom] @Style ButtonStyle
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 自定义元素 - 语法文档第326-390行
+[Custom] @Element InteractiveButton
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+button
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+点击我
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+style
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+@Style ButtonStyle;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ &:hover
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+script
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// CHTL JS语法 - 增强选择器
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+(语法文档第1130-1158行)
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.interactive-btn}}->listen({
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+click:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+() =>
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+console.log('Interactive button clicked!');
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 使用动画 - 语法文档第1233-1272行
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ anim = animate({
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+target:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.interactive-btn}},
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ duration: 300,
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ easing: 'ease-in-out',
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ begin:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+transform: 'scale(1.05)'
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+},
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ when: [
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+],
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ end:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+transform: 'scale(1.0)',
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ opacity: 1.0
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+});
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+},
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ mouseenter:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+() =>
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.interactive-btn}}->style->backgroundColor = ThemeColor(primaryColor);
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+});
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 事件委托 - 语法文档第1215-1231行
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{body}}->delegate({
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+target:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.interactive-btn}},
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ dblclick:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+() =>
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+console.log('Double clicked via delegation!');
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+});
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+}
+
+// 主页面结构
+html
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+head
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+title
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+text
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+CHTL综合测试项目
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+style
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 全局样式 - 语法文档第90行：不使用局部样式块功能
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ body
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+.container
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+body
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+text
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+CHTL语法综合演示
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+style
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 使用元素模板 - 语法文档第217行
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ @Element Card;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 使用自定义元素
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ @Element InteractiveButton;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 演示索引访问 - 语法文档第462-466行
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+text
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+索引访问演示
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+第一个项目
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+第二个项目
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+第三个项目
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+script
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 访问特定索引的元素
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.item[0]}}->style->color = 'red';
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.item[1]}}->style->color = 'blue';
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{{.item[2]}}->style->color = 'green';
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 演示虚对象 - 语法文档第1274-1299行
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ script
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 虚对象语法
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+click:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+() =>
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+console.log('Virtual object click handler');
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+},
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ hover:
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+() =>
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+console.log('Virtual object hover handler');
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+});
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 调用虚对象方法
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+}
+
+// 演示约束 - 语法文档第1062-1097行
+[Custom] @Element RestrictedBox
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+except span, button;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ // 精确约束：禁止使用span和button
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ div
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+text
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+这个区域不能包含span和button
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+}
+
+// 演示继承 - 语法文档第272-286行
+[Template] @Style ExtendedButtonStyle
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+inherit @Style
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+// 演示配置 - 语法文档第827-883行
+[Configuration] @Config TestConfig
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+DEBUG_MODE = true;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ ANIMATION_DURATION = 300;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ [Name]
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+{
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+BUTTON_CLASS = @Style;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+ CARD_ELEMENT = @Element;
+<!-- /CHTL Fragment -->
+<!-- CHTL Fragment -->
+}
+}
+<!-- /CHTL Fragment -->
+    <script>
+        // CHTL JS Fragment
+ vir ButtonController = listen({
+// /CHTL JS Fragment
+// CHTL JS Fragment
+ ButtonController->click();
+// /CHTL JS Fragment
+const
+// Shared Script Processing - CHTL + CHTL JS + JavaScript
+// Pure JavaScript Processed
+script
+// Pure JavaScript Processed
+script
+// Pure JavaScript Processed
+script
+// CHTL JS Processed
+ vir ButtonController = listen({
+// Pure JavaScript Processed
+ButtonController->click();
+// Pure JavaScript Processed
+const
+    </script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_cjmod_api.dir/link.d CMakeFiles/test_cjmod_api.dir/CJMOD/test_cjmod_api.cpp.o -o ../bin/test_cjmod_api   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libcjmod.a ../lib/libutils.a
