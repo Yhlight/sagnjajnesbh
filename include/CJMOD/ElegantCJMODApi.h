@@ -169,13 +169,12 @@ private:
 class CHTLJSFunction {
 public:
     enum class FunctionType {
-        ASSIGNMENT,    // const $ = functionName({...});
-        DIRECT_CALL,   // functionName({...});
-        VIR_OBJECT     // vir $ = functionName({...});
+        NORMAL,        // 普通JS函数：functionName({...}); 或 const $ = functionName({...});
+        VIR_OBJECT     // 虚对象函数：vir $ = functionName({...});
     };
     
     CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames, 
-                   FunctionType type = FunctionType::ASSIGNMENT);
+                   FunctionType type = FunctionType::NORMAL);
     
     // 托管的步骤：简化语法创建和参数绑定
     void bindKeyProcessor(const std::string& keyName, std::function<std::string(const std::string&)> processor);
@@ -213,19 +212,16 @@ private:
  * 
  * 使用示例：
  * ```cpp
- * // 赋值类型函数：const result = myFunction({...});
- * auto myFunc = createCHTLJSFunction("myFunction", {"url", "mode"}, CHTLJSFunction::FunctionType::ASSIGNMENT);
+ * // 普通JS函数：printMylove({...}); 或 const result = myFunction({...});
+ * auto myFunc = createCHTLJSFunction("printMylove", {"url", "mode"});  // 默认NORMAL
  * 
- * // 直接调用类型函数：printMylove({...});
- * auto printFunc = createCHTLJSFunction("printMylove", {"url", "mode"}, CHTLJSFunction::FunctionType::DIRECT_CALL);
- * 
- * // 虚对象类型函数：vir myVir = iNeverAway({...});
- * auto virFunc = createCHTLJSFunction("iNeverAway", {"MyPromise", "UserAction"}, CHTLJSFunction::FunctionType::VIR_OBJECT);
+ * // 虚对象函数：vir myVir = iNeverAway({...}); - 只有vir需要特殊对接
+ * auto virFunc = createCHTLJSFunction("iNeverAway", {"MyPromise"}, CHTLJSFunction::FunctionType::VIR_OBJECT);
  * ```
  * 
  * @param functionName CHTL JS函数名称
  * @param keyNames 键名列表
- * @param type 函数类型（赋值或直接调用）
+ * @param type 函数类型（普通JS函数或虚对象函数）
  * @return CHTLJSFunction对象，可以继续使用标准CJMOD流程
  */
 std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& functionName, 

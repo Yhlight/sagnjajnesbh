@@ -764,30 +764,19 @@ void CHTLJSFunction::initializeKeyword() {
 }
 
 std::string CHTLJSFunction::generateSyntaxPattern() {
-    // 根据函数类型生成不同的语法模式
+    // 只有vir需要特殊处理，其他都是普通JS语法
     std::ostringstream pattern;
     
-    switch (functionType_) {
-        case FunctionType::ASSIGNMENT:
-            // 赋值类型：const $ = functionName({...});
-            pattern << "const $ = " << functionName_ << "({\n";
-            pattern << "    $\n";
-            pattern << "});";
-            break;
-            
-        case FunctionType::DIRECT_CALL:
-            // 直接调用类型：functionName({...});
-            pattern << functionName_ << "({\n";
-            pattern << "    $\n";
-            pattern << "});";
-            break;
-            
-        case FunctionType::VIR_OBJECT:
-            // 虚对象类型：vir $ = functionName({...});
-            pattern << "vir $ = " << functionName_ << "({\n";
-            pattern << "    $\n";
-            pattern << "});";
-            break;
+    if (functionType_ == FunctionType::VIR_OBJECT) {
+        // 虚对象类型：vir $ = functionName({...}); - 需要特殊对接
+        pattern << "vir $ = " << functionName_ << "({\n";
+        pattern << "    $\n";
+        pattern << "});";
+    } else {
+        // 普通JS函数：functionName({...}); - JS原有特征
+        pattern << functionName_ << "({\n";
+        pattern << "    $\n";
+        pattern << "});";
     }
     
     return pattern.str();
@@ -801,15 +790,11 @@ void CHTLJSFunction::bindKeyProcessor(const std::string& keyName,
     // 托管步骤：自动调用标准bind方法
     // 开发者无需手动为每个键调用keyword->args.bind
     if (keyProcessors_.size() == 1) {
-        // 根据函数类型设置不同的参数处理器
-        if (functionType_ == FunctionType::ASSIGNMENT || functionType_ == FunctionType::VIR_OBJECT) {
-            // 赋值类型和虚对象类型都需要varName参数
+        // 只有虚对象需要特殊处理varName参数
+        if (functionType_ == FunctionType::VIR_OBJECT) {
+            // 虚对象类型需要varName参数
             keyword_->args.bind<std::string>("varName", [this](const std::string& varName) -> std::string {
-                if (functionType_ == FunctionType::VIR_OBJECT) {
-                    std::cout << "  → 处理虚对象名称: " << varName << std::endl;
-                } else {
-                    std::cout << "  → 处理变量名: " << varName << std::endl;
-                }
+                std::cout << "  → 处理虚对象名称: " << varName << std::endl;
                 return varName;
             });
         }
@@ -926,17 +911,12 @@ std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& function
                                                    CHTLJSFunction::FunctionType type) {
     std::cout << "=== 托管CHTL JS函数创建: " << functionName << " ===" << std::endl;
     
-    switch (type) {
-        case CHTLJSFunction::FunctionType::ASSIGNMENT:
-            std::cout << "函数类型: 赋值类型 (const $ = " << functionName << "({...}));" << std::endl;
-            break;
-        case CHTLJSFunction::FunctionType::DIRECT_CALL:
-            std::cout << "函数类型: 直接调用类型 (" << functionName << "({...}));" << std::endl;
-            break;
-        case CHTLJSFunction::FunctionType::VIR_OBJECT:
-            std::cout << "函数类型: 虚对象类型 (vir $ = " << functionName << "({...}));" << std::endl;
-            std::cout << "✓ 虚对象是CHTL JS原生功能，专门服务于CHTL JS函数" << std::endl;
-            break;
+    if (type == CHTLJSFunction::FunctionType::VIR_OBJECT) {
+        std::cout << "函数类型: 虚对象类型 (vir $ = " << functionName << "({...}));" << std::endl;
+        std::cout << "✓ 虚对象是CHTL JS原生功能，需要特殊对接" << std::endl;
+    } else {
+        std::cout << "函数类型: 普通JS函数 (" << functionName << "({...}));" << std::endl;
+        std::cout << "✓ 使用JS原有特征，返回什么内容由函数功能决定" << std::endl;
     }
     
     auto chtljsFunc = std::make_unique<CHTLJSFunction>(functionName, keyNames, type);

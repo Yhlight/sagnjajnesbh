@@ -24,12 +24,11 @@ std::string generateINeverAwayCode(const std::string& virObjectContent);
 void implementPrintMylove() {
     std::cout << "=== 实现 printMylove 功能（支持CHTL JS官方特性）===" << std::endl;
     
-    // 使用createCHTLJSFunction托管语法创建 - printMylove是直接调用类型
+    // 使用createCHTLJSFunction托管语法创建 - printMylove是普通JS函数
     auto printMyloveFunc = createCHTLJSFunction("printMylove", 
-        {"url", "mode", "width", "height", "scale"}, 
-        CHTLJSFunction::FunctionType::DIRECT_CALL);
+        {"url", "mode", "width", "height", "scale"});  // 默认NORMAL类型
     
-    std::cout << "✓ printMylove返回字符串，使用直接调用类型（无const $赋值）" << std::endl;
+    std::cout << "✓ printMylove是普通JS函数，返回什么内容由函数功能决定" << std::endl;
     
     std::cout << "✓ 支持CHTL JS官方特性：" << std::endl;
     std::cout << "  - 无序键值对：键可以任意顺序" << std::endl;
