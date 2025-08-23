@@ -10,8 +10,3 @@
     minCHTLVersion = "1.0.0";
     maxCHTLVersion = "2.0.0";
 }
-
-[Export]
-{
-    [Custom] @CJmod testFunction, simpleTest;
-}
