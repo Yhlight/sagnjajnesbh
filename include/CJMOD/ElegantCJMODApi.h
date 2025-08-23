@@ -170,7 +170,8 @@ class CHTLJSFunction {
 public:
     enum class FunctionType {
         ASSIGNMENT,    // const $ = functionName({...});
-        DIRECT_CALL    // functionName({...});
+        DIRECT_CALL,   // functionName({...});
+        VIR_OBJECT     // vir $ = functionName({...});
     };
     
     CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames, 
@@ -217,6 +218,9 @@ private:
  * 
  * // 直接调用类型函数：printMylove({...});
  * auto printFunc = createCHTLJSFunction("printMylove", {"url", "mode"}, CHTLJSFunction::FunctionType::DIRECT_CALL);
+ * 
+ * // 虚对象类型函数：vir myVir = iNeverAway({...});
+ * auto virFunc = createCHTLJSFunction("iNeverAway", {"MyPromise", "UserAction"}, CHTLJSFunction::FunctionType::VIR_OBJECT);
  * ```
  * 
  * @param functionName CHTL JS函数名称

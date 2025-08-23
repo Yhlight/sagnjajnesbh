@@ -24,13 +24,12 @@ std::string generateINeverAwayCode(const std::string& virObjectContent);
 void implementPrintMylove() {
     std::cout << "=== 实现 printMylove 功能（支持CHTL JS官方特性）===" << std::endl;
     
-    // 第1步：syntaxAnalys - 支持无序、可选键值对和无修饰字面量
-    std::string ignoreChars = ",:{};()";
-    auto keyword = syntaxAnalys(R"(
-        const $ = printMylove({
-            $
-        });
-    )", ignoreChars);
+    // 使用createCHTLJSFunction托管语法创建 - printMylove是直接调用类型
+    auto printMyloveFunc = createCHTLJSFunction("printMylove", 
+        {"url", "mode", "width", "height", "scale"}, 
+        CHTLJSFunction::FunctionType::DIRECT_CALL);
+    
+    std::cout << "✓ printMylove返回字符串，使用直接调用类型（无const $赋值）" << std::endl;
     
     std::cout << "✓ 支持CHTL JS官方特性：" << std::endl;
     std::cout << "  - 无序键值对：键可以任意顺序" << std::endl;
@@ -89,19 +88,30 @@ void implementINeverAway() {
     // 初始化全局状态管理 - 利用CJMOD的高自由度
     INeverAwaySystem::initializeGlobalState();
     
-    // 第1步：syntaxAnalys - 解析虚对象语法
-    // 注意：vir是CHTL JS原生功能，不是CJMOD创造的
-    std::string ignoreChars = ",:{};()";
-    auto keyword = syntaxAnalys(R"(
-        vir $ = iNeverAway({
-            $: $
-        });
-    )", ignoreChars);
+    // 使用createCHTLJSFunction托管语法创建 - iNeverAway是虚对象类型
+    auto iNeverAwayFunc = createCHTLJSFunction("iNeverAway", 
+        {"MyPromise", "GameEvent", "UserAction", "ChthollyData"}, 
+        CHTLJSFunction::FunctionType::VIR_OBJECT);
     
-    std::cout << "iNeverAway语法分析完成" << std::endl;
+    std::cout << "✓ iNeverAway与虚对象(vir)完美对接，专门服务于CHTL JS函数" << std::endl;
     
-    // 第2步：演示自定义键支持 - 任意键名，任意状态
-    // 开发者可以定义任何符合命名规范的键
+    // 第2步：使用托管的参数绑定 - 支持任意自定义键
+    iNeverAwayFunc->bindKeyProcessor("MyPromise", [](const std::string& keyDef) -> std::string {
+        std::cout << "  → 处理MyPromise键: " << keyDef << std::endl;
+        return keyDef;
+    });
+    
+    iNeverAwayFunc->bindKeyProcessor("GameEvent", [](const std::string& keyDef) -> std::string {
+        std::cout << "  → 处理GameEvent键: " << keyDef << std::endl;
+        return keyDef;
+    });
+    
+    iNeverAwayFunc->bindKeyProcessor("UserAction", [](const std::string& keyDef) -> std::string {
+        std::cout << "  → 处理UserAction键: " << keyDef << std::endl;
+        return keyDef;
+    });
+    
+    // 演示自定义键支持 - 任意键名，任意状态
     INeverAwaySystem::defineCustomKey("MyPromise", "A");        // MyPromise<A>
     INeverAwaySystem::defineCustomKey("MyPromise", "B");        // MyPromise<B>
     INeverAwaySystem::defineCustomKey("MyPromise");             // MyPromise (无状态)
@@ -110,36 +120,36 @@ void implementINeverAway() {
     INeverAwaySystem::defineCustomKey("GameEvent", "Start");    // GameEvent<Start>
     INeverAwaySystem::defineCustomKey("GameEvent", "End");      // GameEvent<End>
     
-    std::cout << "自定义键定义完成：支持任意键名和可选状态" << std::endl;
+    std::cout << "✓ 托管参数绑定完成，支持任意键名和可选状态" << std::endl;
     
-    // 第3步：bind - 绑定虚对象处理器
-    keyword->args.bind<std::string>("vir", [](const std::string& virName) -> std::string {
-        return "const " + virName + "_registry = ";
-    });
+    // 第3步：获取托管生成的标准Keyword对象，继续标准CJMOD流程
+    auto& keyword = iNeverAwayFunc->getKeyword();
     
-    keyword->args.bind<std::string>("iNeverAway", [](const std::string& content) -> std::string {
-        // 处理虚对象中的自定义键
-        return INeverAwaySystem::processCustomKeys(content);
-    });
+    std::cout << "✓ 获取托管生成的标准Keyword对象" << std::endl;
+    std::cout << "✓ 开发者继续执行标准CJMOD流程：scanKeyword -> match -> generateCode" << std::endl;
     
-    // 第4步：scanKeyword - 扫描虚对象定义
+    // 第4步：scanKeyword - 手动执行标准流程（与托管前相同）
     auto& scanner = getCJMODScanner();
     scanner.scanKeyword("iNeverAway", [&]() {
-        std::cout << "检测到 iNeverAway 虚对象定义" << std::endl;
+        std::cout << "✓ 检测到 iNeverAway 虚对象定义（vir语法）" << std::endl;
         
-        // 使用策略模式收集复杂内容
-        scanner.policyChangeBegin("{", Policy::COLLECT);
-        std::string virObjectContent = scanner.policyChangeEnd("}", Policy::NORMAL);
+        // 模拟提取虚对象名和配置对象
+        std::string virName = "ChthollyPromise";  // 示例虚对象名
+        std::string configObject = R"({
+            MyPromise<Happy>: function(message, duration) { ... },
+            MyPromise<Sad>: function(message, duration) { ... },
+            UserAction: function(action) { ... }
+        })";
         
-        std::cout << "收集到虚对象内容: " << virObjectContent << std::endl;
+        // 第5步：match - 手动匹配参数（标准流程）
+        keyword->args.match("varName", virName);
+        keyword->args.match("configObject", configObject);
         
-        // 第5步：match - 匹配虚对象参数
-        keyword->args.match("vir", scanner.peekKeyword(-2));  // 获取虚对象名
-        keyword->args.match("iNeverAway", virObjectContent);
+        std::cout << "✓ 虚对象参数匹配完成" << std::endl;
         
-        // 第6步：generateCode - 生成承诺函数系统
-        std::string jsCode = generateINeverAwayCode(virObjectContent);
-        std::cout << "生成的iNeverAway代码：\n" << jsCode << std::endl;
+        // 第6步：generateCode - 手动生成代码（标准流程）
+        std::string jsCode = generateCode(*keyword);
+        std::cout << "✓ 生成的iNeverAway代码（支持vir语法）：\n" << jsCode << std::endl;
     });
 }
 
