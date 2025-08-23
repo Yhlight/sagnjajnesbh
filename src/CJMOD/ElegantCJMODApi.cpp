@@ -345,9 +345,13 @@ std::string generateCode(const Keyword& keyword) {
 
 namespace Chtholly {
 
-// 静态成员初始化
+// 静态成员初始化 - CJMOD高自由度特性
 std::unordered_map<std::string, std::string> INeverAwaySystem::promiseFunctions_;
 std::unordered_map<std::string, std::string> INeverAwaySystem::customKeys_;
+std::unordered_map<std::string, std::string> INeverAwaySystem::globalFunctions_;
+std::unordered_map<std::string, std::string> INeverAwaySystem::keyStateMapping_;
+int INeverAwaySystem::globalFunctionCounter_ = 0;
+bool INeverAwaySystem::isInitialized_ = false;
 
 void INeverAwaySystem::registerPromiseFunction(const std::string& name, const std::string& jsCode) {
     promiseFunctions_[name] = jsCode;
@@ -362,27 +366,104 @@ std::string INeverAwaySystem::generatePromiseCall(const std::string& message, in
     return code.str();
 }
 
-void INeverAwaySystem::defineCustomKey(const std::string& keyName, const std::string& keyType, const std::string& jsTemplate) {
-    // 内在精妙：支持自定义键的状态区分
-    std::string fullKey = keyName;
-    if (!keyType.empty()) {
-        fullKey += "<" + keyType + ">";
+void INeverAwaySystem::initializeGlobalState() {
+    if (!isInitialized_) {
+        // 利用CJMOD的高自由度，初始化全局状态
+        std::cout << "初始化iNeverAway全局状态管理系统" << std::endl;
+        
+        // 重置计数器
+        globalFunctionCounter_ = 0;
+        
+        // 清理之前的状态
+        globalFunctions_.clear();
+        keyStateMapping_.clear();
+        
+        isInitialized_ = true;
     }
+}
+
+void INeverAwaySystem::defineCustomKey(const std::string& keyName, const std::string& state, const std::string& jsTemplate) {
+    // 支持任意自定义键名，不限于Void
+    // 状态是可选的，开发者可以自由决定
+    std::string fullKey = keyName;
+    if (!state.empty()) {
+        fullKey += "<" + state + ">";
+    }
+    
     customKeys_[fullKey] = jsTemplate;
+    
+    std::cout << "定义自定义键: " << fullKey << std::endl;
+}
+
+void INeverAwaySystem::registerGlobalFunction(const std::string& functionName, const std::string& jsCode) {
+    // CJMOD的高自由度：可以定义全局变量和函数
+    globalFunctions_[functionName] = jsCode;
+    std::cout << "注册全局函数: " << functionName << std::endl;
+}
+
+std::string INeverAwaySystem::getGlobalFunctionName(const std::string& keyName, const std::string& state) {
+    // 生成全局唯一的函数名，由CHTL编译器统一管理
+    std::string fullKey = keyName;
+    if (!state.empty()) {
+        fullKey += "_" + state;
+    }
+    
+    // 检查是否已经存在
+    auto it = keyStateMapping_.find(fullKey);
+    if (it != keyStateMapping_.end()) {
+        return it->second;
+    }
+    
+    // 生成新的全局函数名
+    std::string globalName = "chtl_ineveraway_" + 
+                           std::to_string(globalFunctionCounter_++) + "_" + 
+                           fullKey;
+    
+    // 转换为合法的JavaScript标识符
+    std::replace(globalName.begin(), globalName.end(), '<', '_');
+    std::replace(globalName.begin(), globalName.end(), '>', '_');
+    std::replace(globalName.begin(), globalName.end(), ' ', '_');
+    
+    keyStateMapping_[fullKey] = globalName;
+    return globalName;
+}
+
+std::string INeverAwaySystem::processVirObject(const std::string& virName, const std::string& objectContent) {
+    // 处理虚对象 - CHTL JS原生功能的扩展支持
+    initializeGlobalState();
+    
+    std::ostringstream result;
+    result << "// 处理虚对象: " << virName << "\n";
+    result << "const " << virName << " = {};\n";
+    
+    // 解析对象内容，提取所有键值对
+    std::regex keyRegex(R"((\w+(?:<\w+>)?)\s*:\s*(.+?)(?=,|\}|$))");
+    std::sregex_iterator iter(objectContent.begin(), objectContent.end(), keyRegex);
+    std::sregex_iterator end;
+    
+    for (; iter != end; ++iter) {
+        std::string keyName = (*iter)[1].str();
+        std::string keyValue = (*iter)[2].str();
+        
+        // 生成全局函数名
+        std::string globalFuncName = getGlobalFunctionName(keyName, "");
+        
+        // 注册到全局作用域
+        result << "window['" << globalFuncName << "'] = " << keyValue << ";\n";
+        
+        // 创建虚对象的引用
+        result << virName << "['" << keyName << "'] = window['" << globalFuncName << "'];\n";
+    }
+    
+    return result.str();
 }
 
 std::string INeverAwaySystem::processCustomKeys(const std::string& virObjectCode) {
-    // 内在精妙：处理虚对象中的自定义键
+    // 处理虚对象中的任意自定义键
     std::string result = virObjectCode;
     
-    for (const auto& [key, jsTemplate] : customKeys_) {
-        std::string placeholder = key + ":";
-        size_t pos = result.find(placeholder);
-        if (pos != std::string::npos) {
-            // 替换自定义键为对应的JavaScript模板
-            result.replace(pos, placeholder.length(), jsTemplate + ":");
-        }
-    }
+    // 这里不需要替换，因为自定义键本身就是合法的JavaScript
+    // 只需要确保全局函数名的生成和管理
     
     return result;
 }

@@ -86,27 +86,33 @@ void implementPrintMylove() {
 // ==========================================
 
 void implementINeverAway() {
-    std::cout << "=== 实现 iNeverAway 功能（支持自定义键）===" << std::endl;
+    std::cout << "=== 实现 iNeverAway 功能（支持任意自定义键）===" << std::endl;
+    
+    // 初始化全局状态管理 - 利用CJMOD的高自由度
+    INeverAwaySystem::initializeGlobalState();
     
     // 第1步：syntaxAnalys - 解析虚对象语法
+    // 注意：vir是CHTL JS原生功能，不是CJMOD创造的
     std::string ignoreChars = ",:{};()";
     auto keyword = syntaxAnalys(R"(
         vir $ = iNeverAway({
-            $: function($, $) {
-                $
-            }
+            $: $
         });
     )", ignoreChars);
     
     std::cout << "iNeverAway语法分析完成" << std::endl;
     
-    // 第2步：定义自定义键支持
-    // 根据语法文档：允许开发者定义键，而不是使用键
-    INeverAwaySystem::defineCustomKey("Void", "A", "function");
-    INeverAwaySystem::defineCustomKey("Void", "B", "function");
-    INeverAwaySystem::defineCustomKey("Void", "", "object");
+    // 第2步：演示自定义键支持 - 任意键名，任意状态
+    // 开发者可以定义任何符合命名规范的键
+    INeverAwaySystem::defineCustomKey("MyPromise", "A");        // MyPromise<A>
+    INeverAwaySystem::defineCustomKey("MyPromise", "B");        // MyPromise<B>
+    INeverAwaySystem::defineCustomKey("MyPromise");             // MyPromise (无状态)
+    INeverAwaySystem::defineCustomKey("ChthollyPromise", "Happy"); // ChthollyPromise<Happy>
+    INeverAwaySystem::defineCustomKey("UserAction");            // UserAction (无状态)
+    INeverAwaySystem::defineCustomKey("GameEvent", "Start");    // GameEvent<Start>
+    INeverAwaySystem::defineCustomKey("GameEvent", "End");      // GameEvent<End>
     
-    std::cout << "自定义键定义完成：Void<A>, Void<B>, Void" << std::endl;
+    std::cout << "自定义键定义完成：支持任意键名和可选状态" << std::endl;
     
     // 第3步：bind - 绑定虚对象处理器
     keyword->args.bind<std::string>("vir", [](const std::string& virName) -> std::string {
@@ -139,45 +145,78 @@ void implementINeverAway() {
     });
 }
 
-// 生成iNeverAway的JavaScript代码
+// 生成iNeverAway的JavaScript代码 - 支持任意自定义键
 std::string generateINeverAwayCode(const std::string& virObjectContent) {
     std::ostringstream code;
     
-    code << "// iNeverAway 承诺函数系统\n";
+    code << "// iNeverAway 承诺函数系统 - 支持任意自定义键\n";
+    code << "// 注意：虚对象(vir)是CHTL JS原生功能\n";
     code << "function iNeverAway(promiseMap) {\n";
-    code << "    const promiseRegistry = {};\n";
-    code << "    const customKeys = {};\n";
+    code << "    // 全局状态管理 - 利用CJMOD的高自由度\n";
+    code << "    if (!window.chtlINeverAwayRegistry) {\n";
+    code << "        window.chtlINeverAwayRegistry = {\n";
+    code << "            functions: {},\n";
+    code << "            counter: 0,\n";
+    code << "            keyMappings: {}\n";
+    code << "        };\n";
+    code << "    }\n";
     code << "    \n";
-    code << "    // 处理自定义键和状态区分\n";
+    code << "    const registry = window.chtlINeverAwayRegistry;\n";
+    code << "    const promiseRegistry = {};\n";
+    code << "    \n";
+    code << "    // 处理任意自定义键和可选状态\n";
     code << "    for (const [key, func] of Object.entries(promiseMap)) {\n";
-    code << "        let processedKey = key;\n";
+    code << "        let keyName = key;\n";
     code << "        let state = '';\n";
     code << "        \n";
-    code << "        // 解析状态标记 <A>, <B> 等\n";
-    code << "        const stateMatch = key.match(/^(.+)<(.+)>$/);\n";
+    code << "        // 解析可选的状态标记 <状态名>\n";
+    code << "        const stateMatch = key.match(/^(.+?)<(.+?)>$/);\n";
     code << "        if (stateMatch) {\n";
-    code << "            processedKey = stateMatch[1];\n";
+    code << "            keyName = stateMatch[1];\n";
     code << "            state = stateMatch[2];\n";
     code << "        }\n";
     code << "        \n";
-    code << "        // 生成全局函数名（CHTL编译器统一管理）\n";
-    code << "        const globalName = 'chtl_promise_' + processedKey.toLowerCase() + \n";
-    code << "                          (state ? '_' + state.toLowerCase() : '') + \n";
-    code << "                          '_' + Math.random().toString(36).substr(2, 9);\n";
+    code << "        // 生成全局唯一函数名（CHTL编译器统一管理）\n";
+    code << "        const fullKey = keyName + (state ? '_' + state : '');\n";
+    code << "        let globalName = registry.keyMappings[fullKey];\n";
+    code << "        \n";
+    code << "        if (!globalName) {\n";
+    code << "            // 创建新的全局函数名\n";
+    code << "            globalName = 'chtl_ineveraway_' + (++registry.counter) + '_' + \n";
+    code << "                        keyName.toLowerCase() + (state ? '_' + state.toLowerCase() : '');\n";
+    code << "            registry.keyMappings[fullKey] = globalName;\n";
+    code << "        }\n";
     code << "        \n";
     code << "        // 注册到全局作用域\n";
     code << "        window[globalName] = func;\n";
+    code << "        registry.functions[globalName] = {\n";
+    code << "            keyName: keyName,\n";
+    code << "            state: state,\n";
+    code << "            originalKey: key,\n";
+    code << "            function: func\n";
+    code << "        };\n";
     code << "        \n";
-    code << "        // 记录到注册表\n";
-    code << "        if (!promiseRegistry[processedKey]) {\n";
-    code << "            promiseRegistry[processedKey] = {};\n";
+    code << "        // 构建返回的注册表结构\n";
+    code << "        if (!promiseRegistry[keyName]) {\n";
+    code << "            promiseRegistry[keyName] = {};\n";
     code << "        }\n";
-    code << "        promiseRegistry[processedKey][state || 'default'] = globalName;\n";
+    code << "        \n";
+    code << "        if (state) {\n";
+    code << "            promiseRegistry[keyName][state] = window[globalName];\n";
+    code << "        } else {\n";
+    code << "            // 无状态的键直接赋值\n";
+    code << "            if (typeof func === 'function') {\n";
+    code << "                promiseRegistry[keyName] = window[globalName];\n";
+    code << "            } else {\n";
+    code << "                promiseRegistry[keyName] = func;\n";
+    code << "            }\n";
+    code << "        }\n";
     code << "    }\n";
     code << "    \n";
-    code << "    // 生成珂朵莉特色的承诺消息\n";
+    code << "    // 珂朵莉特色的承诺消息\n";
     code << "    console.log('珂朵莉的承诺已经建立 ❀');\n";
-    code << "    console.log('iNeverAway - 永远不会离开大家');\n";
+    code << "    console.log('iNeverAway - 支持任意自定义键的承诺函数系统');\n";
+    code << "    console.log('已注册键:', Object.keys(promiseRegistry));\n";
     code << "    \n";
     code << "    return promiseRegistry;\n";
     code << "}\n";

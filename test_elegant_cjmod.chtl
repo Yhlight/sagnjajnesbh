@@ -157,56 +157,86 @@ html {
             // ==========================================
             
             function testINeverAway() {
-                console.log("测试 iNeverAway 自定义键功能");
+                console.log("测试 iNeverAway 任意自定义键功能");
                 
                 // 根据CHTL语法文档第1485-1520行的要求
-                // 创建支持自定义键的虚对象
+                // iNeverAway允许开发者定义任意键，而不是使用固定的键
+                // 虚对象(vir)是CHTL JS原生功能，不是CJMOD创造的
+                
                 vir ChthollyPromise = iNeverAway({
-                    // 自定义键：Void<A> - 状态A的承诺函数
-                    Void<A>: function(message, duration) {
-                        console.log("珂朵莉的承诺 (状态A): " + message);
+                    // 任意自定义键名 + 可选状态
+                    MyPromise<Happy>: function(message, duration) {
+                        console.log("珂朵莉的快乐承诺: " + message);
                         return new Promise((resolve) => {
                             setTimeout(() => {
-                                console.log("承诺完成: " + message);
+                                console.log("快乐承诺完成: " + message);
                                 resolve(message);
                             }, duration * 1000);
                         });
                     },
                     
-                    // 自定义键：Void<B> - 状态B的承诺函数  
-                    Void<B>: function(message, duration) {
-                        console.log("珂朵莉的特别承诺 (状态B): " + message);
+                    MyPromise<Sad>: function(message, duration) {
+                        console.log("珂朵莉的忧伤承诺: " + message);
                         return new Promise((resolve) => {
                             setTimeout(() => {
-                                console.log("特别承诺完成: " + message);
+                                console.log("忧伤承诺完成: " + message);
                                 console.log("珂朵莉永远在大家心中 ❀");
                                 resolve(message);
                             }, duration * 1000);
                         });
                     },
                     
-                    // 自定义键：Void - 无状态的对象
-                    Void: {
-                        永远: "珂朵莉永远在大家心中",
-                        幸福: "世界上最幸福的女孩", 
-                        承诺: "永远不会离开大家",
+                    // 自定义键：ChthollyAction - 无状态
+                    ChthollyAction: function(action) {
+                        console.log("珂朵莉执行动作: " + action);
+                        return "动作完成: " + action;
+                    },
+                    
+                    // 自定义键：GameEvent - 带状态
+                    GameEvent<Start>: function() {
+                        console.log("游戏开始！珂朵莉准备好了！");
+                        return "游戏已开始";
+                    },
+                    
+                    GameEvent<End>: function() {
+                        console.log("游戏结束！珂朵莉玩得很开心！");
+                        return "游戏已结束";
+                    },
+                    
+                    // 自定义键：UserData - 无状态对象
+                    UserData: {
+                        name: "珂朵莉",
+                        age: "永远17岁",
+                        motto: "世界上最幸福的女孩",
                         
-                        // 嵌套函数
-                        说话: function(words) {
-                            console.log("珂朵莉说: " + words);
+                        introduce: function() {
+                            console.log("大家好，我是" + this.name + "，" + this.motto + "！");
                         }
                     }
                 });
                 
-                // 测试自定义键的使用
+                // 测试任意自定义键的使用
                 // 注意：虚对象本身不存在，最终转变成相对应的函数的引用
-                ChthollyPromise.Void.A("我永远不会离开你", 5);
-                ChthollyPromise.Void.B("这是珂朵莉的特别承诺", 3);
                 
-                // 访问无状态对象
-                console.log(ChthollyPromise.Void.永远);
-                console.log(ChthollyPromise.Void.幸福);
-                ChthollyPromise.Void.说话("大家好，我是珂朵莉！");
+                // 使用带状态的自定义键
+                ChthollyPromise.MyPromise.Happy("我会永远陪伴大家", 3);
+                ChthollyPromise.MyPromise.Sad("即使忧伤也不会离开", 2);
+                
+                // 使用无状态的自定义键
+                console.log(ChthollyPromise.ChthollyAction("微笑"));
+                
+                // 使用游戏事件
+                ChthollyPromise.GameEvent.Start();
+                setTimeout(() => {
+                    ChthollyPromise.GameEvent.End();
+                }, 1000);
+                
+                // 访问用户数据
+                console.log("用户名:", ChthollyPromise.UserData.name);
+                console.log("座右铭:", ChthollyPromise.UserData.motto);
+                ChthollyPromise.UserData.introduce();
+                
+                console.log("iNeverAway支持完全自由的自定义键定义！");
             }
             
             // ==========================================

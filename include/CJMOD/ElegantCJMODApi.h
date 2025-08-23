@@ -203,13 +203,19 @@ void ArgCollection::bind(const std::string& name, std::function<std::string(cons
 }
 
 // ==========================================
-// 珂朵莉模块专用扩展
+// 珂朵莉模块专用扩展 - 修正版
 // ==========================================
 
 namespace Chtholly {
 
 /**
- * @brief iNeverAway函数实现 - 支持自定义键的承诺函数系统
+ * @brief iNeverAway函数实现 - 支持任意自定义键的承诺函数系统
+ * 
+ * 设计理念：
+ * 1. 虚对象(vir)是CHTL JS原生功能，不是CJMOD创造的
+ * 2. 自定义键可以是任意符合命名规范的名称，不限于Void
+ * 3. 状态标记<>是可选的，开发者可以自由决定
+ * 4. CJMOD具有极高自由度，可以包含头文件、定义全局变量
  */
 class INeverAwaySystem {
 public:
@@ -217,13 +223,27 @@ public:
     static void registerPromiseFunction(const std::string& name, const std::string& jsCode);
     static std::string generatePromiseCall(const std::string& message, int duration = 60);
     
-    // 内在精妙：自定义键支持
-    static void defineCustomKey(const std::string& keyName, const std::string& keyType, const std::string& jsTemplate);
+    // 自定义键支持 - 任意键名，任意状态
+    static void defineCustomKey(const std::string& keyName, const std::string& state = "", const std::string& jsTemplate = "");
     static std::string processCustomKeys(const std::string& virObjectCode);
+    
+    // 全局状态管理 - 利用CJMOD的高自由度
+    static void initializeGlobalState();
+    static void registerGlobalFunction(const std::string& functionName, const std::string& jsCode);
+    static std::string getGlobalFunctionName(const std::string& keyName, const std::string& state = "");
+    
+    // 虚对象处理 - CHTL JS原生功能的扩展支持
+    static std::string processVirObject(const std::string& virName, const std::string& objectContent);
     
 private:
     static std::unordered_map<std::string, std::string> promiseFunctions_;
     static std::unordered_map<std::string, std::string> customKeys_;
+    
+    // 全局状态管理 - CJMOD的高自由度特性
+    static std::unordered_map<std::string, std::string> globalFunctions_;
+    static std::unordered_map<std::string, std::string> keyStateMapping_;
+    static int globalFunctionCounter_;
+    static bool isInitialized_;
 };
 
 /**
