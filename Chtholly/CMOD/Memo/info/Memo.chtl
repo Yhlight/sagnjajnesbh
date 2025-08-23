@@ -9,3 +9,11 @@
     minCHTLVersion = "1.0.0";
     maxCHTLVersion = "2.0.0";
 }
+
+[Export] {
+    [Template] @Style ChthollyMemoStyle;
+    [Template] @Element ChthollyMemoBoard;
+    
+    [Origin] @JavaScript ChthollyMemoScript;
+    [Origin] @Style MemoToastStyles;
+}

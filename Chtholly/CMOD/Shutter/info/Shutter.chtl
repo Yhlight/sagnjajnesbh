@@ -9,3 +9,13 @@
     minCHTLVersion = "1.0.0";
     maxCHTLVersion = "2.0.0";
 }
+
+[Export] {
+    [Template] @Style ChthollyShutterStyle;
+    [Template] @Element ChthollyShutterGallery;
+    
+    [Custom] @Element ChthollyShutterItem;
+    
+    [Origin] @JavaScript ShutterGalleryScript;
+    [Origin] @Style ShutterAnimations;
+}
