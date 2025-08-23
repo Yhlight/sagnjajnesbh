@@ -736,8 +736,8 @@ function convertToPixel(ctx, scale) {
 // CHTL JS函数快速创建系统实现
 // ==========================================
 
-CHTLJSFunction::CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames)
-    : functionName_(functionName), keyNames_(keyNames),
+CHTLJSFunction::CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames, FunctionType type)
+    : functionName_(functionName), keyNames_(keyNames), functionType_(type),
       supportUnordered_(true), supportOptional_(true), supportUndecoratedLiterals_(true) {
     
     std::cout << "托管CHTL JS函数创建: " << functionName_ << std::endl;
@@ -764,12 +764,20 @@ void CHTLJSFunction::initializeKeyword() {
 }
 
 std::string CHTLJSFunction::generateSyntaxPattern() {
-    // 生成标准的CHTL JS函数语法模式
+    // 根据函数类型生成不同的语法模式
     std::ostringstream pattern;
     
-    pattern << "const $ = " << functionName_ << "({\n";
-    pattern << "    $\n";  // 整个配置对象作为一个参数
-    pattern << "});";
+    if (functionType_ == FunctionType::ASSIGNMENT) {
+        // 赋值类型：const $ = functionName({...});
+        pattern << "const $ = " << functionName_ << "({\n";
+        pattern << "    $\n";  // 整个配置对象作为一个参数
+        pattern << "});";
+    } else {
+        // 直接调用类型：functionName({...});
+        pattern << functionName_ << "({\n";
+        pattern << "    $\n";  // 整个配置对象作为一个参数
+        pattern << "});";
+    }
     
     return pattern.str();
 }
@@ -782,11 +790,15 @@ void CHTLJSFunction::bindKeyProcessor(const std::string& keyName,
     // 托管步骤：自动调用标准bind方法
     // 开发者无需手动为每个键调用keyword->args.bind
     if (keyProcessors_.size() == 1) {
-        // 第一次绑定时，设置标准的参数处理器
-        keyword_->args.bind<std::string>("varName", [](const std::string& varName) -> std::string {
-            return varName;
-        });
+        // 根据函数类型设置不同的参数处理器
+        if (functionType_ == FunctionType::ASSIGNMENT) {
+            // 赋值类型需要varName参数
+            keyword_->args.bind<std::string>("varName", [](const std::string& varName) -> std::string {
+                return varName;
+            });
+        }
         
+        // 所有类型都需要configObject参数
         keyword_->args.bind<std::string>("configObject", [this](const std::string& configStr) -> std::string {
             return this->processConfigObject(configStr);
         });
@@ -894,10 +906,17 @@ std::string CHTLJSFunction::processConfigObject(const std::string& configStr) {
 // 开发者应该手动执行标准流程：scanKeyword -> match -> generateCode
 
 std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& functionName, 
-                                                   const std::vector<std::string>& keyNames) {
+                                                   const std::vector<std::string>& keyNames,
+                                                   CHTLJSFunction::FunctionType type) {
     std::cout << "=== 托管CHTL JS函数创建: " << functionName << " ===" << std::endl;
     
-    auto chtljsFunc = std::make_unique<CHTLJSFunction>(functionName, keyNames);
+    if (type == CHTLJSFunction::FunctionType::ASSIGNMENT) {
+        std::cout << "函数类型: 赋值类型 (const $ = " << functionName << "({...}));" << std::endl;
+    } else {
+        std::cout << "函数类型: 直接调用类型 (" << functionName << "({...}));" << std::endl;
+    }
+    
+    auto chtljsFunc = std::make_unique<CHTLJSFunction>(functionName, keyNames, type);
     
     // 默认启用所有CHTL JS特性
     chtljsFunc->enableCHTLJSFeatures(true, true, true);

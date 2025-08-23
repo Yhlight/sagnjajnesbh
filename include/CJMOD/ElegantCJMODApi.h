@@ -168,7 +168,13 @@ private:
  */
 class CHTLJSFunction {
 public:
-    CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames);
+    enum class FunctionType {
+        ASSIGNMENT,    // const $ = functionName({...});
+        DIRECT_CALL    // functionName({...});
+    };
+    
+    CHTLJSFunction(const std::string& functionName, const std::vector<std::string>& keyNames, 
+                   FunctionType type = FunctionType::ASSIGNMENT);
     
     // 托管的步骤：简化语法创建和参数绑定
     void bindKeyProcessor(const std::string& keyName, std::function<std::string(const std::string&)> processor);
@@ -189,6 +195,7 @@ public:
 private:
     std::string functionName_;
     std::vector<std::string> keyNames_;
+    FunctionType functionType_;
     std::unique_ptr<Keyword> keyword_;
     std::unordered_map<std::string, std::function<std::string(const std::string&)>> keyProcessors_;
     std::unordered_map<std::string, std::string> defaultValues_;
@@ -205,18 +212,21 @@ private:
  * 
  * 使用示例：
  * ```cpp
- * auto myFunc = createCHTLJSFunction("myFunction", {"url", "mode", "width", "height"});
- * myFunc->bindKeyProcessor("url", [](const std::string& url) { return processUrl(url); });
- * myFunc->setDefaultValues({{"mode", "\"auto\""}, {"width", "100"}});
- * std::string jsCode = myFunc->process(chtlCode);
+ * // 赋值类型函数：const result = myFunction({...});
+ * auto myFunc = createCHTLJSFunction("myFunction", {"url", "mode"}, CHTLJSFunction::FunctionType::ASSIGNMENT);
+ * 
+ * // 直接调用类型函数：printMylove({...});
+ * auto printFunc = createCHTLJSFunction("printMylove", {"url", "mode"}, CHTLJSFunction::FunctionType::DIRECT_CALL);
  * ```
  * 
  * @param functionName CHTL JS函数名称
  * @param keyNames 键名列表
+ * @param type 函数类型（赋值或直接调用）
  * @return CHTLJSFunction对象，可以继续使用标准CJMOD流程
  */
 std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& functionName, 
-                                                   const std::vector<std::string>& keyNames);
+                                                   const std::vector<std::string>& keyNames,
+                                                   CHTLJSFunction::FunctionType type = CHTLJSFunction::FunctionType::ASSIGNMENT);
 
 // ==========================================
 // 核心API函数 - 表面简单，内在精妙
