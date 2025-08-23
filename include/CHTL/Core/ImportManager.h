@@ -133,6 +133,14 @@ private:
     ImportSearchResult SearchCJMODFiles(const ImportPathInfo& pathInfo);
     
     /**
+     * @brief 搜索原始嵌入文件
+     * @param pathInfo 路径信息
+     * @param importType 导入类型
+     * @return 搜索结果
+     */
+    ImportSearchResult SearchOriginFiles(const ImportPathInfo& pathInfo, AST::ImportNode::ImportType importType);
+    
+    /**
      * @brief 在指定目录搜索文件
      * @param directory 目录
      * @param pattern 文件模式

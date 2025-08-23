@@ -743,21 +743,36 @@ private:
 class ImportNode : public ASTNode {
 public:
     enum class ImportType {
-        HTML,               // @Html
-        STYLE,              // @Style
-        JAVASCRIPT,         // @JavaScript
+        HTML,               // @Html (旧版本，保持兼容)
+        STYLE,              // @Style (旧版本，保持兼容)
+        JAVASCRIPT,         // @JavaScript (旧版本，保持兼容)
         CHTL,               // @Chtl
         CJMOD,              // @CJmod
         CONFIG,             // @Config
+        
+        // 媒体文件导入（需要as语法）
+        MEDIA_HTML,         // @Html (新版本，需要as)
+        MEDIA_STYLE,        // @Style (新版本，需要as)
+        MEDIA_JAVASCRIPT,   // @JavaScript (新版本，需要as)
+        
+        // 原始嵌入导入
+        ORIGIN_HTML,        // [Origin] @Html
+        ORIGIN_STYLE,       // [Origin] @Style
+        ORIGIN_JAVASCRIPT,  // [Origin] @JavaScript
+        ORIGIN_VUE,         // [Origin] @Vue
+        ORIGIN_REACT,       // [Origin] @React
+        ORIGIN_ANGULAR,     // [Origin] @Angular
+        ORIGIN_CUSTOM,      // [Origin] @CustomType
+        
+        // 模板导入（保持兼容性）
         TEMPLATE_STYLE,     // [Template] @Style
         TEMPLATE_ELEMENT,   // [Template] @Element
         TEMPLATE_VAR,       // [Template] @Var
         CUSTOM_STYLE,       // [Custom] @Style
         CUSTOM_ELEMENT,     // [Custom] @Element
         CUSTOM_VAR,         // [Custom] @Var
-        ORIGIN_HTML,        // [Origin] @Html
-        ORIGIN_STYLE,       // [Origin] @Style
-        ORIGIN_JAVASCRIPT,  // [Origin] @JavaScript
+        
+        // 批量导入
         ALL_TEMPLATES,      // [Template]
         ALL_CUSTOMS,        // [Custom]
         ALL_ORIGINS         // [Origin]
@@ -794,6 +809,11 @@ public:
      * @brief 检查是否有别名
      */
     bool HasAlias() const { return !alias_.empty(); }
+    
+    /**
+     * @brief 设置导入名称
+     */
+    void SetName(const std::string& name) { name_ = name; }
     
     /**
      * @brief 检查是否为批量导入

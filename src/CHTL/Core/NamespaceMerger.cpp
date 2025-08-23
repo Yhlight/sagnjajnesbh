@@ -1,5 +1,7 @@
 #include "CHTL/Core/NamespaceMerger.h"
 #include "Utils/ErrorHandler.h"
+#include <filesystem>
+#include <cctype>
 #include <algorithm>
 
 namespace CHTL {
@@ -12,6 +14,70 @@ NamespaceMerger::NamespaceMerger()
 void NamespaceMerger::SetConflictResolutionStrategy(bool allowMerge, bool strictMode) {
     allowMerge_ = allowMerge;
     strictMode_ = strictMode;
+}
+
+std::shared_ptr<AST::NamespaceNode> NamespaceMerger::CreateDefaultNamespace(const std::string& filePath,
+                                                                           const std::vector<NamespaceSymbol>& symbols,
+                                                                           bool disableDefault) {
+    if (disableDefault) {
+        return nullptr; // 禁用默认命名空间功能
+    }
+    
+    // 从文件路径提取默认命名空间名称
+    std::string defaultName = ExtractDefaultNamespaceName(filePath);
+    
+    if (defaultName.empty()) {
+        return nullptr;
+    }
+    
+    // 创建默认命名空间节点
+    auto namespaceNode = std::make_shared<AST::NamespaceNode>(defaultName);
+    
+    // 将符号添加到命名空间中（这里简化实现，实际需要根据AST结构添加）
+    // 注册默认命名空间
+    RegisterNamespace(namespaceNode, filePath);
+    
+    // 记录符号
+    namespaceSymbols_[defaultName] = symbols;
+    
+    Utils::ErrorHandler::GetInstance().LogInfo(
+        "为文件 '" + filePath + "' 创建默认命名空间: " + defaultName
+    );
+    
+    return namespaceNode;
+}
+
+std::string NamespaceMerger::ExtractDefaultNamespaceName(const std::string& filePath) {
+    if (filePath.empty()) {
+        return "";
+    }
+    
+    // 从文件路径中提取文件名（不含扩展名）作为默认命名空间名称
+    std::filesystem::path path(filePath);
+    std::string filename = path.stem().string();
+    
+    // 确保命名空间名称符合标识符规范
+    std::string namespaceName = "";
+    for (char c : filename) {
+        if (std::isalnum(c) || c == '_') {
+            namespaceName += c;
+        } else if (c == '-' || c == '.') {
+            namespaceName += '_'; // 将连字符和点替换为下划线
+        }
+        // 忽略其他特殊字符
+    }
+    
+    // 确保以字母或下划线开头
+    if (!namespaceName.empty() && std::isdigit(namespaceName[0])) {
+        namespaceName = "_" + namespaceName;
+    }
+    
+    // 如果名称为空或无效，使用默认名称
+    if (namespaceName.empty() || namespaceName == "_") {
+        namespaceName = "DefaultNamespace";
+    }
+    
+    return namespaceName;
 }
 
 void NamespaceMerger::RegisterNamespace(std::shared_ptr<AST::NamespaceNode> namespaceNode, const std::string& sourceFile) {

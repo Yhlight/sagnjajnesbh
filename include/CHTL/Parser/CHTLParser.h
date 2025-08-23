@@ -160,6 +160,12 @@ private:
     AST::ASTNodePtr ParseImportDeclaration();
     
     /**
+     * @brief 解析导入路径（支持无修饰字符串和通配符）
+     * @return 导入路径
+     */
+    std::string ParseImportPath();
+    
+    /**
      * @brief 解析命名空间声明（支持省略大括号 - 语法文档第998行）
      * @return 命名空间节点
      */
@@ -220,6 +226,24 @@ private:
      * @return 脚本块节点
      */
     AST::ASTNodePtr ParseScriptBlock();
+    
+    /**
+     * @brief 解析JavaScript代码片段
+     * @return JavaScript片段节点
+     */
+    AST::ASTNodePtr ParseJavaScriptFragment();
+    
+    /**
+     * @brief 解析CHTL JS表达式 {{...}}
+     * @return CHTL JS表达式节点
+     */
+    AST::ASTNodePtr ParseCHTLJSExpression();
+    
+    /**
+     * @brief 解析注释
+     * @return 注释节点
+     */
+    AST::ASTNodePtr ParseComment();
     
     /**
      * @brief 解析样式内容

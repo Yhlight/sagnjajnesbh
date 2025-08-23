@@ -1184,42 +1184,106 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
     std::string name = "";
     std::string path = "";
     std::string alias = "";
+    bool needsAsClause = false;
     
-    // 检查是否有限定符 [Template], [Custom], [Origin], [Configuration]
-    if (Check(Core::TokenType::TEMPLATE) || Check(Core::TokenType::CUSTOM) || 
-        Check(Core::TokenType::ORIGIN) || Check(Core::TokenType::CONFIGURATION)) {
+    // 解析类型标识符（支持@Html、@Style、@JavaScript、@Chtl、@CJmod等）
+    std::string typeId = ParseTypeIdentifier();
+    if (typeId.empty()) {
+        ReportError("期望类型标识符");
+        return nullptr;
+    }
+    
+    // 根据用户要求，确定导入类型和处理策略
+    if (typeId == "@Html") {
+        importType = AST::ImportNode::ImportType::MEDIA_HTML;
+        needsAsClause = true; // 没有as语法则跳过
+    } else if (typeId == "@Style") {
+        importType = AST::ImportNode::ImportType::MEDIA_STYLE;
+        needsAsClause = true; // 没有as语法则跳过
+    } else if (typeId == "@JavaScript") {
+        importType = AST::ImportNode::ImportType::MEDIA_JAVASCRIPT;
+        needsAsClause = true; // 没有as语法则跳过
+    } else if (typeId == "@Chtl") {
+        importType = AST::ImportNode::ImportType::CHTL;
+        needsAsClause = false; // 可以没有as语法
+    } else if (typeId == "@CJmod") {
+        importType = AST::ImportNode::ImportType::CJMOD;
+        needsAsClause = false; // 可以没有as语法
+    } else if (typeId == "@Vue" || typeId == "@React" || typeId == "@Angular") {
+        // 自定义原始嵌入类型 - 需要检查是否有[Origin]前缀
+        ReportError("不存在的类型: " + typeId + "，请使用 [Origin] " + typeId + " 进行原始嵌入导入");
+        return nullptr;
+    }
+    
+    // 检查是否有[Origin]前缀 - 用于自定义原始嵌入类型
+    if (Check(Core::TokenType::ORIGIN)) {
+        Advance(); // 消费[Origin]
         
-        std::string qualifier = Current().GetValue();
-        Advance();
-        
-        // 解析类型标识符
-        std::string typeId = ParseTypeIdentifier();
+        // 重新解析类型标识符
+        typeId = ParseTypeIdentifier();
         if (typeId.empty()) {
-            ReportError("期望类型标识符");
+            ReportError("期望原始嵌入类型标识符");
             return nullptr;
         }
         
-        // 确定导入类型
-        if (qualifier == "[Template]") {
-            if (typeId == "@Style") importType = AST::ImportNode::ImportType::TEMPLATE_STYLE;
-            else if (typeId == "@Element") importType = AST::ImportNode::ImportType::TEMPLATE_ELEMENT;
-            else if (typeId == "@Var") importType = AST::ImportNode::ImportType::TEMPLATE_VAR;
-        } else if (qualifier == "[Custom]") {
-            if (typeId == "@Style") importType = AST::ImportNode::ImportType::CUSTOM_STYLE;
-            else if (typeId == "@Element") importType = AST::ImportNode::ImportType::CUSTOM_ELEMENT;
-            else if (typeId == "@Var") importType = AST::ImportNode::ImportType::CUSTOM_VAR;
-        } else if (qualifier == "[Origin]") {
-            if (typeId == "@Html") importType = AST::ImportNode::ImportType::ORIGIN_HTML;
-            else if (typeId == "@Style") importType = AST::ImportNode::ImportType::ORIGIN_STYLE;
-            else if (typeId == "@JavaScript") importType = AST::ImportNode::ImportType::ORIGIN_JAVASCRIPT;
+        // 自定义原始嵌入类型
+        if (typeId == "@Vue") {
+            importType = AST::ImportNode::ImportType::ORIGIN_VUE;
+        } else if (typeId == "@React") {
+            importType = AST::ImportNode::ImportType::ORIGIN_REACT;
+        } else if (typeId == "@Angular") {
+            importType = AST::ImportNode::ImportType::ORIGIN_ANGULAR;
+        } else {
+            importType = AST::ImportNode::ImportType::ORIGIN_CUSTOM;
+            name = typeId; // 保存自定义类型名
+        }
+    }
+    
+    // 消费 'from' 关键字
+    if (!Consume(Core::TokenType::FROM, "期望 'from'")) {
+        return nullptr;
+    }
+    
+    // 解析导入路径（支持无修饰字符串和通配符）
+    path = ParseImportPath();
+    if (path.empty()) {
+        ReportError("期望导入路径");
+        return nullptr;
+    }
+    
+    // 检查是否有 'as' 语法
+    bool hasAsClause = false;
+    if (Check(Core::TokenType::AS)) {
+        Advance(); // 消费 'as'
+        alias = ParseIdentifier();
+        if (alias.empty()) {
+            ReportError("期望别名");
+            return nullptr;
+        }
+        hasAsClause = true;
+    }
+    
+    // 对于需要as语法的类型，如果没有as语法则跳过
+    if (needsAsClause && !hasAsClause) {
+        if (config_.enableDebug) {
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "跳过导入 " + typeId + " from \"" + path + "\" - 缺少as语法"
+            );
         }
         
-        // 解析具体名称（可选）
-        if (Check(Core::TokenType::IDENTIFIER)) {
-            name = ParseIdentifier();
+        // 消费分号并返回空节点（表示跳过）
+        if (Check(Core::TokenType::SEMICOLON)) {
+            Advance();
         }
-    } else {
-        // 直接的类型导入
+        guard.Commit();
+        return nullptr; // 跳过此导入
+    }
+    
+    // 创建导入节点
+    auto importNode = std::make_shared<AST::ImportNode>(importType, path, alias, Current());
+    if (!name.empty()) {
+        importNode->SetName(name);
+    }
         std::string typeId = ParseTypeIdentifier();
         if (typeId == "@Html") importType = AST::ImportNode::ImportType::HTML;
         else if (typeId == "@Style") importType = AST::ImportNode::ImportType::STYLE;
@@ -1283,6 +1347,64 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
     auto importNode = std::make_shared<AST::ImportNode>(importType, path, name, alias, Current());
     
     return importNode;
+}
+
+std::string CHTLParser::ParseImportPath() {
+    std::string importPath;
+    
+    if (currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
+        // 字符串字面量路径
+        importPath = currentToken_.GetValue();
+        // 移除字符串字面量的引号
+        if (importPath.length() >= 2 && 
+            ((importPath.front() == '"' && importPath.back() == '"') ||
+             (importPath.front() == '\'' && importPath.back() == '\''))) {
+            importPath = importPath.substr(1, importPath.length() - 2);
+        }
+        Advance();
+    } else if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+        // 无修饰字符串路径（支持连续的标识符、路径分隔符和通配符）
+        std::string pathBuilder = "";
+        
+        while (!IsAtEnd() && 
+               (currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
+                currentToken_.GetType() == Core::TokenType::DOT ||
+                currentToken_.GetType() == Core::TokenType::SLASH ||
+                currentToken_.GetType() == Core::TokenType::STAR)) {
+            
+            if (currentToken_.GetType() == Core::TokenType::DOT) {
+                pathBuilder += ".";
+            } else if (currentToken_.GetType() == Core::TokenType::SLASH) {
+                pathBuilder += "/";
+            } else if (currentToken_.GetType() == Core::TokenType::STAR) {
+                pathBuilder += "*";
+            } else {
+                pathBuilder += currentToken_.GetValue();
+            }
+            
+            Advance();
+            
+            // 检查是否到达 'as' 关键字或语句结束
+            if (Check(Core::TokenType::AS) || Check(Core::TokenType::SEMICOLON)) {
+                break;
+            }
+        }
+        
+        importPath = pathBuilder;
+        
+        // 处理通配符语法转换：.* 等价于 /*
+        if (importPath.find(".*") != std::string::npos) {
+            size_t pos = 0;
+            while ((pos = importPath.find(".*", pos)) != std::string::npos) {
+                importPath.replace(pos, 2, "/*");
+                pos += 2;
+            }
+        }
+    } else {
+        return ""; // 无效路径
+    }
+    
+    return importPath;
 }
 
 AST::ASTNodePtr CHTLParser::ParseNamespaceDeclaration() {
@@ -1681,8 +1803,210 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
 }
 
 AST::ASTNodePtr CHTLParser::ParseScriptBlock() {
-    Advance(); // 跳过Token
-    return nullptr;
+    // 消费 script Token
+    if (!Consume(Core::TokenType::SCRIPT, "期望 'script'")) {
+        return nullptr;
+    }
+    
+    // 创建脚本块节点
+    auto scriptBlock = std::make_shared<AST::ScriptBlockNode>(Current());
+    
+    // 验证脚本块约束
+    Constraints::SyntaxContext scriptContext = Constraints::SyntaxContextDetector::IsLocalScriptBlock(scriptBlock) ? 
+        Constraints::SyntaxContext::LOCAL_SCRIPT : Constraints::SyntaxContext::GLOBAL_SCRIPT;
+    
+    // 使用状态保护
+    Core::StateGuard guard(stateManager_, Core::CompileState::PARSING_SCRIPT_BLOCK);
+    
+    // 消费开始的花括号
+    if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{'")) {
+        return nullptr;
+    }
+    
+    // 解析脚本内容
+    while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
+        const Core::CHTLToken& token = Current();
+        AST::ASTNodePtr child = nullptr;
+        
+        switch (token.GetType()) {
+            case Core::TokenType::STRING_LITERAL:
+            case Core::TokenType::IDENTIFIER:
+                // JavaScript代码片段或标识符
+                child = ParseJavaScriptFragment();
+                break;
+                
+            case Core::TokenType::LEFT_BRACE:
+                // 检查是否为CHTL JS语法 {{...}}
+                if (Peek().GetType() == Core::TokenType::LEFT_BRACE) {
+                    child = ParseCHTLJSExpression();
+                } else {
+                    // 普通的JavaScript块
+                    child = ParseJavaScriptFragment();
+                }
+                break;
+                
+            case Core::TokenType::AT_STYLE:
+            case Core::TokenType::AT_VAR:
+                // 脚本中的模板变量引用
+                child = ParseTemplateReference();
+                break;
+                
+            case Core::TokenType::DELETE:
+                child = ParseDeletionDeclaration();
+                break;
+                
+            case Core::TokenType::EXCEPT:
+                child = ParseConstraintDeclaration();
+                break;
+                
+            case Core::TokenType::SINGLE_LINE_COMMENT:
+            case Core::TokenType::MULTI_LINE_COMMENT:
+            case Core::TokenType::GENERATOR_COMMENT:
+                // 注释处理
+                child = ParseComment();
+                break;
+                
+            default:
+                // 其他内容作为JavaScript片段处理
+                child = ParseJavaScriptFragment();
+                break;
+        }
+        
+        if (child) {
+            scriptBlock->AddChild(child);
+            nodeCount_++;
+        } else {
+            // 如果无法解析，跳过当前Token
+            ReportError("无法解析脚本内容: " + token.GetValue());
+            Advance();
+        }
+    }
+    
+    // 消费结束的花括号
+    if (!Consume(Core::TokenType::RIGHT_BRACE, "期望 '}'")) {
+        return nullptr;
+    }
+    
+    // 验证脚本块约束
+    if (constraintValidator_ && !constraintValidator_->ValidateNode(scriptBlock, scriptContext)) {
+        ReportError("脚本块违反语法约束");
+    }
+    
+    guard.Commit();
+    return scriptBlock;
+}
+
+AST::ASTNodePtr CHTLParser::ParseJavaScriptFragment() {
+    // 创建JavaScript片段节点
+    std::string jsContent = "";
+    
+    // 收集JavaScript代码，直到遇到CHTL语法
+    while (!IsAtEnd() && 
+           currentToken_.GetType() != Core::TokenType::RIGHT_BRACE &&
+           currentToken_.GetType() != Core::TokenType::AT_STYLE &&
+           currentToken_.GetType() != Core::TokenType::AT_VAR &&
+           currentToken_.GetType() != Core::TokenType::DELETE &&
+           currentToken_.GetType() != Core::TokenType::EXCEPT) {
+        
+        // 检查是否为CHTL JS语法开始 {{
+        if (currentToken_.GetType() == Core::TokenType::LEFT_BRACE && 
+            Peek().GetType() == Core::TokenType::LEFT_BRACE) {
+            break; // 让ParseCHTLJSExpression处理
+        }
+        
+        jsContent += currentToken_.GetValue();
+        
+        // 如果下一个token不是结束符，添加空格
+        if (!IsAtEnd() && Peek().GetType() != Core::TokenType::RIGHT_BRACE) {
+            jsContent += " ";
+        }
+        
+        Advance();
+    }
+    
+    if (jsContent.empty()) {
+        return nullptr;
+    }
+    
+    // 创建JavaScript片段节点
+    auto jsFragment = std::make_shared<AST::JavaScriptNode>(Utils::StringUtils::Trim(jsContent), Current());
+    
+    return jsFragment;
+}
+
+AST::ASTNodePtr CHTLParser::ParseCHTLJSExpression() {
+    // 消费第一个 {
+    if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{'")) {
+        return nullptr;
+    }
+    
+    // 消费第二个 {
+    if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{{'")) {
+        return nullptr;
+    }
+    
+    std::string expression = "";
+    int braceCount = 2; // 已经消费了两个左花括号
+    
+    // 收集CHTL JS表达式内容，处理嵌套的花括号
+    while (!IsAtEnd() && braceCount > 0) {
+        if (currentToken_.GetType() == Core::TokenType::LEFT_BRACE) {
+            braceCount++;
+            expression += "{";
+        } else if (currentToken_.GetType() == Core::TokenType::RIGHT_BRACE) {
+            braceCount--;
+            if (braceCount > 0) {
+                expression += "}";
+            }
+        } else {
+            expression += currentToken_.GetValue();
+            
+            // 如果下一个token不是结束符，添加空格
+            if (!IsAtEnd() && braceCount > 2) {
+                expression += " ";
+            }
+        }
+        
+        Advance();
+    }
+    
+    // 检查是否有引用选择器 {{&}} - script中的引用语法
+    if (Utils::StringUtils::Trim(expression) == "&") {
+        // 创建script引用选择器节点，优先选择id
+        auto referenceNode = std::make_shared<AST::ReferenceNode>("&", Current());
+        referenceNode->SetReferenceType(AST::ReferenceNode::ReferenceType::SCRIPT_REFERENCE);
+        return referenceNode;
+    }
+    
+    // 创建CHTL JS表达式节点
+    auto chtljsNode = std::make_shared<AST::CHTLJSNode>(Utils::StringUtils::Trim(expression), Current());
+    
+    return chtljsNode;
+}
+
+AST::ASTNodePtr CHTLParser::ParseComment() {
+    std::string commentText = currentToken_.GetValue();
+    
+    AST::CommentNode::CommentType commentType;
+    switch (currentToken_.GetType()) {
+        case Core::TokenType::SINGLE_LINE_COMMENT:
+            commentType = AST::CommentNode::CommentType::SINGLE_LINE;
+            break;
+        case Core::TokenType::MULTI_LINE_COMMENT:
+            commentType = AST::CommentNode::CommentType::MULTI_LINE;
+            break;
+        case Core::TokenType::GENERATOR_COMMENT:
+            commentType = AST::CommentNode::CommentType::GENERATOR;
+            break;
+        default:
+            commentType = AST::CommentNode::CommentType::SINGLE_LINE;
+            break;
+    }
+    
+    auto commentNode = std::make_shared<AST::CommentNode>(commentType, commentText, currentToken_);
+    Advance();
+    
+    return commentNode;
 }
 
 AST::ASTNodePtr CHTLParser::ParseInheritanceDeclaration() {

@@ -1,6 +1,8 @@
 #include "CHTL/Generator/CHTLGenerator.h"
 #include "Utils/StringUtils.h"
 #include "Utils/ErrorHandler.h"
+#include <regex>
+#include <sstream>
 #include "Utils/FileUtils.h"
 #include <algorithm>
 #include <regex>
@@ -649,10 +651,165 @@ std::string CHTLGenerator::ExpandVariable(const std::string& variableReference) 
     
     std::string value = it->second;
     
-    // 特例化参数现在通过上下文处理
-    // TODO: 实现基于上下文的特例化处理
+    // 完整实现基于上下文的特例化处理 - 严格按照语法文档要求
+    // 语法文档示例: ThemeColor(tableColor = rgb(145, 155, 200))
+    
+    // 检查是否有特例化参数在上下文中
+    std::string specializationKey = "__specialization__" + varName;
+    auto specIt = context_.variables.find(specializationKey);
+    if (specIt != context_.variables.end()) {
+        // 解析特例化参数
+        std::string specializationParams = specIt->second;
+        auto parsedParams = ParseSpecializationParameters(specializationParams);
+        
+        // 应用特例化参数到变量值
+        value = ApplySpecializationToValue(value, parsedParams);
+        
+        if (config_.enableDebug) {
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "应用特例化参数到变量 '" + varName + "': " + specializationParams
+            );
+        }
+    }
+    
+    // 处理变量值中的占位符和表达式
+    value = ExpandVariableExpressions(value);
     
     return value;
+}
+
+std::unordered_map<std::string, std::string> CHTLGenerator::ParseSpecializationParameters(const std::string& params) {
+    std::unordered_map<std::string, std::string> result;
+    
+    if (params.empty()) {
+        return result;
+    }
+    
+    // 解析特例化参数格式: "key1 = value1, key2 = value2"
+    std::string trimmedParams = Utils::StringUtils::Trim(params);
+    
+    // 分割参数
+    std::vector<std::string> paramPairs;
+    std::stringstream ss(trimmedParams);
+    std::string pair;
+    
+    while (std::getline(ss, pair, ',')) {
+        paramPairs.push_back(Utils::StringUtils::Trim(pair));
+    }
+    
+    // 解析每个参数对
+    for (const auto& paramPair : paramPairs) {
+        size_t equalPos = paramPair.find('=');
+        if (equalPos != std::string::npos) {
+            std::string key = Utils::StringUtils::Trim(paramPair.substr(0, equalPos));
+            std::string value = Utils::StringUtils::Trim(paramPair.substr(equalPos + 1));
+            
+            // 移除值周围的引号（如果有）
+            if (value.length() >= 2 && 
+                ((value.front() == '"' && value.back() == '"') ||
+                 (value.front() == '\'' && value.back() == '\''))) {
+                value = value.substr(1, value.length() - 2);
+            }
+            
+            result[key] = value;
+        }
+    }
+    
+    return result;
+}
+
+std::string CHTLGenerator::ApplySpecializationToValue(const std::string& value, 
+                                                     const std::unordered_map<std::string, std::string>& params) {
+    std::string result = value;
+    
+    // 应用特例化参数替换
+    for (const auto& param : params) {
+        const std::string& key = param.first;
+        const std::string& newValue = param.second;
+        
+        // 查找并替换变量值中的占位符
+        // 支持格式: ${key}, {key}, key:
+        std::vector<std::string> patterns = {
+            "${" + key + "}",
+            "{" + key + "}",
+            key + ":"
+        };
+        
+        for (const auto& pattern : patterns) {
+            size_t pos = 0;
+            while ((pos = result.find(pattern, pos)) != std::string::npos) {
+                if (pattern.back() == ':') {
+                    // 对于 "key:" 格式，替换到下一个分号或换行
+                    size_t endPos = result.find_first_of(";\n", pos);
+                    if (endPos != std::string::npos) {
+                        result.replace(pos, endPos - pos, key + ": " + newValue);
+                    }
+                } else {
+                    // 直接替换占位符
+                    result.replace(pos, pattern.length(), newValue);
+                }
+                pos += newValue.length();
+            }
+        }
+    }
+    
+    return result;
+}
+
+std::string CHTLGenerator::ExpandVariableExpressions(const std::string& value) {
+    std::string result = value;
+    
+    // 展开变量引用 ${varName}
+    std::regex varRefPattern(R"(\$\{([^}]+)\})");
+    std::smatch match;
+    
+    std::string::const_iterator searchStart(result.cbegin());
+    while (std::regex_search(searchStart, result.cend(), match, varRefPattern)) {
+        std::string varName = match[1].str();
+        std::string replacement = GetVariableValue(varName);
+        
+        size_t pos = match.prefix().length() + (searchStart - result.cbegin());
+        result.replace(pos, match.length(), replacement);
+        
+        searchStart = result.cbegin() + pos + replacement.length();
+    }
+    
+    // 展开函数调用 func(args)
+    std::regex funcCallPattern(R"(([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\))");
+    searchStart = result.cbegin();
+    
+    while (std::regex_search(searchStart, result.cend(), match, funcCallPattern)) {
+        std::string funcName = match[1].str();
+        std::string args = match[2].str();
+        
+        // 处理内置函数
+        std::string replacement = ProcessBuiltinFunction(funcName, args);
+        
+        size_t pos = match.prefix().length() + (searchStart - result.cbegin());
+        result.replace(pos, match.length(), replacement);
+        
+        searchStart = result.cbegin() + pos + replacement.length();
+    }
+    
+    return result;
+}
+
+std::string CHTLGenerator::ProcessBuiltinFunction(const std::string& funcName, const std::string& args) {
+    // 处理内置函数调用
+    if (funcName == "rgb") {
+        return "rgb(" + args + ")";
+    } else if (funcName == "rgba") {
+        return "rgba(" + args + ")";
+    } else if (funcName == "url") {
+        return "url(" + args + ")";
+    } else if (funcName == "calc") {
+        return "calc(" + args + ")";
+    } else if (funcName == "var") {
+        return "var(" + args + ")";
+    }
+    
+    // 对于未知函数，保持原样
+    return funcName + "(" + args + ")";
 }
 
 std::string CHTLGenerator::GenerateAutoClassName(const std::string& baseName) {
@@ -1209,6 +1366,23 @@ void CHTLGenerator::ApplyConfiguration(AST::ConfigurationNode& node) {
                 context_.variables["__option_count"] = "3";
             }
         }
+        // 新增选择器自动化配置项
+        else if (key == "DISABLE_STYLE_AUTO_ADD_CLASS") {
+            bool disable = (value == "true");
+            context_.variables["__disable_style_auto_add_class"] = disable ? "true" : "false";
+        } else if (key == "DISABLE_STYLE_AUTO_ADD_ID") {
+            bool disable = (value == "true");
+            context_.variables["__disable_style_auto_add_id"] = disable ? "true" : "false";
+        } else if (key == "DISABLE_SCRIPT_AUTO_ADD_CLASS") {
+            bool disable = (value == "true");
+            context_.variables["__disable_script_auto_add_class"] = disable ? "true" : "false";
+        } else if (key == "DISABLE_SCRIPT_AUTO_ADD_ID") {
+            bool disable = (value == "true");
+            context_.variables["__disable_script_auto_add_id"] = disable ? "true" : "false";
+        } else if (key == "DISABLE_DEFAULT_NAMESPACE") {
+            bool disable = (value == "true");
+            context_.variables["__disable_default_namespace"] = disable ? "true" : "false";
+        }
         // 兼容原有配置项
         else if (key == "pretty_print") {
             config_.prettyPrint = (value == "true");
@@ -1281,19 +1455,56 @@ AST::ASTNodeList CHTLGenerator::ExpandTemplate(AST::TemplateReferenceNode& templ
     AST::ASTNodeList expandedNodes;
     
     std::string templateName = templateRef.GetTemplateName();
+    std::string templateType = templateRef.GetTemplateType();
     
-    // 简化实现：检查模板是否存在
-    if (globalMap_.HasSymbol(templateName)) {
-        Utils::ErrorHandler::GetInstance().LogInfo(
-            "找到模板定义: " + templateName + "，准备展开"
-        );
-        
-        // 简化实现：创建一个基础的展开节点
-        // 实际实现需要完整的模板参数应用和AST展开
-        
-    } else {
+    // 查找模板定义
+    auto symbol = globalMap_.FindSymbol(templateName);
+    if (!symbol) {
         Utils::ErrorHandler::GetInstance().LogError(
             "未找到模板定义: " + templateName
+        );
+        return expandedNodes;
+    }
+    
+    Utils::ErrorHandler::GetInstance().LogInfo(
+        "展开模板: " + templateName + " (类型: " + templateType + ")"
+    );
+    
+    // 保存当前上下文
+    auto savedContext = context_;
+    
+    // 设置模板展开上下文
+    context_.variables["__template_name__"] = templateName;
+    context_.variables["__template_type__"] = templateType;
+    
+    // 处理特例化参数
+    if (templateRef.HasSpecialization()) {
+        auto specializationParams = templateRef.GetSpecializationParameters();
+        for (const auto& param : specializationParams) {
+            context_.variables["__specialization__" + param.first] = param.second;
+        }
+    }
+    
+    // 根据模板类型进行不同的展开
+    if (templateType == "@Element") {
+        expandedNodes = ExpandElementTemplate(symbol, templateRef);
+    } else if (templateType == "@Style") {
+        expandedNodes = ExpandStyleTemplate(symbol, templateRef);
+    } else if (templateType == "@Var") {
+        expandedNodes = ExpandVariableTemplate(symbol, templateRef);
+    } else {
+        Utils::ErrorHandler::GetInstance().LogError(
+            "不支持的模板类型: " + templateType
+        );
+    }
+    
+    // 恢复上下文
+    context_ = savedContext;
+    
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "模板 " + templateName + " 展开完成，生成 " + 
+            std::to_string(expandedNodes.size()) + " 个节点"
         );
     }
     

@@ -108,6 +108,24 @@ public:
      * @param strictMode 是否启用严格模式
      */
     void SetConflictResolutionStrategy(bool allowMerge, bool strictMode);
+    
+    /**
+     * @brief 处理没有命名空间的文件，创建默认命名空间
+     * @param filePath 文件路径
+     * @param symbols 文件中的符号
+     * @param disableDefault 是否禁用默认命名空间
+     * @return 命名空间节点
+     */
+    std::shared_ptr<AST::NamespaceNode> CreateDefaultNamespace(const std::string& filePath,
+                                                              const std::vector<NamespaceSymbol>& symbols,
+                                                              bool disableDefault = false);
+    
+    /**
+     * @brief 从文件路径提取默认命名空间名称
+     * @param filePath 文件路径
+     * @return 命名空间名称
+     */
+    std::string ExtractDefaultNamespaceName(const std::string& filePath);
 
 private:
     // 已注册的命名空间映射 (命名空间名称 -> 节点列表)

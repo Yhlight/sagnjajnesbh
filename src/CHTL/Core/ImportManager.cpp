@@ -29,9 +29,14 @@ ImportSearchResult ImportManager::ResolveImportPath(const std::string& importPat
     
     // 根据导入类型选择搜索策略
     switch (importType) {
+        // 旧版本媒体文件导入（保持兼容）
         case AST::ImportNode::ImportType::HTML:
         case AST::ImportNode::ImportType::STYLE:
         case AST::ImportNode::ImportType::JAVASCRIPT:
+        // 新版本媒体文件导入（需要as语法）
+        case AST::ImportNode::ImportType::MEDIA_HTML:
+        case AST::ImportNode::ImportType::MEDIA_STYLE:
+        case AST::ImportNode::ImportType::MEDIA_JAVASCRIPT:
             result = SearchMediaFiles(pathInfo, importType);
             break;
             
@@ -48,6 +53,17 @@ ImportSearchResult ImportManager::ResolveImportPath(const std::string& importPat
             
         case AST::ImportNode::ImportType::CJMOD:
             result = SearchCJMODFiles(pathInfo);
+            break;
+            
+        // 原始嵌入导入（包括自定义类型）
+        case AST::ImportNode::ImportType::ORIGIN_HTML:
+        case AST::ImportNode::ImportType::ORIGIN_STYLE:
+        case AST::ImportNode::ImportType::ORIGIN_JAVASCRIPT:
+        case AST::ImportNode::ImportType::ORIGIN_VUE:
+        case AST::ImportNode::ImportType::ORIGIN_REACT:
+        case AST::ImportNode::ImportType::ORIGIN_ANGULAR:
+        case AST::ImportNode::ImportType::ORIGIN_CUSTOM:
+            result = SearchOriginFiles(pathInfo, importType);
             break;
             
         default:
@@ -296,6 +312,32 @@ ImportSearchResult ImportManager::SearchCJMODFiles(const ImportPathInfo& pathInf
     result.success = !result.foundPaths.empty();
     if (!result.success && result.errorMessage.empty()) {
         result.errorMessage = "未找到匹配的CJMOD文件";
+    }
+    
+    return result;
+}
+
+ImportSearchResult ImportManager::SearchOriginFiles(const ImportPathInfo& pathInfo, AST::ImportNode::ImportType importType) {
+    ImportSearchResult result;
+    
+    // 原始嵌入文件直接从指定路径导入，不进行复杂的搜索策略
+    // 它们主要用于嵌入特定文件类型的内容
+    
+    std::string targetPath = pathInfo.fullPath;
+    
+    // 检查文件是否存在
+    if (FileExists(targetPath)) {
+        result.success = true;
+        result.resolvedPath = NormalizePath(targetPath);
+        result.isWildcard = false;
+        result.foundFiles.push_back(result.resolvedPath);
+        
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "找到原始嵌入文件: " + result.resolvedPath
+        );
+    } else {
+        result.success = false;
+        result.errorMessage = "原始嵌入文件不存在: " + targetPath;
     }
     
     return result;
