@@ -7,6 +7,8 @@
 #include "CHTL/Core/CHTLGlobalMap.h"
 #include "CHTL/Core/CHTLState.h"
 #include "CHTL/Core/CHTLStateContext.h"
+#include "CHTL/Core/ImportManager.h"
+#include "CHTL/Core/NamespaceMerger.h"
 #include "CHTL/AST/CHTLASTNodes.h"
 #include "CHTL/Lexer/CHTLLexer.h"
 #include "CHTL/Constraints/CHTLConstraintValidator.h"
@@ -433,6 +435,12 @@ private:
     std::unique_ptr<Core::CHTLStateMachine> stateMachine_;        // RAII状态机
     std::shared_ptr<Core::CHTLStateContext> stateContext_;        // 状态上下文
     std::unique_ptr<Core::CHTLStateInferenceEngine> stateInferenceEngine_;  // 状态推断引擎
+    
+    // 增强导入系统 - 严格按照目标规划.ini要求
+    std::unique_ptr<Core::ImportManager> importManager_;         // 导入管理器
+    
+    // 增强命名空间系统 - 严格按照目标规划.ini第107行要求
+    std::unique_ptr<Core::NamespaceMerger> namespaceMerger_;     // 命名空间合并管理器
     
     // 错误恢复状态
     bool inErrorRecovery_;              // 是否在错误恢复中

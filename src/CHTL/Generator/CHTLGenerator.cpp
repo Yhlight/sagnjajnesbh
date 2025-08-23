@@ -1178,13 +1178,39 @@ bool CHTLGenerator::ValidateConstraints(AST::ConstraintNode& node) {
 }
 
 void CHTLGenerator::ApplyConfiguration(AST::ConfigurationNode& node) {
-    // 应用配置设置
+    // 应用配置设置 - 严格按照语法文档第773-878行要求
     for (const auto& config : node.GetSettings()) {
         const std::string& key = config.first;
         const std::string& value = config.second;
         
-        // 根据配置键应用不同的设置
-        if (key == "pretty_print") {
+        // 语法文档要求的核心配置项
+        if (key == "INDEX_INITIAL_COUNT") {
+            try {
+                int count = std::stoi(value);
+                context_.variables["__index_initial_count"] = std::to_string(count);
+            } catch (...) {
+                context_.variables["__index_initial_count"] = "0";
+            }
+        } else if (key == "DISABLE_NAME_GROUP") {
+            bool disable = (value == "true");
+            context_.variables["__disable_name_group"] = disable ? "true" : "false";
+        } else if (key == "DISABLE_CUSTOM_ORIGIN_TYPE") {
+            bool disable = (value == "true");
+            context_.variables["__disable_custom_origin_type"] = disable ? "true" : "false";
+        } else if (key == "DEBUG_MODE") {
+            bool debug = (value == "true");
+            config_.enableDebug = debug;
+            context_.variables["__debug_mode"] = debug ? "true" : "false";
+        } else if (key == "OPTION_COUNT") {
+            try {
+                int count = std::stoi(value);
+                context_.variables["__option_count"] = std::to_string(count);
+            } catch (...) {
+                context_.variables["__option_count"] = "3";
+            }
+        }
+        // 兼容原有配置项
+        else if (key == "pretty_print") {
             config_.prettyPrint = (value == "true");
         } else if (key == "minify") {
             config_.minify = (value == "true");
@@ -1206,6 +1232,45 @@ void CHTLGenerator::ApplyConfiguration(AST::ConfigurationNode& node) {
         if (config_.enableDebug) {
             Utils::ErrorHandler::GetInstance().LogInfo(
                 "应用配置: " + key + " = " + value
+            );
+        }
+    }
+    
+    // 处理配置组 - 支持[Name]和[OriginType]组
+    for (const auto& group : node.GetGroups()) {
+        const std::string& groupName = group.first;
+        const std::vector<std::string>& items = group.second;
+        
+        if (groupName == "Name") {
+            // 处理[Name]配置组，影响关键字映射
+            for (const auto& item : items) {
+                size_t eqPos = item.find('=');
+                if (eqPos != std::string::npos) {
+                    std::string itemKey = item.substr(0, eqPos);
+                    std::string itemValue = item.substr(eqPos + 1);
+                    context_.variables["__name_" + itemKey] = itemValue;
+                }
+            }
+        } else if (groupName == "OriginType") {
+            // 处理[OriginType]配置组，支持自定义原始嵌入类型
+            for (const auto& item : items) {
+                size_t eqPos = item.find('=');
+                if (eqPos != std::string::npos) {
+                    std::string itemKey = item.substr(0, eqPos);
+                    std::string itemValue = item.substr(eqPos + 1);
+                    context_.variables["__origin_type_" + itemKey] = itemValue;
+                }
+            }
+        } else {
+            // 其他自定义配置组
+            for (const auto& item : items) {
+                context_.variables["__group_" + groupName + "_" + item] = "true";
+            }
+        }
+        
+        if (config_.enableDebug) {
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "应用配置组: " + groupName + " (包含 " + std::to_string(items.size()) + " 项)"
             );
         }
     }

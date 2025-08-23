@@ -637,6 +637,7 @@ void ConfigurationNode::Accept(ASTVisitor& visitor) {
 ASTNodePtr ConfigurationNode::Clone() const {
     auto clone = std::make_shared<ConfigurationNode>(name_, token_);
     clone->settings_ = settings_;
+    clone->groups_ = groups_;
     for (const auto& child : children_) {
         clone->AddChild(child->Clone());
     }
@@ -654,6 +655,15 @@ void ConfigurationNode::AddSetting(const std::string& key, const std::string& va
 std::string ConfigurationNode::GetSetting(const std::string& key) const {
     auto it = settings_.find(key);
     return (it != settings_.end()) ? it->second : "";
+}
+
+void ConfigurationNode::AddGroup(const std::string& groupName, const std::vector<std::string>& items) {
+    groups_[groupName] = items;
+}
+
+std::vector<std::string> ConfigurationNode::GetGroup(const std::string& groupName) const {
+    auto it = groups_.find(groupName);
+    return (it != groups_.end()) ? it->second : std::vector<std::string>();
 }
 
 // InheritanceNode 实现

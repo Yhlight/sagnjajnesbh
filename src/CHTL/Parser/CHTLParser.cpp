@@ -18,6 +18,12 @@ CHTLParser::CHTLParser(Core::CHTLGlobalMap& globalMap, Core::CHTLState& stateMan
     constraintValidator_ = std::make_unique<Constraints::CHTLConstraintValidator>();
     constraintIntegrator_ = std::make_unique<Constraints::ExceptConstraintIntegrator>(*constraintValidator_);
     
+    // 初始化增强导入系统 - 严格按照目标规划.ini要求
+    importManager_ = std::make_unique<Core::ImportManager>();
+    
+    // 初始化增强命名空间系统 - 严格按照目标规划.ini第107行要求
+    namespaceMerger_ = std::make_unique<Core::NamespaceMerger>();
+    
     // RAII状态机和Context系统将在Parse方法中初始化
 }
 
@@ -1241,6 +1247,38 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
         alias = ParseIdentifier();
     }
     
+    // 使用ImportManager进行增强导入处理 - 严格按照目标规划.ini要求
+    if (importManager_) {
+        // 检查重复导入
+        if (importManager_->CheckDuplicateImport(fileName_, path, importType)) {
+            ReportError("重复导入: " + path);
+            return nullptr;
+        }
+        
+        // 解析导入路径
+        auto searchResult = importManager_->ResolveImportPath(path, importType);
+        if (!searchResult.success) {
+            ReportError("导入路径解析失败: " + searchResult.errorMessage);
+            return nullptr;
+        }
+        
+        // 检查循环依赖
+        for (const auto& foundPath : searchResult.foundPaths) {
+            if (importManager_->CheckCircularDependency(fileName_, foundPath)) {
+                ReportError("检测到循环依赖: " + fileName_ + " -> " + foundPath);
+                return nullptr;
+            }
+            
+            // 注册导入关系
+            importManager_->RegisterImport(fileName_, foundPath, importType);
+        }
+        
+        // 使用第一个找到的路径作为主要导入路径
+        if (!searchResult.foundPaths.empty()) {
+            path = searchResult.foundPaths[0];
+        }
+    }
+    
     // 创建导入节点
     auto importNode = std::make_shared<AST::ImportNode>(importType, path, name, alias, Current());
     
@@ -1348,6 +1386,33 @@ AST::ASTNodePtr CHTLParser::ParseNamespaceDeclaration() {
         omissionGuard.Commit();
     }
     
+    // 增强命名空间处理 - 同名命名空间合并，冲突检测策略
+    if (namespaceMerger_) {
+        // 检查是否有同名命名空间已注册
+        auto existingNamespaces = namespaceMerger_->GetRegisteredNamespaces(namespaceName);
+        if (!existingNamespaces.empty()) {
+            // 尝试合并同名命名空间
+            for (auto& existingNS : existingNamespaces) {
+                auto mergeResult = namespaceMerger_->MergeNamespaces(namespaceNode, existingNS);
+                if (mergeResult.success) {
+                    // 合并成功，使用合并后的命名空间
+                    namespaceNode = mergeResult.mergedNamespace;
+                    Utils::ErrorHandler::GetInstance().LogInfo(
+                        "成功合并同名命名空间: " + namespaceName
+                    );
+                } else if (!mergeResult.conflicts.empty()) {
+                    // 存在冲突，报告错误
+                    for (const auto& conflict : mergeResult.conflicts) {
+                        ReportError("命名空间冲突: " + conflict.description);
+                    }
+                }
+            }
+        }
+        
+        // 注册新的命名空间
+        namespaceMerger_->RegisterNamespace(namespaceNode, fileName_);
+    }
+    
     // 恢复解析上下文
     context_.currentNamespace = previousNamespace;
     globalMap_.ExitNamespace();
@@ -1446,8 +1511,173 @@ void CHTLParser::ParseParallelNamespaceDeclarations(std::shared_ptr<AST::Namespa
 }
 
 AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
-    Advance(); // 跳过Token
-    return nullptr;
+    // 严格按照语法文档第773-878行实现配置声明解析
+    // 支持 [Configuration] @Config 配置名 { ... }
+    
+    if (!Consume(Core::TokenType::CONFIGURATION, "期望 '[Configuration]'")) {
+        return nullptr;
+    }
+    
+    // 检查@Config
+    if (!Consume(Core::TokenType::AT_CONFIG, "期望 '@Config'")) {
+        return nullptr;
+    }
+    
+    // 解析配置名称（可选）
+    std::string configName = "";
+    if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+        configName = currentToken_.GetValue();
+        Advance();
+    }
+    
+    // 创建配置节点
+    auto configNode = std::make_shared<AST::ConfigurationNode>(configName, currentToken_);
+    
+    // 解析配置块
+    if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{'")) {
+        return nullptr;
+    }
+    
+    // 解析配置项
+    while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
+        if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+            // 普通配置项：INDEX_INITIAL_COUNT = 0;
+            std::string configKey = currentToken_.GetValue();
+            Advance();
+            
+            if (!Consume(Core::TokenType::EQUAL, "期望 '='")) {
+                continue; // 跳过错误，继续解析
+            }
+            
+            // 解析配置值
+            std::string configValue = "";
+            if (currentToken_.GetType() == Core::TokenType::NUMBER ||
+                currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
+                currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
+                configValue = currentToken_.GetValue();
+                Advance();
+            } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+                // 数组值：[@Style, @style, @CSS, @Css, @css]
+                configValue = "[";
+                Advance();
+                
+                while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACKET) {
+                    configValue += currentToken_.GetValue();
+                    Advance();
+                    
+                    if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::COMMA) {
+                        configValue += ", ";
+                        Advance();
+                    }
+                }
+                
+                if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::RIGHT_BRACKET) {
+                    configValue += "]";
+                    Advance();
+                }
+            }
+            
+            // 添加配置项到节点
+            configNode->AddSetting(configKey, configValue);
+            
+            // 跳过分号
+            if (currentToken_.GetType() == Core::TokenType::SEMICOLON) {
+                Advance();
+            }
+            
+        } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+            // 配置组：[Name] { ... } 或 [OriginType] { ... }
+            Advance(); // 跳过 [
+            
+            if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+                std::string groupName = currentToken_.GetValue();
+                Advance();
+                
+                if (!Consume(Core::TokenType::RIGHT_BRACKET, "期望 ']'")) {
+                    continue;
+                }
+                
+                if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{'")) {
+                    continue;
+                }
+                
+                // 解析配置组内容
+                std::vector<std::string> groupItems;
+                while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
+                    if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+                        std::string itemKey = currentToken_.GetValue();
+                        Advance();
+                        
+                        if (!Consume(Core::TokenType::EQUAL, "期望 '='")) {
+                            continue;
+                        }
+                        
+                        std::string itemValue = "";
+                        if (currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
+                            currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
+                            itemValue = currentToken_.GetValue();
+                            Advance();
+                        } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+                            // 数组值处理
+                            itemValue = "[";
+                            Advance();
+                            
+                            while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACKET) {
+                                itemValue += currentToken_.GetValue();
+                                Advance();
+                                
+                                if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::COMMA) {
+                                    itemValue += ", ";
+                                    Advance();
+                                }
+                            }
+                            
+                            if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::RIGHT_BRACKET) {
+                                itemValue += "]";
+                                Advance();
+                            }
+                        }
+                        
+                        groupItems.push_back(itemKey + "=" + itemValue);
+                        
+                        // 跳过分号
+                        if (currentToken_.GetType() == Core::TokenType::SEMICOLON) {
+                            Advance();
+                        }
+                    } else {
+                        Advance(); // 跳过未知token
+                    }
+                }
+                
+                if (!Consume(Core::TokenType::RIGHT_BRACE, "期望 '}'")) {
+                    continue;
+                }
+                
+                // 添加配置组到节点
+                configNode->AddGroup(groupName, groupItems);
+            }
+        } else {
+            Advance(); // 跳过未知token
+        }
+    }
+    
+    if (!Consume(Core::TokenType::RIGHT_BRACE, "期望 '}'")) {
+        return nullptr;
+    }
+    
+    // 添加到全局映射表
+    if (globalMap_) {
+        Core::ConfigurationInfo configInfo(configName.empty() ? "default" : configName);
+        for (const auto& setting : configNode->GetSettings()) {
+            configInfo.settings[setting.first] = setting.second;
+        }
+        for (const auto& group : configNode->GetGroups()) {
+            configInfo.groups[group.first] = group.second;
+        }
+        globalMap_->AddConfiguration(configInfo);
+    }
+    
+    return configNode;
 }
 
 AST::ASTNodePtr CHTLParser::ParseScriptBlock() {

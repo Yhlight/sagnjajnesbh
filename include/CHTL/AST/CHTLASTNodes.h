@@ -883,6 +883,21 @@ public:
     const std::unordered_map<std::string, std::string>& GetSettings() const { return settings_; }
     
     /**
+     * @brief 添加配置组
+     */
+    void AddGroup(const std::string& groupName, const std::vector<std::string>& items);
+    
+    /**
+     * @brief 获取配置组
+     */
+    std::vector<std::string> GetGroup(const std::string& groupName) const;
+    
+    /**
+     * @brief 获取所有配置组
+     */
+    const std::unordered_map<std::string, std::vector<std::string>>& GetGroups() const { return groups_; }
+    
+    /**
      * @brief 检查是否为命名配置
      */
     bool IsNamed() const { return !name_.empty(); }
@@ -890,6 +905,7 @@ public:
 private:
     std::string name_;
     std::unordered_map<std::string, std::string> settings_;
+    std::unordered_map<std::string, std::vector<std::string>> groups_;
 };
 
 /**
