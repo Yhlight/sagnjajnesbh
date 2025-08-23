@@ -1,0 +1,1006 @@
+[Template] @Style YuigahaMusicPlayerStyle {
+    .yuigahama-music-player {
+        background: linear-gradient(135deg, 
+            rgba(255, 159, 243, 0.95), 
+            rgba(243, 104, 224, 0.95),
+            rgba(255, 56, 56, 0.95));
+        border-radius: var(--yuigahama-radius-xl);
+        padding: YuigahamaSpacing();
+        box-shadow: var(--yuigahama-shadow-musical);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 159, 243, 0.3);
+        font-family: YuigahamaFonts();
+        max-width: 400px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .yuigahama-music-player::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, 
+            rgba(255, 159, 243, 0.1) 0%, 
+            transparent 70%);
+        animation: yuigahamaMusicGlow 4s ease-in-out infinite;
+        pointer-events: none;
+    }
+    
+    .yuigahama-music-header {
+        text-align: center;
+        margin-bottom: var(--yuigahama-space-6);
+        position: relative;
+        z-index: 2;
+    }
+    
+    .yuigahama-music-title {
+        font-size: var(--yuigahama-font-lg);
+        font-weight: var(--yuigahama-font-bold);
+        color: white;
+        margin-bottom: var(--yuigahama-space-2);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .yuigahama-music-subtitle {
+        font-size: var(--yuigahama-font-sm);
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: var(--yuigahama-font-medium);
+    }
+    
+    .yuigahama-album-cover {
+        width: 200px;
+        height: 200px;
+        border-radius: var(--yuigahama-radius-lg);
+        margin: 0 auto var(--yuigahama-space-6);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(45deg, #ff9ff3, #f368e0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--yuigahama-font-4xl);
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .yuigahama-album-cover.playing {
+        animation: yuigahamaAlbumRotate 20s linear infinite;
+    }
+    
+    .yuigahama-album-cover::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.1), 
+            transparent 50%, 
+            rgba(0, 0, 0, 0.1));
+        border-radius: inherit;
+    }
+    
+    .yuigahama-music-info {
+        text-align: center;
+        margin-bottom: var(--yuigahama-space-6);
+        position: relative;
+        z-index: 2;
+    }
+    
+    .yuigahama-song-title {
+        font-size: var(--yuigahama-font-xl);
+        font-weight: var(--yuigahama-font-bold);
+        color: white;
+        margin-bottom: var(--yuigahama-space-1);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .yuigahama-song-artist {
+        font-size: var(--yuigahama-font-base);
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: var(--yuigahama-font-medium);
+    }
+    
+    .yuigahama-music-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: var(--yuigahama-space-4);
+        margin-bottom: var(--yuigahama-space-6);
+        position: relative;
+        z-index: 2;
+    }
+    
+    .yuigahama-control-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        font-size: var(--yuigahama-font-lg);
+        cursor: pointer;
+        transition: all YuigahamaAnimations();
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .yuigahama-control-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+        box-shadow: 0 4px 16px rgba(255, 159, 243, 0.4);
+    }
+    
+    .yuigahama-control-btn.play-pause {
+        width: 70px;
+        height: 70px;
+        font-size: var(--yuigahama-font-2xl);
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--yuigahama-music-primary);
+    }
+    
+    .yuigahama-control-btn.play-pause:hover {
+        background: white;
+        transform: scale(1.15);
+    }
+    
+    .yuigahama-progress-container {
+        margin-bottom: var(--yuigahama-space-4);
+        position: relative;
+        z-index: 2;
+    }
+    
+    .yuigahama-progress-bar {
+        width: 100%;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: var(--yuigahama-radius-full);
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+    }
+    
+    .yuigahama-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 255, 0.9), 
+            rgba(255, 255, 255, 0.7));
+        border-radius: inherit;
+        width: 0%;
+        transition: width 0.1s linear;
+        position: relative;
+    }
+    
+    .yuigahama-progress-fill::after {
+        content: "";
+        position: absolute;
+        right: -8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transition: opacity YuigahamaAnimations();
+    }
+    
+    .yuigahama-progress-bar:hover .yuigahama-progress-fill::after {
+        opacity: 1;
+    }
+    
+    .yuigahama-time-display {
+        display: flex;
+        justify-content: space-between;
+        font-size: var(--yuigahama-font-sm);
+        color: rgba(255, 255, 255, 0.8);
+        margin-top: var(--yuigahama-space-2);
+        font-weight: var(--yuigahama-font-medium);
+    }
+    
+    .yuigahama-volume-container {
+        display: flex;
+        align-items: center;
+        gap: var(--yuigahama-space-3);
+        margin-bottom: var(--yuigahama-space-4);
+        position: relative;
+        z-index: 2;
+    }
+    
+    .yuigahama-volume-icon {
+        color: white;
+        font-size: var(--yuigahama-font-base);
+        width: 20px;
+        text-align: center;
+    }
+    
+    .yuigahama-volume-slider {
+        flex: 1;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: var(--yuigahama-radius-full);
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .yuigahama-volume-fill {
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: inherit;
+        width: 70%;
+        transition: width 0.1s ease;
+    }
+    
+    .yuigahama-visualizer {
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        gap: var(--yuigahama-space-1);
+        height: 40px;
+        margin-bottom: var(--yuigahama-space-4);
+        position: relative;
+        z-index: 2;
+    }
+    
+    .yuigahama-visualizer-bar {
+        width: 3px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: var(--yuigahama-radius-full);
+        transition: height 0.1s ease;
+    }
+    
+    .yuigahama-visualizer.active .yuigahama-visualizer-bar {
+        animation: yuigahamaVisualizerBar 1s ease-in-out infinite;
+    }
+    
+    .yuigahama-playlist-toggle {
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .yuigahama-playlist-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: var(--yuigahama-space-2) var(--yuigahama-space-4);
+        border-radius: var(--yuigahama-radius-base);
+        font-size: var(--yuigahama-font-sm);
+        cursor: pointer;
+        transition: all YuigahamaAnimations();
+        backdrop-filter: blur(10px);
+    }
+    
+    .yuigahama-playlist-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    /* 播放列表 */
+    .yuigahama-playlist {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: var(--yuigahama-radius-lg);
+        margin-top: var(--yuigahama-space-2);
+        max-height: 300px;
+        overflow-y: auto;
+        box-shadow: YuigahamaShadows();
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all YuigahamaAnimations();
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 159, 243, 0.3);
+    }
+    
+    .yuigahama-playlist.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    
+    .yuigahama-playlist-item {
+        padding: var(--yuigahama-space-3) var(--yuigahama-space-4);
+        border-bottom: 1px solid rgba(255, 159, 243, 0.1);
+        cursor: pointer;
+        transition: background YuigahamaAnimations();
+        display: flex;
+        align-items: center;
+        gap: var(--yuigahama-space-3);
+    }
+    
+    .yuigahama-playlist-item:hover {
+        background: rgba(255, 159, 243, 0.1);
+    }
+    
+    .yuigahama-playlist-item.active {
+        background: rgba(255, 159, 243, 0.2);
+        color: var(--yuigahama-music-primary);
+    }
+    
+    .yuigahama-playlist-item:last-child {
+        border-bottom: none;
+    }
+    
+    .yuigahama-playlist-icon {
+        font-size: var(--yuigahama-font-sm);
+        color: var(--yuigahama-music-primary);
+    }
+    
+    .yuigahama-playlist-info {
+        flex: 1;
+    }
+    
+    .yuigahama-playlist-title {
+        font-weight: var(--yuigahama-font-medium);
+        font-size: var(--yuigahama-font-sm);
+        color: var(--yuigahama-text-primary);
+        margin-bottom: var(--yuigahama-space-1);
+    }
+    
+    .yuigahama-playlist-artist {
+        font-size: var(--yuigahama-font-xs);
+        color: var(--yuigahama-text-secondary);
+    }
+    
+    .yuigahama-playlist-duration {
+        font-size: var(--yuigahama-font-xs);
+        color: var(--yuigahama-text-secondary);
+        font-weight: var(--yuigahama-font-medium);
+    }
+    
+    /* 动画定义 */
+    @keyframes yuigahamaMusicGlow {
+        0%, 100% {
+            transform: scale(1) rotate(0deg);
+            opacity: 0.3;
+        }
+        50% {
+            transform: scale(1.1) rotate(180deg);
+            opacity: 0.6;
+        }
+    }
+    
+    @keyframes yuigahamaAlbumRotate {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    
+    @keyframes yuigahamaVisualizerBar {
+        0%, 100% {
+            height: 8px;
+            opacity: 0.6;
+        }
+        50% {
+            height: 32px;
+            opacity: 1;
+        }
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 480px) {
+        .yuigahama-music-player {
+            max-width: 100%;
+            margin: 0 var(--yuigahama-space-2);
+        }
+        
+        .yuigahama-album-cover {
+            width: 160px;
+            height: 160px;
+        }
+        
+        .yuigahama-music-controls {
+            gap: var(--yuigahama-space-3);
+        }
+        
+        .yuigahama-control-btn {
+            width: 40px;
+            height: 40px;
+            font-size: var(--yuigahama-font-base);
+        }
+        
+        .yuigahama-control-btn.play-pause {
+            width: 60px;
+            height: 60px;
+            font-size: var(--yuigahama-font-xl);
+        }
+    }
+}
+
+[Template] @Element YuigahaMusicPlayer {
+    div {
+        class: "yuigahama-music-player";
+        id: musicPlayerId;
+        
+        div {
+            class: "yuigahama-music-header";
+            
+            div {
+                class: "yuigahama-music-title";
+                text: "🎵 由比滨音乐播放器";
+            }
+            
+            div {
+                class: "yuigahama-music-subtitle";
+                text: "享受美妙的音乐时光";
+            }
+        }
+        
+        div {
+            class: "yuigahama-album-cover";
+            id: albumCoverId;
+            text: "🎵";
+        }
+        
+        div {
+            class: "yuigahama-music-info";
+            
+            div {
+                class: "yuigahama-song-title";
+                id: songTitleId;
+                text: "选择一首歌曲";
+            }
+            
+            div {
+                class: "yuigahama-song-artist";
+                id: songArtistId;
+                text: "由比滨结衣";
+            }
+        }
+        
+        div {
+            class: "yuigahama-visualizer";
+            id: visualizerId;
+            
+            div { class: "yuigahama-visualizer-bar"; style: "height: 12px; animation-delay: 0.1s;"; }
+            div { class: "yuigahama-visualizer-bar"; style: "height: 20px; animation-delay: 0.2s;"; }
+            div { class: "yuigahama-visualizer-bar"; style: "height: 16px; animation-delay: 0.3s;"; }
+            div { class: "yuigahama-visualizer-bar"; style: "height: 24px; animation-delay: 0.4s;"; }
+            div { class: "yuigahama-visualizer-bar"; style: "height: 28px; animation-delay: 0.5s;"; }
+            div { class: "yuigahama-visualizer-bar"; style: "height: 20px; animation-delay: 0.6s;"; }
+            div { class: "yuigahama-visualizer-bar"; style: "height: 16px; animation-delay: 0.7s;"; }
+            div { class: "yuigahama-visualizer-bar"; style: "height: 32px; animation-delay: 0.8s;"; }
+            div { class: "yuigahama-visualizer-bar"; style: "height: 24px; animation-delay: 0.9s;"; }
+            div { class: "yuigahama-visualizer-bar"; style: "height: 12px; animation-delay: 1.0s;"; }
+        }
+        
+        div {
+            class: "yuigahama-music-controls";
+            
+            button {
+                class: "yuigahama-control-btn";
+                onclick: "previousTrack()";
+                title: "上一曲";
+                text: "⏮️";
+            }
+            
+            button {
+                class: "yuigahama-control-btn play-pause";
+                id: playPauseBtn;
+                onclick: "togglePlayPause()";
+                title: "播放/暂停";
+                text: "▶️";
+            }
+            
+            button {
+                class: "yuigahama-control-btn";
+                onclick: "nextTrack()";
+                title: "下一曲";
+                text: "⏭️";
+            }
+        }
+        
+        div {
+            class: "yuigahama-progress-container";
+            
+            div {
+                class: "yuigahama-progress-bar";
+                id: progressBarId;
+                onclick: "seekTo(event)";
+                
+                div {
+                    class: "yuigahama-progress-fill";
+                    id: progressFillId;
+                }
+            }
+            
+            div {
+                class: "yuigahama-time-display";
+                
+                span {
+                    id: currentTimeId;
+                    text: "0:00";
+                }
+                
+                span {
+                    id: durationId;
+                    text: "0:00";
+                }
+            }
+        }
+        
+        div {
+            class: "yuigahama-volume-container";
+            
+            span {
+                class: "yuigahama-volume-icon";
+                id: volumeIconId;
+                text: "🔊";
+            }
+            
+            div {
+                class: "yuigahama-volume-slider";
+                id: volumeSliderId;
+                onclick: "setVolume(event)";
+                
+                div {
+                    class: "yuigahama-volume-fill";
+                    id: volumeFillId;
+                }
+            }
+        }
+        
+        div {
+            class: "yuigahama-playlist-toggle";
+            
+            button {
+                class: "yuigahama-playlist-btn";
+                onclick: "togglePlaylist()";
+                text: "📋 播放列表";
+            }
+        }
+        
+        div {
+            class: "yuigahama-playlist";
+            id: playlistId;
+            
+            div {
+                class: "yuigahama-playlist-item active";
+                onclick: "selectTrack(0)";
+                
+                span {
+                    class: "yuigahama-playlist-icon";
+                    text: "🎵";
+                }
+                
+                div {
+                    class: "yuigahama-playlist-info";
+                    
+                    div {
+                        class: "yuigahama-playlist-title";
+                        text: "由比滨的夏日回忆";
+                    }
+                    
+                    div {
+                        class: "yuigahama-playlist-artist";
+                        text: "由比滨结衣";
+                    }
+                }
+                
+                span {
+                    class: "yuigahama-playlist-duration";
+                    text: "3:45";
+                }
+            }
+            
+            div {
+                class: "yuigahama-playlist-item";
+                onclick: "selectTrack(1)";
+                
+                span {
+                    class: "yuigahama-playlist-icon";
+                    text: "🎶";
+                }
+                
+                div {
+                    class: "yuigahama-playlist-info";
+                    
+                    div {
+                        class: "yuigahama-playlist-title";
+                        text: "温柔的海风";
+                    }
+                    
+                    div {
+                        class: "yuigahama-playlist-artist";
+                        text: "由比滨结衣";
+                    }
+                }
+                
+                span {
+                    class: "yuigahama-playlist-duration";
+                    text: "4:12";
+                }
+            }
+            
+            div {
+                class: "yuigahama-playlist-item";
+                onclick: "selectTrack(2)";
+                
+                span {
+                    class: "yuigahama-playlist-icon";
+                    text: "🎼";
+                }
+                
+                div {
+                    class: "yuigahama-playlist-info";
+                    
+                    div {
+                        class: "yuigahama-playlist-title";
+                        text: "青春的乐章";
+                    }
+                    
+                    div {
+                        class: "yuigahama-playlist-artist";
+                        text: "由比滨结衣";
+                    }
+                }
+                
+                span {
+                    class: "yuigahama-playlist-duration";
+                    text: "3:28";
+                }
+            }
+        }
+    }
+}
+
+// 在Element模板中使用[Origin] - 展示语法灵活性
+[Origin] @JavaScript YuigahaMusicPlayerScript {
+    class YuigahaMusicPlayer {
+        constructor(playerId) {
+            this.player = document.getElementById(playerId);
+            this.isPlaying = false;
+            this.currentTrack = 0;
+            this.volume = 0.7;
+            this.currentTime = 0;
+            this.duration = 225; // 3:45 in seconds
+            
+            this.tracks = [
+                {
+                    title: "由比滨的夏日回忆",
+                    artist: "由比滨结衣",
+                    duration: 225,
+                    icon: "🎵"
+                },
+                {
+                    title: "温柔的海风", 
+                    artist: "由比滨结衣",
+                    duration: 252,
+                    icon: "🎶"
+                },
+                {
+                    title: "青春的乐章",
+                    artist: "由比滨结衣", 
+                    duration: 208,
+                    icon: "🎼"
+                }
+            ];
+            
+            this.init();
+        }
+        
+        init() {
+            this.updateTrackInfo();
+            this.updateVolumeDisplay();
+            this.startProgressSimulation();
+            this.bindEvents();
+        }
+        
+        bindEvents() {
+            // 键盘快捷键
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+                    e.preventDefault();
+                    this.togglePlayPause();
+                } else if (e.code === 'ArrowLeft') {
+                    this.previousTrack();
+                } else if (e.code === 'ArrowRight') {
+                    this.nextTrack();
+                }
+            });
+        }
+        
+        togglePlayPause() {
+            this.isPlaying = !this.isPlaying;
+            
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const albumCover = document.getElementById('albumCoverId');
+            const visualizer = document.getElementById('visualizerId');
+            
+            if (this.isPlaying) {
+                playPauseBtn.textContent = '⏸️';
+                albumCover.classList.add('playing');
+                visualizer.classList.add('active');
+                
+                // 创建音乐粒子效果
+                this.createMusicParticles();
+                
+                YuigahamaUtils.showToast('🎵 开始播放音乐', 'success');
+            } else {
+                playPauseBtn.textContent = '▶️';
+                albumCover.classList.remove('playing');
+                visualizer.classList.remove('active');
+                
+                YuigahamaUtils.showToast('⏸️ 音乐已暂停', 'info');
+            }
+        }
+        
+        previousTrack() {
+            this.currentTrack = (this.currentTrack - 1 + this.tracks.length) % this.tracks.length;
+            this.currentTime = 0;
+            this.updateTrackInfo();
+            this.updatePlaylistSelection();
+            
+            YuigahamaUtils.showToast(`🎵 上一曲: ${this.tracks[this.currentTrack].title}`, 'info');
+        }
+        
+        nextTrack() {
+            this.currentTrack = (this.currentTrack + 1) % this.tracks.length;
+            this.currentTime = 0;
+            this.updateTrackInfo();
+            this.updatePlaylistSelection();
+            
+            YuigahamaUtils.showToast(`🎵 下一曲: ${this.tracks[this.currentTrack].title}`, 'info');
+        }
+        
+        selectTrack(trackIndex) {
+            if (trackIndex >= 0 && trackIndex < this.tracks.length) {
+                this.currentTrack = trackIndex;
+                this.currentTime = 0;
+                this.updateTrackInfo();
+                this.updatePlaylistSelection();
+                this.togglePlaylist(); // 关闭播放列表
+                
+                if (!this.isPlaying) {
+                    this.togglePlayPause();
+                }
+                
+                YuigahamaUtils.showToast(`🎵 正在播放: ${this.tracks[this.currentTrack].title}`, 'success');
+            }
+        }
+        
+        updateTrackInfo() {
+            const track = this.tracks[this.currentTrack];
+            this.duration = track.duration;
+            
+            const songTitle = document.getElementById('songTitleId');
+            const songArtist = document.getElementById('songArtistId');
+            const albumCover = document.getElementById('albumCoverId');
+            const duration = document.getElementById('durationId');
+            
+            if (songTitle) songTitle.textContent = track.title;
+            if (songArtist) songArtist.textContent = track.artist;
+            if (albumCover) albumCover.textContent = track.icon;
+            if (duration) duration.textContent = YuigahamaUtils.formatTime(track.duration);
+        }
+        
+        updatePlaylistSelection() {
+            const items = document.querySelectorAll('.yuigahama-playlist-item');
+            items.forEach((item, index) => {
+                if (index === this.currentTrack) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        seekTo(event) {
+            const progressBar = event.currentTarget;
+            const rect = progressBar.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const percentage = clickX / rect.width;
+            
+            this.currentTime = Math.floor(this.duration * percentage);
+            this.updateProgressDisplay();
+            
+            YuigahamaUtils.showToast(`⏰ 跳转到 ${YuigahamaUtils.formatTime(this.currentTime)}`, 'info');
+        }
+        
+        setVolume(event) {
+            const volumeSlider = event.currentTarget;
+            const rect = volumeSlider.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const percentage = clickX / rect.width;
+            
+            this.volume = Math.max(0, Math.min(1, percentage));
+            this.updateVolumeDisplay();
+            
+            YuigahamaUtils.showToast(`🔊 音量: ${Math.round(this.volume * 100)}%`, 'info');
+        }
+        
+        updateVolumeDisplay() {
+            const volumeFill = document.getElementById('volumeFillId');
+            const volumeIcon = document.getElementById('volumeIconId');
+            
+            if (volumeFill) {
+                volumeFill.style.width = (this.volume * 100) + '%';
+            }
+            
+            if (volumeIcon) {
+                if (this.volume === 0) {
+                    volumeIcon.textContent = '🔇';
+                } else if (this.volume < 0.5) {
+                    volumeIcon.textContent = '🔉';
+                } else {
+                    volumeIcon.textContent = '🔊';
+                }
+            }
+        }
+        
+        togglePlaylist() {
+            const playlist = document.getElementById('playlistId');
+            if (playlist) {
+                playlist.classList.toggle('show');
+            }
+        }
+        
+        startProgressSimulation() {
+            setInterval(() => {
+                if (this.isPlaying) {
+                    this.currentTime += 1;
+                    if (this.currentTime >= this.duration) {
+                        this.nextTrack();
+                        if (this.isPlaying) {
+                            // 继续播放下一曲
+                        }
+                    }
+                    this.updateProgressDisplay();
+                }
+            }, 1000);
+        }
+        
+        updateProgressDisplay() {
+            const progressFill = document.getElementById('progressFillId');
+            const currentTimeEl = document.getElementById('currentTimeId');
+            
+            const percentage = (this.currentTime / this.duration) * 100;
+            
+            if (progressFill) {
+                progressFill.style.width = percentage + '%';
+            }
+            
+            if (currentTimeEl) {
+                currentTimeEl.textContent = YuigahamaUtils.formatTime(this.currentTime);
+            }
+        }
+        
+        createMusicParticles() {
+            if (!this.isPlaying) return;
+            
+            const player = this.player;
+            const rect = player.getBoundingClientRect();
+            
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const x = rect.left + Math.random() * rect.width;
+                    const y = rect.top + Math.random() * rect.height;
+                    YuigahamaUtils.createYuigahamaParticle(x, y, 'music');
+                }, i * 200);
+            }
+            
+            // 递归创建粒子
+            setTimeout(() => this.createMusicParticles(), 2000);
+        }
+    }
+    
+    // 全局实例
+    let yuigahaMusicPlayer = null;
+    
+    // 全局函数
+    function togglePlayPause() {
+        if (yuigahaMusicPlayer) {
+            yuigahaMusicPlayer.togglePlayPause();
+        }
+    }
+    
+    function previousTrack() {
+        if (yuigahaMusicPlayer) {
+            yuigahaMusicPlayer.previousTrack();
+        }
+    }
+    
+    function nextTrack() {
+        if (yuigahaMusicPlayer) {
+            yuigahaMusicPlayer.nextTrack();
+        }
+    }
+    
+    function selectTrack(index) {
+        if (yuigahaMusicPlayer) {
+            yuigahaMusicPlayer.selectTrack(index);
+        }
+    }
+    
+    function seekTo(event) {
+        if (yuigahaMusicPlayer) {
+            yuigahaMusicPlayer.seekTo(event);
+        }
+    }
+    
+    function setVolume(event) {
+        if (yuigahaMusicPlayer) {
+            yuigahaMusicPlayer.setVolume(event);
+        }
+    }
+    
+    function togglePlaylist() {
+        if (yuigahaMusicPlayer) {
+            yuigahaMusicPlayer.togglePlaylist();
+        }
+    }
+    
+    function initializeYuigahaMusicPlayer() {
+        // 等待DOM加载完成
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeYuigahaMusicPlayer);
+            return;
+        }
+        
+        // 查找音乐播放器元素
+        const musicPlayer = document.querySelector('.yuigahama-music-player');
+        if (musicPlayer) {
+            yuigahaMusicPlayer = new YuigahaMusicPlayer(musicPlayer.id);
+        }
+    }
+    
+    // 页面加载时初始化
+    initializeYuigahaMusicPlayer();
+}
+
+// 粒子动画样式 - 在文件末尾使用[Origin]
+[Origin] @Style YuigahaMusicParticleAnimations {
+    @keyframes yuigahamaParticleFloat {
+        0% {
+            transform: translateY(0) scale(1) rotate(0deg);
+            opacity: 1;
+        }
+        50% {
+            transform: translateY(-30px) scale(1.2) rotate(180deg);
+            opacity: 0.8;
+        }
+        100% {
+            transform: translateY(-60px) scale(0.3) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes yuigahamaToastIn {
+        from {
+            transform: translateX(-50%) translateY(-20px) scale(0.8);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(-50%) translateY(0) scale(1);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes yuigahamaToastOut {
+        from {
+            transform: translateX(-50%) translateY(0) scale(1);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(-50%) translateY(-20px) scale(0.8);
+            opacity: 0;
+        }
+    }
+}
