@@ -21,6 +21,32 @@ src/Modules/CMOD/
     └── Card.chtl
 ```
 
+## 🏗️ CMOD子模块特性
+
+**重要**：CMOD一旦拥有子模块，可以省略src文件夹中的主模块chtl文件（如文档第1389行所示）。
+
+### 标准CMOD结构
+```
+ModuleName/
+├── src/
+│   └── ModuleName.chtl    # 主模块文件
+└── info/
+    └── 信息.chtl          # 必须的信息文件
+```
+
+### 带子模块的CMOD结构
+```
+ModuleName/
+├── src/
+│   ├── (ModuleName.chtl)  # 可选主模块文件（括号表示可省略）
+│   ├── SubModule1/
+│   │   └── SubModule1.chtl
+│   └── SubModule2/
+│       └── SubModule2.chtl
+└── info/
+    └── 信息.chtl          # 必须的信息文件
+```
+
 ## 🎯 编译输出
 
 这些源码文件会被编译到：

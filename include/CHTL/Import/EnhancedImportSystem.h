@@ -186,21 +186,7 @@ private:
     std::string SearchCurrentDirectory(const std::string& fileName, 
                                       const std::vector<std::string>& extensions);
     
-    /**
-     * @brief 在源码目录Modules中搜索文件（支持混合模式和分类模式）
-     * @param fileName 文件名
-     * @param extensions 支持的扩展名列表
-     * @return 找到的文件路径
-     */
-    std::string SearchSourceModules(const std::string& fileName, 
-                                   const std::vector<std::string>& extensions);
-    
-    /**
-     * @brief 检查目录是否存在
-     * @param path 目录路径
-     * @return 目录是否存在
-     */
-    bool DirectoryExists(const std::string& path) const;
+
 
 private:
     std::string currentFilePath_;       // 当前编译文件路径

@@ -60,15 +60,29 @@ module/
 
 ## 🔍 Import路径搜索
 
-Import系统会自动识别这两种结构并进行相应的路径搜索：
+**重要澄清**：本`src/Modules/`目录是**源码存放目录**，`[Import]`系统**不会**搜索此目录。
 
+`[Import]`系统的实际搜索顺序：
 1. **官方模块目录**（编译器同一文件夹下的module目录）
-2. **当前目录module文件夹**
+2. **当前目录module文件夹** 
 3. **当前目录**
-4. **源码目录Modules**（新增支持）
+
+## 📦 编译流程
+
+源码文件从`src/Modules/`编译后生成到`module/`文件夹：
+
+```
+src/Modules/          →编译→    module/
+├── CMOD/                      ├── CMOD/
+│   └── *.chtl/*.cmod          │   └── *.chtl/*.cmod
+└── CJMOD/                     └── CJMOD/
+    └── *.cjmod                    └── *.cjmod
+```
 
 ## 📝 注意事项
 
+- **src/Modules/**：源码存放，开发时编辑
+- **module/**：编译输出，Import时搜索
 - 分类模式是默认推荐的组织方式
-- 源码目录Modules现在支持分类结构（之前不支持）
+- `module/`文件夹现在支持分类结构（`CMOD/Cmod/cmod`和`CJMOD/CJmod/cjmod`）
 - 两种模式可以混用，编译器会智能识别

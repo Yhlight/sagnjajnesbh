@@ -34,7 +34,6 @@ enum class NodeType {
     LISTEN_BLOCK,               // 监听器块 listen({...}) - 语法文档第1184行
     DELEGATE_BLOCK,             // 事件委托块 delegate({...}) - 语法文档第1215行
     ANIMATE_BLOCK,              // 动画块 animate({...}) - 语法文档第1233行
-    ARROW_FUNCTION,             // 箭头函数 () => {} - 语法文档第1202行支持
     
     // 事件相关
     EVENT_HANDLER,              // 事件处理器

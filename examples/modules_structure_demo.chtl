@@ -224,7 +224,23 @@ html {
                         li { text: "官方模块目录（编译器同级的module文件夹）"; }
                         li { text: "当前目录的module文件夹"; }
                         li { text: "当前目录"; }
-                        li { text: "源码目录Modules（新增支持）"; }
+                    }
+                    
+                    h3 { text: "module文件夹分类结构支持："; }
+                    
+                    pre {
+                        class: "structure-demo";
+                        text: R"(module/               # 混合模式
+├── Component.chtl
+├── Utils.cmod
+└── Plugin.cjmod
+
+module/               # 分类模式（默认）
+├── CMOD/            # 支持 CMOD/Cmod/cmod
+│   ├── Component.chtl
+│   └── Utils.cmod
+└── CJMOD/           # 支持 CJMOD/CJmod/cjmod
+    └── Plugin.cjmod)";
                     }
                 }
             }
