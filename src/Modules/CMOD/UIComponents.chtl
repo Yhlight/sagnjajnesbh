@@ -1,0 +1,147 @@
+// UI组件库 - CMOD模块源码示例
+// 位置：src/Modules/CMOD/UIComponents.chtl
+
+[Namespace] UIComponents
+
+// 基础按钮模板
+[Template] @Style ButtonBase {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+[Template] @Element Button {
+    button {
+        @Style ButtonBase;
+        
+        style {
+            &:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            &.primary {
+                background-color: #007bff;
+                color: white;
+            }
+            
+            &.secondary {
+                background-color: #6c757d;
+                color: white;
+            }
+        }
+        
+        script {
+            {{&}}->listen({
+                click: (event) => {
+                    // 按钮点击动画
+                    {{&}}->animate({
+                        duration: 200,
+                        begin: { transform: 'scale(1)' },
+                        end: { transform: 'scale(0.95)' },
+                        callback: () => {
+                            {{&}}->animate({
+                                duration: 100,
+                                begin: { transform: 'scale(0.95)' },
+                                end: { transform: 'scale(1)' }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    }
+}
+
+// 输入框模板
+[Template] @Style InputBase {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+[Template] @Element Input {
+    input {
+        @Style InputBase;
+        
+        style {
+            &:focus {
+                outline: none;
+                border-color: #007bff;
+                box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+            }
+            
+            &.error {
+                border-color: #dc3545;
+            }
+            
+            &.success {
+                border-color: #28a745;
+            }
+        }
+        
+        script {
+            {{&}}->listen({
+                focus: () => {
+                    {{&}}->animate({
+                        duration: 200,
+                        begin: { transform: 'scale(1)' },
+                        end: { transform: 'scale(1.02)' }
+                    });
+                },
+                
+                blur: () => {
+                    {{&}}->animate({
+                        duration: 200,
+                        begin: { transform: 'scale(1.02)' },
+                        end: { transform: 'scale(1)' }
+                    });
+                }
+            });
+        }
+    }
+}
+
+// 卡片模板
+[Template] @Element Card {
+    div {
+        class: "card";
+        
+        style {
+            .card {
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                overflow: hidden;
+                transition: transform 0.2s ease;
+            }
+            
+            .card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            }
+            
+            .card-header {
+                padding: 16px;
+                border-bottom: 1px solid #eee;
+                font-weight: bold;
+            }
+            
+            .card-body {
+                padding: 16px;
+            }
+            
+            .card-footer {
+                padding: 16px;
+                border-top: 1px solid #eee;
+                background-color: #f8f9fa;
+            }
+        }
+    }
+}

@@ -123,7 +123,7 @@ std::vector<std::string> PathResolver::ResolveChtlPath(const ImportInfo& importI
     
     switch (importInfo.pathType) {
         case PathType::NAME_ONLY: {
-            // 名称（不带后缀）：官方模块目录→当前目录module文件夹→当前目录
+            // 名称（不带后缀）：官方模块目录→当前目录module文件夹→当前目录→源码目录Modules
             // 优先匹配cmod文件，其次chtl，不匹配cjmod文件
             std::vector<std::string> extensions = {".cmod", ".chtl"};
             
@@ -143,6 +143,13 @@ std::vector<std::string> PathResolver::ResolveChtlPath(const ImportInfo& importI
             
             // 3. 搜索当前目录
             found = SearchCurrentDirectory(importInfo.path, extensions);
+            if (!found.empty()) {
+                results.push_back(found);
+                break;
+            }
+            
+            // 4. 搜索源码目录Modules（新增支持）
+            found = SearchSourceModules(importInfo.path, extensions);
             if (!found.empty()) {
                 results.push_back(found);
             }
@@ -217,7 +224,7 @@ std::vector<std::string> PathResolver::ResolveCJmodPath(const ImportInfo& import
     
     switch (importInfo.pathType) {
         case PathType::NAME_ONLY: {
-            // 名称（不带后缀）：官方模块目录→当前目录module文件夹→当前目录，仅匹配cjmod文件
+            // 名称（不带后缀）：官方模块目录→当前目录module文件夹→当前目录→源码目录Modules，仅匹配cjmod文件
             std::vector<std::string> extensions = {".cjmod"};
             
             // 1. 搜索官方模块目录
@@ -236,6 +243,13 @@ std::vector<std::string> PathResolver::ResolveCJmodPath(const ImportInfo& import
             
             // 3. 搜索当前目录
             found = SearchCurrentDirectory(importInfo.path, extensions);
+            if (!found.empty()) {
+                results.push_back(found);
+                break;
+            }
+            
+            // 4. 搜索源码目录Modules（新增支持）
+            found = SearchSourceModules(importInfo.path, extensions);
             if (!found.empty()) {
                 results.push_back(found);
             }
@@ -1027,6 +1041,58 @@ void EnhancedImportSystem::Reset() {
     originImportCount_ = 0;
     duplicateImportCount_ = 0;
     circularDependencyCount_ = 0;
+}
+
+std::string PathResolver::SearchSourceModules(const std::string& fileName, 
+                                             const std::vector<std::string>& extensions) {
+    // 搜索src/Modules目录，支持混合模式和分类模式
+    std::string sourceModulesPath = currentDirectory_ + "/src/Modules";
+    
+    // 1. 先尝试混合模式（直接在Modules目录下搜索）
+    for (const auto& ext : extensions) {
+        std::string filePath = sourceModulesPath + "/" + fileName + ext;
+        if (FileExists(filePath)) {
+            return filePath;
+        }
+    }
+    
+    // 2. 再尝试分类模式
+    std::vector<std::string> categoryDirs;
+    
+    // 根据扩展名确定要搜索的分类目录
+    for (const auto& ext : extensions) {
+        if (ext == ".chtl" || ext == ".cmod") {
+            // CMOD类文件，搜索CMOD相关目录
+            categoryDirs.insert(categoryDirs.end(), {"CMOD", "Cmod", "cmod"});
+        } else if (ext == ".cjmod") {
+            // CJMOD类文件，搜索CJMOD相关目录
+            categoryDirs.insert(categoryDirs.end(), {"CJMOD", "CJmod", "cjmod"});
+        }
+    }
+    
+    // 在分类目录中搜索
+    for (const auto& categoryDir : categoryDirs) {
+        std::string categoryPath = sourceModulesPath + "/" + categoryDir;
+        if (DirectoryExists(categoryPath)) {
+            for (const auto& ext : extensions) {
+                std::string filePath = categoryPath + "/" + fileName + ext;
+                if (FileExists(filePath)) {
+                    return filePath;
+                }
+            }
+        }
+    }
+    
+    return "";
+}
+
+bool PathResolver::DirectoryExists(const std::string& path) const {
+    // 目录存在检查的实现
+    struct stat info;
+    if (stat(path.c_str(), &info) != 0) {
+        return false;
+    }
+    return (info.st_mode & S_IFDIR) != 0;
 }
 
 
