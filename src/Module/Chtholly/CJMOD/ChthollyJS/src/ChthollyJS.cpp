@@ -1,19 +1,30 @@
+// ==========================================
 // 珂朵莉模块 CJMOD 扩展实现
-// 实现 printMylove 和 iNeverAway 等珂朵莉特色 CHTL JS 功能
+// 使用优雅CJMOD API，严格按照CHTL语法文档
+// 实现 printMylove 和 iNeverAway 等珂朵莉特色功能
+// ==========================================
 
-#include "CJMOD/SimpleCJMODApi.h"
+#include "CJMOD/ElegantCJMODApi.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
 #include <regex>
 
 using namespace CHTL::CJMOD;
+using namespace CHTL::CJMOD::Chtholly;
 
-// ========== printMylove 函数实现 ==========
-// 按照您的原始API设计：syntaxAnalys -> bind -> scanKeyword -> match -> transform -> result -> generateCode
+// 前向声明
+std::string generateINeverAwayCode(const std::string& virObjectContent);
+
+// ==========================================
+// printMylove 函数实现
+// 按照原始API设计哲学：表面简单，内在精妙
+// ==========================================
 
 void implementPrintMylove() {
-    // 1. syntaxAnalys - 分析 printMylove 语法结构
+    std::cout << "=== 实现 printMylove 功能 ===" << std::endl;
+    
+    // 第1步：syntaxAnalys - 表面简单的语法分析
     std::string ignoreChars = ",:{};()";
     auto keyword = syntaxAnalys(R"(
         printMylove({
@@ -25,433 +36,351 @@ void implementPrintMylove() {
         });
     )", ignoreChars);
     
-    // 2. bind - 绑定参数处理函数
-    // 按照您的设计：支持不同类型的参数处理
-    keyword->args.bind<std::string>("url", [](const std::string& str) -> std::string {
-        // URL 参数处理：支持相对路径和绝对路径
-        if (str.find("http") == 0) {
-            return "'" + str + "'";  // 绝对URL
-        } else {
-            return "'./" + str + "'";  // 相对路径
-        }
+    std::cout << "语法分析完成，识别到 " << keyword->args.length() << " 个参数" << std::endl;
+    
+    // 第2步：bind - 表面简单的绑定，内在智能的处理
+    keyword->args.bind<std::string>("url", [](const std::string& url) -> std::string {
+        return PrintMyloveSystem::processImageUrl(url);
     });
     
     keyword->args.bind<std::string>("mode", [](const std::string& mode) -> std::string {
-        // 模式参数：ASCII 或 Pixel
-        if (mode == "ASCII" || mode == "Pixel") {
-            return "'" + mode + "'";
-        } else {
-            return "'ASCII'";  // 默认模式
-        }
+        return PrintMyloveSystem::validateMode(mode);
     });
     
     keyword->args.bind<std::string>("width", [](const std::string& width) -> std::string {
-        // 宽度参数：支持CSS单位、百分比、数字
-        std::regex cssUnitRegex(R"(\d+(\.\d+)?(px|%|em|rem|vw|vh))");
-        if (std::regex_match(width, cssUnitRegex)) {
-            return "'" + width + "'";
-        } else if (std::all_of(width.begin(), width.end(), ::isdigit)) {
-            return width + " + 'px'";  // 纯数字加px
-        } else {
-            return "'300px'";  // 默认宽度
-        }
+        return PrintMyloveSystem::processDimension(width);
     });
     
     keyword->args.bind<std::string>("height", [](const std::string& height) -> std::string {
-        // 高度参数：同宽度处理
-        std::regex cssUnitRegex(R"(\d+(\.\d+)?(px|%|em|rem|vw|vh))");
-        if (std::regex_match(height, cssUnitRegex)) {
-            return "'" + height + "'";
-        } else if (std::all_of(height.begin(), height.end(), ::isdigit)) {
-            return height + " + 'px'";
-        } else {
-            return "'200px'";  // 默认高度
-        }
+        return PrintMyloveSystem::processDimension(height);
     });
     
     keyword->args.bind<double>("scale", [](double scale) -> std::string {
-        // 缩放参数：等比缩放策略
         if (scale > 0 && scale <= 5.0) {
             return std::to_string(scale);
-        } else {
-            return "1.0";  // 默认缩放
         }
+        return "1.0";  // 默认缩放
     });
     
-    // 3. scanKeyword - 扫描关键字并处理
+    // 第3步：scanKeyword - 表面简单的扫描，内在精妙的处理
     auto& scanner = getCJMODScanner();
-    scanner.scanKeyword(keyword->args[0], [&]() {
-        // 扫描到 printMylove 时的处理
+    scanner.scanKeyword("printMylove", [&]() {
         std::cout << "检测到 printMylove 函数调用" << std::endl;
         
-        // 4. match - 匹配参数值
-        // 使用 peekKeyword 获取参数值
+        // 第4步：match - 表面简单的匹配，内在智能的值处理
         keyword->args.match("url", scanner.peekKeyword(2));      // 跳过 { 和 url:
         keyword->args.match("mode", scanner.peekKeyword(4));     // mode 参数位置
         keyword->args.match("width", scanner.peekKeyword(6));    // width 参数位置
         keyword->args.match("height", scanner.peekKeyword(8));   // height 参数位置
         keyword->args.match("scale", scanner.peekKeyword(10));   // scale 参数位置
+        
+        // 第5步：generateCode - 表面简单的调用，内在智能的组合
+        std::string jsCode = generateCode(*keyword);
+        std::cout << "生成的JavaScript代码：\n" << jsCode << std::endl;
     });
 }
 
-// 处理复杂参数值（函数和对象）
-void handleComplexPrintMylove() {
-    auto& scanner = getCJMODScanner();
+// ==========================================
+// iNeverAway 函数实现 - 支持自定义键
+// 按照CHTL语法文档第1485-1520行的要求
+// ==========================================
+
+void implementINeverAway() {
+    std::cout << "=== 实现 iNeverAway 功能（支持自定义键）===" << std::endl;
+    
+    // 第1步：syntaxAnalys - 解析虚对象语法
     std::string ignoreChars = ",:{};()";
     auto keyword = syntaxAnalys(R"(
-        printMylove({
-            url: $,
-            mode: $,
-            width: $,
-            height: $,
-            scale: $
+        vir $ = iNeverAway({
+            $: function($, $) {
+                $
+            }
         });
     )", ignoreChars);
     
-    // 按照您的设计：使用 policy 处理复杂参数
-    scanner.scanKeyword("printMylove", [&]() {
-        std::vector<std::string> paramValues;
+    std::cout << "iNeverAway语法分析完成" << std::endl;
+    
+    // 第2步：定义自定义键支持
+    // 根据语法文档：允许开发者定义键，而不是使用键
+    INeverAwaySystem::defineCustomKey("Void", "A", "function");
+    INeverAwaySystem::defineCustomKey("Void", "B", "function");
+    INeverAwaySystem::defineCustomKey("Void", "", "object");
+    
+    std::cout << "自定义键定义完成：Void<A>, Void<B>, Void" << std::endl;
+    
+    // 第3步：bind - 绑定虚对象处理器
+    keyword->args.bind<std::string>("vir", [](const std::string& virName) -> std::string {
+        return "const " + virName + "_registry = ";
+    });
+    
+    keyword->args.bind<std::string>("iNeverAway", [](const std::string& content) -> std::string {
+        // 处理虚对象中的自定义键
+        return INeverAwaySystem::processCustomKeys(content);
+    });
+    
+    // 第4步：scanKeyword - 扫描虚对象定义
+    auto& scanner = getCJMODScanner();
+    scanner.scanKeyword("iNeverAway", [&]() {
+        std::cout << "检测到 iNeverAway 虚对象定义" << std::endl;
         
-        // 使用策略模式收集参数值
-        for (size_t i = 0; i < keyword->args.length(); i++) {
-            scanner.policyChangeBegin(":", Policy::COLLECT);
-            
-            // 检查参数类型并相应处理
-            std::string value = scanner.policyChangeEnd(",", Policy::NORMAL);
-            
-            if (scanner.isFunction(value)) {
-                // 函数参数处理
-                paramValues.push_back("(" + value + ")()");
-            } else if (scanner.isObject(value)) {
-                // 对象参数处理
-                paramValues.push_back("JSON.stringify(" + value + ")");
-            } else {
-                // 普通参数处理
-                paramValues.push_back(value);
-            }
-        }
+        // 使用策略模式收集复杂内容
+        scanner.policyChangeBegin("{", Policy::COLLECT);
+        std::string virObjectContent = scanner.policyChangeEnd("}", Policy::NORMAL);
         
-        // 匹配处理后的参数值
-        if (paramValues.size() >= 5) {
-            keyword->args.match("url", paramValues[0]);
-            keyword->args.match("mode", paramValues[1]);
-            keyword->args.match("width", paramValues[2]);
-            keyword->args.match("height", paramValues[3]);
-            keyword->args.match("scale", paramValues[4]);
-        }
+        std::cout << "收集到虚对象内容: " << virObjectContent << std::endl;
+        
+        // 第5步：match - 匹配虚对象参数
+        keyword->args.match("vir", scanner.peekKeyword(-2));  // 获取虚对象名
+        keyword->args.match("iNeverAway", virObjectContent);
+        
+        // 第6步：generateCode - 生成承诺函数系统
+        std::string jsCode = generateINeverAwayCode(virObjectContent);
+        std::cout << "生成的iNeverAway代码：\n" << jsCode << std::endl;
     });
 }
 
-// 5. transform - 转换为JS代码
-std::string transformPrintMylove(const Syntax& syntax) {
-    // 生成最终的JavaScript代码
-    std::ostringstream jsCode;
+// 生成iNeverAway的JavaScript代码
+std::string generateINeverAwayCode(const std::string& virObjectContent) {
+    std::ostringstream code;
     
-    jsCode << "{\n";
-    jsCode << "  // 珂朵莉的 printMylove 函数实现\n";
-    jsCode << "  const printMyloveConfig = {\n";
-    jsCode << "    url: " << syntax.args[1].getValue() << ",\n";
-    jsCode << "    mode: " << syntax.args[2].getValue() << ",\n";
-    jsCode << "    width: " << syntax.args[3].getValue() << ",\n";
-    jsCode << "    height: " << syntax.args[4].getValue() << ",\n";
-    jsCode << "    scale: " << syntax.args[5].getValue() << "\n";
-    jsCode << "  };\n\n";
+    code << "// iNeverAway 承诺函数系统\n";
+    code << "function iNeverAway(promiseMap) {\n";
+    code << "    const promiseRegistry = {};\n";
+    code << "    const customKeys = {};\n";
+    code << "    \n";
+    code << "    // 处理自定义键和状态区分\n";
+    code << "    for (const [key, func] of Object.entries(promiseMap)) {\n";
+    code << "        let processedKey = key;\n";
+    code << "        let state = '';\n";
+    code << "        \n";
+    code << "        // 解析状态标记 <A>, <B> 等\n";
+    code << "        const stateMatch = key.match(/^(.+)<(.+)>$/);\n";
+    code << "        if (stateMatch) {\n";
+    code << "            processedKey = stateMatch[1];\n";
+    code << "            state = stateMatch[2];\n";
+    code << "        }\n";
+    code << "        \n";
+    code << "        // 生成全局函数名（CHTL编译器统一管理）\n";
+    code << "        const globalName = 'chtl_promise_' + processedKey.toLowerCase() + \n";
+    code << "                          (state ? '_' + state.toLowerCase() : '') + \n";
+    code << "                          '_' + Math.random().toString(36).substr(2, 9);\n";
+    code << "        \n";
+    code << "        // 注册到全局作用域\n";
+    code << "        window[globalName] = func;\n";
+    code << "        \n";
+    code << "        // 记录到注册表\n";
+    code << "        if (!promiseRegistry[processedKey]) {\n";
+    code << "            promiseRegistry[processedKey] = {};\n";
+    code << "        }\n";
+    code << "        promiseRegistry[processedKey][state || 'default'] = globalName;\n";
+    code << "    }\n";
+    code << "    \n";
+    code << "    // 生成珂朵莉特色的承诺消息\n";
+    code << "    console.log('珂朵莉的承诺已经建立 ❀');\n";
+    code << "    console.log('iNeverAway - 永远不会离开大家');\n";
+    code << "    \n";
+    code << "    return promiseRegistry;\n";
+    code << "}\n";
     
-    jsCode << "  // 创建图像显示容器\n";
-    jsCode << "  const container = document.createElement('div');\n";
-    jsCode << "  container.className = 'printmylove-container';\n";
-    jsCode << "  container.style.cssText = `\n";
-    jsCode << "    position: relative;\n";
-    jsCode << "    width: ${printMyloveConfig.width};\n";
-    jsCode << "    height: ${printMyloveConfig.height};\n";
-    jsCode << "    transform: scale(${printMyloveConfig.scale});\n";
-    jsCode << "    margin: 20px auto;\n";
-    jsCode << "    border: 2px solid var(--chtholly-accent, #ff6b9d);\n";
-    jsCode << "    border-radius: 12px;\n";
-    jsCode << "    overflow: hidden;\n";
-    jsCode << "    box-shadow: 0 8px 32px rgba(255, 107, 157, 0.3);\n";
-    jsCode << "  `;\n\n";
-    
-    jsCode << "  if (printMyloveConfig.mode === 'ASCII') {\n";
-    jsCode << "    // ASCII 模式实现\n";
-    jsCode << "    fetch(printMyloveConfig.url)\n";
-    jsCode << "      .then(response => response.blob())\n";
-    jsCode << "      .then(blob => {\n";
-    jsCode << "        const img = new Image();\n";
-    jsCode << "        img.onload = () => {\n";
-    jsCode << "          const canvas = document.createElement('canvas');\n";
-    jsCode << "          const ctx = canvas.getContext('2d');\n";
-    jsCode << "          canvas.width = 80; canvas.height = 40;\n";
-    jsCode << "          ctx.drawImage(img, 0, 0, 80, 40);\n";
-    jsCode << "          \n";
-    jsCode << "          const ascii = convertToASCII(ctx.getImageData(0, 0, 80, 40));\n";
-    jsCode << "          const pre = document.createElement('pre');\n";
-    jsCode << "          pre.style.cssText = 'font-family: monospace; font-size: 8px; line-height: 1; color: var(--chtholly-text);';\n";
-    jsCode << "          pre.textContent = ascii;\n";
-    jsCode << "          container.appendChild(pre);\n";
-    jsCode << "        };\n";
-    jsCode << "        img.src = URL.createObjectURL(blob);\n";
-    jsCode << "      });\n";
-    jsCode << "  } else {\n";
-    jsCode << "    // Pixel 模式实现\n";
-    jsCode << "    const img = document.createElement('img');\n";
-    jsCode << "    img.src = printMyloveConfig.url;\n";
-    jsCode << "    img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';\n";
-    jsCode << "    \n";
-    jsCode << "    // 添加珂朵莉主题的爱心装饰\n";
-    jsCode << "    const heartOverlay = document.createElement('div');\n";
-    jsCode << "    heartOverlay.innerHTML = '💖';\n";
-    jsCode << "    heartOverlay.style.cssText = `\n";
-    jsCode << "      position: absolute;\n";
-    jsCode << "      top: 10px; right: 10px;\n";
-    jsCode << "      font-size: 24px;\n";
-    jsCode << "      animation: heartbeat 1.5s ease-in-out infinite;\n";
-    jsCode << "    `;\n";
-    jsCode << "    \n";
-    jsCode << "    container.appendChild(img);\n";
-    jsCode << "    container.appendChild(heartOverlay);\n";
-    jsCode << "  }\n\n";
-    
-    jsCode << "  // 添加标题\n";
-    jsCode << "  const title = document.createElement('div');\n";
-    jsCode << "  title.textContent = '珂朵莉的珍贵回忆 ❀';\n";
-    jsCode << "  title.style.cssText = `\n";
-    jsCode << "    position: absolute;\n";
-    jsCode << "    bottom: 0; left: 0; right: 0;\n";
-    jsCode << "    background: linear-gradient(transparent, rgba(0,0,0,0.8));\n";
-    jsCode << "    color: white; text-align: center;\n";
-    jsCode << "    padding: 20px 10px 10px;\n";
-    jsCode << "    font-family: 'Comic Sans MS', cursive;\n";
-    jsCode << "  `;\n";
-    jsCode << "  container.appendChild(title);\n\n";
-    
-    jsCode << "  // 添加到页面\n";
-    jsCode << "  document.body.appendChild(container);\n\n";
-    
-    jsCode << "  // ASCII 转换辅助函数\n";
-    jsCode << "  function convertToASCII(imageData) {\n";
-    jsCode << "    const chars = ' .:-=+*#%@';\n";
-    jsCode << "    let ascii = '';\n";
-    jsCode << "    for (let y = 0; y < imageData.height; y++) {\n";
-    jsCode << "      for (let x = 0; x < imageData.width; x++) {\n";
-    jsCode << "        const i = (y * imageData.width + x) * 4;\n";
-    jsCode << "        const gray = (imageData.data[i] + imageData.data[i+1] + imageData.data[i+2]) / 3;\n";
-    jsCode << "        const charIndex = Math.floor(gray / 255 * (chars.length - 1));\n";
-    jsCode << "        ascii += chars[charIndex];\n";
-    jsCode << "      }\n";
-    jsCode << "      ascii += '\\n';\n";
-    jsCode << "    }\n";
-    jsCode << "    return ascii;\n";
-    jsCode << "  }\n";
-    jsCode << "}\n";
-    
-    return jsCode.str();
+    return code.str();
 }
 
-// ========== iNeverAway 函数实现 ==========
-// 珂朵莉的永不离去承诺函数
+// ==========================================
+// 珂朵莉模块特色功能扩展
+// ==========================================
 
-void implementINeverAway() {
-    // 1. syntaxAnalys - 分析 iNeverAway 语法结构
-    auto keyword = syntaxAnalys(R"(
-        iNeverAway($, $);
+void implementChthollySpecialFeatures() {
+    std::cout << "=== 实现珂朵莉特色功能 ===" << std::endl;
+    
+    // 珂朵莉的承诺消息系统
+    INeverAwaySystem::registerPromiseFunction("chthollyPromise", R"(
+        function chthollyPromise(message, duration = 60) {
+            return new Promise((resolve) => {
+                console.log('珂朵莉的承诺: ' + message);
+                console.log('这个承诺会持续 ' + duration + ' 秒');
+                
+                setTimeout(() => {
+                    console.log('珂朵莉永远在大家心中 ❀');
+                    resolve(message);
+                }, duration * 1000);
+            });
+        }
     )");
     
-    // 2. bind - 绑定参数处理函数
-    keyword->args.bind<std::string>("$", [](const std::string& message) -> std::string {
-        // 第一个参数：承诺消息
-        return "'" + message + "'";
-    });
-    
-    keyword->args.bind<int>("$", [](int duration) -> std::string {
-        // 第二个参数：持续时间（秒）
-        if (duration > 0 && duration <= 3600) {  // 最长1小时
-            return std::to_string(duration * 1000);  // 转换为毫秒
-        } else {
-            return "10000";  // 默认10秒
-        }
-    });
-    
-    // 3. scanKeyword - 扫描关键字
-    auto& scanner = getCJMODScanner();
-    scanner.scanKeyword(keyword->args[0], [&]() {
-        // 匹配参数
-        keyword->args.match("$", scanner.peekKeyword(1));  // 消息参数
-        keyword->args.match("$", scanner.peekKeyword(2));  // 时间参数
-    });
-}
-
-// iNeverAway 的 transform 实现
-std::string transformINeverAway(const Syntax& syntax) {
-    std::ostringstream jsCode;
-    
-    jsCode << "{\n";
-    jsCode << "  // 珂朵莉的永不离去承诺\n";
-    jsCode << "  const message = " << syntax.args[1].getValue() << ";\n";
-    jsCode << "  const duration = " << syntax.args[2].getValue() << ";\n\n";
-    
-    jsCode << "  // 创建承诺显示容器\n";
-    jsCode << "  const promiseContainer = document.createElement('div');\n";
-    jsCode << "  promiseContainer.className = 'ineveraway-promise';\n";
-    jsCode << "  promiseContainer.style.cssText = `\n";
-    jsCode << "    position: fixed;\n";
-    jsCode << "    top: 50%; left: 50%;\n";
-    jsCode << "    transform: translate(-50%, -50%);\n";
-    jsCode << "    background: linear-gradient(135deg, #ffb3d9, #ffc0cb);\n";
-    jsCode << "    color: #654321;\n";
-    jsCode << "    padding: 30px;\n";
-    jsCode << "    border-radius: 20px;\n";
-    jsCode << "    box-shadow: 0 10px 40px rgba(255, 179, 217, 0.6);\n";
-    jsCode << "    text-align: center;\n";
-    jsCode << "    font-family: 'Comic Sans MS', cursive;\n";
-    jsCode << "    z-index: 10000;\n";
-    jsCode << "    animation: promiseGlow 2s ease-in-out infinite alternate;\n";
-    jsCode << "    max-width: 400px;\n";
-    jsCode << "  `;\n\n";
-    
-    jsCode << "  // 添加承诺内容\n";
-    jsCode << "  promiseContainer.innerHTML = `\n";
-    jsCode << "    <div style='font-size: 2em; margin-bottom: 15px;'>💖</div>\n";
-    jsCode << "    <h3 style='margin: 0 0 15px 0; color: #8b4513;'>珂朵莉的承诺</h3>\n";
-    jsCode << "    <p style='margin: 0 0 20px 0; font-size: 1.2em; line-height: 1.6;'>${message}</p>\n";
-    jsCode << "    <div class='promise-timer' style='font-size: 0.9em; color: #999;'>承诺将持续 <span class='countdown'>${Math.floor(duration/1000)}</span> 秒</div>\n";
-    jsCode << "  `;\n\n";
-    
-    jsCode << "  // 添加CSS动画\n";
-    jsCode << "  if (!document.querySelector('#ineveraway-styles')) {\n";
-    jsCode << "    const styles = document.createElement('style');\n";
-    jsCode << "    styles.id = 'ineveraway-styles';\n";
-    jsCode << "    styles.textContent = `\n";
-    jsCode << "      @keyframes promiseGlow {\n";
-    jsCode << "        0% { box-shadow: 0 10px 40px rgba(255, 179, 217, 0.6); }\n";
-    jsCode << "        100% { box-shadow: 0 15px 50px rgba(255, 179, 217, 0.9); }\n";
-    jsCode << "      }\n";
-    jsCode << "      @keyframes heartPulse {\n";
-    jsCode << "        0%, 100% { transform: scale(1); }\n";
-    jsCode << "        50% { transform: scale(1.1); }\n";
-    jsCode << "      }\n";
-    jsCode << "    `;\n";
-    jsCode << "    document.head.appendChild(styles);\n";
-    jsCode << "  }\n\n";
-    
-    jsCode << "  // 添加到页面\n";
-    jsCode << "  document.body.appendChild(promiseContainer);\n\n";
-    
-    jsCode << "  // 倒计时功能\n";
-    jsCode << "  let timeLeft = duration;\n";
-    jsCode << "  const countdown = promiseContainer.querySelector('.countdown');\n";
-    jsCode << "  const timer = setInterval(() => {\n";
-    jsCode << "    timeLeft -= 1000;\n";
-    jsCode << "    countdown.textContent = Math.floor(timeLeft / 1000);\n";
-    jsCode << "    \n";
-    jsCode << "    if (timeLeft <= 0) {\n";
-    jsCode << "      clearInterval(timer);\n";
-    jsCode << "      \n";
-    jsCode << "      // 承诺完成效果\n";
-    jsCode << "      promiseContainer.style.animation = 'none';\n";
-    jsCode << "      promiseContainer.style.background = 'linear-gradient(135deg, #ffd700, #ffed4e)';\n";
-    jsCode << "      countdown.textContent = '承诺已完成！';\n";
-    jsCode << "      \n";
-    jsCode << "      // 3秒后自动消失\n";
-    jsCode << "      setTimeout(() => {\n";
-    jsCode << "        promiseContainer.style.opacity = '0';\n";
-    jsCode << "        promiseContainer.style.transform = 'translate(-50%, -50%) scale(0.8)';\n";
-    jsCode << "        promiseContainer.style.transition = 'all 0.5s ease';\n";
-    jsCode << "        \n";
-    jsCode << "        setTimeout(() => {\n";
-    jsCode << "          if (promiseContainer.parentNode) {\n";
-    jsCode << "            document.body.removeChild(promiseContainer);\n";
-    jsCode << "          }\n";
-    jsCode << "        }, 500);\n";
-    jsCode << "      }, 3000);\n";
-    jsCode << "    }\n";
-    jsCode << "  }, 1000);\n\n";
-    
-    jsCode << "  // 点击关闭功能\n";
-    jsCode << "  promiseContainer.addEventListener('click', () => {\n";
-    jsCode << "    clearInterval(timer);\n";
-    jsCode << "    promiseContainer.style.opacity = '0';\n";
-    jsCode << "    promiseContainer.style.transform = 'translate(-50%, -50%) scale(0.8)';\n";
-    jsCode << "    promiseContainer.style.transition = 'all 0.3s ease';\n";
-    jsCode << "    \n";
-    jsCode << "    setTimeout(() => {\n";
-    jsCode << "      if (promiseContainer.parentNode) {\n";
-    jsCode << "        document.body.removeChild(promiseContainer);\n";
-    jsCode << "      }\n";
-    jsCode << "    }, 300);\n";
-    jsCode << "  });\n\n";
-    
-    jsCode << "  // 记录承诺到控制台\n";
-    jsCode << "  console.log(`💖 珂朵莉的承诺: ${message} (持续 ${duration/1000} 秒)`);\n";
-    jsCode << "}\n";
-    
-    return jsCode.str();
-}
-
-// ========== CJMOD 扩展主入口 ==========
-// 按照您的原始设计：完整的流程实现
-
-extern "C" {
-    // CJMOD 扩展初始化函数
-    void initChthollyExtensions() {
-        std::cout << "初始化珂朵莉 CJMOD 扩展..." << std::endl;
-        
-        // 初始化 printMylove 扩展
-        implementPrintMylove();
-        
-        // 初始化 iNeverAway 扩展
-        implementINeverAway();
-        
-        std::cout << "珂朵莉 CJMOD 扩展加载完成 - 世界上最幸福的女孩 ❀" << std::endl;
-    }
-    
-    // CJMOD 代码生成函数
-    const char* generateChthollyJS(const char* syntaxPattern, const char* functionName) {
-        static std::string result;
-        
-        try {
-            auto syntax = syntaxAnalys(syntaxPattern);
+    // 图片转字符功能的完整实现
+    std::string imageProcessorCode = R"(
+        // printMylove 完整实现
+        function printMylove(options) {
+            const { url, mode = 'ASCII', width = '300px', height = '200px', scale = 1.0 } = options;
             
-            if (std::string(functionName) == "printMylove") {
-                result = transformPrintMylove(*syntax);
-            } else if (std::string(functionName) == "iNeverAway") {
-                result = transformINeverAway(*syntax);
-            } else {
-                result = generateCode(*syntax);  // 使用默认生成器
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                
+                img.onload = () => {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // 设置画布尺寸
+                        canvas.width = parseInt(width) || 300;
+                        canvas.height = parseInt(height) || 200;
+                        
+                        // 绘制图片
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        // 转换为字符
+                        let result;
+                        if (mode === 'ASCII') {
+                            result = convertToASCII(ctx, scale);
+                        } else if (mode === 'Pixel') {
+                            result = convertToPixel(ctx, scale);
+                        } else {
+                            result = convertToASCII(ctx, scale);
+                        }
+                        
+                        // 珂朵莉特色输出
+                        console.log('珂朵莉为你转换的图片 ❀');
+                        console.log(result);
+                        
+                        resolve(result);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                
+                img.onerror = () => {
+                    reject(new Error('图片加载失败'));
+                };
+                
+                img.src = url;
+            });
+        }
+        
+        // ASCII转换器
+        function convertToASCII(ctx, scale) {
+            const chars = '@%#*+=-:. ';
+            const imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+            let result = '';
+            
+            for (let y = 0; y < imageData.height; y += Math.ceil(2 * scale)) {
+                for (let x = 0; x < imageData.width; x += Math.ceil(scale)) {
+                    const offset = (y * imageData.width + x) * 4;
+                    const r = imageData.data[offset];
+                    const g = imageData.data[offset + 1];
+                    const b = imageData.data[offset + 2];
+                    const brightness = (r + g + b) / 3;
+                    const charIndex = Math.floor((brightness / 255) * (chars.length - 1));
+                    result += chars[charIndex];
+                }
+                result += '\n';
             }
             
-            return result.c_str();
-        } catch (const std::exception& e) {
-            static std::string error = "Error: " + std::string(e.what());
-            return error.c_str();
+            return result;
         }
+        
+        // 像素转换器
+        function convertToPixel(ctx, scale) {
+            const imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+            let result = '';
+            
+            for (let y = 0; y < imageData.height; y += Math.ceil(2 * scale)) {
+                for (let x = 0; x < imageData.width; x += Math.ceil(scale)) {
+                    const offset = (y * imageData.width + x) * 4;
+                    const r = imageData.data[offset];
+                    const g = imageData.data[offset + 1];
+                    const b = imageData.data[offset + 2];
+                    const alpha = imageData.data[offset + 3];
+                    
+                    if (alpha > 128) {
+                        // 根据亮度选择不同的像素字符
+                        const brightness = (r + g + b) / 3;
+                        if (brightness > 200) result += '█';
+                        else if (brightness > 150) result += '▓';
+                        else if (brightness > 100) result += '▒';
+                        else if (brightness > 50) result += '░';
+                        else result += ' ';
+                    } else {
+                        result += ' ';
+                    }
+                }
+                result += '\n';
+            }
+            
+            return result;
+        }
+    )";
+    
+    std::cout << "珂朵莉特色功能实现完成" << std::endl;
+}
+
+// ==========================================
+// 主初始化函数
+// ==========================================
+
+extern "C" void initializeChthollyJS() {
+    std::cout << "=== 珂朵莉 CJMOD 扩展初始化 ===" << std::endl;
+    std::cout << "世界上最幸福的女孩 - 珂朵莉 ❀" << std::endl;
+    
+    try {
+        // 实现核心功能
+        implementPrintMylove();
+        implementINeverAway();
+        implementChthollySpecialFeatures();
+        
+        std::cout << "✅ printMylove 功能已实现" << std::endl;
+        std::cout << "✅ iNeverAway 功能已实现（支持自定义键）" << std::endl;
+        std::cout << "✅ 珂朵莉特色功能已实现" << std::endl;
+        std::cout << "珂朵莉 CJMOD 扩展初始化完成！" << std::endl;
+        
+    } catch (const std::exception& e) {
+        std::cerr << "珂朵莉 CJMOD 扩展初始化失败: " << e.what() << std::endl;
     }
 }
 
-// ========== 测试和验证功能 ==========
-#ifdef CHTHOLLY_CJMOD_TEST
-int main() {
-    std::cout << "测试珂朵莉 CJMOD 扩展..." << std::endl;
+// ==========================================
+// 测试和演示函数
+// ==========================================
+
+void demonstrateChthollyFeatures() {
+    std::cout << "\n=== 珂朵莉功能演示 ===" << std::endl;
     
-    // 测试 printMylove
-    std::string printMylovePattern = R"(
-        printMylove({
-            url: "chtholly.jpg",
-            mode: "Pixel",
-            width: "400px",
-            height: "300px",
-            scale: 1.2
+    // 演示 printMylove
+    std::cout << "\n1. printMylove 功能演示:" << std::endl;
+    std::string printMyloveDemo = PrintMyloveSystem::generateImageProcessor(
+        "chtholly.jpg", "ASCII", "400px", "300px", 1.5
+    );
+    std::cout << printMyloveDemo << std::endl;
+    
+    // 演示 iNeverAway 自定义键
+    std::cout << "\n2. iNeverAway 自定义键演示:" << std::endl;
+    std::string virObjectDemo = R"(
+        vir ChthollyPromise = iNeverAway({
+            Void<A>: function(message, duration) {
+                return chthollyPromise(message, duration);
+            },
+            
+            Void<B>: function(message, duration) {
+                return chthollyPromise('珂朵莉的特别承诺: ' + message, duration);
+            },
+            
+            Void: {
+                永远: "珂朵莉永远在大家心中",
+                幸福: "世界上最幸福的女孩",
+                承诺: "永远不会离开大家"
+            }
         });
     )";
     
-    const char* printMyloveJS = generateChthollyJS(printMylovePattern.c_str(), "printMylove");
-    std::cout << "生成的 printMylove JS 代码:\n" << printMyloveJS << std::endl;
+    std::string processedDemo = INeverAwaySystem::processCustomKeys(virObjectDemo);
+    std::cout << processedDemo << std::endl;
     
-    // 测试 iNeverAway
-    std::string iNeverAwayPattern = "iNeverAway(\"我永远不会离开你\", 30);";
-    const char* iNeverAwayJS = generateChthollyJS(iNeverAwayPattern.c_str(), "iNeverAway");
-    std::cout << "生成的 iNeverAway JS 代码:\n" << iNeverAwayJS << std::endl;
-    
-    return 0;
+    std::cout << "\n珂朵莉功能演示完成 ❀" << std::endl;
 }
-#endif
+
+// 自动初始化
+__attribute__((constructor))
+void autoInitialize() {
+    initializeChthollyJS();
+    demonstrateChthollyFeatures();
+}

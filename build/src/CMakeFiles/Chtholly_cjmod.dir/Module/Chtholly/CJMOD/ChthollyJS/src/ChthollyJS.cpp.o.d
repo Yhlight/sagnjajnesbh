@@ -1,6 +1,6 @@
 src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.o: \
   /workspace/src/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp \
-  /workspace/include/CJMOD/SimpleCJMODApi.h \
+  /workspace/include/CJMOD/ElegantCJMODApi.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/string \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++config.h \
@@ -148,6 +148,9 @@ src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJ
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_vector.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_bvector.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/vector.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/functional \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/typeinfo \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_map \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_map.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
@@ -156,9 +159,6 @@ src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJ
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/enable_special_members.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/node_handle.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/functional \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/typeinfo \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/array \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/compare \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/memory \

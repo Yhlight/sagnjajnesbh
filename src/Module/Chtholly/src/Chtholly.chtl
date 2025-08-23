@@ -1,899 +1,471 @@
-// 珂朵莉模块主源文件 - 世界上最幸福的女孩
-// CMOD + CJMOD混合模块，提供丰富的主题组件和交互效果
+// ==========================================
+// 珂朵莉模块主文件 - 符合CMOD架构
+// 根据CHTL语法文档实现所有UI组件
+// ==========================================
 
-// ========== 自定义元素定义 ==========
+// 导入命名空间
+[Namespace] Chtholly;
 
-// 手风琴组件 - 可折叠的内容面板
-[Custom] @Element Accordion {
-    <div class="chtl-accordion" data-expanded="false">
-        <div class="accordion-header" onclick="toggleAccordion(this)">
-            <span class="accordion-title">{{title}}</span>
-            <span class="accordion-icon">▼</span>
-        </div>
-        <div class="accordion-content">
-            <div class="accordion-body">
-                {{content}}
-            </div>
-        </div>
-    </div>
+// ==========================================
+// 模板变量组 - 主题配置
+// ==========================================
+
+[Template] @Var ThemeColors
+{
+    primaryColor: "#FFB6C1";      // 珂朵莉粉
+    secondaryColor: "#FFF0F5";    // 薰衣草雾
+    accentColor: "#FF69B4";       // 热粉色
+    backgroundColor: "#FFFAF0";    // 花白色
+    textColor: "#2F4F4F";         // 暗石板灰
+    borderColor: "#DDA0DD";       // 梅花色
 }
 
-// 四叶草相册组件 - 优雅的图片展示
-[Custom] @Element CloverAlbum {
-    <div class="chtl-clover-album" data-layout="{{layout}}">
-        <div class="album-header">
-            <h3 class="album-title">{{title}}</h3>
-            <div class="album-controls">
-                <button class="btn-prev" onclick="prevImage(this)">◀</button>
-                <span class="image-counter">{{current}}/{{total}}</span>
-                <button class="btn-next" onclick="nextImage(this)">▶</button>
-            </div>
-        </div>
-        <div class="album-container">
-            <div class="album-main">
-                <img class="main-image" src="{{currentImage}}" alt="{{currentAlt}}">
-            </div>
-            <div class="album-thumbnails">
-                {{#each images}}
-                <img class="thumbnail" src="{{this.thumb}}" alt="{{this.alt}}" 
-                     onclick="selectImage(this, {{@index}})">
-                {{/each}}
-            </div>
-        </div>
-    </div>
+[Template] @Var DefaultSpacing
+{
+    small: "8px";
+    medium: "16px";
+    large: "24px";
+    xlarge: "32px";
 }
 
-// 备忘录组件 - 可编辑的笔记卡片
-[Custom] @Element Memo {
-    <div class="chtl-memo" data-priority="{{priority}}" data-category="{{category}}">
-        <div class="memo-header">
-            <div class="memo-date">{{date}}</div>
-            <div class="memo-actions">
-                <button class="btn-edit" onclick="editMemo(this)">✏️</button>
-                <button class="btn-delete" onclick="deleteMemo(this)">🗑️</button>
-            </div>
-        </div>
-        <div class="memo-content" contenteditable="{{editable}}">
-            {{content}}
-        </div>
-        <div class="memo-tags">
-            {{#each tags}}
-            <span class="memo-tag">{{this}}</span>
-            {{/each}}
-        </div>
-    </div>
+[Template] @Var AnimationTiming
+{
+    fast: "0.2s";
+    normal: "0.3s";
+    slow: "0.5s";
+    bounce: "cubic-bezier(0.68, -0.55, 0.265, 1.55)";
 }
 
-// 温馨便签组件 - 暖色调的提醒便签
-[Custom] @Element WarmNote {
-    <div class="chtl-warm-note" data-type="{{type}}" data-auto-hide="{{autoHide}}">
-        <div class="note-icon">
-            {{#if icon}}{{icon}}{{else}}💝{{/if}}
-        </div>
-        <div class="note-content">
-            <div class="note-title">{{title}}</div>
-            <div class="note-message">{{message}}</div>
-        </div>
-        <button class="note-close" onclick="closeNote(this)">×</button>
-    </div>
-}
+// ==========================================
+// 模板样式组 - 基础样式
+// ==========================================
 
-// 樱花雨效果组件 - 浪漫的樱花飘落动画
-[Custom] @Element SakuraRain {
-    <div class="chtl-sakura-rain" data-intensity="{{intensity}}" data-speed="{{speed}}">
-        <div class="sakura-container">
-            {{#repeat count}}
-            <div class="sakura-petal" style="
-                left: {{random 0 100}}%;
-                animation-delay: {{random 0 5}}s;
-                animation-duration: {{random 8 15}}s;
-            ">🌸</div>
-            {{/repeat}}
-        </div>
-    </div>
-}
-
-// 鼠标特效组件 - 跟随鼠标的粒子效果
-[Custom] @Element MouseEffect {
-    <div class="chtl-mouse-effect" data-particle-type="{{particleType}}" data-color="{{color}}">
-        <canvas class="mouse-effect-canvas" width="{{width}}" height="{{height}}"></canvas>
-    </div>
-}
-
-// 鼠标轨迹组件 - 鼠标移动轨迹可视化
-[Custom] @Element MouseTrail {
-    <div class="chtl-mouse-trail" data-trail-length="{{trailLength}}" data-fade-speed="{{fadeSpeed}}">
-        <svg class="trail-svg" width="100%" height="100%">
-            <defs>
-                <linearGradient id="trailGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:{{startColor}};stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:{{endColor}};stop-opacity:0" />
-                </linearGradient>
-            </defs>
-            <path class="trail-path" stroke="url(#trailGradient)" fill="none" stroke-width="{{strokeWidth}}"/>
-        </svg>
-    </div>
-}
-
-// 视差背景组件 - 多层次的视差滚动效果
-[Custom] @Element ParallaxBg {
-    <div class="chtl-parallax-bg" data-layers="{{layers}}">
-        {{#each backgroundLayers}}
-        <div class="parallax-layer" data-speed="{{this.speed}}" style="background-image: url({{this.image}});">
-        </div>
-        {{/each}}
-        <div class="parallax-content">
-            {{content}}
-        </div>
-    </div>
-}
-
-// 右键菜单组件 - 自定义上下文菜单
-[Custom] @Element ContextMenu {
-    <div class="chtl-context-menu" data-target="{{target}}" style="display: none;">
-        <ul class="context-menu-list">
-            {{#each menuItems}}
-            <li class="context-menu-item" onclick="{{this.action}}">
-                <span class="menu-icon">{{this.icon}}</span>
-                <span class="menu-text">{{this.text}}</span>
-                {{#if this.shortcut}}
-                <span class="menu-shortcut">{{this.shortcut}}</span>
-                {{/if}}
-            </li>
-            {{/each}}
-        </ul>
-    </div>
-}
-
-// 进度条组件 - 动态进度指示器
-[Custom] @Element ProgressBar {
-    <div class="chtl-progress-bar" data-type="{{type}}" data-animated="{{animated}}">
-        <div class="progress-container">
-            <div class="progress-track">
-                <div class="progress-fill" style="width: {{progress}}%;">
-                    {{#if showText}}
-                    <span class="progress-text">{{progress}}%</span>
-                    {{/if}}
-                </div>
-            </div>
-        </div>
-        {{#if label}}
-        <div class="progress-label">{{label}}</div>
-        {{/if}}
-    </div>
-}
-
-// ========== 自定义样式定义 ==========
-
-// 手风琴主题样式
-[Custom] @Style AccordionTheme {
-    .chtl-accordion {
-        border: 1px solid #e1e8ed;
-        border-radius: 8px;
-        margin: 8px 0;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
+[Template] @Style DefaultButton
+{
+    background: ThemeColors(primaryColor);
+    color: ThemeColors(textColor);
+    border: 1px solid ThemeColors(borderColor);
+    border-radius: DefaultSpacing(small);
+    padding: DefaultSpacing(small) DefaultSpacing(medium);
+    transition: all AnimationTiming(normal) AnimationTiming(bounce);
+    cursor: pointer;
     
+    &:hover {
+        background: ThemeColors(accentColor);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
+    }
+}
+
+[Template] @Style CardStyle
+{
+    background: ThemeColors(backgroundColor);
+    border: 1px solid ThemeColors(borderColor);
+    border-radius: DefaultSpacing(medium);
+    padding: DefaultSpacing(large);
+    box-shadow: 0 2px 8px rgba(221, 160, 221, 0.2);
+    transition: all AnimationTiming(normal);
+    
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(221, 160, 221, 0.3);
+    }
+}
+
+// ==========================================
+// 自定义元素组 - UI组件
+// ==========================================
+
+// 手风琴组件
+[Custom] @Element Accordion : CardStyle
+{
     .accordion-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 16px 20px;
+        background: ThemeColors(primaryColor);
+        padding: DefaultSpacing(medium);
         cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: background 0.3s ease;
-    }
-    
-    .accordion-header:hover {
-        background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
-    }
-    
-    .accordion-title {
-        font-weight: 600;
-        font-size: 16px;
-    }
-    
-    .accordion-icon {
-        transition: transform 0.3s ease;
-    }
-    
-    .chtl-accordion[data-expanded="true"] .accordion-icon {
-        transform: rotate(180deg);
+        border-radius: DefaultSpacing(small);
+        margin-bottom: DefaultSpacing(small);
+        
+        &:hover {
+            background: ThemeColors(accentColor);
+        }
     }
     
     .accordion-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
+        padding: DefaultSpacing(medium);
+        display: none;
+        animation: slideDown AnimationTiming(normal) AnimationTiming(bounce);
+        
+        &.active {
+            display: block;
+        }
     }
     
-    .chtl-accordion[data-expanded="true"] .accordion-content {
-        max-height: 1000px;
-    }
-    
-    .accordion-body {
-        padding: 20px;
-        background: #f8f9fa;
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 }
 
-// 四叶草相册主题样式
-[Custom] @Style CloverAlbumTheme {
-    .chtl-clover-album {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        padding: 20px;
-        max-width: 800px;
-        margin: 0 auto;
+// 四叶窗相册组件
+[Custom] @Element CloverAlbum : CardStyle
+{
+    .album-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: DefaultSpacing(medium);
+        padding: DefaultSpacing(large);
     }
     
-    .album-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid #f0f0f0;
-    }
-    
-    .album-title {
-        color: #2c3e50;
-        font-size: 24px;
-        font-weight: 700;
-        margin: 0;
-    }
-    
-    .album-controls {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-    
-    .btn-prev, .btn-next {
-        background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-        color: white;
-        border: none;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 16px;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-prev:hover, .btn-next:hover {
-        transform: scale(1.1);
-        box-shadow: 0 4px 15px rgba(255,107,107,0.4);
-    }
-    
-    .main-image {
-        width: 100%;
-        height: 400px;
-        object-fit: cover;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    }
-    
-    .album-thumbnails {
-        display: flex;
-        gap: 10px;
-        margin-top: 15px;
-        overflow-x: auto;
-        padding: 10px 0;
-    }
-    
-    .thumbnail {
-        width: 80px;
-        height: 60px;
-        object-fit: cover;
-        border-radius: 4px;
-        cursor: pointer;
-        opacity: 0.7;
-        transition: all 0.3s ease;
-    }
-    
-    .thumbnail:hover, .thumbnail.active {
-        opacity: 1;
-        transform: scale(1.05);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-}
-
-// 备忘录主题样式
-[Custom] @Style MemoTheme {
-    .chtl-memo {
-        background: #fff9c4;
-        border-left: 4px solid #f39c12;
-        border-radius: 0 8px 8px 0;
-        padding: 16px;
-        margin: 12px 0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    .album-item {
         position: relative;
-        transition: all 0.3s ease;
+        overflow: hidden;
+        border-radius: DefaultSpacing(small);
+        transition: all AnimationTiming(normal);
+        
+        &:hover {
+            transform: scale(1.05);
+        }
+        
+        img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: all AnimationTiming(slow);
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(255, 182, 193, 0.8), 
+                rgba(255, 105, 180, 0.8));
+            opacity: 0;
+            transition: all AnimationTiming(normal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        &:hover .overlay {
+            opacity: 1;
+        }
     }
-    
-    .chtl-memo:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    }
-    
-    .chtl-memo[data-priority="high"] {
-        border-left-color: #e74c3c;
-        background: #ffeaa7;
-    }
-    
-    .chtl-memo[data-priority="medium"] {
-        border-left-color: #f39c12;
-        background: #fff9c4;
-    }
-    
-    .chtl-memo[data-priority="low"] {
-        border-left-color: #27ae60;
-        background: #d5f4e6;
-    }
-    
+}
+
+// 备忘录组件
+[Custom] @Element Memo : CardStyle
+{
     .memo-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
-    }
-    
-    .memo-date {
-        font-size: 12px;
-        color: #7f8c8d;
-        font-weight: 500;
-    }
-    
-    .memo-actions {
-        display: flex;
-        gap: 8px;
-    }
-    
-    .btn-edit, .btn-delete {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 4px;
-        border-radius: 4px;
-        transition: background 0.2s ease;
-    }
-    
-    .btn-edit:hover {
-        background: rgba(52, 152, 219, 0.2);
-    }
-    
-    .btn-delete:hover {
-        background: rgba(231, 76, 60, 0.2);
+        background: linear-gradient(135deg, 
+            ThemeColors(primaryColor), 
+            ThemeColors(accentColor));
+        color: white;
+        padding: DefaultSpacing(medium);
+        border-radius: DefaultSpacing(small) DefaultSpacing(small) 0 0;
+        margin: -DefaultSpacing(large) -DefaultSpacing(large) DefaultSpacing(medium) -DefaultSpacing(large);
     }
     
     .memo-content {
         line-height: 1.6;
-        color: #2c3e50;
-        margin-bottom: 12px;
-        min-height: 40px;
+        color: ThemeColors(textColor);
     }
     
-    .memo-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-    }
-    
-    .memo-tag {
-        background: rgba(52, 152, 219, 0.1);
-        color: #3498db;
-        padding: 2px 8px;
-        border-radius: 12px;
-        font-size: 11px;
-        font-weight: 500;
+    .memo-footer {
+        margin-top: DefaultSpacing(medium);
+        padding-top: DefaultSpacing(medium);
+        border-top: 1px solid ThemeColors(borderColor);
+        font-size: 0.9em;
+        color: #666;
     }
 }
 
-// 温馨便签主题样式
-[Custom] @Style WarmNoteTheme {
-    .chtl-warm-note {
-        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-        border-radius: 12px;
-        padding: 20px;
-        margin: 16px 0;
-        display: flex;
-        align-items: flex-start;
-        gap: 15px;
-        box-shadow: 0 4px 20px rgba(252, 182, 159, 0.3);
-        position: relative;
-        animation: slideInRight 0.5s ease-out;
-    }
+// 暖色笔记组件
+[Custom] @Element WarmNote : CardStyle
+{
+    background: linear-gradient(135deg, 
+        ThemeColors(backgroundColor), 
+        ThemeColors(secondaryColor));
     
-    .chtl-warm-note[data-type="success"] {
-        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-    }
-    
-    .chtl-warm-note[data-type="warning"] {
-        background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
-    }
-    
-    .chtl-warm-note[data-type="error"] {
-        background: linear-gradient(135deg, #ff7675 0%, #fd79a8 100%);
-    }
-    
-    .note-icon {
-        font-size: 24px;
-        flex-shrink: 0;
+    .note-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: ThemeColors(accentColor);
+        margin-bottom: DefaultSpacing(medium);
+        padding-bottom: DefaultSpacing(small);
+        border-bottom: 2px solid ThemeColors(primaryColor);
     }
     
     .note-content {
-        flex: 1;
+        line-height: 1.8;
+        color: ThemeColors(textColor);
     }
     
-    .note-title {
-        font-weight: 600;
-        color: #2d3436;
-        margin-bottom: 8px;
-        font-size: 16px;
-    }
-    
-    .note-message {
-        color: #636e72;
-        line-height: 1.5;
-    }
-    
-    .note-close {
-        background: none;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
-        color: #636e72;
-        padding: 0;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        transition: all 0.2s ease;
-    }
-    
-    .note-close:hover {
-        background: rgba(0,0,0,0.1);
-        color: #2d3436;
-    }
-    
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
+    .note-tag {
+        display: inline-block;
+        background: ThemeColors(primaryColor);
+        color: white;
+        padding: 4px DefaultSpacing(small);
+        border-radius: 12px;
+        font-size: 0.8em;
+        margin: 4px 4px 0 0;
     }
 }
 
-// 樱花雨主题样式
-[Custom] @Style SakuraRainTheme {
-    .chtl-sakura-rain {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 1000;
-        overflow: hidden;
-    }
-    
-    .sakura-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
+// 樱花雨组件
+[Custom] @Element SakuraRain
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
     
     .sakura-petal {
         position: absolute;
-        top: -50px;
-        font-size: 20px;
-        animation: sakuraFall linear infinite;
-        opacity: 0.8;
+        width: 10px;
+        height: 10px;
+        background: ThemeColors(primaryColor);
+        border-radius: 50% 0 50% 0;
+        animation: fall linear infinite;
+        opacity: 0.7;
     }
     
-    @keyframes sakuraFall {
+    @keyframes fall {
         0% {
-            transform: translateY(-50px) rotate(0deg);
+            transform: translateY(-100vh) rotate(0deg);
             opacity: 1;
-        }
-        50% {
-            opacity: 0.8;
         }
         100% {
             transform: translateY(100vh) rotate(360deg);
             opacity: 0;
         }
     }
+}
+
+// 鼠标特效组件
+[Custom] @Element MouseEffect
+{
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
     
-    .chtl-sakura-rain[data-intensity="light"] .sakura-petal {
-        animation-duration: 12s;
+    .mouse-trail {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: ThemeColors(accentColor);
+        border-radius: 50%;
+        animation: trailFade AnimationTiming(slow) ease-out forwards;
     }
     
-    .chtl-sakura-rain[data-intensity="heavy"] .sakura-petal {
-        animation-duration: 6s;
+    @keyframes trailFade {
+        0% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0);
+        }
     }
 }
 
-// 鼠标特效主题样式
-[Custom] @Style MouseEffectTheme {
-    .chtl-mouse-effect {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 999;
-    }
+// 视差滚动背景组件
+[Custom] @Element ParallaxBg
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%;
+    background: linear-gradient(45deg, 
+        ThemeColors(backgroundColor), 
+        ThemeColors(secondaryColor), 
+        ThemeColors(primaryColor));
+    z-index: -1;
     
-    .mouse-effect-canvas {
-        width: 100%;
-        height: 100%;
-    }
-}
-
-// 鼠标轨迹主题样式
-[Custom] @Style MouseTrailTheme {
-    .chtl-mouse-trail {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 998;
-    }
-    
-    .trail-svg {
-        width: 100%;
-        height: 100%;
-    }
-    
-    .trail-path {
-        stroke-linecap: round;
-        stroke-linejoin: round;
-    }
-}
-
-// 视差背景主题样式
-[Custom] @Style ParallaxBgTheme {
-    .chtl-parallax-bg {
-        position: relative;
-        height: 100vh;
-        overflow: hidden;
-    }
-    
-    .parallax-layer {
+    &::before {
+        content: '';
         position: absolute;
         top: 0;
         left: 0;
-        width: 120%;
-        height: 120%;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        will-change: transform;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255, 105, 180, 0.3) 0%, transparent 50%);
+        animation: float AnimationTiming(slow) ease-in-out infinite alternate;
     }
     
-    .parallax-content {
-        position: relative;
-        z-index: 10;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        100% { transform: translateY(-20px); }
     }
 }
 
-// 右键菜单主题样式
-[Custom] @Style ContextMenuTheme {
-    .chtl-context-menu {
-        position: fixed;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-        border: 1px solid #e1e8ed;
-        z-index: 10000;
-        min-width: 200px;
-        animation: contextMenuShow 0.2s ease-out;
-    }
+// 右键菜单组件
+[Custom] @Element ContextMenu
+{
+    position: fixed;
+    background: ThemeColors(backgroundColor);
+    border: 1px solid ThemeColors(borderColor);
+    border-radius: DefaultSpacing(small);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10000;
+    min-width: 150px;
+    display: none;
     
-    .context-menu-list {
-        list-style: none;
-        margin: 0;
-        padding: 8px 0;
-    }
-    
-    .context-menu-item {
-        padding: 12px 16px;
+    .menu-item {
+        padding: DefaultSpacing(small) DefaultSpacing(medium);
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        transition: background 0.2s ease;
-    }
-    
-    .context-menu-item:hover {
-        background: #f8f9fa;
-    }
-    
-    .menu-icon {
-        width: 16px;
-        text-align: center;
-    }
-    
-    .menu-text {
-        flex: 1;
-        color: #2c3e50;
-    }
-    
-    .menu-shortcut {
-        color: #7f8c8d;
-        font-size: 12px;
-    }
-    
-    @keyframes contextMenuShow {
-        from {
-            opacity: 0;
-            transform: scale(0.95) translateY(-10px);
+        transition: all AnimationTiming(fast);
+        
+        &:hover {
+            background: ThemeColors(primaryColor);
+            color: white;
         }
-        to {
-            opacity: 1;
-            transform: scale(1) translateY(0);
+        
+        &:first-child {
+            border-radius: DefaultSpacing(small) DefaultSpacing(small) 0 0;
+        }
+        
+        &:last-child {
+            border-radius: 0 0 DefaultSpacing(small) DefaultSpacing(small);
         }
     }
 }
 
-// 进度条主题样式
-[Custom] @Style ProgressBarTheme {
-    .chtl-progress-bar {
-        margin: 16px 0;
-    }
-    
-    .progress-container {
-        position: relative;
-    }
-    
-    .progress-track {
-        background: #e9ecef;
-        border-radius: 10px;
-        height: 20px;
-        overflow: hidden;
-    }
+// 进度条组件
+[Custom] @Element ProgressBar
+{
+    width: 100%;
+    height: 8px;
+    background: ThemeColors(secondaryColor);
+    border-radius: 4px;
+    overflow: hidden;
     
     .progress-fill {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
         height: 100%;
-        border-radius: 10px;
-        transition: width 0.3s ease;
+        background: linear-gradient(90deg, 
+            ThemeColors(primaryColor), 
+            ThemeColors(accentColor));
+        border-radius: 4px;
+        transition: width AnimationTiming(normal) AnimationTiming(bounce);
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .chtl-progress-bar[data-animated="true"] .progress-fill {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #667eea 100%);
-        background-size: 200% 100%;
-        animation: progressShimmer 2s linear infinite;
-    }
-    
-    .progress-text {
-        color: white;
-        font-size: 12px;
-        font-weight: 600;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    }
-    
-    .progress-label {
-        margin-top: 8px;
-        color: #6c757d;
-        font-size: 14px;
-        text-align: center;
-    }
-    
-    .chtl-progress-bar[data-type="success"] .progress-fill {
-        background: linear-gradient(90deg, #00b894 0%, #00cec9 100%);
-    }
-    
-    .chtl-progress-bar[data-type="warning"] .progress-fill {
-        background: linear-gradient(90deg, #fdcb6e 0%, #e17055 100%);
-    }
-    
-    .chtl-progress-bar[data-type="danger"] .progress-fill {
-        background: linear-gradient(90deg, #fd79a8 0%, #e84393 100%);
-    }
-    
-    @keyframes progressShimmer {
-        0% {
-            background-position: -200% 0;
+        
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            animation: shine 2s ease-in-out infinite;
         }
-        100% {
-            background-position: 200% 0;
-        }
+    }
+    
+    @keyframes shine {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
     }
 }
 
-// ========== 原始嵌入内容 ==========
+// ==========================================
+// 自定义变量组 - 组件配置
+// ==========================================
 
-// JavaScript交互函数
-[Original] @Embed {
-    <script>
-    // 手风琴交互
-    function toggleAccordion(header) {
-        const accordion = header.closest('.chtl-accordion');
-        const isExpanded = accordion.getAttribute('data-expanded') === 'true';
-        accordion.setAttribute('data-expanded', !isExpanded);
-    }
-    
-    // 相册交互
-    function prevImage(btn) {
-        const album = btn.closest('.chtl-clover-album');
-        // 实现上一张图片逻辑
-    }
-    
-    function nextImage(btn) {
-        const album = btn.closest('.chtl-clover-album');
-        // 实现下一张图片逻辑
-    }
-    
-    function selectImage(thumb, index) {
-        const album = thumb.closest('.chtl-clover-album');
-        const mainImage = album.querySelector('.main-image');
-        mainImage.src = thumb.src.replace('/thumb/', '/full/');
-    }
-    
-    // 备忘录交互
-    function editMemo(btn) {
-        const memo = btn.closest('.chtl-memo');
-        const content = memo.querySelector('.memo-content');
-        content.contentEditable = content.contentEditable === 'true' ? 'false' : 'true';
-        content.focus();
-    }
-    
-    function deleteMemo(btn) {
-        const memo = btn.closest('.chtl-memo');
-        memo.style.animation = 'slideOut 0.3s ease-out forwards';
-        setTimeout(() => memo.remove(), 300);
-    }
-    
-    // 便签交互
-    function closeNote(btn) {
-        const note = btn.closest('.chtl-warm-note');
-        note.style.animation = 'slideOutRight 0.3s ease-out forwards';
-        setTimeout(() => note.remove(), 300);
-    }
-    
-    // 鼠标特效初始化
-    document.addEventListener('DOMContentLoaded', function() {
-        initMouseEffects();
-        initParallaxEffects();
-        initContextMenus();
-        initSakuraRain();
-    });
-    
-    function initMouseEffects() {
-        // 鼠标特效实现
-        const mouseEffects = document.querySelectorAll('.chtl-mouse-effect');
-        mouseEffects.forEach(effect => {
-            const canvas = effect.querySelector('.mouse-effect-canvas');
-            if (canvas) {
-                setupMouseParticles(canvas);
-            }
-        });
-    }
-    
-    function setupMouseParticles(canvas) {
-        const ctx = canvas.getContext('2d');
-        const particles = [];
-        
-        document.addEventListener('mousemove', (e) => {
-            particles.push({
-                x: e.clientX,
-                y: e.clientY,
-                life: 1.0,
-                decay: 0.02
-            });
-        });
-        
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            for (let i = particles.length - 1; i >= 0; i--) {
-                const p = particles[i];
-                p.life -= p.decay;
-                
-                if (p.life <= 0) {
-                    particles.splice(i, 1);
-                    continue;
-                }
-                
-                ctx.globalAlpha = p.life;
-                ctx.fillStyle = '#667eea';
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, 3 * p.life, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            
-            requestAnimationFrame(animate);
+[Custom] @Var ChthollyColors : ThemeColors
+{
+    // 扩展主题色彩
+    gradientStart: primaryColor;
+    gradientEnd: accentColor;
+    shadowColor: "rgba(221, 160, 221, 0.3)";
+}
+
+[Custom] @Var ChthollyAnimations : AnimationTiming
+{
+    // 扩展动画配置
+    sakuraFall: "8s";
+    mouseTrail: "0.8s";
+    parallaxFloat: "4s";
+}
+
+// ==========================================
+// 原始嵌入 - 基础脚本
+// ==========================================
+
+[Origin] @Javascript ChthollyBaseScript
+{
+    // 珂朵莉模块基础JavaScript功能
+    class ChthollyCore {
+        static init() {
+            console.log('珂朵莉模块初始化完成 ❀');
+            this.initSakuraRain();
+            this.initMouseEffect();
+            this.initParallax();
         }
         
-        animate();
-    }
-    
-    function initParallaxEffects() {
-        const parallaxElements = document.querySelectorAll('.parallax-layer');
-        
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
+        static initSakuraRain() {
+            const sakuraContainer = document.querySelector('.sakura-rain');
+            if (!sakuraContainer) return;
             
-            parallaxElements.forEach(layer => {
-                const speed = layer.getAttribute('data-speed') || 0.5;
-                const yPos = -(scrolled * speed);
-                layer.style.transform = `translateY(${yPos}px)`;
-            });
-        });
-    }
-    
-    function initContextMenus() {
-        document.addEventListener('contextmenu', (e) => {
-            const contextMenu = document.querySelector('.chtl-context-menu');
-            if (contextMenu) {
-                e.preventDefault();
-                contextMenu.style.display = 'block';
-                contextMenu.style.left = e.pageX + 'px';
-                contextMenu.style.top = e.pageY + 'px';
-            }
-        });
-        
-        document.addEventListener('click', () => {
-            const contextMenus = document.querySelectorAll('.chtl-context-menu');
-            contextMenus.forEach(menu => menu.style.display = 'none');
-        });
-    }
-    
-    function initSakuraRain() {
-        const sakuraRains = document.querySelectorAll('.chtl-sakura-rain');
-        sakuraRains.forEach(rain => {
-            const intensity = rain.getAttribute('data-intensity') || 'medium';
-            const count = intensity === 'light' ? 20 : intensity === 'heavy' ? 60 : 40;
-            
-            for (let i = 0; i < count; i++) {
+            setInterval(() => {
                 const petal = document.createElement('div');
                 petal.className = 'sakura-petal';
-                petal.textContent = '🌸';
                 petal.style.left = Math.random() * 100 + '%';
-                petal.style.animationDelay = Math.random() * 5 + 's';
-                petal.style.animationDuration = (Math.random() * 7 + 8) + 's';
-                rain.querySelector('.sakura-container').appendChild(petal);
-            }
-        });
-    }
-    </script>
-}
-
-// 额外的CSS动画
-[Original] @Embed {
-    <style>
-    @keyframes slideOut {
-        to {
-            transform: translateX(-100%);
-            opacity: 0;
+                petal.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                petal.style.animationDelay = Math.random() * 2 + 's';
+                sakuraContainer.appendChild(petal);
+                
+                setTimeout(() => {
+                    petal.remove();
+                }, 8000);
+            }, 300);
+        }
+        
+        static initMouseEffect() {
+            let trails = [];
+            document.addEventListener('mousemove', (e) => {
+                const trail = document.createElement('div');
+                trail.className = 'mouse-trail';
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                document.body.appendChild(trail);
+                
+                trails.push(trail);
+                if (trails.length > 20) {
+                    trails.shift().remove();
+                }
+                
+                setTimeout(() => trail.remove(), 500);
+            });
+        }
+        
+        static initParallax() {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const parallax = document.querySelector('.parallax-bg');
+                if (parallax) {
+                    parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+                }
+            });
         }
     }
     
-    @keyframes slideOutRight {
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-    </style>
+    // 自动初始化
+    document.addEventListener('DOMContentLoaded', () => {
+        ChthollyCore.init();
+    });
 }

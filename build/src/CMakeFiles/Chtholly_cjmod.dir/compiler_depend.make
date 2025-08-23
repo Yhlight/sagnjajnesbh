@@ -308,8 +308,10 @@ src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJ
   /usr/lib/llvm-20/lib/clang/20/include/stdarg.h \
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h \
-  /workspace/include/CJMOD/SimpleCJMODApi.h
+  /workspace/include/CJMOD/ElegantCJMODApi.h
 
+
+/workspace/include/CJMOD/ElegantCJMODApi.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/stdint.h:
 
@@ -372,8 +374,6 @@ src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJ
 /usr/include/c++/14/pstl/pstl_config.h:
 
 /usr/include/c++/14/new:
-
-/workspace/include/CJMOD/SimpleCJMODApi.h:
 
 /usr/include/c++/14/istream:
 
