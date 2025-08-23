@@ -681,7 +681,7 @@ public:
         HTML,               // @Html
         STYLE,              // @Style
         JAVASCRIPT,         // @JavaScript
-        CUSTOM              // 自定义类型（如@Vue）
+        CUSTOM              // 自定义类型（通过[OriginType]配置定义）
     };
     
     OriginNode(OriginType originType, const std::string& content,
@@ -759,7 +759,7 @@ public:
         ORIGIN_HTML,        // [Origin] @Html
         ORIGIN_STYLE,       // [Origin] @Style
         ORIGIN_JAVASCRIPT,  // [Origin] @JavaScript
-        ORIGIN_CUSTOM,      // [Origin] @CustomType (自定义类型如@Vue, @React等)
+        ORIGIN_CUSTOM,      // [Origin] @CustomType (用户通过[OriginType]配置定义的自定义类型)
         
         // 模板导入（保持兼容性）
         TEMPLATE_STYLE,     // [Template] @Style

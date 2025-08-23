@@ -1209,11 +1209,7 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
     } else if (typeId == "@CJmod") {
         importType = AST::ImportNode::ImportType::CJMOD;
         needsAsClause = false; // 可以没有as语法
-    } else if (typeId == "@Vue" || typeId == "@React" || typeId == "@Angular") {
-        // 自定义原始嵌入类型 - 需要检查是否有[Origin]前缀
-        ReportError("不存在的类型: " + typeId + "，请使用 [Origin] " + typeId + " 进行原始嵌入导入");
-        return nullptr;
-    }
+
     
     // 检查是否有[Origin]前缀 - 用于自定义原始嵌入类型
     if (Check(Core::TokenType::ORIGIN)) {
@@ -1228,7 +1224,7 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
         
         // 自定义原始嵌入类型（所有非标准类型都作为ORIGIN_CUSTOM处理）
         importType = AST::ImportNode::ImportType::ORIGIN_CUSTOM;
-        name = typeId; // 保存自定义类型名（如@Vue, @React等）
+        name = typeId; // 保存自定义类型名
     }
     
     // 消费 'from' 关键字

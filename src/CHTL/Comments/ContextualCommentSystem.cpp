@@ -152,16 +152,11 @@ std::string OriginAnywhereManager::GetOriginUsageSuggestion(const std::string& c
 }
 
 bool OriginAnywhereManager::IsContextCompatible(const std::string& originType, const std::string& context) const {
-    // 提供一些常见的兼容性建议
+    // 提供官方支持的三种原始嵌入类型的兼容性建议
     std::unordered_map<std::string, std::vector<std::string>> compatibilityMap = {
         {"@Html", {"HTML", "CHTL", "element"}},
         {"@Style", {"CSS", "style", "CHTL"}},
-        {"@JavaScript", {"JavaScript", "script", "CHTL_JS"}},
-        {"@Vue", {"HTML", "element", "component"}},
-        {"@React", {"HTML", "element", "component"}},
-        {"@Svelte", {"HTML", "element", "component"}},
-        {"@Markdown", {"HTML", "text", "content"}},
-        {"@XML", {"HTML", "data", "config"}}
+        {"@JavaScript", {"JavaScript", "script", "CHTL_JS"}}
     };
     
     auto it = compatibilityMap.find(originType);

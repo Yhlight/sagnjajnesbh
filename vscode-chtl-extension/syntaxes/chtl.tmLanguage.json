@@ -80,7 +80,7 @@
                         },
                         {
                             "name": "keyword.other.origin-type.chtl",
-                            "match": "@(Html|Style|JavaScript|Vue|React|Angular|Markdown)\\b"
+                            "match": "@(Html|Style|JavaScript|\\w+)\\b"
                         },
                         {
                             "name": "keyword.other.origin-prefix.chtl",
