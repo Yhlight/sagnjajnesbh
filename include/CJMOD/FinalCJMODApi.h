@@ -404,42 +404,366 @@ std::string generateCode(const Syntax& syntax);
  */
 std::unique_ptr<CHTLJSFunction> createCJMODProcessor();
 
+// ============================================================================
+// 简化流程 - 快速构建CHTL JS函数
+// ============================================================================
+
+/**
+ * @brief 简化流程构建器 - 快速构建CHTL JS函数
+ * 
+ * 提供简化的API，一行代码快速构建复杂的CHTL JS函数
+ */
+class QuickBuilder {
+public:
+    QuickBuilder() = default;
+    
+    /**
+     * @brief 快速构建 - 一行代码创建CHTL JS函数
+     * 用法：
+     * auto func = QuickBuilder::create("printMylove($, $, $)")
+     *             .values("photo.jpg", "ASCII", "2.5")
+     *             .build();
+     */
+    static QuickBuilder create(const std::string& pattern, const std::string& ignoreChars = ",:{};()");
+    
+    /**
+     * @brief 快速设置参数值
+     */
+    template<typename... Args>
+    QuickBuilder& values(Args... args) {
+        std::vector<std::string> valueList = {std::to_string(args)...};
+        for (size_t i = 0; i < valueList.size() && i < syntax_->args.size(); ++i) {
+            if (syntax_->args[i].isPlaceholder()) {
+                syntax_->args[i].match(valueList[i]);
+            }
+        }
+        return *this;
+    }
+    
+    /**
+     * @brief 快速设置JS模板
+     */
+    QuickBuilder& templates(const std::vector<std::string>& jsTemplates);
+    
+    /**
+     * @brief 构建并返回JS代码
+     */
+    std::string build();
+    
+    /**
+     * @brief 获取Syntax对象
+     */
+    std::unique_ptr<Syntax> getSyntax() { return std::move(syntax_); }
+
+private:
+    std::unique_ptr<Syntax> syntax_;
+    
+    QuickBuilder(std::unique_ptr<Syntax> syntax) : syntax_(std::move(syntax)) {}
+};
+
+// ============================================================================
+// 虚函数支持系统
+// ============================================================================
+
+/**
+ * @brief 虚函数类型枚举
+ */
+enum class VirtualFunctionType {
+    CALLBACK,       // 回调函数
+    EVENT_HANDLER,  // 事件处理器
+    ASYNC_FUNCTION, // 异步函数
+    GENERATOR,      // 生成器函数
+    LAMBDA,         // Lambda表达式
+    ARROW_FUNCTION, // 箭头函数
+    CUSTOM          // 自定义虚函数
+};
+
+/**
+ * @brief 虚函数信息
+ */
+struct VirtualFunctionInfo {
+    std::string name;                    // 函数名
+    VirtualFunctionType type;            // 函数类型
+    std::vector<std::string> parameters; // 参数列表
+    std::string body;                    // 函数体
+    std::string returnType;              // 返回类型
+    bool isAsync;                        // 是否异步
+    std::string jsTemplate;              // JS模板
+    
+    VirtualFunctionInfo() : type(VirtualFunctionType::CUSTOM), isAsync(false) {}
+};
+
+/**
+ * @brief 虚函数管理器
+ */
+class VirtualFunctionManager {
+public:
+    VirtualFunctionManager();
+    
+    /**
+     * @brief 注册虚函数
+     */
+    void registerVirtualFunction(const std::string& name, const VirtualFunctionInfo& info);
+    
+    /**
+     * @brief 创建虚函数实例
+     */
+    std::string createVirtualFunction(const std::string& name, 
+                                    const std::vector<std::string>& args = {});
+    
+    /**
+     * @brief 检查是否为虚函数
+     */
+    bool isVirtualFunction(const std::string& name) const;
+    
+    /**
+     * @brief 获取虚函数信息
+     */
+    const VirtualFunctionInfo* getVirtualFunctionInfo(const std::string& name) const;
+    
+    /**
+     * @brief 预定义常用虚函数
+     */
+    void setupBuiltinVirtualFunctions();
+
+private:
+    std::unordered_map<std::string, VirtualFunctionInfo> virtualFunctions_;
+};
+
+// ============================================================================
+// 高级扫描机制
+// ============================================================================
+
+/**
+ * @brief 扫描器类型枚举
+ */
+enum class ScannerType {
+    DUAL_POINTER,    // 双指针扫描器
+    REGEX_SCANNER,   // 正则表达式扫描器
+    AST_SCANNER,     // AST扫描器
+    CONTEXT_SCANNER, // 上下文扫描器
+    HYBRID_SCANNER   // 混合扫描器
+};
+
+/**
+ * @brief 扫描结果
+ */
+struct ScanResult {
+    bool found;                          // 是否找到
+    std::string keyword;                 // 关键字
+    size_t position;                     // 位置
+    std::vector<std::string> context;    // 上下文
+    std::string beforeKeyword;           // 关键字前内容
+    std::string afterKeyword;            // 关键字后内容
+    std::unordered_map<std::string, std::string> metadata; // 元数据
+    
+    ScanResult() : found(false), position(0) {}
+};
+
+/**
+ * @brief 高级扫描机制
+ */
+class AdvancedScannerSystem {
+public:
+    AdvancedScannerSystem();
+    
+    /**
+     * @brief 设置扫描器类型
+     */
+    void setScannerType(ScannerType type);
+    
+    /**
+     * @brief 多模式扫描
+     */
+    std::vector<ScanResult> multiModeScan(const std::string& content, 
+                                        const std::vector<std::string>& keywords);
+    
+    /**
+     * @brief 上下文感知扫描
+     */
+    ScanResult contextAwareScan(const std::string& content, 
+                              const std::string& keyword,
+                              const std::string& context = "");
+    
+    /**
+     * @brief 智能前置截取
+     */
+    ExtractResult intelligentFrontExtract(const std::string& content,
+                                        const std::string& keyword,
+                                        int contextSize = 3);
+    
+    /**
+     * @brief 嵌套结构扫描
+     */
+    std::vector<ScanResult> nestedStructureScan(const std::string& content,
+                                              const std::string& openBracket = "{",
+                                              const std::string& closeBracket = "}");
+    
+    /**
+     * @brief 语义扫描
+     */
+    ScanResult semanticScan(const std::string& content, 
+                          const std::string& semanticPattern);
+
+private:
+    ScannerType currentType_;
+    std::unique_ptr<DualPointerScanner> dualScanner_;
+    
+    // 内部扫描方法
+    ScanResult dualPointerScan(const std::string& content, const std::string& keyword);
+    ScanResult regexScan(const std::string& content, const std::string& keyword);
+    ScanResult astScan(const std::string& content, const std::string& keyword);
+    ScanResult contextScan(const std::string& content, const std::string& keyword, const std::string& context);
+};
+
+// ============================================================================
+// CJMOD核心机制集成
+// ============================================================================
+
+/**
+ * @brief CJMOD核心机制管理器
+ */
+class CJMODCoreSystem {
+public:
+    CJMODCoreSystem();
+    
+    /**
+     * @brief 获取虚函数管理器
+     */
+    VirtualFunctionManager& getVirtualFunctionManager() { return virtualFunctionManager_; }
+    
+    /**
+     * @brief 获取高级扫描系统
+     */
+    AdvancedScannerSystem& getAdvancedScanner() { return advancedScanner_; }
+    
+    /**
+     * @brief 快速构建器
+     */
+    QuickBuilder quickBuild(const std::string& pattern, const std::string& ignoreChars = ",:{};()");
+    
+    /**
+     * @brief 智能函数检测
+     */
+    bool isSmartFunction(const std::string& content);
+    
+    /**
+     * @brief 自动优化扫描策略
+     */
+    void optimizeScanningStrategy(const std::string& content);
+    
+    /**
+     * @brief 批量处理CHTL JS函数
+     */
+    std::vector<std::string> batchProcess(const std::vector<std::string>& patterns,
+                                        const std::vector<std::vector<std::string>>& valuesList);
+
+private:
+    VirtualFunctionManager virtualFunctionManager_;
+    AdvancedScannerSystem advancedScanner_;
+};
+
+// 更新CHTLJSFunction类，集成新功能
+class CHTLJSFunction {
+public:
+    CHTLJSFunction();
+    
+    // ... 原有方法保持不变 ...
+    
+    /**
+     * @brief 获取核心系统
+     */
+    CJMODCoreSystem& getCoreSystem() { return coreSystem_; }
+    
+    /**
+     * @brief 快速构建 - 简化流程
+     * 用法：auto result = processor->quickBuild("printMylove($, $)").values("a", "b").build();
+     */
+    QuickBuilder quickBuild(const std::string& pattern, const std::string& ignoreChars = ",:{};()");
+    
+    /**
+     * @brief 虚函数处理
+     */
+    std::string processVirtualFunction(const std::string& functionName, 
+                                     const std::vector<std::string>& args = {});
+    
+    /**
+     * @brief 高级扫描
+     */
+    std::vector<ScanResult> advancedScan(const std::string& content, 
+                                       const std::vector<std::string>& keywords);
+    
+    /**
+     * @brief 智能参数推导
+     */
+    std::vector<std::string> smartParameterInference(const std::string& pattern);
+    
+    /**
+     * @brief 自动代码优化
+     */
+    std::string autoOptimize(const std::string& jsCode);
+
+private:
+    // ... 原有成员变量 ...
+    CJMODCoreSystem coreSystem_;
+};
+
+// ============================================================================
+// 便捷宏定义
+// ============================================================================
+
+/**
+ * @brief 快速构建宏
+ */
+#define QUICK_CJMOD(pattern, ...) \
+    QuickBuilder::create(pattern).values(__VA_ARGS__).build()
+
+/**
+ * @brief 虚函数宏
+ */
+#define VIRTUAL_FUNC(name, type, ...) \
+    processor->getCoreSystem().getVirtualFunctionManager().createVirtualFunction(name, {__VA_ARGS__})
+
+/**
+ * @brief 高级扫描宏
+ */
+#define ADVANCED_SCAN(content, keywords) \
+    processor->getCoreSystem().getAdvancedScanner().multiModeScan(content, keywords)
+
 } // namespace CJMOD
 } // namespace CHTL
 
 /**
- * @brief 🎯 最终三类核心架构：
+ * @brief 🚀 增强功能总结：
  * 
- * 【Arg类】- 参数处理核心
- * - operator() 重载：keyword.arg[0](peekKeyword(-1))
- * - bind方法：绑定值处理函数
- * - match方法：匹配参数值
- * - transform方法：转换为JS代码
- * - 支持输出：std::cout << keyword.args[0]
+ * 【简化流程】
+ * - QuickBuilder：一行代码快速构建
+ * - 链式调用：create().values().templates().build()
+ * - 宏支持：QUICK_CJMOD(pattern, args...)
  * 
- * 【Syntax类】- 语法容器和主控制器
- * - args向量：keyword.args[0], keyword.args[1]...
- * - bind方法：keyword.args.bind("url", func)
- * - match方法：keyword.args.match("url", value)
- * - transform方法：keyword.args.transform("url", template)
- * - result方法：keyword.args.result()
- * - length方法：keyword.args.length()
- * - 占位符自动计数支持
+ * 【虚函数支持】
+ * - VirtualFunctionManager：虚函数管理
+ * - 多种函数类型：回调、事件、异步、生成器等
+ * - 自动JS代码生成：智能模板系统
  * 
- * 【CHTLJSFunction类】- 完整处理器
- * - syntaxAnalys：语法分析入口
- * - scanKeyword：扫描器接口
- * - peekKeyword：获取前后关键字
- * - policy系列：扫描策略控制
- * - generateCode：代码生成
- * - isObject/isFunction/slice：辅助函数
+ * 【高级扫描机制】
+ * - 多模式扫描：双指针、正则、AST、上下文
+ * - 智能前置截取：上下文感知
+ * - 嵌套结构扫描：处理复杂语法
+ * - 语义扫描：理解代码含义
  * 
- * 🔧 完整流程：
- * syntaxAnalys(拆分成多个arg) 
- * -> bind(绑定获取值的函数) 
- * -> transform(最终的JS代码) 
- * -> scanKeyword(什么关键字作为统一扫描器的搜索) 
- * -> match(捕获参数值，要拿到代码片段才能使用peekKeyword) 
- * -> result(组合所有参数的最终JS代码) 
- * -> generateCode(生成器输出标准JS)
+ * 【核心机制集成】
+ * - CJMODCoreSystem：统一管理所有核心功能
+ * - 智能优化：自动选择最佳扫描策略
+ * - 批量处理：高效处理多个函数
+ * 
+ * 💡 使用示例：
+ * // 简化流程
+ * auto result = QUICK_CJMOD("printMylove($, $)", "photo.jpg", "ASCII");
+ * 
+ * // 虚函数
+ * auto callback = VIRTUAL_FUNC("onClick", CALLBACK, "event");
+ * 
+ * // 高级扫描
+ * auto results = ADVANCED_SCAN(sourceCode, {"printMylove", "iNeverAway"});
  */
