@@ -219,16 +219,16 @@ export class ModuleResolver {
         const targetExtension = this.getExtensionForMediaType(options.importType);
         const importPath = options.importPath;
 
-        // 确定搜索策略
-        if (this.isSpecificFile(importPath)) {
-            // 具体文件名（带后缀）：在编译文件所在目录（非递归）直接搜索该文件
-            return this.searchSpecificFile(importPath, options.workspaceRoot, targetExtension, candidates);
-        } else if (this.isFileName(importPath)) {
-            // 文件名（不带后缀）：在编译文件所在目录（非递归）按类型搜索相关文件
-            return this.searchFileByName(importPath, options.workspaceRoot, targetExtension, candidates);
+        // 使用完整的搜索路径策略
+        if (this.isAbsolutePath(importPath)) {
+            // 绝对路径：直接检查文件
+            return this.searchAbsolutePath(importPath, [targetExtension], candidates);
+        } else if (this.isSpecificFile(importPath)) {
+            // 具体文件名（带后缀）：在所有搜索路径中查找
+            return this.searchInOrderedPaths(importPath, searchPaths, candidates);
         } else {
-            // 如果路径为文件夹或不包含具体文件信息时，触发报错
-            throw new Error(`Invalid media import path: ${importPath}. Expected file name or specific file path.`);
+            // 文件名（不带后缀）：在所有搜索路径中按类型搜索
+            return this.searchModuleByName(importPath, searchPaths, [targetExtension], candidates);
         }
     }
 
@@ -268,16 +268,20 @@ export class ModuleResolver {
     }
 
     private async resolveOriginImport(options: ImportSearchOptions, searchPaths: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
-        // 原始嵌入导入：直接从指定路径导入，不进行复杂的搜索策略
+        // 原始嵌入导入：支持vue、react、angular等框架文件
         const importPath = options.importPath;
-        
-        if (fs.existsSync(importPath)) {
-            const moduleInfo = await this.createModuleInfo(importPath, this.getFileType(importPath), false);
-            candidates.push(moduleInfo);
-            return moduleInfo;
-        }
+        const allowedExtensions = ['vue', 'jsx', 'tsx', 'svelte', 'html', 'js', 'ts'];
 
-        return undefined;
+        if (this.isAbsolutePath(importPath)) {
+            // 绝对路径：直接检查文件
+            return this.searchAbsolutePath(importPath, allowedExtensions, candidates);
+        } else if (this.isSpecificFile(importPath)) {
+            // 具体文件名（带后缀）：在所有搜索路径中查找
+            return this.searchInOrderedPaths(importPath, searchPaths, candidates);
+        } else {
+            // 文件名（不带后缀）：在所有搜索路径中按支持的扩展名搜索
+            return this.searchModuleByName(importPath, searchPaths, allowedExtensions, candidates);
+        }
     }
 
     private getExtensionForMediaType(importType: string): string {
@@ -305,32 +309,7 @@ export class ModuleResolver {
         return path.startsWith('/') || path.includes(':');
     }
 
-    private async searchSpecificFile(fileName: string, baseDir: string, expectedExtension: string, candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
-        const fullPath = path.join(baseDir, fileName);
-        
-        if (fs.existsSync(fullPath)) {
-            const actualExtension = path.extname(fileName).slice(1);
-            if (!expectedExtension || actualExtension === expectedExtension) {
-                const moduleInfo = await this.createModuleInfo(fullPath, this.getFileType(fullPath), false);
-                candidates.push(moduleInfo);
-                return moduleInfo;
-            }
-        }
 
-        return undefined;
-    }
-
-    private async searchFileByName(fileName: string, baseDir: string, expectedExtension: string, candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
-        const targetFile = path.join(baseDir, `${fileName}.${expectedExtension}`);
-        
-        if (fs.existsSync(targetFile)) {
-            const moduleInfo = await this.createModuleInfo(targetFile, expectedExtension as any, false);
-            candidates.push(moduleInfo);
-            return moduleInfo;
-        }
-
-        return undefined;
-    }
 
     private async searchModuleByName(moduleName: string, searchPaths: string[], allowedExtensions: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
         // 按优先级搜索：所有搜索路径（已经包含正确的目录结构）

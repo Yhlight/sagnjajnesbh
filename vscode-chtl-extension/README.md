@@ -127,17 +127,86 @@
 }
 ```
 
-**模块搜索策略**：
-1. **编译器目录**：`{编译器所在目录}/modules`
-2. **当前文件目录**：`{当前CHTL文件目录}/modules`
+**模块搜索策略（已修正）**：
+
+### 🔍 搜索路径优先级
+1. **编译器目录**：`{编译器所在目录}/modules` 及其分类子目录
+2. **当前文件目录**：`{当前CHTL文件目录}/modules` 及其分类子目录
 3. **当前文件目录**：`{当前CHTL文件目录}`（不递归）
-4. **源码目录**：`{工作区}/src/modules`、`{工作区}/lib/modules` 等
-5. **工作区目录**：`{工作区}/modules`
+4. **源码目录**：`{工作区}/src/modules`、`{工作区}/lib/modules` 等及其分类子目录
+5. **工作区目录**：`{工作区}/modules` 及其分类子目录
 6. **配置路径**：用户配置的额外搜索路径
 
-**目录结构支持**：
-- **无序结构**：`modules/` - 所有 `.chtl`、`.cmod`、`.cjmod` 文件混合存放
-- **有序结构**：`modules/CMOD/`、`modules/cjmod/` - 按类型分类存放
+### 📁 所有导入类型的统一搜索策略
+所有导入类型现在都使用相同的智能搜索策略：
+
+#### CHTL 导入 (`[Import] CHTL`)
+- **支持文件**：`.chtl`, `.cmod`
+- **搜索策略**：按优先级在所有搜索路径中查找
+
+#### CJMOD 导入 (`[Import] CJMOD`)
+- **支持文件**：`.cjmod`
+- **搜索策略**：按优先级在所有搜索路径中查找
+
+#### 媒体导入 (`[Import] MEDIA_HTML/STYLE/JAVASCRIPT`)
+- **支持文件**：`.html`, `.css`, `.js`
+- **搜索策略**：按优先级在所有搜索路径中查找
+- **要求**：必须使用 `as` 子句
+
+#### 原始嵌入导入 (`[Import] ORIGIN_VUE/REACT/ANGULAR/CUSTOM`)
+- **支持文件**：`.vue`, `.jsx`, `.tsx`, `.svelte`, `.html`, `.js`, `.ts`
+- **搜索策略**：按优先级在所有搜索路径中查找
+
+### 🏗️ 路径解析规则
+对于所有导入类型：
+
+1. **绝对路径**：直接检查指定文件
+   ```chtl
+   [Import] CHTL "/absolute/path/to/module.chtl"
+   ```
+
+2. **具体文件**：在所有搜索路径中查找
+   ```chtl
+   [Import] CHTL "components/button.chtl"
+   [Import] MEDIA_STYLE "styles/main.css" as mainStyles
+   ```
+
+3. **文件名**：在所有搜索路径中按扩展名搜索
+   ```chtl
+   [Import] CHTL "button"        // 查找 button.chtl 或 button.cmod
+   [Import] CJMOD "helpers"      // 查找 helpers.cjmod
+   ```
+
+4. **通配符**：支持通配符模式
+   ```chtl
+   [Import] CHTL "components/*"
+   [Import] CJMOD "utils/*.cjmod"
+   ```
+
+### 🎯 目录结构支持
+**无序结构**：`modules/` - 所有 `.chtl`、`.cmod`、`.cjmod` 文件混合存放
+```
+modules/
+├── component.chtl
+├── utils.cmod
+├── helpers.cjmod
+├── main.css
+└── app.js
+```
+
+**有序结构**：`modules/CMOD/`、`modules/cjmod/` - 按类型分类存放
+```
+modules/
+├── CMOD/           # 或 Cmod/, cmod/
+│   ├── utils.cmod
+│   └── theme.cmod
+├── CJMOD/          # 或 CJmod/, cjmod/
+│   ├── helpers.cjmod
+│   └── validators.cjmod
+└── media/          # 媒体文件可以单独存放
+    ├── styles.css
+    └── scripts.js
+```
 
 ### 验证配置
 ```json
