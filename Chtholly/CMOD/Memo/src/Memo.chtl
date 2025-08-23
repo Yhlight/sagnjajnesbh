@@ -1,0 +1,551 @@
+[Template] @Style ChthollyMemoStyle {
+    .chtholly-memo-container {
+        background: linear-gradient(135deg, var(--chtholly-bg-light), var(--chtholly-bg-secondary));
+        border-radius: var(--chtholly-radius-xl);
+        padding: ChthollySpacing();
+        box-shadow: var(--chtholly-shadow-md);
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .chtholly-memo-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--chtholly-primary), var(--chtholly-secondary), var(--chtholly-accent));
+    }
+    
+    .chtholly-memo-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: ChthollySpacing();
+        padding-bottom: var(--chtholly-space-4);
+        border-bottom: 2px dashed var(--chtholly-border-light);
+    }
+    
+    .chtholly-memo-title {
+        font-size: var(--chtholly-font-2xl);
+        font-weight: var(--chtholly-font-bold);
+        color: var(--chtholly-primary);
+        text-shadow: 0 2px 4px rgba(253, 121, 168, 0.2);
+    }
+    
+    .chtholly-memo-date {
+        font-size: var(--chtholly-font-sm);
+        color: var(--chtholly-text-secondary);
+        background: var(--chtholly-secondary);
+        color: white;
+        padding: var(--chtholly-space-2) var(--chtholly-space-3);
+        border-radius: var(--chtholly-radius-full);
+        box-shadow: var(--chtholly-shadow-sm);
+    }
+    
+    .chtholly-memo-input-section {
+        display: flex;
+        gap: var(--chtholly-space-3);
+        margin-bottom: ChthollySpacing();
+    }
+    
+    .chtholly-memo-input {
+        flex: 1;
+        padding: var(--chtholly-space-3);
+        border: 2px solid var(--chtholly-border-light);
+        border-radius: var(--chtholly-radius-lg);
+        font-size: var(--chtholly-font-base);
+        font-family: ChthollyFonts();
+        transition: all ChthollyAnimations();
+        background: rgba(255, 255, 255, 0.8);
+    }
+    
+    .chtholly-memo-input:focus {
+        outline: none;
+        border-color: var(--chtholly-primary);
+        box-shadow: 0 0 0 3px rgba(253, 121, 168, 0.2);
+        background: white;
+    }
+    
+    .chtholly-memo-add-btn {
+        padding: var(--chtholly-space-3) ChthollySpacing();
+        background: linear-gradient(45deg, var(--chtholly-primary), var(--chtholly-secondary));
+        color: white;
+        border: none;
+        border-radius: var(--chtholly-radius-lg);
+        font-weight: var(--chtholly-font-semibold);
+        cursor: pointer;
+        transition: all ChthollyAnimations();
+        box-shadow: var(--chtholly-shadow-sm);
+    }
+    
+    .chtholly-memo-add-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--chtholly-shadow-md);
+    }
+    
+    .chtholly-memo-add-btn:active {
+        transform: translateY(0);
+    }
+    
+    .chtholly-memo-list {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: var(--chtholly-space-2);
+    }
+    
+    .chtholly-memo-item {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: var(--chtholly-radius-lg);
+        padding: var(--chtholly-space-4);
+        margin-bottom: var(--chtholly-space-3);
+        box-shadow: var(--chtholly-shadow-sm);
+        transition: all ChthollyAnimations();
+        position: relative;
+        border-left: 4px solid var(--chtholly-primary);
+        animation: slideInMemo 0.3s ease-out;
+    }
+    
+    .chtholly-memo-item:hover {
+        transform: translateX(5px);
+        box-shadow: var(--chtholly-shadow-md);
+    }
+    
+    .chtholly-memo-item.completed {
+        opacity: 0.7;
+        border-left-color: var(--chtholly-success);
+        background: rgba(0, 184, 148, 0.1);
+    }
+    
+    .chtholly-memo-item.completed .chtholly-memo-text {
+        text-decoration: line-through;
+        color: var(--chtholly-text-secondary);
+    }
+    
+    .chtholly-memo-text {
+        font-size: var(--chtholly-font-base);
+        color: var(--chtholly-text-primary);
+        margin-bottom: var(--chtholly-space-2);
+        line-height: 1.5;
+        word-wrap: break-word;
+    }
+    
+    .chtholly-memo-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: var(--chtholly-font-xs);
+        color: var(--chtholly-text-secondary);
+    }
+    
+    .chtholly-memo-actions {
+        display: flex;
+        gap: var(--chtholly-space-2);
+    }
+    
+    .chtholly-memo-btn {
+        padding: var(--chtholly-space-1) var(--chtholly-space-2);
+        border: none;
+        border-radius: var(--chtholly-radius-base);
+        cursor: pointer;
+        font-size: var(--chtholly-font-xs);
+        transition: all ChthollyAnimations();
+    }
+    
+    .chtholly-memo-complete-btn {
+        background: var(--chtholly-success);
+        color: white;
+    }
+    
+    .chtholly-memo-complete-btn:hover {
+        background: #00a085;
+    }
+    
+    .chtholly-memo-delete-btn {
+        background: var(--chtholly-danger);
+        color: white;
+    }
+    
+    .chtholly-memo-delete-btn:hover {
+        background: #d63031;
+    }
+    
+    .chtholly-memo-empty {
+        text-align: center;
+        padding: var(--chtholly-space-8);
+        color: var(--chtholly-text-secondary);
+        font-style: italic;
+    }
+    
+    .chtholly-memo-stats {
+        margin-top: ChthollySpacing();
+        padding-top: var(--chtholly-space-4);
+        border-top: 2px dashed var(--chtholly-border-light);
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+    }
+    
+    .chtholly-memo-stat {
+        font-size: var(--chtholly-font-sm);
+    }
+    
+    .chtholly-memo-stat-number {
+        display: block;
+        font-size: var(--chtholly-font-xl);
+        font-weight: var(--chtholly-font-bold);
+        color: var(--chtholly-primary);
+    }
+    
+    .chtholly-memo-stat-label {
+        color: var(--chtholly-text-secondary);
+    }
+    
+    @keyframes slideInMemo {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    /* 珂朵莉专属滚动条 */
+    .chtholly-memo-list::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .chtholly-memo-list::-webkit-scrollbar-track {
+        background: rgba(253, 121, 168, 0.1);
+        border-radius: var(--chtholly-radius-base);
+    }
+    
+    .chtholly-memo-list::-webkit-scrollbar-thumb {
+        background: linear-gradient(45deg, var(--chtholly-primary), var(--chtholly-secondary));
+        border-radius: var(--chtholly-radius-base);
+    }
+}
+
+[Template] @Element ChthollyMemoBoard {
+    div {
+        class: "chtholly-memo-container";
+        id: memoId;
+        
+        div {
+            class: "chtholly-memo-header";
+            
+            h2 {
+                class: "chtholly-memo-title";
+                text: title;
+            }
+            
+            span {
+                class: "chtholly-memo-date";
+                id: "memo-date";
+                text: "今天";
+            }
+        }
+        
+        div {
+            class: "chtholly-memo-input-section";
+            
+            input {
+                class: "chtholly-memo-input";
+                type: "text";
+                placeholder: "记录珂朵莉的美好回忆...";
+                id: "memo-input";
+                onkeypress: "handleMemoKeyPress(event)";
+            }
+            
+            button {
+                class: "chtholly-memo-add-btn";
+                onclick: "addMemo()";
+                text: "添加";
+            }
+        }
+        
+        div {
+            class: "chtholly-memo-list";
+            id: "memo-list";
+            
+            div {
+                class: "chtholly-memo-empty";
+                id: "memo-empty";
+                text: "还没有备忘录，开始记录珂朵莉的故事吧~ 🌸";
+            }
+        }
+        
+        div {
+            class: "chtholly-memo-stats";
+            
+            div {
+                class: "chtholly-memo-stat";
+                
+                span {
+                    class: "chtholly-memo-stat-number";
+                    id: "total-count";
+                    text: "0";
+                }
+                span {
+                    class: "chtholly-memo-stat-label";
+                    text: "总计";
+                }
+            }
+            
+            div {
+                class: "chtholly-memo-stat";
+                
+                span {
+                    class: "chtholly-memo-stat-number";
+                    id: "completed-count";
+                    text: "0";
+                }
+                span {
+                    class: "chtholly-memo-stat-label";
+                    text: "完成";
+                }
+            }
+            
+            div {
+                class: "chtholly-memo-stat";
+                
+                span {
+                    class: "chtholly-memo-stat-number";
+                    id: "pending-count";
+                    text: "0";
+                }
+                span {
+                    class: "chtholly-memo-stat-label";
+                    text: "待办";
+                }
+            }
+        }
+    }
+}
+
+// 展示[Origin]在Template内的使用
+[Origin] @JavaScript ChthollyMemoScript {
+    let memoData = JSON.parse(localStorage.getItem('chtholly-memos') || '[]');
+    let memoIdCounter = Math.max(...memoData.map(m => m.id || 0), 0) + 1;
+    
+    function initializeMemo() {
+        updateMemoDate();
+        renderMemoList();
+        updateStats();
+        
+        // 每分钟更新一次日期
+        setInterval(updateMemoDate, 60000);
+    }
+    
+    function updateMemoDate() {
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('zh-CN', {
+            month: 'long',
+            day: 'numeric',
+            weekday: 'short'
+        });
+        
+        const dateElement = document.getElementById('memo-date');
+        if (dateElement) {
+            dateElement.textContent = dateStr;
+        }
+    }
+    
+    function addMemo() {
+        const input = document.getElementById('memo-input');
+        const text = input.value.trim();
+        
+        if (!text) {
+            // 珂朵莉风格的提示
+            showChthollyToast('请输入备忘录内容哦~ 🌸', 'warning');
+            return;
+        }
+        
+        const memo = {
+            id: memoIdCounter++,
+            text: text,
+            completed: false,
+            createdAt: new Date().toISOString(),
+            completedAt: null
+        };
+        
+        memoData.unshift(memo);
+        saveMemos();
+        renderMemoList();
+        updateStats();
+        
+        input.value = '';
+        showChthollyToast('备忘录添加成功！', 'success');
+    }
+    
+    function handleMemoKeyPress(event) {
+        if (event.key === 'Enter') {
+            addMemo();
+        }
+    }
+    
+    function renderMemoList() {
+        const listContainer = document.getElementById('memo-list');
+        const emptyDiv = document.getElementById('memo-empty');
+        
+        if (memoData.length === 0) {
+            emptyDiv.style.display = 'block';
+            return;
+        }
+        
+        emptyDiv.style.display = 'none';
+        
+        // 清除现有内容（除了empty div）
+        const existingItems = listContainer.querySelectorAll('.chtholly-memo-item');
+        existingItems.forEach(item => item.remove());
+        
+        memoData.forEach(memo => {
+            const memoElement = createMemoElement(memo);
+            listContainer.appendChild(memoElement);
+        });
+    }
+    
+    function createMemoElement(memo) {
+        const div = document.createElement('div');
+        div.className = `chtholly-memo-item ${memo.completed ? 'completed' : ''}`;
+        div.dataset.memoId = memo.id;
+        
+        const createdDate = new Date(memo.createdAt).toLocaleString('zh-CN');
+        const completedDate = memo.completedAt ? new Date(memo.completedAt).toLocaleString('zh-CN') : '';
+        
+        div.innerHTML = `
+            <div class="chtholly-memo-text">${escapeHtml(memo.text)}</div>
+            <div class="chtholly-memo-meta">
+                <span>创建: ${createdDate}${memo.completed ? ` | 完成: ${completedDate}` : ''}</span>
+                <div class="chtholly-memo-actions">
+                    ${!memo.completed ? 
+                        '<button class="chtholly-memo-btn chtholly-memo-complete-btn" onclick="completeMemo(' + memo.id + ')">完成</button>' : 
+                        '<button class="chtholly-memo-btn chtholly-memo-complete-btn" onclick="uncompleteMemo(' + memo.id + ')" style="background: #6c5ce7;">撤销</button>'
+                    }
+                    <button class="chtholly-memo-btn chtholly-memo-delete-btn" onclick="deleteMemo(${memo.id})">删除</button>
+                </div>
+            </div>
+        `;
+        
+        return div;
+    }
+    
+    function completeMemo(id) {
+        const memo = memoData.find(m => m.id === id);
+        if (memo) {
+            memo.completed = true;
+            memo.completedAt = new Date().toISOString();
+            saveMemos();
+            renderMemoList();
+            updateStats();
+            showChthollyToast('任务完成！珂朵莉为你感到高兴~ ✨', 'success');
+        }
+    }
+    
+    function uncompleteMemo(id) {
+        const memo = memoData.find(m => m.id === id);
+        if (memo) {
+            memo.completed = false;
+            memo.completedAt = null;
+            saveMemos();
+            renderMemoList();
+            updateStats();
+            showChthollyToast('任务已恢复到待办状态', 'info');
+        }
+    }
+    
+    function deleteMemo(id) {
+        if (confirm('确定要删除这个备忘录吗？')) {
+            memoData = memoData.filter(m => m.id !== id);
+            saveMemos();
+            renderMemoList();
+            updateStats();
+            showChthollyToast('备忘录已删除', 'info');
+        }
+    }
+    
+    function saveMemos() {
+        localStorage.setItem('chtholly-memos', JSON.stringify(memoData));
+    }
+    
+    function updateStats() {
+        const total = memoData.length;
+        const completed = memoData.filter(m => m.completed).length;
+        const pending = total - completed;
+        
+        document.getElementById('total-count').textContent = total;
+        document.getElementById('completed-count').textContent = completed;
+        document.getElementById('pending-count').textContent = pending;
+    }
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    function showChthollyToast(message, type = 'info') {
+        const colors = {
+            success: '#00b894',
+            warning: '#fdcb6e',
+            info: '#74b9ff',
+            error: '#e17055'
+        };
+        
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${colors[type] || colors.info};
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10000;
+            font-family: ${getComputedStyle(document.documentElement).getPropertyValue('--chtholly-font-family')};
+            animation: slideInToast 0.3s ease-out;
+        `;
+        toast.textContent = message;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.animation = 'slideOutToast 0.3s ease-in';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+    
+    // 页面加载时初始化
+    document.addEventListener('DOMContentLoaded', initializeMemo);
+}
+
+// Toast动画样式
+[Origin] @Style MemoToastStyles {
+    @keyframes slideInToast {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOutToast {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+}
