@@ -1,0 +1,21 @@
+[Info] {
+    name = "ChthollyParallaxBackground";
+    version = "1.0.0";
+    description = "珂朵莉视差滚动背景 - 多层次深度感背景效果，支持鼠标交互和自定义设置";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "ChthollyCore";
+    category = "ui-background";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+    keywords = "parallax,background,layers,depth,mouse-interaction";
+    features = "multi-layer,speed-control,preset-modes,toggle-layers,mouse-enhancement";
+}
+
+[Export] {
+    [Template] @Style ChthollyParallaxBackgroundStyle;
+    [Template] @Element ChthollyParallaxBackgroundSystem;
+    
+    [Origin] @JavaScript ParallaxBackgroundScript;
+    [Origin] @Style ParallaxToastAnimations;
+}
