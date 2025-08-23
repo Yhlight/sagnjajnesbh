@@ -123,7 +123,7 @@
             "type": "string"
           },
           "default": ["./modules", "./node_modules", "${workspaceFolder}/modules"],
-          "description": "Additional paths to search for CHTL modules"
+          "description": "额外的模块搜索路径（编译器目录、当前文件目录、源码目录会自动添加）"
         },
         "chtl.modules.officialModulePath": {
           "type": "string",
@@ -186,6 +186,11 @@
       {
         "command": "chtl.debug.toggleLogs",
         "title": "Toggle Debug Logs",
+        "category": "CHTL"
+      },
+      {
+        "command": "chtl.debug.showModulePaths",
+        "title": "Show Module Search Paths",
         "category": "CHTL"
       }
     ],

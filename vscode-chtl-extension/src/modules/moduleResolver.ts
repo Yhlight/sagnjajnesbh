@@ -68,22 +68,99 @@ export class ModuleResolver {
         // 1. 官方模块目录
         if (officialModulePath) {
             const resolvedOfficialPath = this.resolvePlaceholders(officialModulePath, workspaceRoot);
-            searchPaths.push(resolvedOfficialPath);
+            this.addModulePaths(searchPaths, resolvedOfficialPath);
         }
 
-        // 2. 当前目录的module文件夹
-        searchPaths.push(path.join(workspaceRoot, 'modules'));
+        // 2. 编译器所在目录的module文件夹
+        const compilerPath = this.config.get<string>('compiler.path', '');
+        if (compilerPath && fs.existsSync(compilerPath)) {
+            const compilerDir = path.dirname(path.resolve(compilerPath));
+            this.addModulePaths(searchPaths, compilerDir);
+        }
 
-        // 3. 配置的搜索路径
+        // 3. 当前编译文件所在目录的module文件夹
+        const activeEditor = vscode.window.activeTextEditor;
+        if (activeEditor && (activeEditor.document.languageId === 'chtl' || activeEditor.document.languageId === 'chtl-js')) {
+            const currentFileDir = path.dirname(activeEditor.document.uri.fsPath);
+            this.addModulePaths(searchPaths, currentFileDir);
+            
+            // 编译文件所在目录本身（不递归）
+            searchPaths.push(currentFileDir);
+        }
+
+        // 4. 源码目录检查
+        const srcPaths = [
+            path.join(workspaceRoot, 'src'),
+            path.join(workspaceRoot, 'source'),
+            path.join(workspaceRoot, 'lib'),
+            path.join(workspaceRoot, 'app')
+        ];
+        
+        for (const srcPath of srcPaths) {
+            if (fs.existsSync(srcPath)) {
+                this.addModulePaths(searchPaths, srcPath);
+            }
+        }
+
+        // 5. 工作区根目录的module文件夹
+        this.addModulePaths(searchPaths, workspaceRoot);
+
+        // 6. 配置的搜索路径
         for (const configuredPath of configuredPaths) {
             const resolvedPath = this.resolvePlaceholders(configuredPath, workspaceRoot);
-            searchPaths.push(resolvedPath);
+            this.addModulePaths(searchPaths, resolvedPath);
         }
 
-        // 4. 当前目录
-        searchPaths.push(workspaceRoot);
+        return [...new Set(searchPaths.filter(p => fs.existsSync(p)))]; // 去重并过滤存在的路径
+    }
 
-        return searchPaths.filter(p => fs.existsSync(p));
+    /**
+     * 为指定目录添加模块路径
+     * 支持无序结构和有序结构
+     */
+    private addModulePaths(paths: string[], baseDir: string): void {
+        if (!fs.existsSync(baseDir)) {
+            return;
+        }
+
+        // 检查module/modules文件夹的各种变体
+        const moduleVariants = ['module', 'modules', 'Module', 'Modules'];
+        
+        for (const variant of moduleVariants) {
+            const modulePath = path.join(baseDir, variant);
+            if (fs.existsSync(modulePath)) {
+                // 添加module文件夹本身（无序结构：cmod,chtl,cjmod文件直接放在一起）
+                paths.push(modulePath);
+                
+                // 检查有序结构的子文件夹
+                this.addOrderedStructurePaths(paths, modulePath);
+            }
+        }
+    }
+
+    /**
+     * 添加有序结构路径
+     * 支持 CMOD/Cmod/cmod 和 CJMOD/CJmod/cjmod 分类
+     */
+    private addOrderedStructurePaths(paths: string[], moduleDir: string): void {
+        const cmodVariants = ['CMOD', 'Cmod', 'cmod'];
+        const cjmodVariants = ['CJMOD', 'CJmod', 'cjmod'];
+        
+        // 检查CMOD分类文件夹
+        for (const variant of cmodVariants) {
+            const cmodPath = path.join(moduleDir, variant);
+            if (fs.existsSync(cmodPath)) {
+                paths.push(cmodPath);
+            }
+        }
+        
+        // 检查CJMOD分类文件夹
+        for (const variant of cjmodVariants) {
+            const cjmodPath = path.join(moduleDir, variant);
+            if (fs.existsSync(cjmodPath)) {
+                paths.push(cjmodPath);
+            }
+        }
     }
 
     private resolvePlaceholders(pathTemplate: string, workspaceRoot: string): string {
@@ -256,31 +333,20 @@ export class ModuleResolver {
     }
 
     private async searchModuleByName(moduleName: string, searchPaths: string[], allowedExtensions: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
-        // 按优先级搜索：官方模块目录 → 当前目录module文件夹 → 当前目录
+        // 按优先级搜索：所有搜索路径（已经包含正确的目录结构）
         for (const searchPath of searchPaths) {
-            // 支持CMOD/CJMOD分类目录结构
-            const structuredPaths = [
-                path.join(searchPath, 'CMOD'),
-                path.join(searchPath, 'CJMOD'),
-                searchPath
-            ];
+            if (!fs.existsSync(searchPath)) continue;
 
-            for (const structuredPath of structuredPaths) {
-                if (!fs.existsSync(structuredPath)) continue;
-
-                for (const extension of allowedExtensions) {
-                    const targetFile = path.join(structuredPath, `${moduleName}.${extension}`);
+            for (const extension of allowedExtensions) {
+                const targetFile = path.join(searchPath, `${moduleName}.${extension}`);
+                
+                if (fs.existsSync(targetFile)) {
+                    const isOfficial = searchPath.includes('official') || searchPath.includes(this.context.extensionPath);
+                    const moduleInfo = await this.createModuleInfo(targetFile, extension as any, isOfficial);
+                    candidates.push(moduleInfo);
                     
-                    if (fs.existsSync(targetFile)) {
-                        const isOfficial = searchPath.includes('official') || searchPath.includes(this.context.extensionPath);
-                        const moduleInfo = await this.createModuleInfo(targetFile, extension as any, isOfficial);
-                        candidates.push(moduleInfo);
-                        
-                        // 返回第一个找到的模块（按优先级）
-                        if (!candidates.length || isOfficial) {
-                            return moduleInfo;
-                        }
-                    }
+                    // 返回第一个找到的模块（按优先级）
+                    return moduleInfo;
                 }
             }
         }
@@ -472,6 +538,70 @@ export class ModuleResolver {
         this.searchPathCache.clear();
         this.lastCacheUpdate = 0;
         this.initializeSearchPaths();
+    }
+
+    /**
+     * 获取当前搜索路径（用于调试）
+     */
+    public getSearchPaths(workspaceRoot?: string): string[] {
+        if (!workspaceRoot) {
+            const workspaceFolders = vscode.workspace.workspaceFolders;
+            if (!workspaceFolders || workspaceFolders.length === 0) {
+                return [];
+            }
+            workspaceRoot = workspaceFolders[0].uri.fsPath;
+        }
+        
+        return this.searchPathCache.get(workspaceRoot) || [];
+    }
+
+    /**
+     * 显示搜索路径调试信息
+     */
+    public showSearchPathsDebugInfo(): void {
+        const workspaceFolders = vscode.workspace.workspaceFolders;
+        if (!workspaceFolders || workspaceFolders.length === 0) {
+            vscode.window.showInformationMessage('没有打开的工作区');
+            return;
+        }
+
+        let debugInfo = '### CHTL 模块搜索路径 ###\n\n';
+        
+        for (const folder of workspaceFolders) {
+            const workspaceRoot = folder.uri.fsPath;
+            const searchPaths = this.getSearchPaths(workspaceRoot);
+            
+            debugInfo += `工作区: ${folder.name}\n`;
+            debugInfo += `路径: ${workspaceRoot}\n\n`;
+            debugInfo += '搜索路径:\n';
+            
+            if (searchPaths.length === 0) {
+                debugInfo += '  (无搜索路径)\n';
+            } else {
+                searchPaths.forEach((searchPath, index) => {
+                    const exists = fs.existsSync(searchPath);
+                    debugInfo += `  ${index + 1}. ${searchPath} ${exists ? '✓' : '✗'}\n`;
+                });
+            }
+            debugInfo += '\n';
+        }
+
+        debugInfo += '搜索策略说明:\n';
+        debugInfo += '1. 编译器所在目录的 module/modules 文件夹\n';
+        debugInfo += '2. 当前编译文件所在目录的 module/modules 文件夹\n';
+        debugInfo += '3. 当前编译文件所在目录（不递归）\n';
+        debugInfo += '4. 源码目录（src, source, lib, app）的 module/modules 文件夹\n';
+        debugInfo += '5. 工作区根目录的 module/modules 文件夹\n';
+        debugInfo += '6. 配置的额外搜索路径\n\n';
+        debugInfo += '支持的目录结构:\n';
+        debugInfo += '- 无序结构：所有文件直接在 module 文件夹根目录\n';
+        debugInfo += '- 有序结构：CMOD/Cmod/cmod 和 CJMOD/CJmod/cjmod 分类文件夹\n';
+
+        // 创建并显示输出面板
+        const outputChannel = vscode.window.createOutputChannel('CHTL Module Paths');
+        outputChannel.clear();
+        outputChannel.appendLine(debugInfo);
+        outputChannel.show();
     }
 
     private async ensureCacheValid(): Promise<void> {

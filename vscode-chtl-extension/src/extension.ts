@@ -164,6 +164,10 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.window.showInformationMessage(`Debug logs ${!currentState ? 'enabled' : 'disabled'}.`);
         }),
 
+        vscode.commands.registerCommand('chtl.debug.showModulePaths', () => {
+            moduleResolver.showSearchPathsDebugInfo();
+        }),
+
         vscode.commands.registerCommand('chtl.toggleConflictResolution', () => {
             const newStrategy = conflictResolver.toggleStrategy();
             vscode.window.showInformationMessage(`冲突解决策略已切换为: ${newStrategy}`);

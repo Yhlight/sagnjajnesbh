@@ -34,10 +34,11 @@
 - **错误解析**：智能解析编译错误并在编辑器中标注
 
 ### 🔄 模块系统
-- **自动解包**：按路径搜索自动解包导入的模块
+- **智能路径搜索**：按照编译器目录、当前文件目录、源码目录的优先级搜索模块
+- **自动解包**：自动解包导入的模块，无需手动指定路径
 - **路径解析**：支持相对路径、绝对路径、通配符路径
+- **多结构支持**：同时支持无序结构（所有文件混合）和有序结构（CMOD/CJMOD分类）
 - **缓存管理**：智能缓存模块信息，提升性能
-- **分类目录支持**：支持 CMOD/CJMOD 分类目录结构
 
 ### 🐛 调试支持
 - **断点调试**：支持在 CHTL 代码中设置断点
@@ -89,6 +90,7 @@
 | `Ctrl+Shift+P` → `CHTL: Compile Project` | 编译整个项目 |
 | `Ctrl+Shift+P` → `CHTL: Open Preview` | 打开编译预览 |
 | `Ctrl+Shift+P` → `CHTL: Refresh Modules` | 刷新模块缓存 |
+| `Ctrl+Shift+P` → `CHTL: Show Module Search Paths` | 显示模块搜索路径 |
 | `Ctrl+Shift+P` → `CHTL: Toggle Conflict Resolution` | 切换补全策略 |
 
 ## 🎛️ 配置选项
@@ -116,15 +118,26 @@
 ### 模块配置
 ```json
 {
-  "chtl.modules.searchPaths": [               // 模块搜索路径
-    "./modules",
-    "./cmod", 
-    "./cjmod"
+  "chtl.modules.searchPaths": [               // 额外模块搜索路径
+    "./custom-modules",
+    "./third-party"
   ],
   "chtl.modules.enableCache": true,           // 启用模块缓存
   "chtl.modules.autoResolution": true         // 自动模块解析
 }
 ```
+
+**模块搜索策略**：
+1. **编译器目录**：`{编译器所在目录}/modules`
+2. **当前文件目录**：`{当前CHTL文件目录}/modules`
+3. **当前文件目录**：`{当前CHTL文件目录}`（不递归）
+4. **源码目录**：`{工作区}/src/modules`、`{工作区}/lib/modules` 等
+5. **工作区目录**：`{工作区}/modules`
+6. **配置路径**：用户配置的额外搜索路径
+
+**目录结构支持**：
+- **无序结构**：`modules/` - 所有 `.chtl`、`.cmod`、`.cjmod` 文件混合存放
+- **有序结构**：`modules/CMOD/`、`modules/cjmod/` - 按类型分类存放
 
 ### 验证配置
 ```json
@@ -243,6 +256,7 @@ A: 确认文件扩展名正确（`.chtl` 或 `.cjmod`），重启 VSCode 后重�
 ### 诊断命令
 - `CHTL: Validate Syntax` - 验证当前文件语法
 - `CHTL: Refresh Modules` - 刷新模块缓存
+- `CHTL: Show Module Search Paths` - 显示模块搜索路径调试信息
 - `CHTL: Toggle Debug Logs` - 切换调试日志
 
 ## 🤝 贡献
