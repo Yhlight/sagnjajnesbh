@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试CJMOD扩展</title>
+</head>
+<body>
+    <h1>CJMOD扩展测试</h1>
+    
+    <!-- 导入test CJMOD模块 -->
+    [Import] @CJmod from "test"
+    
+    <script>
+    {
+        // 测试1：使用testFunction（标准流程，从外部获取值）
+        testFunction({
+            name: "myTest",
+            value: 42,
+            type: "number"
+        });
+        
+        // 测试2：使用simpleTest（简单测试）
+        simpleTest("Hello World", "upper");
+        
+        // 测试3：另一个testFunction调用
+        testFunction({
+            name: "anotherTest", 
+            value: 100,
+            type: "integer"
+        });
+        
+        // 测试4：simpleTest的不同模式
+        simpleTest("LOWERCASE TEST", "lower");
+        
+        // 测试5：默认模式
+        simpleTest("Default Mode Test", "default");
+        
+        console.log("CJMOD扩展测试完成");
+    }
+    </script>
+</body>
+</html>
