@@ -547,15 +547,7 @@ void CHTLGenerator::VisitCustomReferenceNode(AST::CustomReferenceNode& node) {
     }
 }
 
-void CHTLGenerator::VisitVariableReferenceNode(AST::VariableReferenceNode& node) {
-    variableSubstitutionCount_++;
-    
-    // 查找变量定义并替换
-    std::string value = ExpandVariable(node);
-    if (!value.empty()) {
-        output_ << value;
-    }
-}
+// 变量引用现在通过上下文和状态机处理，无需专门的访问方法
 
 void CHTLGenerator::VisitCommentNode(AST::CommentNode& node) {
     if ((config_.includeComments && !node.IsGeneratorComment()) ||
@@ -616,42 +608,49 @@ std::string CHTLGenerator::GenerateAttributes(AST::ElementNode& element) {
     return attrs.str();
 }
 
-std::string CHTLGenerator::ExpandVariable(AST::VariableReferenceNode& varRef) {
+// 变量扩展现在通过上下文和状态机处理
+std::string CHTLGenerator::ExpandVariable(const std::string& variableReference) {
+    // 解析变量引用格式：GroupName(variableName)
+    size_t parenPos = variableReference.find('(');
+    if (parenPos == std::string::npos) {
+        return variableReference; // 不是变量引用格式，直接返回
+    }
+    
+    std::string groupName = variableReference.substr(0, parenPos);
+    std::string variableName = variableReference.substr(parenPos + 1);
+    if (!variableName.empty() && variableName.back() == ')') {
+        variableName.pop_back();
+    }
+    
     // 查找变量组
     const Core::SymbolInfo* symbol = globalMap_.FindSymbolByType(
-        varRef.GetGroupName(), Core::SymbolType::TEMPLATE_VAR);
+        groupName, Core::SymbolType::TEMPLATE_VAR);
     
     if (!symbol) {
         symbol = globalMap_.FindSymbolByType(
-            varRef.GetGroupName(), Core::SymbolType::CUSTOM_VAR);
+            groupName, Core::SymbolType::CUSTOM_VAR);
     }
     
     if (!symbol) {
         Utils::ErrorHandler::GetInstance().LogError(
-            "未找到变量组: " + varRef.GetGroupName()
+            "未找到变量组: " + groupName
         );
-        return "";
+        return variableReference;
     }
     
     // 查找具体变量
-    auto it = symbol->properties.find(varRef.GetVariableName());
+    auto it = symbol->properties.find(variableName);
     if (it == symbol->properties.end()) {
         Utils::ErrorHandler::GetInstance().LogError(
-            "未找到变量: " + varRef.GetVariableName() + " 在组 " + varRef.GetGroupName() + " 中"
+            "未找到变量: " + variableName + " 在组 " + groupName + " 中"
         );
-        return "";
+        return variableReference;
     }
     
     std::string value = it->second;
     
-    // 处理特例化参数
-    if (varRef.HasSpecialization()) {
-        const auto& params = varRef.GetSpecializationParams();
-        auto paramIt = params.find(varRef.GetVariableName());
-        if (paramIt != params.end()) {
-            value = paramIt->second;
-        }
-    }
+    // 特例化参数现在通过上下文处理
+    // TODO: 实现基于上下文的特例化处理
     
     return value;
 }
@@ -1027,17 +1026,7 @@ void CHTLGenerator::VisitConstraintNode(AST::ConstraintNode& node) {
     }
 }
 
-void CHTLGenerator::VisitVariableGroupNode(AST::VariableGroupNode& node) {
-    // 变量组在变量引用时处理，这里存储到上下文
-    for (const auto& var : node.GetVariables()) {
-        std::string fullName = node.GetName() + "." + var.first;
-        context_.variables[fullName] = var.second;
-        
-        if (node.IsValuelessStyleGroup() && var.second.empty()) {
-            context_.variables["__valueless_group__" + node.GetName()] = "true";
-        }
-    }
-}
+// 变量组功能现在通过TEMPLATE_VAR和CUSTOM_VAR节点实现
 
 void CHTLGenerator::VisitSpecializationNode(AST::SpecializationNode& node) {
     // 特例化节点在自定义引用时处理，这里不需要直接处理

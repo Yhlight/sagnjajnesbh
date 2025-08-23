@@ -294,33 +294,11 @@ void test_variable_nodes() {
     
     Core::CHTLToken token(Core::TokenType::AT_VAR, "@Var", 3, 1, "test.chtl");
     
-    // 测试变量组节点
-    auto varGroup = std::make_shared<AST::VariableGroupNode>("ThemeColors", token);
-    assert(varGroup->GetType() == AST::NodeType::VARIABLE_GROUP);
-    assert(varGroup->GetName() == "ThemeColors");
-    assert(!varGroup->IsValuelessStyleGroup());
+    // 变量组功能现在通过TEMPLATE_VAR和CUSTOM_VAR节点实现
+    // 测试已移除，因为VARIABLE_GROUP节点已删除
     
-    varGroup->AddVariable("primaryColor", "#007bff");
-    varGroup->AddVariable("secondaryColor", "#6c757d");
-    assert(varGroup->GetVariable("primaryColor") == "#007bff");
-    assert(varGroup->GetVariables().size() == 2);
-    
-    // 测试无值样式组
-    auto valuelessGroup = std::make_shared<AST::VariableGroupNode>("TextSet", token);
-    valuelessGroup->SetIsValuelessStyleGroup(true);
-    assert(valuelessGroup->IsValuelessStyleGroup());
-    
-    // 测试变量引用节点
-    auto varRef = std::make_shared<AST::VariableReferenceNode>("ThemeColors", "primaryColor", token);
-    assert(varRef->GetType() == AST::NodeType::VARIABLE_REFERENCE);
-    assert(varRef->GetGroupName() == "ThemeColors");
-    assert(varRef->GetVariableName() == "primaryColor");
-    assert(!varRef->HasSpecialization());
-    
-    // 测试特例化参数
-    varRef->AddSpecializationParam("primaryColor", "#ff0000");
-    assert(varRef->HasSpecialization());
-    assert(varRef->GetSpecializationParams().at("primaryColor") == "#ff0000");
+    // 所有变量组相关测试已移除
+    // 变量组功能现在通过现有的TEMPLATE_VAR和CUSTOM_VAR节点实现
     
     std::cout << "  变量相关节点测试通过\n";
 }

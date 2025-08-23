@@ -115,7 +115,7 @@ std::string CHTLState::GetStateName(CompileState state) {
         case CompileState::PARSING_SCRIPT_BLOCK: return "PARSING_SCRIPT_BLOCK";
         case CompileState::PARSING_CSS_SELECTOR: return "PARSING_CSS_SELECTOR";
         case CompileState::PARSING_CSS_PROPERTIES: return "PARSING_CSS_PROPERTIES";
-        case CompileState::PARSING_VARIABLE_GROUP: return "PARSING_VARIABLE_GROUP";
+
         case CompileState::PARSING_INHERITANCE: return "PARSING_INHERITANCE";
         case CompileState::PARSING_DELETION: return "PARSING_DELETION";
         case CompileState::PARSING_INSERTION: return "PARSING_INSERTION";
@@ -206,8 +206,7 @@ void CHTLState::InitializeDefaultTransitions() {
     AddTransition(StateTransition(CompileState::PARSING_STYLE_BLOCK, CompileState::PARSING_CSS_SELECTOR, TokenType::ID_SELECTOR));
     AddTransition(StateTransition(CompileState::PARSING_STYLE_BLOCK, CompileState::PARSING_CSS_SELECTOR, TokenType::AMPERSAND));
     AddTransition(StateTransition(CompileState::PARSING_STYLE_BLOCK, CompileState::PARSING_CSS_PROPERTIES, TokenType::IDENTIFIER));
-    AddTransition(StateTransition(CompileState::PARSING_STYLE_BLOCK, CompileState::PARSING_VARIABLE_GROUP, TokenType::AT_STYLE));
-    AddTransition(StateTransition(CompileState::PARSING_STYLE_BLOCK, CompileState::PARSING_VARIABLE_GROUP, TokenType::AT_VAR));
+    // 变量组现在通过TEMPLATE_VAR和CUSTOM_VAR节点处理，无需专门的状态
     
     // CSS相关转换
     AddTransition(StateTransition(CompileState::PARSING_CSS_SELECTOR, CompileState::PARSING_CSS_PROPERTIES, TokenType::LEFT_BRACE));

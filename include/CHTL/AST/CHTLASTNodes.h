@@ -73,9 +73,7 @@ enum class NodeType {
     INDEX_ACCESS,           // 索引访问节点
     CONSTRAINT,             // 约束节点
     
-    // 变量和引用
-    VARIABLE_GROUP,         // 变量组节点
-    VARIABLE_REFERENCE,     // 变量引用节点
+    // 引用节点
     TEMPLATE_REFERENCE,     // 模板引用节点
     CUSTOM_REFERENCE,       // 自定义引用节点
     
@@ -576,11 +574,27 @@ public:
      * @brief 获取继承列表
      */
     const ASTNodeList& GetInheritances() const { return inheritances_; }
+    
+    /**
+     * @brief 添加变量（用于VAR类型模板）
+     */
+    void AddVariable(const std::string& name, const std::string& value);
+    
+    /**
+     * @brief 获取变量值
+     */
+    std::string GetVariable(const std::string& name) const;
+    
+    /**
+     * @brief 获取所有变量
+     */
+    const std::unordered_map<std::string, std::string>& GetVariables() const { return variables_; }
 
 protected:
     TemplateType templateType_;
     std::string name_;
     ASTNodeList inheritances_;
+    std::unordered_map<std::string, std::string> variables_;
 };
 
 /**
@@ -634,12 +648,28 @@ public:
      * @brief 获取特例化列表
      */
     const ASTNodeList& GetSpecializations() const { return specializations_; }
+    
+    /**
+     * @brief 添加变量（用于VAR类型自定义）
+     */
+    void AddVariable(const std::string& name, const std::string& value);
+    
+    /**
+     * @brief 获取变量值
+     */
+    std::string GetVariable(const std::string& name) const;
+    
+    /**
+     * @brief 获取所有变量
+     */
+    const std::unordered_map<std::string, std::string>& GetVariables() const { return variables_; }
 
 protected:
     CustomType customType_;
     std::string name_;
     ASTNodeList inheritances_;
     ASTNodeList specializations_;
+    std::unordered_map<std::string, std::string> variables_;
 };
 
 /**
@@ -1061,95 +1091,7 @@ private:
     std::vector<std::string> targets_;
 };
 
-/**
- * @brief 变量组节点类
- */
-class VariableGroupNode : public ASTNode {
-public:
-    VariableGroupNode(const std::string& name, const Core::CHTLToken& token = Core::CHTLToken());
-    void Accept(class ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    /**
-     * @brief 获取变量组名称
-     */
-    const std::string& GetName() const { return name_; }
-    
-    /**
-     * @brief 添加变量
-     */
-    void AddVariable(const std::string& name, const std::string& value);
-    
-    /**
-     * @brief 获取变量值
-     */
-    std::string GetVariable(const std::string& name) const;
-    
-    /**
-     * @brief 获取所有变量
-     */
-    const std::unordered_map<std::string, std::string>& GetVariables() const { return variables_; }
-    
-    /**
-     * @brief 检查是否为无值样式组
-     */
-    bool IsValuelessStyleGroup() const { return isValuelessStyleGroup_; }
-    
-    /**
-     * @brief 设置是否为无值样式组
-     */
-    void SetIsValuelessStyleGroup(bool isValueless) { isValuelessStyleGroup_ = isValueless; }
 
-private:
-    std::string name_;
-    std::unordered_map<std::string, std::string> variables_;
-    bool isValuelessStyleGroup_;
-};
-
-/**
- * @brief 变量引用节点类
- */
-class VariableReferenceNode : public ASTNode {
-public:
-    VariableReferenceNode(const std::string& groupName, const std::string& variableName,
-                         const Core::CHTLToken& token = Core::CHTLToken());
-    void Accept(class ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    /**
-     * @brief 获取变量组名称
-     */
-    const std::string& GetGroupName() const { return groupName_; }
-    
-    /**
-     * @brief 获取变量名称
-     */
-    const std::string& GetVariableName() const { return variableName_; }
-    
-    /**
-     * @brief 添加特例化参数
-     */
-    void AddSpecializationParam(const std::string& param, const std::string& value);
-    
-    /**
-     * @brief 获取特例化参数
-     */
-    const std::unordered_map<std::string, std::string>& GetSpecializationParams() const { 
-        return specializationParams_; 
-    }
-    
-    /**
-     * @brief 检查是否有特例化
-     */
-    bool HasSpecialization() const { return !specializationParams_.empty(); }
-
-private:
-    std::string groupName_;
-    std::string variableName_;
-    std::unordered_map<std::string, std::string> specializationParams_;
-};
 
 /**
  * @brief 模板引用节点类

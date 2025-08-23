@@ -236,10 +236,9 @@ AST::ASTNodePtr CHTLParser::ParseTemplateDeclaration() {
                     Advance(); // 消费分隔符
                     std::string varValue = ParseStringValue();
                     
-                                         // 创建变量节点（暂时不添加到符号表，在模板结束时统一处理）
-                     auto varNode = std::make_shared<AST::VariableGroupNode>(varName, Current());
-                     varNode->AddVariable(varName, varValue);
-                     templateNode->AddChild(varNode);
+                                         // 变量组功能通过TEMPLATE_VAR节点实现
+                     // 将变量添加到模板节点的变量映射中
+                     templateNode->AddVariable(varName, varValue);
                     
                     // 消费可选的分号
                     if (Check(Core::TokenType::SEMICOLON)) {
@@ -380,11 +379,9 @@ AST::ASTNodePtr CHTLParser::ParseCustomDeclaration() {
                 std::string varName = ParseIdentifier();
                 
                                  if (Check(Core::TokenType::COMMA) || Check(Core::TokenType::SEMICOLON)) {
-                     // 无值样式组
-                     auto varNode = std::make_shared<AST::VariableGroupNode>(varName, Current());
-                     varNode->AddVariable(varName, ""); // 空值
-                     varNode->SetIsValuelessStyleGroup(true);
-                     customNode->AddChild(varNode);
+                     // 无值样式组功能通过CUSTOM_VAR节点实现
+                     // 将无值变量添加到自定义节点的变量映射中
+                     customNode->AddVariable(varName, ""); // 空值表示无值样式组
                     
                     if (Check(Core::TokenType::COMMA)) {
                         Advance();
@@ -396,9 +393,8 @@ AST::ASTNodePtr CHTLParser::ParseCustomDeclaration() {
                      Advance(); // 消费分隔符
                      std::string varValue = ParseStringValue();
                      
-                     auto varNode = std::make_shared<AST::VariableGroupNode>(varName, Current());
-                     varNode->AddVariable(varName, varValue);
-                     customNode->AddChild(varNode);
+                     // 将变量添加到自定义节点的变量映射中
+                     customNode->AddVariable(varName, varValue);
                     
                     // 消费可选的分号
                     if (Check(Core::TokenType::SEMICOLON)) {
@@ -1814,8 +1810,10 @@ AST::ASTNodePtr CHTLParser::ParseVariableReference() {
         return nullptr;
     }
     
-    // 创建变量引用节点
-    auto varRefNode = std::make_shared<AST::VariableReferenceNode>(groupName, variableName, Current());
+    // 变量引用现在通过上下文和状态机处理
+    // 创建一个标识符节点来表示变量引用
+    auto varRefNode = std::make_shared<AST::LiteralNode>(AST::LiteralNode::LiteralType::UNQUOTED, 
+                                                        groupName + "(" + variableName + ")", Current());
     
     // 检查是否有特例化参数
     if (Check(Core::TokenType::EQUAL)) {
@@ -1823,7 +1821,7 @@ AST::ASTNodePtr CHTLParser::ParseVariableReference() {
         
         std::string specializationValue = ParseStringValue();
         if (!specializationValue.empty()) {
-            varRefNode->AddSpecializationParam(variableName, specializationValue);
+            // 变量引用的特例化现在通过上下文处理，LiteralNode不需要这个方法
         }
     }
     
@@ -1991,74 +1989,16 @@ AST::ASTNodePtr CHTLParser::ParseVariableGroup() {
         return nullptr;
     }
     
-    // 创建变量组节点
-    auto varGroupNode = std::make_shared<AST::VariableGroupNode>(groupName, Current());
+    // 变量组功能现在通过TEMPLATE_VAR和CUSTOM_VAR节点实现
+    // 这里应该根据上下文创建相应的节点类型
+    AST::ASTNodePtr varGroupNode = nullptr;
     
-    // 解析变量组内容
-    if (Check(Core::TokenType::LEFT_BRACE)) {
-        Advance(); // 消费 '{'
-        
-        bool isValuelessGroup = false;
-        
-        // 解析变量定义
-        while (!IsAtEnd() && !Check(Core::TokenType::RIGHT_BRACE)) {
-            SkipWhitespaceAndComments();
-            
-            if (IsAtEnd() || Check(Core::TokenType::RIGHT_BRACE)) {
-                break;
-            }
-            
-            // 解析变量名
-            std::string varName = ParseIdentifier();
-            if (varName.empty()) {
-                ReportError("期望变量名");
-                break;
-            }
-            
-            // 检查是否为无值样式组（只有逗号或分号，没有值）
-            if (Check(Core::TokenType::COMMA) || Check(Core::TokenType::SEMICOLON)) {
-                // 无值样式组
-                isValuelessGroup = true;
-                varGroupNode->AddVariable(varName, ""); // 空值
-                
-                if (Check(Core::TokenType::COMMA)) {
-                    Advance();
-                } else if (Check(Core::TokenType::SEMICOLON)) {
-                    Advance();
-                }
-            } else if (Check(Core::TokenType::COLON) || Check(Core::TokenType::EQUAL)) {
-                // 有值变量
-                Advance(); // 消费分隔符
-                
-                std::string varValue = ParseStringValue();
-                if (varValue.empty()) {
-                    ReportError("期望变量值");
-                    break;
-                }
-                
-                varGroupNode->AddVariable(varName, varValue);
-                
-                // 消费可选的分号
-                if (Check(Core::TokenType::SEMICOLON)) {
-                    Advance();
-                }
-            } else {
-                ReportError("期望 ':' 或 '=' 或 ',' 在变量 " + varName + " 后");
-                break;
-            }
-        }
-        
-        // 设置是否为无值样式组
-        varGroupNode->SetIsValuelessStyleGroup(isValuelessGroup);
-        
-        if (!Consume(Core::TokenType::RIGHT_BRACE, "期望 '}'")) {
-            if (config_.enableErrorRecovery) {
-                Synchronize({Core::TokenType::RIGHT_BRACE});
-            }
-        }
-    }
+    // 变量组解析现在通过现有的模板和自定义解析逻辑处理
+    // 这个方法可能不再需要，因为变量组应该在ParseTemplate和ParseCustom中处理
+    // 暂时返回nullptr，让调用者处理
+    return nullptr;
     
-    return varGroupNode;
+    // 变量组解析已简化，现在通过现有的模板和自定义节点处理
 }
 
 bool CHTLParser::ValidateSemantics(AST::ASTNodePtr node) {

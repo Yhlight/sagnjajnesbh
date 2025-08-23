@@ -197,14 +197,14 @@ private:
      * @param tokens Token流
      * @return 变量组节点
      */
-    ASTNodePtr ParseVariableGroup(Core::TokenStream& tokens);
+
     
     /**
      * @brief 解析变量引用
      * @param tokens Token流
      * @return 变量引用节点
      */
-    ASTNodePtr ParseVariableReference(Core::TokenStream& tokens);
+
     
     /**
      * @brief 解析模板引用

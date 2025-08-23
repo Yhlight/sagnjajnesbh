@@ -134,7 +134,7 @@ public:
     void VisitConfigurationNode(AST::ConfigurationNode& node) override;
     void VisitTemplateReferenceNode(AST::TemplateReferenceNode& node) override;
     void VisitCustomReferenceNode(AST::CustomReferenceNode& node) override;
-    void VisitVariableReferenceNode(AST::VariableReferenceNode& node) override;
+
     void VisitCommentNode(AST::CommentNode& node) override;
     void VisitLiteralNode(AST::LiteralNode& node) override;
     void VisitInheritanceNode(AST::InheritanceNode& node) override;
@@ -142,7 +142,7 @@ public:
     void VisitInsertionNode(AST::InsertionNode& node) override;
     void VisitIndexAccessNode(AST::IndexAccessNode& node) override;
     void VisitConstraintNode(AST::ConstraintNode& node) override;
-    void VisitVariableGroupNode(AST::VariableGroupNode& node) override;
+
     void VisitSpecializationNode(AST::SpecializationNode& node) override;
 
 private:
@@ -186,7 +186,7 @@ private:
      * @param varRef 变量引用节点
      * @return 替换后的值
      */
-    std::string ExpandVariable(AST::VariableReferenceNode& varRef);
+    std::string ExpandVariable(const std::string& variableReference);
     
     /**
      * @brief 生成自动类名

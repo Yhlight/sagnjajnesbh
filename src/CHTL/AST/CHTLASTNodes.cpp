@@ -105,8 +105,7 @@ std::string ASTNode::GetNodeTypeName(NodeType type) {
         case NodeType::INSERTION: return "INSERTION";
         case NodeType::INDEX_ACCESS: return "INDEX_ACCESS";
         case NodeType::CONSTRAINT: return "CONSTRAINT";
-        case NodeType::VARIABLE_GROUP: return "VARIABLE_GROUP";
-        case NodeType::VARIABLE_REFERENCE: return "VARIABLE_REFERENCE";
+
         case NodeType::TEMPLATE_REFERENCE: return "TEMPLATE_REFERENCE";
         case NodeType::CUSTOM_REFERENCE: return "CUSTOM_REFERENCE";
         case NodeType::SPECIALIZATION: return "SPECIALIZATION";
@@ -388,6 +387,7 @@ void TemplateNode::Accept(ASTVisitor& visitor) {
 
 ASTNodePtr TemplateNode::Clone() const {
     auto clone = std::make_shared<TemplateNode>(templateType_, name_, token_);
+    clone->variables_ = variables_;  // 复制变量映射
     for (const auto& inheritance : inheritances_) {
         clone->AddInheritance(inheritance->Clone());
     }
@@ -411,6 +411,15 @@ void TemplateNode::AddInheritance(ASTNodePtr inheritance) {
     if (inheritance && inheritance->GetType() == NodeType::INHERITANCE) {
         inheritances_.push_back(inheritance);
     }
+}
+
+void TemplateNode::AddVariable(const std::string& name, const std::string& value) {
+    variables_[name] = value;
+}
+
+std::string TemplateNode::GetVariable(const std::string& name) const {
+    auto it = variables_.find(name);
+    return (it != variables_.end()) ? it->second : "";
 }
 
 // CustomNode 实现
@@ -437,6 +446,7 @@ void CustomNode::Accept(ASTVisitor& visitor) {
 
 ASTNodePtr CustomNode::Clone() const {
     auto clone = std::make_shared<CustomNode>(customType_, name_, token_);
+    clone->variables_ = variables_;  // 复制变量映射
     for (const auto& inheritance : inheritances_) {
         clone->AddInheritance(inheritance->Clone());
     }
@@ -469,6 +479,15 @@ void CustomNode::AddSpecialization(ASTNodePtr specialization) {
     if (specialization && specialization->GetType() == NodeType::SPECIALIZATION) {
         specializations_.push_back(specialization);
     }
+}
+
+void CustomNode::AddVariable(const std::string& name, const std::string& value) {
+    variables_[name] = value;
+}
+
+std::string CustomNode::GetVariable(const std::string& name) const {
+    auto it = variables_.find(name);
+    return (it != variables_.end()) ? it->second : "";
 }
 
 // OriginNode 实现
@@ -777,69 +796,7 @@ void ConstraintNode::AddTarget(const std::string& target) {
     targets_.push_back(target);
 }
 
-// VariableGroupNode 实现
-VariableGroupNode::VariableGroupNode(const std::string& name, const Core::CHTLToken& token)
-    : ASTNode(NodeType::VARIABLE_GROUP, token), name_(name), isValuelessStyleGroup_(false) {}
 
-void VariableGroupNode::Accept(ASTVisitor& visitor) {
-    visitor.VisitVariableGroupNode(*this);
-}
-
-ASTNodePtr VariableGroupNode::Clone() const {
-    auto clone = std::make_shared<VariableGroupNode>(name_, token_);
-    clone->variables_ = variables_;
-    clone->SetIsValuelessStyleGroup(isValuelessStyleGroup_);
-    for (const auto& child : children_) {
-        clone->AddChild(child->Clone());
-    }
-    return clone;
-}
-
-std::string VariableGroupNode::ToString() const {
-    std::string result = "VARIABLE_GROUP(" + name_;
-    if (isValuelessStyleGroup_) {
-        result += " valueless";
-    }
-    result += ")";
-    return result;
-}
-
-void VariableGroupNode::AddVariable(const std::string& name, const std::string& value) {
-    variables_[name] = value;
-}
-
-std::string VariableGroupNode::GetVariable(const std::string& name) const {
-    auto it = variables_.find(name);
-    return (it != variables_.end()) ? it->second : "";
-}
-
-// VariableReferenceNode 实现
-VariableReferenceNode::VariableReferenceNode(const std::string& groupName, const std::string& variableName,
-                                           const Core::CHTLToken& token)
-    : ASTNode(NodeType::VARIABLE_REFERENCE, token), groupName_(groupName), variableName_(variableName) {}
-
-void VariableReferenceNode::Accept(ASTVisitor& visitor) {
-    visitor.VisitVariableReferenceNode(*this);
-}
-
-ASTNodePtr VariableReferenceNode::Clone() const {
-    auto clone = std::make_shared<VariableReferenceNode>(groupName_, variableName_, token_);
-    clone->specializationParams_ = specializationParams_;
-    return clone;
-}
-
-std::string VariableReferenceNode::ToString() const {
-    std::string result = "VARIABLE_REFERENCE(" + groupName_ + "(" + variableName_ + ")";
-    if (HasSpecialization()) {
-        result += " specialized";
-    }
-    result += ")";
-    return result;
-}
-
-void VariableReferenceNode::AddSpecializationParam(const std::string& param, const std::string& value) {
-    specializationParams_[param] = value;
-}
 
 // TemplateReferenceNode 实现
 TemplateReferenceNode::TemplateReferenceNode(const std::string& templateType, const std::string& templateName,
