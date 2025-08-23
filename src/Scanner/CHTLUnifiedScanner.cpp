@@ -9,9 +9,22 @@ namespace CHTL {
 namespace Scanner {
 
 CHTLUnifiedScanner::CHTLUnifiedScanner() 
-    : currentState_(ScannerState::GLOBAL), currentPos_(0), currentLine_(1), 
-      currentColumn_(1), bufferStartPos_(0), bufferStartLine_(1), 
-      bufferStartColumn_(1), verbose_(false) {
+    : currentState_(ScannerState::GLOBAL), scanStrategy_(ScanStrategy::SLIDING_WINDOW),
+      currentPos_(0), currentLine_(1), currentColumn_(1), bufferStartPos_(0), 
+      bufferStartLine_(1), bufferStartColumn_(1), verbose_(false) {
+    
+    // 初始化双指针滑动窗口状态
+    ResetSlidingWindowState();
+    
+    // 初始化前置代码截取状态
+    ResetFrontExtractState();
+    
+    // 注册默认的CHTL JS关键字
+    RegisterKeyword("vir");
+    RegisterKeyword("printMylove");
+    RegisterKeyword("iNeverAway");
+    RegisterKeyword("listen");
+    RegisterKeyword("delegate");
 }
 
 std::vector<CodeFragment> CHTLUnifiedScanner::ScanSource(const std::string& source, const std::string& fileName) {
@@ -47,32 +60,18 @@ std::vector<CodeFragment> CHTLUnifiedScanner::ScanSource(const std::string& sour
 }
 
 void CHTLUnifiedScanner::ScanLoop() {
-    while (!IsAtEnd()) {
-        switch (currentState_) {
-            case ScannerState::GLOBAL:
-                HandleGlobalState();
-                break;
-            case ScannerState::IN_CHTL_BLOCK:
-                HandleCHTLBlockState();
-                break;
-            case ScannerState::IN_GLOBAL_STYLE:
-            case ScannerState::IN_LOCAL_STYLE:
-                HandleStyleBlockState();
-                break;
-            case ScannerState::IN_GLOBAL_SCRIPT:
-            case ScannerState::IN_LOCAL_SCRIPT:
-                HandleScriptBlockState();
-                break;
-            case ScannerState::COLLECTING_CSS:
-            case ScannerState::COLLECTING_JS:
-                // 在CSS/JS收集状态下，继续检测CHTL切割点位
-                if (currentState_ == ScannerState::COLLECTING_CSS) {
-                    HandleStyleBlockState();
-                } else {
-                    HandleScriptBlockState();
-                }
-                break;
-        }
+    // 根据扫描策略选择扫描方法
+    switch (scanStrategy_) {
+        case ScanStrategy::SLIDING_WINDOW:
+            SlidingWindowScan();
+            break;
+        case ScanStrategy::FRONT_EXTRACT:
+            FrontExtractScan();
+            break;
+        default:
+            // 后备方案：使用传统扫描
+            TraditionalScan();
+            break;
     }
 }
 
@@ -625,6 +624,353 @@ void CHTLUnifiedScanner::LogDebug(const std::string& message) {
     if (verbose_) {
         std::cout << "[Scanner] " << message << std::endl;
     }
+}
+
+// ============ 新的扫描策略实现 ============
+
+void CHTLUnifiedScanner::SlidingWindowScan() {
+    LogDebug("开始双指针滑动窗口扫描");
+    
+    // 1. 第一步：初始扫描，避免语法片段位于开头被前指针错过
+    InitialScan();
+    
+    // 2. 第二步：移动前指针到初始扫描结束位置
+    slidingState_.frontPointer = (slidingState_.initialScanComplete) ? 
+        std::min(size_t(1000), source_.length()) : 0;
+    slidingState_.backPointer = 0;
+    
+    LogDebug("初始扫描完成，前指针位置: " + std::to_string(slidingState_.frontPointer));
+    
+    // 3. 主扫描循环：前指针和后指针一同向前移动
+    while (slidingState_.frontPointer < source_.length()) {
+        std::string keyword;
+        
+        // 前指针检测关键字
+        if (DetectKeywordAt(slidingState_.frontPointer, keyword)) {
+            LogDebug("前指针在位置 " + std::to_string(slidingState_.frontPointer) + 
+                    " 检测到关键字: " + keyword);
+            
+            // 通知后指针进入收集状态
+            if (!slidingState_.collectMode) {
+                // 推送前面的普通代码片段
+                if (slidingState_.backPointer < slidingState_.frontPointer) {
+                    ExtractAndProcessFromWindow(slidingState_.backPointer, slidingState_.frontPointer, FragmentType::JS);
+                }
+                
+                // 进入收集模式
+                slidingState_.collectMode = true;
+                slidingState_.collectBuffer.clear();
+                LogDebug("后指针进入收集状态");
+            }
+        }
+        
+        // 如果在收集模式中，收集CHTL JS语法片段
+        if (slidingState_.collectMode) {
+            size_t syntaxLength = DetectCHTLJSSyntaxAt(slidingState_.frontPointer);
+            if (syntaxLength > 0) {
+                // 收集CHTL JS语法片段
+                std::string syntaxFragment = source_.substr(slidingState_.frontPointer, syntaxLength);
+                slidingState_.collectBuffer += syntaxFragment;
+                
+                LogDebug("收集CHTL JS语法片段: " + syntaxFragment);
+                
+                // 移动前指针跳过这个语法片段
+                slidingState_.frontPointer += syntaxLength;
+                
+                // 检查是否为语法结束
+                if (syntaxFragment.find('}') != std::string::npos || 
+                    syntaxFragment.find(';') != std::string::npos) {
+                    // 推送收集的CHTL JS片段
+                    PushFragment(FragmentType::CHTL_JS, slidingState_.collectBuffer, 
+                               slidingState_.backPointer, slidingState_.frontPointer);
+                    
+                    // 退出收集模式，更新后指针
+                    slidingState_.collectMode = false;
+                    slidingState_.backPointer = slidingState_.frontPointer;
+                    slidingState_.collectBuffer.clear();
+                    
+                    LogDebug("完成CHTL JS片段收集，后指针更新到位置: " + 
+                            std::to_string(slidingState_.backPointer));
+                }
+                continue;
+            }
+        }
+        
+        // 前指针和后指针一同向前移动（滑动窗口特征）
+        slidingState_.frontPointer++;
+        
+        // 如果不在收集模式，后指针也同步移动
+        if (!slidingState_.collectMode) {
+            slidingState_.backPointer = slidingState_.frontPointer;
+        }
+    }
+    
+    // 处理剩余内容
+    if (slidingState_.backPointer < source_.length()) {
+        if (slidingState_.collectMode && !slidingState_.collectBuffer.empty()) {
+            // 推送未完成的CHTL JS片段
+            PushFragment(FragmentType::CHTL_JS, slidingState_.collectBuffer, 
+                       slidingState_.backPointer, source_.length());
+        } else {
+            // 推送普通代码片段
+            ExtractAndProcessFromWindow(slidingState_.backPointer, source_.length(), FragmentType::JS);
+        }
+    }
+    
+    LogDebug("双指针滑动窗口扫描完成");
+}
+
+void CHTLUnifiedScanner::FrontExtractScan() {
+    LogDebug("开始前置代码截取扫描");
+    
+    size_t currentPos = 0;
+    
+    while (currentPos < source_.length()) {
+        std::string keyword;
+        size_t keywordPos = FindNextKeyword(currentPos, keyword);
+        
+        if (keywordPos != std::string::npos) {
+            LogDebug("在位置 " + std::to_string(keywordPos) + " 发现关键字: " + keyword);
+            
+            // 截取前置代码段（避免发送给编译器）
+            if (keywordPos > currentPos) {
+                std::string frontSegment = ExtractFrontSegment(keywordPos);
+                ProcessExtractedSegment(frontSegment, FragmentType::JS);
+                LogDebug("截取前置代码段，长度: " + std::to_string(frontSegment.length()));
+            }
+            
+            // 处理CHTL JS语法片段
+            size_t syntaxLength = DetectCHTLJSSyntaxAt(keywordPos);
+            if (syntaxLength > 0) {
+                std::string syntaxFragment = source_.substr(keywordPos, syntaxLength);
+                PushFragment(FragmentType::CHTL_JS, syntaxFragment, keywordPos, keywordPos + syntaxLength);
+                
+                LogDebug("处理CHTL JS语法片段: " + syntaxFragment);
+                currentPos = keywordPos + syntaxLength;
+            } else {
+                // 不是有效的CHTL JS语法，作为普通代码处理
+                currentPos = keywordPos + keyword.length();
+            }
+        } else {
+            // 没有更多关键字，处理剩余代码
+            if (currentPos < source_.length()) {
+                std::string remainingSegment = source_.substr(currentPos);
+                ProcessExtractedSegment(remainingSegment, FragmentType::JS);
+                LogDebug("处理剩余代码段，长度: " + std::to_string(remainingSegment.length()));
+            }
+            break;
+        }
+    }
+    
+    LogDebug("前置代码截取扫描完成");
+}
+
+void CHTLUnifiedScanner::InitialScan(size_t searchRange) {
+    LogDebug("开始初始扫描，搜索范围: " + std::to_string(searchRange));
+    
+    size_t endPos = std::min(searchRange, source_.length());
+    
+    for (size_t pos = 0; pos < endPos; ++pos) {
+        std::string keyword;
+        if (DetectKeywordAt(pos, keyword)) {
+            LogDebug("初始扫描在位置 " + std::to_string(pos) + " 发现关键字: " + keyword);
+            
+            // 检测并处理CHTL JS语法
+            size_t syntaxLength = DetectCHTLJSSyntaxAt(pos);
+            if (syntaxLength > 0) {
+                // 推送前面的代码（如果有）
+                if (pos > 0) {
+                    PushFragment(FragmentType::JS, source_.substr(0, pos), 0, pos);
+                }
+                
+                // 推送CHTL JS语法片段
+                std::string syntaxFragment = source_.substr(pos, syntaxLength);
+                PushFragment(FragmentType::CHTL_JS, syntaxFragment, pos, pos + syntaxLength);
+                
+                LogDebug("初始扫描处理CHTL JS片段: " + syntaxFragment);
+            }
+        }
+    }
+    
+    slidingState_.initialScanComplete = true;
+    LogDebug("初始扫描完成");
+}
+
+void CHTLUnifiedScanner::TraditionalScan() {
+    LogDebug("使用传统扫描方式");
+    
+    // 原有的扫描逻辑
+    while (!IsAtEnd()) {
+        switch (currentState_) {
+            case ScannerState::GLOBAL:
+                HandleGlobalState();
+                break;
+            case ScannerState::IN_CHTL_BLOCK:
+                HandleCHTLBlockState();
+                break;
+            case ScannerState::IN_GLOBAL_STYLE:
+            case ScannerState::IN_LOCAL_STYLE:
+                HandleStyleBlockState();
+                break;
+            case ScannerState::IN_GLOBAL_SCRIPT:
+            case ScannerState::IN_LOCAL_SCRIPT:
+                HandleScriptBlockState();
+                break;
+            case ScannerState::COLLECTING_CSS:
+            case ScannerState::COLLECTING_JS:
+                // 在CSS/JS收集状态下，继续检测CHTL切割点位
+                if (currentState_ == ScannerState::COLLECTING_CSS) {
+                    HandleStyleBlockState();
+                } else {
+                    HandleScriptBlockState();
+                }
+                break;
+        }
+    }
+}
+
+// ============ 状态重置方法 ============
+
+void CHTLUnifiedScanner::ResetSlidingWindowState() {
+    slidingState_.frontPointer = 0;
+    slidingState_.backPointer = 0;
+    slidingState_.collectMode = false;
+    slidingState_.collectBuffer.clear();
+    slidingState_.initialScanComplete = false;
+}
+
+void CHTLUnifiedScanner::ResetFrontExtractState() {
+    extractState_.extractedSegments.clear();
+    extractState_.currentSegmentPos = 0;
+    extractState_.extractionActive = false;
+}
+
+// ============ 关键字检测方法 ============
+
+bool CHTLUnifiedScanner::DetectKeywordAt(size_t position, std::string& keyword) {
+    for (const auto& kw : registeredKeywords_) {
+        if (MatchAt(position, kw)) {
+            keyword = kw;
+            return true;
+        }
+    }
+    return false;
+}
+
+size_t CHTLUnifiedScanner::DetectCHTLJSSyntaxAt(size_t position) {
+    // 保存当前位置
+    size_t savedPos = currentPos_;
+    currentPos_ = position;
+    
+    // 使用现有的CHTL JS语法检测
+    size_t length = DetectCHTLJSSyntax();
+    
+    // 恢复位置
+    currentPos_ = savedPos;
+    
+    return length;
+}
+
+size_t CHTLUnifiedScanner::FindNextKeyword(size_t startPos, std::string& keyword) {
+    size_t nearestPos = std::string::npos;
+    std::string nearestKeyword;
+    
+    for (const auto& kw : registeredKeywords_) {
+        size_t pos = source_.find(kw, startPos);
+        if (pos != std::string::npos && (nearestPos == std::string::npos || pos < nearestPos)) {
+            nearestPos = pos;
+            nearestKeyword = kw;
+        }
+    }
+    
+    if (nearestPos != std::string::npos) {
+        keyword = nearestKeyword;
+    }
+    
+    return nearestPos;
+}
+
+// ============ 代码片段处理方法 ============
+
+void CHTLUnifiedScanner::ExtractAndProcessFromWindow(size_t start, size_t end, FragmentType type) {
+    if (start >= end || start >= source_.length()) return;
+    
+    end = std::min(end, source_.length());
+    std::string content = source_.substr(start, end - start);
+    
+    if (!content.empty()) {
+        PushFragment(type, content, start, end);
+        LogDebug("从滑动窗口提取片段，类型: " + std::to_string(static_cast<int>(type)) + 
+                ", 长度: " + std::to_string(content.length()));
+    }
+}
+
+std::string CHTLUnifiedScanner::ExtractFrontSegment(size_t endPos) {
+    if (endPos > extractState_.currentSegmentPos && extractState_.currentSegmentPos < source_.length()) {
+        endPos = std::min(endPos, source_.length());
+        std::string segment = source_.substr(extractState_.currentSegmentPos, endPos - extractState_.currentSegmentPos);
+        extractState_.currentSegmentPos = endPos;
+        return segment;
+    }
+    return "";
+}
+
+void CHTLUnifiedScanner::ProcessExtractedSegment(const std::string& segment, FragmentType segmentType) {
+    if (segment.empty()) return;
+    
+    // 存储截取的代码段，确保不发送给编译器
+    extractState_.extractedSegments.push_back(segment);
+    
+    // 创建片段记录，但标记为已截取，不会被发送到编译器
+    PushFragment(segmentType, segment, extractState_.currentSegmentPos - segment.length(), extractState_.currentSegmentPos);
+    
+    LogDebug("处理截取的代码段（不发送给编译器），长度: " + std::to_string(segment.length()));
+}
+
+// ============ 新增工具方法 ============
+
+char CHTLUnifiedScanner::CharAt(size_t pos) {
+    if (pos >= source_.length()) return '\0';
+    return source_[pos];
+}
+
+bool CHTLUnifiedScanner::IsAtEnd(size_t pos) {
+    return pos >= source_.length();
+}
+
+bool CHTLUnifiedScanner::MatchAt(size_t pos, const std::string& str) {
+    if (pos + str.length() > source_.length()) {
+        return false;
+    }
+    
+    return source_.substr(pos, str.length()) == str;
+}
+
+void CHTLUnifiedScanner::PushFragment(FragmentType type, const std::string& content, size_t startPos, size_t endPos) {
+    CodeFragment fragment;
+    fragment.type = type;
+    fragment.content = content;
+    fragment.startPos = startPos;
+    fragment.endPos = endPos;
+    fragment.startLine = 1; // 简化实现，可以后续改进
+    fragment.startColumn = startPos + 1;
+    fragment.endLine = 1;
+    fragment.endColumn = endPos + 1;
+    
+    fragments_.push_back(fragment);
+    
+    LogDebug("推送片段，类型: " + std::to_string(static_cast<int>(type)) + 
+            ", 内容: " + content.substr(0, std::min(content.length(), size_t(50))));
+}
+
+void CHTLUnifiedScanner::RegisterKeyword(const std::string& keyword) {
+    registeredKeywords_.insert(keyword);
+    LogDebug("注册关键字: " + keyword);
+}
+
+void CHTLUnifiedScanner::ClearKeywords() {
+    registeredKeywords_.clear();
+    LogDebug("清空所有关键字");
 }
 
 } // namespace Scanner
