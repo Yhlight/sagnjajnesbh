@@ -9,17 +9,4 @@
     category = "demo";
     minCHTLVersion = "1.0.0";
     maxCHTLVersion = "2.0.0";
-    
-    // CJMOD扩展说明
-    extensions = "printMylove, iNeverAway, createAnimation";
-    keywords = "demo, integration, cjmod, chtl";
-    
-    // 模块特性
-    features = [
-        "printMylove - 图像转ASCII/像素字符",
-        "iNeverAway - 状态管理和标记函数",
-        "createAnimation - 自定义动画扩展",
-        "虚对象系统集成演示",
-        "统一扫描器协作演示"
-    ];
 }
