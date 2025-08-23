@@ -201,22 +201,18 @@ void EnhancedOriginManager::registerCustomOriginType(const std::string& typeName
 }
 
 std::unordered_map<std::string, std::string> EnhancedOriginManager::getSupportedOriginTypes() const {
-    std::unordered_map<std::string, std::string> types = {
-        {"@Html", "HTML代码嵌入"},
-        {"@Style", "CSS样式嵌入"},
-        {"@JavaScript", "JavaScript代码嵌入"},
-        {"@Vue", "Vue.js组件嵌入"},
-        {"@React", "React组件嵌入"},
-        {"@Svelte", "Svelte组件嵌入"},
-        {"@Markdown", "Markdown文档嵌入"},
-        {"@XML", "XML数据嵌入"},
-        {"@JSON", "JSON数据嵌入"},
-        {"@YAML", "YAML配置嵌入"}
-    };
+    std::unordered_map<std::string, std::string> types;
     
-    // 添加自定义类型
+    // 不提供预定义类型，让开发者完全自由选择
+    // 只返回开发者自己注册的自定义类型
     for (const auto& [typeName, description] : customOriginTypes_) {
         types[typeName] = description;
+    }
+    
+    // 如果没有自定义类型，返回空的map，表示开发者可以自由创建任何类型
+    if (types.empty()) {
+        std::cout << "💡 提示：开发者可以自由创建任何@开头的Origin类型" << std::endl;
+        std::cout << "    例如：@Vue, @React, @TypeScript, @Sass, @CustomType 等" << std::endl;
     }
     
     return types;
@@ -255,7 +251,7 @@ std::string EnhancedOriginManager::getOriginTypeName(OriginType type) const {
         case OriginType::XML: return "@XML";
         case OriginType::JSON: return "@JSON";
         case OriginType::YAML: return "@YAML";
-        default: return "@CustomType";
+        default: return "@开发者自定义类型";
     }
 }
 
@@ -383,14 +379,10 @@ ContextType EnhancedContextualCommentGenerator::detectCurrentContext(
 std::string EnhancedContextualCommentGenerator::processDashComment(
     const std::string& commentContent, ContextType context, bool isMultiLine) const {
     
-    std::cout << "💬 处理\"--\"注释，上下文: " << static_cast<int>(context) 
+    std::cout << "💬 处理\"--\"注释（CHTL原生语法），上下文: " << static_cast<int>(context) 
               << ", 多行: " << (isMultiLine ? "是" : "否") << std::endl;
     
     switch (context) {
-        case ContextType::HTML_ELEMENT:
-        case ContextType::ORIGIN_BLOCK:
-            return generateHTMLComment(commentContent, isMultiLine);
-            
         case ContextType::CSS_BLOCK:
         case ContextType::CHTL_STYLE:
             return generateCSSComment(commentContent, isMultiLine);
@@ -402,19 +394,23 @@ std::string EnhancedContextualCommentGenerator::processDashComment(
         case ContextType::CHTL_SCRIPT:
             return generateCHTLJSComment(commentContent, isMultiLine);
             
+        // "--"是CHTL的原生语法，在CHTL上下文中应该转换为HTML注释
         case ContextType::CHTL_ROOT:
         case ContextType::CHTL_ELEMENT:
+        case ContextType::HTML_ELEMENT:
+        case ContextType::ORIGIN_BLOCK:
         case ContextType::TEMPLATE_BLOCK:
         case ContextType::CONFIGURATION_BLOCK:
         case ContextType::IMPORT_BLOCK:
         case ContextType::NAMESPACE_BLOCK:
-            return generateCHTLComment(commentContent, isMultiLine);
+            return generateHTMLComment(commentContent, isMultiLine);
             
         case ContextType::CUSTOM_BLOCK:
             return generateCustomComment(commentContent, context, isMultiLine);
             
         default:
-            return generateCHTLComment(commentContent, isMultiLine);
+            // 默认情况下，"--"作为CHTL原生语法，转换为HTML注释
+            return generateHTMLComment(commentContent, isMultiLine);
     }
 }
 
@@ -430,8 +426,6 @@ std::string EnhancedContextualCommentGenerator::smartProcessDashComment(
 
 std::string EnhancedContextualCommentGenerator::getCommentExample(ContextType context) const {
     switch (context) {
-        case ContextType::HTML_ELEMENT:
-            return "<!-- 这是HTML注释 -->";
         case ContextType::CSS_BLOCK:
         case ContextType::CHTL_STYLE:
             return "/* 这是CSS注释 */";
@@ -439,19 +433,19 @@ std::string EnhancedContextualCommentGenerator::getCommentExample(ContextType co
             return "// 这是JavaScript注释";
         case ContextType::CHTL_JS_BLOCK:
             return "// 这是CHTL JS注释";
+        // "--"是CHTL原生语法，默认转换为HTML注释
         default:
-            return "// 这是CHTL注释";
+            return "<!-- 这是HTML注释（CHTL \"--\"语法的默认转换） -->";
     }
 }
 
 std::unordered_map<std::string, std::pair<std::string, std::string>> 
 EnhancedContextualCommentGenerator::getSupportedCommentFormats() const {
     return {
-        {"HTML", {"<!-- {content} -->", "<!-- {content} -->"}},
         {"CSS", {"/* {content} */", "/* {content} */"}},
         {"JavaScript", {"// {content}", "/* {content} */"}},
         {"CHTL JS", {"// {content}", "/* {content} */"}},
-        {"CHTL", {"// {content}", "/* {content} */"}}
+        {"CHTL (默认HTML)", {"<!-- {content} -->", "<!-- {content} -->"}}
     };
 }
 

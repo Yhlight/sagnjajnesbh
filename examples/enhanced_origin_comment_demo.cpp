@@ -73,32 +73,39 @@ void demonstrateOriginAnywhere() {
     
     // 演示4：自定义Origin类型注册和使用
     {
-        std::cout << "📍 演示4：自定义Origin类型注册和使用" << std::endl;
+        std::cout << "📍 演示4：开发者自由创建Origin类型" << std::endl;
         
-        // 注册自定义类型
+        // 注册开发者需要的自定义类型
         originManager.registerCustomOriginType("@TypeScript", "TypeScript代码嵌入", 
             {ContextType::CHTL_SCRIPT, ContextType::JAVASCRIPT_BLOCK});
         
         originManager.registerCustomOriginType("@Sass", "Sass/SCSS样式嵌入",
             {ContextType::CHTL_STYLE, ContextType::CSS_BLOCK});
+            
+        originManager.registerCustomOriginType("@Vue", "Vue.js组件嵌入",
+            {ContextType::CHTL_ELEMENT, ContextType::ORIGIN_BLOCK});
+            
+        originManager.registerCustomOriginType("@MyCustomFormat", "开发者自定义格式",
+            {ContextType::CHTL_ROOT});
         
-        // 获取所有支持的类型
+        // 获取所有支持的类型（只显示开发者注册的）
         auto supportedTypes = originManager.getSupportedOriginTypes();
-        std::cout << "🎯 支持的Origin类型:" << std::endl;
-        for (const auto& [type, description] : supportedTypes) {
-            std::cout << "  " << type << ": " << description << std::endl;
+        std::cout << "🎯 开发者注册的Origin类型:" << std::endl;
+        if (supportedTypes.empty()) {
+            std::cout << "  （暂无注册类型 - 开发者可以自由创建任何@开头的类型）" << std::endl;
+        } else {
+            for (const auto& [type, description] : supportedTypes) {
+                std::cout << "  " << type << ": " << description << std::endl;
+            }
         }
         std::cout << std::endl;
         
-        // 使用自定义类型
-        OriginPosition position;
-        position.line = 20;
-        position.column = 5;
-        position.context = ContextType::CHTL_SCRIPT;
-        position.surroundingCode = "script { [Origin] @TypeScript tsCode; }";
-        
-        bool canUse = originManager.canUseOriginAnywhere(position, OriginType::CUSTOM_TYPE);
-        std::cout << "✅ 自定义类型可以使用: " << (canUse ? "是" : "否") << std::endl;
+        std::cout << "💡 开发者完全自由示例:" << std::endl;
+        std::cout << "  [Origin] @AnyThingYouWant - 完全由开发者控制" << std::endl;
+        std::cout << "  [Origin] @Python - 可以嵌入Python代码" << std::endl;
+        std::cout << "  [Origin] @GraphQL - 可以嵌入GraphQL查询" << std::endl;
+        std::cout << "  [Origin] @Dockerfile - 可以嵌入Docker配置" << std::endl;
+        std::cout << "  [Origin] @CustomBusinessLogic - 自定义业务逻辑" << std::endl;
         std::cout << std::endl;
     }
     
@@ -147,12 +154,14 @@ void demonstrateContextualComments() {
         };
         
         std::vector<TestCase> testCases = {
-            {"CHTL根上下文", ContextType::CHTL_ROOT, "这是CHTL根级别的注释"},
-            {"HTML元素", ContextType::HTML_ELEMENT, "这是HTML元素中的注释"},
             {"CSS样式块", ContextType::CSS_BLOCK, "这是CSS样式块中的注释"},
             {"JavaScript代码块", ContextType::JAVASCRIPT_BLOCK, "这是JavaScript代码块中的注释"},
             {"CHTL JS块", ContextType::CHTL_JS_BLOCK, "这是CHTL JS块中的注释"},
-            {"Origin块", ContextType::ORIGIN_BLOCK, "这是Origin块中的注释"}
+            {"CHTL根上下文", ContextType::CHTL_ROOT, "这是CHTL根级别的注释"},
+            {"CHTL元素", ContextType::CHTL_ELEMENT, "这是CHTL元素中的注释"},
+            {"HTML元素", ContextType::HTML_ELEMENT, "这是HTML元素中的注释"},
+            {"Origin块", ContextType::ORIGIN_BLOCK, "这是Origin块中的注释"},
+            {"模板块", ContextType::TEMPLATE_BLOCK, "这是模板块中的注释"}
         };
         
         for (const auto& testCase : testCases) {
@@ -408,6 +417,10 @@ html {
     
     // 显示转换前后的部分对比
     std::cout << "\n📋 \"--\"注释转换示例对比:" << std::endl;
+    std::cout << "转换前: -- 这是CHTL根上下文中的注释" << std::endl;
+    std::cout << "转换后: <!-- 这是CHTL根上下文中的注释 -->" << std::endl;
+    std::cout << std::endl;
+    
     std::cout << "转换前: -- 这是CSS上下文中的注释" << std::endl;
     std::cout << "转换后: /* 这是CSS上下文中的注释 */" << std::endl;
     std::cout << std::endl;
@@ -455,21 +468,36 @@ int main() {
     std::cout << "  ✅ 支持嵌套使用" << std::endl;
     
     std::cout << "\n💬 \"--\"注释上下文感知特性:" << std::endl;
-    std::cout << "  ✅ 根据上下文生成不同编程语言的注释" << std::endl;
+    std::cout << "  ✅ \"--\"是CHTL的原生语法，默认转换为HTML注释" << std::endl;
+    std::cout << "  ✅ 在特定上下文中转换为对应语言的注释格式" << std::endl;
+    std::cout << "  ✅ CSS上下文: -- 注释  →  /* 注释 */" << std::endl;
+    std::cout << "  ✅ JavaScript上下文: -- 注释  →  // 注释" << std::endl;
+    std::cout << "  ✅ CHTL上下文: -- 注释  →  <!-- 注释 -->" << std::endl;
     std::cout << "  ✅ 智能检测当前上下文类型" << std::endl;
-    std::cout << "  ✅ 支持HTML、CSS、JavaScript、CHTL等多种注释格式" << std::endl;
     std::cout << "  ✅ 支持单行和多行注释转换" << std::endl;
     std::cout << "  ✅ 支持Origin块内部上下文检测" << std::endl;
-    std::cout << "  ✅ 提供智能化的注释转换" << std::endl;
     
     std::cout << "\n🎨 设计理念体现:" << std::endl;
-    std::cout << "  🎯 [Origin]: 最大化灵活性，开发者完全控制" << std::endl;
-    std::cout << "  🎯 \"--\"注释: 智能化上下文感知，自动适配" << std::endl;
-    std::cout << "  🎯 两者结合: 既有灵活性，又有智能性" << std::endl;
+    std::cout << "  🎯 [Origin]: 最大化灵活性，开发者完全控制，无预定义束缚" << std::endl;
+    std::cout << "  🎯 \"--\"注释: CHTL原生语法，智能上下文转换" << std::endl;
+    std::cout << "  🎯 两者结合: 既有完全的自由度，又有智能的适配性" << std::endl;
     
-    std::cout << "\n🌟 这两个功能完美体现了CHTL的设计理念：" << std::endl;
-    std::cout << "    \"不束缚开发者，但提供智能化辅助\"" << std::endl;
-    std::cout << "========================================" << std::endl;
+    std::cout << "\n📋 \"--\"注释转换示例对比:" << std::endl;
+    std::cout << "转换前: -- 这是CHTL根上下文中的注释" << std::endl;
+    std::cout << "转换后: <!-- 这是CHTL根上下文中的注释 -->" << std::endl;
+    std::cout << std::endl;
+    
+    std::cout << "转换前: -- 这是CSS上下文中的注释" << std::endl;
+    std::cout << "转换后: /* 这是CSS上下文中的注释 */" << std::endl;
+    std::cout << std::endl;
+    
+    std::cout << "转换前: -- 脚本块中的注释" << std::endl;
+    std::cout << "转换后: // 脚本块中的注释" << std::endl;
+    std::cout << std::endl;
+    
+    std::cout << "转换前: -- 在Origin HTML块中的注释" << std::endl;
+    std::cout << "转换后: <!-- 在Origin HTML块中的注释 -->" << std::endl;
+    std::cout << std::endl;
     
     return 0;
 }
