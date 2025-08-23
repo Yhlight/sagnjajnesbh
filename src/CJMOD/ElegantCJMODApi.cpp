@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <iostream>
 #include <chrono>
+#include <limits>
+#include <cctype>
 
 namespace CHTL {
 namespace CJMOD {
@@ -1177,27 +1179,19 @@ ScanResult ScanStrategyManager::executeStrategy(ScanStrategy strategy,
     
     switch (strategy) {
         case ScanStrategy::DUAL_POINTER:
-            std::cout << "执行双指针扫描策略" << std::endl;
-            result.success = true;
-            result.processedCode = "// 双指针处理: " + keyword;
+            result = executeDualPointerScan(keyword, context);
             break;
             
         case ScanStrategy::BACKTRACK:
-            std::cout << "执行回退重拼接策略" << std::endl;
-            result.success = true;
-            result.processedCode = "// 回退处理: " + keyword;
+            result = executeBacktrackScan(keyword, context);
             break;
             
         case ScanStrategy::HYBRID:
-            std::cout << "执行混合策略" << std::endl;
-            result.success = true;
-            result.processedCode = "// 混合处理: " + keyword;
+            result = executeHybridScan(keyword, context);
             break;
             
         case ScanStrategy::ADAPTIVE:
-            std::cout << "执行自适应策略" << std::endl;
-            result.success = true;
-            result.processedCode = "// 自适应处理: " + keyword;
+            result = executeAdaptiveScan(keyword, context);
             break;
     }
     
@@ -1241,6 +1235,426 @@ void ScanStrategyManager::initialize() {
     strategyPerformance_.clear();
     
     std::cout << "✓ 扫描策略系统初始化完成" << std::endl;
+}
+
+// ==========================================
+// 具体扫描策略实现
+// ==========================================
+
+// 双指针扫描策略实现
+ScanResult ScanStrategyManager::executeDualPointerScan(const std::string& keyword, 
+                                                      ScanContext& context) {
+    std::cout << "=== 双指针扫描策略 ===" << std::endl;
+    std::cout << "关键字: " << keyword << std::endl;
+    
+    ScanResult result;
+    result.success = true;
+    
+    // 模拟获取当前代码上下文
+    std::string codeContext = getCurrentCodeContext(context);
+    
+    // 双指针扫描算法
+    size_t leftPtr = 0;
+    size_t rightPtr = codeContext.length() > 0 ? codeContext.length() - 1 : 0;
+    std::vector<std::string> tokens;
+    std::ostringstream processedCode;
+    
+    std::cout << "→ 开始双指针扫描，代码长度: " << codeContext.length() << std::endl;
+    
+    // 从左右两端向中间扫描
+    while (leftPtr <= rightPtr && leftPtr < codeContext.length()) {
+        // 左指针扫描
+        std::string leftToken = scanTokenFromLeft(codeContext, leftPtr);
+        if (!leftToken.empty()) {
+            tokens.push_back("L:" + leftToken);
+            std::cout << "  左指针发现: " << leftToken << std::endl;
+            
+            // 检查是否找到目标关键字
+            if (leftToken == keyword) {
+                std::cout << "✓ 双指针扫描找到关键字: " << keyword << std::endl;
+                processedCode << processCJMODKeyword(keyword, context);
+                break;
+            }
+        }
+        
+        // 右指针扫描
+        if (rightPtr > leftPtr && rightPtr < codeContext.length()) {
+            std::string rightToken = scanTokenFromRight(codeContext, rightPtr);
+            if (!rightToken.empty()) {
+                tokens.push_back("R:" + rightToken);
+                std::cout << "  右指针发现: " << rightToken << std::endl;
+                
+                // 检查是否找到目标关键字
+                if (rightToken == keyword) {
+                    std::cout << "✓ 双指针扫描找到关键字: " << keyword << std::endl;
+                    processedCode << processCJMODKeyword(keyword, context);
+                    break;
+                }
+            }
+        }
+        
+        leftPtr++;
+        if (rightPtr > 0) rightPtr--;
+    }
+    
+    if (processedCode.str().empty()) {
+        processedCode << "// 双指针扫描完成，未找到关键字: " << keyword;
+    }
+    
+    result.processedCode = processedCode.str();
+    result.memoryUsage = tokens.size() * 64; // 估算内存使用
+    
+    std::cout << "→ 双指针扫描完成，处理了 " << tokens.size() << " 个令牌" << std::endl;
+    
+    return result;
+}
+
+// 回退重拼接扫描策略实现
+ScanResult ScanStrategyManager::executeBacktrackScan(const std::string& keyword, 
+                                                    ScanContext& context) {
+    std::cout << "=== 回退重拼接扫描策略 ===" << std::endl;
+    std::cout << "关键字: " << keyword << std::endl;
+    
+    ScanResult result;
+    result.success = true;
+    
+    std::string codeContext = getCurrentCodeContext(context);
+    std::ostringstream processedCode;
+    
+    std::cout << "→ 开始回退扫描，支持复杂中缀操作符" << std::endl;
+    
+    // 回退扫描算法 - 特别适合处理复杂的中缀操作符
+    std::vector<ScanState> scanStack;
+    size_t currentPos = 0;
+    bool found = false;
+    
+    while (currentPos < codeContext.length() && !found) {
+        // 保存当前扫描状态
+        ScanState currentState;
+        currentState.position = currentPos;
+        currentState.tokenBuffer = "";
+        currentState.nestingLevel = context.nestingLevel;
+        
+        // 尝试扫描当前位置
+        std::string token = scanTokenAtPosition(codeContext, currentPos);
+        
+        if (token == keyword) {
+            std::cout << "✓ 回退扫描找到关键字: " << keyword << " 在位置 " << currentPos << std::endl;
+            
+            // 检查是否需要回退处理
+            if (needsBacktrackProcessing(keyword, codeContext, currentPos)) {
+                std::cout << "→ 执行回退重拼接处理" << std::endl;
+                
+                // 回退到合适的位置
+                size_t backtrackPos = findBacktrackPosition(codeContext, currentPos, keyword);
+                std::cout << "  回退到位置: " << backtrackPos << std::endl;
+                
+                // 重新拼接代码片段
+                std::string reassembledCode = reassembleCodeSegment(codeContext, backtrackPos, currentPos + keyword.length());
+                std::cout << "  重拼接代码: " << reassembledCode.substr(0, 50) << "..." << std::endl;
+                
+                processedCode << processCJMODKeywordWithBacktrack(keyword, reassembledCode, context);
+            } else {
+                // 直接处理
+                processedCode << processCJMODKeyword(keyword, context);
+            }
+            found = true;
+            break;
+        }
+        
+        // 保存扫描状态到栈中
+        scanStack.push_back(currentState);
+        currentPos++;
+        
+        // 如果栈太深，执行回退
+        if (scanStack.size() > 100) {
+            std::cout << "→ 执行栈深度回退" << std::endl;
+            currentPos = scanStack[scanStack.size() / 2].position;
+            scanStack.erase(scanStack.begin() + scanStack.size() / 2, scanStack.end());
+        }
+    }
+    
+    if (!found) {
+        processedCode << "// 回退扫描完成，未找到关键字: " << keyword;
+    }
+    
+    result.processedCode = processedCode.str();
+    result.memoryUsage = scanStack.size() * 128; // 回退扫描需要更多内存
+    
+    std::cout << "→ 回退扫描完成，最大栈深度: " << scanStack.size() << std::endl;
+    
+    return result;
+}
+
+// 混合扫描策略实现
+ScanResult ScanStrategyManager::executeHybridScan(const std::string& keyword, 
+                                                 ScanContext& context) {
+    std::cout << "=== 混合扫描策略 ===" << std::endl;
+    
+    // 根据关键字复杂度选择合适的策略组合
+    int complexity = KeywordComplexityAnalyzer::calculateComplexity(keyword);
+    
+    if (complexity < 5) {
+        std::cout << "→ 低复杂度，使用双指针扫描" << std::endl;
+        return executeDualPointerScan(keyword, context);
+    } else {
+        std::cout << "→ 高复杂度，使用回退扫描" << std::endl;
+        return executeBacktrackScan(keyword, context);
+    }
+}
+
+// 自适应扫描策略实现
+ScanResult ScanStrategyManager::executeAdaptiveScan(const std::string& keyword, 
+                                                   ScanContext& context) {
+    std::cout << "=== 自适应扫描策略 ===" << std::endl;
+    
+    // 根据历史性能数据选择最优策略
+    ScanStrategy optimalStrategy = ScanStrategy::DUAL_POINTER;
+    double bestPerformance = std::numeric_limits<double>::max();
+    
+    for (const auto& [strategy, performance] : strategyPerformance_) {
+        if (performance < bestPerformance) {
+            bestPerformance = performance;
+            optimalStrategy = strategy;
+        }
+    }
+    
+    std::cout << "→ 自适应选择策略: ";
+    switch (optimalStrategy) {
+        case ScanStrategy::DUAL_POINTER:
+            std::cout << "双指针扫描" << std::endl;
+            return executeDualPointerScan(keyword, context);
+        case ScanStrategy::BACKTRACK:
+            std::cout << "回退扫描" << std::endl;
+            return executeBacktrackScan(keyword, context);
+        default:
+            std::cout << "双指针扫描（默认）" << std::endl;
+            return executeDualPointerScan(keyword, context);
+    }
+}
+
+// ==========================================
+// 辅助方法实现
+// ==========================================
+
+std::string ScanStrategyManager::getCurrentCodeContext(const ScanContext& context) {
+    // 模拟获取当前代码上下文
+    std::ostringstream codeStream;
+    
+    // 根据上下文生成模拟代码
+    codeStream << "// CHTL JS代码上下文 (位置: " << context.currentPosition << ")\n";
+    codeStream << "iNeverAway({\n";
+    codeStream << "  MyPromise<Happy>: function() { console.log('快乐'); },\n";
+    codeStream << "  MyPromise<Sad>: () => { console.log('忧伤'); },\n";
+    codeStream << "  UserAction: function(action) { return action; }\n";
+    codeStream << "});\n";
+    codeStream << "printMylove({ mode: ascii, width: 80 });\n";
+    codeStream << "** 这是CJMOD特殊语法 **\n";
+    
+    return codeStream.str();
+}
+
+std::string ScanStrategyManager::scanTokenFromLeft(const std::string& code, size_t& pos) {
+    if (pos >= code.length()) return "";
+    
+    // 跳过空白字符
+    while (pos < code.length() && std::isspace(code[pos])) {
+        pos++;
+    }
+    
+    if (pos >= code.length()) return "";
+    
+    // 扫描标识符或关键字
+    size_t start = pos;
+    if (std::isalpha(code[pos]) || code[pos] == '_') {
+        while (pos < code.length() && (std::isalnum(code[pos]) || code[pos] == '_')) {
+            pos++;
+        }
+        return code.substr(start, pos - start);
+    }
+    
+    // 扫描特殊符号
+    if (code[pos] == '*' && pos + 1 < code.length() && code[pos + 1] == '*') {
+        pos += 2;
+        return "**";
+    }
+    
+    // 单字符令牌
+    return std::string(1, code[pos++]);
+}
+
+std::string ScanStrategyManager::scanTokenFromRight(const std::string& code, size_t& pos) {
+    if (pos >= code.length()) return "";
+    
+    // 跳过空白字符
+    while (pos > 0 && std::isspace(code[pos])) {
+        pos--;
+    }
+    
+    if (pos == 0 && std::isspace(code[0])) return "";
+    
+    // 从右向左扫描标识符
+    size_t end = pos + 1;
+    if (std::isalpha(code[pos]) || code[pos] == '_') {
+        while (pos > 0 && (std::isalnum(code[pos - 1]) || code[pos - 1] == '_')) {
+            pos--;
+        }
+        return code.substr(pos, end - pos);
+    }
+    
+    // 特殊符号
+    if (pos > 0 && code[pos] == '*' && code[pos - 1] == '*') {
+        pos--;
+        return "**";
+    }
+    
+    // 单字符令牌
+    return std::string(1, code[pos--]);
+}
+
+std::string ScanStrategyManager::scanTokenAtPosition(const std::string& code, size_t pos) {
+    if (pos >= code.length()) return "";
+    
+    // 跳过空白字符
+    while (pos < code.length() && std::isspace(code[pos])) {
+        pos++;
+    }
+    
+    if (pos >= code.length()) return "";
+    
+    // 扫描标识符
+    size_t start = pos;
+    if (std::isalpha(code[pos]) || code[pos] == '_') {
+        while (pos < code.length() && (std::isalnum(code[pos]) || code[pos] == '_')) {
+            pos++;
+        }
+        return code.substr(start, pos - start);
+    }
+    
+    // 特殊符号
+    if (code[pos] == '*' && pos + 1 < code.length() && code[pos + 1] == '*') {
+        return "**";
+    }
+    
+    return std::string(1, code[pos]);
+}
+
+bool ScanStrategyManager::needsBacktrackProcessing(const std::string& keyword, 
+                                                  const std::string& code, 
+                                                  size_t pos) {
+    // 检查是否为复杂的中缀操作符或需要上下文的关键字
+    if (keyword == "**") return true;  // CJMOD特殊语法
+    if (keyword == "iNeverAway") return true;  // 复杂函数调用
+    
+    // 检查前后是否有复杂的语法结构
+    if (pos > 0 && code[pos - 1] == '.') return true;  // 成员访问
+    if (pos + keyword.length() < code.length() && code[pos + keyword.length()] == '(') return true;  // 函数调用
+    
+    return false;
+}
+
+size_t ScanStrategyManager::findBacktrackPosition(const std::string& code, 
+                                                 size_t currentPos, 
+                                                 const std::string& keyword) {
+    // 回退到语句开始或合适的语法边界
+    size_t backtrackPos = currentPos;
+    
+    // 向前查找语句开始
+    while (backtrackPos > 0) {
+        char ch = code[backtrackPos - 1];
+        if (ch == ';' || ch == '{' || ch == '\n') {
+            break;
+        }
+        backtrackPos--;
+    }
+    
+    return backtrackPos;
+}
+
+std::string ScanStrategyManager::reassembleCodeSegment(const std::string& code, 
+                                                      size_t start, 
+                                                      size_t end) {
+    if (start >= code.length() || end > code.length() || start >= end) {
+        return "";
+    }
+    
+    std::string segment = code.substr(start, end - start);
+    
+    // 清理和重新格式化代码段
+    std::ostringstream cleaned;
+    bool inString = false;
+    char stringChar = '\0';
+    
+    for (char ch : segment) {
+        if (!inString && (ch == '"' || ch == '\'')) {
+            inString = true;
+            stringChar = ch;
+        } else if (inString && ch == stringChar) {
+            inString = false;
+        }
+        
+        if (!inString && std::isspace(ch)) {
+            if (!cleaned.str().empty() && cleaned.str().back() != ' ') {
+                cleaned << ' ';
+            }
+        } else {
+            cleaned << ch;
+        }
+    }
+    
+    return cleaned.str();
+}
+
+std::string ScanStrategyManager::processCJMODKeyword(const std::string& keyword, 
+                                                    const ScanContext& context) {
+    std::ostringstream result;
+    
+    if (CJMODKeywordHandler::isCJMODKeyword(keyword)) {
+        result << "// CJMOD关键字处理: " << keyword << "\n";
+        result << "// 上下文位置: " << context.currentPosition << "\n";
+        result << "// 嵌套级别: " << context.nestingLevel << "\n";
+        
+        // 触发CJMOD处理器
+        CJMODKeywordHandler::handleKeyword(keyword);
+        
+        result << "// 生成的JS代码:\n";
+        if (keyword == "iNeverAway") {
+            result << "const iNeverAwayPromises = {\n";
+            result << "  'MyPromise<Happy>': chtl_iNeverAway_MyPromise_Happy_,\n";
+            result << "  'MyPromise<Sad>': chtl_iNeverAway_MyPromise_Sad_\n";
+            result << "};";
+        } else if (keyword == "printMylove") {
+            result << "printMylove({ mode: 'ascii', width: 80, height: 40 });";
+        } else if (keyword == "**") {
+            result << "// 特殊CJMOD语法处理";
+        }
+    } else {
+        result << "// 标准关键字: " << keyword;
+    }
+    
+    return result.str();
+}
+
+std::string ScanStrategyManager::processCJMODKeywordWithBacktrack(const std::string& keyword, 
+                                                                 const std::string& code, 
+                                                                 const ScanContext& context) {
+    std::ostringstream result;
+    
+    result << "// 回退处理CJMOD关键字: " << keyword << "\n";
+    result << "// 重拼接代码: " << code.substr(0, 50) << "...\n";
+    result << "// 上下文: 位置=" << context.currentPosition << ", 嵌套=" << context.nestingLevel << "\n";
+    
+    // 基于回退的特殊处理
+    if (keyword == "**") {
+        result << "// 特殊语法回退处理\n";
+        result << "const specialSyntax = processSpecialCJMOD(`" << code << "`);";
+    } else {
+        // 调用标准处理，但加上回退信息
+        result << processCJMODKeyword(keyword, context);
+        result << "\n// 注：使用了回退重拼接策略";
+    }
+    
+    return result.str();
 }
 
 // 关键字复杂度分析器实现

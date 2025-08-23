@@ -541,6 +541,18 @@ struct ScanResult {
 };
 
 /**
+ * @brief 扫描状态结构
+ * 用于回退扫描的状态保存
+ */
+struct ScanState {
+    size_t position;
+    std::string tokenBuffer;
+    int nestingLevel;
+    
+    ScanState() : position(0), nestingLevel(0) {}
+};
+
+/**
  * @brief 扫描策略管理器
  * 
  * 管理不同的扫描策略，根据情况智能选择最优策略
@@ -587,6 +599,23 @@ private:
     static ScanStrategy defaultStrategy_;
     static std::map<ScanStrategy, size_t> strategyUsageCount_;
     static std::map<ScanStrategy, double> strategyPerformance_;
+    
+    // 具体扫描策略实现
+    static ScanResult executeDualPointerScan(const std::string& keyword, ScanContext& context);
+    static ScanResult executeBacktrackScan(const std::string& keyword, ScanContext& context);
+    static ScanResult executeHybridScan(const std::string& keyword, ScanContext& context);
+    static ScanResult executeAdaptiveScan(const std::string& keyword, ScanContext& context);
+    
+    // 辅助方法
+    static std::string getCurrentCodeContext(const ScanContext& context);
+    static std::string scanTokenFromLeft(const std::string& code, size_t& pos);
+    static std::string scanTokenFromRight(const std::string& code, size_t& pos);
+    static std::string scanTokenAtPosition(const std::string& code, size_t pos);
+    static bool needsBacktrackProcessing(const std::string& keyword, const std::string& code, size_t pos);
+    static size_t findBacktrackPosition(const std::string& code, size_t currentPos, const std::string& keyword);
+    static std::string reassembleCodeSegment(const std::string& code, size_t start, size_t end);
+    static std::string processCJMODKeyword(const std::string& keyword, const ScanContext& context);
+    static std::string processCJMODKeywordWithBacktrack(const std::string& keyword, const std::string& code, const ScanContext& context);
 };
 
 /**
