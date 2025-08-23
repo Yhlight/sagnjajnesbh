@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CHTL与CJMOD完整集成演示</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .demo-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .demo-card h3 {
+            color: #00ff88;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .code-display {
+            background: #1a1a1a;
+            color: #00ff88;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 10px 0;
+            overflow-x: auto;
+            border-left: 4px solid #00ff88;
+        }
+        
+        .result-display {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+        }
+        
+        .architecture-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+        }
+        
+        .flow-step {
+            background: rgba(0, 255, 136, 0.2);
+            padding: 15px 20px;
+            border-radius: 25px;
+            margin: 10px;
+            border: 2px solid #00ff88;
+            text-align: center;
+            min-width: 120px;
+            font-weight: bold;
+        }
+        
+        .arrow {
+            font-size: 24px;
+            color: #00ff88;
+            margin: 0 10px;
+        }
+        
+        #imageCanvas {
+            max-width: 100%;
+            border: 2px solid #00ff88;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .virtual-object-demo {
+            background: rgba(255, 100, 100, 0.1);
+            border: 1px solid #ff6464;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .state-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background: #ff6464;
+            transition: background 0.3s ease;
+        }
+        
+        .state-indicator.active {
+            background: #00ff88;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导入CJMOD扩展 -->
+    [Import] @CJmod from "demo"
+    
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ CHTL与CJMOD完整集成演示</h1>
+            <p>展示统一扫描器、CJMOD API和CHTL的完美协作</p>
+            
+            <div class="architecture-flow">
+                <div class="flow-step">📄 CHTL源码</div>
+                <div class="arrow">→</div>
+                <div class="flow-step">🔍 统一扫描器</div>
+                <div class="arrow">→</div>
+                <div class="flow-step">📦 CodeFragment</div>
+                <div class="arrow">→</div>
+                <div class="flow-step">⚙️ CJMOD API</div>
+                <div class="arrow">→</div>
+                <div class="flow-step">📜 标准JS</div>
+            </div>
+        </div>
+        
+        <div class="demo-grid">
+            <!-- printMylove演示 -->
+            <div class="demo-card">
+                <h3>🎨 printMylove - 图像转字符</h3>
+                <p>CJMOD扩展：将图像转换为ASCII或像素字符</p>
+                
+                <div class="code-display">
+// CHTL JS语法 - 会被统一扫描器识别
+const asciiArt = printMylove({
+    url: "https://example.com/chtholly.jpg",
+    mode: "ASCII",
+    width: "300px",
+    height: "200px",
+    scale: 0.6
+});
+                </div>
+                
+                <button class="btn" onclick="demonstratePrintMylove()">🚀 执行printMylove</button>
+                <div id="printMyloveResult" class="result-display" style="display:none;">
+                    <canvas id="imageCanvas"></canvas>
+                    <div id="asciiOutput"></div>
+                </div>
+            </div>
+            
+            <!-- 虚对象演示 -->
+            <div class="demo-card">
+                <h3>🔮 虚对象系统演示</h3>
+                <p>CHTL JS虚对象：listen + 委托调用</p>
+                
+                <div class="code-display">
+// 虚对象定义
+vir eventManager = listen({
+    activate: function(element) {
+        element.classList.add('active');
+        console.log('元素激活');
+    },
+    
+    deactivate: function(element) {
+        element.classList.remove('active');
+        console.log('元素停用');
+    }
+});
+
+// 虚对象调用
+eventManager->activate(targetElement);
+                </div>
+                
+                <div class="virtual-object-demo" id="virtualDemo">
+                    <span class="state-indicator" id="stateIndicator"></span>
+                    <span>虚对象状态演示区域</span>
+                </div>
+                
+                <button class="btn" onclick="activateVirtualObject()">✅ 激活</button>
+                <button class="btn" onclick="deactivateVirtualObject()">❌ 停用</button>
+            </div>
+            
+            <!-- iNeverAway演示 -->
+            <div class="demo-card">
+                <h3>💫 iNeverAway - 状态管理</h3>
+                <p>CJMOD扩展：创建标记函数和状态管理</p>
+                
+                <div class="code-display">
+// iNeverAway状态管理
+vir stateManager = iNeverAway({
+    Void&lt;Loading&gt;: function(message) {
+        showLoading(message);
+    },
+    
+    Void&lt;Success&gt;: function(data) {
+        showSuccess(data);
+    },
+    
+    Void&lt;Error&gt;: function(error) {
+        showError(error);
+    }
+});
+
+// 状态切换
+stateManager->Loading("处理中...");
+                </div>
+                
+                <button class="btn" onclick="demonstrateStateLoading()">⏳ Loading状态</button>
+                <button class="btn" onclick="demonstrateStateSuccess()">✅ Success状态</button>
+                <button class="btn" onclick="demonstrateStateError()">❌ Error状态</button>
+                
+                <div id="stateDisplay" class="result-display">
+                    <div id="stateContent">准备演示状态管理...</div>
+                </div>
+            </div>
+            
+            <!-- 自定义CJMOD扩展演示 -->
+            <div class="demo-card">
+                <h3>🛠️ 自定义CJMOD扩展</h3>
+                <p>演示如何创建自定义的CHTL JS语法</p>
+                
+                <div class="code-display">
+// 自定义CJMOD语法
+const animation = createAnimation({
+    target: ".demo-card",
+    type: "fadeInUp",
+    duration: 800,
+    delay: 200,
+    easing: "ease-out"
+});
+
+// 链式调用
+animation.play().then(() => {
+    console.log("动画完成");
+});
+                </div>
+                
+                <button class="btn" onclick="demonstrateCustomCJMOD()">🎬 执行自定义动画</button>
+                <div id="customResult" class="result-display" style="display:none;">
+                    <p>自定义CJMOD扩展执行结果将显示在这里</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 架构说明 -->
+        <div class="demo-card">
+            <h3>🏆 CHTL架构优势</h3>
+            <div class="code-display">
+<strong>统一扫描器职责：</strong>
+✅ 识别CHTL JS语法关键字（printMylove, vir, listen, iNeverAway等）
+✅ 将源码切割为CodeFragment并分类（CHTL_JS类型）
+✅ 使用双指针滑动窗口和前置截取机制
+❌ 不进行词法分析（这是关键理解！）
+
+<strong>CJMOD API职责：</strong>
+✅ 接收统一扫描器的CodeFragment
+✅ 使用peekKeyword技术提取参数值
+✅ 执行7步原始API流程或简化流程
+✅ 生成标准JavaScript代码
+✅ 委托虚对象功能给CHTL JS
+
+<strong>完美协作：</strong>
+🎯 职责分离 - 各组件专注核心功能
+🔄 协作优先 - 避免重复实现
+⚡ 效率至上 - 利用现有优秀架构
+🏗️ 可扩展性 - 新扩展轻松集成
+            </div>
+        </div>
+    </div>
+    
+    <!-- CHTL JS代码块 - 会被统一扫描器识别并交给CJMOD处理 -->
+    <script>
+    {
+        console.log("🏗️ CHTL与CJMOD集成演示开始");
+        
+        // ============ printMylove实现 ============
+        // 这个函数调用会被统一扫描器识别为CHTL_JS片段
+        // 然后交给CJMOD API处理，生成标准JavaScript
+        
+        function demonstratePrintMylove() {
+            console.log("=== printMylove演示 ===");
+            
+            // CJMOD扩展语法 - 统一扫描器会识别这个
+            const result = printMylove({
+                url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzY2N2VlYSIvPgogIDx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q0hUTDwvdGV4dD4KPC9zdmc+",
+                mode: "ASCII",
+                width: "200px",
+                height: "150px",
+                scale: 0.8
+            });
+            
+            document.getElementById('printMyloveResult').style.display = 'block';
+            document.getElementById('asciiOutput').innerHTML = 
+                '<p>✅ printMylove处理完成！</p><p>图像已转换为ASCII字符（模拟）</p><pre>@@@@@@@@@@\n@  CHTL  @\n@        @\n@@@@@@@@@@</pre>';
+        }
+        
+        // ============ 虚对象系统演示 ============
+        // 虚对象定义 - 会被CJMOD委托给CHTL JS处理
+        vir eventManager = listen({
+            activate: function(element) {
+                element.classList.add('active');
+                element.querySelector('.state-indicator').classList.add('active');
+                console.log('虚对象：元素已激活');
+            },
+            
+            deactivate: function(element) {
+                element.classList.remove('active');
+                element.querySelector('.state-indicator').classList.remove('active');
+                console.log('虚对象：元素已停用');
+            }
+        });
+        
+        function activateVirtualObject() {
+            // 虚对象调用 - CJMOD会委托给CHTL JS的虚对象系统
+            eventManager->activate(document.getElementById('virtualDemo'));
+        }
+        
+        function deactivateVirtualObject() {
+            eventManager->deactivate(document.getElementById('virtualDemo'));
+        }
+        
+        // ============ iNeverAway状态管理演示 ============
+        // iNeverAway语法 - 统一扫描器识别，CJMOD处理
+        vir stateManager = iNeverAway({
+            Void<Loading>: function(message) {
+                const display = document.getElementById('stateContent');
+                display.innerHTML = `<div style="color: #ffa500;">⏳ ${message}</div>`;
+                display.style.background = 'rgba(255, 165, 0, 0.1)';
+            },
+            
+            Void<Success>: function(data) {
+                const display = document.getElementById('stateContent');
+                display.innerHTML = `<div style="color: #00ff88;">✅ 成功：${data}</div>`;
+                display.style.background = 'rgba(0, 255, 136, 0.1)';
+            },
+            
+            Void<Error>: function(error) {
+                const display = document.getElementById('stateContent');
+                display.innerHTML = `<div style="color: #ff6464;">❌ 错误：${error}</div>`;
+                display.style.background = 'rgba(255, 100, 100, 0.1)';
+            }
+        });
+        
+        function demonstrateStateLoading() {
+            stateManager->Loading("正在处理CJMOD请求...");
+        }
+        
+        function demonstrateStateSuccess() {
+            stateManager->Success("CJMOD扩展执行成功！");
+        }
+        
+        function demonstrateStateError() {
+            stateManager->Error("模拟的错误状态");
+        }
+        
+        // ============ 自定义CJMOD扩展演示 ============
+        function demonstrateCustomCJMOD() {
+            console.log("=== 自定义CJMOD扩展演示 ===");
+            
+            // 自定义CJMOD语法 - 这也会被统一扫描器识别
+            const animation = createAnimation({
+                target: ".demo-card",
+                type: "pulse",
+                duration: 1000,
+                iterations: 2
+            });
+            
+            // 执行动画
+            document.querySelectorAll('.demo-card').forEach(card => {
+                card.style.animation = 'pulse 1s ease-in-out 2';
+            });
+            
+            document.getElementById('customResult').style.display = 'block';
+            document.getElementById('customResult').innerHTML = 
+                '<p>✅ 自定义CJMOD扩展执行完成！</p><p>所有卡片都应用了脉冲动画效果</p>';
+        }
+        
+        // ============ 普通JavaScript代码 ============
+        // 这些是普通JS，不会被CJMOD处理
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("📄 CHTL页面加载完成");
+            console.log("🔍 统一扫描器已识别CHTL JS语法");
+            console.log("⚙️ CJMOD API已准备处理扩展语法");
+            
+            // 添加CSS动画
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.05); }
+                    100% { transform: scale(1); }
+                }
+                
+                .active {
+                    border-color: #00ff88 !important;
+                    box-shadow: 0 0 20px rgba(0, 255, 136, 0.5) !important;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // 显示架构信息
+            setTimeout(() => {
+                console.log("🏆 CHTL架构优势展示：");
+                console.log("   ✅ 统一扫描器：专注代码切割，不做词法分析");
+                console.log("   ✅ CJMOD API：处理CodeFragment，使用peekKeyword");
+                console.log("   ✅ 完美协作：利用现有优秀架构设计");
+            }, 1000);
+        });
+        
+        // 添加交互效果
+        function addInteractiveEffects() {
+            const cards = document.querySelectorAll('.demo-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        }
+        
+        // 初始化交互效果
+        addInteractiveEffects();
+    }
+    </script>
+    
+    <!-- 普通JavaScript - 不会被CJMOD处理 -->
+    <script>
+        // 页面统计和分析
+        console.log("📊 页面统计：CHTL与CJMOD集成演示");
+        
+        // 性能监控
+        window.addEventListener('load', function() {
+            const loadTime = performance.now();
+            console.log(`⚡ 页面加载时间: ${loadTime.toFixed(2)}ms`);
+        });
+        
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('❌ 页面错误:', e.error);
+        });
+    </script>
+</body>
+</html>
