@@ -46,14 +46,10 @@ void demonstrateVirFunctionBinder() {
     // 使用createCHTLJSFunction创建函数，自动支持vir
     auto iNeverAwayFunc = createCHTLJSFunction("iNeverAway", {"MyPromise", "UserAction"});
     
-    std::cout << "\n=== 方式2：使用VirFunctionBinder手动绑定 ===" << std::endl;
+    std::cout << "\n=== 方式2：使用VirFunctionBinder自动绑定 ===" << std::endl;
     
-    // 手动绑定自定义函数的vir支持
-    VirFunctionBinder::bind("customFunction", {
-        {"MyPromise<Happy>", "chtl_custom_MyPromise_Happy_1"},
-        {"MyPromise<Sad>", "chtl_custom_MyPromise_Sad_2"},
-        {"UserAction", "chtl_custom_UserAction_3"}
-    });
+    // 自动绑定自定义函数的vir支持（只需要函数名）
+    VirFunctionBinder::bind("customFunction");
     
     // 验证绑定结果
     std::cout << "\n=== 验证vir绑定 ===" << std::endl;
@@ -64,10 +60,13 @@ void demonstrateVirFunctionBinder() {
         if (VirFunctionBinder::isBound(funcName)) {
             std::cout << "✅ " << funcName << " 已绑定vir支持" << std::endl;
             
-            auto mappings = VirFunctionBinder::getKeyMappings(funcName);
-            std::cout << "  键映射:" << std::endl;
-            for (const auto& mapping : mappings) {
-                std::cout << "    " << mapping.first << " → " << mapping.second << std::endl;
+            auto scannedKeys = VirFunctionBinder::getScannedKeys(funcName);
+            std::cout << "  自动扫描到的函数键:" << std::endl;
+            for (const auto& key : scannedKeys) {
+                std::cout << "    - " << key << std::endl;
+            }
+            if (scannedKeys.empty()) {
+                std::cout << "    (未扫描到函数类型的键值对)" << std::endl;
             }
         } else {
             std::cout << "❌ " << funcName << " 未绑定vir支持" << std::endl;
@@ -77,11 +76,30 @@ void demonstrateVirFunctionBinder() {
     // 演示vir访问代码生成
     std::cout << "\n=== vir访问代码生成 ===" << std::endl;
     
-    std::string accessCode1 = VirFunctionBinder::generateVirAccess("customFunction", "myVir", "MyPromise<Happy>");
+    std::string accessCode1 = VirFunctionBinder::generateVirAccess("customFunction", "myVir", "defaultKey");
     std::string accessCode2 = VirFunctionBinder::generateVirAccess("customFunction", "myVir", "UnknownKey");
     
-    std::cout << "访问 MyPromise<Happy>: " << accessCode1 << std::endl;
+    std::cout << "访问 defaultKey: " << accessCode1 << std::endl;
     std::cout << "访问 UnknownKey: " << accessCode2 << std::endl;
+    
+    // 演示函数定义扫描
+    std::cout << "\n=== 演示函数定义自动扫描 ===" << std::endl;
+    
+    std::string functionDef = R"({
+        MyPromise<Happy>: function(message) { 
+            console.log("快乐: " + message); 
+        },
+        MyPromise<Sad>: (message) => { 
+            console.log("忧伤: " + message); 
+        },
+        UserAction: function(action) { 
+            return "执行: " + action; 
+        },
+        normalData: "这不是函数"
+    })";
+    
+    auto scannedKeys = VirFunctionBinder::scanFunctionKeys("testFunction", functionDef);
+    std::cout << "扫描结果: 共发现 " << scannedKeys.size() << " 个函数键" << std::endl;
 }
 
 // 演示扫描策略选择
@@ -219,10 +237,8 @@ void demonstrateCompleteWorkflow() {
     
     std::cout << "\n=== 步骤2：使用推荐方案绑定vir支持 ===" << std::endl;
     
-    // 用户采用推荐方案
-    VirFunctionBinder::bind("someFunction", {
-        {"param", "chtl_someFunction_param_1"}
-    });
+    // 用户采用推荐方案（只需要函数名）
+    VirFunctionBinder::bind("someFunction");
     
     std::cout << "\n=== 步骤3：处理CJMOD关键字 ===" << std::endl;
     

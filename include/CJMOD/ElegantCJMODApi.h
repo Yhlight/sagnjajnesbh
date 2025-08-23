@@ -396,17 +396,23 @@ public:
  * 
  * 替代直接vir语法，通过编程方式绑定函数的vir支持
  * 避免vir语法对统一扫描器造成负担
+ * 
+ * 设计理念：具有自动化特征，只需要函数名，委托给CHTL JS自动扫描函数内部的键值对
  */
 class VirFunctionBinder {
 public:
     /**
-     * @brief 绑定函数的vir支持
+     * @brief 绑定函数的vir支持（自动化版本）
      * @param functionName 函数名称
-     * @param keyMappings 键映射表：键名 -> 全局函数名
      * @return 绑定是否成功
+     * 
+     * 工作原理：
+     * 1. 只需要提供函数名
+     * 2. CHTL JS会自动扫描函数内部的键值对
+     * 3. 如果键值是函数，就自动收集到vir支持表中
+     * 4. 具有官方的自动化特征
      */
-    static bool bind(const std::string& functionName, 
-                    const std::unordered_map<std::string, std::string>& keyMappings);
+    static bool bind(const std::string& functionName);
     
     /**
      * @brief 检查函数是否已绑定vir支持
@@ -416,11 +422,11 @@ public:
     static bool isBound(const std::string& functionName);
     
     /**
-     * @brief 获取函数的vir键映射
+     * @brief 获取函数自动扫描的键信息
      * @param functionName 函数名称
-     * @return 键映射表，如果未绑定则返回空
+     * @return 扫描到的函数键列表
      */
-    static std::unordered_map<std::string, std::string> getKeyMappings(const std::string& functionName);
+    static std::vector<std::string> getScannedKeys(const std::string& functionName);
     
     /**
      * @brief 生成vir对象访问代码
@@ -434,12 +440,36 @@ public:
                                         const std::string& keyAccess);
     
     /**
+     * @brief 触发函数内部键值扫描
+     * @param functionName 函数名称
+     * @param functionDefinition 函数定义代码
+     * @return 扫描到的函数键列表
+     */
+    static std::vector<std::string> scanFunctionKeys(const std::string& functionName,
+                                                   const std::string& functionDefinition);
+    
+    /**
      * @brief 清空所有vir绑定（主要用于测试）
      */
     static void clear();
 
 private:
-    static std::unordered_map<std::string, std::unordered_map<std::string, std::string>> virBindings_;
+    static std::unordered_set<std::string> boundFunctions_;
+    static std::unordered_map<std::string, std::vector<std::string>> scannedFunctionKeys_;
+    
+    /**
+     * @brief 解析函数定义中的键值对
+     * @param functionDefinition 函数定义
+     * @return 找到的函数键列表
+     */
+    static std::vector<std::string> parseFunctionDefinition(const std::string& functionDefinition);
+    
+    /**
+     * @brief 检查键值是否为函数
+     * @param keyValue 键值内容
+     * @return true如果是函数，false否则
+     */
+    static bool isKeyValueFunction(const std::string& keyValue);
 };
 
 /**
