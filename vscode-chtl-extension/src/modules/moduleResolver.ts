@@ -267,21 +267,24 @@ export class ModuleResolver {
     }
 
     private async resolveOriginImport(options: ImportSearchOptions, searchPaths: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
-        // 原始嵌入导入：只是原样传递代码，不进行CHTL解析
-        // 主要用于嵌入不需要CHTL处理的代码片段
-        const importPath = options.importPath;
-        const allowedExtensions = ['vue', 'jsx', 'tsx', 'svelte', 'html', 'js', 'ts'];
-
-        if (this.isAbsolutePath(importPath)) {
-            // 绝对路径：直接检查文件
-            return this.searchAbsolutePath(importPath, allowedExtensions, candidates);
-        } else if (this.isSpecificFile(importPath)) {
-            // 具体文件名（带后缀）：在所有搜索路径中查找
-            return this.searchInOrderedPaths(importPath, searchPaths, candidates);
-        } else {
-            // 文件名（不带后缀）：在所有搜索路径中按支持的扩展名搜索
-            return this.searchModuleByName(importPath, searchPaths, allowedExtensions, candidates);
-        }
+        // 原始嵌入导入：这是CHTL的语法标记，不是文件导入
+        // [Origin] ORIGIN_VUE/REACT/ANGULAR/CUSTOM 是告诉编译器使用原始格式，不进行CHTL解析
+        // 这些不对应实际文件，只是语法标识符
+        
+        const importType = options.importType;
+        
+        // 创建一个虚拟的模块信息，表示这是一个原始嵌入标记
+        const moduleInfo: ModuleInfo = {
+            name: importType.replace('@', '').toLowerCase(),
+            path: `[Origin] ${importType}`, // 虚拟路径，表示这是语法标记
+            type: 'html', // 占位类型
+            exports: [],
+            imports: [],
+            isOfficial: true // 标记为官方语法
+        };
+        
+        candidates.push(moduleInfo);
+        return moduleInfo;
     }
 
     private async searchMediaInDirectory(importPath: string, baseDir: string, expectedExtension: string, candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
