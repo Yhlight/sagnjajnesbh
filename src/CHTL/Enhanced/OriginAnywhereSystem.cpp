@@ -203,16 +203,14 @@ void EnhancedOriginManager::registerCustomOriginType(const std::string& typeName
 std::unordered_map<std::string, std::string> EnhancedOriginManager::getSupportedOriginTypes() const {
     std::unordered_map<std::string, std::string> types;
     
-    // 不提供预定义类型，让开发者完全自由选择
-    // 只返回开发者自己注册的自定义类型
+    // 官方预设的三种基本类型（根据CHTL语法文档）
+    types["@Html"] = "HTML代码嵌入（官方预设）";
+    types["@Style"] = "CSS样式嵌入（官方预设）";
+    types["@JavaScript"] = "JavaScript代码嵌入（官方预设）";
+    
+    // 添加开发者自定义类型
     for (const auto& [typeName, description] : customOriginTypes_) {
         types[typeName] = description;
-    }
-    
-    // 如果没有自定义类型，返回空的map，表示开发者可以自由创建任何类型
-    if (types.empty()) {
-        std::cout << "💡 提示：开发者可以自由创建任何@开头的Origin类型" << std::endl;
-        std::cout << "    例如：@Vue, @React, @TypeScript, @Sass, @CustomType 等" << std::endl;
     }
     
     return types;
