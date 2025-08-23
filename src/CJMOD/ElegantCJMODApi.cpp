@@ -468,18 +468,53 @@ std::string INeverAwaySystem::processCustomKeys(const std::string& virObjectCode
     return result;
 }
 
-std::string PrintMyloveSystem::generateImageProcessor(const std::string& url, const std::string& mode, 
-                                                    const std::string& width, const std::string& height, 
-                                                    double scale) {
+std::string PrintMyloveSystem::generateImageProcessor(const std::string& configObject) {
     std::ostringstream code;
     
-    code << "printMylove({\n";
-    code << "    url: " << processImageUrl(url) << ",\n";
-    code << "    mode: " << validateMode(mode) << ",\n";
-    code << "    width: " << processDimension(width) << ",\n";
-    code << "    height: " << processDimension(height) << ",\n";
-    code << "    scale: " << scale << "\n";
-    code << "});\n";
+    code << "// printMylove 图片转字符像素块处理器 - 官方键值对版本\n";
+    code << "function printMylove(config) {\n";
+    code << "    // 参数验证和默认值设置\n";
+    code << "    const processedConfig = {\n";
+    code << "        url: config.url || '',\n";
+    code << "        mode: (config.mode || 'ascii').toLowerCase(),\n";
+    code << "        width: parseInt(config.width) || 80,\n";
+    code << "        height: parseInt(config.height) || 40,\n";
+    code << "        scale: parseFloat(config.scale) || 1.0\n";
+    code << "    };\n";
+    code << "    \n";
+    code << "    // URL验证\n";
+    code << "    if (!processedConfig.url) {\n";
+    code << "        console.error('printMylove: URL不能为空');\n";
+    code << "        return '';\n";
+    code << "    }\n";
+    code << "    \n";
+    code << "    // 模式验证 - 官方支持ASCII和Pixel模式\n";
+    code << "    if (!['ascii', 'pixel'].includes(processedConfig.mode)) {\n";
+    code << "        console.warn('printMylove: 不支持的模式，使用ASCII模式');\n";
+    code << "        processedConfig.mode = 'ascii';\n";
+    code << "    }\n";
+    code << "    \n";
+    code << "    // 缩放验证\n";
+    code << "    if (processedConfig.scale <= 0 || processedConfig.scale > 10) {\n";
+    code << "        console.warn('printMylove: 无效的缩放比例，使用默认值1.0');\n";
+    code << "        processedConfig.scale = 1.0;\n";
+    code << "    }\n";
+    code << "    \n";
+    code << "    console.log('珂朵莉正在处理图片: ' + processedConfig.url);\n";
+    code << "    console.log('模式: ' + processedConfig.mode + ', 尺寸: ' + processedConfig.width + 'x' + processedConfig.height);\n";
+    code << "    \n";
+    code << "    // 根据模式选择处理方式\n";
+    code << "    if (processedConfig.mode === 'ascii') {\n";
+    code << "        return generateASCIIArt(processedConfig);\n";
+    code << "    } else if (processedConfig.mode === 'pixel') {\n";
+    code << "        return generatePixelArt(processedConfig);\n";
+    code << "    }\n";
+    code << "    \n";
+    code << "    return '';\n";
+    code << "}\n";
+    code << "\n";
+    code << generateASCIIConverter() << "\n";
+    code << generatePixelConverter() << "\n";
     
     return code.str();
 }
@@ -508,6 +543,39 @@ std::string PrintMyloveSystem::processDimension(const std::string& dimension) {
     } else {
         return "\"300px\"";  // 默认值
     }
+}
+
+std::string PrintMyloveSystem::processConfigObject(const std::string& configStr) {
+    // 处理配置对象字符串，提取键值对 - 官方键值对版本
+    std::ostringstream result;
+    
+    // 简单的键值对解析（实际项目中可能需要更复杂的JSON解析）
+    std::regex keyValueRegex(R"((\w+):\s*([^,}]+))");
+    std::sregex_iterator iter(configStr.begin(), configStr.end(), keyValueRegex);
+    std::sregex_iterator end;
+    
+    result << "{\n";
+    bool first = true;
+    for (; iter != end; ++iter) {
+        if (!first) result << ",\n";
+        std::string key = (*iter)[1].str();
+        std::string value = (*iter)[2].str();
+        
+        // 根据键名进行特殊处理
+        if (key == "url") {
+            result << "    " << key << ": " << processImageUrl(value);
+        } else if (key == "mode") {
+            result << "    " << key << ": " << validateMode(value);
+        } else if (key == "width" || key == "height") {
+            result << "    " << key << ": " << processDimension(value);
+        } else {
+            result << "    " << key << ": " << value;
+        }
+        first = false;
+    }
+    result << "\n}";
+    
+    return result.str();
 }
 
 std::string PrintMyloveSystem::generateASCIIConverter() {

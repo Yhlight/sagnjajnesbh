@@ -251,15 +251,14 @@ private:
  */
 class PrintMyloveSystem {
 public:
-    // 表面简单的接口
-    static std::string generateImageProcessor(const std::string& url, const std::string& mode, 
-                                            const std::string& width, const std::string& height, 
-                                            double scale);
+    // 表面简单的接口 - 官方键值对版本
+    static std::string generateImageProcessor(const std::string& configObject);
     
     // 内在精妙：智能参数处理
     static std::string processImageUrl(const std::string& url);
     static std::string validateMode(const std::string& mode);
     static std::string processDimension(const std::string& dimension);
+    static std::string processConfigObject(const std::string& configStr);
     
 private:
     static std::string generateASCIIConverter();
