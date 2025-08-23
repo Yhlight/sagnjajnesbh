@@ -367,8 +367,8 @@ std::string IntelligentMerger::MergeJavaScriptFragments(const std::vector<Proces
     std::string js = "";
     
     for (const auto& fragment : fragments) {
-        if (fragment.originalType == Scanner::FragmentType::CHTLJS || 
-            fragment.originalType == Scanner::FragmentType::JavaScript) {
+        if (fragment.originalType == Scanner::FragmentType::CHTL_JS || 
+            fragment.originalType == Scanner::FragmentType::JS) {
             js += fragment.generatedCode + "\n";
         }
     }

@@ -32,13 +32,13 @@ void PrintFragmentType(Scanner::FragmentType type) {
         case Scanner::FragmentType::CHTL:
             std::cout << "CHTL";
             break;
-        case Scanner::FragmentType::CHTLJS:
+        case Scanner::FragmentType::CHTL_JS:
             std::cout << "CHTL JS";
             break;
         case Scanner::FragmentType::CSS:
             std::cout << "CSS";
             break;
-        case Scanner::FragmentType::JavaScript:
+        case Scanner::FragmentType::JS:
             std::cout << "JavaScript";
             break;
         case Scanner::FragmentType::Unknown:
@@ -117,19 +117,15 @@ int main(int argc, char* argv[]) {
     }
     
     // 配置扫描器
-    Scanner::ScanConfig config;
-    config.enableContextCheck = enableContextCheck;
-    config.enableMinimalUnit = enableMinimalUnit;
-    config.preserveWhitespace = false;
-    
-    Scanner::CHTLUnifiedScanner scanner(config);
+    Scanner::CHTLUnifiedScanner scanner;
+    scanner.SetVerbose(verbose);
     
     // 执行扫描
     if (verbose) {
         std::cout << "开始扫描源代码...\n";
     }
     
-    auto fragments = scanner.Scan(sourceCode, inputFile);
+    auto fragments = scanner.ScanSource(sourceCode, inputFile);
     
     if (verbose) {
         std::cout << "扫描完成，发现 " << fragments.size() << " 个代码片段\n";
@@ -146,9 +142,7 @@ int main(int argc, char* argv[]) {
             std::cout << "\n";
             std::cout << "  位置: " << fragment.startLine << ":" << fragment.startColumn 
                       << " - " << fragment.endLine << ":" << fragment.endColumn << "\n";
-            if (!fragment.context.empty()) {
-                std::cout << "  上下文: " << fragment.context << "\n";
-            }
+            // 上下文信息在新的扫描器中不再需要
             std::cout << "  内容: ";
             std::string content = Utils::StringUtils::Trim(fragment.content);
             if (content.length() > 50) {
@@ -164,9 +158,9 @@ int main(int argc, char* argv[]) {
         for (const auto& fragment : fragments) {
             switch (fragment.type) {
                 case Scanner::FragmentType::CHTL: chtlCount++; break;
-                case Scanner::FragmentType::CHTLJS: chtlJSCount++; break;
+                case Scanner::FragmentType::CHTL_JS: chtlJSCount++; break;
                 case Scanner::FragmentType::CSS: cssCount++; break;
-                case Scanner::FragmentType::JavaScript: jsCount++; break;
+                case Scanner::FragmentType::JS: jsCount++; break;
                 case Scanner::FragmentType::Unknown: unknownCount++; break;
             }
         }

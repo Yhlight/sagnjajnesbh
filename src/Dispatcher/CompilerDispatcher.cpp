@@ -21,11 +21,8 @@ CompilerDispatcher::~CompilerDispatcher() {
 
 void CompilerDispatcher::InitializeCompilers() {
     // 初始化统一扫描器
-    Scanner::ScanConfig scanConfig;
-    scanConfig.preserveWhitespace = false;
-    scanConfig.enableMinimalUnit = true;
-    scanConfig.enableContextCheck = true;
-    scanner_ = std::make_unique<Scanner::CHTLUnifiedScanner>(scanConfig);
+    scanner_ = std::make_unique<Scanner::CHTLUnifiedScanner>();
+    scanner_->SetVerbose(config_.enableDebugOutput);
     
     // 基础实现：暂时不初始化复杂的解析器
     // 实际实现需要完整的解析器集成
@@ -50,7 +47,7 @@ CompilationResult CompilerDispatcher::Compile(const std::string& source, const s
         }
         
         // 第一步：使用统一扫描器进行精准代码切割
-        auto fragments = scanner_->Scan(source, fileName);
+        auto fragments = scanner_->ScanSource(source, fileName);
         
         if (config_.enableDebugOutput) {
             Utils::ErrorHandler::GetInstance().LogInfo(
@@ -103,13 +100,13 @@ CompilationResult CompilerDispatcher::DispatchFragments(const std::vector<Scanne
                 case Scanner::FragmentType::CHTL:
                     processed = chtlProcessor.ProcessFragment(fragment);
                     break;
-                case Scanner::FragmentType::CHTLJS:
+                case Scanner::FragmentType::CHTL_JS:
                     processed = chtlJSProcessor.ProcessFragment(fragment);
                     break;
                 case Scanner::FragmentType::CSS:
                     processed = cssProcessor.ProcessFragment(fragment);
                     break;
-                case Scanner::FragmentType::JavaScript:
+                case Scanner::FragmentType::JS:
                     processed = jsProcessor.ProcessFragment(fragment);
                     break;
                 default:
