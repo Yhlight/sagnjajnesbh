@@ -1,2 +1,2 @@
-/usr/bin/ar qc ../lib/libcjmod.a CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.o
+/usr/bin/ar qc ../lib/libcjmod.a CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.o CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.o
 /usr/bin/ranlib ../lib/libcjmod.a

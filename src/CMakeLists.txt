@@ -113,6 +113,7 @@ target_link_libraries(cmod utils)
 # CJMOD库
 add_library(cjmod STATIC
     CJMOD/SimpleCJMODApi.cpp
+    CJMOD/SophisticatedCJMODApi.cpp
 )
 
 target_include_directories(cjmod PUBLIC

@@ -86,17 +86,33 @@ src/CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.s"
 	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CJMOD/SimpleCJMODApi.cpp -o CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.s
 
+src/CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.o: src/CMakeFiles/cjmod.dir/flags.make
+src/CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.o: /workspace/src/CJMOD/SophisticatedCJMODApi.cpp
+src/CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.o: src/CMakeFiles/cjmod.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.o"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.o -MF CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.o.d -o CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.o -c /workspace/src/CJMOD/SophisticatedCJMODApi.cpp
+
+src/CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.i"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CJMOD/SophisticatedCJMODApi.cpp > CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.i
+
+src/CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.s"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CJMOD/SophisticatedCJMODApi.cpp -o CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.s
+
 # Object files for target cjmod
 cjmod_OBJECTS = \
-"CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.o"
+"CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.o" \
+"CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.o"
 
 # External object files for target cjmod
 cjmod_EXTERNAL_OBJECTS =
 
 lib/libcjmod.a: src/CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.o
+lib/libcjmod.a: src/CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.o
 lib/libcjmod.a: src/CMakeFiles/cjmod.dir/build.make
 lib/libcjmod.a: src/CMakeFiles/cjmod.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library ../lib/libcjmod.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library ../lib/libcjmod.a"
 	cd /workspace/build/src && $(CMAKE_COMMAND) -P CMakeFiles/cjmod.dir/cmake_clean_target.cmake
 	cd /workspace/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cjmod.dir/link.txt --verbose=$(VERBOSE)
 

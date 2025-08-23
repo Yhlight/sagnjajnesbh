@@ -1043,6 +1043,30 @@ CJMOD/SimpleCJMODApi.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/SimpleCJMODApi.cpp.s
 .PHONY : CJMOD/SimpleCJMODApi.cpp.s
 
+CJMOD/SophisticatedCJMODApi.o: CJMOD/SophisticatedCJMODApi.cpp.o
+.PHONY : CJMOD/SophisticatedCJMODApi.o
+
+# target to build an object file
+CJMOD/SophisticatedCJMODApi.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.o
+.PHONY : CJMOD/SophisticatedCJMODApi.cpp.o
+
+CJMOD/SophisticatedCJMODApi.i: CJMOD/SophisticatedCJMODApi.cpp.i
+.PHONY : CJMOD/SophisticatedCJMODApi.i
+
+# target to preprocess a source file
+CJMOD/SophisticatedCJMODApi.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.i
+.PHONY : CJMOD/SophisticatedCJMODApi.cpp.i
+
+CJMOD/SophisticatedCJMODApi.s: CJMOD/SophisticatedCJMODApi.cpp.s
+.PHONY : CJMOD/SophisticatedCJMODApi.s
+
+# target to generate assembly for a file
+CJMOD/SophisticatedCJMODApi.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cjmod.dir/build.make src/CMakeFiles/cjmod.dir/CJMOD/SophisticatedCJMODApi.cpp.s
+.PHONY : CJMOD/SophisticatedCJMODApi.cpp.s
+
 CMOD/CMODManager.o: CMOD/CMODManager.cpp.o
 .PHONY : CMOD/CMODManager.o
 
@@ -1489,6 +1513,9 @@ help:
 	@echo "... CJMOD/SimpleCJMODApi.o"
 	@echo "... CJMOD/SimpleCJMODApi.i"
 	@echo "... CJMOD/SimpleCJMODApi.s"
+	@echo "... CJMOD/SophisticatedCJMODApi.o"
+	@echo "... CJMOD/SophisticatedCJMODApi.i"
+	@echo "... CJMOD/SophisticatedCJMODApi.s"
 	@echo "... CMOD/CMODManager.o"
 	@echo "... CMOD/CMODManager.i"
 	@echo "... CMOD/CMODManager.s"
