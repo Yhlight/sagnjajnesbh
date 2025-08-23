@@ -1,0 +1,641 @@
+[Template] @Style ChthollyMouseEffectStyle {
+    .chtholly-mouse-effect-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 9999;
+        overflow: hidden;
+    }
+    
+    .chtholly-mouse-sparkle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: radial-gradient(circle, var(--chtholly-primary), var(--chtholly-secondary));
+        border-radius: 50%;
+        pointer-events: none;
+        animation: mouseSparkle 1s ease-out forwards;
+        box-shadow: 0 0 6px var(--chtholly-primary);
+    }
+    
+    .chtholly-mouse-heart {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        color: var(--chtholly-primary);
+        font-size: 16px;
+        pointer-events: none;
+        animation: mouseHeart 2s ease-out forwards;
+        text-shadow: 0 0 8px rgba(253, 121, 168, 0.6);
+    }
+    
+    .chtholly-mouse-magic-circle {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border: 2px solid var(--chtholly-primary);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: mouseMagicCircle 1.5s ease-out forwards;
+        opacity: 0.8;
+    }
+    
+    .chtholly-mouse-magic-circle::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        background: radial-gradient(circle, var(--chtholly-secondary), transparent);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        animation: magicCircleInner 1.5s ease-out forwards;
+    }
+    
+    .chtholly-mouse-star {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        color: var(--chtholly-accent);
+        font-size: 12px;
+        pointer-events: none;
+        animation: mouseStar 1.2s ease-out forwards;
+    }
+    
+    .chtholly-mouse-ripple {
+        position: absolute;
+        border: 2px solid rgba(253, 121, 168, 0.6);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: mouseRipple 0.8s ease-out forwards;
+    }
+    
+    .chtholly-mouse-cursor-follow {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: radial-gradient(circle, 
+            rgba(253, 121, 168, 0.8) 0%, 
+            rgba(253, 203, 110, 0.6) 50%, 
+            transparent 100%);
+        border-radius: 50%;
+        pointer-events: none;
+        transition: all 0.1s ease-out;
+        z-index: 9998;
+        mix-blend-mode: screen;
+    }
+    
+    .chtholly-mouse-controller {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        background: linear-gradient(45deg, var(--chtholly-primary), var(--chtholly-secondary));
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: var(--chtholly-shadow-lg);
+        transition: all ChthollyAnimations();
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .chtholly-mouse-controller:hover {
+        transform: scale(1.1);
+        box-shadow: var(--chtholly-shadow-magical);
+    }
+    
+    .chtholly-mouse-controller.active {
+        background: linear-gradient(45deg, var(--chtholly-success), var(--chtholly-accent));
+        animation: pulseMouseController 2s ease-in-out infinite;
+    }
+    
+    /* 动画定义 */
+    @keyframes mouseSparkle {
+        0% {
+            opacity: 1;
+            transform: scale(0) rotate(0deg);
+        }
+        50% {
+            opacity: 0.8;
+            transform: scale(1.2) rotate(180deg);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0) rotate(360deg);
+        }
+    }
+    
+    @keyframes mouseHeart {
+        0% {
+            opacity: 1;
+            transform: scale(0) translateY(0);
+        }
+        30% {
+            opacity: 1;
+            transform: scale(1.2) translateY(-10px);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0.5) translateY(-50px);
+        }
+    }
+    
+    @keyframes mouseMagicCircle {
+        0% {
+            opacity: 0.8;
+            transform: scale(0) rotate(0deg);
+        }
+        50% {
+            opacity: 0.6;
+            transform: scale(1) rotate(180deg);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(1.5) rotate(360deg);
+        }
+    }
+    
+    @keyframes magicCircleInner {
+        0% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(0);
+        }
+        50% {
+            opacity: 0.8;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+    }
+    
+    @keyframes mouseStar {
+        0% {
+            opacity: 1;
+            transform: scale(0) rotate(0deg);
+        }
+        50% {
+            opacity: 0.8;
+            transform: scale(1.5) rotate(90deg);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0.5) rotate(180deg);
+        }
+    }
+    
+    @keyframes mouseRipple {
+        0% {
+            opacity: 0.8;
+            transform: scale(0);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(3);
+        }
+    }
+    
+    @keyframes pulseMouseController {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+    
+    /* 特殊效果模式 */
+    .chtholly-mouse-effect-container.magic-mode {
+        filter: hue-rotate(45deg) saturate(1.2);
+    }
+    
+    .chtholly-mouse-effect-container.rainbow-mode {
+        animation: rainbowShift 3s linear infinite;
+    }
+    
+    @keyframes rainbowShift {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+    }
+}
+
+[Template] @Element ChthollyMouseEffectSystem {
+    div {
+        class: "chtholly-mouse-effect-container";
+        id: mouseEffectId;
+        style: "display: none;";
+    }
+    
+    div {
+        class: "chtholly-mouse-cursor-follow";
+        id: cursorFollowId;
+        style: "display: none;";
+    }
+    
+    button {
+        class: "chtholly-mouse-controller";
+        id: mouseControlId;
+        onclick: "toggleMouseEffect()";
+        title: "珂朵莉鼠标特效";
+        text: "✨";
+    }
+}
+
+// 在Element中使用[Origin] - 展示任意位置使用特性
+[Origin] @JavaScript MouseEffectScript {
+    class ChthollyMouseEffect {
+        constructor(containerId, cursorFollowId, controllerId) {
+            this.container = document.getElementById(containerId);
+            this.cursorFollow = document.getElementById(cursorFollowId);
+            this.controller = document.getElementById(controllerId);
+            this.isActive = false;
+            this.effects = [];
+            this.mouseX = 0;
+            this.mouseY = 0;
+            this.lastEffectTime = 0;
+            this.effectMode = 'normal'; // normal, magic, rainbow
+            this.modeIndex = 0;
+            this.modes = ['normal', 'magic', 'rainbow'];
+            
+            this.init();
+        }
+        
+        init() {
+            // 检查用户偏好
+            const savedState = localStorage.getItem('chtholly-mouse-effect-enabled');
+            const savedMode = localStorage.getItem('chtholly-mouse-effect-mode') || 'normal';
+            
+            this.effectMode = savedMode;
+            this.modeIndex = this.modes.indexOf(this.effectMode);
+            
+            if (savedState === 'true') {
+                this.start();
+            }
+            
+            this.bindEvents();
+        }
+        
+        bindEvents() {
+            // 鼠标移动事件
+            document.addEventListener('mousemove', (e) => {
+                this.mouseX = e.clientX;
+                this.mouseY = e.clientY;
+                
+                if (this.isActive) {
+                    this.updateCursorFollow();
+                    this.createEffect();
+                }
+            });
+            
+            // 鼠标点击事件
+            document.addEventListener('click', (e) => {
+                if (this.isActive) {
+                    this.createClickEffect(e.clientX, e.clientY);
+                }
+            });
+            
+            // 鼠标双击切换模式
+            this.controller.addEventListener('dblclick', (e) => {
+                e.stopPropagation();
+                this.switchMode();
+            });
+            
+            // 键盘快捷键
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.shiftKey && e.key === 'M') {
+                    this.toggle();
+                } else if (e.ctrlKey && e.shiftKey && e.key === 'N') {
+                    this.switchMode();
+                }
+            });
+        }
+        
+        start() {
+            if (this.isActive) return;
+            
+            this.isActive = true;
+            this.container.style.display = 'block';
+            this.cursorFollow.style.display = 'block';
+            this.controller.classList.add('active');
+            
+            // 应用效果模式
+            this.applyEffectMode();
+            
+            // 保存用户偏好
+            localStorage.setItem('chtholly-mouse-effect-enabled', 'true');
+            
+            this.showEffectToast('珂朵莉鼠标特效已启动！✨', 'success');
+            
+            // 创建启动特效
+            this.createWelcomeEffect();
+        }
+        
+        stop() {
+            if (!this.isActive) return;
+            
+            this.isActive = false;
+            this.controller.classList.remove('active');
+            
+            // 淡出效果
+            this.fadeOutAllEffects();
+            
+            setTimeout(() => {
+                this.container.style.display = 'none';
+                this.cursorFollow.style.display = 'none';
+                this.clearAllEffects();
+            }, 1000);
+            
+            // 保存用户偏好
+            localStorage.setItem('chtholly-mouse-effect-enabled', 'false');
+            
+            this.showEffectToast('鼠标特效已关闭');
+        }
+        
+        toggle() {
+            if (this.isActive) {
+                this.stop();
+            } else {
+                this.start();
+            }
+        }
+        
+        switchMode() {
+            if (!this.isActive) return;
+            
+            this.modeIndex = (this.modeIndex + 1) % this.modes.length;
+            this.effectMode = this.modes[this.modeIndex];
+            
+            this.applyEffectMode();
+            
+            // 保存模式偏好
+            localStorage.setItem('chtholly-mouse-effect-mode', this.effectMode);
+            
+            const modeNames = {
+                normal: '普通模式',
+                magic: '魔法模式', 
+                rainbow: '彩虹模式'
+            };
+            
+            this.showEffectToast(`切换到${modeNames[this.effectMode]} 🌟`);
+        }
+        
+        applyEffectMode() {
+            this.container.className = 'chtholly-mouse-effect-container';
+            
+            switch (this.effectMode) {
+                case 'magic':
+                    this.container.classList.add('magic-mode');
+                    break;
+                case 'rainbow':
+                    this.container.classList.add('rainbow-mode');
+                    break;
+            }
+        }
+        
+        updateCursorFollow() {
+            if (this.cursorFollow) {
+                this.cursorFollow.style.left = (this.mouseX - 10) + 'px';
+                this.cursorFollow.style.top = (this.mouseY - 10) + 'px';
+            }
+        }
+        
+        createEffect() {
+            const now = Date.now();
+            if (now - this.lastEffectTime < 50) return; // 限制频率
+            
+            this.lastEffectTime = now;
+            
+            // 随机选择效果类型
+            const effectTypes = ['sparkle', 'star'];
+            if (this.effectMode === 'magic') {
+                effectTypes.push('magic-circle');
+            }
+            
+            const effectType = effectTypes[Math.floor(Math.random() * effectTypes.length)];
+            this.createSingleEffect(this.mouseX, this.mouseY, effectType);
+        }
+        
+        createClickEffect(x, y) {
+            // 点击时创建更丰富的效果
+            this.createSingleEffect(x, y, 'heart');
+            this.createSingleEffect(x, y, 'ripple');
+            
+            // 创建围绕点击位置的粒子爆发
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const distance = 30 + Math.random() * 20;
+                const offsetX = Math.cos(angle) * distance;
+                const offsetY = Math.sin(angle) * distance;
+                
+                setTimeout(() => {
+                    this.createSingleEffect(x + offsetX, y + offsetY, 'sparkle');
+                }, i * 50);
+            }
+        }
+        
+        createSingleEffect(x, y, type) {
+            const effect = document.createElement('div');
+            let className, content = '';
+            
+            switch (type) {
+                case 'sparkle':
+                    className = 'chtholly-mouse-sparkle';
+                    break;
+                case 'heart':
+                    className = 'chtholly-mouse-heart';
+                    content = '💕';
+                    break;
+                case 'magic-circle':
+                    className = 'chtholly-mouse-magic-circle';
+                    break;
+                case 'star':
+                    className = 'chtholly-mouse-star';
+                    content = '⭐';
+                    break;
+                case 'ripple':
+                    className = 'chtholly-mouse-ripple';
+                    break;
+                default:
+                    className = 'chtholly-mouse-sparkle';
+            }
+            
+            effect.className = className;
+            effect.textContent = content;
+            effect.style.left = (x - 8) + 'px';
+            effect.style.top = (y - 8) + 'px';
+            
+            // 添加随机变化
+            if (type === 'sparkle' || type === 'star') {
+                const size = 0.5 + Math.random() * 0.8;
+                effect.style.transform = `scale(${size})`;
+            }
+            
+            this.container.appendChild(effect);
+            this.effects.push(effect);
+            
+            // 动画结束后清理
+            const animationDuration = this.getAnimationDuration(type);
+            setTimeout(() => {
+                this.removeEffect(effect);
+            }, animationDuration);
+        }
+        
+        getAnimationDuration(type) {
+            const durations = {
+                sparkle: 1000,
+                heart: 2000,
+                'magic-circle': 1500,
+                star: 1200,
+                ripple: 800
+            };
+            return durations[type] || 1000;
+        }
+        
+        createWelcomeEffect() {
+            // 创建欢迎特效
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            
+            for (let i = 0; i < 12; i++) {
+                setTimeout(() => {
+                    const angle = (i / 12) * Math.PI * 2;
+                    const radius = 50 + Math.random() * 50;
+                    const x = centerX + Math.cos(angle) * radius;
+                    const y = centerY + Math.sin(angle) * radius;
+                    
+                    this.createSingleEffect(x, y, i % 2 === 0 ? 'heart' : 'star');
+                }, i * 100);
+            }
+        }
+        
+        removeEffect(effect) {
+            const index = this.effects.indexOf(effect);
+            if (index > -1) {
+                this.effects.splice(index, 1);
+            }
+            
+            if (effect.parentNode) {
+                effect.parentNode.removeChild(effect);
+            }
+        }
+        
+        fadeOutAllEffects() {
+            this.effects.forEach(effect => {
+                effect.style.transition = 'opacity 1s ease-out';
+                effect.style.opacity = '0';
+            });
+        }
+        
+        clearAllEffects() {
+            this.effects.forEach(effect => {
+                if (effect.parentNode) {
+                    effect.parentNode.removeChild(effect);
+                }
+            });
+            this.effects = [];
+        }
+        
+        showEffectToast(message, type = 'info') {
+            const colors = {
+                success: 'linear-gradient(45deg, #00b894, #55a3ff)',
+                info: 'linear-gradient(45deg, #74b9ff, #a29bfe)',
+                warning: 'linear-gradient(45deg, #fdcb6e, #e17055)'
+            };
+            
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${colors[type] || colors.info};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 25px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 10001;
+                font-family: ${getComputedStyle(document.documentElement).getPropertyValue('--chtholly-font-family')};
+                font-weight: 600;
+                animation: effectToastIn 0.3s ease-out;
+                text-align: center;
+            `;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'effectToastOut 0.3s ease-in';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+    }
+    
+    // 全局实例
+    let chthollyMouseEffect = null;
+    
+    function toggleMouseEffect() {
+        if (chthollyMouseEffect) {
+            chthollyMouseEffect.toggle();
+        }
+    }
+    
+    function initializeMouseEffect() {
+        // 等待DOM加载完成
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeMouseEffect);
+            return;
+        }
+        
+        // 查找鼠标特效元素
+        const effectContainer = document.querySelector('.chtholly-mouse-effect-container');
+        const cursorFollow = document.querySelector('.chtholly-mouse-cursor-follow');
+        const controller = document.querySelector('.chtholly-mouse-controller');
+        
+        if (effectContainer && cursorFollow && controller) {
+            chthollyMouseEffect = new ChthollyMouseEffect(
+                effectContainer.id, 
+                cursorFollow.id, 
+                controller.id
+            );
+        }
+    }
+    
+    // 页面加载时初始化
+    initializeMouseEffect();
+}
+
+// 特效Toast动画 - 在任意位置使用[Origin]
+[Origin] @Style EffectToastAnimations {
+    @keyframes effectToastIn {
+        from {
+            transform: translateX(-50%) translateY(-20px) scale(0.8);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(-50%) translateY(0) scale(1);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes effectToastOut {
+        from {
+            transform: translateX(-50%) translateY(0) scale(1);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(-50%) translateY(-20px) scale(0.8);
+            opacity: 0;
+        }
+    }
+}

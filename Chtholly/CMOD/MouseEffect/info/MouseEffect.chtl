@@ -1,0 +1,21 @@
+[Info] {
+    name = "ChthollyMouseEffect";
+    version = "1.0.0";
+    description = "珂朵莉鼠标特效 - 跟随鼠标的魔法粒子特效系统，支持多种模式";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "ChthollyCore";
+    category = "ui-effect";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+    keywords = "mouse,effect,particle,magic,interactive";
+    features = "multiple-modes,cursor-follow,click-effects,keyboard-shortcuts,persistence";
+}
+
+[Export] {
+    [Template] @Style ChthollyMouseEffectStyle;
+    [Template] @Element ChthollyMouseEffectSystem;
+    
+    [Origin] @JavaScript MouseEffectScript;
+    [Origin] @Style EffectToastAnimations;
+}
