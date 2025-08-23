@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <unordered_set>
+#include "CHTL/Comments/ContextualCommentSystem.h"
 
 namespace CHTL {
 namespace Scanner {
@@ -146,6 +147,11 @@ private:
      */
     std::unordered_set<std::string> registeredKeywords_;
 
+    /**
+     * @brief 上下文注释生成器
+     */
+    Comments::ContextualCommentGenerator commentGenerator_;
+
     // ============ 双指针滑动窗口扫描状态 ============
     struct SlidingWindowState {
         size_t frontPointer;     // 前指针
@@ -226,6 +232,21 @@ private:
      * @return 关键字位置，string::npos表示未找到
      */
     size_t FindNextKeyword(size_t startPos, std::string& keyword);
+
+    /**
+     * @brief 检测"--"注释
+     * @param position 检测位置
+     * @return 注释长度，0表示未检测到
+     */
+    size_t DetectDashComment(size_t position);
+    
+    /**
+     * @brief 处理"--"注释，根据上下文生成相应的注释
+     * @param comment 注释内容
+     * @param surroundingCode 周围的代码上下文
+     * @return 处理后的注释
+     */
+    std::string ProcessDashComment(const std::string& comment, const std::string& surroundingCode);
 
     // ============ 代码片段提取和处理 ============
     

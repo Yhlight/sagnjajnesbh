@@ -858,6 +858,12 @@ bool CHTLUnifiedScanner::DetectKeywordAt(size_t position, std::string& keyword) 
 }
 
 size_t CHTLUnifiedScanner::DetectCHTLJSSyntaxAt(size_t position) {
+    // 首先检测是否为"--"注释
+    size_t commentLength = DetectDashComment(position);
+    if (commentLength > 0) {
+        return commentLength;
+    }
+    
     // 保存当前位置
     size_t savedPos = currentPos_;
     currentPos_ = position;
@@ -971,6 +977,52 @@ void CHTLUnifiedScanner::RegisterKeyword(const std::string& keyword) {
 void CHTLUnifiedScanner::ClearKeywords() {
     registeredKeywords_.clear();
     LogDebug("清空所有关键字");
+}
+
+// ============ "--"注释处理方法 ============
+
+size_t CHTLUnifiedScanner::DetectDashComment(size_t position) {
+    if (position + 2 > source_.length()) {
+        return 0;
+    }
+    
+    // 检查是否为"--"开头
+    if (source_.substr(position, 2) != "--") {
+        return 0;
+    }
+    
+    // 查找注释结束位置（行尾或文件尾）
+    size_t endPos = position + 2;
+    while (endPos < source_.length() && source_[endPos] != '\n' && source_[endPos] != '\r') {
+        endPos++;
+    }
+    
+    return endPos - position;
+}
+
+std::string CHTLUnifiedScanner::ProcessDashComment(const std::string& comment, const std::string& surroundingCode) {
+    // 去掉"--"前缀
+    std::string commentContent = comment.substr(2);
+    
+    // 去掉首尾空白
+    size_t start = commentContent.find_first_not_of(" \t");
+    if (start == std::string::npos) {
+        commentContent = "";
+    } else {
+        size_t end = commentContent.find_last_not_of(" \t");
+        commentContent = commentContent.substr(start, end - start + 1);
+    }
+    
+    // 检测上下文
+    Comments::ProgrammingContext context = commentGenerator_.DetectContext(surroundingCode);
+    
+    // 根据上下文生成注释
+    std::string processedComment = commentGenerator_.ProcessDashComment(commentContent, context);
+    
+    LogDebug("处理\"--\"注释，上下文: " + std::to_string(static_cast<int>(context)) + 
+            ", 原始: " + comment + ", 处理后: " + processedComment);
+    
+    return processedComment;
 }
 
 } // namespace Scanner

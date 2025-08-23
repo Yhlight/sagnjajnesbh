@@ -1,0 +1,21 @@
+[Info] {
+    name = "ChthollyCore";
+    version = "1.0.0";
+    description = "珂朵莉核心模块 - 提供主题色彩、字体、间距等基础变量";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "core-variables";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export] {
+    [Template] @Var ChthollyColors, ChthollyFonts, ChthollySpacing, 
+                    ChthollyBreakpoints, ChthollyAnimations;
+    
+    [Custom] @Var ChthollyThemeConfig;
+    
+    [Origin] @Style ChthollyReset;
+    [Origin] @JavaScript ChthollyVarUtils;
+}
