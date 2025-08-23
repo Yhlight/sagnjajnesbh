@@ -759,10 +759,7 @@ public:
         ORIGIN_HTML,        // [Origin] @Html
         ORIGIN_STYLE,       // [Origin] @Style
         ORIGIN_JAVASCRIPT,  // [Origin] @JavaScript
-        ORIGIN_VUE,         // [Origin] @Vue
-        ORIGIN_REACT,       // [Origin] @React
-        ORIGIN_ANGULAR,     // [Origin] @Angular
-        ORIGIN_CUSTOM,      // [Origin] @CustomType
+        ORIGIN_CUSTOM,      // [Origin] @CustomType (自定义类型如@Vue, @React等)
         
         // 模板导入（保持兼容性）
         TEMPLATE_STYLE,     // [Template] @Style

@@ -9,6 +9,7 @@
         { "include": "#imports" },
         { "include": "#templates" },
         { "include": "#custom-nodes" },
+        { "include": "#origin-blocks" },
         { "include": "#html-elements" },
         { "include": "#style-blocks" },
         { "include": "#script-blocks" },
@@ -75,7 +76,11 @@
                     "patterns": [
                         {
                             "name": "keyword.other.import-type.chtl",
-                            "match": "\\b(CHTL|CJMOD|MEDIA_HTML|MEDIA_STYLE|MEDIA_JAVASCRIPT|ORIGIN_VUE|ORIGIN_REACT|ORIGIN_ANGULAR|ORIGIN_CUSTOM)\\b"
+                            "match": "\\b(CHTL|CJMOD|MEDIA_HTML|MEDIA_STYLE|MEDIA_JAVASCRIPT)\\b"
+                        },
+                        {
+                            "name": "keyword.other.origin-type.chtl",
+                            "match": "@(Html|Style|JavaScript|Vue|React|Angular|Markdown)\\b"
                         },
                         {
                             "name": "keyword.other.origin-prefix.chtl",
@@ -129,6 +134,37 @@
                     "end": "(?=\\[|$)",
                     "patterns": [
                         { "include": "#custom-body" }
+                    ]
+                }
+            ]
+        },
+        "origin-blocks": {
+            "patterns": [
+                {
+                    "name": "entity.name.function.origin.chtl",
+                    "begin": "\\[Origin\\]\\s*@(Html|Style|JavaScript|\\w+)(?:\\s+(\\w+))?",
+                    "beginCaptures": {
+                        "1": { "name": "support.type.origin-type.chtl" },
+                        "2": { "name": "entity.name.function.origin-name.chtl" }
+                    },
+                    "end": "(?=\\[|$)",
+                    "patterns": [
+                        { "include": "#origin-body" }
+                    ]
+                }
+            ]
+        },
+        "origin-body": {
+            "patterns": [
+                {
+                    "name": "source.embedded.html",
+                    "begin": "\\{",
+                    "end": "\\}",
+                    "patterns": [
+                        {
+                            "name": "text.html.embedded",
+                            "match": "[\\s\\S]*?"
+                        }
                     ]
                 }
             ]

@@ -59,9 +59,6 @@ ImportSearchResult ImportManager::ResolveImportPath(const std::string& importPat
         case AST::ImportNode::ImportType::ORIGIN_HTML:
         case AST::ImportNode::ImportType::ORIGIN_STYLE:
         case AST::ImportNode::ImportType::ORIGIN_JAVASCRIPT:
-        case AST::ImportNode::ImportType::ORIGIN_VUE:
-        case AST::ImportNode::ImportType::ORIGIN_REACT:
-        case AST::ImportNode::ImportType::ORIGIN_ANGULAR:
         case AST::ImportNode::ImportType::ORIGIN_CUSTOM:
             result = SearchOriginFiles(pathInfo, importType);
             break;

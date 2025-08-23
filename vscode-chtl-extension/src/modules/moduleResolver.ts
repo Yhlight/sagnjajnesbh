@@ -267,24 +267,71 @@ export class ModuleResolver {
     }
 
     private async resolveOriginImport(options: ImportSearchOptions, searchPaths: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
-        // 原始嵌入导入：这是CHTL的语法标记，不是文件导入
-        // [Origin] ORIGIN_VUE/REACT/ANGULAR/CUSTOM 是告诉编译器使用原始格式，不进行CHTL解析
-        // 这些不对应实际文件，只是语法标识符
+        // 原始嵌入导入：[Import] [Origin] @Html box from "path/to/file.chtl"
+        // 这是导入其他CHTL文件中定义的带名原始嵌入块
         
-        const importType = options.importType;
+        const { importPath, importType, elementName, alias } = options;
         
-        // 创建一个虚拟的模块信息，表示这是一个原始嵌入标记
-        const moduleInfo: ModuleInfo = {
-            name: importType.replace('@', '').toLowerCase(),
-            path: `[Origin] ${importType}`, // 虚拟路径，表示这是语法标记
-            type: 'html', // 占位类型
-            exports: [],
-            imports: [],
-            isOfficial: true // 标记为官方语法
-        };
+        if (!importPath) {
+            console.error('原始嵌入导入必须指定源文件路径');
+            return undefined;
+        }
         
-        candidates.push(moduleInfo);
-        return moduleInfo;
+        if (!elementName) {
+            console.error('原始嵌入导入必须指定原始嵌入块名称');
+            return undefined;
+        }
+
+        // 解析目标CHTL文件路径
+        const targetFilePath = await this.resolveFilePath(importPath, options.currentFileDir, searchPaths);
+        if (!targetFilePath) {
+            console.error(`找不到原始嵌入源文件: ${importPath}`);
+            return undefined;
+        }
+
+        // 检查文件是否存在且为CHTL文件
+        if (!fs.existsSync(targetFilePath)) {
+            console.error(`原始嵌入源文件不存在: ${targetFilePath}`);
+            return undefined;
+        }
+
+        if (!targetFilePath.endsWith('.chtl')) {
+            console.error(`原始嵌入只能从CHTL文件导入: ${targetFilePath}`);
+            return undefined;
+        }
+
+        try {
+            // 读取并解析CHTL文件内容，查找指定的带名原始嵌入
+            const fileContent = fs.readFileSync(targetFilePath, 'utf-8');
+            const originContent = this.extractNamedOriginEmbedding(fileContent, importType, elementName);
+            
+            if (!originContent) {
+                console.error(`在文件 ${targetFilePath} 中找不到原始嵌入: [Origin] ${importType} ${elementName}`);
+                return undefined;
+            }
+
+            const moduleInfo: ModuleInfo = {
+                name: alias || elementName,
+                path: targetFilePath,
+                type: this.getOriginType(importType),
+                exports: [{
+                    name: elementName,
+                    type: 'origin'
+                }],
+                imports: [],
+                isOfficial: false,
+                content: originContent,
+                lastModified: fs.statSync(targetFilePath).mtime.getTime(),
+                size: originContent.length
+            };
+
+            candidates.push(moduleInfo);
+            console.log(`成功解析原始嵌入: [Origin] ${importType} ${elementName} from ${targetFilePath}`);
+            return moduleInfo;
+        } catch (error) {
+            console.error(`解析原始嵌入导入失败: ${error}`);
+            return undefined;
+        }
     }
 
     private async searchMediaInDirectory(importPath: string, baseDir: string, expectedExtension: string, candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
@@ -351,6 +398,75 @@ export class ModuleResolver {
 
     private isAbsolutePath(path: string): boolean {
         return path.startsWith('/') || path.includes(':');
+    }
+
+    /**
+     * 从CHTL文件内容中提取指定的带名原始嵌入
+     */
+    private extractNamedOriginEmbedding(fileContent: string, originType: string, originName: string): string | null {
+        try {
+            // 构建正则表达式来匹配带名原始嵌入块
+            // 例如：[Origin] @Html box { ... }
+            const escapedType = originType.replace('@', '\\@');
+            const originRegex = new RegExp(
+                `\\[Origin\\]\\s*${escapedType}\\s+${originName}\\s*\\{([\\s\\S]*?)\\}`,
+                'i'
+            );
+
+            const match = fileContent.match(originRegex);
+            if (match && match[1]) {
+                return match[1].trim();
+            }
+
+            return null;
+        } catch (error) {
+            console.error(`提取原始嵌入内容失败: ${error}`);
+            return null;
+        }
+    }
+
+    /**
+     * 根据原始嵌入类型返回对应的模块类型
+     */
+    private getOriginType(originType: string): 'html' | 'css' | 'javascript' | 'chtl' | 'cjmod' {
+        switch (originType) {
+            case '@Html': return 'html';
+            case '@Style': return 'css';
+            case '@JavaScript': return 'javascript';
+            default: return 'html'; // 自定义类型默认当作HTML处理
+        }
+    }
+
+    /**
+     * 解析文件路径，支持相对路径和绝对路径
+     */
+    private async resolveFilePath(importPath: string, currentFileDir?: string, searchPaths?: string[]): Promise<string | null> {
+        // 处理绝对路径
+        if (this.isAbsolutePath(importPath)) {
+            return fs.existsSync(importPath) ? importPath : null;
+        }
+
+        // 处理相对路径
+        const baseDirs = [
+            currentFileDir || '',
+            ...(searchPaths || []),
+            this.workspaceRoot
+        ].filter(Boolean);
+
+        for (const baseDir of baseDirs) {
+            const fullPath = path.join(baseDir, importPath);
+            if (fs.existsSync(fullPath)) {
+                return fullPath;
+            }
+
+            // 尝试添加.chtl扩展名
+            const fullPathWithExt = `${fullPath}.chtl`;
+            if (fs.existsSync(fullPathWithExt)) {
+                return fullPathWithExt;
+            }
+        }
+
+        return null;
     }
 
 

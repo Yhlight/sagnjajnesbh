@@ -1226,17 +1226,9 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
             return nullptr;
         }
         
-        // 自定义原始嵌入类型
-        if (typeId == "@Vue") {
-            importType = AST::ImportNode::ImportType::ORIGIN_VUE;
-        } else if (typeId == "@React") {
-            importType = AST::ImportNode::ImportType::ORIGIN_REACT;
-        } else if (typeId == "@Angular") {
-            importType = AST::ImportNode::ImportType::ORIGIN_ANGULAR;
-        } else {
-            importType = AST::ImportNode::ImportType::ORIGIN_CUSTOM;
-            name = typeId; // 保存自定义类型名
-        }
+        // 自定义原始嵌入类型（所有非标准类型都作为ORIGIN_CUSTOM处理）
+        importType = AST::ImportNode::ImportType::ORIGIN_CUSTOM;
+        name = typeId; // 保存自定义类型名（如@Vue, @React等）
     }
     
     // 消费 'from' 关键字
