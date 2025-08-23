@@ -309,10 +309,330 @@ class CHTLAssetPackager {
     }
 
     /**
+     * 生成模块索引
+     */
+    generateModuleIndex() {
+        console.log('📊 生成模块索引...');
+        
+        const modulesPath = path.join(this.binDir, 'module');
+        if (!fs.existsSync(modulesPath)) {
+            console.warn('模块目录不存在，跳过索引生成');
+            return null;
+        }
+
+        // 简化的模块索引构建（避免依赖TypeScript）
+        const index = this.buildSimpleModuleIndex(modulesPath);
+        
+        const indexPath = path.join(this.binDir, 'module-index.json');
+        fs.writeFileSync(indexPath, JSON.stringify(index, null, 2));
+        
+        console.log(`✅ 模块索引已生成: ${indexPath}`);
+        console.log(`📊 索引包含 ${index.modules.length} 个模块`);
+        
+        return index;
+    }
+
+    /**
+     * 构建简化的模块索引
+     */
+    buildSimpleModuleIndex(modulesPath) {
+        const modules = [];
+        const structure = this.isClassifiedStructure(modulesPath) ? 'classified' : 'mixed';
+        
+        if (structure === 'classified') {
+            this.scanClassifiedModulesForIndex(modulesPath, modules);
+        } else {
+            this.scanMixedModulesForIndex(modulesPath, modules);
+        }
+
+        // 构建搜索映射
+        const searchMap = this.buildSearchMapSimple(modules);
+
+        return {
+            version: '1.0.0',
+            timestamp: new Date().toISOString(),
+            structure,
+            modules,
+            searchMap
+        };
+    }
+
+    /**
+     * 扫描分类结构模块（用于索引）
+     */
+    scanClassifiedModulesForIndex(modulesPath, modules) {
+        // 扫描CMOD目录
+        const cmodDirs = ['CMOD', 'Cmod', 'cmod'];
+        for (const cmodDir of cmodDirs) {
+            const cmodPath = path.join(modulesPath, cmodDir);
+            if (fs.existsSync(cmodPath)) {
+                this.scanDirectoryForIndex(cmodPath, modules, ['chtl', 'cmod']);
+                break;
+            }
+        }
+
+        // 扫描CJMOD目录
+        const cjmodDirs = ['CJMOD', 'CJmod', 'cjmod'];
+        for (const cjmodDir of cjmodDirs) {
+            const cjmodPath = path.join(modulesPath, cjmodDir);
+            if (fs.existsSync(cjmodPath)) {
+                this.scanDirectoryForIndex(cjmodPath, modules, ['cjmod']);
+                break;
+            }
+        }
+    }
+
+    /**
+     * 扫描混合结构模块（用于索引）
+     */
+    scanMixedModulesForIndex(modulesPath, modules) {
+        this.scanDirectoryForIndex(modulesPath, modules, ['chtl', 'cmod', 'cjmod']);
+    }
+
+    /**
+     * 扫描目录生成索引
+     */
+    scanDirectoryForIndex(directory, modules, extensions) {
+        if (!fs.existsSync(directory)) return;
+
+        const files = fs.readdirSync(directory);
+        
+        for (const file of files) {
+            const filePath = path.join(directory, file);
+            const stat = fs.statSync(filePath);
+            
+            if (stat.isFile()) {
+                const ext = path.extname(file).substring(1);
+                if (extensions.includes(ext)) {
+                    try {
+                        const moduleEntry = this.parseModuleForIndex(filePath);
+                        if (moduleEntry) {
+                            modules.push(moduleEntry);
+                        }
+                    } catch (error) {
+                        console.error(`解析模块文件失败: ${filePath}`, error);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 解析模块文件（用于索引）
+     */
+    parseModuleForIndex(filePath) {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const stat = fs.statSync(filePath);
+        const ext = path.extname(filePath).substring(1);
+        const baseName = path.basename(filePath, path.extname(filePath));
+
+        let exports = [];
+        let dependencies = [];
+
+        if (ext === 'cmod' || ext === 'chtl') {
+            exports = this.extractCMODExportsSimple(content);
+            dependencies = this.extractDependenciesSimple(content);
+        } else if (ext === 'cjmod') {
+            exports = this.extractCJMODExportsSimple(content);
+            dependencies = this.extractDependenciesSimple(content);
+        }
+
+        return {
+            moduleName: baseName,
+            moduleType: ext,
+            filePath,
+            isOfficial: true, // 打包时都是官方模块
+            dependencies,
+            exports,
+            lastModified: stat.mtime.getTime(),
+            fileSize: stat.size
+        };
+    }
+
+    /**
+     * 简化的CMOD导出提取
+     */
+    extractCMODExportsSimple(content) {
+        const exports = [];
+        
+        // 提取[Export]块
+        const exportBlockRegex = /\[Export\]\s*\{([^}]*)\}/gs;
+        const exportMatches = content.matchAll(exportBlockRegex);
+        
+        for (const match of exportMatches) {
+            const exportContent = match[1];
+            const exportLines = exportContent.split('\n')
+                .map(line => line.trim())
+                .filter(line => line && !line.startsWith('//'));
+            
+            for (const line of exportLines) {
+                const exportInfo = this.parseExportLineSimple(line);
+                if (exportInfo) {
+                    exports.push(exportInfo);
+                }
+            }
+        }
+
+        // 如果没有[Export]块，查找隐式导出
+        if (exports.length === 0) {
+            const patterns = [
+                /\[Template\]\s*@(\w+)\s+(\w+)/g,
+                /\[Custom\]\s*@(\w+)\s+(\w+)/g,
+                /\[Style\]\s*@(\w+)\s+(\w+)/g,
+                /\[Script\]\s*@(\w+)\s+(\w+)/g
+            ];
+
+            for (const pattern of patterns) {
+                const matches = content.matchAll(pattern);
+                for (const match of matches) {
+                    const [, type, name] = match;
+                    exports.push({
+                        name,
+                        type: type.toLowerCase(),
+                        signature: `${type} ${name}`
+                    });
+                }
+            }
+        }
+
+        return exports;
+    }
+
+    /**
+     * 简化的CJMOD导出提取
+     */
+    extractCJMODExportsSimple(content) {
+        const exports = [];
+        
+        // 提取extern "C"函数
+        const externCRegex = /extern\s+"C"\s*\{([^}]*)\}/gs;
+        const externMatches = content.matchAll(externCRegex);
+        
+        for (const match of externMatches) {
+            const externContent = match[1];
+            const functionRegex = /(\w+\s*\*?\s*)\s+(\w+)\s*\([^)]*\)/g;
+            const functionMatches = externContent.matchAll(functionRegex);
+            
+            for (const funcMatch of functionMatches) {
+                const [, returnType, funcName] = funcMatch;
+                exports.push({
+                    name: funcName.trim(),
+                    type: 'function',
+                    signature: `${returnType.trim()} ${funcName.trim()}(...)`
+                });
+            }
+        }
+
+        // 提取类定义
+        const classRegex = /class\s+(\w+)/g;
+        const classMatches = content.matchAll(classRegex);
+        
+        for (const match of classMatches) {
+            const [, className] = match;
+            // 简单检查是否可能是导出的类
+            if (content.includes(`create${className}`) || content.includes(`new${className}`)) {
+                exports.push({
+                    name: className,
+                    type: 'class',
+                    signature: `class ${className}`
+                });
+            }
+        }
+
+        return exports;
+    }
+
+    /**
+     * 简化的依赖提取
+     */
+    extractDependenciesSimple(content) {
+        const dependencies = [];
+        const importRegex = /\[Import\]\s*@\w+\s+from\s+['""]([^'""]+)['"]/g;
+        const importMatches = content.matchAll(importRegex);
+        
+        for (const match of importMatches) {
+            dependencies.push(match[1]);
+        }
+        
+        return [...new Set(dependencies)];
+    }
+
+    /**
+     * 简化的导出行解析
+     */
+    parseExportLineSimple(line) {
+        const patterns = [
+            /^@(\w+)\s+(\w+)\s*:\s*(.+)$/,
+            /^(\w+)\s*:\s*(.+)$/
+        ];
+
+        for (const pattern of patterns) {
+            const match = line.match(pattern);
+            if (match) {
+                if (match.length === 4) {
+                    // @Type Name: signature
+                    const [, type, name, signature] = match;
+                    return {
+                        name,
+                        type: type.toLowerCase(),
+                        signature
+                    };
+                } else {
+                    // Name: signature
+                    const [, name, signature] = match;
+                    return {
+                        name,
+                        type: 'var',
+                        signature
+                    };
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * 构建简化的搜索映射
+     */
+    buildSearchMapSimple(modules) {
+        const byName = {};
+        const byExport = {};
+        const byType = {};
+        const byOfficial = { official: [], project: [] };
+        
+        modules.forEach((module, index) => {
+            byName[module.moduleName] = index;
+            
+            module.exports.forEach(exp => {
+                if (!byExport[exp.name]) {
+                    byExport[exp.name] = [];
+                }
+                byExport[exp.name].push(index);
+            });
+            
+            if (!byType[module.moduleType]) {
+                byType[module.moduleType] = [];
+            }
+            byType[module.moduleType].push(index);
+            
+            if (module.isOfficial) {
+                byOfficial.official.push(index);
+            } else {
+                byOfficial.project.push(index);
+            }
+        });
+        
+        return { byName, byExport, byType, byOfficial };
+    }
+
+    /**
      * 生成资源清单
      */
     generateManifest() {
         console.log('📝 生成资源清单...');
+        
+        const moduleIndex = this.generateModuleIndex();
         
         const manifest = {
             version: '1.0.0',
@@ -323,8 +643,9 @@ class CHTLAssetPackager {
             },
             modules: {
                 path: 'bin/module',
+                indexPath: 'bin/module-index.json',
                 structure: this.isClassifiedStructure(path.join(this.binDir, 'module')) ? 'classified' : 'mixed',
-                count: this.findFiles(path.join(this.binDir, 'module'), ['.chtl', '.cmod', '.cjmod']).length
+                count: moduleIndex ? moduleIndex.modules.length : 0
             }
         };
         

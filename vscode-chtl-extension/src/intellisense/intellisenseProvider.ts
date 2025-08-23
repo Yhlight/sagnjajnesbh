@@ -727,9 +727,9 @@ export class CHTLIntelliSenseProvider {
     private async getModulePathCompletions(beforeCursor: string): Promise<vscode.CompletionItem[]> {
         const suggestions: vscode.CompletionItem[] = [];
         
-        // 获取所有已知模块
-        const allModules = this.moduleResolver.getAllModules();
-        const officialModules = this.moduleResolver.getOfficialModules();
+        // 优先使用索引获取模块（性能更佳）
+        const allModules = this.moduleResolver.getAllModulesFromIndex();
+        const officialModules = this.moduleResolver.getOfficialModulesFromIndex();
         
         // 官方模块建议
         for (const module of officialModules) {
@@ -768,7 +768,23 @@ export class CHTLIntelliSenseProvider {
         doc.appendMarkdown(`**类型**: ${module.type}\n\n`);
         doc.appendMarkdown(`**路径**: ${module.path}\n\n`);
         
-        if (module.exports && module.exports.length > 0) {
+        // 使用索引获取详细的导出信息
+        const detailedExports = this.moduleResolver.getModuleExports(module.name);
+        if (detailedExports && detailedExports.length > 0) {
+            doc.appendMarkdown(`**导出**:\n`);
+            for (const exp of detailedExports) {
+                doc.appendMarkdown(`- \`${exp.name}\` (${exp.type})`);
+                if (exp.signature) {
+                    doc.appendMarkdown(`: ${exp.signature}`);
+                }
+                if (exp.description) {
+                    doc.appendMarkdown(` - ${exp.description}`);
+                }
+                doc.appendMarkdown('\n');
+            }
+            doc.appendMarkdown('\n');
+        } else if (module.exports && module.exports.length > 0) {
+            // 回退到基础导出信息
             doc.appendMarkdown(`**导出**: ${module.exports.join(', ')}\n\n`);
         }
         

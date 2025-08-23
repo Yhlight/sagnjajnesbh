@@ -1,0 +1,45 @@
+# VSCode Extension Ignore File
+
+# Source files
+src/**
+scripts/**
+.temp-build/
+
+# Development files
+.vscode/**
+.vscode-test/**
+**/*.map
+*.vsix
+
+# Node modules (except required dependencies)
+node_modules/**
+
+# TypeScript compilation
+*.ts
+tsconfig.json
+tslint.json
+
+# Git and CI
+.git/**
+.gitignore
+.github/**
+
+# Documentation and examples (optional)
+docs/**
+examples/**
+*.md
+!README.md
+
+# Build artifacts that should not be packaged
+out/test/**
+
+# Important: Do NOT ignore bin/ directory as it contains:
+# - Internal CHTL compiler (bin/chtl-compiler)
+# - Official modules (bin/module/)
+# - Module index (bin/module-index.json)
+# - Asset manifest (bin/manifest.json)
+# These are essential for the extension to function properly
+
+# Also allow assets and media
+# !assets/**
+# !media/**
