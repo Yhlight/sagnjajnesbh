@@ -211,6 +211,7 @@ export class ModuleResolver {
     private async resolveMediaImport(options: ImportSearchOptions, searchPaths: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
         // 媒体文件导入: @Html, @Style, @JavaScript
         // 如果没有as语法，则跳过；如果有as语法，则创建相应类型的带名原始嵌入节点
+        // 媒体导入只在编译文件所在目录（非递归）搜索
         
         if (!options.hasAsClause) {
             return undefined; // 跳过没有as语法的媒体导入
@@ -219,17 +220,15 @@ export class ModuleResolver {
         const targetExtension = this.getExtensionForMediaType(options.importType);
         const importPath = options.importPath;
 
-        // 使用完整的搜索路径策略
-        if (this.isAbsolutePath(importPath)) {
-            // 绝对路径：直接检查文件
-            return this.searchAbsolutePath(importPath, [targetExtension], candidates);
-        } else if (this.isSpecificFile(importPath)) {
-            // 具体文件名（带后缀）：在所有搜索路径中查找
-            return this.searchInOrderedPaths(importPath, searchPaths, candidates);
-        } else {
-            // 文件名（不带后缀）：在所有搜索路径中按类型搜索
-            return this.searchModuleByName(importPath, searchPaths, [targetExtension], candidates);
+        // 获取当前编译文件所在目录
+        const activeEditor = vscode.window.activeTextEditor;
+        if (!activeEditor || (activeEditor.document.languageId !== 'chtl' && activeEditor.document.languageId !== 'chtl-js')) {
+            // 如果没有活动的CHTL文件，使用工作区根目录
+            return this.searchMediaInDirectory(importPath, options.workspaceRoot, targetExtension, candidates);
         }
+
+        const currentFileDir = path.dirname(activeEditor.document.uri.fsPath);
+        return this.searchMediaInDirectory(importPath, currentFileDir, targetExtension, candidates);
     }
 
     private async resolveCHTLImport(options: ImportSearchOptions, searchPaths: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
@@ -268,7 +267,8 @@ export class ModuleResolver {
     }
 
     private async resolveOriginImport(options: ImportSearchOptions, searchPaths: string[], candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
-        // 原始嵌入导入：支持vue、react、angular等框架文件
+        // 原始嵌入导入：只是原样传递代码，不进行CHTL解析
+        // 主要用于嵌入不需要CHTL处理的代码片段
         const importPath = options.importPath;
         const allowedExtensions = ['vue', 'jsx', 'tsx', 'svelte', 'html', 'js', 'ts'];
 
@@ -282,6 +282,47 @@ export class ModuleResolver {
             // 文件名（不带后缀）：在所有搜索路径中按支持的扩展名搜索
             return this.searchModuleByName(importPath, searchPaths, allowedExtensions, candidates);
         }
+    }
+
+    private async searchMediaInDirectory(importPath: string, baseDir: string, expectedExtension: string, candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
+        // 媒体导入专用：只在指定目录（非递归）搜索
+        
+        if (this.isAbsolutePath(importPath)) {
+            // 绝对路径：直接检查
+            if (fs.existsSync(importPath)) {
+                const actualExtension = path.extname(importPath).slice(1);
+                if (!expectedExtension || actualExtension === expectedExtension) {
+                    const moduleInfo = await this.createModuleInfo(importPath, this.getFileType(importPath), false);
+                    candidates.push(moduleInfo);
+                    return moduleInfo;
+                }
+            }
+            return undefined;
+        }
+
+        // 相对路径：在当前目录查找
+        const fullPath = path.join(baseDir, importPath);
+        
+        if (fs.existsSync(fullPath)) {
+            const actualExtension = path.extname(fullPath).slice(1);
+            if (!expectedExtension || actualExtension === expectedExtension) {
+                const moduleInfo = await this.createModuleInfo(fullPath, this.getFileType(fullPath), false);
+                candidates.push(moduleInfo);
+                return moduleInfo;
+            }
+        }
+
+        // 如果没有扩展名，尝试添加预期的扩展名
+        if (!path.extname(importPath) && expectedExtension) {
+            const fullPathWithExt = path.join(baseDir, `${importPath}.${expectedExtension}`);
+            if (fs.existsSync(fullPathWithExt)) {
+                const moduleInfo = await this.createModuleInfo(fullPathWithExt, expectedExtension as any, false);
+                candidates.push(moduleInfo);
+                return moduleInfo;
+            }
+        }
+
+        return undefined;
     }
 
     private getExtensionForMediaType(importType: string): string {
