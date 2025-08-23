@@ -500,8 +500,19 @@ std::unique_ptr<CHTLJSFunction> createCHTLJSFunction(const std::string& function
  *    - Syntax: 语法容器，维护args向量和整体操作
  *    - CHTLJSFunction: 高级封装，简化常见使用模式
  * 
- * 5. 【完整流程支持】
- *    - syntaxAnalys -> bind -> scanKeyword -> match -> transform -> result -> generateCode
+ * 5. 【正确的完整流程】
+ *    syntaxAnalys(拆分成多个arg) 
+ *    -> bind(绑定获取值的函数) 
+ *    -> transform(最终的JS代码) 
+ *    -> scanKeyword(什么关键字作为统一扫描器的搜索) 
+ *    -> match(捕获参数值，这个要拿到代码片段才行，否则无法使用peekKeyword) 
+ *    -> result(组合所有参数的最终JS代码) 
+ *    -> generateCode(把代码交给生成器，生成器将代码输出为标准js)
+ * 
+ * 6. 【关键理解】
+ *    - scanKeyword 设置什么关键字让统一扫描器搜索
+ *    - match 必须在拿到代码片段后才能使用peekKeyword获取参数值
+ *    - transform 预先定义JS代码模板，match时填充实际值
  *    - Policy策略：NORMAL/COLLECT/SKIP
  *    - 辅助函数：isObject/isFunction
  */
