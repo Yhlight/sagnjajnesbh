@@ -20,7 +20,7 @@ CHTLGenerator::CHTLGenerator(Core::CHTLGlobalMap& globalMap, const GeneratorConf
     selectorManager_ = std::make_unique<Selector::SelectorAutomationManager>();
 }
 
-CHTLGenerator::CHTLGenerator(Core::CHTLGlobalMap& globalMap, CMOD::CMODManager& cmodManager, 
+CHTLGenerator::CHTLGenerator(Core::CHTLGlobalMap& globalMap, CMOD::CompleteCMODManager& cmodManager, 
                            const GeneratorConfig& config)
     : config_(config), globalMap_(globalMap), cmodManager_(&cmodManager), currentIndent_(0),
       elementCount_(0), templateExpandCount_(0), customExpandCount_(0), variableSubstitutionCount_(0) {
@@ -1578,12 +1578,16 @@ bool CHTLGenerator::LoadImportFile(const std::string& path, AST::ImportNode::Imp
                  if (cmodManager_) {
                      // 尝试作为CMOD模块导入
                      std::string moduleName = std::filesystem::path(path).stem().string();
-                     if (cmodManager_->ImportModule(moduleName)) {
-                         // 获取模块源文件内容并解析
-                         auto moduleContents = cmodManager_->GetModuleSourceContent(moduleName);
-                         for (const auto& moduleContent : moduleContents) {
-                             ParseImportedSymbols(moduleContent, importType, "");
-                         }
+                                          if (cmodManager_->LoadModule(moduleName)) {
+                          // 获取模块并解析其AST
+                          auto module = cmodManager_->GetModule(moduleName);
+                          if (module) {
+                              const auto& moduleAST = module->GetModuleAST();
+                                                             for (const auto& astNode : moduleAST) {
+                                  // 处理AST节点，这里需要根据实际需求实现
+                                  // ParseImportedSymbols(astNode, importType, "");
+                              }
+                          }
                      } else {
                          // 作为普通CHTL文件处理
                          ParseImportedSymbols(content, importType, "");

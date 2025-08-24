@@ -1,0 +1,41 @@
+// CHTL JS语法测试
+html {
+    head {
+        title { text { "CHTL JS测试" } }
+    }
+    
+    body {
+        div {
+            id: "test-container";
+            
+            h1 { text { "CHTL JS功能测试" } }
+            
+            script {
+                // 测试虚对象
+                vir Calculator = {
+                    add: function(a, b) {
+                        return a + b;
+                    },
+                    
+                    multiply: function(a, b) {
+                        return a * b;
+                    }
+                };
+                
+                // 使用虚对象
+                let result = Calculator.add(5, 3);
+                console.log("计算结果:", result);
+                
+                // 测试printMylove功能
+                const asciiArt = printMylove({
+                    url: "test.jpg",
+                    mode: "ASCII",
+                    width: 40,
+                    height: 20
+                });
+                
+                console.log(asciiArt);
+            }
+        }
+    }
+}

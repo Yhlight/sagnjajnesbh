@@ -654,7 +654,7 @@ void CHTLUnifiedScanner::SlidingWindowScan() {
             if (!slidingState_.collectMode) {
                 // 推送前面的普通代码片段
                 if (slidingState_.backPointer < slidingState_.frontPointer) {
-                    ExtractAndProcessFromWindow(slidingState_.backPointer, slidingState_.frontPointer, FragmentType::JS);
+                    ExtractAndProcessFromWindow(slidingState_.backPointer, slidingState_.frontPointer, FragmentType::CHTL);
                 }
                 
                 // 进入收集模式
@@ -713,7 +713,7 @@ void CHTLUnifiedScanner::SlidingWindowScan() {
                        slidingState_.backPointer, source_.length());
         } else {
             // 推送普通代码片段
-            ExtractAndProcessFromWindow(slidingState_.backPointer, source_.length(), FragmentType::JS);
+            ExtractAndProcessFromWindow(slidingState_.backPointer, source_.length(), FragmentType::CHTL);
         }
     }
     
@@ -735,7 +735,7 @@ void CHTLUnifiedScanner::FrontExtractScan() {
             // 截取前置代码段（避免发送给编译器）
             if (keywordPos > currentPos) {
                 std::string frontSegment = ExtractFrontSegment(keywordPos);
-                ProcessExtractedSegment(frontSegment, FragmentType::JS);
+                ProcessExtractedSegment(frontSegment, FragmentType::CHTL);
                 LogDebug("截取前置代码段，长度: " + std::to_string(frontSegment.length()));
             }
             
@@ -755,7 +755,7 @@ void CHTLUnifiedScanner::FrontExtractScan() {
             // 没有更多关键字，处理剩余代码
             if (currentPos < source_.length()) {
                 std::string remainingSegment = source_.substr(currentPos);
-                ProcessExtractedSegment(remainingSegment, FragmentType::JS);
+                ProcessExtractedSegment(remainingSegment, FragmentType::CHTL);
                 LogDebug("处理剩余代码段，长度: " + std::to_string(remainingSegment.length()));
             }
             break;
@@ -780,7 +780,7 @@ void CHTLUnifiedScanner::InitialScan(size_t searchRange) {
             if (syntaxLength > 0) {
                 // 推送前面的代码（如果有）
                 if (pos > 0) {
-                    PushFragment(FragmentType::JS, source_.substr(0, pos), 0, pos);
+                    PushFragment(FragmentType::CHTL, source_.substr(0, pos), 0, pos);
                 }
                 
                 // 推送CHTL JS语法片段
