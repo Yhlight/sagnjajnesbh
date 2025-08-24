@@ -1752,5 +1752,42 @@ std::unique_ptr<CHTLGenerator> GeneratorFactory::CreateDebugGenerator(Core::CHTL
     return std::make_unique<CHTLGenerator>(globalMap, config);
 }
 
+AST::ASTNodeList CHTLGenerator::ExpandElementTemplate(std::shared_ptr<Core::SymbolInfo> symbol, 
+                                                     AST::TemplateReferenceNode& templateRef) {
+    AST::ASTNodeList expandedNodes;
+    
+    // 基础实现：创建一个简单的元素节点
+    auto elementNode = std::make_shared<AST::ElementNode>(symbol->name, templateRef.GetToken());
+    expandedNodes.push_back(elementNode);
+    
+    return expandedNodes;
+}
+
+AST::ASTNodeList CHTLGenerator::ExpandStyleTemplate(std::shared_ptr<Core::SymbolInfo> symbol, 
+                                                   AST::TemplateReferenceNode& templateRef) {
+    AST::ASTNodeList expandedNodes;
+    
+    // 基础实现：创建一个样式块节点
+    auto styleNode = std::make_shared<AST::StyleBlockNode>(templateRef.GetToken());
+    expandedNodes.push_back(styleNode);
+    
+    return expandedNodes;
+}
+
+AST::ASTNodeList CHTLGenerator::ExpandVariableTemplate(std::shared_ptr<Core::SymbolInfo> symbol, 
+                                                      AST::TemplateReferenceNode& templateRef) {
+    AST::ASTNodeList expandedNodes;
+    
+    // 基础实现：创建一个字面量节点
+    auto literalNode = std::make_shared<AST::LiteralNode>(
+        AST::LiteralNode::LiteralType::UNQUOTED, 
+        symbol->name, 
+        templateRef.GetToken()
+    );
+    expandedNodes.push_back(literalNode);
+    
+    return expandedNodes;
+}
+
 } // namespace Generator
 } // namespace CHTL

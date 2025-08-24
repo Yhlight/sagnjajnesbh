@@ -1233,6 +1233,10 @@ bool CMODVersionManager::VersionInfo::operator<(const VersionInfo& other) const 
     return patch < other.patch;
 }
 
+bool CMODVersionManager::VersionInfo::operator==(const VersionInfo& other) const {
+    return major == other.major && minor == other.minor && patch == other.patch;
+}
+
 bool CMODVersionManager::VersionInfo::operator<=(const VersionInfo& other) const {
     return *this < other || *this == other;
 }
