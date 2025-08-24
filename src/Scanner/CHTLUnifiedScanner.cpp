@@ -1274,33 +1274,50 @@ FragmentType CHTLUnifiedScanner::DetermineFragmentType(const std::string& conten
     size_t end = trimmed.find_last_not_of(" \t\n\r");
     trimmed = trimmed.substr(start, end - start + 1);
     
+    // 优先检测CHTL语法（HTML元素开头）
+    if (trimmed.find("html") == 0 || trimmed.find("body") == 0 || 
+        trimmed.find("div") == 0 || trimmed.find("text") == 0 ||
+        trimmed.find("head") == 0 || trimmed.find("title") == 0 ||
+        trimmed.find("meta") == 0 || trimmed.find("link") == 0) {
+        LogDebug("识别为CHTL片段: " + trimmed.substr(0, 20) + "...");
+        return FragmentType::CHTL;
+    }
+    
     // 检测CHTL JS语法
     if (trimmed.find("vir") == 0 || trimmed.find("{{") != std::string::npos) {
+        LogDebug("识别为CHTL JS片段: " + trimmed.substr(0, 20) + "...");
         return FragmentType::CHTL_JS;
     }
     
-    // 检测CSS语法
-    if (trimmed.find("style") == 0 || 
-        trimmed.find("{") != std::string::npos && 
-        (trimmed.find(":") != std::string::npos || trimmed.find("background") != std::string::npos)) {
+    // 检测纯CSS语法（不包含CHTL元素的CSS）
+    if (trimmed.find("style") == 0 && trimmed.find("html") == std::string::npos) {
+        LogDebug("识别为CSS片段: " + trimmed.substr(0, 20) + "...");
+        return FragmentType::CSS;
+    }
+    
+    // 检测CSS属性语法
+    if (trimmed.find(":") != std::string::npos && 
+        (trimmed.find("background") != std::string::npos ||
+         trimmed.find("color") != std::string::npos ||
+         trimmed.find("margin") != std::string::npos ||
+         trimmed.find("padding") != std::string::npos)) {
+        LogDebug("识别为CSS片段: " + trimmed.substr(0, 20) + "...");
         return FragmentType::CSS;
     }
     
     // 检测JavaScript语法
     if (trimmed.find("console.log") != std::string::npos ||
         trimmed.find("function") != std::string::npos ||
-        trimmed.find("document.") != std::string::npos) {
+        trimmed.find("document.") != std::string::npos ||
+        trimmed.find("let ") != std::string::npos ||
+        trimmed.find("const ") != std::string::npos ||
+        trimmed.find("var ") != std::string::npos) {
+        LogDebug("识别为JavaScript片段: " + trimmed.substr(0, 20) + "...");
         return FragmentType::JS;
     }
     
-    // 检测CHTL语法
-    if (trimmed.find("html") == 0 || trimmed.find("body") == 0 || 
-        trimmed.find("div") == 0 || trimmed.find("text") == 0 ||
-        trimmed.find("script") == 0) {
-        return FragmentType::CHTL;
-    }
-    
-    // 默认为CHTL
+    // 默认为CHTL（因为CHTL是主要语言）
+    LogDebug("默认识别为CHTL片段: " + trimmed.substr(0, 20) + "...");
     return FragmentType::CHTL;
 }
 
