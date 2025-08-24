@@ -1,4 +1,5 @@
 #include "CHTLJS/Parser/CHTLJSParser.h"
+#include "CHTLJS/Core/CHTLJSView.h"
 #include "Utils/ErrorHandler.h"
 #include <algorithm>
 
