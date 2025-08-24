@@ -508,13 +508,42 @@ AST::ASTNodePtr CHTLJSParser::ParseAssignmentExpression() {
         Advance(); // 消费操作符
         
         if (Check(Core::TokenType::IDENTIFIER)) {
-            auto rightExpr = ParsePrimaryExpression(); // 解析右侧表达式
+            std::string methodName = ParseIdentifier();
             
             if (isArrow) {
-                // 创建箭头操作符节点 - 这是CHTL JS核心特征
-                expr = std::make_shared<AST::ArrowOperatorNode>(expr, rightExpr, operatorToken);
+                // 检查是否为函数调用 method()
+                if (Check(Core::TokenType::LEFT_PAREN)) {
+                    // 这是虚对象方法调用：virtualObject->method()
+                    // 创建VirtualMethodCallNode，因为CHTL JS无法接管greet()这样的函数调用
+                    Advance(); // 消费 '('
+                    
+                    // 简单处理：跳过参数直到找到 ')'
+                    int parenCount = 1;
+                    while (parenCount > 0 && !IsAtEnd()) {
+                        if (Check(Core::TokenType::LEFT_PAREN)) {
+                            parenCount++;
+                        } else if (Check(Core::TokenType::RIGHT_PAREN)) {
+                            parenCount--;
+                        }
+                        Advance();
+                    }
+                    
+                    // 确定左侧是否为虚对象标识符
+                    if (expr->GetType() == AST::NodeType::IDENTIFIER) {
+                        auto identifierNode = std::static_pointer_cast<AST::IdentifierNode>(expr);
+                        expr = std::make_shared<AST::VirtualMethodCallNode>(
+                            identifierNode->GetName(), methodName, operatorToken);
+                    } else {
+                        ReportError("箭头操作符左侧应为虚对象标识符");
+                        return nullptr;
+                    }
+                } else {
+                    // 普通的箭头操作符：object->property
+                    auto rightExpr = std::make_shared<AST::IdentifierNode>(methodName, Current());
+                    expr = std::make_shared<AST::ArrowOperatorNode>(expr, rightExpr, operatorToken);
+                }
             } else {
-                // 点操作符处理（如果需要的话）
+                // 点操作符处理
                 ReportError("点操作符在CHTL JS中应使用箭头操作符->代替");
                 return nullptr;
             }
