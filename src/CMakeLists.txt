@@ -224,28 +224,28 @@ if(EXISTS ${MODULE_SOURCE_DIR})
         # 分类结构：处理CMOD/和CJMOD/目录
         message(STATUS "使用分类结构构建模块")
         
-        # 查找并构建CMOD模块
+        # 查找并构建CMOD组件
         foreach(CMOD_DIR "CMOD" "Cmod" "cmod")
             if(EXISTS "${MODULE_SOURCE_DIR}/${CMOD_DIR}")
-                file(GLOB CMOD_MODULES "${MODULE_SOURCE_DIR}/${CMOD_DIR}/*")
-                foreach(MODULE_PATH ${CMOD_MODULES})
-                    if(IS_DIRECTORY ${MODULE_PATH})
-                        get_filename_component(MODULE_NAME ${MODULE_PATH} NAME)
-                        build_cmod_module(${MODULE_PATH} ${MODULE_NAME} "${MODULE_OUTPUT_DIR}/${CMOD_DIR}")
+                file(GLOB CMOD_COMPONENTS "${MODULE_SOURCE_DIR}/${CMOD_DIR}/*")
+                foreach(COMPONENT_PATH ${CMOD_COMPONENTS})
+                    if(IS_DIRECTORY ${COMPONENT_PATH})
+                        get_filename_component(COMPONENT_NAME ${COMPONENT_PATH} NAME)
+                        build_mixed_cmod_component(${COMPONENT_PATH} ${COMPONENT_NAME} "${MODULE_OUTPUT_DIR}/${CMOD_DIR}")
                     endif()
                 endforeach()
                 break()
             endif()
         endforeach()
         
-        # 查找并构建CJMOD模块
+        # 查找并构建CJMOD扩展
         foreach(CJMOD_DIR "CJMOD" "CJmod" "cjmod")
             if(EXISTS "${MODULE_SOURCE_DIR}/${CJMOD_DIR}")
-                file(GLOB CJMOD_MODULES "${MODULE_SOURCE_DIR}/${CJMOD_DIR}/*")
-                foreach(MODULE_PATH ${CJMOD_MODULES})
-                    if(IS_DIRECTORY ${MODULE_PATH})
-                        get_filename_component(MODULE_NAME ${MODULE_PATH} NAME)
-                        build_cjmod_module(${MODULE_PATH} ${MODULE_NAME} "${MODULE_OUTPUT_DIR}/${CJMOD_DIR}")
+                file(GLOB CJMOD_EXTENSIONS "${MODULE_SOURCE_DIR}/${CJMOD_DIR}/*")
+                foreach(EXTENSION_PATH ${CJMOD_EXTENSIONS})
+                    if(IS_DIRECTORY ${EXTENSION_PATH})
+                        get_filename_component(EXTENSION_NAME ${EXTENSION_PATH} NAME)
+                        build_mixed_cjmod_extension(${EXTENSION_PATH} ${EXTENSION_NAME} "${MODULE_OUTPUT_DIR}/${CJMOD_DIR}")
                     endif()
                 endforeach()
                 break()
@@ -259,8 +259,43 @@ if(EXISTS ${MODULE_SOURCE_DIR})
         foreach(MODULE_DIR ${MODULE_DIRS})
             if(IS_DIRECTORY ${MODULE_DIR})
                 get_filename_component(MODULE_NAME ${MODULE_DIR} NAME)
-                # 根据内容判断模块类型并构建
-                detect_and_build_module(${MODULE_DIR} ${MODULE_NAME} ${MODULE_OUTPUT_DIR})
+                
+                # 检测模块类型
+                if(EXISTS "${MODULE_DIR}/CMOD" AND EXISTS "${MODULE_DIR}/CJMOD")
+                    # 混合模块（结构3）
+                    message(STATUS "检测到混合模块: ${MODULE_NAME}")
+                    
+                    # 构建CMOD组件
+                    file(GLOB CMOD_COMPONENTS "${MODULE_DIR}/CMOD/*")
+                    foreach(COMPONENT_PATH ${CMOD_COMPONENTS})
+                        if(IS_DIRECTORY ${COMPONENT_PATH})
+                            get_filename_component(COMPONENT_NAME ${COMPONENT_PATH} NAME)
+                            build_mixed_cmod_component(${COMPONENT_PATH} ${COMPONENT_NAME} "${MODULE_OUTPUT_DIR}")
+                        endif()
+                    endforeach()
+                    
+                    # 构建CJMOD扩展
+                    file(GLOB CJMOD_EXTENSIONS "${MODULE_DIR}/CJMOD/*")
+                    foreach(EXTENSION_PATH ${CJMOD_EXTENSIONS})
+                        if(IS_DIRECTORY ${EXTENSION_PATH})
+                            get_filename_component(EXTENSION_NAME ${EXTENSION_PATH} NAME)
+                            build_mixed_cjmod_extension(${EXTENSION_PATH} ${EXTENSION_NAME} "${MODULE_OUTPUT_DIR}")
+                        endif()
+                    endforeach()
+                    
+                elseif(EXISTS "${MODULE_DIR}/src" AND EXISTS "${MODULE_DIR}/info")
+                    # 判断是CMOD还是CJMOD
+                    file(GLOB CPP_FILES "${MODULE_DIR}/src/*.cpp")
+                    file(GLOB CHTL_FILES "${MODULE_DIR}/src/*.chtl")
+                    
+                    if(CPP_FILES)
+                        # CJMOD模块（结构2）
+                        build_cjmod_module(${MODULE_DIR} ${MODULE_NAME} ${MODULE_OUTPUT_DIR})
+                    elseif(CHTL_FILES)
+                        # 简单CMOD模块（结构1）
+                        build_simple_cmod_module(${MODULE_DIR} ${MODULE_NAME} ${MODULE_OUTPUT_DIR})
+                    endif()
+                endif()
             endif()
         endforeach()
     endif()
@@ -346,16 +381,132 @@ endif()
     add_dependencies(chtl_compiler build_module_${MODULE_NAME})
 endforeach()
 
-# 创建模块构建汇总目标
+# ========== 模块构建函数定义 ==========
+
+# 构建简单CMOD模块（结构1）
+function(build_simple_cmod_module MODULE_PATH MODULE_NAME OUTPUT_DIR)
+    message(STATUS "构建简单CMOD模块: ${MODULE_NAME}")
+    
+    add_custom_target(build_module_${MODULE_NAME}
+        COMMENT "构建CMOD模块: ${MODULE_NAME}"
+    )
+    
+    # 编译.chtl文件为.cmod
+    file(GLOB CHTL_FILES "${MODULE_PATH}/src/*.chtl")
+    foreach(CHTL_FILE ${CHTL_FILES})
+        get_filename_component(FILENAME ${CHTL_FILE} NAME_WE)
+        set(OUTPUT_FILE "${OUTPUT_DIR}/${FILENAME}.cmod")
+        
+        add_custom_command(TARGET build_module_${MODULE_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_DIR}
+            COMMAND ${CMAKE_BINARY_DIR}/bin/chtl_compiler ${CHTL_FILE} -o ${OUTPUT_FILE}
+            COMMENT "编译CHTL文件: ${CHTL_FILE} -> ${OUTPUT_FILE}"
+            DEPENDS chtl_compiler ${CHTL_FILE}
+        )
+    endforeach()
+    
+    # 复制模块信息文件
+    if(EXISTS "${MODULE_PATH}/info/${MODULE_NAME}.chtl")
+        add_custom_command(TARGET build_module_${MODULE_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy 
+                "${MODULE_PATH}/info/${MODULE_NAME}.chtl"
+                "${OUTPUT_DIR}/${MODULE_NAME}.info"
+            COMMENT "复制模块信息文件"
+        )
+    endif()
+    
+    add_dependencies(build_all_modules build_module_${MODULE_NAME})
+endfunction()
+
+# 构建CJMOD模块（结构2）
+function(build_cjmod_module MODULE_PATH MODULE_NAME OUTPUT_DIR)
+    message(STATUS "构建CJMOD模块: ${MODULE_NAME}")
+    
+    # 编译C++源文件为动态库
+    file(GLOB CPP_FILES "${MODULE_PATH}/src/*.cpp")
+    if(CPP_FILES)
+        add_library(${MODULE_NAME}_cjmod SHARED ${CPP_FILES})
+        target_include_directories(${MODULE_NAME}_cjmod PRIVATE 
+            ${CMAKE_SOURCE_DIR}/include
+            ${MODULE_PATH}/src
+        )
+        
+        # 设置输出名称为.cjmod
+        set_target_properties(${MODULE_NAME}_cjmod PROPERTIES
+            OUTPUT_NAME ${MODULE_NAME}
+            SUFFIX ".cjmod"
+            LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+        )
+        
+        target_link_libraries(${MODULE_NAME}_cjmod cjmod utils)
+        
+        # 复制模块信息文件
+        if(EXISTS "${MODULE_PATH}/info/${MODULE_NAME}.chtl")
+            add_custom_command(TARGET ${MODULE_NAME}_cjmod POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy 
+                    "${MODULE_PATH}/info/${MODULE_NAME}.chtl"
+                    "${OUTPUT_DIR}/${MODULE_NAME}.info"
+                COMMENT "复制CJMOD模块信息文件"
+            )
+        endif()
+        
+        add_dependencies(build_all_modules ${MODULE_NAME}_cjmod)
+    endif()
+endfunction()
+
+# 构建混合模块中的CMOD组件（结构3）
+function(build_mixed_cmod_component COMPONENT_PATH COMPONENT_NAME OUTPUT_DIR)
+    message(STATUS "构建混合CMOD组件: ${COMPONENT_NAME}")
+    
+    add_custom_target(build_cmod_${COMPONENT_NAME}
+        COMMENT "构建混合CMOD组件: ${COMPONENT_NAME}"
+    )
+    
+    # 编译组件的.chtl文件
+    file(GLOB CHTL_FILES "${COMPONENT_PATH}/src/*.chtl")
+    foreach(CHTL_FILE ${CHTL_FILES})
+        get_filename_component(FILENAME ${CHTL_FILE} NAME_WE)
+        set(OUTPUT_FILE "${OUTPUT_DIR}/${FILENAME}.cmod")
+        
+        add_custom_command(TARGET build_cmod_${COMPONENT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_DIR}
+            COMMAND ${CMAKE_BINARY_DIR}/bin/chtl_compiler ${CHTL_FILE} -o ${OUTPUT_FILE}
+            COMMENT "编译混合CMOD组件: ${CHTL_FILE} -> ${OUTPUT_FILE}"
+            DEPENDS chtl_compiler ${CHTL_FILE}
+        )
+    endforeach()
+    
+    add_dependencies(build_all_modules build_cmod_${COMPONENT_NAME})
+endfunction()
+
+# 构建混合模块中的CJMOD扩展（结构3）
+function(build_mixed_cjmod_extension EXTENSION_PATH EXTENSION_NAME OUTPUT_DIR)
+    message(STATUS "构建混合CJMOD扩展: ${EXTENSION_NAME}")
+    
+    # 编译C++扩展
+    file(GLOB CPP_FILES "${EXTENSION_PATH}/src/*.cpp")
+    if(CPP_FILES)
+        add_library(${EXTENSION_NAME}_cjmod SHARED ${CPP_FILES})
+        target_include_directories(${EXTENSION_NAME}_cjmod PRIVATE 
+            ${CMAKE_SOURCE_DIR}/include
+            ${EXTENSION_PATH}/src
+        )
+        
+        set_target_properties(${EXTENSION_NAME}_cjmod PROPERTIES
+            OUTPUT_NAME ${EXTENSION_NAME}
+            SUFFIX ".cjmod"
+            LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR}
+        )
+        
+        target_link_libraries(${EXTENSION_NAME}_cjmod cjmod utils)
+        add_dependencies(build_all_modules ${EXTENSION_NAME}_cjmod)
+    endif()
+endfunction()
+
+# 创建总的构建目标
 add_custom_target(build_all_modules
     COMMENT "构建所有模块"
 )
-
-# 让所有模块构建目标依赖于汇总目标
-foreach(MODULE_DIR ${MODULE_DIRS})
-    get_filename_component(MODULE_NAME ${MODULE_DIR} NAME)
-    add_dependencies(build_all_modules build_module_${MODULE_NAME})
-endforeach()
 
 # 确保主程序构建时自动构建所有模块
 add_dependencies(chtl_compiler build_all_modules)
