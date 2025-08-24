@@ -108,13 +108,13 @@ Core::CHTLToken CHTLLexer::ScanToken() {
             }
             return MakeToken(Core::TokenType::AT, "@");
         case '/':
-            // 注释
+            // 注释或路径分隔符
             if (Match('/')) {
                 return ScanSingleLineComment();
             } else if (Match('*')) {
                 return ScanMultiLineComment();
             }
-            return MakeErrorToken("意外的字符: /");
+            return MakeToken(Core::TokenType::SLASH, "/");
         case '-':
             // 生成器注释或数字
             if (Match('-')) {
@@ -145,6 +145,9 @@ Core::CHTLToken CHTLLexer::ScanToken() {
                 return MakeToken(Core::TokenType::NEWLINE, "\n");
             }
             break;
+        case '*':
+            // 通配符
+            return MakeToken(Core::TokenType::STAR, "*");
         default:
             // 数字
             if (IsDigit(ch)) {

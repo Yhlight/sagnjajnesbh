@@ -34,6 +34,8 @@ enum class TokenType {
     AMPERSAND,              // &
     HASH,                   // #
     AT,                     // @
+    SLASH,                  // /
+    STAR,                   // *
     
     // 注释
     SINGLE_LINE_COMMENT,    // //
