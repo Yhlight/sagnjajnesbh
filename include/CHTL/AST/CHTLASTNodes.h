@@ -1162,6 +1162,21 @@ public:
      * @brief 设置是否使用全缀名
      */
     void SetIsFullyQualified(bool isFullyQualified) { isFullyQualified_ = isFullyQualified; }
+    
+    /**
+     * @brief 添加特例化参数
+     */
+    void AddSpecializationParameter(const std::string& key, const std::string& value);
+    
+    /**
+     * @brief 检查是否有特例化参数
+     */
+    bool HasSpecialization() const { return !specializationParameters_.empty(); }
+    
+    /**
+     * @brief 获取特例化参数
+     */
+    const std::unordered_map<std::string, std::string>& GetSpecializationParameters() const { return specializationParameters_; }
 
 private:
     std::string templateType_;
