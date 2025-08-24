@@ -15,6 +15,7 @@
 #include <map>
 #include <sstream>
 #include <regex>
+#include <unistd.h>  // for readlink
 
 namespace CHTL {
 namespace Dispatcher {
@@ -39,7 +40,10 @@ void CompilerDispatcher::InitializeCompilers() {
     scanner_->SetVerbose(config_.enableDebugOutput);
     
     // 初始化Import系统并与统一扫描器集成
-    importSystem_ = std::make_unique<Import::EnhancedImportSystem>(".", "../module");
+    // 官方模块路径：编译器二进制文件同目录下的module文件夹
+    std::string executableDir = GetExecutableDirectory();
+    std::string officialModulePath = executableDir + "/module";
+    importSystem_ = std::make_unique<Import::EnhancedImportSystem>(".", officialModulePath);
     importSystem_->SetUnifiedScanner(scanner_.get());
     
     if (config_.enableDebugOutput) {
@@ -538,6 +542,26 @@ std::string CompilerDispatcher::CompileCHTLJSFragment(const std::string& content
         Utils::ErrorHandler::GetInstance().LogWarning("CHTL JS片段编译警告: " + std::string(e.what()));
         return "// CHTL JS compilation error: " + std::string(e.what()) + "\n" + content;
     }
+}
+
+std::string CompilerDispatcher::GetExecutableDirectory() const {
+    char path[1024];
+    ssize_t count = readlink("/proc/self/exe", path, sizeof(path) - 1);
+    if (count == -1) {
+        Utils::ErrorHandler::GetInstance().LogWarning("无法获取可执行文件路径，使用当前目录");
+        return ".";
+    }
+    
+    path[count] = '\0';
+    std::string executablePath(path);
+    
+    // 获取目录路径（去掉文件名）
+    size_t lastSlash = executablePath.find_last_of('/');
+    if (lastSlash != std::string::npos) {
+        return executablePath.substr(0, lastSlash);
+    }
+    
+    return ".";
 }
 
 } // namespace Dispatcher

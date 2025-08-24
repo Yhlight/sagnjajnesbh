@@ -208,6 +208,12 @@ private:
      * @param source 源代码
      */
     void ProcessImportStatements(const std::string& source);
+    
+    /**
+     * @brief 获取可执行文件所在目录
+     * @return 可执行文件目录路径
+     */
+    std::string GetExecutableDirectory() const;
 
     /**
      * @brief 初始化编译器组件
