@@ -634,29 +634,29 @@ CHTL/Generator/CHTLGenerator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.s
 .PHONY : CHTL/Generator/CHTLGenerator.cpp.s
 
-CHTL/Import/EnhancedImportSystem.o: CHTL/Import/EnhancedImportSystem.cpp.o
-.PHONY : CHTL/Import/EnhancedImportSystem.o
+CHTL/Import/ImportSystem.o: CHTL/Import/ImportSystem.cpp.o
+.PHONY : CHTL/Import/ImportSystem.o
 
 # target to build an object file
-CHTL/Import/EnhancedImportSystem.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o
-.PHONY : CHTL/Import/EnhancedImportSystem.cpp.o
+CHTL/Import/ImportSystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o
+.PHONY : CHTL/Import/ImportSystem.cpp.o
 
-CHTL/Import/EnhancedImportSystem.i: CHTL/Import/EnhancedImportSystem.cpp.i
-.PHONY : CHTL/Import/EnhancedImportSystem.i
+CHTL/Import/ImportSystem.i: CHTL/Import/ImportSystem.cpp.i
+.PHONY : CHTL/Import/ImportSystem.i
 
 # target to preprocess a source file
-CHTL/Import/EnhancedImportSystem.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.i
-.PHONY : CHTL/Import/EnhancedImportSystem.cpp.i
+CHTL/Import/ImportSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.i
+.PHONY : CHTL/Import/ImportSystem.cpp.i
 
-CHTL/Import/EnhancedImportSystem.s: CHTL/Import/EnhancedImportSystem.cpp.s
-.PHONY : CHTL/Import/EnhancedImportSystem.s
+CHTL/Import/ImportSystem.s: CHTL/Import/ImportSystem.cpp.s
+.PHONY : CHTL/Import/ImportSystem.s
 
 # target to generate assembly for a file
-CHTL/Import/EnhancedImportSystem.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.s
-.PHONY : CHTL/Import/EnhancedImportSystem.cpp.s
+CHTL/Import/ImportSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.s
+.PHONY : CHTL/Import/ImportSystem.cpp.s
 
 CHTL/Lexer/CHTLLexer.o: CHTL/Lexer/CHTLLexer.cpp.o
 .PHONY : CHTL/Lexer/CHTLLexer.o
@@ -994,53 +994,29 @@ CJMOD/TrueCJMODApi.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cjmod.dir/build.make CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.s
 .PHONY : CJMOD/TrueCJMODApi.cpp.s
 
-CMOD/CMODManager.o: CMOD/CMODManager.cpp.o
-.PHONY : CMOD/CMODManager.o
+CMOD/CMODSystem.o: CMOD/CMODSystem.cpp.o
+.PHONY : CMOD/CMODSystem.o
 
 # target to build an object file
-CMOD/CMODManager.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod.dir/build.make CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.o
-.PHONY : CMOD/CMODManager.cpp.o
+CMOD/CMODSystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod.dir/build.make CMakeFiles/cmod.dir/CMOD/CMODSystem.cpp.o
+.PHONY : CMOD/CMODSystem.cpp.o
 
-CMOD/CMODManager.i: CMOD/CMODManager.cpp.i
-.PHONY : CMOD/CMODManager.i
-
-# target to preprocess a source file
-CMOD/CMODManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod.dir/build.make CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.i
-.PHONY : CMOD/CMODManager.cpp.i
-
-CMOD/CMODManager.s: CMOD/CMODManager.cpp.s
-.PHONY : CMOD/CMODManager.s
-
-# target to generate assembly for a file
-CMOD/CMODManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod.dir/build.make CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.s
-.PHONY : CMOD/CMODManager.cpp.s
-
-CMOD/CompleteCMODSystem.o: CMOD/CompleteCMODSystem.cpp.o
-.PHONY : CMOD/CompleteCMODSystem.o
-
-# target to build an object file
-CMOD/CompleteCMODSystem.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod.dir/build.make CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o
-.PHONY : CMOD/CompleteCMODSystem.cpp.o
-
-CMOD/CompleteCMODSystem.i: CMOD/CompleteCMODSystem.cpp.i
-.PHONY : CMOD/CompleteCMODSystem.i
+CMOD/CMODSystem.i: CMOD/CMODSystem.cpp.i
+.PHONY : CMOD/CMODSystem.i
 
 # target to preprocess a source file
-CMOD/CompleteCMODSystem.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod.dir/build.make CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.i
-.PHONY : CMOD/CompleteCMODSystem.cpp.i
+CMOD/CMODSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod.dir/build.make CMakeFiles/cmod.dir/CMOD/CMODSystem.cpp.i
+.PHONY : CMOD/CMODSystem.cpp.i
 
-CMOD/CompleteCMODSystem.s: CMOD/CompleteCMODSystem.cpp.s
-.PHONY : CMOD/CompleteCMODSystem.s
+CMOD/CMODSystem.s: CMOD/CMODSystem.cpp.s
+.PHONY : CMOD/CMODSystem.s
 
 # target to generate assembly for a file
-CMOD/CompleteCMODSystem.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod.dir/build.make CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.s
-.PHONY : CMOD/CompleteCMODSystem.cpp.s
+CMOD/CMODSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod.dir/build.make CMakeFiles/cmod.dir/CMOD/CMODSystem.cpp.s
+.PHONY : CMOD/CMODSystem.cpp.s
 
 CSS/CSSCompiler.o: CSS/CSSCompiler.cpp.o
 .PHONY : CSS/CSSCompiler.o
@@ -1370,9 +1346,9 @@ help:
 	@echo "... CHTL/Generator/CHTLGenerator.o"
 	@echo "... CHTL/Generator/CHTLGenerator.i"
 	@echo "... CHTL/Generator/CHTLGenerator.s"
-	@echo "... CHTL/Import/EnhancedImportSystem.o"
-	@echo "... CHTL/Import/EnhancedImportSystem.i"
-	@echo "... CHTL/Import/EnhancedImportSystem.s"
+	@echo "... CHTL/Import/ImportSystem.o"
+	@echo "... CHTL/Import/ImportSystem.i"
+	@echo "... CHTL/Import/ImportSystem.s"
 	@echo "... CHTL/Lexer/CHTLLexer.o"
 	@echo "... CHTL/Lexer/CHTLLexer.i"
 	@echo "... CHTL/Lexer/CHTLLexer.s"
@@ -1415,12 +1391,9 @@ help:
 	@echo "... CJMOD/TrueCJMODApi.o"
 	@echo "... CJMOD/TrueCJMODApi.i"
 	@echo "... CJMOD/TrueCJMODApi.s"
-	@echo "... CMOD/CMODManager.o"
-	@echo "... CMOD/CMODManager.i"
-	@echo "... CMOD/CMODManager.s"
-	@echo "... CMOD/CompleteCMODSystem.o"
-	@echo "... CMOD/CompleteCMODSystem.i"
-	@echo "... CMOD/CompleteCMODSystem.s"
+	@echo "... CMOD/CMODSystem.o"
+	@echo "... CMOD/CMODSystem.i"
+	@echo "... CMOD/CMODSystem.s"
 	@echo "... CSS/CSSCompiler.o"
 	@echo "... CSS/CSSCompiler.i"
 	@echo "... CSS/CSSCompiler.s"

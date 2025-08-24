@@ -22,7 +22,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspace/src/CHTL/Core/ImportManager.cpp" "CMakeFiles/chtl_core.dir/CHTL/Core/ImportManager.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Core/ImportManager.cpp.o.d"
   "/workspace/src/CHTL/Core/NamespaceMerger.cpp" "CMakeFiles/chtl_core.dir/CHTL/Core/NamespaceMerger.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Core/NamespaceMerger.cpp.o.d"
   "/workspace/src/CHTL/Generator/CHTLGenerator.cpp" "CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o.d"
-  "/workspace/src/CHTL/Import/EnhancedImportSystem.cpp" "CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o.d"
+  "/workspace/src/CHTL/Import/ImportSystem.cpp" "CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o.d"
   "/workspace/src/CHTL/Lexer/CHTLLexer.cpp" "CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o.d"
   "/workspace/src/CHTL/Parser/CHTLParser.cpp" "CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Parser/CHTLParser.cpp.o.d"
   "/workspace/src/CHTL/Selector/SelectorAutomation.cpp" "CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o.d"

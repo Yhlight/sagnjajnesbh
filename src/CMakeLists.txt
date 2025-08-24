@@ -25,7 +25,7 @@ add_library(chtl_core STATIC
     CHTL/Constraints/CHTLConstraintValidator.cpp
     CHTL/Constraints/ExceptConstraintParser.cpp
     CHTL/Selector/SelectorAutomation.cpp
-    CHTL/Import/EnhancedImportSystem.cpp
+    CHTL/Import/ImportSystem.cpp
     CHTL/Comments/ContextualCommentSystem.cpp
 )
 
@@ -109,10 +109,9 @@ target_include_directories(js_compiler PUBLIC
     ${CMAKE_SOURCE_DIR}/include/JavaScript
 )
 
-# CMOD库
+# CMOD库 - 统一的CMOD系统
 add_library(cmod STATIC
-    CMOD/CompleteCMODSystem.cpp
-    CMOD/CMODManager.cpp
+    CMOD/CMODSystem.cpp
 )
 
 target_include_directories(cmod PUBLIC

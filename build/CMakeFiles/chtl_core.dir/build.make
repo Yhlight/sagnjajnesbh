@@ -296,19 +296,19 @@ CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTL/Selector/SelectorAutomation.cpp -o CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.s
 
-CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o: CMakeFiles/chtl_core.dir/flags.make
-CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o: /workspace/src/CHTL/Import/EnhancedImportSystem.cpp
-CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o -MF CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o.d -o CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o -c /workspace/src/CHTL/Import/EnhancedImportSystem.cpp
+CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o: CMakeFiles/chtl_core.dir/flags.make
+CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o: /workspace/src/CHTL/Import/ImportSystem.cpp
+CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o: CMakeFiles/chtl_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o -MF CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o.d -o CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o -c /workspace/src/CHTL/Import/ImportSystem.cpp
 
-CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTL/Import/EnhancedImportSystem.cpp > CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.i
+CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CHTL/Import/ImportSystem.cpp > CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.i
 
-CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTL/Import/EnhancedImportSystem.cpp -o CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.s
+CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CHTL/Import/ImportSystem.cpp -o CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.s
 
 CMakeFiles/chtl_core.dir/CHTL/Comments/ContextualCommentSystem.cpp.o: CMakeFiles/chtl_core.dir/flags.make
 CMakeFiles/chtl_core.dir/CHTL/Comments/ContextualCommentSystem.cpp.o: /workspace/src/CHTL/Comments/ContextualCommentSystem.cpp
@@ -342,7 +342,7 @@ chtl_core_OBJECTS = \
 "CMakeFiles/chtl_core.dir/CHTL/Constraints/CHTLConstraintValidator.cpp.o" \
 "CMakeFiles/chtl_core.dir/CHTL/Constraints/ExceptConstraintParser.cpp.o" \
 "CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o" \
-"CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o" \
+"CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o" \
 "CMakeFiles/chtl_core.dir/CHTL/Comments/ContextualCommentSystem.cpp.o"
 
 # External object files for target chtl_core
@@ -364,7 +364,7 @@ libchtl_core.a: CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/CHTL/Constraints/CHTLConstraintValidator.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/CHTL/Constraints/ExceptConstraintParser.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/CHTL/Selector/SelectorAutomation.cpp.o
-libchtl_core.a: CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o
+libchtl_core.a: CMakeFiles/chtl_core.dir/CHTL/Import/ImportSystem.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/CHTL/Comments/ContextualCommentSystem.cpp.o
 libchtl_core.a: CMakeFiles/chtl_core.dir/build.make
 libchtl_core.a: CMakeFiles/chtl_core.dir/link.txt

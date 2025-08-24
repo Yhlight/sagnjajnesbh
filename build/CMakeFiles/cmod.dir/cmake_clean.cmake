@@ -1,8 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.o"
-  "CMakeFiles/cmod.dir/CMOD/CMODManager.cpp.o.d"
-  "CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o"
-  "CMakeFiles/cmod.dir/CMOD/CompleteCMODSystem.cpp.o.d"
+  "CMakeFiles/cmod.dir/CMOD/CMODSystem.cpp.o"
+  "CMakeFiles/cmod.dir/CMOD/CMODSystem.cpp.o.d"
   "libcmod.a"
   "libcmod.pdb"
 )
