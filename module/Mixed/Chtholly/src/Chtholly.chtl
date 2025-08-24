@@ -1,0 +1,1101 @@
+// 珂朵莉模块 - 世界上最幸福的女孩
+// CMOD + CJMOD混合模块主实现文件
+
+// ========== 自定义元素实现 ==========
+
+// Accordion 手风琴组件 - 已存在，保持原有实现
+[Custom] @Element Accordion {
+    [Template] {
+        div class="accordion-container" {
+            div class="accordion-header" onclick="toggleAccordion(this)" {
+                span class="accordion-title" { ${title:text} }
+                span class="accordion-icon" { "▼" }
+            }
+            div class="accordion-content" {
+                ${content:html}
+            }
+        }
+    }
+    
+    [Script] {
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.accordion-icon');
+            
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                icon.textContent = '▼';
+            } else {
+                content.style.display = 'block';
+                icon.textContent = '▲';
+            }
+        }
+    }
+}
+
+// CloverAlbum 三叶草相册组件
+[Custom] @Element CloverAlbum {
+    [Template] {
+        div class="clover-album" data-album-id="${albumId:attr}" {
+            div class="clover-header" {
+                h3 class="album-title" { ${title:text} }
+                span class="clover-count" { "${count:text} 张照片" }
+            }
+            div class="clover-grid" {
+                [For] image in ${images:list} {
+                    div class="clover-item" onclick="openCloverView('${image.url}', '${image.title}')" {
+                        img src="${image.url}" alt="${image.title}" class="clover-thumb" {}
+                        div class="clover-overlay" {
+                            span class="clover-title" { ${image.title:text} }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    [Script] {
+        function openCloverView(imageUrl, title) {
+            const modal = document.createElement('div');
+            modal.className = 'clover-modal';
+            modal.innerHTML = `
+                <div class="clover-modal-content">
+                    <span class="clover-close" onclick="closeCloverView()">&times;</span>
+                    <img src="${imageUrl}" class="clover-full-image" alt="${title}">
+                    <h4 class="clover-modal-title">${title}</h4>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.style.display = 'flex';
+        }
+        
+        function closeCloverView() {
+            const modal = document.querySelector('.clover-modal');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+    }
+}
+
+// Memo 备忘录组件
+[Custom] @Element Memo {
+    [Template] {
+        div class="memo-container" data-memo-type="${type:attr}" {
+            div class="memo-header" {
+                div class="memo-type-indicator memo-${type:attr}" {}
+                input type="text" class="memo-title" placeholder="备忘录标题..." value="${title:text}" {}
+                span class="memo-date" { ${date:text} }
+            }
+            div class="memo-content" {
+                textarea class="memo-text" placeholder="记录你的想法...">${content:text}</textarea>
+            }
+            div class="memo-actions" {
+                button class="memo-save" onclick="saveMemo(this)" { "保存" }
+                button class="memo-delete" onclick="deleteMemo(this)" { "删除" }
+            }
+        }
+    }
+    
+    [Script] {
+        function saveMemo(button) {
+            const container = button.closest('.memo-container');
+            const title = container.querySelector('.memo-title').value;
+            const content = container.querySelector('.memo-text').value;
+            const date = new Date().toLocaleDateString();
+            
+            // 保存到本地存储
+            const memoData = { title, content, date, type: container.dataset.memoType };
+            console.log('保存备忘录:', memoData);
+            
+            // 显示保存成功提示
+            showMemoToast('备忘录已保存');
+        }
+        
+        function deleteMemo(button) {
+            if (confirm('确定要删除这个备忘录吗？')) {
+                const container = button.closest('.memo-container');
+                container.remove();
+                showMemoToast('备忘录已删除');
+            }
+        }
+        
+        function showMemoToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'memo-toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 2000);
+        }
+    }
+}
+
+// WarmNote 温馨便签组件
+[Custom] @Element WarmNote {
+    [Template] {
+        div class="warm-note" data-note-color="${color:attr}" {
+            div class="warm-note-corner" {}
+            div class="warm-note-content" {
+                h4 class="warm-note-title" { ${title:text} }
+                p class="warm-note-text" { ${message:html} }
+                div class="warm-note-footer" {
+                    span class="warm-note-author" { "- ${author:text}" }
+                    span class="warm-note-time" { ${time:text} }
+                }
+            }
+        }
+    }
+    
+    [Script] {
+        // 温馨便签的轻微浮动动画
+        function initWarmNoteAnimation() {
+            const notes = document.querySelectorAll('.warm-note');
+            notes.forEach((note, index) => {
+                note.style.animationDelay = `${index * 0.2}s`;
+                note.classList.add('warm-note-float');
+            });
+        }
+        
+        // 页面加载时初始化动画
+        document.addEventListener('DOMContentLoaded', initWarmNoteAnimation);
+    }
+}
+
+// SakuraRain 樱花雨组件
+[Custom] @Element SakuraRain {
+    [Template] {
+        div class="sakura-rain-container" data-density="${density:attr}" {
+            div class="sakura-rain-overlay" {}
+            [For] i in range(${petalCount:number}) {
+                div class="sakura-petal" data-index="${i}" {}
+            }
+        }
+    }
+    
+    [Script] {
+        function initSakuraRain() {
+            const container = document.querySelector('.sakura-rain-container');
+            const density = parseInt(container.dataset.density || '20');
+            
+            for (let i = 0; i < density; i++) {
+                createSakuraPetal(container, i);
+            }
+        }
+        
+        function createSakuraPetal(container, index) {
+            const petal = document.createElement('div');
+            petal.className = 'sakura-petal';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDelay = Math.random() * 10 + 's';
+            petal.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            container.appendChild(petal);
+        }
+        
+        // 自动初始化樱花雨
+        document.addEventListener('DOMContentLoaded', initSakuraRain);
+    }
+}
+
+// MouseEffect 鼠标特效组件
+[Custom] @Element MouseEffect {
+    [Template] {
+        div class="mouse-effect-container" data-effect-type="${effectType:attr}" {
+            canvas id="mouse-effect-canvas" class="mouse-effect-canvas" {}
+        }
+    }
+    
+    [Script] {
+        let mouseEffectCanvas, mouseEffectCtx;
+        let mouseTrail = [];
+        
+        function initMouseEffect() {
+            mouseEffectCanvas = document.getElementById('mouse-effect-canvas');
+            mouseEffectCtx = mouseEffectCanvas.getContext('2d');
+            
+            resizeMouseEffectCanvas();
+            window.addEventListener('resize', resizeMouseEffectCanvas);
+            document.addEventListener('mousemove', addMouseTrailPoint);
+            
+            animateMouseEffect();
+        }
+        
+        function resizeMouseEffectCanvas() {
+            mouseEffectCanvas.width = window.innerWidth;
+            mouseEffectCanvas.height = window.innerHeight;
+        }
+        
+        function addMouseTrailPoint(e) {
+            mouseTrail.push({
+                x: e.clientX,
+                y: e.clientY,
+                timestamp: Date.now()
+            });
+            
+            // 限制轨迹点数量
+            if (mouseTrail.length > 20) {
+                mouseTrail.shift();
+            }
+        }
+        
+        function animateMouseEffect() {
+            mouseEffectCtx.clearRect(0, 0, mouseEffectCanvas.width, mouseEffectCanvas.height);
+            
+            const now = Date.now();
+            mouseTrail = mouseTrail.filter(point => now - point.timestamp < 1000);
+            
+            for (let i = 0; i < mouseTrail.length; i++) {
+                const point = mouseTrail[i];
+                const alpha = 1 - (now - point.timestamp) / 1000;
+                
+                mouseEffectCtx.fillStyle = `rgba(255, 182, 193, ${alpha})`;
+                mouseEffectCtx.beginPath();
+                mouseEffectCtx.arc(point.x, point.y, 5 * alpha, 0, Math.PI * 2);
+                mouseEffectCtx.fill();
+            }
+            
+            requestAnimationFrame(animateMouseEffect);
+        }
+        
+        document.addEventListener('DOMContentLoaded', initMouseEffect);
+    }
+}
+
+// MouseTrail 鼠标轨迹组件
+[Custom] @Element MouseTrail {
+    [Template] {
+        div class="mouse-trail-container" data-trail-style="${style:attr}" {
+            [For] i in range(10) {
+                div class="trail-dot" data-index="${i}" {}
+            }
+        }
+    }
+    
+    [Script] {
+        let trailDots = [];
+        let mousePosition = { x: 0, y: 0 };
+        
+        function initMouseTrail() {
+            trailDots = Array.from(document.querySelectorAll('.trail-dot'));
+            document.addEventListener('mousemove', updateMousePosition);
+            animateTrail();
+        }
+        
+        function updateMousePosition(e) {
+            mousePosition.x = e.clientX;
+            mousePosition.y = e.clientY;
+        }
+        
+        function animateTrail() {
+            let x = mousePosition.x;
+            let y = mousePosition.y;
+            
+            trailDots.forEach((dot, index) => {
+                const nextDot = trailDots[index + 1] || { offsetLeft: x, offsetTop: y };
+                
+                dot.style.left = x + 'px';
+                dot.style.top = y + 'px';
+                dot.style.transform = `scale(${(trailDots.length - index) / trailDots.length})`;
+                
+                x += (nextDot.offsetLeft - x) * 0.3;
+                y += (nextDot.offsetTop - y) * 0.3;
+            });
+            
+            requestAnimationFrame(animateTrail);
+        }
+        
+        document.addEventListener('DOMContentLoaded', initMouseTrail);
+    }
+}
+
+// ParallaxBg 视差背景组件
+[Custom] @Element ParallaxBg {
+    [Template] {
+        div class="parallax-bg-container" data-parallax-speed="${speed:attr}" {
+            div class="parallax-layer" data-layer="1" style="background-image: url('${bgImage1:attr}')" {}
+            div class="parallax-layer" data-layer="2" style="background-image: url('${bgImage2:attr}')" {}
+            div class="parallax-layer" data-layer="3" style="background-image: url('${bgImage3:attr}')" {}
+            div class="parallax-content" {
+                ${content:html}
+            }
+        }
+    }
+    
+    [Script] {
+        function initParallaxBg() {
+            const container = document.querySelector('.parallax-bg-container');
+            const speed = parseFloat(container.dataset.parallaxSpeed || '0.5');
+            const layers = container.querySelectorAll('.parallax-layer');
+            
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset;
+                
+                layers.forEach((layer, index) => {
+                    const layerSpeed = speed * (index + 1) * 0.3;
+                    const yPos = -(scrollTop * layerSpeed);
+                    layer.style.transform = `translateY(${yPos}px)`;
+                });
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', initParallaxBg);
+    }
+}
+
+// ContextMenu 右键菜单组件
+[Custom] @Element ContextMenu {
+    [Template] {
+        div class="context-menu" id="custom-context-menu" {
+            [For] item in ${menuItems:list} {
+                div class="context-menu-item" onclick="executeContextAction('${item.action}')" {
+                    span class="context-menu-icon" { ${item.icon:html} }
+                    span class="context-menu-text" { ${item.text:text} }
+                }
+            }
+        }
+    }
+    
+    [Script] {
+        function initContextMenu() {
+            const contextMenu = document.getElementById('custom-context-menu');
+            
+            document.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                showContextMenu(e.clientX, e.clientY);
+            });
+            
+            document.addEventListener('click', hideContextMenu);
+        }
+        
+        function showContextMenu(x, y) {
+            const contextMenu = document.getElementById('custom-context-menu');
+            contextMenu.style.left = x + 'px';
+            contextMenu.style.top = y + 'px';
+            contextMenu.style.display = 'block';
+        }
+        
+        function hideContextMenu() {
+            const contextMenu = document.getElementById('custom-context-menu');
+            contextMenu.style.display = 'none';
+        }
+        
+        function executeContextAction(action) {
+            console.log('执行上下文菜单操作:', action);
+            hideContextMenu();
+        }
+        
+        document.addEventListener('DOMContentLoaded', initContextMenu);
+    }
+}
+
+// ProgressBar 进度条组件
+[Custom] @Element ProgressBar {
+    [Template] {
+        div class="progress-bar-container" data-progress-type="${type:attr}" {
+            div class="progress-bar-label" {
+                span class="progress-text" { ${label:text} }
+                span class="progress-percentage" { "${progress:text}%" }
+            }
+            div class="progress-bar-track" {
+                div class="progress-bar-fill" style="width: ${progress:text}%" data-progress="${progress:attr}" {}
+                div class="progress-bar-glow" {}
+            }
+        }
+    }
+    
+    [Script] {
+        function updateProgressBar(container, newProgress) {
+            const fill = container.querySelector('.progress-bar-fill');
+            const percentage = container.querySelector('.progress-percentage');
+            
+            fill.style.width = newProgress + '%';
+            fill.dataset.progress = newProgress;
+            percentage.textContent = newProgress + '%';
+            
+            // 添加完成动画
+            if (newProgress >= 100) {
+                container.classList.add('progress-complete');
+            }
+        }
+        
+        function animateProgressTo(container, targetProgress, duration = 1000) {
+            const fill = container.querySelector('.progress-bar-fill');
+            const currentProgress = parseInt(fill.dataset.progress || '0');
+            const progressDiff = targetProgress - currentProgress;
+            const steps = 60; // 60fps
+            const stepValue = progressDiff / steps;
+            const stepDuration = duration / steps;
+            
+            let current = currentProgress;
+            const timer = setInterval(() => {
+                current += stepValue;
+                if ((stepValue > 0 && current >= targetProgress) || 
+                    (stepValue < 0 && current <= targetProgress)) {
+                    current = targetProgress;
+                    clearInterval(timer);
+                }
+                updateProgressBar(container, Math.round(current));
+            }, stepDuration);
+        }
+        
+        // 全局进度条控制函数
+        window.updateProgress = updateProgressBar;
+        window.animateProgress = animateProgressTo;
+    }
+}
+
+// ========== 自定义样式实现 ==========
+
+[Custom] @Style AccordionTheme {
+    .accordion-container {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin: 10px 0;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .accordion-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.3s ease;
+    }
+    
+    .accordion-header:hover {
+        background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    }
+    
+    .accordion-content {
+        display: none;
+        padding: 20px;
+        background: #f9f9f9;
+        animation: slideDown 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+}
+
+[Custom] @Style CloverAlbumTheme {
+    .clover-album {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        margin: 20px 0;
+    }
+    
+    .clover-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #4CAF50;
+        padding-bottom: 10px;
+    }
+    
+    .album-title {
+        color: #2E7D32;
+        font-size: 1.5em;
+        margin: 0;
+    }
+    
+    .clover-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+    
+    .clover-item {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    
+    .clover-item:hover {
+        transform: scale(1.05);
+    }
+    
+    .clover-thumb {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+    
+    .clover-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        color: white;
+        padding: 15px;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .clover-item:hover .clover-overlay {
+        transform: translateY(0);
+    }
+    
+    .clover-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.9);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    
+    .clover-modal-content {
+        position: relative;
+        max-width: 90%;
+        max-height: 90%;
+        text-align: center;
+    }
+    
+    .clover-full-image {
+        max-width: 100%;
+        max-height: 80vh;
+        object-fit: contain;
+    }
+    
+    .clover-close {
+        position: absolute;
+        top: -40px;
+        right: 0;
+        color: white;
+        font-size: 2em;
+        cursor: pointer;
+    }
+}
+
+[Custom] @Style MemoTheme {
+    .memo-container {
+        background: #fff8dc;
+        border-left: 4px solid #ffd700;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .memo-container:hover {
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    
+    .memo-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .memo-type-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+    
+    .memo-important { background: #ff4444; }
+    .memo-normal { background: #44ff44; }
+    .memo-low { background: #4444ff; }
+    
+    .memo-title {
+        flex: 1;
+        border: none;
+        background: transparent;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #8b4513;
+    }
+    
+    .memo-content {
+        margin: 15px 0;
+    }
+    
+    .memo-text {
+        width: 100%;
+        min-height: 100px;
+        border: none;
+        background: transparent;
+        resize: vertical;
+        font-family: inherit;
+        color: #654321;
+    }
+    
+    .memo-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+    
+    .memo-actions button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+    
+    .memo-save {
+        background: #4CAF50;
+        color: white;
+    }
+    
+    .memo-delete {
+        background: #f44336;
+        color: white;
+    }
+    
+    .memo-toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #333;
+        color: white;
+        padding: 15px;
+        border-radius: 4px;
+        z-index: 1000;
+        transition: opacity 0.3s ease;
+    }
+}
+
+[Custom] @Style WarmNoteTheme {
+    .warm-note {
+        position: relative;
+        background: #fff9c4;
+        border-radius: 0 15px 15px 15px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        max-width: 300px;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+    
+    .warm-note[data-note-color="pink"] { background: #ffe4e1; }
+    .warm-note[data-note-color="blue"] { background: #e1f5fe; }
+    .warm-note[data-note-color="green"] { background: #e8f5e8; }
+    .warm-note[data-note-color="yellow"] { background: #fff9c4; }
+    
+    .warm-note-corner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 15px;
+        height: 15px;
+        background: #f0e68c;
+        transform: rotate(45deg);
+        transform-origin: bottom right;
+    }
+    
+    .warm-note-title {
+        color: #8b4513;
+        margin: 0 0 10px 0;
+        font-size: 1.1em;
+    }
+    
+    .warm-note-text {
+        color: #654321;
+        line-height: 1.6;
+        margin: 0 0 15px 0;
+    }
+    
+    .warm-note-footer {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9em;
+        color: #999;
+    }
+    
+    .warm-note-float {
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+}
+
+[Custom] @Style SakuraRainTheme {
+    .sakura-rain-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+    }
+    
+    .sakura-petal {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background: radial-gradient(circle, #ffb3d9 0%, #ff80cc 50%, #ff4db3 100%);
+        border-radius: 0 100% 0 100%;
+        animation: sakuraFall linear infinite;
+        opacity: 0.8;
+    }
+    
+    .sakura-petal:nth-child(odd) {
+        background: radial-gradient(circle, #ffc0cb 0%, #ff91a4 50%, #ff6b88 100%);
+    }
+    
+    @keyframes sakuraFall {
+        0% {
+            transform: translateY(-100px) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    
+    .sakura-rain-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, 
+            rgba(255, 182, 193, 0.1) 0%, 
+            rgba(255, 192, 203, 0.05) 50%, 
+            rgba(255, 182, 193, 0.1) 100%);
+        pointer-events: none;
+    }
+}
+
+[Custom] @Style MouseEffectTheme {
+    .mouse-effect-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+    }
+    
+    .mouse-effect-canvas {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+[Custom] @Style MouseTrailTheme {
+    .mouse-trail-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9998;
+    }
+    
+    .trail-dot {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: radial-gradient(circle, #ff6b9d, #c44569);
+        border-radius: 50%;
+        transform-origin: center;
+        transition: all 0.1s ease;
+        opacity: 0.8;
+    }
+    
+    .trail-dot:nth-child(even) {
+        background: radial-gradient(circle, #4834d4, #686de0);
+    }
+}
+
+[Custom] @Style ParallaxBgTheme {
+    .parallax-bg-container {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+    }
+    
+    .parallax-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 120%;
+        height: 120%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        will-change: transform;
+    }
+    
+    .parallax-layer[data-layer="1"] {
+        z-index: 1;
+        opacity: 0.3;
+    }
+    
+    .parallax-layer[data-layer="2"] {
+        z-index: 2;
+        opacity: 0.5;
+    }
+    
+    .parallax-layer[data-layer="3"] {
+        z-index: 3;
+        opacity: 0.7;
+    }
+    
+    .parallax-content {
+        position: relative;
+        z-index: 10;
+        padding: 50px;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+}
+
+[Custom] @Style ContextMenuTheme {
+    .context-menu {
+        position: fixed;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        z-index: 10000;
+        display: none;
+        min-width: 150px;
+        overflow: hidden;
+    }
+    
+    .context-menu-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .context-menu-item:last-child {
+        border-bottom: none;
+    }
+    
+    .context-menu-item:hover {
+        background: #f5f5f5;
+    }
+    
+    .context-menu-icon {
+        margin-right: 10px;
+        width: 16px;
+        text-align: center;
+    }
+    
+    .context-menu-text {
+        font-size: 14px;
+        color: #333;
+    }
+}
+
+[Custom] @Style ProgressBarTheme {
+    .progress-bar-container {
+        margin: 20px 0;
+    }
+    
+    .progress-bar-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #666;
+    }
+    
+    .progress-bar-track {
+        position: relative;
+        height: 8px;
+        background: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    
+    .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #4CAF50, #81C784);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+        position: relative;
+    }
+    
+    .progress-bar-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 30px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        animation: progressGlow 2s ease-in-out infinite;
+    }
+    
+    @keyframes progressGlow {
+        0% { transform: translateX(-30px); }
+        100% { transform: translateX(calc(400px)); }
+    }
+    
+    .progress-complete .progress-bar-fill {
+        background: linear-gradient(90deg, #FFD700, #FFA500);
+        animation: completeFlash 0.5s ease;
+    }
+    
+    @keyframes completeFlash {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+}
+
+// ========== 原始嵌入内容 ==========
+[Original] @Embed CSS {
+    /* 珂朵莉模块全局样式 */
+    :root {
+        --chtholly-primary: #ffb3d9;
+        --chtholly-secondary: #ffc0cb;
+        --chtholly-accent: #ff6b9d;
+        --chtholly-text: #654321;
+        --chtholly-bg: #fff8f5;
+    }
+    
+    body {
+        font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        background: var(--chtholly-bg);
+        color: var(--chtholly-text);
+    }
+    
+    /* 珂朵莉主题的滚动条样式 */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: var(--chtholly-accent);
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #ff4d88;
+    }
+}
+
+[Original] @Embed JS {
+    // 珂朵莉模块全局JavaScript功能
+    window.Chtholly = {
+        // 全局工具函数
+        utils: {
+            // 格式化日期
+            formatDate: function(date) {
+                return new Date(date).toLocaleDateString('zh-CN');
+            },
+            
+            // 生成随机颜色
+            randomColor: function() {
+                const colors = ['pink', 'blue', 'green', 'yellow'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            },
+            
+            // 平滑滚动到元素
+            scrollToElement: function(selector) {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        },
+        
+        // 全局事件处理
+        events: {
+            // 初始化珂朵莉主题事件
+            init: function() {
+                console.log('珂朵莉模块已加载 - 世界上最幸福的女孩 ❀');
+                
+                // 添加全局键盘事件
+                document.addEventListener('keydown', function(e) {
+                    // Ctrl/Cmd + K 显示快捷菜单
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                        e.preventDefault();
+                        Chtholly.ui.showQuickMenu();
+                    }
+                });
+            }
+        },
+        
+        // UI 相关功能
+        ui: {
+            // 显示快捷菜单
+            showQuickMenu: function() {
+                // 这里可以显示一个珂朵莉主题的快捷菜单
+                console.log('显示珂朵莉快捷菜单');
+            },
+            
+            // 显示通知
+            showNotification: function(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `chtholly-notification ${type}`;
+                notification.textContent = message;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: var(--chtholly-primary);
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                    z-index: 10001;
+                    transform: translateX(100%);
+                    transition: transform 0.3s ease;
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // 动画显示
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(0)';
+                }, 10);
+                
+                // 自动隐藏
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+        }
+    };
+    
+    // 页面加载时初始化
+    document.addEventListener('DOMContentLoaded', Chtholly.events.init);
+}

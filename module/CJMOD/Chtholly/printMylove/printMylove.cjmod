@@ -1,0 +1,17 @@
+// printMylove CJMOD扩展
+// 严格按照CHTL语法文档第1425行：CJMOD允许包括头文件，允许定义全局变量
+
+[Info]
+{
+    name = "printMylove";
+    version = "1.0.0";
+    description = "printMylove CJMOD扩展 - 将图片转换成字符像素块或ASCII形式";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "cjmod-extension";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+// 注意：CJMOD模块没有[Export]块（语法文档明确说明）
