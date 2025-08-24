@@ -1,1 +1,1 @@
-vir testObj -> listen({click: "handleClick"});
+vir testObj = listen({click: "handleClick"});

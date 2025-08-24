@@ -13,6 +13,5 @@ CHTL Generated Page
 
 <script>
 vir testObj
-->
-listen({click: "handleClick"}
+= listen({click: "handleClick"}
 </script>
