@@ -21,9 +21,33 @@ enum class FragmentType {
 };
 
 /**
- * @brief 代码片段结构
+ * @brief 片段完整性状态
+ */
+enum class FragmentIntegrity {
+    COMPLETE,       // 完整片段
+    PARTIAL,        // 部分片段
+    INCOMPLETE,     // 不完整片段
+    MERGED          // 已合并片段
+};
+
+/**
+ * @brief 片段上下文类型
+ */
+enum class FragmentContext {
+    GLOBAL_SCOPE,   // 全局作用域
+    HTML_ELEMENT,   // HTML元素内
+    STYLE_BLOCK,    // 样式块内
+    SCRIPT_BLOCK,   // 脚本块内
+    FUNCTION_BODY,  // 函数体内
+    TEMPLATE_BLOCK, // 模板块内
+    CUSTOM_BLOCK    // 自定义块内
+};
+
+/**
+ * @brief 代码片段结构（带索引）
  */
 struct CodeFragment {
+    // 基本信息
     FragmentType type;
     std::string content;
     size_t startPos;
@@ -33,8 +57,35 @@ struct CodeFragment {
     size_t endLine;
     size_t endColumn;
     
+    // 索引信息
+    size_t fragmentId;              // 片段唯一ID
+    size_t sequenceIndex;           // 在源码中的序列位置
+    FragmentIntegrity integrity;    // 完整性状态
+    FragmentContext context;        // 上下文类型
+    
+    // 依赖关系
+    std::vector<size_t> dependencies;   // 依赖的片段ID列表
+    std::vector<size_t> dependents;     // 依赖此片段的ID列表
+    size_t parentFragmentId;            // 父片段ID（0表示无父片段）
+    std::vector<size_t> childFragmentIds; // 子片段ID列表
+    
+    // 合并信息
+    int mergeOrder;                 // 合并优先级（数字越小越优先）
+    bool canMergeWithNext;          // 是否可以与下一个片段合并
+    bool canMergeWithPrev;          // 是否可以与上一个片段合并
+    std::string mergeHint;          // 合并提示信息
+    
+    // 语法信息
+    std::string triggerKeyword;     // 触发关键字
+    std::unordered_set<std::string> containedKeywords; // 包含的关键字
+    bool isMinimalUnit;             // 是否为最小单元
+    
     CodeFragment() : type(FragmentType::Unknown), startPos(0), endPos(0), 
-                    startLine(1), startColumn(1), endLine(1), endColumn(1) {}
+                    startLine(1), startColumn(1), endLine(1), endColumn(1),
+                    fragmentId(0), sequenceIndex(0), integrity(FragmentIntegrity::INCOMPLETE),
+                    context(FragmentContext::GLOBAL_SCOPE), parentFragmentId(0),
+                    mergeOrder(0), canMergeWithNext(false), canMergeWithPrev(false),
+                    isMinimalUnit(false) {}
 };
 
 /**
@@ -43,6 +94,69 @@ struct CodeFragment {
 enum class ScanStrategy {
     SLIDING_WINDOW,  // 双指针滑动窗口策略（修正版）
     FRONT_EXTRACT    // 前置代码截取策略
+};
+
+/**
+ * @brief 片段索引管理器
+ */
+class FragmentIndexManager {
+public:
+    FragmentIndexManager();
+    ~FragmentIndexManager() = default;
+    
+    // 索引构建
+    void BuildIndex(std::vector<CodeFragment>& fragments);
+    void UpdateFragmentIndex(CodeFragment& fragment, size_t sequenceIndex);
+    
+    // 依赖关系管理
+    void AddDependency(size_t fragmentId, size_t dependsOnId);
+    void RemoveDependency(size_t fragmentId, size_t dependsOnId);
+    std::vector<size_t> GetDependencies(size_t fragmentId) const;
+    std::vector<size_t> GetDependents(size_t fragmentId) const;
+    
+    // 层次关系管理
+    void SetParentChild(size_t parentId, size_t childId);
+    void RemoveParentChild(size_t parentId, size_t childId);
+    std::vector<size_t> GetChildren(size_t fragmentId) const;
+    size_t GetParent(size_t fragmentId) const;
+    
+    // 合并顺序优化
+    std::vector<size_t> GetOptimalMergeOrder(const std::vector<CodeFragment>& fragments) const;
+    bool CanMergeFragments(const CodeFragment& fragment1, const CodeFragment& fragment2) const;
+    
+    // 完整性检查
+    void ValidateFragmentIntegrity(CodeFragment& fragment);
+    std::vector<size_t> FindIncompleteFragments(const std::vector<CodeFragment>& fragments) const;
+    
+    // 上下文分析
+    FragmentContext AnalyzeFragmentContext(const CodeFragment& fragment, 
+                                         const std::vector<CodeFragment>& allFragments) const;
+    
+    // 查询接口
+    std::vector<size_t> FindFragmentsByType(const std::vector<CodeFragment>& fragments, 
+                                           FragmentType type) const;
+    std::vector<size_t> FindFragmentsByContext(const std::vector<CodeFragment>& fragments, 
+                                             FragmentContext context) const;
+    std::vector<size_t> FindFragmentsByKeyword(const std::vector<CodeFragment>& fragments, 
+                                             const std::string& keyword) const;
+    
+    // 统计信息
+    void PrintIndexStatistics(const std::vector<CodeFragment>& fragments) const;
+    
+private:
+    size_t nextFragmentId_;
+    std::unordered_map<size_t, std::vector<size_t>> dependencyGraph_;
+    std::unordered_map<size_t, std::vector<size_t>> dependentGraph_;
+    std::unordered_map<size_t, size_t> parentMap_;
+    std::unordered_map<size_t, std::vector<size_t>> childrenMap_;
+    
+    // 辅助方法
+    bool IsFragmentComplete(const CodeFragment& fragment) const;
+    int CalculateMergeOrder(const CodeFragment& fragment, 
+                          const std::vector<CodeFragment>& allFragments) const;
+    void AnalyzeKeywords(CodeFragment& fragment);
+    bool HasBalancedBraces(const std::string& content) const;
+    bool HasBalancedParentheses(const std::string& content) const;
 };
 
 /**
@@ -104,6 +218,59 @@ public:
      */
     void ClearKeywords();
 
+    // ============ 片段索引接口 ============
+    
+    /**
+     * @brief 构建片段索引
+     * @param fragments 片段列表
+     */
+    void BuildFragmentIndex(std::vector<CodeFragment>& fragments);
+    
+    /**
+     * @brief 获取优化的合并顺序
+     * @param fragments 片段列表
+     * @return 优化的片段ID顺序
+     */
+    std::vector<size_t> GetOptimalMergeOrder(const std::vector<CodeFragment>& fragments) const;
+    
+    /**
+     * @brief 查找不完整的片段
+     * @param fragments 片段列表
+     * @return 不完整片段的ID列表
+     */
+    std::vector<size_t> FindIncompleteFragments(const std::vector<CodeFragment>& fragments) const;
+    
+    /**
+     * @brief 按类型查找片段
+     * @param fragments 片段列表
+     * @param type 片段类型
+     * @return 匹配的片段ID列表
+     */
+    std::vector<size_t> FindFragmentsByType(const std::vector<CodeFragment>& fragments, 
+                                           FragmentType type) const;
+    
+    /**
+     * @brief 按上下文查找片段
+     * @param fragments 片段列表
+     * @param context 上下文类型
+     * @return 匹配的片段ID列表
+     */
+    std::vector<size_t> FindFragmentsByContext(const std::vector<CodeFragment>& fragments, 
+                                             FragmentContext context) const;
+    
+    /**
+     * @brief 获取片段依赖关系
+     * @param fragmentId 片段ID
+     * @return 依赖的片段ID列表
+     */
+    std::vector<size_t> GetFragmentDependencies(size_t fragmentId) const;
+    
+    /**
+     * @brief 打印索引统计信息
+     * @param fragments 片段列表
+     */
+    void PrintIndexStatistics(const std::vector<CodeFragment>& fragments) const;
+
 private:
     /**
      * @brief 扫描器状态
@@ -128,6 +295,11 @@ private:
      * @brief 代码片段列表
      */
     std::vector<CodeFragment> fragments_;
+    
+    /**
+     * @brief 片段索引管理器
+     */
+    FragmentIndexManager indexManager_;
     
     /**
      * @brief 当前收集的代码缓冲区
@@ -448,6 +620,82 @@ private:
      * @brief 输出调试信息
      */
     void LogDebug(const std::string& message);
+    
+    // ============ 可变长度切片机制 ============
+    
+    /**
+     * @brief 智能片段完整性检测
+     * @param startPos 片段开始位置
+     * @param endPos 片段结束位置
+     * @return 是否为完整的代码片段
+     */
+    bool IsCompleteCodeFragment(size_t startPos, size_t endPos);
+    
+    /**
+     * @brief 动态扩增片段边界
+     * @param startPos 当前开始位置
+     * @param endPos 当前结束位置（引用，会被修改）
+     * @return 是否成功扩增
+     */
+    bool ExpandFragmentBoundary(size_t startPos, size_t& endPos);
+    
+    /**
+     * @brief 检测CHTL块的完整性
+     * @param content 代码内容
+     * @return 是否为完整的CHTL块
+     */
+    bool IsCHTLBlockComplete(const std::string& content);
+    
+    /**
+     * @brief 检测CHTL JS片段的完整性
+     * @param content 代码内容
+     * @return 是否为完整的CHTL JS片段
+     */
+    bool IsCHTLJSFragmentComplete(const std::string& content);
+    
+    /**
+     * @brief 最小单元切割
+     * @param content 完整代码内容
+     * @param fragments 输出的片段列表
+     */
+    void PerformMinimalUnitSlicing(const std::string& content, std::vector<CodeFragment>& fragments);
+    
+    /**
+     * @brief 计算大括号平衡
+     * @param content 代码内容
+     * @return 大括号平衡数（正数表示未闭合的左括号）
+     */
+    int CalculateBraceBalance(const std::string& content);
+    
+    /**
+     * @brief 查找下一个语法边界
+     * @param startPos 开始位置
+     * @return 语法边界位置
+     */
+    size_t FindNextSyntaxBoundary(size_t startPos);
+    
+    /**
+     * @brief 判断是否需要最小单元切割
+     * @param content 代码内容
+     * @return 是否需要切割
+     */
+    bool NeedsMinimalUnitSlicing(const std::string& content);
+    
+    /**
+     * @brief 确定片段类型
+     * @param content 代码内容
+     * @return 片段类型
+     */
+    FragmentType DetermineFragmentType(const std::string& content);
+    
+    /**
+     * @brief 根据上下文确定片段类型
+     * @param content 片段内容
+     * @param inScriptBlock 是否在script块内
+     * @param inStyleBlock 是否在style块内
+     * @return 片段类型
+     */
+    FragmentType DetermineFragmentTypeInContext(const std::string& content, bool inScriptBlock, bool inStyleBlock);
 };
 
 } // namespace Scanner

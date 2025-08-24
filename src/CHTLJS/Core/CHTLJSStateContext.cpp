@@ -386,7 +386,7 @@ std::string CHTLJSStateMachine::GetStateName(CHTLJSCompileState state) const {
         case CHTLJSCompileState::PARSING_LISTEN_BLOCK: return "PARSING_LISTEN_BLOCK";
         case CHTLJSCompileState::PARSING_DELEGATE_BLOCK: return "PARSING_DELEGATE_BLOCK";
         case CHTLJSCompileState::PARSING_ANIMATE_BLOCK: return "PARSING_ANIMATE_BLOCK";
-        case CHTLJSCompileState::PARSING_ARROW_FUNCTION: return "PARSING_ARROW_FUNCTION";
+        // PARSING_ARROW_FUNCTION已移除 - CHTL JS不包含JS语法
         case CHTLJSCompileState::PARSING_ARROW_OPERATION: return "PARSING_ARROW_OPERATION";
         case CHTLJSCompileState::PARSING_EVENT_HANDLER: return "PARSING_EVENT_HANDLER";
         case CHTLJSCompileState::PARSING_EVENT_MAPPING: return "PARSING_EVENT_MAPPING";
@@ -517,12 +517,7 @@ void CHTLJSStateMachine::InitializeAnimateBlockTransitions() {
 void CHTLJSStateMachine::InitializeArrowFunctionTransitions() {
     // 箭头函数转换 - 语法文档第1202行支持
     
-    transitionRules_.push_back({
-        CHTLJSCompileState::PARSING_EVENT_MAPPING,
-        CHTLJSCompileState::PARSING_ARROW_FUNCTION,
-        {TokenType::ARROW, nullptr, "箭头函数", false, false},
-        1
-    });
+    // PARSING_ARROW_FUNCTION转换规则已移除 - CHTL JS不包含JS语法
 }
 
 bool CHTLJSStateMachine::IsValidTransition(CHTLJSCompileState from, CHTLJSCompileState to) const {
@@ -695,8 +690,7 @@ void CHTLJSStateInferenceEngine::InitializeCHTLJSInferenceRules() {
         {"animate", CHTLJSCompileState::PARSING_ANIMATE_BLOCK, 95, nullptr},
         {"animate({", CHTLJSCompileState::PARSING_ANIMATION_CONFIG, 95, nullptr},
         
-        // 箭头函数推断规则 - 语法文档第1202行支持
-        {"() =>", CHTLJSCompileState::PARSING_ARROW_FUNCTION, 95, nullptr},
+        // 箭头函数推断规则已移除 - CHTL JS不包含JS语法
         {"->", CHTLJSCompileState::PARSING_ARROW_OPERATION, 90, nullptr}
     };
     

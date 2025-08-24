@@ -24,7 +24,7 @@ class AnimateBlockNode;
 // class AssignmentExpressionNode; - JavaScript语法
 // class PropertyAccessNode; - JavaScript语法
 
-class ArrowFunctionNode;
+// ArrowFunctionNode已移除 - CHTL JS不包含JS语法
 class AnimationKeyframeNode;
 class CommentNode;
 
@@ -58,8 +58,7 @@ public:
     // virtual void VisitAssignmentExpressionNode(AssignmentExpressionNode& node) = 0; - JavaScript语法
     // virtual void VisitPropertyAccessNode(PropertyAccessNode& node) = 0; - JavaScript语法
     
-    // 箭头函数访问（CHTL JS支持）
-    virtual void VisitArrowFunctionNode(ArrowFunctionNode& node) = 0;
+    // ArrowFunctionNode访问已移除 - CHTL JS不包含JS语法
     
     // 动画节点访问
     virtual void VisitAnimationKeyframeNode(AnimationKeyframeNode& node) = 0;
@@ -90,7 +89,7 @@ public:
     // void VisitAssignmentExpressionNode(AssignmentExpressionNode& node) override {} - JavaScript语法
     // void VisitPropertyAccessNode(PropertyAccessNode& node) override {} - JavaScript语法
     
-    void VisitArrowFunctionNode(ArrowFunctionNode& node) override {}
+    // VisitArrowFunctionNode已移除 - CHTL JS不包含JS语法
     void VisitAnimationKeyframeNode(AnimationKeyframeNode& node) override {}
 };
 

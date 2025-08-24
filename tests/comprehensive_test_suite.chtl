@@ -1,0 +1,350 @@
+// ============================================
+// CHTL 综合语法特性测试套件
+// 测试所有核心功能和语法特性
+// ============================================
+
+[Configuration]
+enableSelectorAutomation = true
+enableContextualComments = true
+enableOriginNodes = true
+enableSPA = true
+
+[Namespace] TestSuite {
+
+    // ============ 1. 基础HTML结构测试 ============
+    html {
+        head {
+            title { "CHTL综合测试套件" }
+            
+            // 全局样式测试
+            style {
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 20px;
+                    background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+                }
+                
+                .test-section {
+                    margin: 20px 0;
+                    padding: 15px;
+                    border: 2px solid #333;
+                    border-radius: 8px;
+                    background-color: rgba(255, 255, 255, 0.9);
+                }
+                
+                .highlight {
+                    color: rgb(255, 0, 0);
+                    font-weight: bold;
+                    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+                }
+                
+                .dynamic-width {
+                    width: calc(100% - 40px);
+                    max-width: 800px;
+                    min-height: 50vh;
+                }
+            }
+        }
+        
+        body {
+            // ============ 2. 基础元素和文本测试 ============
+            div.test-section {
+                h1.highlight { "基础元素测试" }
+                
+                p { "这是一个段落，测试基本的文本内容处理。" }
+                
+                div {
+                    span.highlight { "嵌套元素" }
+                    text { " - 测试元素嵌套和文本混合。" }
+                }
+                
+                // 局部样式测试
+                style {
+                    background-color: #fff3cd;
+                    border-left: 4px solid #ffc107;
+                    padding-left: 15px;
+                }
+            }
+            
+            // ============ 3. CSS属性值完整性测试 ============
+            div.test-section.dynamic-width {
+                h2 { "CSS属性值测试" }
+                
+                div {
+                    text { "测试各种CSS属性值类型" }
+                    
+                    style {
+                        // 颜色值测试
+                        color: #ff6b6b;
+                        background-color: rgba(107, 203, 119, 0.3);
+                        border-color: hsl(200, 50%, 60%);
+                        
+                        // 尺寸和单位测试
+                        width: 75%;
+                        height: 120px;
+                        margin: 10px 15px 20px 25px;
+                        padding: 1em 2rem 1.5vh 3vw;
+                        
+                        // CSS函数测试
+                        transform: rotate(5deg) scale(1.1);
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                        background-image: url('test-image.jpg');
+                        font-size: clamp(14px, 2vw, 18px);
+                        
+                        // 复杂计算
+                        width: calc(100% - 2 * 20px);
+                        height: min(300px, 50vh);
+                        
+                        // 重要性声明
+                        position: relative !important;
+                        z-index: 999 !important;
+                    }
+                }
+            }
+            
+            // ============ 4. CHTL JS和虚对象测试 ============
+            div.test-section {
+                h2 { "CHTL JS 和虚对象测试" }
+                
+                script {
+                    // 虚对象定义测试
+                    vir Calculator = function(operation, a, b) {
+                        switch(operation) {
+                            case 'add': return a + b;
+                            case 'multiply': return a * b;
+                            case 'divide': return b !== 0 ? a / b : 'Error: Division by zero';
+                            default: return 'Unknown operation';
+                        }
+                    };
+                    
+                    vir Logger = function(level, message) {
+                        const timestamp = new Date().toISOString();
+                        console.log(`[${timestamp}] ${level.toUpperCase()}: ${message}`);
+                    };
+                    
+                    // 测试虚对象调用
+                    const result1 = Calculator->add(10, 5);
+                    const result2 = Calculator->multiply(3, 7);
+                    Logger->info(`计算结果: ${result1}, ${result2}`);
+                }
+                
+                div {
+                    text { "虚对象测试完成，请查看控制台输出。" }
+                    
+                    style {
+                        background-color: #d4edda;
+                        border: 1px solid #c3e6cb;
+                        color: #155724;
+                        padding: 10px;
+                        border-radius: 4px;
+                    }
+                }
+            }
+            
+            // ============ 5. [Origin] 原始嵌入节点测试 ============
+            div.test-section {
+                h2 { "原始嵌入节点测试" }
+                
+                p { "以下是原始HTML代码嵌入：" }
+                
+                [Origin] @Html {
+                    <div class="raw-html-content">
+                        <strong>这是原始HTML内容</strong>
+                        <ul>
+                            <li>列表项 1</li>
+                            <li>列表项 2</li>
+                        </ul>
+                    </div>
+                }
+                
+                [Origin] @Style {
+                    .raw-html-content {
+                        background: #e7f3ff;
+                        padding: 15px;
+                        border-radius: 6px;
+                        margin: 10px 0;
+                    }
+                    
+                    .raw-html-content strong {
+                        color: #0066cc;
+                    }
+                }
+                
+                [Origin] @JavaScript {
+                    document.addEventListener('DOMContentLoaded', function() {
+                        console.log('原始JavaScript代码执行成功！');
+                        const rawContent = document.querySelector('.raw-html-content');
+                        if (rawContent) {
+                            rawContent.addEventListener('click', function() {
+                                alert('原始HTML内容被点击！');
+                            });
+                        }
+                    });
+                }
+            }
+            
+            // ============ 6. 上下文注释测试 ============
+            div.test-section {
+                h2 { "上下文注释测试" }
+                
+                "-- 这是CHTL上下文中的注释，应该转换为HTML注释"
+                
+                script {
+                    "-- 这是JavaScript上下文中的注释，应该转换为JS注释"
+                    var testVar = "注释测试";
+                }
+                
+                style {
+                    "-- 这是CSS上下文中的注释，应该转换为CSS注释"
+                    .comment-test {
+                        color: blue;
+                    }
+                }
+            }
+            
+            // ============ 7. 模板和引用测试 ============
+            div.test-section {
+                h2 { "模板引用测试" }
+                
+                [Template] ButtonTemplate {
+                    button {
+                        @text
+                        style {
+                            background-color: @bgColor;
+                            color: @textColor;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 4px;
+                            cursor: pointer;
+                        }
+                    }
+                }
+                
+                // 使用模板
+                @ButtonTemplate {
+                    text: "点击我";
+                    bgColor: "#007bff";
+                    textColor: "white";
+                }
+                
+                @ButtonTemplate {
+                    text: "取消";
+                    bgColor: "#6c757d";
+                    textColor: "white";
+                }
+            }
+            
+            // ============ 8. 复杂嵌套和混合语法测试 ============
+            div.test-section {
+                h2 { "复杂嵌套和混合语法测试" }
+                
+                div {
+                    style {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 15px;
+                    }
+                    
+                    div {
+                        h3 { "嵌套测试 Level 1" }
+                        
+                        div {
+                            h4 { "嵌套测试 Level 2" }
+                            
+                            script {
+                                // 嵌套脚本中的CHTL JS
+                                vir NestedFunction = function(depth) {
+                                    return `当前嵌套深度: ${depth}`;
+                                };
+                                
+                                console.log(NestedFunction->call(2));
+                            }
+                            
+                            div {
+                                text { "嵌套测试 Level 3" }
+                                
+                                style {
+                                    background: linear-gradient(
+                                        135deg,
+                                        rgba(255, 0, 150, 0.3) 0%,
+                                        rgba(0, 204, 255, 0.3) 100%
+                                    );
+                                    padding: 20px;
+                                    border-radius: 10px;
+                                    box-shadow: 
+                                        inset 0 1px 3px rgba(0, 0, 0, 0.1),
+                                        0 2px 6px rgba(0, 0, 0, 0.2);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // ============ 9. 性能和边界测试 ============
+            div.test-section {
+                h2 { "性能和边界测试" }
+                
+                // 大量重复元素测试
+                div {
+                    style {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                        gap: 10px;
+                    }
+                    
+                    // 生成多个测试元素
+                    div { text { "元素 1" } style { background: #ff9999; padding: 10px; } }
+                    div { text { "元素 2" } style { background: #99ff99; padding: 10px; } }
+                    div { text { "元素 3" } style { background: #9999ff; padding: 10px; } }
+                    div { text { "元素 4" } style { background: #ffff99; padding: 10px; } }
+                    div { text { "元素 5" } style { background: #ff99ff; padding: 10px; } }
+                    div { text { "元素 6" } style { background: #99ffff; padding: 10px; } }
+                }
+            }
+            
+            // ============ 10. 测试结果总结 ============
+            div.test-section {
+                h2 { "测试完成" }
+                
+                div {
+                    style {
+                        background: linear-gradient(45deg, #28a745, #20c997);
+                        color: white;
+                        padding: 20px;
+                        border-radius: 8px;
+                        text-align: center;
+                        font-size: 18px;
+                        font-weight: bold;
+                    }
+                    
+                    text { "🎉 CHTL综合测试套件执行完成！" }
+                }
+                
+                script {
+                    // 测试完成后的统计
+                    vir TestReporter = function() {
+                        const sections = document.querySelectorAll('.test-section').length;
+                        const elements = document.querySelectorAll('*').length;
+                        
+                        console.log('=== CHTL测试统计 ===');
+                        console.log(`测试章节数: ${sections}`);
+                        console.log(`总元素数: ${elements}`);
+                        console.log('所有测试执行完成！');
+                        
+                        return {
+                            sections: sections,
+                            elements: elements,
+                            status: 'completed'
+                        };
+                    };
+                    
+                    // 执行测试报告
+                    const report = TestReporter->call();
+                    console.log('测试报告:', report);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+[Info]
+{
+    name = "demo";
+    version = "1.0.0";
+    description = "CHTL与CJMOD完整集成演示模块";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "demo";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}

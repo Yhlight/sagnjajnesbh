@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Scanner/CHTLUnifiedScanner.h"
+#include "CHTL/Core/CHTLGlobalMap.h"
+#include "CHTL/Core/CHTLState.h"
+#include "CHTLJS/Core/CHTLJSState.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -83,6 +86,12 @@ public:
 
 private:
     DispatcherConfig config_;                           // 调度器配置
+    
+    // 核心状态管理组件
+    std::unique_ptr<Core::CHTLGlobalMap> globalMap_;    // 全局映射表
+    std::unique_ptr<Core::CHTLState> stateManager_;     // CHTL状态管理器
+    std::unique_ptr<CHTLJS::Core::CHTLJSState> chtlJSStateManager_; // CHTL JS状态管理器
+    
     std::unique_ptr<Scanner::CHTLUnifiedScanner> scanner_;  // 统一扫描器
     // 完整实现：使用所有必需的解析器 - 严格按照目标规划.ini
     std::unique_ptr<Parser::CHTLParser> chtlParser_;        // CHTL解析器
@@ -173,6 +182,20 @@ private:
      * @brief 清理资源
      */
     void Cleanup();
+    
+    /**
+     * @brief 编译CHTL片段
+     * @param content CHTL代码内容
+     * @return 生成的HTML代码
+     */
+    std::string CompileCHTLFragment(const std::string& content);
+    
+    /**
+     * @brief 编译CHTL JS片段
+     * @param content CHTL JS代码内容
+     * @return 生成的JavaScript代码
+     */
+    std::string CompileCHTLJSFragment(const std::string& content);
 };
 
 } // namespace Dispatcher

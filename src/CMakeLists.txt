@@ -1,3 +1,12 @@
+cmake_minimum_required(VERSION 3.16)
+project(CHTL)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 全局include路径
+include_directories(${CMAKE_SOURCE_DIR}/../include)
+
 # CHTL编译器核心库
 add_library(chtl_core STATIC
     CHTL/Core/CHTLToken.cpp
@@ -5,6 +14,8 @@ add_library(chtl_core STATIC
     CHTL/Core/CHTLState.cpp
     CHTL/Core/CHTLContext.cpp
     CHTL/Core/CHTLStateContext.cpp
+    CHTL/Core/ImportManager.cpp
+    CHTL/Core/NamespaceMerger.cpp
     CHTL/Lexer/CHTLLexer.cpp
     CHTL/Parser/CHTLParser.cpp
     CHTL/AST/CHTLASTNodes.cpp
@@ -14,7 +25,7 @@ add_library(chtl_core STATIC
     CHTL/Constraints/CHTLConstraintValidator.cpp
     CHTL/Constraints/ExceptConstraintParser.cpp
     CHTL/Selector/SelectorAutomation.cpp
-    CHTL/Import/EnhancedImportSystem.cpp
+    CHTL/Import/ImportSystem.cpp
     CHTL/Comments/ContextualCommentSystem.cpp
 )
 
@@ -36,6 +47,7 @@ add_library(chtljs_core STATIC
     CHTLJS/Generator/CHTLJSGenerator.cpp
     CHTLJS/Events/JSEventSystem.cpp
     CHTLJS/Core/CHTLJSStateContext.cpp
+    CHTLJS/Compiler/CHTLJSCompiler.cpp
 )
 
 target_include_directories(chtljs_core PUBLIC
@@ -45,6 +57,7 @@ target_include_directories(chtljs_core PUBLIC
 # 统一扫描器库
 add_library(scanner STATIC
     Scanner/CHTLUnifiedScanner.cpp
+    Scanner/FragmentIndexManager.cpp
 )
 
 target_include_directories(scanner PUBLIC
@@ -98,10 +111,9 @@ target_include_directories(js_compiler PUBLIC
     ${CMAKE_SOURCE_DIR}/include/JavaScript
 )
 
-# CMOD库
+# CMOD库 - 统一的CMOD系统
 add_library(cmod STATIC
-    CMOD/CompleteCMODSystem.cpp
-    CMOD/CMODManager.cpp
+    CMOD/CMODSystem.cpp
 )
 
 target_include_directories(cmod PUBLIC
@@ -110,10 +122,9 @@ target_include_directories(cmod PUBLIC
 
 target_link_libraries(cmod utils)
 
-# CJMOD库
+# CJMOD库 - 使用真正的CJMOD API
 add_library(cjmod STATIC
-    CJMOD/SimpleCJMODApi.cpp
-    CJMOD/SophisticatedCJMODApi.cpp
+    CJMOD/TrueCJMODApi.cpp
 )
 
 target_include_directories(cjmod PUBLIC
@@ -143,15 +154,15 @@ add_executable(chtl_compiler
     main.cpp
 )
 
-# CMOD导出生成工具
-add_executable(cmod_export_generator
-    Tools/cmod_export_generator.cpp
-)
-
-target_link_libraries(cmod_export_generator
-    cmod
-    utils
-)
+# CMOD导出生成工具 (暂时禁用，需要修复API)
+# add_executable(cmod_export_generator
+#     Tools/cmod_export_generator.cpp
+# )
+# 
+# target_link_libraries(cmod_export_generator
+#     cmod
+#     utils
+# )
 
 target_link_libraries(chtl_compiler
     chtl_core

@@ -1,0 +1,77 @@
+// 珂朵莉手风琴组件 - 语法文档第1460行
+// 严格按照CHTL语法文档实现，使用全缀名导出
+
+[Custom] @Element Accordion
+{
+    div
+    {
+        class: chtholly-accordion;
+        
+        div
+        {
+            class: accordion-header;
+            text { "手风琴标题" }
+            
+            style
+            {
+                .accordion-header
+                {
+                    padding: 15px;
+                    background: linear-gradient(135deg, #FFB6C1, #FFC0CB);
+                    cursor: pointer;
+                    border-radius: 8px 8px 0 0;
+                    transition: all 0.3s ease;
+                }
+                
+                &:hover
+                {
+                    background: linear-gradient(135deg, #FF91A4, #FFB6C1);
+                    transform: translateY(-2px);
+                }
+            }
+        }
+        
+        div
+        {
+            class: accordion-content;
+            
+            style
+            {
+                .accordion-content
+                {
+                    padding: 20px;
+                    background: rgba(255, 182, 193, 0.1);
+                    border-radius: 0 0 8px 8px;
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height 0.3s ease;
+                }
+                
+                .accordion-content.active
+                {
+                    max-height: 500px;
+                }
+            }
+        }
+        
+        style
+        {
+            .chtholly-accordion
+            {
+                margin: 10px 0;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+                overflow: hidden;
+            }
+        }
+    }
+}
+
+[Custom] @Style AccordionTheme
+{
+    primary-color: "#FFB6C1";
+    secondary-color: "#FFC0CB";
+    text-color: "#2C3E50";
+    shadow-color: "rgba(255, 182, 193, 0.3)";
+    transition-duration: "0.3s";
+}

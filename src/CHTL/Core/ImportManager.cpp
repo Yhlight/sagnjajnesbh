@@ -320,17 +320,15 @@ ImportSearchResult ImportManager::SearchOriginFiles(const ImportPathInfo& pathIn
     // 原始嵌入文件直接从指定路径导入，不进行复杂的搜索策略
     // 它们主要用于嵌入特定文件类型的内容
     
-    std::string targetPath = pathInfo.fullPath;
+    std::string targetPath = pathInfo.resolvedPath;
     
     // 检查文件是否存在
     if (FileExists(targetPath)) {
         result.success = true;
-        result.resolvedPath = NormalizePath(targetPath);
-        result.isWildcard = false;
-        result.foundFiles.push_back(result.resolvedPath);
+        result.foundPaths.push_back(NormalizePath(targetPath));
         
         Utils::ErrorHandler::GetInstance().LogInfo(
-            "找到原始嵌入文件: " + result.resolvedPath
+            "找到原始嵌入文件: " + result.foundPaths.back()
         );
     } else {
         result.success = false;

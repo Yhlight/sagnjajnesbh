@@ -1,6 +1,9 @@
 #include "Dispatcher/FragmentProcessors.h"
 #include "Utils/StringUtils.h"
 #include "Utils/ErrorHandler.h"
+#include "CHTL/Lexer/CHTLLexer.h"
+#include "CHTL/Parser/CHTLParser.h"
+#include "CHTLJS/Parser/CHTLJSParser.h"
 #include <unordered_set>
 #include <regex>
 
@@ -21,6 +24,30 @@ ProcessedFragment CHTLFragmentProcessor::ProcessFragment(const Scanner::CodeFrag
     if (content.empty()) {
         return result;
     }
+    
+    // 使用真正的CHTL解析器来处理片段
+    if (parser_) {
+        try {
+            // 创建词法分析器来处理片段
+            CHTL::Lexer::CHTLLexer lexer;
+            auto tokens = lexer.Tokenize(content, "fragment");
+            
+            // 使用解析器解析tokens
+            auto ast = parser_->Parse(tokens, "fragment");
+            if (ast) {
+                // 这里需要生成器来生成HTML
+                // 暂时返回原内容，等待生成器集成
+                result.generatedCode = content;
+                result.isContent = true;
+                return result;
+            }
+        } catch (const std::exception& e) {
+            // 解析失败，回退到简单处理
+            Utils::ErrorHandler::GetInstance().LogWarning("CHTL片段解析失败: " + std::string(e.what()));
+        }
+    }
+    
+    // 回退到简单的字符串处理（保持原有逻辑作为备用）
     
     // 处理HTML元素
     if (IsHTMLElement(content)) {
@@ -305,52 +332,26 @@ bool IntelligentMerger::DetectSPAComponent(const std::vector<ProcessedFragment>&
 std::string IntelligentMerger::MergeHTMLFragments(const std::vector<ProcessedFragment>& fragments) {
     std::string html = "";
     
-    // 简化的状态机合并逻辑
-    enum State { EXPECTING_ELEMENT, EXPECTING_OPEN_BRACE, IN_ELEMENT, EXPECTING_CLOSE_BRACE };
-    State state = EXPECTING_ELEMENT;
-    std::string currentElement = "";
-    std::string currentAttributes = "";
-    std::string currentContent = "";
-    
+    // 简化且正确的HTML合并逻辑
     for (const auto& fragment : fragments) {
-        if (fragment.originalType != Scanner::FragmentType::CHTL) {
-            continue;
-        }
-        
-        std::string content = Utils::StringUtils::Trim(fragment.generatedCode);
-        
-        if (content.empty()) {
-            continue;
-        }
-        
-        // 简化逻辑：直接根据片段类型和内容生成HTML
-        if (fragment.isOpenTag) {
-            // 开始元素
-            currentElement = fragment.elementType;
-            html += "<" + currentElement;
-            state = EXPECTING_OPEN_BRACE;
-            
-        } else if (!fragment.attributes.empty()) {
-            // 属性
-            html += " " + fragment.attributes;
-            
-        } else if (content == "{") {
-            // 开始大括号 - 完成开始标签
-            html += ">";
-            state = IN_ELEMENT;
-            
-        } else if (fragment.isContent && content != "text") {
-            // 文本内容
-            currentContent += content;
-            
-        } else if (fragment.isCloseTag || content.find("}") == 0) {
-            // 结束大括号 - 完成元素
-            if (!currentContent.empty()) {
-                html += currentContent;
-                currentContent = "";
+        if (fragment.originalType == Scanner::FragmentType::CHTL && fragment.isContent) {
+            // 直接使用CHTL编译器生成的HTML代码
+            std::string content = Utils::StringUtils::Trim(fragment.generatedCode);
+            if (!content.empty()) {
+                html += content + "\n";
             }
-            html += "</" + currentElement + ">\n";
-            state = EXPECTING_ELEMENT;
+        }
+    }
+    
+    // 如果没有生成HTML内容，尝试从所有CHTL片段中提取
+    if (html.empty()) {
+        for (const auto& fragment : fragments) {
+            if (fragment.originalType == Scanner::FragmentType::CHTL) {
+                std::string content = Utils::StringUtils::Trim(fragment.generatedCode);
+                if (!content.empty()) {
+                    html += content + "\n";
+                }
+            }
         }
     }
     

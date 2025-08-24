@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as glob from 'glob';
+import { ModuleIndex, ModuleIndexEntry, ModuleIndexBuilder } from './moduleIndexBuilder';
 
 export interface ModuleInfo {
     name: string;
@@ -41,11 +42,18 @@ export class ModuleResolver {
     private searchPathCache: Map<string, string[]> = new Map();
     private lastCacheUpdate: number = 0;
     private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+    
+    // 新增：索引相关
+    private officialModuleIndex: ModuleIndex | null = null;
+    private projectModuleIndex: ModuleIndex | null = null;
+    private indexBuilder: ModuleIndexBuilder;
 
     constructor(context: vscode.ExtensionContext, config: vscode.WorkspaceConfiguration) {
         this.context = context;
         this.config = config;
+        this.indexBuilder = new ModuleIndexBuilder(context.extensionPath);
         this.initializeSearchPaths();
+        this.loadOfficialModuleIndex();
     }
 
     public updateConfig(newConfig: vscode.WorkspaceConfiguration): void {
@@ -70,7 +78,18 @@ export class ModuleResolver {
         
         const searchPaths: string[] = [];
 
-        // 1. 官方模块目录
+        // 1. 官方模块目录（内置编译器同级的module目录）
+        // 这是最重要的搜索路径，因为官方模块与编译器一起打包
+        const builtInOfficialPath = path.join(this.context.extensionPath, 'bin', 'module');
+        this.addModulePaths(searchPaths, builtInOfficialPath);
+        
+        // 验证官方模块目录是否存在
+        if (!fs.existsSync(builtInOfficialPath)) {
+            console.warn(`内置官方模块目录不存在: ${builtInOfficialPath}`);
+            console.warn('这可能是因为扩展打包时未包含内置编译器和官方模块');
+        }
+        
+        // 兼容配置的官方模块路径（用于开发测试）
         if (officialModulePath) {
             const resolvedOfficialPath = this.resolvePlaceholders(officialModulePath, workspaceRoot);
             this.addModulePaths(searchPaths, resolvedOfficialPath);
@@ -335,9 +354,208 @@ export class ModuleResolver {
             return moduleInfo;
         } catch (error) {
             console.error(`解析原始嵌入导入失败: ${error}`);
-            return undefined;
+                    return undefined;
+    }
+
+    /**
+     * 加载官方模块索引
+     */
+    private async loadOfficialModuleIndex(): Promise<void> {
+        try {
+            const indexPath = path.join(this.context.extensionPath, 'bin', 'module-index.json');
+            this.officialModuleIndex = await this.indexBuilder.loadIndexFromFile(indexPath);
+            
+            if (this.officialModuleIndex) {
+                console.log(`✅ 官方模块索引已加载: ${this.officialModuleIndex.modules.length} 个模块`);
+                this.populateCacheFromIndex(this.officialModuleIndex);
+            } else {
+                console.warn('⚠️ 官方模块索引未找到，将回退到实时扫描模式');
+            }
+        } catch (error) {
+            console.error('❌ 加载官方模块索引失败:', error);
         }
     }
+
+    /**
+     * 加载项目模块索引
+     */
+    private async loadProjectModuleIndex(projectPath: string): Promise<void> {
+        try {
+            const indexPath = path.join(projectPath, 'module-index.json');
+            
+            // 检查是否需要重建索引
+            const modulesPath = path.join(projectPath, 'module');
+            const needsUpdate = await this.indexBuilder.needsUpdate(indexPath, modulesPath);
+            
+            if (needsUpdate) {
+                console.log('🔄 项目模块索引需要更新，正在重建...');
+                this.projectModuleIndex = await this.indexBuilder.buildProjectModuleIndex(projectPath);
+                await this.indexBuilder.saveIndexToFile(this.projectModuleIndex, indexPath);
+            } else {
+                this.projectModuleIndex = await this.indexBuilder.loadIndexFromFile(indexPath);
+            }
+            
+            if (this.projectModuleIndex) {
+                console.log(`✅ 项目模块索引已加载: ${this.projectModuleIndex.modules.length} 个模块`);
+                this.populateCacheFromIndex(this.projectModuleIndex);
+            }
+        } catch (error) {
+            console.error('❌ 加载项目模块索引失败:', error);
+        }
+    }
+
+    /**
+     * 从索引填充缓存
+     */
+    private populateCacheFromIndex(index: ModuleIndex): void {
+        for (const moduleEntry of index.modules) {
+            const moduleInfo: ModuleInfo = {
+                name: moduleEntry.moduleName,
+                path: moduleEntry.filePath,
+                type: this.mapModuleType(moduleEntry.moduleType),
+                exports: moduleEntry.exports.map(exp => exp.name),
+                imports: moduleEntry.dependencies,
+                isOfficial: moduleEntry.isOfficial,
+                version: moduleEntry.version,
+                description: moduleEntry.description
+            };
+            
+            this.moduleCache.set(moduleEntry.moduleName, moduleInfo);
+        }
+    }
+
+    /**
+     * 映射模块类型
+     */
+    private mapModuleType(moduleType: 'chtl' | 'cmod' | 'cjmod'): ModuleInfo['type'] {
+        const typeMap: { [key: string]: ModuleInfo['type'] } = {
+            'chtl': 'chtl',
+            'cmod': 'cmod', 
+            'cjmod': 'cjmod'
+        };
+        return typeMap[moduleType] || 'chtl';
+    }
+
+    /**
+     * 快速搜索模块（使用索引）
+     */
+    public searchModulesWithIndex(query: string, type?: 'chtl' | 'cmod' | 'cjmod'): ModuleInfo[] {
+        const results: ModuleInfo[] = [];
+        const allIndices = [this.officialModuleIndex, this.projectModuleIndex].filter(Boolean) as ModuleIndex[];
+        
+        for (const index of allIndices) {
+            // 按模块名搜索
+            const moduleIndex = index.searchMap.byName[query];
+            if (moduleIndex !== undefined) {
+                const moduleEntry = index.modules[moduleIndex];
+                if (!type || moduleEntry.moduleType === type) {
+                    results.push(this.convertToModuleInfo(moduleEntry));
+                }
+            }
+
+            // 按导出名搜索
+            const exportIndices = index.searchMap.byExport[query] || [];
+            for (const idx of exportIndices) {
+                const moduleEntry = index.modules[idx];
+                if (!type || moduleEntry.moduleType === type) {
+                    const moduleInfo = this.convertToModuleInfo(moduleEntry);
+                    if (!results.some(r => r.name === moduleInfo.name)) {
+                        results.push(moduleInfo);
+                    }
+                }
+            }
+        }
+        
+        return results;
+    }
+
+    /**
+     * 获取模块的详细导出信息
+     */
+    public getModuleExports(moduleName: string): { name: string; type: string; signature?: string; description?: string; }[] {
+        const allIndices = [this.officialModuleIndex, this.projectModuleIndex].filter(Boolean) as ModuleIndex[];
+        
+        for (const index of allIndices) {
+            const moduleIndex = index.searchMap.byName[moduleName];
+            if (moduleIndex !== undefined) {
+                const moduleEntry = index.modules[moduleIndex];
+                return moduleEntry.exports.map(exp => ({
+                    name: exp.name,
+                    type: exp.type,
+                    signature: exp.signature,
+                    description: exp.description
+                }));
+            }
+        }
+        
+        return [];
+    }
+
+    /**
+     * 转换为ModuleInfo格式
+     */
+    private convertToModuleInfo(moduleEntry: ModuleIndexEntry): ModuleInfo {
+        return {
+            name: moduleEntry.moduleName,
+            path: moduleEntry.filePath,
+            type: this.mapModuleType(moduleEntry.moduleType),
+            exports: moduleEntry.exports.map(exp => exp.name),
+            imports: moduleEntry.dependencies,
+            isOfficial: moduleEntry.isOfficial,
+            version: moduleEntry.version,
+            description: moduleEntry.description
+        };
+    }
+
+    /**
+     * 获取所有已缓存的模块（包括索引中的）
+     */
+    public getAllModulesFromIndex(): ModuleInfo[] {
+        const allModules: ModuleInfo[] = [];
+        const allIndices = [this.officialModuleIndex, this.projectModuleIndex].filter(Boolean) as ModuleIndex[];
+        
+        for (const index of allIndices) {
+            for (const moduleEntry of index.modules) {
+                allModules.push(this.convertToModuleInfo(moduleEntry));
+            }
+        }
+        
+        return allModules;
+    }
+
+    /**
+     * 获取官方模块列表（使用索引）
+     */
+    public getOfficialModulesFromIndex(): ModuleInfo[] {
+        if (!this.officialModuleIndex) return [];
+        
+        return this.officialModuleIndex.modules
+            .filter(module => module.isOfficial)
+            .map(module => this.convertToModuleInfo(module));
+    }
+
+    /**
+     * 刷新项目模块索引
+     */
+    public async refreshProjectModuleIndex(): Promise<void> {
+        const workspaceFolders = vscode.workspace.workspaceFolders;
+        if (workspaceFolders && workspaceFolders.length > 0) {
+            await this.loadProjectModuleIndex(workspaceFolders[0].uri.fsPath);
+        }
+    }
+
+    /**
+     * 检查模块索引状态
+     */
+    public getIndexStatus(): { official: boolean; project: boolean; officialCount: number; projectCount: number } {
+        return {
+            official: this.officialModuleIndex !== null,
+            project: this.projectModuleIndex !== null,
+            officialCount: this.officialModuleIndex?.modules.length || 0,
+            projectCount: this.projectModuleIndex?.modules.length || 0
+        };
+    }
+}
 
     private async searchMediaInDirectory(importPath: string, baseDir: string, expectedExtension: string, candidates: ModuleInfo[]): Promise<ModuleInfo | undefined> {
         // 媒体导入专用：只在指定目录（非递归）搜索

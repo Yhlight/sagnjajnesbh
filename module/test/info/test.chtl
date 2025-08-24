@@ -1,0 +1,12 @@
+[Info]
+{
+    name = "test";
+    version = "1.0.0";
+    description = "测试CJMOD扩展模块";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "test";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}

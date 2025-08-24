@@ -1,0 +1,254 @@
+// React语法扩展 - CJMOD模块源码示例
+// 位置：src/Modules/CJMOD/ReactSupport.cjmod
+
+/*
+ * React语法扩展CJMOD模块
+ * 为CHTL JS添加React风格的语法糖
+ */
+
+#include "CJMOD/PracticalCJMODApi.h"
+#include <string>
+#include <regex>
+#include <unordered_map>
+
+using namespace CHTL::CJMOD;
+
+class ReactSupport {
+private:
+    CJMODScanner* scanner;
+    std::unordered_map<std::string, std::string> stateVariables;
+    std::unordered_map<std::string, std::string> propsMapping;
+
+public:
+    ReactSupport(CJMODScanner* s) : scanner(s) {}
+
+    // useState语法糖
+    // useState(initialValue) => [state, setState]
+    std::string processUseState() {
+        auto syntax = scanner->scanKeyword("useState");
+        
+        Arg initialValue("initialValue");
+        initialValue.bind<std::string>([](const std::string& value) {
+            return value.empty() ? "null" : value;
+        });
+        
+        syntax.args.bind(initialValue);
+        
+        if (syntax.match()) {
+            std::string stateVarName = "state_" + std::to_string(std::hash<std::string>{}(syntax.result()));
+            std::string setterName = "set" + stateVarName.substr(0, 1) + stateVarName.substr(1);
+            
+            std::string jsCode = R"(
+                let )" + stateVarName + R"( = )" + initialValue.getValue() + R"(;
+                const )" + setterName + R"( = (newValue) => {
+                    )" + stateVarName + R"( = newValue;
+                    // 触发重新渲染逻辑
+                    if (typeof __CHTL_REACT_RERENDER__ === 'function') {
+                        __CHTL_REACT_RERENDER__();
+                    }
+                };
+            )";
+            
+            stateVariables[stateVarName] = initialValue.getValue();
+            return jsCode;
+        }
+        
+        return "";
+    }
+
+    // useEffect语法糖
+    // useEffect(callback, dependencies)
+    std::string processUseEffect() {
+        auto syntax = scanner->scanKeyword("useEffect");
+        
+        Arg callback("callback");
+        Arg dependencies("dependencies", true); // 可选参数
+        
+        callback.bind<std::string>([](const std::string& func) {
+            return func;
+        });
+        
+        dependencies.bind<std::string>([](const std::string& deps) {
+            return deps.empty() ? "[]" : deps;
+        });
+        
+        syntax.args.bind(callback, dependencies);
+        
+        if (syntax.match()) {
+            std::string jsCode = R"(
+                // useEffect implementation
+                (function() {
+                    const effectCallback = )" + callback.getValue() + R"(;
+                    const deps = )" + dependencies.getValue() + R"(;
+                    
+                    // 简化的依赖检查和执行逻辑
+                    if (!window.__CHTL_REACT_EFFECTS__) {
+                        window.__CHTL_REACT_EFFECTS__ = [];
+                    }
+                    
+                    const effectId = window.__CHTL_REACT_EFFECTS__.length;
+                    window.__CHTL_REACT_EFFECTS__.push({
+                        callback: effectCallback,
+                        dependencies: deps,
+                        cleanup: null
+                    });
+                    
+                    // 立即执行一次
+                    const cleanup = effectCallback();
+                    if (typeof cleanup === 'function') {
+                        window.__CHTL_REACT_EFFECTS__[effectId].cleanup = cleanup;
+                    }
+                })();
+            )";
+            
+            return jsCode;
+        }
+        
+        return "";
+    }
+
+    // JSX风格的元素创建
+    // <ComponentName props />
+    std::string processJSXElement() {
+        if (scanner->peekKeyword() != "<") return "";
+        
+        auto syntax = scanner->scanKeyword("<");
+        
+        Arg componentName("componentName");
+        Arg props("props", true);
+        Arg children("children", true);
+        
+        componentName.bind<std::string>([](const std::string& name) {
+            return name;
+        });
+        
+        props.bind<std::string>([](const std::string& propsStr) {
+            return propsStr.empty() ? "{}" : propsStr;
+        });
+        
+        children.bind<std::string>([](const std::string& childrenStr) {
+            return childrenStr;
+        });
+        
+        syntax.args.bind(componentName, props, children);
+        
+        if (syntax.match()) {
+            std::string jsCode = R"(
+                // JSX风格元素创建
+                (function() {
+                    const element = document.createElement(')" + componentName.getValue() + R"(');
+                    const props = )" + props.getValue() + R"(;
+                    
+                    // 应用props
+                    for (const [key, value] of Object.entries(props)) {
+                        if (key.startsWith('on') && typeof value === 'function') {
+                            // 事件处理器
+                            const eventName = key.substring(2).toLowerCase();
+                            element.addEventListener(eventName, value);
+                        } else if (key === 'className') {
+                            element.className = value;
+                        } else if (key === 'style' && typeof value === 'object') {
+                            Object.assign(element.style, value);
+                        } else {
+                            element.setAttribute(key, value);
+                        }
+                    }
+                    
+                    return element;
+                })()
+            )";
+            
+            return jsCode;
+        }
+        
+        return "";
+    }
+
+    // 组件状态管理
+    std::string processComponent() {
+        auto syntax = scanner->scanKeyword("Component");
+        
+        Arg componentName("componentName");
+        Arg initialState("initialState", true);
+        
+        componentName.bind<std::string>([](const std::string& name) {
+            return name;
+        });
+        
+        initialState.bind<std::string>([](const std::string& state) {
+            return state.empty() ? "{}" : state;
+        });
+        
+        syntax.args.bind(componentName, initialState);
+        
+        if (syntax.match()) {
+            std::string jsCode = R"(
+                // React风格组件定义
+                class )" + componentName.getValue() + R"( {
+                    constructor(props = {}) {
+                        this.props = props;
+                        this.state = )" + initialState.getValue() + R"(;
+                        this.element = null;
+                    }
+                    
+                    setState(newState) {
+                        this.state = { ...this.state, ...newState };
+                        this.forceUpdate();
+                    }
+                    
+                    forceUpdate() {
+                        if (this.element && this.render) {
+                            const newElement = this.render();
+                            if (this.element.parentNode) {
+                                this.element.parentNode.replaceChild(newElement, this.element);
+                            }
+                            this.element = newElement;
+                        }
+                    }
+                    
+                    mount(container) {
+                        this.element = this.render();
+                        if (container) {
+                            container.appendChild(this.element);
+                        }
+                        return this.element;
+                    }
+                }
+            )";
+            
+            return jsCode;
+        }
+        
+        return "";
+    }
+};
+
+// CJMOD导出函数
+extern "C" {
+    ReactSupport* reactSupport = nullptr;
+    
+    void initializeCJMOD(CJMODScanner* scanner) {
+        reactSupport = new ReactSupport(scanner);
+    }
+    
+    std::string processKeyword(const std::string& keyword) {
+        if (!reactSupport) return "";
+        
+        if (keyword == "useState") {
+            return reactSupport->processUseState();
+        } else if (keyword == "useEffect") {
+            return reactSupport->processUseEffect();
+        } else if (keyword == "<") {
+            return reactSupport->processJSXElement();
+        } else if (keyword == "Component") {
+            return reactSupport->processComponent();
+        }
+        
+        return "";
+    }
+    
+    void cleanupCJMOD() {
+        delete reactSupport;
+        reactSupport = nullptr;
+    }
+}

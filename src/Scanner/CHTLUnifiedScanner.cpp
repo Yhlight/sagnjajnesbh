@@ -56,23 +56,23 @@ std::vector<CodeFragment> CHTLUnifiedScanner::ScanSource(const std::string& sour
     }
     
     LogDebug("扫描完成，发现 " + std::to_string(fragments_.size()) + " 个代码片段");
+    
+    // 构建片段索引
+    if (!fragments_.empty()) {
+        BuildFragmentIndex(fragments_);
+        
+        if (verbose_) {
+            PrintIndexStatistics(fragments_);
+        }
+    }
+    
     return fragments_;
 }
 
 void CHTLUnifiedScanner::ScanLoop() {
-    // 根据扫描策略选择扫描方法
-    switch (scanStrategy_) {
-        case ScanStrategy::SLIDING_WINDOW:
-            SlidingWindowScan();
-            break;
-        case ScanStrategy::FRONT_EXTRACT:
-            FrontExtractScan();
-            break;
-        default:
-            // 后备方案：使用传统扫描
-            TraditionalScan();
-            break;
-    }
+    // 使用原有的扫描逻辑，滑动窗口只是辅助功能
+    std::cout << "=== 进入ScanLoop，使用传统扫描 ===" << std::endl;
+    TraditionalScan();
 }
 
 void CHTLUnifiedScanner::HandleGlobalState() {
@@ -181,6 +181,7 @@ void CHTLUnifiedScanner::HandleGlobalState() {
         SkipWhitespace();
         if (!IsAtEnd() && CurrentChar() == '{') {
             // 这是一个CHTL元素块
+            std::cout << "[DEBUG] 检测到CHTL元素: " << word << std::endl;
             currentPos_ = startPos; // 回退
             EnterCHTLBlock();
             return;
@@ -654,7 +655,7 @@ void CHTLUnifiedScanner::SlidingWindowScan() {
             if (!slidingState_.collectMode) {
                 // 推送前面的普通代码片段
                 if (slidingState_.backPointer < slidingState_.frontPointer) {
-                    ExtractAndProcessFromWindow(slidingState_.backPointer, slidingState_.frontPointer, FragmentType::JS);
+                    ExtractAndProcessFromWindow(slidingState_.backPointer, slidingState_.frontPointer, FragmentType::CHTL);
                 }
                 
                 // 进入收集模式
@@ -713,7 +714,7 @@ void CHTLUnifiedScanner::SlidingWindowScan() {
                        slidingState_.backPointer, source_.length());
         } else {
             // 推送普通代码片段
-            ExtractAndProcessFromWindow(slidingState_.backPointer, source_.length(), FragmentType::JS);
+            ExtractAndProcessFromWindow(slidingState_.backPointer, source_.length(), FragmentType::CHTL);
         }
     }
     
@@ -735,7 +736,7 @@ void CHTLUnifiedScanner::FrontExtractScan() {
             // 截取前置代码段（避免发送给编译器）
             if (keywordPos > currentPos) {
                 std::string frontSegment = ExtractFrontSegment(keywordPos);
-                ProcessExtractedSegment(frontSegment, FragmentType::JS);
+                ProcessExtractedSegment(frontSegment, FragmentType::CHTL);
                 LogDebug("截取前置代码段，长度: " + std::to_string(frontSegment.length()));
             }
             
@@ -755,7 +756,7 @@ void CHTLUnifiedScanner::FrontExtractScan() {
             // 没有更多关键字，处理剩余代码
             if (currentPos < source_.length()) {
                 std::string remainingSegment = source_.substr(currentPos);
-                ProcessExtractedSegment(remainingSegment, FragmentType::JS);
+                ProcessExtractedSegment(remainingSegment, FragmentType::CHTL);
                 LogDebug("处理剩余代码段，长度: " + std::to_string(remainingSegment.length()));
             }
             break;
@@ -780,7 +781,7 @@ void CHTLUnifiedScanner::InitialScan(size_t searchRange) {
             if (syntaxLength > 0) {
                 // 推送前面的代码（如果有）
                 if (pos > 0) {
-                    PushFragment(FragmentType::JS, source_.substr(0, pos), 0, pos);
+                    PushFragment(FragmentType::CHTL, source_.substr(0, pos), 0, pos);
                 }
                 
                 // 推送CHTL JS语法片段
@@ -798,35 +799,59 @@ void CHTLUnifiedScanner::InitialScan(size_t searchRange) {
 
 void CHTLUnifiedScanner::TraditionalScan() {
     LogDebug("使用传统扫描方式");
+    std::cout << "[DEBUG] 开始传统扫描" << std::endl;
     
-    // 原有的扫描逻辑
-    while (!IsAtEnd()) {
-        switch (currentState_) {
-            case ScannerState::GLOBAL:
-                HandleGlobalState();
-                break;
-            case ScannerState::IN_CHTL_BLOCK:
-                HandleCHTLBlockState();
-                break;
-            case ScannerState::IN_GLOBAL_STYLE:
-            case ScannerState::IN_LOCAL_STYLE:
-                HandleStyleBlockState();
-                break;
-            case ScannerState::IN_GLOBAL_SCRIPT:
-            case ScannerState::IN_LOCAL_SCRIPT:
-                HandleScriptBlockState();
-                break;
-            case ScannerState::COLLECTING_CSS:
-            case ScannerState::COLLECTING_JS:
-                // 在CSS/JS收集状态下，继续检测CHTL切割点位
-                if (currentState_ == ScannerState::COLLECTING_CSS) {
-                    HandleStyleBlockState();
-                } else {
-                    HandleScriptBlockState();
-                }
-                break;
+    // 使用可变长度切片机制进行智能扫描
+    size_t currentPos = 0;
+    
+    while (currentPos < source_.length()) {
+        // 1. 确定初始片段边界
+        size_t fragmentStart = currentPos;
+        size_t fragmentEnd = std::min(currentPos + 200, source_.length()); // 初始片段大小200字符
+        
+        LogDebug("初始片段范围: " + std::to_string(fragmentStart) + "-" + std::to_string(fragmentEnd));
+        
+        // 2. 检查片段完整性并动态扩增
+        if (!IsCompleteCodeFragment(fragmentStart, fragmentEnd)) {
+            LogDebug("片段不完整，开始动态扩增");
+            if (!ExpandFragmentBoundary(fragmentStart, fragmentEnd)) {
+                // 如果无法扩增到完整片段，使用语法边界
+                fragmentEnd = FindNextSyntaxBoundary(fragmentStart);
+            }
         }
+        
+        // 3. 提取片段内容
+        std::string fragmentContent = source_.substr(fragmentStart, fragmentEnd - fragmentStart);
+        
+        // 4. 进行最小单元切割（如果需要）
+        std::vector<CodeFragment> subFragments;
+        if (NeedsMinimalUnitSlicing(fragmentContent)) {
+            PerformMinimalUnitSlicing(fragmentContent, subFragments);
+            
+            // 推送所有子片段
+            for (auto& subFragment : subFragments) {
+                subFragment.startPos += fragmentStart; // 调整位置
+                fragments_.push_back(subFragment);
+                LogDebug("推送子片段，类型: " + std::to_string(static_cast<int>(subFragment.type)) + 
+                        ", 长度: " + std::to_string(subFragment.content.length()));
+            }
+        } else {
+            // 5. 直接推送完整片段
+            CodeFragment fragment;
+            fragment.content = fragmentContent;
+            fragment.startPos = fragmentStart;
+            fragment.type = DetermineFragmentType(fragmentContent);
+            
+            fragments_.push_back(fragment);
+            LogDebug("推送完整片段，类型: " + std::to_string(static_cast<int>(fragment.type)) + 
+                    ", 长度: " + std::to_string(fragment.content.length()));
+        }
+        
+        // 6. 移动到下一个片段
+        currentPos = fragmentEnd;
     }
+    
+    LogDebug("可变长度切片扫描完成，共生成 " + std::to_string(fragments_.size()) + " 个片段");
 }
 
 // ============ 状态重置方法 ============
@@ -1023,6 +1048,437 @@ std::string CHTLUnifiedScanner::ProcessDashComment(const std::string& comment, c
             ", 原始: " + comment + ", 处理后: " + processedComment);
     
     return processedComment;
+}
+
+// ============ 可变长度切片机制实现 ============
+
+bool CHTLUnifiedScanner::IsCompleteCodeFragment(size_t startPos, size_t endPos) {
+    if (startPos >= endPos || endPos > source_.length()) {
+        return false;
+    }
+    
+    std::string content = source_.substr(startPos, endPos - startPos);
+    
+    // 检测片段类型并验证完整性
+    if (content.find("html") == 0 || content.find("body") == 0 || 
+        content.find("div") == 0 || content.find("text") == 0) {
+        // CHTL块完整性检测
+        return IsCHTLBlockComplete(content);
+    }
+    
+    if (content.find("vir") == 0 || content.find("{{") != std::string::npos) {
+        // CHTL JS片段完整性检测
+        return IsCHTLJSFragmentComplete(content);
+    }
+    
+    // 对于CSS和JS片段，检查基本的语法平衡
+    return CalculateBraceBalance(content) == 0;
+}
+
+bool CHTLUnifiedScanner::ExpandFragmentBoundary(size_t startPos, size_t& endPos) {
+    LogDebug("开始动态扩增片段边界，当前范围: " + std::to_string(startPos) + "-" + std::to_string(endPos));
+    
+    size_t originalEndPos = endPos;
+    size_t maxExpansion = std::min(source_.length(), endPos + 500); // 最大扩增500字符
+    
+    // 逐步扩增，直到找到完整的代码片段
+    for (size_t newEndPos = endPos + 1; newEndPos <= maxExpansion; ++newEndPos) {
+        if (IsCompleteCodeFragment(startPos, newEndPos)) {
+            endPos = newEndPos;
+            LogDebug("成功扩增片段边界到: " + std::to_string(endPos) + 
+                    " (扩增了 " + std::to_string(endPos - originalEndPos) + " 字符)");
+            return true;
+        }
+    }
+    
+    LogDebug("无法找到完整的片段边界，保持原始位置");
+    return false;
+}
+
+bool CHTLUnifiedScanner::IsCHTLBlockComplete(const std::string& content) {
+    // 检查CHTL块的完整性
+    int braceBalance = CalculateBraceBalance(content);
+    
+    // CHTL块必须有平衡的大括号
+    if (braceBalance != 0) {
+        return false;
+    }
+    
+    // 检查是否有基本的CHTL元素结构
+    bool hasOpeningElement = false;
+    bool hasClosingBrace = false;
+    
+    // 简单的结构检查
+    size_t openBrace = content.find('{');
+    size_t closeBrace = content.rfind('}');
+    
+    if (openBrace != std::string::npos && closeBrace != std::string::npos && 
+        openBrace < closeBrace) {
+        hasOpeningElement = true;
+        hasClosingBrace = true;
+    }
+    
+    return hasOpeningElement && hasClosingBrace;
+}
+
+bool CHTLUnifiedScanner::IsCHTLJSFragmentComplete(const std::string& content) {
+    // 检查CHTL JS片段的完整性
+    
+    // 检查vir语法的完整性
+    if (content.find("vir") == 0) {
+        // vir对象必须有完整的结构：vir name { ... }
+        size_t openBrace = content.find('{');
+        size_t closeBrace = content.rfind('}');
+        
+        if (openBrace == std::string::npos || closeBrace == std::string::npos) {
+            return false;
+        }
+        
+        return CalculateBraceBalance(content) == 0;
+    }
+    
+    // 检查{{}}语法的完整性
+    if (content.find("{{") != std::string::npos) {
+        size_t openCount = 0;
+        size_t closeCount = 0;
+        
+        for (size_t i = 0; i < content.length() - 1; ++i) {
+            if (content[i] == '{' && content[i + 1] == '{') {
+                openCount++;
+                i++; // 跳过下一个字符
+            } else if (content[i] == '}' && content[i + 1] == '}') {
+                closeCount++;
+                i++; // 跳过下一个字符
+            }
+        }
+        
+        return openCount == closeCount;
+    }
+    
+    return true;
+}
+
+void CHTLUnifiedScanner::PerformMinimalUnitSlicing(const std::string& content, 
+                                                  std::vector<CodeFragment>& fragments) {
+    LogDebug("开始智能最小单元切割，内容长度: " + std::to_string(content.length()));
+    
+    // 检测上下文环境
+    bool inScriptBlock = content.find("script") != std::string::npos;
+    bool inStyleBlock = content.find("style") != std::string::npos;
+    
+    size_t pos = 0;
+    size_t startPos = 0;
+    
+    while (pos < content.length()) {
+        bool foundCutPoint = false;
+        size_t cutEndPos = pos;
+        FragmentType cutType = FragmentType::CHTL;
+        
+        // 1. 检测虚对象语法 vir objectName = CHTL JS函数
+        if (pos + 3 < content.length() && content.substr(pos, 3) == "vir") {
+            size_t endPos = pos + 3;
+            // 跳过空白和对象名
+            while (endPos < content.length() && (std::isspace(content[endPos]) || std::isalnum(content[endPos]) || content[endPos] == '_')) {
+                endPos++;
+            }
+            // 找到对象体的结束
+            if (endPos < content.length() && content[endPos] == '{') {
+                int braceCount = 1;
+                endPos++;
+                while (endPos < content.length() && braceCount > 0) {
+                    if (content[endPos] == '{') braceCount++;
+                    else if (content[endPos] == '}') braceCount--;
+                    endPos++;
+                }
+            }
+            cutEndPos = endPos;
+            cutType = FragmentType::CHTL_JS;
+            foundCutPoint = true;
+        }
+        
+        // 3. 在script块中检测纯JavaScript语法
+        else if (inScriptBlock) {
+            // 检测console.log, let, const, var等JavaScript关键字
+            std::vector<std::string> jsKeywords = {"console.", "let ", "const ", "var ", "function ", "document."};
+            for (const auto& keyword : jsKeywords) {
+                if (pos + keyword.length() <= content.length() && 
+                    content.substr(pos, keyword.length()) == keyword) {
+                    // 找到语句结束（分号或换行）
+                    size_t endPos = pos + keyword.length();
+                    while (endPos < content.length() && content[endPos] != ';' && content[endPos] != '\n') {
+                        endPos++;
+                    }
+                    if (endPos < content.length()) endPos++; // 包含分号或换行
+                    
+                    cutEndPos = endPos;
+                    cutType = FragmentType::JS;
+                    foundCutPoint = true;
+                    break;
+                }
+            }
+        }
+        
+        // 4. 在style块中检测CHTL变量模板
+        else if (inStyleBlock) {
+            // 检测ThemeColor(), Colors()等CHTL变量模板
+            std::vector<std::string> chtlVars = {"ThemeColor()", "Colors()", "Spacing()"};
+            for (const auto& var : chtlVars) {
+                if (pos + var.length() <= content.length() && 
+                    content.substr(pos, var.length()) == var) {
+                    cutEndPos = pos + var.length();
+                    cutType = FragmentType::CHTL;
+                    foundCutPoint = true;
+                    break;
+                }
+            }
+        }
+        
+        if (foundCutPoint) {
+            // 推送前面的内容（如果有）
+            if (pos > startPos) {
+                std::string prevContent = content.substr(startPos, pos - startPos);
+                if (!prevContent.empty()) {
+                    CodeFragment fragment;
+                    fragment.content = prevContent;
+                    fragment.type = DetermineFragmentTypeInContext(prevContent, inScriptBlock, inStyleBlock);
+                    fragment.startPos = startPos;
+                    fragments.push_back(fragment);
+                }
+            }
+            
+            // 推送切割出的片段
+            std::string cutContent = content.substr(pos, cutEndPos - pos);
+            CodeFragment fragment;
+            fragment.content = cutContent;
+            fragment.type = cutType;
+            fragment.startPos = pos;
+            fragments.push_back(fragment);
+            
+            pos = cutEndPos;
+            startPos = pos;
+        } else {
+            pos++;
+        }
+    }
+    
+    // 推送剩余内容
+    if (startPos < content.length()) {
+        std::string remainingContent = content.substr(startPos);
+        if (!remainingContent.empty()) {
+            CodeFragment fragment;
+            fragment.content = remainingContent;
+            fragment.type = DetermineFragmentTypeInContext(remainingContent, inScriptBlock, inStyleBlock);
+            fragment.startPos = startPos;
+            fragments.push_back(fragment);
+        }
+    }
+    
+    LogDebug("智能最小单元切割完成，生成 " + std::to_string(fragments.size()) + " 个片段");
+}
+
+FragmentType CHTLUnifiedScanner::DetermineFragmentTypeInContext(const std::string& content, 
+                                                               bool inScriptBlock, 
+                                                               bool inStyleBlock) {
+    std::string trimmed = content;
+    // 移除前后空白
+    size_t start = trimmed.find_first_not_of(" \t\n\r");
+    if (start == std::string::npos) return FragmentType::Unknown;
+    
+    size_t end = trimmed.find_last_not_of(" \t\n\r");
+    trimmed = trimmed.substr(start, end - start + 1);
+    
+    // 在script块内的上下文判断
+    if (inScriptBlock) {
+        // 优先检测CHTL JS语法
+        if (trimmed.find("vir") == 0 || trimmed.find("{{") != std::string::npos) {
+            LogDebug("Script块内识别为CHTL JS片段: " + trimmed.substr(0, 20) + "...");
+            return FragmentType::CHTL_JS;
+        }
+        
+        // 检测纯JavaScript语法
+        if (trimmed.find("console.") != std::string::npos ||
+            trimmed.find("let ") == 0 || trimmed.find("const ") == 0 || 
+            trimmed.find("var ") == 0 || trimmed.find("function ") == 0 ||
+            trimmed.find("document.") != std::string::npos) {
+            LogDebug("Script块内识别为JavaScript片段: " + trimmed.substr(0, 20) + "...");
+            return FragmentType::JS;
+        }
+        
+        // 默认为CHTL JS（在script块内）
+        LogDebug("Script块内默认识别为CHTL JS片段: " + trimmed.substr(0, 20) + "...");
+        return FragmentType::CHTL_JS;
+    }
+    
+    // 在style块内的上下文判断
+    if (inStyleBlock) {
+        // 检测CHTL变量模板
+        if (trimmed.find("ThemeColor()") != std::string::npos ||
+            trimmed.find("Colors()") != std::string::npos ||
+            trimmed.find("Spacing()") != std::string::npos) {
+            LogDebug("Style块内识别为CHTL片段: " + trimmed.substr(0, 20) + "...");
+            return FragmentType::CHTL;
+        }
+        
+        // 检测CSS语法
+        if (trimmed.find(":") != std::string::npos && 
+            (trimmed.find("background") != std::string::npos ||
+             trimmed.find("color") != std::string::npos ||
+             trimmed.find("margin") != std::string::npos ||
+             trimmed.find("padding") != std::string::npos ||
+             trimmed.find("font") != std::string::npos)) {
+            LogDebug("Style块内识别为CSS片段: " + trimmed.substr(0, 20) + "...");
+            return FragmentType::CSS;
+        }
+        
+        // 默认为CSS（在style块内）
+        LogDebug("Style块内默认识别为CSS片段: " + trimmed.substr(0, 20) + "...");
+        return FragmentType::CSS;
+    }
+    
+    // 普通上下文，使用原有的判断逻辑
+    return DetermineFragmentType(content);
+}
+
+int CHTLUnifiedScanner::CalculateBraceBalance(const std::string& content) {
+    int balance = 0;
+    bool inString = false;
+    char stringChar = 0;
+    
+    for (size_t i = 0; i < content.length(); ++i) {
+        char c = content[i];
+        
+        // 处理字符串内的字符
+        if (inString) {
+            if (c == stringChar && (i == 0 || content[i-1] != '\\')) {
+                inString = false;
+            }
+            continue;
+        }
+        
+        // 检测字符串开始
+        if (c == '"' || c == '\'') {
+            inString = true;
+            stringChar = c;
+            continue;
+        }
+        
+        // 计算大括号平衡
+        if (c == '{') {
+            balance++;
+        } else if (c == '}') {
+            balance--;
+        }
+    }
+    
+    return balance;
+}
+
+size_t CHTLUnifiedScanner::FindNextSyntaxBoundary(size_t startPos) {
+    // 查找下一个语法边界（大括号、分号等）
+    for (size_t pos = startPos; pos < source_.length(); ++pos) {
+        char c = source_[pos];
+        if (c == '}' || c == ';' || c == '\n') {
+            return pos + 1;
+        }
+    }
+    return source_.length();
+}
+
+bool CHTLUnifiedScanner::NeedsMinimalUnitSlicing(const std::string& content) {
+    // 检查是否包含需要切割的CHTL JS语法
+    return content.find("{{") != std::string::npos || 
+           content.find("}}") != std::string::npos ||
+           content.find("->") != std::string::npos;
+}
+
+FragmentType CHTLUnifiedScanner::DetermineFragmentType(const std::string& content) {
+    std::string trimmed = content;
+    // 移除前后空白
+    size_t start = trimmed.find_first_not_of(" \t\n\r");
+    if (start == std::string::npos) return FragmentType::Unknown;
+    
+    size_t end = trimmed.find_last_not_of(" \t\n\r");
+    trimmed = trimmed.substr(start, end - start + 1);
+    
+    // 优先检测CHTL语法（HTML元素开头）
+    if (trimmed.find("html") == 0 || trimmed.find("body") == 0 || 
+        trimmed.find("div") == 0 || trimmed.find("text") == 0 ||
+        trimmed.find("head") == 0 || trimmed.find("title") == 0 ||
+        trimmed.find("meta") == 0 || trimmed.find("link") == 0) {
+        LogDebug("识别为CHTL片段: " + trimmed.substr(0, 20) + "...");
+        return FragmentType::CHTL;
+    }
+    
+    // 检测CHTL JS语法
+    if (trimmed.find("vir") == 0 || trimmed.find("{{") != std::string::npos) {
+        LogDebug("识别为CHTL JS片段: " + trimmed.substr(0, 20) + "...");
+        return FragmentType::CHTL_JS;
+    }
+    
+    // 检测纯CSS语法（不包含CHTL元素的CSS）
+    if (trimmed.find("style") == 0 && trimmed.find("html") == std::string::npos) {
+        LogDebug("识别为CSS片段: " + trimmed.substr(0, 20) + "...");
+        return FragmentType::CSS;
+    }
+    
+    // 检测CSS属性语法
+    if (trimmed.find(":") != std::string::npos && 
+        (trimmed.find("background") != std::string::npos ||
+         trimmed.find("color") != std::string::npos ||
+         trimmed.find("margin") != std::string::npos ||
+         trimmed.find("padding") != std::string::npos)) {
+        LogDebug("识别为CSS片段: " + trimmed.substr(0, 20) + "...");
+        return FragmentType::CSS;
+    }
+    
+    // 检测JavaScript语法
+    if (trimmed.find("console.log") != std::string::npos ||
+        trimmed.find("function") != std::string::npos ||
+        trimmed.find("document.") != std::string::npos ||
+        trimmed.find("let ") != std::string::npos ||
+        trimmed.find("const ") != std::string::npos ||
+        trimmed.find("var ") != std::string::npos) {
+        LogDebug("识别为JavaScript片段: " + trimmed.substr(0, 20) + "...");
+        return FragmentType::JS;
+    }
+    
+    // 默认为CHTL（因为CHTL是主要语言）
+    LogDebug("默认识别为CHTL片段: " + trimmed.substr(0, 20) + "...");
+    return FragmentType::CHTL;
+}
+
+// ============ 片段索引接口实现 ============
+
+void CHTLUnifiedScanner::BuildFragmentIndex(std::vector<CodeFragment>& fragments) {
+    LogDebug("开始构建片段索引");
+    indexManager_.BuildIndex(fragments);
+    LogDebug("片段索引构建完成");
+}
+
+std::vector<size_t> CHTLUnifiedScanner::GetOptimalMergeOrder(const std::vector<CodeFragment>& fragments) const {
+    return indexManager_.GetOptimalMergeOrder(fragments);
+}
+
+std::vector<size_t> CHTLUnifiedScanner::FindIncompleteFragments(const std::vector<CodeFragment>& fragments) const {
+    return indexManager_.FindIncompleteFragments(fragments);
+}
+
+std::vector<size_t> CHTLUnifiedScanner::FindFragmentsByType(const std::vector<CodeFragment>& fragments, 
+                                                           FragmentType type) const {
+    return indexManager_.FindFragmentsByType(fragments, type);
+}
+
+std::vector<size_t> CHTLUnifiedScanner::FindFragmentsByContext(const std::vector<CodeFragment>& fragments, 
+                                                             FragmentContext context) const {
+    return indexManager_.FindFragmentsByContext(fragments, context);
+}
+
+std::vector<size_t> CHTLUnifiedScanner::GetFragmentDependencies(size_t fragmentId) const {
+    return indexManager_.GetDependencies(fragmentId);
+}
+
+void CHTLUnifiedScanner::PrintIndexStatistics(const std::vector<CodeFragment>& fragments) const {
+    indexManager_.PrintIndexStatistics(fragments);
 }
 
 } // namespace Scanner

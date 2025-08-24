@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "CMOD/CMODManager.h"
+#include "CMOD/CMODSystem.h"
 #include "Utils/ErrorHandler.h"
 
 using namespace CHTL;
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     std::cout << "目标模块: " << modulePath << "\n\n";
     
     try {
-        CMOD::CMODManager manager;
+        CMOD::CompleteCMODManager manager("", "");
         
         // 生成自动导出信息
         std::cout << "扫描模块源文件...\n";

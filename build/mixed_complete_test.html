@@ -1,0 +1,56 @@
+<style>
+// 全局style块 - 包含CHTL语法和CSS
+        style {
+            body {
+                background-color: ThemeColor();  // CHTL变量模板
+                font-family: Arial;              // 纯CSS
+                margin: Colors().primary;        // CHTL变量模板
+            }
+            
+            .container {
+                width: 100%;                     // 纯CSS
+                padding: Spacing().medium;       // CHTL变量模板
+            }
+        }
+// 全局script块 - 包含CHTL JS和JS
+        script {
+            // 纯JS代码
+            console.log("Hello World");
+            
+            // CHTL JS语法
+            vir myObject {
+                name: "test",
+                getValue: function() {
+                    return this.name;  // JS代码在CHTL JS函数内部
+                }
+            }
+            
+            // 更多纯JS
+            document.addEventListener('click', function() {
+                console.log('Clicked');
+            });
+        }
+}
+    
+    body {
+        div {
+            // 局部script块 - 部分CHTL语法 + CHTL JS + JS
+            script {
+                let x = 10;  // 纯JS
+                
+                // CHTL JS虚对象
+                vir localObj {
+                    process: function(data) {
+                        // JS代码在CHTL JS内部
+                        return data.map(item => item * 2);
+                    }
+                }
+                
+                // 纯JS继续
+                console.log(x);
+            }
+            
+            text { "Mixed content test" }
+        }
+</style>
+

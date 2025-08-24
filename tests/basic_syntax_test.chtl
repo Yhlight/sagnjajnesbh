@@ -1,0 +1,69 @@
+// 基础CHTL语法测试
+// 测试核心特性：注释、字面量、CE对等式、元素、属性
+
+html {
+    head {
+        title {
+            text { "CHTL基础语法测试" }
+        }
+        
+        meta {
+            charset: utf-8;
+        }
+        
+        meta {
+            name = "viewport";
+            content: "width=device-width, initial-scale=1.0";
+        }
+    }
+    
+    body {
+        // 测试CE对等式：冒号和等号等价
+        div {
+            id: main-container;
+            class = "test-container";
+            
+            h1 {
+                text { "欢迎使用CHTL" }
+            }
+            
+            p {
+                text { 这是无修饰字面量测试 }
+            }
+            
+            p {
+                text { "这是双引号字符串测试" }
+            }
+            
+            p {
+                text { '这是单引号字符串测试' }
+            }
+            
+            // 测试属性系统
+            input {
+                type: text;
+                name: username;
+                placeholder: "请输入用户名";
+                required: true;
+                data-validation = "required";
+            }
+            
+            button {
+                type: submit;
+                class: "btn btn-primary";
+                text { "提交" }
+            }
+        }
+        
+        /* 多行注释测试
+           这是多行注释
+           不会被生成器识别 */
+        
+        -- 生成器注释测试
+        -- 这种注释会被生成器识别并处理
+        
+        footer {
+            text { "版权所有 © 2024" }
+        }
+    }
+}

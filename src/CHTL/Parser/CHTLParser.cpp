@@ -5,6 +5,7 @@
 #include "Utils/StringUtils.h"
 #include <algorithm>
 #include <sstream>
+#include <unordered_set>
 
 namespace CHTL {
 namespace Parser {
@@ -1067,17 +1068,90 @@ std::string CHTLParser::ParseIdentifier() {
 }
 
 std::string CHTLParser::ParseStringValue() {
-    const auto& token = Current();
+    std::string value = "";
     
-    if (token.GetType() == Core::TokenType::STRING_LITERAL ||
-        token.GetType() == Core::TokenType::UNQUOTED_LITERAL ||
-        token.GetType() == Core::TokenType::IDENTIFIER ||
-        token.GetType() == Core::TokenType::NUMBER) {
-        Advance();
-        return token.GetValue();
+    // 检查是否在CSS属性值状态
+    bool inCSSPropertyValue = stateManager_.IsInState(Core::CompileState::PARSING_CSS_PROPERTY_VALUE);
+    
+    // 处理CSS属性值，可能包含多个token
+    while (!IsAtEnd() && 
+           !Check(Core::TokenType::SEMICOLON) && 
+           !Check(Core::TokenType::RIGHT_BRACE) &&
+           !Check(Core::TokenType::NEWLINE)) {
+        
+        const auto& token = Current();
+        
+        // 支持的CSS属性值token类型
+        if (token.GetType() == Core::TokenType::STRING_LITERAL ||
+            token.GetType() == Core::TokenType::UNQUOTED_LITERAL ||
+            token.GetType() == Core::TokenType::IDENTIFIER ||
+            token.GetType() == Core::TokenType::NUMBER ||
+            token.GetType() == Core::TokenType::HASH ||           // # 符号
+            token.GetType() == Core::TokenType::DOT ||            // . 符号
+            token.GetType() == Core::TokenType::LEFT_PAREN ||     // ( 符号
+            token.GetType() == Core::TokenType::RIGHT_PAREN ||    // ) 符号
+            token.GetType() == Core::TokenType::COMMA ||          // , 符号
+            token.GetType() == Core::TokenType::CSS_DIMENSION ||  // 带单位的数值 (10px, 2em等)
+            token.GetType() == Core::TokenType::CSS_PERCENTAGE || // 百分比 (50%)
+            token.GetType() == Core::TokenType::CSS_FUNCTION ||   // CSS函数 (calc(), var()等)
+            token.GetType() == Core::TokenType::CSS_URL ||        // URL函数
+            token.GetType() == Core::TokenType::PLUS ||           // + 符号
+            token.GetType() == Core::TokenType::MINUS ||          // - 符号
+            token.GetType() == Core::TokenType::PERCENT ||        // % 符号
+            (inCSSPropertyValue && (
+                token.GetType() == Core::TokenType::SLASH ||      // / 符号 (用于字体等)
+                token.GetType() == Core::TokenType::STAR ||       // * 符号 (用于通配符)
+                token.GetType() == Core::TokenType::COLON ||      // : 符号 (用于伪类等)
+                token.GetType() == Core::TokenType::EQUAL ||      // = 符号 (用于属性选择器)
+                token.GetType() == Core::TokenType::LEFT_BRACKET || // [ 符号
+                token.GetType() == Core::TokenType::RIGHT_BRACKET || // ] 符号
+                token.GetType() == Core::TokenType::ID_SELECTOR || // #color (十六进制颜色被误识别为ID选择器)
+                token.GetType() == Core::TokenType::CLASS_SELECTOR || // .class (可能的CSS类名)
+                token.GetType() == Core::TokenType::CSS_IMPORTANT  // !important
+            ))) {
+            
+            // 特殊处理CSS函数
+            if (token.GetType() == Core::TokenType::CSS_FUNCTION || 
+                token.GetType() == Core::TokenType::CSS_URL) {
+                value += ParseCSSFunction(token.GetValue());
+            } else if (token.GetType() == Core::TokenType::CSS_IMPORTANT) {
+                value += "!" + token.GetValue();
+                Advance();
+            } else {
+                value += token.GetValue();
+                Advance();
+            }
+        } else {
+            // 遇到不支持的token，停止解析
+            break;
+        }
+        
+        // 如果下一个token是空白，添加空格（除非是特殊符号）
+        if (!IsAtEnd() && !value.empty()) {
+            const auto& nextToken = Current();
+            if (nextToken.GetType() != Core::TokenType::HASH &&
+                nextToken.GetType() != Core::TokenType::DOT &&
+                nextToken.GetType() != Core::TokenType::LEFT_PAREN &&
+                nextToken.GetType() != Core::TokenType::RIGHT_PAREN &&
+                nextToken.GetType() != Core::TokenType::COMMA &&
+                !Check(Core::TokenType::SEMICOLON) &&
+                !Check(Core::TokenType::RIGHT_BRACE)) {
+                
+                // 检查是否需要添加空格
+                char lastChar = value.back();
+                if (lastChar != '#' && lastChar != '.' && lastChar != '(' && 
+                    lastChar != ')' && lastChar != ',') {
+                    // 只在某些情况下添加空格
+                    if (nextToken.GetType() == Core::TokenType::IDENTIFIER ||
+                        nextToken.GetType() == Core::TokenType::NUMBER) {
+                        value += " ";
+                    }
+                }
+            }
+        }
     }
     
-    return "";
+    return Utils::StringUtils::Trim(value);
 }
 
 std::string CHTLParser::ParseTypeIdentifier() {
@@ -1266,12 +1340,12 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
         if (Check(Core::TokenType::SEMICOLON)) {
             Advance();
         }
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return nullptr; // 跳过此导入
     }
     
     // 创建导入节点
-    auto importNode = std::make_shared<AST::ImportNode>(importType, path, alias, Current());
+    auto importNode = std::make_shared<AST::ImportNode>(importType, path, name, alias, Current());
     if (!name.empty()) {
         importNode->SetName(name);
     }
@@ -1343,9 +1417,9 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
 std::string CHTLParser::ParseImportPath() {
     std::string importPath;
     
-    if (currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
+    if (Current().GetType() == Core::TokenType::STRING_LITERAL) {
         // 字符串字面量路径
-        importPath = currentToken_.GetValue();
+        importPath = Current().GetValue();
         // 移除字符串字面量的引号
         if (importPath.length() >= 2 && 
             ((importPath.front() == '"' && importPath.back() == '"') ||
@@ -1353,24 +1427,24 @@ std::string CHTLParser::ParseImportPath() {
             importPath = importPath.substr(1, importPath.length() - 2);
         }
         Advance();
-    } else if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+    } else if (Current().GetType() == Core::TokenType::IDENTIFIER) {
         // 无修饰字符串路径（支持连续的标识符、路径分隔符和通配符）
         std::string pathBuilder = "";
         
         while (!IsAtEnd() && 
-               (currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
-                currentToken_.GetType() == Core::TokenType::DOT ||
-                currentToken_.GetType() == Core::TokenType::SLASH ||
-                currentToken_.GetType() == Core::TokenType::STAR)) {
+               (Current().GetType() == Core::TokenType::IDENTIFIER ||
+                Current().GetType() == Core::TokenType::DOT ||
+                Current().GetType() == Core::TokenType::SLASH ||
+                Current().GetType() == Core::TokenType::STAR)) {
             
-            if (currentToken_.GetType() == Core::TokenType::DOT) {
+            if (Current().GetType() == Core::TokenType::DOT) {
                 pathBuilder += ".";
-            } else if (currentToken_.GetType() == Core::TokenType::SLASH) {
+            } else if (Current().GetType() == Core::TokenType::SLASH) {
                 pathBuilder += "/";
-            } else if (currentToken_.GetType() == Core::TokenType::STAR) {
+            } else if (Current().GetType() == Core::TokenType::STAR) {
                 pathBuilder += "*";
             } else {
-                pathBuilder += currentToken_.GetValue();
+                pathBuilder += Current().GetValue();
             }
             
             Advance();
@@ -1530,7 +1604,7 @@ AST::ASTNodePtr CHTLParser::ParseNamespaceDeclaration() {
     context_.currentNamespace = previousNamespace;
     globalMap_.ExitNamespace();
     
-    guard.Commit();
+    // StateGuard自动管理状态，无需手动Commit
     return namespaceNode;
 }
 
@@ -1553,7 +1627,7 @@ AST::ASTNodePtr CHTLParser::ParseSingleNamespaceDeclaration() {
     // 解析约束（except关键字） - 可以在省略大括号的命名空间中使用
     if (Check(Core::TokenType::EXCEPT)) {
         auto constraint = ParseConstraintDeclaration();
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return constraint;
     }
     
@@ -1561,14 +1635,14 @@ AST::ASTNodePtr CHTLParser::ParseSingleNamespaceDeclaration() {
     if (Check(Core::TokenType::LEFT_BRACKET) && 
         stateContext_->LookAhead(1) && stateContext_->LookAhead(1)->GetValue() == "Namespace") {
         auto nestedNamespace = ParseNamespaceDeclaration();
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return nestedNamespace;
     }
     
     // 解析普通声明
     auto declaration = ParseDeclaration();
     if (declaration) {
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return declaration;
     }
     
@@ -1620,7 +1694,7 @@ void CHTLParser::ParseParallelNamespaceDeclarations(std::shared_ptr<AST::Namespa
         }
     }
     
-    guard.Commit();
+    // StateGuard自动管理状态，无需手动Commit
 }
 
 AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
@@ -1638,13 +1712,13 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
     
     // 解析配置名称（可选）
     std::string configName = "";
-    if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
-        configName = currentToken_.GetValue();
+    if (Current().GetType() == Core::TokenType::IDENTIFIER) {
+        configName = Current().GetValue();
         Advance();
     }
     
     // 创建配置节点
-    auto configNode = std::make_shared<AST::ConfigurationNode>(configName, currentToken_);
+    auto configNode = std::make_shared<AST::ConfigurationNode>(configName, Current());
     
     // 解析配置块
     if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{'")) {
@@ -1652,10 +1726,10 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
     }
     
     // 解析配置项
-    while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
-        if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+    while (!IsAtEnd() && Current().GetType() != Core::TokenType::RIGHT_BRACE) {
+        if (Current().GetType() == Core::TokenType::IDENTIFIER) {
             // 普通配置项：INDEX_INITIAL_COUNT = 0;
-            std::string configKey = currentToken_.GetValue();
+            std::string configKey = Current().GetValue();
             Advance();
             
             if (!Consume(Core::TokenType::EQUAL, "期望 '='")) {
@@ -1664,27 +1738,27 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
             
             // 解析配置值
             std::string configValue = "";
-            if (currentToken_.GetType() == Core::TokenType::NUMBER ||
-                currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
-                currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
-                configValue = currentToken_.GetValue();
+            if (Current().GetType() == Core::TokenType::NUMBER ||
+                Current().GetType() == Core::TokenType::IDENTIFIER ||
+                Current().GetType() == Core::TokenType::STRING_LITERAL) {
+                configValue = Current().GetValue();
                 Advance();
-            } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+            } else if (Current().GetType() == Core::TokenType::LEFT_BRACKET) {
                 // 数组值：[@Style, @style, @CSS, @Css, @css]
                 configValue = "[";
                 Advance();
                 
-                while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACKET) {
-                    configValue += currentToken_.GetValue();
+                while (!IsAtEnd() && Current().GetType() != Core::TokenType::RIGHT_BRACKET) {
+                    configValue += Current().GetValue();
                     Advance();
                     
-                    if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::COMMA) {
+                    if (!IsAtEnd() && Current().GetType() == Core::TokenType::COMMA) {
                         configValue += ", ";
                         Advance();
                     }
                 }
                 
-                if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::RIGHT_BRACKET) {
+                if (!IsAtEnd() && Current().GetType() == Core::TokenType::RIGHT_BRACKET) {
                     configValue += "]";
                     Advance();
                 }
@@ -1694,16 +1768,16 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
             configNode->AddSetting(configKey, configValue);
             
             // 跳过分号
-            if (currentToken_.GetType() == Core::TokenType::SEMICOLON) {
+            if (Current().GetType() == Core::TokenType::SEMICOLON) {
                 Advance();
             }
             
-        } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+        } else if (Current().GetType() == Core::TokenType::LEFT_BRACKET) {
             // 配置组：[Name] { ... } 或 [OriginType] { ... }
             Advance(); // 跳过 [
             
-            if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
-                std::string groupName = currentToken_.GetValue();
+            if (Current().GetType() == Core::TokenType::IDENTIFIER) {
+                std::string groupName = Current().GetValue();
                 Advance();
                 
                 if (!Consume(Core::TokenType::RIGHT_BRACKET, "期望 ']'")) {
@@ -1716,9 +1790,9 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
                 
                 // 解析配置组内容
                 std::vector<std::string> groupItems;
-                while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
-                    if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
-                        std::string itemKey = currentToken_.GetValue();
+                while (!IsAtEnd() && Current().GetType() != Core::TokenType::RIGHT_BRACE) {
+                    if (Current().GetType() == Core::TokenType::IDENTIFIER) {
+                        std::string itemKey = Current().GetValue();
                         Advance();
                         
                         if (!Consume(Core::TokenType::EQUAL, "期望 '='")) {
@@ -1726,26 +1800,26 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
                         }
                         
                         std::string itemValue = "";
-                        if (currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
-                            currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
-                            itemValue = currentToken_.GetValue();
+                        if (Current().GetType() == Core::TokenType::IDENTIFIER ||
+                            Current().GetType() == Core::TokenType::STRING_LITERAL) {
+                            itemValue = Current().GetValue();
                             Advance();
-                        } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+                        } else if (Current().GetType() == Core::TokenType::LEFT_BRACKET) {
                             // 数组值处理
                             itemValue = "[";
                             Advance();
                             
-                            while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACKET) {
-                                itemValue += currentToken_.GetValue();
+                            while (!IsAtEnd() && Current().GetType() != Core::TokenType::RIGHT_BRACKET) {
+                                itemValue += Current().GetValue();
                                 Advance();
                                 
-                                if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::COMMA) {
+                                if (!IsAtEnd() && Current().GetType() == Core::TokenType::COMMA) {
                                     itemValue += ", ";
                                     Advance();
                                 }
                             }
                             
-                            if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::RIGHT_BRACKET) {
+                            if (!IsAtEnd() && Current().GetType() == Core::TokenType::RIGHT_BRACKET) {
                                 itemValue += "]";
                                 Advance();
                             }
@@ -1754,7 +1828,7 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
                         groupItems.push_back(itemKey + "=" + itemValue);
                         
                         // 跳过分号
-                        if (currentToken_.GetType() == Core::TokenType::SEMICOLON) {
+                        if (Current().GetType() == Core::TokenType::SEMICOLON) {
                             Advance();
                         }
                     } else {
@@ -1779,16 +1853,14 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
     }
     
     // 添加到全局映射表
-    if (globalMap_) {
-        Core::ConfigurationInfo configInfo(configName.empty() ? "default" : configName);
-        for (const auto& setting : configNode->GetSettings()) {
-            configInfo.settings[setting.first] = setting.second;
-        }
-        for (const auto& group : configNode->GetGroups()) {
-            configInfo.groups[group.first] = group.second;
-        }
-        globalMap_->AddConfiguration(configInfo);
+    Core::ConfigurationInfo configInfo(configName.empty() ? "default" : configName);
+    for (const auto& setting : configNode->GetSettings()) {
+        configInfo.settings[setting.first] = setting.second;
     }
+    for (const auto& group : configNode->GetGroups()) {
+        configInfo.groups[group.first] = group.second;
+    }
+    globalMap_.AddConfiguration(configInfo);
     
     return configNode;
 }
@@ -1815,7 +1887,7 @@ AST::ASTNodePtr CHTLParser::ParseScriptBlock() {
     }
     
     // 解析脚本内容
-    while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
+    while (!IsAtEnd() && Current().GetType() != Core::TokenType::RIGHT_BRACE) {
         const Core::CHTLToken& token = Current();
         AST::ASTNodePtr child = nullptr;
         
@@ -1883,7 +1955,7 @@ AST::ASTNodePtr CHTLParser::ParseScriptBlock() {
         ReportError("脚本块违反语法约束");
     }
     
-    guard.Commit();
+    // StateGuard自动管理状态，无需手动Commit
     return scriptBlock;
 }
 
@@ -1893,19 +1965,19 @@ AST::ASTNodePtr CHTLParser::ParseJavaScriptFragment() {
     
     // 收集JavaScript代码，直到遇到CHTL语法
     while (!IsAtEnd() && 
-           currentToken_.GetType() != Core::TokenType::RIGHT_BRACE &&
-           currentToken_.GetType() != Core::TokenType::AT_STYLE &&
-           currentToken_.GetType() != Core::TokenType::AT_VAR &&
-           currentToken_.GetType() != Core::TokenType::DELETE &&
-           currentToken_.GetType() != Core::TokenType::EXCEPT) {
+           Current().GetType() != Core::TokenType::RIGHT_BRACE &&
+           Current().GetType() != Core::TokenType::AT_STYLE &&
+           Current().GetType() != Core::TokenType::AT_VAR &&
+           Current().GetType() != Core::TokenType::DELETE &&
+           Current().GetType() != Core::TokenType::EXCEPT) {
         
         // 检查是否为CHTL JS语法开始 {{
-        if (currentToken_.GetType() == Core::TokenType::LEFT_BRACE && 
+        if (Current().GetType() == Core::TokenType::LEFT_BRACE && 
             Peek().GetType() == Core::TokenType::LEFT_BRACE) {
             break; // 让ParseCHTLJSExpression处理
         }
         
-        jsContent += currentToken_.GetValue();
+        jsContent += Current().GetValue();
         
         // 如果下一个token不是结束符，添加空格
         if (!IsAtEnd() && Peek().GetType() != Core::TokenType::RIGHT_BRACE) {
@@ -1920,7 +1992,8 @@ AST::ASTNodePtr CHTLParser::ParseJavaScriptFragment() {
     }
     
     // 创建JavaScript片段节点
-    auto jsFragment = std::make_shared<AST::JavaScriptNode>(Utils::StringUtils::Trim(jsContent), Current());
+    auto jsFragment = std::make_shared<AST::ScriptBlockNode>(Current());
+    jsFragment->SetScriptContent(Utils::StringUtils::Trim(jsContent));
     
     return jsFragment;
 }
@@ -1941,16 +2014,16 @@ AST::ASTNodePtr CHTLParser::ParseCHTLJSExpression() {
     
     // 收集CHTL JS表达式内容，处理嵌套的花括号
     while (!IsAtEnd() && braceCount > 0) {
-        if (currentToken_.GetType() == Core::TokenType::LEFT_BRACE) {
+        if (Current().GetType() == Core::TokenType::LEFT_BRACE) {
             braceCount++;
             expression += "{";
-        } else if (currentToken_.GetType() == Core::TokenType::RIGHT_BRACE) {
+        } else if (Current().GetType() == Core::TokenType::RIGHT_BRACE) {
             braceCount--;
             if (braceCount > 0) {
                 expression += "}";
             }
         } else {
-            expression += currentToken_.GetValue();
+            expression += Current().GetValue();
             
             // 如果下一个token不是结束符，添加空格
             if (!IsAtEnd() && braceCount > 2) {
@@ -1963,23 +2036,23 @@ AST::ASTNodePtr CHTLParser::ParseCHTLJSExpression() {
     
     // 检查是否有引用选择器 {{&}} - script中的引用语法
     if (Utils::StringUtils::Trim(expression) == "&") {
-        // 创建script引用选择器节点，优先选择id
-        auto referenceNode = std::make_shared<AST::ReferenceNode>("&", Current());
-        referenceNode->SetReferenceType(AST::ReferenceNode::ReferenceType::SCRIPT_REFERENCE);
+        // 创建script引用选择器节点，使用LiteralNode
+        auto referenceNode = std::make_shared<AST::LiteralNode>(AST::LiteralNode::LiteralType::UNQUOTED, "&", Current());
         return referenceNode;
     }
     
     // 创建CHTL JS表达式节点
-    auto chtljsNode = std::make_shared<AST::CHTLJSNode>(Utils::StringUtils::Trim(expression), Current());
+    auto chtljsNode = std::make_shared<AST::ScriptBlockNode>(Current());
+    chtljsNode->SetScriptContent(Utils::StringUtils::Trim(expression));
     
     return chtljsNode;
 }
 
 AST::ASTNodePtr CHTLParser::ParseComment() {
-    std::string commentText = currentToken_.GetValue();
+    std::string commentText = Current().GetValue();
     
     AST::CommentNode::CommentType commentType;
-    switch (currentToken_.GetType()) {
+    switch (Current().GetType()) {
         case Core::TokenType::SINGLE_LINE_COMMENT:
             commentType = AST::CommentNode::CommentType::SINGLE_LINE;
             break;
@@ -1994,7 +2067,7 @@ AST::ASTNodePtr CHTLParser::ParseComment() {
             break;
     }
     
-    auto commentNode = std::make_shared<AST::CommentNode>(commentType, commentText, currentToken_);
+    auto commentNode = std::make_shared<AST::CommentNode>(commentType, commentText, Current());
     Advance();
     
     return commentNode;
@@ -2603,7 +2676,7 @@ bool CHTLParser::ValidateSemantics(AST::ASTNodePtr node) {
     // 实际实现中需要根据具体的AST节点结构进行遍历
     
     if (isValid) {
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
     }
     
     return isValid;
@@ -2657,7 +2730,7 @@ bool CHTLParser::CheckConstraints(const std::string& nodeName, const std::string
     
     bool result = !hasViolation;
     if (result) {
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
     }
     
     return result;
@@ -2776,6 +2849,266 @@ void CHTLParser::RegisterCustomOriginType(const std::string& originType) {
             "自动注册原始嵌入类型: " + configKey + " = " + configValue
         );
     }
+}
+
+std::string CHTLParser::ParseCSSPropertyValue() {
+    std::string value = "";
+    
+    // 处理CSS属性值的各种类型
+    while (!IsAtEnd() && 
+           !Check(Core::TokenType::SEMICOLON) && 
+           !Check(Core::TokenType::RIGHT_BRACE) &&
+           !Check(Core::TokenType::NEWLINE)) {
+        
+        const auto& token = Current();
+        
+        // 根据token类型处理不同的CSS值
+        switch (token.GetType()) {
+            case Core::TokenType::CSS_DIMENSION:
+            case Core::TokenType::CSS_PERCENTAGE:
+            case Core::TokenType::NUMBER:
+                value += ParseCSSLength();
+                break;
+                
+            case Core::TokenType::CSS_FUNCTION:
+                value += ParseCSSFunction(token.GetValue());
+                break;
+                
+            case Core::TokenType::CSS_URL:
+                value += ParseCSSFunction("url");
+                break;
+                
+            case Core::TokenType::ID_SELECTOR:
+            case Core::TokenType::HASH:
+                value += ParseCSSColor();
+                break;
+                
+            case Core::TokenType::IDENTIFIER:
+                // 可能是颜色名、关键字或其他标识符
+                if (IsCSSColorName(token.GetValue())) {
+                    value += ParseCSSColor();
+                } else {
+                    value += token.GetValue();
+                    Advance();
+                }
+                break;
+                
+            case Core::TokenType::STRING_LITERAL:
+            case Core::TokenType::UNQUOTED_LITERAL:
+                value += token.GetValue();
+                Advance();
+                break;
+                
+            case Core::TokenType::CSS_IMPORTANT:
+                value += "!" + token.GetValue();
+                Advance();
+                break;
+                
+            case Core::TokenType::COMMA:
+                value += ", ";
+                Advance();
+                break;
+                
+            case Core::TokenType::SLASH:
+                value += "/";
+                Advance();
+                break;
+                
+            case Core::TokenType::PLUS:
+            case Core::TokenType::MINUS:
+            case Core::TokenType::STAR:
+                value += token.GetValue();
+                Advance();
+                break;
+                
+            case Core::TokenType::LEFT_PAREN:
+            case Core::TokenType::RIGHT_PAREN:
+                value += token.GetValue();
+                Advance();
+                break;
+                
+            default:
+                // 遇到不支持的token，停止解析
+                goto end_parsing;
+        }
+        
+        // 添加适当的空格
+        if (!IsAtEnd() && !value.empty()) {
+            const auto& nextToken = Current();
+            if (ShouldAddSpaceBetweenTokens(token, nextToken)) {
+                value += " ";
+            }
+        }
+    }
+    
+end_parsing:
+    return Utils::StringUtils::Trim(value);
+}
+
+std::string CHTLParser::ParseCSSFunction(const std::string& functionName) {
+    std::string result = functionName;
+    
+    // 消费函数名
+    if (Check(Core::TokenType::CSS_FUNCTION) || Check(Core::TokenType::CSS_URL)) {
+        Advance();
+    }
+    
+    // 消费左括号
+    if (Check(Core::TokenType::LEFT_PAREN)) {
+        result += "(";
+        Advance();
+        
+        // 解析函数参数
+        bool firstParam = true;
+        int parenLevel = 1;
+        
+        while (!IsAtEnd() && parenLevel > 0) {
+            const auto& token = Current();
+            
+            if (token.GetType() == Core::TokenType::LEFT_PAREN) {
+                parenLevel++;
+                result += "(";
+                Advance();
+            } else if (token.GetType() == Core::TokenType::RIGHT_PAREN) {
+                parenLevel--;
+                result += ")";
+                Advance();
+            } else if (token.GetType() == Core::TokenType::COMMA && parenLevel == 1) {
+                result += ", ";
+                Advance();
+                firstParam = false;
+            } else {
+                // 递归解析参数值
+                if (!firstParam && !result.empty() && result.back() != ' ' && result.back() != '(') {
+                    result += " ";
+                }
+                
+                if (token.GetType() == Core::TokenType::CSS_FUNCTION) {
+                    result += ParseCSSFunction(token.GetValue());
+                } else {
+                    result += token.GetValue();
+                    Advance();
+                }
+                firstParam = false;
+            }
+        }
+    }
+    
+    return result;
+}
+
+std::string CHTLParser::ParseCSSColor() {
+    const auto& token = Current();
+    std::string color = "";
+    
+    if (token.GetType() == Core::TokenType::ID_SELECTOR) {
+        // 十六进制颜色 #rrggbb 或 #rgb
+        color = token.GetValue();
+        Advance();
+    } else if (token.GetType() == Core::TokenType::HASH) {
+        // # 符号后跟颜色值
+        color = "#";
+        Advance();
+        
+        // 解析十六进制数字
+        while (!IsAtEnd() && 
+               (Check(Core::TokenType::IDENTIFIER) || Check(Core::TokenType::NUMBER))) {
+            color += Current().GetValue();
+            Advance();
+        }
+    } else if (token.GetType() == Core::TokenType::IDENTIFIER) {
+        // 颜色名称 (red, blue, transparent等)
+        color = token.GetValue();
+        Advance();
+    } else if (token.GetType() == Core::TokenType::CSS_FUNCTION) {
+        // CSS颜色函数 (rgb, rgba, hsl, hsla等)
+        color = ParseCSSFunction(token.GetValue());
+    }
+    
+    return color;
+}
+
+std::string CHTLParser::ParseCSSLength() {
+    const auto& token = Current();
+    std::string length = token.GetValue();
+    Advance();
+    return length;
+}
+
+std::string CHTLParser::ParseCSSCompoundValue() {
+    std::string compound = "";
+    
+    // 解析复合值，如 background 的多个值
+    while (!IsAtEnd() && 
+           !Check(Core::TokenType::SEMICOLON) && 
+           !Check(Core::TokenType::RIGHT_BRACE)) {
+        
+        std::string part = ParseCSSPropertyValue();
+        if (!part.empty()) {
+            if (!compound.empty()) {
+                compound += " ";
+            }
+            compound += part;
+        }
+        
+        // 检查是否有逗号分隔的多个值
+        if (Check(Core::TokenType::COMMA)) {
+            compound += ", ";
+            Advance();
+        } else {
+            break;
+        }
+    }
+    
+    return compound;
+}
+
+bool CHTLParser::IsCSSColorName(const std::string& name) {
+    // CSS颜色名称列表
+    static const std::unordered_set<std::string> colorNames = {
+        "red", "green", "blue", "white", "black", "yellow", "cyan", "magenta",
+        "gray", "grey", "orange", "purple", "pink", "brown", "lime", "navy",
+        "teal", "silver", "maroon", "olive", "aqua", "fuchsia", "transparent",
+        "inherit", "initial", "unset", "currentColor", "aliceblue", "antiquewhite",
+        "aquamarine", "azure", "beige", "bisque", "blanchedalmond", "blueviolet",
+        "burlywood", "cadetblue", "chartreuse", "chocolate", "coral", "cornflowerblue",
+        "cornsilk", "crimson", "darkblue", "darkcyan", "darkgoldenrod", "darkgray",
+        "darkgreen", "darkkhaki", "darkmagenta", "darkolivegreen", "darkorange",
+        "darkorchid", "darkred", "darksalmon", "darkseagreen", "darkslateblue",
+        "darkslategray", "darkturquoise", "darkviolet", "deeppink", "deepskyblue",
+        "dimgray", "dodgerblue", "firebrick", "floralwhite", "forestgreen",
+        "gainsboro", "ghostwhite", "gold", "goldenrod", "greenyellow", "honeydew",
+        "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender", "lavenderblush",
+        "lawngreen", "lemonchiffon", "lightblue", "lightcoral", "lightcyan",
+        "lightgoldenrodyellow", "lightgray", "lightgreen", "lightpink", "lightsalmon",
+        "lightseagreen", "lightskyblue", "lightslategray", "lightsteelblue",
+        "lightyellow", "limegreen", "linen", "mediumaquamarine", "mediumblue",
+        "mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue",
+        "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue",
+        "mintcream", "mistyrose", "moccasin", "navajowhite", "oldlace", "olivedrab",
+        "orangered", "orchid", "palegoldenrod", "palegreen", "paleturquoise",
+        "palevioletred", "papayawhip", "peachpuff", "peru", "plum", "powderblue",
+        "rosybrown", "royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen",
+        "seashell", "sienna", "skyblue", "slateblue", "slategray", "snow",
+        "springgreen", "steelblue", "tan", "thistle", "tomato", "turquoise",
+        "violet", "wheat", "whitesmoke", "yellowgreen"
+    };
+    
+    return colorNames.find(name) != colorNames.end();
+}
+
+bool CHTLParser::ShouldAddSpaceBetweenTokens(const Core::CHTLToken& current, const Core::CHTLToken& next) {
+    // 不在这些符号前后添加空格
+    if (current.GetType() == Core::TokenType::LEFT_PAREN ||
+        current.GetType() == Core::TokenType::COMMA ||
+        next.GetType() == Core::TokenType::RIGHT_PAREN ||
+        next.GetType() == Core::TokenType::COMMA ||
+        next.GetType() == Core::TokenType::SEMICOLON) {
+        return false;
+    }
+    
+    // 在大多数其他情况下添加空格
+    return true;
 }
 
 } // namespace Parser

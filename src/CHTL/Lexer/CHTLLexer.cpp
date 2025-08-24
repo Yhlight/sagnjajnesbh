@@ -108,22 +108,26 @@ Core::CHTLToken CHTLLexer::ScanToken() {
             }
             return MakeToken(Core::TokenType::AT, "@");
         case '/':
-            // 注释
+            // 注释或路径分隔符
             if (Match('/')) {
                 return ScanSingleLineComment();
             } else if (Match('*')) {
                 return ScanMultiLineComment();
             }
-            return MakeErrorToken("意外的字符: /");
+            return MakeToken(Core::TokenType::SLASH, "/");
         case '-':
-            // 生成器注释或数字
+            // 生成器注释、数字或CSS属性名
             if (Match('-')) {
                 return ScanGeneratorComment();
             } else if (IsDigit(Peek())) {
                 current_--; // 回退
                 return ScanNumberLiteral();
+            } else if (IsAlpha(Peek())) {
+                // CSS属性名（如 -webkit-transform）
+                current_--; // 回退
+                return ScanIdentifierOrKeyword();
             }
-            return MakeErrorToken("意外的字符: -");
+            return MakeToken(Core::TokenType::MINUS, "-");
         case '"':
         case '\'':
             // 字符串字面量
@@ -145,6 +149,20 @@ Core::CHTLToken CHTLLexer::ScanToken() {
                 return MakeToken(Core::TokenType::NEWLINE, "\n");
             }
             break;
+        case '*':
+            // 通配符
+            return MakeToken(Core::TokenType::STAR, "*");
+        case '+':
+            return MakeToken(Core::TokenType::PLUS, "+");
+        case '%':
+            return MakeToken(Core::TokenType::PERCENT, "%");
+        case '!':
+            // 检查是否为 !important
+            if (IsAlpha(Peek())) {
+                current_--; // 回退，让标识符扫描器处理
+                return ScanIdentifierOrKeyword();
+            }
+            return MakeErrorToken("意外的字符: !");
         default:
             // 数字
             if (IsDigit(ch)) {
@@ -199,6 +217,30 @@ Core::CHTLToken CHTLLexer::ScanIdentifierOrKeyword() {
             current_ = savedCurrent;
             column_ = savedColumn;
         }
+    }
+    
+    // 检查是否为CSS函数
+    if (Peek() == '(') {
+        // 检查常见的CSS函数
+        if (value == "calc" || value == "var" || value == "rgb" || value == "rgba" || 
+            value == "hsl" || value == "hsla" || value == "url" || value == "linear-gradient" ||
+            value == "radial-gradient" || value == "repeat" || value == "minmax" || 
+            value == "fit-content" || value == "min" || value == "max" || value == "clamp" ||
+            value == "attr" || value == "counter" || value == "counters" || value == "env" ||
+            value == "cubic-bezier" || value == "steps" || value == "matrix" || value == "translate" ||
+            value == "rotate" || value == "scale" || value == "skew" || value == "perspective") {
+            
+            if (value == "url") {
+                return MakeToken(Core::TokenType::CSS_URL, value);
+            } else {
+                return MakeToken(Core::TokenType::CSS_FUNCTION, value);
+            }
+        }
+    }
+    
+    // 检查是否为 !important
+    if (value == "important") {
+        return MakeToken(Core::TokenType::CSS_IMPORTANT, value);
     }
     
     // 检查是否为关键字
@@ -274,14 +316,22 @@ Core::CHTLToken CHTLLexer::ScanNumberLiteral() {
         }
     }
     
-    // 检查单位（CSS单位）
-    if (IsAlpha(Peek())) {
+    // 检查单位或百分比
+    std::string value = source_.substr(start_, current_ - start_);
+    
+    if (Peek() == '%') {
+        Advance();
+        value += '%';
+        return MakeToken(Core::TokenType::CSS_PERCENTAGE, value);
+    } else if (IsAlpha(Peek())) {
+        // CSS单位 (px, em, rem, vh, vw, pt, pc, in, cm, mm, ex, ch等)
         while (IsAlpha(Peek())) {
             Advance();
         }
+        value = source_.substr(start_, current_ - start_);
+        return MakeToken(Core::TokenType::CSS_DIMENSION, value);
     }
     
-    std::string value = source_.substr(start_, current_ - start_);
     return MakeToken(Core::TokenType::NUMBER, value);
 }
 

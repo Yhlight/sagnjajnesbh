@@ -98,7 +98,7 @@ public:
     // void VisitVirtualMethodCallNode(AST::VirtualMethodCallNode& node) override; - CJMOD扩展
     // void VisitVariableDeclarationNode(AST::VariableDeclarationNode& node) override; - JavaScript语法
     
-    void VisitArrowFunctionNode(AST::ArrowFunctionNode& node) override;
+    // VisitArrowFunctionNode已移除 - CHTL JS不包含JS语法
     void VisitAnimationKeyframeNode(AST::AnimationKeyframeNode& node) override;
     // void VisitAssignmentExpressionNode(AST::AssignmentExpressionNode& node) override; - JavaScript语法
     // void VisitPropertyAccessNode(AST::PropertyAccessNode& node) override; - JavaScript语法

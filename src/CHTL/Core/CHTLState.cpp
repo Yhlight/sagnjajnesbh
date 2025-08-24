@@ -115,6 +115,7 @@ std::string CHTLState::GetStateName(CompileState state) {
         case CompileState::PARSING_SCRIPT_BLOCK: return "PARSING_SCRIPT_BLOCK";
         case CompileState::PARSING_CSS_SELECTOR: return "PARSING_CSS_SELECTOR";
         case CompileState::PARSING_CSS_PROPERTIES: return "PARSING_CSS_PROPERTIES";
+        case CompileState::PARSING_CSS_PROPERTY_VALUE: return "PARSING_CSS_PROPERTY_VALUE";
 
         case CompileState::PARSING_INHERITANCE: return "PARSING_INHERITANCE";
         case CompileState::PARSING_DELETION: return "PARSING_DELETION";
@@ -210,6 +211,9 @@ void CHTLState::InitializeDefaultTransitions() {
     
     // CSS相关转换
     AddTransition(StateTransition(CompileState::PARSING_CSS_SELECTOR, CompileState::PARSING_CSS_PROPERTIES, TokenType::LEFT_BRACE));
+    AddTransition(StateTransition(CompileState::PARSING_CSS_PROPERTIES, CompileState::PARSING_CSS_PROPERTY_VALUE, TokenType::COLON));
+    AddTransition(StateTransition(CompileState::PARSING_CSS_PROPERTY_VALUE, CompileState::PARSING_CSS_PROPERTIES, TokenType::SEMICOLON));
+    AddTransition(StateTransition(CompileState::PARSING_CSS_PROPERTY_VALUE, CompileState::PARSING_CSS_SELECTOR, TokenType::RIGHT_BRACE));
     AddTransition(StateTransition(CompileState::PARSING_CSS_PROPERTIES, CompileState::PARSING_CSS_SELECTOR, TokenType::RIGHT_BRACE));
     
     // 继承和删除操作
@@ -301,7 +305,8 @@ void CHTLState::ExecuteTransitionSideEffects(CompileState fromState, CompileStat
     // 退出样式块
     if (fromState == CompileState::PARSING_STYLE_BLOCK && 
         toState != CompileState::PARSING_CSS_SELECTOR && 
-        toState != CompileState::PARSING_CSS_PROPERTIES) {
+        toState != CompileState::PARSING_CSS_PROPERTIES &&
+        toState != CompileState::PARSING_CSS_PROPERTY_VALUE) {
         currentContext_.inLocalStyleBlock = false;
     }
     

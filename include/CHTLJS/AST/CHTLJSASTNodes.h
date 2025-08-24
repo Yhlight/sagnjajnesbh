@@ -34,7 +34,6 @@ enum class NodeType {
     LISTEN_BLOCK,               // 监听器块 listen({...}) - 语法文档第1184行
     DELEGATE_BLOCK,             // 事件委托块 delegate({...}) - 语法文档第1215行
     ANIMATE_BLOCK,              // 动画块 animate({...}) - 语法文档第1233行
-    ARROW_FUNCTION,             // 箭头函数 () => {} - 语法文档第1202行支持
     
     // 事件相关
     EVENT_HANDLER,              // 事件处理器
@@ -311,25 +310,7 @@ private:
 // FunctionDefinitionNode已移除 - function是JavaScript语法，不属于CHTL JS
 // 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
-/**
- * @brief 箭头函数节点
- */
-class ArrowFunctionNode : public ASTNode {
-public:
-    ArrowFunctionNode(const Core::CHTLJSToken& token);
-    void Accept(ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    void AddParameter(const std::string& param) { parameters_.push_back(param); }
-    const std::vector<std::string>& GetParameters() const { return parameters_; }
-    void SetBody(ASTNodePtr body) { body_ = body; }
-    ASTNodePtr GetBody() const { return body_; }
-
-private:
-    std::vector<std::string> parameters_;
-    ASTNodePtr body_;
-};
+// ArrowFunctionNode已完全移除 - CHTL JS不包含JS语法
 
 // ObjectLiteralNode已移除 - 对象字面量是JavaScript语法，不属于CHTL JS
 // 语法文档第1100行明确说明"CHTL JS不支持JS的语法"

@@ -27,9 +27,16 @@ struct ProcessedFragment {
     std::string elementType;                // 元素类型（如div, span）
     std::string attributes;                 // 属性
     
+    // 索引信息
+    size_t fragmentId;                      // 片段ID
+    size_t sequenceIndex;                   // 序列索引
+    int integrity;                          // 完整性状态
+    int context;                            // 上下文类型
+    
     ProcessedFragment() : originalType(Scanner::FragmentType::Unknown), 
                          originalPosition(0), isOpenTag(false), isCloseTag(false), 
-                         isContent(false), isSelfClosing(false) {}
+                         isContent(false), isSelfClosing(false), fragmentId(0),
+                         sequenceIndex(0), integrity(0), context(0) {}
 };
 
 /**

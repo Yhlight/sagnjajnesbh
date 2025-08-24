@@ -39,6 +39,11 @@ export class CHTLCompilerService {
         
         // 检查是否存在内置编译器
         if (fs.existsSync(builtInCompilerPath)) {
+            // 验证官方模块是否也存在
+            const officialModulesPath = path.join(this.context.extensionPath, 'bin', 'module');
+            if (!fs.existsSync(officialModulesPath)) {
+                console.warn('内置编译器存在但官方模块目录缺失，这可能导致Import功能异常');
+            }
             return builtInCompilerPath;
         }
 

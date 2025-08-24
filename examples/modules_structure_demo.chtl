@@ -1,0 +1,295 @@
+// Module目录结构使用演示
+// 展示混合模式和分类模式的使用
+
+[Configuration] {
+    DISABLE_STYLE_AUTO_ADD_CLASS = false;
+    DISABLE_SCRIPT_AUTO_ADD_CLASS = true;
+    DISABLE_DEFAULT_NAMESPACE = false;
+}
+
+[Namespace] ModulesDemo
+
+// 导入CMOD模块（从src/Modules/CMOD/目录）
+[Import] @Chtl from UIComponents        // 导入UI组件库
+
+// 导入CJMOD模块（从src/Modules/CJMOD/目录）
+[Import] @CJmod from ReactSupport       // 导入React语法扩展
+
+html {
+    head {
+        title { text: "Module目录结构演示"; }
+        
+        style {
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+            
+            .demo-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                background: white;
+                border-radius: 8px;
+                padding: 30px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            
+            .demo-section {
+                margin-bottom: 40px;
+                padding: 20px;
+                border: 1px solid #eee;
+                border-radius: 6px;
+            }
+            
+            .demo-title {
+                color: #2c3e50;
+                margin-bottom: 20px;
+                font-size: 1.5em;
+                border-bottom: 2px solid #3498db;
+                padding-bottom: 10px;
+            }
+        }
+    }
+    
+    body {
+        div {
+            class: "demo-container";
+            
+            h1 { 
+                text: "CHTL Module目录结构演示";
+                style {
+                    text-align: center;
+                    color: #2c3e50;
+                    margin-bottom: 30px;
+                }
+            }
+            
+            // 演示1：使用导入的UI组件
+            div {
+                class: "demo-section";
+                
+                h2 { 
+                    text: "1. CMOD模块使用演示（UI组件库）";
+                    class: "demo-title";
+                }
+                
+                p { text: "使用从 src/Modules/CMOD/UIComponents.chtl 导入的组件"; }
+                
+                // 使用导入的Button模板
+                @Element Button {
+                    text: "导入的按钮组件";
+                    class: "primary";
+                }
+                
+                // 使用导入的Input模板
+                @Element Input {
+                    placeholder: "导入的输入框组件";
+                    class: "demo-input";
+                }
+                
+                // 使用导入的Card模板
+                @Element Card {
+                    div {
+                        class: "card-header";
+                        text: "卡片标题";
+                    }
+                    div {
+                        class: "card-body";
+                        text: "这是从CMOD模块导入的卡片组件，展示了模块化的强大功能。";
+                    }
+                    div {
+                        class: "card-footer";
+                        text: "卡片底部";
+                    }
+                }
+            }
+            
+            // 演示2：使用CJMOD扩展
+            div {
+                class: "demo-section";
+                
+                h2 { 
+                    text: "2. CJMOD扩展使用演示（React语法糖）";
+                    class: "demo-title";
+                }
+                
+                p { text: "使用从 src/Modules/CJMOD/ReactSupport.cjmod 导入的React语法扩展"; }
+                
+                div {
+                    id: "react-demo";
+                    
+                    script {
+                        // 使用导入的React语法扩展
+                        
+                        // useState语法糖
+                        const [count, setCount] = useState(0);
+                        
+                        // 创建React风格组件
+                        Component('Counter', { count: 0 });
+                        
+                        // JSX风格元素创建
+                        const button = <button {
+                            onClick: () => setCount(count + 1),
+                            className: 'react-button'
+                        }>;
+                        
+                        // useEffect语法糖
+                        useEffect(() => {
+                            console.log('计数器值改变了:', count);
+                            {{#react-demo}}->textContent = `当前计数: ${count}`;
+                        }, [count]);
+                        
+                        // 增强选择器与React语法结合
+                        {{.react-button}}->listen({
+                            click: () => {
+                                setCount(count + 1);
+                                
+                                // 使用CHTL JS动画
+                                {{&}}->animate({
+                                    duration: 200,
+                                    begin: { transform: 'scale(1)' },
+                                    end: { transform: 'scale(1.1)' },
+                                    callback: () => {
+                                        {{&}}->animate({
+                                            duration: 200,
+                                            begin: { transform: 'scale(1.1)' },
+                                            end: { transform: 'scale(1)' }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+            
+            // 演示3：目录结构说明
+            div {
+                class: "demo-section";
+                
+                h2 { 
+                    text: "3. Module目录结构说明";
+                    class: "demo-title";
+                }
+                
+                div {
+                    style {
+                        .structure-demo {
+                            background: #f8f9fa;
+                            padding: 20px;
+                            border-radius: 4px;
+                            font-family: 'Courier New', monospace;
+                            font-size: 14px;
+                            line-height: 1.6;
+                        }
+                        
+                        .structure-comment {
+                            color: #6c757d;
+                            font-style: italic;
+                        }
+                    }
+                    
+                    h3 { text: "分类模式（推荐）："; }
+                    
+                    pre {
+                        class: "structure-demo";
+                        text: R"(src/Modules/
+├── CMOD/                   # CMOD类模块源码
+│   ├── UIComponents.chtl   # UI组件库
+│   ├── ThemeSystem.cmod    # 主题系统
+│   └── Utilities.chtl      # 工具函数
+└── CJMOD/                  # CJMOD类模块源码
+    ├── ReactSupport.cjmod  # React语法扩展
+    ├── VueSupport.cjmod    # Vue语法扩展
+    └── Animations.cjmod    # 动画扩展)";
+                    }
+                    
+                    h3 { text: "混合模式："; }
+                    
+                    pre {
+                        class: "structure-demo";
+                        text: R"(src/Modules/
+├── UIComponents.chtl       # 混合存放
+├── ThemeSystem.cmod        # 所有类型
+├── ReactSupport.cjmod      # 的模块源码
+├── VueSupport.cjmod        # 在同一目录
+└── Animations.cjmod        # 下)";
+                    }
+                    
+                    h3 { text: "Import搜索顺序："; }
+                    
+                    ol {
+                        li { text: "官方模块目录（编译器同级的module文件夹）"; }
+                        li { text: "当前目录的module文件夹"; }
+                        li { text: "当前目录"; }
+                    }
+                    
+                    h3 { text: "module文件夹分类结构支持："; }
+                    
+                    pre {
+                        class: "structure-demo";
+                        text: R"(module/               # 混合模式
+├── Component.chtl
+├── Utils.cmod
+└── Plugin.cjmod
+
+module/               # 分类模式（默认）
+├── CMOD/            # 支持 CMOD/Cmod/cmod
+│   ├── Component.chtl
+│   └── Utils.cmod
+└── CJMOD/           # 支持 CJMOD/CJmod/cjmod
+    └── Plugin.cjmod)";
+                    }
+                }
+            }
+            
+            // 演示4：实际效果
+            div {
+                class: "demo-section";
+                
+                h2 { 
+                    text: "4. 实际运行效果";
+                    class: "demo-title";
+                }
+                
+                p { 
+                    text: "上述所有组件和扩展都是从src/Modules目录导入的，展示了模块化开发的强大功能。";
+                    style {
+                        font-size: 16px;
+                        color: #495057;
+                        line-height: 1.6;
+                    }
+                }
+                
+                button {
+                    text: "测试React扩展";
+                    class: "react-button primary";
+                    
+                    style {
+                        .react-button {
+                            margin: 10px;
+                            padding: 10px 20px;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-size: 14px;
+                            transition: all 0.2s ease;
+                        }
+                        
+                        .react-button.primary {
+                            background-color: #007bff;
+                            color: white;
+                        }
+                        
+                        .react-button:hover {
+                            transform: translateY(-1px);
+                            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
