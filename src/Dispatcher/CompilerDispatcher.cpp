@@ -39,7 +39,7 @@ void CompilerDispatcher::InitializeCompilers() {
     scanner_->SetVerbose(config_.enableDebugOutput);
     
     // 初始化Import系统并与统一扫描器集成
-    importSystem_ = std::make_unique<Import::EnhancedImportSystem>(".", "./module");
+    importSystem_ = std::make_unique<Import::EnhancedImportSystem>(".", "../module");
     importSystem_->SetUnifiedScanner(scanner_.get());
     
     if (config_.enableDebugOutput) {
