@@ -655,7 +655,7 @@ std::string CHTLGenerator::ExpandVariable(const std::string& variableReference) 
     // 语法文档示例: ThemeColor(tableColor = rgb(145, 155, 200))
     
     // 检查是否有特例化参数在上下文中
-    std::string specializationKey = "__specialization__" + varName;
+    std::string specializationKey = "__specialization__" + variableName;
     auto specIt = context_.variables.find(specializationKey);
     if (specIt != context_.variables.end()) {
         // 解析特例化参数
@@ -667,7 +667,7 @@ std::string CHTLGenerator::ExpandVariable(const std::string& variableReference) 
         
         if (config_.enableDebug) {
             Utils::ErrorHandler::GetInstance().LogInfo(
-                "应用特例化参数到变量 '" + varName + "': " + specializationParams
+                "应用特例化参数到变量 '" + variableName + "': " + specializationParams
             );
         }
     }

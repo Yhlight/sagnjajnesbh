@@ -245,7 +245,7 @@ private:
      * @param templateRef 模板引用
      * @return 展开的节点列表
      */
-    AST::ASTNodeList ExpandElementTemplate(std::shared_ptr<Core::Symbol> symbol, 
+    AST::ASTNodeList ExpandElementTemplate(std::shared_ptr<Core::SymbolInfo> symbol, 
                                           AST::TemplateReferenceNode& templateRef);
     
     /**
@@ -254,7 +254,7 @@ private:
      * @param templateRef 模板引用
      * @return 展开的节点列表
      */
-    AST::ASTNodeList ExpandStyleTemplate(std::shared_ptr<Core::Symbol> symbol, 
+    AST::ASTNodeList ExpandStyleTemplate(std::shared_ptr<Core::SymbolInfo> symbol, 
                                         AST::TemplateReferenceNode& templateRef);
     
     /**
@@ -263,7 +263,7 @@ private:
      * @param templateRef 模板引用
      * @return 展开的节点列表
      */
-    AST::ASTNodeList ExpandVariableTemplate(std::shared_ptr<Core::Symbol> symbol, 
+    AST::ASTNodeList ExpandVariableTemplate(std::shared_ptr<Core::SymbolInfo> symbol, 
                                            AST::TemplateReferenceNode& templateRef);
     
     /**
