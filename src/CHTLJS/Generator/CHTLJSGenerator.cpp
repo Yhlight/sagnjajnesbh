@@ -176,23 +176,7 @@ void CHTLJSGenerator::VisitAnimateBlockNode(AST::AnimateBlockNode& node) {
     output_ << "})();";
 }
 
-void CHTLJSGenerator::VisitArrowFunctionNode(AST::ArrowFunctionNode& node) {
-    // 箭头函数生成 - 语法文档第1202行支持
-    
-    output_ << "(";
-    
-    const auto& params = node.GetParameters();
-    for (size_t i = 0; i < params.size(); ++i) {
-        if (i > 0) output_ << ", ";
-        output_ << params[i];
-    }
-    
-    output_ << ") => ";
-    
-    if (node.GetBody()) {
-        node.GetBody()->Accept(*this);
-    }
-}
+// VisitArrowFunctionNode已移除 - CHTL JS不包含JS语法
 
 void CHTLJSGenerator::VisitAnimationKeyframeNode(AST::AnimationKeyframeNode& node) {
     // 动画关键帧生成

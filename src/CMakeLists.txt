@@ -14,6 +14,8 @@ add_library(chtl_core STATIC
     CHTL/Core/CHTLState.cpp
     CHTL/Core/CHTLContext.cpp
     CHTL/Core/CHTLStateContext.cpp
+    CHTL/Core/ImportManager.cpp
+    CHTL/Core/NamespaceMerger.cpp
     CHTL/Lexer/CHTLLexer.cpp
     CHTL/Parser/CHTLParser.cpp
     CHTL/AST/CHTLASTNodes.cpp

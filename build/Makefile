@@ -562,6 +562,54 @@ CHTL/Core/CHTLToken.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Core/CHTLToken.cpp.s
 .PHONY : CHTL/Core/CHTLToken.cpp.s
 
+CHTL/Core/ImportManager.o: CHTL/Core/ImportManager.cpp.o
+.PHONY : CHTL/Core/ImportManager.o
+
+# target to build an object file
+CHTL/Core/ImportManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Core/ImportManager.cpp.o
+.PHONY : CHTL/Core/ImportManager.cpp.o
+
+CHTL/Core/ImportManager.i: CHTL/Core/ImportManager.cpp.i
+.PHONY : CHTL/Core/ImportManager.i
+
+# target to preprocess a source file
+CHTL/Core/ImportManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Core/ImportManager.cpp.i
+.PHONY : CHTL/Core/ImportManager.cpp.i
+
+CHTL/Core/ImportManager.s: CHTL/Core/ImportManager.cpp.s
+.PHONY : CHTL/Core/ImportManager.s
+
+# target to generate assembly for a file
+CHTL/Core/ImportManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Core/ImportManager.cpp.s
+.PHONY : CHTL/Core/ImportManager.cpp.s
+
+CHTL/Core/NamespaceMerger.o: CHTL/Core/NamespaceMerger.cpp.o
+.PHONY : CHTL/Core/NamespaceMerger.o
+
+# target to build an object file
+CHTL/Core/NamespaceMerger.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Core/NamespaceMerger.cpp.o
+.PHONY : CHTL/Core/NamespaceMerger.cpp.o
+
+CHTL/Core/NamespaceMerger.i: CHTL/Core/NamespaceMerger.cpp.i
+.PHONY : CHTL/Core/NamespaceMerger.i
+
+# target to preprocess a source file
+CHTL/Core/NamespaceMerger.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Core/NamespaceMerger.cpp.i
+.PHONY : CHTL/Core/NamespaceMerger.cpp.i
+
+CHTL/Core/NamespaceMerger.s: CHTL/Core/NamespaceMerger.cpp.s
+.PHONY : CHTL/Core/NamespaceMerger.s
+
+# target to generate assembly for a file
+CHTL/Core/NamespaceMerger.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_core.dir/build.make CMakeFiles/chtl_core.dir/CHTL/Core/NamespaceMerger.cpp.s
+.PHONY : CHTL/Core/NamespaceMerger.cpp.s
+
 CHTL/Generator/CHTLGenerator.o: CHTL/Generator/CHTLGenerator.cpp.o
 .PHONY : CHTL/Generator/CHTLGenerator.o
 
@@ -1337,6 +1385,12 @@ help:
 	@echo "... CHTL/Core/CHTLToken.o"
 	@echo "... CHTL/Core/CHTLToken.i"
 	@echo "... CHTL/Core/CHTLToken.s"
+	@echo "... CHTL/Core/ImportManager.o"
+	@echo "... CHTL/Core/ImportManager.i"
+	@echo "... CHTL/Core/ImportManager.s"
+	@echo "... CHTL/Core/NamespaceMerger.o"
+	@echo "... CHTL/Core/NamespaceMerger.i"
+	@echo "... CHTL/Core/NamespaceMerger.s"
 	@echo "... CHTL/Generator/CHTLGenerator.o"
 	@echo "... CHTL/Generator/CHTLGenerator.i"
 	@echo "... CHTL/Generator/CHTLGenerator.s"

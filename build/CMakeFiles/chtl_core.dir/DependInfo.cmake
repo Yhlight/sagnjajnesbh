@@ -19,6 +19,8 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspace/src/CHTL/Core/CHTLState.cpp" "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLState.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLState.cpp.o.d"
   "/workspace/src/CHTL/Core/CHTLStateContext.cpp" "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLStateContext.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLStateContext.cpp.o.d"
   "/workspace/src/CHTL/Core/CHTLToken.cpp" "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLToken.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Core/CHTLToken.cpp.o.d"
+  "/workspace/src/CHTL/Core/ImportManager.cpp" "CMakeFiles/chtl_core.dir/CHTL/Core/ImportManager.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Core/ImportManager.cpp.o.d"
+  "/workspace/src/CHTL/Core/NamespaceMerger.cpp" "CMakeFiles/chtl_core.dir/CHTL/Core/NamespaceMerger.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Core/NamespaceMerger.cpp.o.d"
   "/workspace/src/CHTL/Generator/CHTLGenerator.cpp" "CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Generator/CHTLGenerator.cpp.o.d"
   "/workspace/src/CHTL/Import/EnhancedImportSystem.cpp" "CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Import/EnhancedImportSystem.cpp.o.d"
   "/workspace/src/CHTL/Lexer/CHTLLexer.cpp" "CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o" "gcc" "CMakeFiles/chtl_core.dir/CHTL/Lexer/CHTLLexer.cpp.o.d"
