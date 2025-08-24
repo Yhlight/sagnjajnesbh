@@ -1233,6 +1233,14 @@ bool CMODVersionManager::VersionInfo::operator<(const VersionInfo& other) const 
     return patch < other.patch;
 }
 
+bool CMODVersionManager::VersionInfo::operator<=(const VersionInfo& other) const {
+    return *this < other || *this == other;
+}
+
+bool CMODVersionManager::VersionInfo::operator>=(const VersionInfo& other) const {
+    return !(*this < other);
+}
+
 bool CMODVersionManager::CheckCompatibility(const std::string& moduleMinVersion, 
                                            const std::string& moduleMaxVersion,
                                            const std::string& currentVersion) {
