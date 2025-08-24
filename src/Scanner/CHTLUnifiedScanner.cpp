@@ -1460,8 +1460,8 @@ bool CHTLUnifiedScanner::IsValidCHTLJSSyntax(const std::string& content) const {
         return true;
     }
     
-    // 3. 检查虚对象方法调用: object->method(...) 或 object.method(...)
-    std::regex methodPattern(R"(^\s*\w+\s*(->\s*|\.\s*)\w+\s*(\([^)]*\))?\s*;?\s*$)");
+    // 3. 检查虚对象方法调用: object->method(...) (CHTL JS专属特征)
+    std::regex methodPattern(R"(^\s*\w+\s*->\s*\w+\s*(\([^)]*\))?\s*;?\s*$)");
     if (std::regex_match(trimmed, methodPattern)) {
         return true;
     }
@@ -1917,8 +1917,8 @@ bool CHTLUnifiedScanner::HasCHTLJSSyntax(const std::string& content) const {
         return true;
     }
     
-    // 3. 检查虚对象方法调用：object->method 或 object.method
-    std::regex virMethodPattern(R"(\w+\s*(->\s*|\.\s*)\w+\s*\()");
+    // 3. 检查虚对象方法调用：object->method (CHTL JS专属特征)
+    std::regex virMethodPattern(R"(\w+\s*->\s*\w+\s*\()");
     if (std::regex_search(content, virMethodPattern)) {
         return true;
     }
