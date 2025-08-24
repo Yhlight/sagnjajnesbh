@@ -60,25 +60,8 @@ std::vector<CodeFragment> CHTLUnifiedScanner::ScanSource(const std::string& sour
 }
 
 void CHTLUnifiedScanner::ScanLoop() {
-    // 根据扫描策略选择扫描方法
-    // 临时强制使用传统扫描进行测试
-    LogDebug("强制使用传统扫描进行测试");
+    // 使用原有的扫描逻辑，滑动窗口只是辅助功能
     TraditionalScan();
-    
-    /*
-    switch (scanStrategy_) {
-        case ScanStrategy::SLIDING_WINDOW:
-            SlidingWindowScan();
-            break;
-        case ScanStrategy::FRONT_EXTRACT:
-            FrontExtractScan();
-            break;
-        default:
-            // 后备方案：使用传统扫描
-            TraditionalScan();
-            break;
-    }
-    */
 }
 
 void CHTLUnifiedScanner::HandleGlobalState() {
