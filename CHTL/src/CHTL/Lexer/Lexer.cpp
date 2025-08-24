@@ -84,13 +84,24 @@ public:
                 tokens.push_back(token);
             }
             else {
-                // 未知字符
-                std::string value(1, state.Advance());
-                token = Token(TokenType::ERROR_TOKEN, value, startLine, startColumn);
-                tokens.push_back(token);
-                
-                lastError = "意外的字符: '" + value + "' 在 " + 
-                           std::to_string(startLine) + ":" + std::to_string(startColumn);
+                // 处理特殊字符
+                char ch = state.Peek();
+                if (ch == '-' || ch == '+' || ch == '>' || ch == '<' || 
+                    ch == '!' || ch == '~' || ch == '%' || ch == '^' ||
+                    ch == '|' || ch == '?' || ch == '@' || ch == '#' || ch == '$') {
+                    // 这些字符在CSS和其他上下文中是有效的
+                    std::string value(1, state.Advance());
+                    token = Token(TokenType::IDENTIFIER, value, startLine, startColumn);
+                    tokens.push_back(token);
+                } else {
+                    // 真正的未知字符
+                    std::string value(1, state.Advance());
+                    token = Token(TokenType::ERROR_TOKEN, value, startLine, startColumn);
+                    tokens.push_back(token);
+                    
+                    lastError = "意外的字符: '" + value + "' 在 " + 
+                               std::to_string(startLine) + ":" + std::to_string(startColumn);
+                }
             }
         }
         

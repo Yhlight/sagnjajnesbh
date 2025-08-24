@@ -4,6 +4,7 @@
 #include <fstream>
 #include <locale>
 #include <codecvt>
+#include "CHTL/Compiler/CHTLCompiler.h"
 
 // 设置UTF-8编码
 void SetupUTF8() {
@@ -92,8 +93,111 @@ int main(int argc, char* argv[]) {
         std::cout << "调试模式：已启用\n";
     }
     
-    // TODO: 实现编译逻辑
-    std::cout << "编译功能正在开发中...\n";
+    if (packMode) {
+        // TODO: 实现打包功能
+        std::cerr << "打包功能尚未实现\n";
+        return 1;
+    }
+    
+    if (unpackMode) {
+        // TODO: 实现解包功能
+        std::cerr << "解包功能尚未实现\n";
+        return 1;
+    }
+    
+    // 编译CHTL文件
+    CHTL::Compiler::CHTLCompilerConfig config;
+    config.enableDebug = debugMode;
+    config.moduleSearchPath = moduleDir;
+    
+    CHTL::Compiler::CHTLCompiler compiler(config);
+    auto result = compiler.CompileFile(inputFile);
+    
+    if (!result.success) {
+        std::cerr << "\n编译失败！\n";
+        for (const auto& error : result.errors) {
+            std::cerr << error << "\n";
+        }
+        return 1;
+    }
+    
+    // 输出警告
+    if (!result.warnings.empty()) {
+        std::cout << "\n警告：\n";
+        for (const auto& warning : result.warnings) {
+            std::cout << warning << "\n";
+        }
+    }
+    
+    // 生成输出文件
+    std::ofstream outFile(outputFile);
+    if (!outFile.is_open()) {
+        std::cerr << "错误：无法创建输出文件：" << outputFile << "\n";
+        return 1;
+    }
+    
+    // 检查是否已有html元素
+    bool hasHtmlElement = result.html.find("<html") != std::string::npos;
+    
+    if (hasHtmlElement) {
+        // 已有完整的HTML结构，需要插入CSS和JS
+        std::string output = result.html;
+        
+        // 在</head>前插入CSS
+        if (!result.css.empty()) {
+            size_t headEnd = output.find("</head>");
+            if (headEnd != std::string::npos) {
+                std::string styleTag = "  <style>\n" + result.css + "  </style>\n";
+                output.insert(headEnd, styleTag);
+            }
+        }
+        
+        // 在</body>前插入JavaScript
+        if (!result.javascript.empty()) {
+            size_t bodyEnd = output.find("</body>");
+            if (bodyEnd != std::string::npos) {
+                std::string scriptTag = "  <script>\n" + result.javascript + "  </script>\n";
+                output.insert(bodyEnd, scriptTag);
+            }
+        }
+        
+        outFile << "<!DOCTYPE html>\n";
+        outFile << output;
+    } else {
+        // 生成完整的HTML文档
+        outFile << "<!DOCTYPE html>\n";
+        outFile << "<html>\n";
+        outFile << "<head>\n";
+        outFile << "  <meta charset=\"UTF-8\">\n";
+        outFile << "  <title>CHTL Generated Page</title>\n";
+        
+        // 输出CSS
+        if (!result.css.empty()) {
+            outFile << "  <style>\n";
+            outFile << result.css;
+            outFile << "  </style>\n";
+        }
+        
+        outFile << "</head>\n";
+        outFile << "<body>\n";
+        
+        // 输出HTML内容
+        outFile << result.html;
+        
+        // 输出JavaScript
+        if (!result.javascript.empty()) {
+            outFile << "  <script>\n";
+            outFile << result.javascript;
+            outFile << "  </script>\n";
+        }
+        
+        outFile << "</body>\n";
+        outFile << "</html>\n";
+    }
+    
+    outFile.close();
+    
+    std::cout << "\n编译成功！输出文件：" << outputFile << "\n";
     
     return 0;
 }

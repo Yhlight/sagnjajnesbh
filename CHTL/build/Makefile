@@ -249,6 +249,54 @@ test_chtljs_basic/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_basic.dir/build.make tests/CMakeFiles/test_chtljs_basic.dir/build
 .PHONY : test_chtljs_basic/fast
 
+src/CHTL/AST/ASTNode.o: src/CHTL/AST/ASTNode.cpp.o
+.PHONY : src/CHTL/AST/ASTNode.o
+
+# target to build an object file
+src/CHTL/AST/ASTNode.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/AST/ASTNode.cpp.o
+.PHONY : src/CHTL/AST/ASTNode.cpp.o
+
+src/CHTL/AST/ASTNode.i: src/CHTL/AST/ASTNode.cpp.i
+.PHONY : src/CHTL/AST/ASTNode.i
+
+# target to preprocess a source file
+src/CHTL/AST/ASTNode.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/AST/ASTNode.cpp.i
+.PHONY : src/CHTL/AST/ASTNode.cpp.i
+
+src/CHTL/AST/ASTNode.s: src/CHTL/AST/ASTNode.cpp.s
+.PHONY : src/CHTL/AST/ASTNode.s
+
+# target to generate assembly for a file
+src/CHTL/AST/ASTNode.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/AST/ASTNode.cpp.s
+.PHONY : src/CHTL/AST/ASTNode.cpp.s
+
+src/CHTL/Compiler/CHTLCompiler.o: src/CHTL/Compiler/CHTLCompiler.cpp.o
+.PHONY : src/CHTL/Compiler/CHTLCompiler.o
+
+# target to build an object file
+src/CHTL/Compiler/CHTLCompiler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/Compiler/CHTLCompiler.cpp.o
+.PHONY : src/CHTL/Compiler/CHTLCompiler.cpp.o
+
+src/CHTL/Compiler/CHTLCompiler.i: src/CHTL/Compiler/CHTLCompiler.cpp.i
+.PHONY : src/CHTL/Compiler/CHTLCompiler.i
+
+# target to preprocess a source file
+src/CHTL/Compiler/CHTLCompiler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/Compiler/CHTLCompiler.cpp.i
+.PHONY : src/CHTL/Compiler/CHTLCompiler.cpp.i
+
+src/CHTL/Compiler/CHTLCompiler.s: src/CHTL/Compiler/CHTLCompiler.cpp.s
+.PHONY : src/CHTL/Compiler/CHTLCompiler.s
+
+# target to generate assembly for a file
+src/CHTL/Compiler/CHTLCompiler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/Compiler/CHTLCompiler.cpp.s
+.PHONY : src/CHTL/Compiler/CHTLCompiler.cpp.s
+
 src/CHTL/Compiler/Context.o: src/CHTL/Compiler/Context.cpp.o
 .PHONY : src/CHTL/Compiler/Context.o
 
@@ -321,6 +369,30 @@ src/CHTL/Compiler/State.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/Compiler/State.cpp.s
 .PHONY : src/CHTL/Compiler/State.cpp.s
 
+src/CHTL/Generator/Generator.o: src/CHTL/Generator/Generator.cpp.o
+.PHONY : src/CHTL/Generator/Generator.o
+
+# target to build an object file
+src/CHTL/Generator/Generator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/Generator/Generator.cpp.o
+.PHONY : src/CHTL/Generator/Generator.cpp.o
+
+src/CHTL/Generator/Generator.i: src/CHTL/Generator/Generator.cpp.i
+.PHONY : src/CHTL/Generator/Generator.i
+
+# target to preprocess a source file
+src/CHTL/Generator/Generator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/Generator/Generator.cpp.i
+.PHONY : src/CHTL/Generator/Generator.cpp.i
+
+src/CHTL/Generator/Generator.s: src/CHTL/Generator/Generator.cpp.s
+.PHONY : src/CHTL/Generator/Generator.s
+
+# target to generate assembly for a file
+src/CHTL/Generator/Generator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/Generator/Generator.cpp.s
+.PHONY : src/CHTL/Generator/Generator.cpp.s
+
 src/CHTL/Lexer/Lexer.o: src/CHTL/Lexer/Lexer.cpp.o
 .PHONY : src/CHTL/Lexer/Lexer.o
 
@@ -368,6 +440,30 @@ src/CHTL/Lexer/Token.s: src/CHTL/Lexer/Token.cpp.s
 src/CHTL/Lexer/Token.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/Lexer/Token.cpp.s
 .PHONY : src/CHTL/Lexer/Token.cpp.s
+
+src/CHTL/Parser/Parser.o: src/CHTL/Parser/Parser.cpp.o
+.PHONY : src/CHTL/Parser/Parser.o
+
+# target to build an object file
+src/CHTL/Parser/Parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/Parser/Parser.cpp.o
+.PHONY : src/CHTL/Parser/Parser.cpp.o
+
+src/CHTL/Parser/Parser.i: src/CHTL/Parser/Parser.cpp.i
+.PHONY : src/CHTL/Parser/Parser.i
+
+# target to preprocess a source file
+src/CHTL/Parser/Parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/Parser/Parser.cpp.i
+.PHONY : src/CHTL/Parser/Parser.cpp.i
+
+src/CHTL/Parser/Parser.s: src/CHTL/Parser/Parser.cpp.s
+.PHONY : src/CHTL/Parser/Parser.s
+
+# target to generate assembly for a file
+src/CHTL/Parser/Parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/src/CHTL/Parser/Parser.cpp.s
+.PHONY : src/CHTL/Parser/Parser.cpp.s
 
 src/CHTLJS/Compiler/Context.o: src/CHTLJS/Compiler/Context.cpp.o
 .PHONY : src/CHTLJS/Compiler/Context.o
@@ -604,6 +700,12 @@ help:
 	@echo "... chtl"
 	@echo "... test_chtl_basic"
 	@echo "... test_chtljs_basic"
+	@echo "... src/CHTL/AST/ASTNode.o"
+	@echo "... src/CHTL/AST/ASTNode.i"
+	@echo "... src/CHTL/AST/ASTNode.s"
+	@echo "... src/CHTL/Compiler/CHTLCompiler.o"
+	@echo "... src/CHTL/Compiler/CHTLCompiler.i"
+	@echo "... src/CHTL/Compiler/CHTLCompiler.s"
 	@echo "... src/CHTL/Compiler/Context.o"
 	@echo "... src/CHTL/Compiler/Context.i"
 	@echo "... src/CHTL/Compiler/Context.s"
@@ -613,12 +715,18 @@ help:
 	@echo "... src/CHTL/Compiler/State.o"
 	@echo "... src/CHTL/Compiler/State.i"
 	@echo "... src/CHTL/Compiler/State.s"
+	@echo "... src/CHTL/Generator/Generator.o"
+	@echo "... src/CHTL/Generator/Generator.i"
+	@echo "... src/CHTL/Generator/Generator.s"
 	@echo "... src/CHTL/Lexer/Lexer.o"
 	@echo "... src/CHTL/Lexer/Lexer.i"
 	@echo "... src/CHTL/Lexer/Lexer.s"
 	@echo "... src/CHTL/Lexer/Token.o"
 	@echo "... src/CHTL/Lexer/Token.i"
 	@echo "... src/CHTL/Lexer/Token.s"
+	@echo "... src/CHTL/Parser/Parser.o"
+	@echo "... src/CHTL/Parser/Parser.i"
+	@echo "... src/CHTL/Parser/Parser.s"
 	@echo "... src/CHTLJS/Compiler/Context.o"
 	@echo "... src/CHTLJS/Compiler/Context.i"
 	@echo "... src/CHTLJS/Compiler/Context.s"

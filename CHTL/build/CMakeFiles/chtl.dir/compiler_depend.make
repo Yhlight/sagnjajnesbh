@@ -104,11 +104,15 @@ CMakeFiles/chtl.dir/src/main.cpp.o: /workspace/CHTL/src/main.cpp \
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/include/c++/14/backward/auto_ptr.h \
   /usr/include/c++/14/backward/binders.h \
   /usr/include/c++/14/bit \
+  /usr/include/c++/14/bits/align.h \
   /usr/include/c++/14/bits/alloc_traits.h \
   /usr/include/c++/14/bits/allocated_ptr.h \
   /usr/include/c++/14/bits/allocator.h \
+  /usr/include/c++/14/bits/atomic_base.h \
+  /usr/include/c++/14/bits/atomic_lockfree_defines.h \
   /usr/include/c++/14/bits/basic_ios.h \
   /usr/include/c++/14/bits/basic_ios.tcc \
   /usr/include/c++/14/bits/basic_string.h \
@@ -159,16 +163,22 @@ CMakeFiles/chtl.dir/src/main.cpp.o: /workspace/CHTL/src/main.cpp \
   /usr/include/c++/14/bits/refwrap.h \
   /usr/include/c++/14/bits/requires_hosted.h \
   /usr/include/c++/14/bits/shared_ptr.h \
+  /usr/include/c++/14/bits/shared_ptr_atomic.h \
   /usr/include/c++/14/bits/shared_ptr_base.h \
   /usr/include/c++/14/bits/sstream.tcc \
   /usr/include/c++/14/bits/std_abs.h \
   /usr/include/c++/14/bits/stl_algobase.h \
+  /usr/include/c++/14/bits/stl_bvector.h \
   /usr/include/c++/14/bits/stl_construct.h \
   /usr/include/c++/14/bits/stl_function.h \
   /usr/include/c++/14/bits/stl_iterator.h \
   /usr/include/c++/14/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/14/bits/stl_iterator_base_types.h \
   /usr/include/c++/14/bits/stl_pair.h \
+  /usr/include/c++/14/bits/stl_raw_storage_iter.h \
+  /usr/include/c++/14/bits/stl_tempbuf.h \
+  /usr/include/c++/14/bits/stl_uninitialized.h \
+  /usr/include/c++/14/bits/stl_vector.h \
   /usr/include/c++/14/bits/streambuf.tcc \
   /usr/include/c++/14/bits/streambuf_iterator.h \
   /usr/include/c++/14/bits/string_view.tcc \
@@ -177,6 +187,7 @@ CMakeFiles/chtl.dir/src/main.cpp.o: /workspace/CHTL/src/main.cpp \
   /usr/include/c++/14/bits/uses_allocator.h \
   /usr/include/c++/14/bits/uses_allocator_args.h \
   /usr/include/c++/14/bits/utility.h \
+  /usr/include/c++/14/bits/vector.tcc \
   /usr/include/c++/14/bits/version.h \
   /usr/include/c++/14/cctype \
   /usr/include/c++/14/cerrno \
@@ -210,8 +221,11 @@ CMakeFiles/chtl.dir/src/main.cpp.o: /workspace/CHTL/src/main.cpp \
   /usr/include/c++/14/istream \
   /usr/include/c++/14/limits \
   /usr/include/c++/14/locale \
+  /usr/include/c++/14/memory \
   /usr/include/c++/14/new \
   /usr/include/c++/14/ostream \
+  /usr/include/c++/14/pstl/execution_defs.h \
+  /usr/include/c++/14/pstl/glue_memory_defs.h \
   /usr/include/c++/14/pstl/pstl_config.h \
   /usr/include/c++/14/ratio \
   /usr/include/c++/14/sstream \
@@ -223,6 +237,7 @@ CMakeFiles/chtl.dir/src/main.cpp.o: /workspace/CHTL/src/main.cpp \
   /usr/include/c++/14/tuple \
   /usr/include/c++/14/type_traits \
   /usr/include/c++/14/typeinfo \
+  /usr/include/c++/14/vector \
   /usr/include/x86_64-linux-gnu/c++/14/bits/atomic_word.h \
   /usr/include/x86_64-linux-gnu/c++/14/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/14/bits/c++allocator.h \
@@ -247,9 +262,11 @@ CMakeFiles/chtl.dir/src/main.cpp.o: /workspace/CHTL/src/main.cpp \
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_ptrdiff_t.h \
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h \
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_wchar_t.h \
+  /usr/lib/llvm-20/lib/clang/20/include/sanitizer/tsan_interface.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdarg.h \
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
-  /usr/lib/llvm-20/lib/clang/20/include/stdint.h
+  /usr/lib/llvm-20/lib/clang/20/include/stdint.h \
+  /workspace/CHTL/include/CHTL/Compiler/CHTLCompiler.h
 
 bin/chtl: /lib/x86_64-linux-gnu/Scrt1.o \
   /lib/x86_64-linux-gnu/crti.o \
@@ -289,25 +306,45 @@ CMakeFiles/chtl.dir/src/main.cpp.o:
 
 /lib64/ld-linux-x86-64.so.2:
 
-/usr/include/c++/14/bits/fs_ops.h:
+/lib/x86_64-linux-gnu/libgcc_s.so.1:
 
-/usr/include/c++/14/bits/basic_ios.h:
+/lib/x86_64-linux-gnu/crtn.o:
+
+/lib/x86_64-linux-gnu/crti.o:
+
+/workspace/CHTL/include/CHTL/Compiler/CHTLCompiler.h:
+
+/usr/lib/llvm-20/lib/clang/20/include/stdint.h:
+
+/usr/lib/llvm-20/lib/clang/20/include/stdarg.h:
+
+/usr/lib/llvm-20/lib/clang/20/include/sanitizer/tsan_interface.h:
+
+/usr/lib/llvm-20/lib/clang/20/include/__stddef_wchar_t.h:
+
+/usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h:
+
+/usr/lib/llvm-20/lib/clang/20/include/__stddef_offsetof.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
-
-/usr/include/c++/14/bits/fs_dir.h:
-
-/usr/include/c++/14/bits/exception.h:
 
 /usr/include/c++/14/cctype:
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
+
+/usr/lib/llvm-20/lib/clang/20/include/stddef.h:
+
+/usr/include/c++/14/cwchar:
 
 /usr/include/c++/14/stdexcept:
 
 /usr/include/c++/14/bits/charconv.h:
 
 /usr/include/c++/14/bits/basic_ios.tcc:
+
+/lib/x86_64-linux-gnu/libc.so.6:
+
+/usr/include/c++/14/pstl/glue_memory_defs.h:
 
 /usr/include/c++/14/bits/alloc_traits.h:
 
@@ -333,6 +370,12 @@ CMakeFiles/chtl.dir/src/main.cpp.o:
 
 /usr/include/c++/14/bits/shared_ptr.h:
 
+/usr/include/c++/14/bits/basic_ios.h:
+
+/usr/include/c++/14/bits/exception.h:
+
+/usr/include/c++/14/bits/fs_dir.h:
+
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
@@ -343,9 +386,7 @@ CMakeFiles/chtl.dir/src/main.cpp.o:
 
 /usr/include/c++/14/type_traits:
 
-/usr/include/c++/14/bits/fs_fwd.h:
-
-/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+/usr/include/c++/14/bits/atomic_lockfree_defines.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
@@ -354,6 +395,12 @@ CMakeFiles/chtl.dir/src/main.cpp.o:
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
+
+/usr/include/c++/14/bits/shared_ptr_atomic.h:
+
+/usr/include/c++/14/backward/auto_ptr.h:
+
+/usr/include/c++/14/bits/move.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
 
@@ -529,17 +576,15 @@ lib/libCHTLCore.a:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
-/lib/x86_64-linux-gnu/libc.so.6:
-
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
+/lib/x86_64-linux-gnu/libm.so:
+
+/usr/include/linux/sched/types.h:
+
+/usr/include/c++/14/bits/std_abs.h:
+
 /usr/include/c++/14/pstl/pstl_config.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
-
-/usr/include/asm-generic/types.h:
-
-/usr/include/asm-generic/bitsperlong.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
 
@@ -549,17 +594,19 @@ lib/libCHTLCore.a:
 
 /usr/include/c++/14/bits/localefwd.h:
 
+/usr/include/c++/14/bits/stl_tempbuf.h:
+
 /usr/include/linux/stddef.h:
 
 /usr/include/c++/14/bits/concept_check.h:
 
 /usr/include/c++/14/bits/ostream.tcc:
 
+/usr/include/c++/14/bits/align.h:
+
 /usr/include/c++/14/ext/aligned_buffer.h:
 
 /usr/include/c++/14/new:
-
-/usr/include/c++/14/bits/basic_string.tcc:
 
 /usr/include/features.h:
 
@@ -583,19 +630,31 @@ lib/libCHTLCore.a:
 
 /usr/include/c++/14/bits/shared_ptr_base.h:
 
+/usr/include/c++/14/vector:
+
 /usr/include/linux/types.h:
 
 /usr/include/c++/14/bits/cpp_type_traits.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio.h:
 
+/usr/include/c++/14/bits/atomic_base.h:
+
+/usr/include/x86_64-linux-gnu/bits/long-double.h:
+
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
+
+/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+
+/usr/include/c++/14/bits/fs_fwd.h:
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
 
-/usr/include/c++/14/bits/new_allocator.h:
+/lib/x86_64-linux-gnu/Scrt1.o:
+
+/usr/include/c++/14/bits/locale_classes.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
@@ -617,9 +676,9 @@ lib/libCHTLCore.a:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/os_defines.h:
 
-/usr/include/x86_64-linux-gnu/bits/long-double.h:
-
 /usr/include/features-time64.h:
+
+/usr/include/c++/14/bits/fs_ops.h:
 
 /usr/include/c++/14/bits/fstream.tcc:
 
@@ -631,6 +690,10 @@ lib/libCHTLCore.a:
 
 /usr/include/c++/14/bits/locale_conv.h:
 
+/lib/x86_64-linux-gnu/libm.so.6:
+
+/usr/include/c++/14/iosfwd:
+
 /usr/include/c++/14/bits/ptr_traits.h:
 
 /usr/include/c++/14/bits/locale_facets_nonio.tcc:
@@ -639,13 +702,11 @@ lib/libCHTLCore.a:
 
 /usr/include/c++/14/bits/memoryfwd.h:
 
-/usr/include/c++/14/bits/move.h:
-
 /usr/include/c++/14/bits/nested_exception.h:
 
-/usr/lib/llvm-20/lib/clang/20/include/__stddef_nullptr_t.h:
+/usr/include/c++/14/bits/stl_uninitialized.h:
 
-/usr/lib/llvm-20/lib/clang/20/include/__stddef_offsetof.h:
+/usr/lib/llvm-20/lib/clang/20/include/__stddef_nullptr_t.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/__stddef_ptrdiff_t.h:
 
@@ -669,15 +730,17 @@ lib/libCHTLCore.a:
 
 /usr/include/c++/14/bits/sstream.tcc:
 
-/usr/include/linux/sched/types.h:
+/usr/include/c++/14/bits/new_allocator.h:
 
-/usr/include/c++/14/bits/std_abs.h:
+/usr/include/c++/14/bits/stl_bvector.h:
 
-/lib/x86_64-linux-gnu/libm.so:
+/usr/include/c++/14/bits/basic_string.tcc:
+
+/usr/include/c++/14/bits/stl_vector.h:
 
 /usr/include/c++/14/bits/stl_construct.h:
 
-/usr/include/c++/14/bits/stl_function.h:
+/usr/include/c++/14/bits/stl_raw_storage_iter.h:
 
 /usr/include/c++/14/bits/streambuf_iterator.h:
 
@@ -688,6 +751,8 @@ lib/libCHTLCore.a:
 /usr/include/c++/14/bits/uses_allocator.h:
 
 /usr/include/c++/14/bits/uses_allocator_args.h:
+
+/usr/include/c++/14/bits/vector.tcc:
 
 /usr/include/c++/14/bits/version.h:
 
@@ -717,8 +782,6 @@ lib/libCHTLCore.a:
 
 /usr/include/c++/14/ext/alloc_traits.h:
 
-/usr/lib/llvm-20/lib/clang/20/include/stdint.h:
-
 /usr/include/c++/14/ext/atomicity.h:
 
 /usr/include/c++/14/ext/concurrence.h:
@@ -741,6 +804,18 @@ lib/libCHTLCore.a:
 
 /usr/include/c++/14/iomanip:
 
+/usr/include/c++/14/bits/stl_function.h:
+
+/usr/include/c++/14/memory:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+
+/usr/include/asm-generic/types.h:
+
+/usr/include/asm-generic/bitsperlong.h:
+
+/usr/include/c++/14/pstl/execution_defs.h:
+
 /usr/include/x86_64-linux-gnu/bits/sched.h:
 
 /usr/include/c++/14/ratio:
@@ -755,9 +830,9 @@ lib/libCHTLCore.a:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/atomic_word.h:
 
-/usr/include/x86_64-linux-gnu/c++/14/bits/gthr.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
+
+/usr/include/x86_64-linux-gnu/c++/14/bits/gthr.h:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/basic_file.h:
 
@@ -781,32 +856,8 @@ lib/libCHTLCore.a:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/time_members.h:
 
-/usr/include/c++/14/cwchar:
-
-/usr/lib/llvm-20/lib/clang/20/include/stddef.h:
-
 /usr/lib/llvm-20/lib/clang/20/include/__stdarg___gnuc_va_list.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/__stddef_header_macro.h:
 
-/usr/lib/llvm-20/lib/clang/20/include/stdarg.h:
-
 /usr/lib/llvm-20/lib/clang/20/include/__stddef_null.h:
-
-/usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h:
-
-/usr/lib/llvm-20/lib/clang/20/include/__stddef_wchar_t.h:
-
-/usr/include/c++/14/bits/locale_classes.h:
-
-/lib/x86_64-linux-gnu/Scrt1.o:
-
-/lib/x86_64-linux-gnu/crti.o:
-
-/lib/x86_64-linux-gnu/crtn.o:
-
-/lib/x86_64-linux-gnu/libgcc_s.so.1:
-
-/usr/include/c++/14/iosfwd:
-
-/lib/x86_64-linux-gnu/libm.so.6:

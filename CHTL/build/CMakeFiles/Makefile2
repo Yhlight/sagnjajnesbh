@@ -119,12 +119,12 @@ tests/clean: tests/CMakeFiles/test_chtljs_basic.dir/clean
 CMakeFiles/CHTLCore.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12 "Built target CHTLCore"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 "Built target CHTLCore"
 .PHONY : CMakeFiles/CHTLCore.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/CHTLCore.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 12
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/CHTLCore.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 0
 .PHONY : CMakeFiles/CHTLCore.dir/rule
@@ -136,7 +136,7 @@ CHTLCore: CMakeFiles/CHTLCore.dir/rule
 # codegen rule for target.
 CMakeFiles/CHTLCore.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CHTLCore.dir/build.make CMakeFiles/CHTLCore.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12 "Finished codegen for target CHTLCore"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 "Finished codegen for target CHTLCore"
 .PHONY : CMakeFiles/CHTLCore.dir/codegen
 
 # clean rule for target.
@@ -151,7 +151,7 @@ CMakeFiles/CHTLCore.dir/clean:
 CMakeFiles/CSSCompiler.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CSSCompiler.dir/build.make CMakeFiles/CSSCompiler.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CSSCompiler.dir/build.make CMakeFiles/CSSCompiler.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=13,14 "Built target CSSCompiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=17,18 "Built target CSSCompiler"
 .PHONY : CMakeFiles/CSSCompiler.dir/all
 
 # Build rule for subdir invocation for target.
@@ -168,7 +168,7 @@ CSSCompiler: CMakeFiles/CSSCompiler.dir/rule
 # codegen rule for target.
 CMakeFiles/CSSCompiler.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CSSCompiler.dir/build.make CMakeFiles/CSSCompiler.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=13,14 "Finished codegen for target CSSCompiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=17,18 "Finished codegen for target CSSCompiler"
 .PHONY : CMakeFiles/CSSCompiler.dir/codegen
 
 # clean rule for target.
@@ -183,7 +183,7 @@ CMakeFiles/CSSCompiler.dir/clean:
 CMakeFiles/JSCompiler.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/JSCompiler.dir/build.make CMakeFiles/JSCompiler.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/JSCompiler.dir/build.make CMakeFiles/JSCompiler.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=15,16 "Built target JSCompiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=19,20 "Built target JSCompiler"
 .PHONY : CMakeFiles/JSCompiler.dir/all
 
 # Build rule for subdir invocation for target.
@@ -200,7 +200,7 @@ JSCompiler: CMakeFiles/JSCompiler.dir/rule
 # codegen rule for target.
 CMakeFiles/JSCompiler.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/JSCompiler.dir/build.make CMakeFiles/JSCompiler.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=15,16 "Finished codegen for target JSCompiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=19,20 "Finished codegen for target JSCompiler"
 .PHONY : CMakeFiles/JSCompiler.dir/codegen
 
 # clean rule for target.
@@ -217,12 +217,12 @@ CMakeFiles/chtl.dir/all: CMakeFiles/CSSCompiler.dir/all
 CMakeFiles/chtl.dir/all: CMakeFiles/JSCompiler.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl.dir/build.make CMakeFiles/chtl.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl.dir/build.make CMakeFiles/chtl.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=17,18 "Built target chtl"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=21,22 "Built target chtl"
 .PHONY : CMakeFiles/chtl.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/chtl.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 18
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 22
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/chtl.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 0
 .PHONY : CMakeFiles/chtl.dir/rule
@@ -234,7 +234,7 @@ chtl: CMakeFiles/chtl.dir/rule
 # codegen rule for target.
 CMakeFiles/chtl.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl.dir/build.make CMakeFiles/chtl.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=17,18 "Finished codegen for target chtl"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=21,22 "Finished codegen for target chtl"
 .PHONY : CMakeFiles/chtl.dir/codegen
 
 # clean rule for target.
@@ -249,12 +249,12 @@ CMakeFiles/chtl.dir/clean:
 tests/CMakeFiles/test_chtl_basic.dir/all: CMakeFiles/CHTLCore.dir/all
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_basic.dir/build.make tests/CMakeFiles/test_chtl_basic.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_basic.dir/build.make tests/CMakeFiles/test_chtl_basic.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=19,20 "Built target test_chtl_basic"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=23,24 "Built target test_chtl_basic"
 .PHONY : tests/CMakeFiles/test_chtl_basic.dir/all
 
 # Build rule for subdir invocation for target.
 tests/CMakeFiles/test_chtl_basic.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtl_basic.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 0
 .PHONY : tests/CMakeFiles/test_chtl_basic.dir/rule
@@ -266,7 +266,7 @@ test_chtl_basic: tests/CMakeFiles/test_chtl_basic.dir/rule
 # codegen rule for target.
 tests/CMakeFiles/test_chtl_basic.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtl_basic.dir/build.make tests/CMakeFiles/test_chtl_basic.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=19,20 "Finished codegen for target test_chtl_basic"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=23,24 "Finished codegen for target test_chtl_basic"
 .PHONY : tests/CMakeFiles/test_chtl_basic.dir/codegen
 
 # clean rule for target.
@@ -281,12 +281,12 @@ tests/CMakeFiles/test_chtl_basic.dir/clean:
 tests/CMakeFiles/test_chtljs_basic.dir/all: CMakeFiles/CHTLCore.dir/all
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_basic.dir/build.make tests/CMakeFiles/test_chtljs_basic.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_basic.dir/build.make tests/CMakeFiles/test_chtljs_basic.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=21,22 "Built target test_chtljs_basic"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=25,26 "Built target test_chtljs_basic"
 .PHONY : tests/CMakeFiles/test_chtljs_basic.dir/all
 
 # Build rule for subdir invocation for target.
 tests/CMakeFiles/test_chtljs_basic.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_chtljs_basic.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/CHTL/build/CMakeFiles 0
 .PHONY : tests/CMakeFiles/test_chtljs_basic.dir/rule
@@ -298,7 +298,7 @@ test_chtljs_basic: tests/CMakeFiles/test_chtljs_basic.dir/rule
 # codegen rule for target.
 tests/CMakeFiles/test_chtljs_basic.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_chtljs_basic.dir/build.make tests/CMakeFiles/test_chtljs_basic.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=21,22 "Finished codegen for target test_chtljs_basic"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/CHTL/build/CMakeFiles --progress-num=25,26 "Finished codegen for target test_chtljs_basic"
 .PHONY : tests/CMakeFiles/test_chtljs_basic.dir/codegen
 
 # clean rule for target.
