@@ -15,7 +15,8 @@ namespace CJMOD {
 // ============================================================================
 
 Arg::Arg(const std::string& name, bool isPlaceholder)
-    : name_(name), isPlaceholder_(isPlaceholder), hasBind_(false), hasValue_(false) {}
+    : name_(name), isPlaceholder_(isPlaceholder), hasBind_(false), hasValue_(false),
+      isOptional_(false), literalSupport_(false), isVariadic_(false) {}
 
 void Arg::match(const std::string& rawValue) {
     rawValue_ = rawValue;
@@ -395,7 +396,7 @@ std::unique_ptr<Syntax> syntaxAnalys(const std::string& pattern,
     CHTLJSFunction processor;
     auto syntax = processor.syntaxAnalys(pattern, ignoreChars);
     
-    // 应用无序和字面量支持特性
+    // 应用无序、字面量和可变参数支持特性
     if (syntax) {
         // 解析可选参数标记（$?）
         std::regex optionalRegex(R"(\$(\w+)?\?)");
@@ -410,14 +411,42 @@ std::unique_ptr<Syntax> syntaxAnalys(const std::string& pattern,
             start = match.suffix().first;
         }
         
-        // 标记可选参数
+        // 解析可变参数标记（...）
+        std::regex variadicRegex(R"(\.\.\.)");
+        start = pattern.cbegin();
+        
+        bool hasVariadicParam = false;
+        std::string variadicParamName;
+        while (std::regex_search(start, pattern.cend(), match, variadicRegex)) {
+            hasVariadicParam = true;
+            // 可变参数通常命名为"args"或"params"
+            variadicParamName = "args";
+            start = match.suffix().first;
+        }
+        
+        // 如果有可变参数，添加可变参数Arg
+        if (hasVariadicParam) {
+            Arg variadicArg(variadicParamName, true);
+            variadicArg.SetVariadic(true);
+            variadicArg.SetLiteralSupport(literalSupport);
+            
+            // 为可变参数设置特殊绑定
+            variadicArg.bind([](const std::string& value) -> std::string {
+                // 可变参数处理：将多个值组合成数组
+                return "[" + value + "]";
+            });
+            
+            syntax->args.push_back(variadicArg);
+        }
+        
+        // 标记可选参数和应用其他特性
         for (auto& arg : syntax->args) {
             if (optionalParams.count(arg.getName()) > 0) {
                 arg.SetOptional(true);
             }
             
             // 启用无修饰字面量支持
-            if (literalSupport) {
+            if (literalSupport && !arg.isVariadic()) {
                 arg.SetLiteralSupport(true);
                 
                 // 为字面量参数设置智能绑定

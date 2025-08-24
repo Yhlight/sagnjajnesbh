@@ -82,11 +82,18 @@ public:
     const std::string& getProcessedValue() const { return processedValue_; }
     const std::string& getJSCode() const { return jsCode_; }
     
-    // 新增：支持可选参数和无修饰字面量
+    // 新增：支持可选参数、无修饰字面量和可变参数
     bool isOptional() const { return isOptional_; }
     bool hasLiteralSupport() const { return literalSupport_; }
+    bool isVariadic() const { return isVariadic_; }
     void SetOptional(bool optional) { isOptional_ = optional; }
     void SetLiteralSupport(bool support) { literalSupport_ = support; }
+    void SetVariadic(bool variadic) { isVariadic_ = variadic; }
+    
+    // 可变参数专用方法
+    void addVariadicValue(const std::string& value);
+    const std::vector<std::string>& getVariadicValues() const { return variadicValues_; }
+    size_t getVariadicCount() const { return variadicValues_.size(); }
     
     // 输出重载
     friend std::ostream& operator<<(std::ostream& os, const Arg& arg);
@@ -98,10 +105,12 @@ private:
     bool hasValue_;
     bool isOptional_;        // 新增：是否为可选参数
     bool literalSupport_;    // 新增：是否支持无修饰字面量
+    bool isVariadic_;        // 新增：是否为可变参数
     std::string rawValue_;
     std::string processedValue_;
     std::string jsTemplate_;
     std::string jsCode_;
+    std::vector<std::string> variadicValues_;  // 新增：可变参数值列表
     std::function<std::string(const std::string&)> valueProcessor_;
     
     void applyTransform();
@@ -257,8 +266,8 @@ private:
 // ============================================================================
 
 /**
- * @brief syntaxAnalys全局函数 - 支持无序、可选、无修饰字面量的语法分析
- * @param pattern 语法模式字符串，使用$作为占位符，$?表示可选参数
+ * @brief syntaxAnalys全局函数 - 支持无序、可选、无修饰字面量、可变参数的语法分析
+ * @param pattern 语法模式字符串，使用$作为占位符，$?表示可选参数，...表示可变参数
  * @param ignoreChars 忽略的字符集（可选）
  * @param unorderedSupport 是否支持无序参数（默认true）
  * @param literalSupport 是否支持无修饰字面量（默认true）
