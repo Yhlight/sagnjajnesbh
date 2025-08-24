@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Scanner/CHTLUnifiedScanner.h"
-#include "CHTL/Import/ImportSystem.h"
 #include "CHTL/Core/CHTLGlobalMap.h"
 #include "CHTL/Core/CHTLState.h"
 #include "CHTLJS/Core/CHTLJSState.h"
@@ -17,6 +16,7 @@ namespace Parser { class CHTLParser; }
 namespace CHTLJS { namespace Parser { class CHTLJSParser; } }
 namespace CSS { class CSSCompiler; }
 namespace JavaScript { class JavaScriptCompiler; }
+namespace Import { class EnhancedImportSystem; }
 
 namespace Dispatcher {
 

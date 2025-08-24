@@ -1,5 +1,6 @@
 #include "Dispatcher/CompilerDispatcher.h"
 #include "Dispatcher/FragmentProcessors.h"
+#include "CHTL/Import/ImportSystem.h"
 #include "CHTL/Parser/CHTLParser.h"
 #include "CHTLJS/Parser/CHTLJSParser.h"
 #include "CHTL/Lexer/CHTLLexer.h"
@@ -16,6 +17,7 @@
 #include <sstream>
 #include <regex>
 #include <unistd.h>  // for readlink
+#include <chrono>
 
 namespace CHTL {
 namespace Dispatcher {
@@ -44,7 +46,8 @@ void CompilerDispatcher::InitializeCompilers() {
     std::string executableDir = GetExecutableDirectory();
     std::string officialModulePath = executableDir + "/module";
     importSystem_ = std::make_unique<Import::EnhancedImportSystem>(".", officialModulePath);
-    // importSystem_->SetUnifiedScanner(scanner_.get());  // 暂时注释掉，避免链接错误
+    // TODO: 修复命名空间问题后重新启用
+    // importSystem_->SetUnifiedScanner(scanner_.get());
     
     if (config_.enableDebugOutput) {
         Utils::ErrorHandler::GetInstance().LogInfo("Import系统已集成到统一扫描器，CJMOD模块加载时将自动注册关键字");
@@ -70,6 +73,10 @@ CompilationResult CompilerDispatcher::Compile(const std::string& source, const s
     CompilationResult result;
     
     try {
+        // 添加超时保护
+        auto startTime = std::chrono::steady_clock::now();
+        const auto timeout = std::chrono::seconds(30); // 30秒超时
+        
         if (config_.enableDebugOutput) {
             Utils::ErrorHandler::GetInstance().LogInfo(
                 "CompilerDispatcher开始编译: " + fileName
@@ -79,8 +86,22 @@ CompilationResult CompilerDispatcher::Compile(const std::string& source, const s
         // 第一步：处理Import语句，加载CJMOD模块
         ProcessImportStatements(source);
         
+        // 检查超时
+        auto currentTime = std::chrono::steady_clock::now();
+        if (currentTime - startTime > timeout) {
+            result.errors.push_back("编译超时：Import处理阶段");
+            return result;
+        }
+        
         // 第二步：使用统一扫描器进行精准代码切割
         auto fragments = scanner_->ScanSource(source, fileName);
+        
+        // 检查超时
+        currentTime = std::chrono::steady_clock::now();
+        if (currentTime - startTime > timeout) {
+            result.errors.push_back("编译超时：代码扫描阶段");
+            return result;
+        }
         
         if (config_.enableDebugOutput) {
             Utils::ErrorHandler::GetInstance().LogInfo(
@@ -88,12 +109,20 @@ CompilationResult CompilerDispatcher::Compile(const std::string& source, const s
             );
         }
         
-        // 第二步：分发代码片段给对应的编译器
+        // 第三步：分发代码片段给对应的编译器
         result = DispatchFragments(fragments, fileName);
+        
+        // 检查超时
+        currentTime = std::chrono::steady_clock::now();
+        if (currentTime - startTime > timeout) {
+            result.errors.push_back("编译超时：片段处理阶段");
+            return result;
+        }
         
         if (config_.enableDebugOutput) {
             Utils::ErrorHandler::GetInstance().LogInfo(
-                "编译完成，成功: " + std::string(result.success ? "是" : "否")
+                "编译完成，成功: " + std::string(result.success ? "是" : "否") + 
+                "，耗时: " + std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - startTime).count()) + "ms"
             );
         }
         
@@ -563,6 +592,8 @@ std::string CompilerDispatcher::GetExecutableDirectory() const {
     
     return ".";
 }
+
+
 
 } // namespace Dispatcher
 } // namespace CHTL

@@ -20,6 +20,13 @@ public:
     static std::string ReadFile(const std::string& filePath);
     
     /**
+     * @brief 读取UTF-8编码的文件内容
+     * @param filePath 文件路径
+     * @return 文件内容，读取失败返回空字符串
+     */
+    static std::string ReadFileUTF8(const std::string& filePath);
+    
+    /**
      * @brief 写入文件内容
      * @param filePath 文件路径
      * @param content 要写入的内容

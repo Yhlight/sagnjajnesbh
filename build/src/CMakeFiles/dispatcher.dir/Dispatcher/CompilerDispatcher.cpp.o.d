@@ -213,14 +213,8 @@ src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/array \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/compare \
   /workspace/include/CHTL/Comments/ContextualCommentSystem.h \
-  /workspace/include/CHTL/Import/ImportSystem.h /usr/include/dlfcn.h \
-  /usr/include/x86_64-linux-gnu/bits/dlfcn.h \
-  /usr/include/x86_64-linux-gnu/bits/dl_find_object.h \
-  /workspace/include/CHTL/Import/../AST/CHTLASTNodes.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/variant \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
-  /workspace/include/CHTL/Core/CHTLToken.h \
   /workspace/include/CHTL/Core/CHTLGlobalMap.h \
+  /workspace/include/CHTL/Core/CHTLToken.h \
   /workspace/include/CHTL/Core/CHTLState.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
@@ -234,6 +228,12 @@ src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_map.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_multimap.h \
   /workspace/include/Dispatcher/FragmentProcessors.h \
+  /workspace/include/CHTL/Import/ImportSystem.h /usr/include/dlfcn.h \
+  /usr/include/x86_64-linux-gnu/bits/dlfcn.h \
+  /usr/include/x86_64-linux-gnu/bits/dl_find_object.h \
+  /workspace/include/CHTL/Import/../AST/CHTLASTNodes.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/variant \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
   /workspace/include/CHTL/Parser/CHTLParser.h \
   /workspace/include/CHTL/Core/CHTLStateContext.h \
   /workspace/include/CHTL/AST/CHTLASTNodes.h \
@@ -317,4 +317,9 @@ src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
   /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
   /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
   /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/linux/close_range.h
+  /usr/include/linux/close_range.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/chrono \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/chrono.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ratio \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cstdint \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/limits

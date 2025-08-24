@@ -2,6 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <locale>
+#include <codecvt>
 
 namespace CHTL {
 namespace Utils {
@@ -15,6 +17,30 @@ std::string FileUtils::ReadFile(const std::string& filePath) {
     std::stringstream buffer;
     buffer << file.rdbuf();
     return buffer.str();
+}
+
+std::string FileUtils::ReadFileUTF8(const std::string& filePath) {
+    std::ifstream file(filePath, std::ios::binary);
+    if (!file.is_open()) {
+        return "";
+    }
+    
+    // 确保以UTF-8方式读取
+    file.imbue(std::locale(""));
+    
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string content = buffer.str();
+    
+    // 检查并处理BOM
+    if (content.length() >= 3 && 
+        (unsigned char)content[0] == 0xEF && 
+        (unsigned char)content[1] == 0xBB && 
+        (unsigned char)content[2] == 0xBF) {
+        content = content.substr(3);  // 移除BOM
+    }
+    
+    return content;
 }
 
 bool FileUtils::WriteFile(const std::string& filePath, const std::string& content) {

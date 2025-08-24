@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <locale>
+#include <codecvt>
 #include "Scanner/CHTLUnifiedScanner.h"
 #include "Dispatcher/CompilerDispatcher.h"
 #include "Utils/FileUtils.h"
@@ -48,6 +50,13 @@ void PrintFragmentType(CHTL::Scanner::FragmentType type) {
 }
 
 int main(int argc, char* argv[]) {
+    // 设置UTF-8语言环境
+    std::locale::global(std::locale(""));
+    std::ios_base::sync_with_stdio(false);
+    std::cin.imbue(std::locale());
+    std::cout.imbue(std::locale());
+    std::cerr.imbue(std::locale());
+    
     std::string inputFile;
     std::string outputFile;
     bool verbose = false;
@@ -106,7 +115,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    std::string sourceCode = Utils::FileUtils::ReadFile(inputFile);
+    std::string sourceCode = Utils::FileUtils::ReadFileUTF8(inputFile);
     if (sourceCode.empty()) {
         std::cerr << "错误: 无法读取输入文件或文件为空: " << inputFile << "\n";
         return 1;
