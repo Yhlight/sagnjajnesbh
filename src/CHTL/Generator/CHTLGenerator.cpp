@@ -1481,13 +1481,7 @@ AST::ASTNodeList CHTLGenerator::ExpandTemplate(AST::TemplateReferenceNode& templ
     context_.variables["__template_name__"] = templateName;
     context_.variables["__template_type__"] = templateType;
     
-    // 处理特例化参数 - 暂时跳过，方法可能不存在
-    // if (templateRef.HasSpecialization()) {
-    //     auto specializationParams = templateRef.GetSpecializationParameters();
-    //     for (const auto& param : specializationParams) {
-    //         context_.variables["__specialization__" + param.first] = param.second;
-    //     }
-    // }
+    // TemplateReferenceNode不具有特例化功能，跳过特例化处理
     
     // 根据模板类型进行不同的展开
     if (templateType == "@Element") {
