@@ -1266,12 +1266,12 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
         if (Check(Core::TokenType::SEMICOLON)) {
             Advance();
         }
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return nullptr; // 跳过此导入
     }
     
     // 创建导入节点
-    auto importNode = std::make_shared<AST::ImportNode>(importType, path, alias, Current());
+    auto importNode = std::make_shared<AST::ImportNode>(importType, path, name, alias, Current());
     if (!name.empty()) {
         importNode->SetName(name);
     }
@@ -1530,7 +1530,7 @@ AST::ASTNodePtr CHTLParser::ParseNamespaceDeclaration() {
     context_.currentNamespace = previousNamespace;
     globalMap_.ExitNamespace();
     
-    guard.Commit();
+    // StateGuard自动管理状态，无需手动Commit
     return namespaceNode;
 }
 
@@ -1553,7 +1553,7 @@ AST::ASTNodePtr CHTLParser::ParseSingleNamespaceDeclaration() {
     // 解析约束（except关键字） - 可以在省略大括号的命名空间中使用
     if (Check(Core::TokenType::EXCEPT)) {
         auto constraint = ParseConstraintDeclaration();
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return constraint;
     }
     
@@ -1561,14 +1561,14 @@ AST::ASTNodePtr CHTLParser::ParseSingleNamespaceDeclaration() {
     if (Check(Core::TokenType::LEFT_BRACKET) && 
         stateContext_->LookAhead(1) && stateContext_->LookAhead(1)->GetValue() == "Namespace") {
         auto nestedNamespace = ParseNamespaceDeclaration();
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return nestedNamespace;
     }
     
     // 解析普通声明
     auto declaration = ParseDeclaration();
     if (declaration) {
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return declaration;
     }
     
@@ -1620,7 +1620,7 @@ void CHTLParser::ParseParallelNamespaceDeclarations(std::shared_ptr<AST::Namespa
         }
     }
     
-    guard.Commit();
+    // StateGuard自动管理状态，无需手动Commit
 }
 
 AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
@@ -1779,16 +1779,14 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
     }
     
     // 添加到全局映射表
-    if (globalMap_) {
-        Core::ConfigurationInfo configInfo(configName.empty() ? "default" : configName);
-        for (const auto& setting : configNode->GetSettings()) {
-            configInfo.settings[setting.first] = setting.second;
-        }
-        for (const auto& group : configNode->GetGroups()) {
-            configInfo.groups[group.first] = group.second;
-        }
-        globalMap_->AddConfiguration(configInfo);
+    Core::ConfigurationInfo configInfo(configName.empty() ? "default" : configName);
+    for (const auto& setting : configNode->GetSettings()) {
+        configInfo.settings[setting.first] = setting.second;
     }
+    for (const auto& group : configNode->GetGroups()) {
+        configInfo.groups[group.first] = group.second;
+    }
+    globalMap_.AddConfiguration(configInfo);
     
     return configNode;
 }
@@ -1883,7 +1881,7 @@ AST::ASTNodePtr CHTLParser::ParseScriptBlock() {
         ReportError("脚本块违反语法约束");
     }
     
-    guard.Commit();
+    // StateGuard自动管理状态，无需手动Commit
     return scriptBlock;
 }
 
@@ -1920,7 +1918,8 @@ AST::ASTNodePtr CHTLParser::ParseJavaScriptFragment() {
     }
     
     // 创建JavaScript片段节点
-    auto jsFragment = std::make_shared<AST::ScriptBlockNode>(Utils::StringUtils::Trim(jsContent), Current());
+    auto jsFragment = std::make_shared<AST::ScriptBlockNode>(Current());
+    jsFragment->SetScriptContent(Utils::StringUtils::Trim(jsContent));
     
     return jsFragment;
 }
@@ -1964,12 +1963,13 @@ AST::ASTNodePtr CHTLParser::ParseCHTLJSExpression() {
     // 检查是否有引用选择器 {{&}} - script中的引用语法
     if (Utils::StringUtils::Trim(expression) == "&") {
         // 创建script引用选择器节点，使用LiteralNode
-        auto referenceNode = std::make_shared<AST::LiteralNode>("&", Current());
+        auto referenceNode = std::make_shared<AST::LiteralNode>(AST::LiteralNode::LiteralType::UNQUOTED, "&", Current());
         return referenceNode;
     }
     
     // 创建CHTL JS表达式节点
-    auto chtljsNode = std::make_shared<AST::ScriptBlockNode>(Utils::StringUtils::Trim(expression), Current());
+    auto chtljsNode = std::make_shared<AST::ScriptBlockNode>(Current());
+    chtljsNode->SetScriptContent(Utils::StringUtils::Trim(expression));
     
     return chtljsNode;
 }
@@ -2602,7 +2602,7 @@ bool CHTLParser::ValidateSemantics(AST::ASTNodePtr node) {
     // 实际实现中需要根据具体的AST节点结构进行遍历
     
     if (isValid) {
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
     }
     
     return isValid;
@@ -2656,7 +2656,7 @@ bool CHTLParser::CheckConstraints(const std::string& nodeName, const std::string
     
     bool result = !hasViolation;
     if (result) {
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
     }
     
     return result;

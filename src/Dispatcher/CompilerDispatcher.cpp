@@ -22,13 +22,18 @@ CompilerDispatcher::~CompilerDispatcher() {
 }
 
 void CompilerDispatcher::InitializeCompilers() {
+    // 初始化核心状态管理组件
+    globalMap_ = std::make_unique<Core::CHTLGlobalMap>();
+    stateManager_ = std::make_unique<Core::CHTLState>();
+    chtlJSStateManager_ = std::make_unique<CHTLJS::Core::CHTLJSState>();
+    
     // 初始化统一扫描器
     scanner_ = std::make_unique<Scanner::CHTLUnifiedScanner>();
     scanner_->SetVerbose(config_.enableDebugOutput);
     
     // 完整实现：初始化所有必需的解析器 - 严格按照目标规划.ini要求
-    chtlParser_ = std::make_unique<Parser::CHTLParser>();
-    chtlJSParser_ = std::make_unique<CHTLJS::Parser::CHTLJSParser>();
+    chtlParser_ = std::make_unique<Parser::CHTLParser>(*globalMap_, *stateManager_);
+    chtlJSParser_ = std::make_unique<CHTLJS::Parser::CHTLJSParser>(*chtlJSStateManager_);
     
     // 解析器初始化完成
     if (config_.enableDebugOutput) {

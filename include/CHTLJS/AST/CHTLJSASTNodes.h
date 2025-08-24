@@ -310,25 +310,7 @@ private:
 // FunctionDefinitionNode已移除 - function是JavaScript语法，不属于CHTL JS
 // 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
-/**
- * @brief 箭头函数节点
- */
-class ArrowFunctionNode : public ASTNode {
-public:
-    ArrowFunctionNode(const Core::CHTLJSToken& token);
-    void Accept(ASTVisitor& visitor) override;
-    ASTNodePtr Clone() const override;
-    std::string ToString() const override;
-    
-    void AddParameter(const std::string& param) { parameters_.push_back(param); }
-    const std::vector<std::string>& GetParameters() const { return parameters_; }
-    void SetBody(ASTNodePtr body) { body_ = body; }
-    ASTNodePtr GetBody() const { return body_; }
-
-private:
-    std::vector<std::string> parameters_;
-    ASTNodePtr body_;
-};
+// ArrowFunctionNode已完全移除 - CHTL JS不包含JS语法
 
 // ObjectLiteralNode已移除 - 对象字面量是JavaScript语法，不属于CHTL JS
 // 语法文档第1100行明确说明"CHTL JS不支持JS的语法"

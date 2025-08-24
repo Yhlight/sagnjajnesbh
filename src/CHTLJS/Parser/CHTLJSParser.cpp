@@ -95,10 +95,7 @@ AST::ASTNodePtr CHTLJSParser::ParsePrimaryExpression() {
             // return ParseFunctionDefinition(); // 方法已移除
             
         case Core::TokenType::LEFT_PAREN:
-            // 检查是否为箭头函数的参数
-            if (IsArrowFunction()) {
-                return ParseArrowFunction();
-            }
+            // 箭头函数解析已移除 - CHTL JS不包含JS语法
             {
                 Advance(); // 消费 (
                 auto expr = ParseExpression();
@@ -546,49 +543,7 @@ AST::ASTNodePtr CHTLJSParser::ParseArrayLiteral() {
     return nullptr;
 }
 
-AST::ASTNodePtr CHTLJSParser::ParseArrowFunction() {
-    auto arrowFunc = std::make_shared<AST::ArrowFunctionNode>(Current());
-    
-    // 解析参数
-    if (Check(Core::TokenType::LEFT_PAREN)) {
-        Advance(); // 消费 (
-        
-        while (!IsAtEnd() && !Check(Core::TokenType::RIGHT_PAREN)) {
-            std::string param = ParseIdentifier();
-            if (!param.empty()) {
-                arrowFunc->AddParameter(param);
-            }
-            
-            if (Check(Core::TokenType::COMMA)) {
-                Advance();
-            } else {
-                break;
-            }
-        }
-        
-        if (!Consume(Core::TokenType::RIGHT_PAREN, "期望 ')'")) {
-            return nullptr;
-        }
-    } else {
-        // 单参数箭头函数
-        std::string param = ParseIdentifier();
-        if (!param.empty()) {
-            arrowFunc->AddParameter(param);
-        }
-    }
-    
-    if (!Consume(Core::TokenType::ARROW, "期望 '=>'")) {
-        return nullptr;
-    }
-    
-    // 解析函数体
-    auto body = ParseExpression();
-    if (body) {
-        arrowFunc->SetBody(body);
-    }
-    
-    return arrowFunc;
-}
+// ParseArrowFunction已移除 - CHTL JS不包含JS语法
 
 // 辅助方法实现
 bool CHTLJSParser::Check(Core::TokenType type) const {
