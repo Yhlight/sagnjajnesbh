@@ -59,13 +59,9 @@ CHTLJSCompilationResult CHTLJSCompiler::Compile(const std::string& chtlJSCode, c
         // 1. 预处理代码
         std::string processedCode = PreprocessCode(chtlJSCode);
         
-        // 2. 检查特殊语法类型
+        // 2. 检查虚对象语法
         if (IsVirtualObjectSyntax(processedCode)) {
             return CompileVirtualObject(processedCode, fileName);
-        }
-        
-        if (IsExpressionSyntax(processedCode)) {
-            return CompileExpression(processedCode, fileName);
         }
         
         // 3. 词法分析
@@ -227,9 +223,7 @@ bool CHTLJSCompiler::IsVirtualObjectSyntax(const std::string& code) {
     return trimmed.find("vir") == 0;
 }
 
-bool CHTLJSCompiler::IsExpressionSyntax(const std::string& code) {
-    return code.find("{{") != std::string::npos && code.find("}}") != std::string::npos;
-}
+// 移除了错误的表达式语法检测
 
 std::string CHTLJSCompiler::TransformVirtualObject(const std::string& virCode) {
     // 解析vir语法：vir objectName { ... }
