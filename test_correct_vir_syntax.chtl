@@ -1,0 +1,17 @@
+html {
+    body {
+        div { id: container;
+            text { 虚对象和箭头操作符测试 }
+        }
+        script {
+            vir myObject = listen({
+                click: () => {
+                    console.log("Hello from virtual object!");
+                }
+            });
+            
+            myObject->click();
+            {{#container}}->innerHTML = "Updated";
+        }
+    }
+}
