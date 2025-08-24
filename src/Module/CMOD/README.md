@@ -10,7 +10,7 @@
 ## 📁 目录结构示例
 
 ```
-src/Modules/CMOD/
+src/Module/CMOD/
 ├── UIComponents.chtl      # CHTL组件库
 ├── ThemeSystem.cmod       # 主题系统模块
 ├── LayoutHelpers.chtl     # 布局助手

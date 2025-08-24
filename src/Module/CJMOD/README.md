@@ -9,7 +9,7 @@
 ## 📁 目录结构示例
 
 ```
-src/Modules/CJMOD/
+src/Module/CJMOD/
 ├── ReactSupport.cjmod        # React语法扩展
 ├── VueSupport.cjmod          # Vue语法扩展
 ├── AnimationExtensions.cjmod # 动画扩展

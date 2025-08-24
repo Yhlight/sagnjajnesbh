@@ -1,5 +1,5 @@
 // UI组件库 - CMOD模块源码示例
-// 位置：src/Modules/CMOD/UIComponents.chtl
+// 位置：src/Module/CMOD/UIComponents.chtl
 
 [Namespace] UIComponents
 
