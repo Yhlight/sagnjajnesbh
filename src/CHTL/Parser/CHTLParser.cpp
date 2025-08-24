@@ -1067,17 +1067,60 @@ std::string CHTLParser::ParseIdentifier() {
 }
 
 std::string CHTLParser::ParseStringValue() {
-    const auto& token = Current();
+    std::string value = "";
     
-    if (token.GetType() == Core::TokenType::STRING_LITERAL ||
-        token.GetType() == Core::TokenType::UNQUOTED_LITERAL ||
-        token.GetType() == Core::TokenType::IDENTIFIER ||
-        token.GetType() == Core::TokenType::NUMBER) {
-        Advance();
-        return token.GetValue();
+    // 处理CSS属性值，可能包含多个token
+    while (!IsAtEnd() && 
+           !Check(Core::TokenType::SEMICOLON) && 
+           !Check(Core::TokenType::RIGHT_BRACE) &&
+           !Check(Core::TokenType::NEWLINE)) {
+        
+        const auto& token = Current();
+        
+        // 支持的CSS属性值token类型
+        if (token.GetType() == Core::TokenType::STRING_LITERAL ||
+            token.GetType() == Core::TokenType::UNQUOTED_LITERAL ||
+            token.GetType() == Core::TokenType::IDENTIFIER ||
+            token.GetType() == Core::TokenType::NUMBER ||
+            token.GetType() == Core::TokenType::HASH ||           // # 符号
+            token.GetType() == Core::TokenType::DOT ||            // . 符号
+            token.GetType() == Core::TokenType::LEFT_PAREN ||     // ( 符号
+            token.GetType() == Core::TokenType::RIGHT_PAREN ||    // ) 符号
+            token.GetType() == Core::TokenType::COMMA) {          // , 符号
+            
+            value += token.GetValue();
+            Advance();
+        } else {
+            // 遇到不支持的token，停止解析
+            break;
+        }
+        
+        // 如果下一个token是空白，添加空格（除非是特殊符号）
+        if (!IsAtEnd() && !value.empty()) {
+            const auto& nextToken = Current();
+            if (nextToken.GetType() != Core::TokenType::HASH &&
+                nextToken.GetType() != Core::TokenType::DOT &&
+                nextToken.GetType() != Core::TokenType::LEFT_PAREN &&
+                nextToken.GetType() != Core::TokenType::RIGHT_PAREN &&
+                nextToken.GetType() != Core::TokenType::COMMA &&
+                !Check(Core::TokenType::SEMICOLON) &&
+                !Check(Core::TokenType::RIGHT_BRACE)) {
+                
+                // 检查是否需要添加空格
+                char lastChar = value.back();
+                if (lastChar != '#' && lastChar != '.' && lastChar != '(' && 
+                    lastChar != ')' && lastChar != ',') {
+                    // 只在某些情况下添加空格
+                    if (nextToken.GetType() == Core::TokenType::IDENTIFIER ||
+                        nextToken.GetType() == Core::TokenType::NUMBER) {
+                        value += " ";
+                    }
+                }
+            }
+        }
     }
     
-    return "";
+    return Utils::StringUtils::Trim(value);
 }
 
 std::string CHTLParser::ParseTypeIdentifier() {
