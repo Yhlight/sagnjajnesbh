@@ -448,6 +448,73 @@ private:
      * @brief 输出调试信息
      */
     void LogDebug(const std::string& message);
+    
+    // ============ 可变长度切片机制 ============
+    
+    /**
+     * @brief 智能片段完整性检测
+     * @param startPos 片段开始位置
+     * @param endPos 片段结束位置
+     * @return 是否为完整的代码片段
+     */
+    bool IsCompleteCodeFragment(size_t startPos, size_t endPos);
+    
+    /**
+     * @brief 动态扩增片段边界
+     * @param startPos 当前开始位置
+     * @param endPos 当前结束位置（引用，会被修改）
+     * @return 是否成功扩增
+     */
+    bool ExpandFragmentBoundary(size_t startPos, size_t& endPos);
+    
+    /**
+     * @brief 检测CHTL块的完整性
+     * @param content 代码内容
+     * @return 是否为完整的CHTL块
+     */
+    bool IsCHTLBlockComplete(const std::string& content);
+    
+    /**
+     * @brief 检测CHTL JS片段的完整性
+     * @param content 代码内容
+     * @return 是否为完整的CHTL JS片段
+     */
+    bool IsCHTLJSFragmentComplete(const std::string& content);
+    
+    /**
+     * @brief 最小单元切割
+     * @param content 完整代码内容
+     * @param fragments 输出的片段列表
+     */
+    void PerformMinimalUnitSlicing(const std::string& content, std::vector<CodeFragment>& fragments);
+    
+    /**
+     * @brief 计算大括号平衡
+     * @param content 代码内容
+     * @return 大括号平衡数（正数表示未闭合的左括号）
+     */
+    int CalculateBraceBalance(const std::string& content);
+    
+    /**
+     * @brief 查找下一个语法边界
+     * @param startPos 开始位置
+     * @return 语法边界位置
+     */
+    size_t FindNextSyntaxBoundary(size_t startPos);
+    
+    /**
+     * @brief 判断是否需要最小单元切割
+     * @param content 代码内容
+     * @return 是否需要切割
+     */
+    bool NeedsMinimalUnitSlicing(const std::string& content);
+    
+    /**
+     * @brief 确定片段类型
+     * @param content 代码内容
+     * @return 片段类型
+     */
+    FragmentType DetermineFragmentType(const std::string& content);
 };
 
 } // namespace Scanner
