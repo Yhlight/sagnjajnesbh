@@ -501,15 +501,25 @@ AST::ASTNodePtr CHTLJSParser::ParseAssignmentExpression() {
         return nullptr;
     }
     
-    // 检查方法调用
+    // 检查箭头操作符和点操作符
     while (Check(Core::TokenType::DOT) || Check(Core::TokenType::ARROW)) {
         bool isArrow = Current().GetType() == Core::TokenType::ARROW;
+        Core::CHTLJSToken operatorToken = Current();
         Advance(); // 消费操作符
         
         if (Check(Core::TokenType::IDENTIFIER)) {
-            std::string methodName = ParseIdentifier();
-            // MethodCallNode已移除 - 方法调用是JavaScript语法，不属于CHTL JS核心
-            ReportError("方法调用语法不属于CHTL JS核心，属于JavaScript语法");
+            auto rightExpr = ParsePrimaryExpression(); // 解析右侧表达式
+            
+            if (isArrow) {
+                // 创建箭头操作符节点 - 这是CHTL JS核心特征
+                expr = std::make_shared<AST::ArrowOperatorNode>(expr, rightExpr, operatorToken);
+            } else {
+                // 点操作符处理（如果需要的话）
+                ReportError("点操作符在CHTL JS中应使用箭头操作符->代替");
+                return nullptr;
+            }
+        } else {
+            ReportError("箭头操作符后期望标识符");
             return nullptr;
         }
     }

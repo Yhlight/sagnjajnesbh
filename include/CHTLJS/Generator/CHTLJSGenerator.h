@@ -86,6 +86,7 @@ public:
     void VisitLiteralNode(AST::LiteralNode& node) override;
     void VisitEnhancedSelectorNode(AST::EnhancedSelectorNode& node) override;
     void VisitVirtualObjectNode(AST::VirtualObjectNode& node) override;
+    void VisitArrowOperatorNode(AST::ArrowOperatorNode& node) override;  // 箭头操作符
     void VisitListenBlockNode(AST::ListenBlockNode& node) override;
     void VisitDelegateBlockNode(AST::DelegateBlockNode& node) override;
     void VisitAnimateBlockNode(AST::AnimateBlockNode& node) override;

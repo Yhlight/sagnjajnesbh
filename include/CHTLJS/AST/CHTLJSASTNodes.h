@@ -31,6 +31,7 @@ enum class NodeType {
     // CHTL JS核心语法节点（严格按照语法文档第1099-1531行）
     ENHANCED_SELECTOR,          // 增强选择器 {{selector}} - 语法文档第1130行
     VIRTUAL_OBJECT,             // 虚对象 vir - 语法文档第1274行
+    ARROW_OPERATOR,             // 箭头操作符 -> - 语法文档第1162行（与.完全等价）
     LISTEN_BLOCK,               // 监听器块 listen({...}) - 语法文档第1184行
     DELEGATE_BLOCK,             // 事件委托块 delegate({...}) - 语法文档第1215行
     ANIMATE_BLOCK,              // 动画块 animate({...}) - 语法文档第1233行
@@ -223,6 +224,30 @@ public:
 private:
     std::string name_;
     ASTNodePtr assignment_;
+};
+
+/**
+ * @brief 箭头操作符节点
+ * 
+ * 根据官方语法文档第1162-1164行：
+ * "使用到CHTL JS语法时，我们推荐使用->代替. 以便明确使用了CHTL JS语法"
+ * "->与.是完全等价的，因此你可以直接使用->进行链式访问"
+ */
+class ArrowOperatorNode : public ASTNode {
+public:
+    ArrowOperatorNode(ASTNodePtr left, ASTNodePtr right, const Core::CHTLJSToken& token);
+    void Accept(ASTVisitor& visitor) override;
+    ASTNodePtr Clone() const override;
+    std::string ToString() const override;
+    
+    ASTNodePtr GetLeft() const { return left_; }
+    ASTNodePtr GetRight() const { return right_; }
+    void SetLeft(ASTNodePtr left) { left_ = left; }
+    void SetRight(ASTNodePtr right) { right_ = right; }
+    
+private:
+    ASTNodePtr left_;               // 左操作数
+    ASTNodePtr right_;              // 右操作数
 };
 
 /**

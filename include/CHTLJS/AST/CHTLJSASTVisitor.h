@@ -44,6 +44,7 @@ public:
     // CHTL JS特殊节点访问
     virtual void VisitEnhancedSelectorNode(EnhancedSelectorNode& node) = 0;
     virtual void VisitVirtualObjectNode(VirtualObjectNode& node) = 0;
+    virtual void VisitArrowOperatorNode(ArrowOperatorNode& node) = 0;  // 箭头操作符
     virtual void VisitListenBlockNode(ListenBlockNode& node) = 0;
     virtual void VisitDelegateBlockNode(DelegateBlockNode& node) = 0;
     virtual void VisitAnimateBlockNode(AnimateBlockNode& node) = 0;
@@ -76,6 +77,7 @@ public:
     void VisitCommentNode(CommentNode& node) override {}
     void VisitEnhancedSelectorNode(EnhancedSelectorNode& node) override {}
     void VisitVirtualObjectNode(VirtualObjectNode& node) override {}
+    void VisitArrowOperatorNode(ArrowOperatorNode& node) override {}  // 箭头操作符
     void VisitListenBlockNode(ListenBlockNode& node) override {}
     void VisitDelegateBlockNode(DelegateBlockNode& node) override {}
     void VisitAnimateBlockNode(AnimateBlockNode& node) override {}

@@ -111,6 +111,25 @@ void CHTLJSGenerator::VisitVirtualObjectNode(AST::VirtualObjectNode& node) {
     // 虚对象本身不生成代码，只在调用时生成对应的全局函数
 }
 
+void CHTLJSGenerator::VisitArrowOperatorNode(AST::ArrowOperatorNode& node) {
+    // 处理箭头操作符：left->right 转换为 left.right
+    // 根据官方语法文档第1162-1164行，->与.完全等价
+    
+    if (node.GetLeft()) {
+        node.GetLeft()->Accept(*this);
+    }
+    
+    output_ << ".";  // 将箭头操作符转换为点操作符
+    
+    if (node.GetRight()) {
+        node.GetRight()->Accept(*this);
+    }
+    
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo("生成箭头操作符转换: -> 转为 .");
+    }
+}
+
 void CHTLJSGenerator::VisitListenBlockNode(AST::ListenBlockNode& node) {
     // 监听器转换为addEventListener - 语法文档第1184行
     
@@ -181,10 +200,10 @@ void CHTLJSGenerator::VisitAnimateBlockNode(AST::AnimateBlockNode& node) {
 void CHTLJSGenerator::VisitVirtualMethodCallNode(AST::VirtualMethodCallNode& node) {
     // 处理虚对象方法调用：objectName->method() 转换为 objectName.method()
     // 根据官方语法文档，->与.完全等价
-    output_ << node.GetObjectName() << "." << node.GetMethodName() << "()";
+    output_ << node.GetObjectName() << "." << node.GetMethod() << "()";
     
     if (config_.enableDebug) {
-        Utils::ErrorHandler::GetInstance().LogInfo("生成虚对象方法调用: " + node.GetObjectName() + "." + node.GetMethodName());
+        Utils::ErrorHandler::GetInstance().LogInfo("生成虚对象方法调用: " + node.GetObjectName() + "." + node.GetMethod());
     }
 }
 

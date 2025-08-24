@@ -157,6 +157,33 @@ std::string VirtualObjectNode::ToString() const {
     return "VIRTUAL_OBJECT(" + name_ + ")";
 }
 
+// ArrowOperatorNode实现
+ArrowOperatorNode::ArrowOperatorNode(ASTNodePtr left, ASTNodePtr right, const Core::CHTLJSToken& token)
+    : ASTNode(NodeType::ARROW_OPERATOR, token), left_(left), right_(right) {}
+
+void ArrowOperatorNode::Accept(ASTVisitor& visitor) {
+    visitor.VisitArrowOperatorNode(*this);
+}
+
+ASTNodePtr ArrowOperatorNode::Clone() const {
+    ASTNodePtr leftClone = left_ ? left_->Clone() : nullptr;
+    ASTNodePtr rightClone = right_ ? right_->Clone() : nullptr;
+    return std::make_shared<ArrowOperatorNode>(leftClone, rightClone, token_);
+}
+
+std::string ArrowOperatorNode::ToString() const {
+    std::string result = "ARROW_OPERATOR(";
+    if (left_) {
+        result += left_->ToString();
+    }
+    result += " -> ";
+    if (right_) {
+        result += right_->ToString();
+    }
+    result += ")";
+    return result;
+}
+
 // ListenBlockNode实现
 ListenBlockNode::ListenBlockNode(const Core::CHTLJSToken& token)
     : ASTNode(NodeType::LISTEN_BLOCK, token) {}
