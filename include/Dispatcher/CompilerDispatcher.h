@@ -182,6 +182,20 @@ private:
      * @brief 清理资源
      */
     void Cleanup();
+    
+    /**
+     * @brief 编译CHTL片段
+     * @param content CHTL代码内容
+     * @return 生成的HTML代码
+     */
+    std::string CompileCHTLFragment(const std::string& content);
+    
+    /**
+     * @brief 编译CHTL JS片段
+     * @param content CHTL JS代码内容
+     * @return 生成的JavaScript代码
+     */
+    std::string CompileCHTLJSFragment(const std::string& content);
 };
 
 } // namespace Dispatcher

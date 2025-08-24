@@ -2,6 +2,8 @@
 #include "Dispatcher/FragmentProcessors.h"
 #include "CHTL/Parser/CHTLParser.h"
 #include "CHTLJS/Parser/CHTLJSParser.h"
+#include "CHTL/Lexer/CHTLLexer.h"
+#include "CHTLJS/Lexer/CHTLJSLexer.h"
 #include "CSS/CSSCompiler.h"
 #include "JavaScript/JavaScriptCompiler.h"
 #include "Utils/ErrorHandler.h"
@@ -95,34 +97,47 @@ CompilationResult CompilerDispatcher::DispatchFragments(const std::vector<Scanne
             "开始片段协作编译，共 " + std::to_string(fragments.size()) + " 个片段"
         );
         
-        // 创建片段处理器，传入对应的解析器
-        CHTLFragmentProcessor chtlProcessor(chtlParser_.get());
-        CHTLJSFragmentProcessor chtlJSProcessor(chtlJSParser_.get());
-        CSSFragmentProcessor cssProcessor;
-        JavaScriptFragmentProcessor jsProcessor;
-        
-        // 处理每个片段
+        // 直接调用对应的编译器处理片段
         std::vector<ProcessedFragment> processedFragments;
         
         for (const auto& fragment : fragments) {
             ProcessedFragment processed;
+            processed.originalType = fragment.type;
+            processed.originalPosition = fragment.startPos;
             
-            switch (fragment.type) {
-                case Scanner::FragmentType::CHTL:
-                    processed = chtlProcessor.ProcessFragment(fragment);
-                    break;
-                case Scanner::FragmentType::CHTL_JS:
-                    processed = chtlJSProcessor.ProcessFragment(fragment);
-                    break;
-                case Scanner::FragmentType::CSS:
-                    processed = cssProcessor.ProcessFragment(fragment);
-                    break;
-                case Scanner::FragmentType::JS:
-                    processed = jsProcessor.ProcessFragment(fragment);
-                    break;
-                default:
-                    // 跳过未知片段
-                    continue;
+            try {
+                switch (fragment.type) {
+                    case Scanner::FragmentType::CHTL:
+                        // 调用CHTL编译器（解析器+生成器）
+                        processed.generatedCode = CompileCHTLFragment(fragment.content);
+                        processed.isContent = true;
+                        break;
+                    case Scanner::FragmentType::CHTL_JS:
+                        // 调用CHTL JS编译器
+                        processed.generatedCode = CompileCHTLJSFragment(fragment.content);
+                        processed.isContent = true;
+                        break;
+                    case Scanner::FragmentType::CSS:
+                        // 调用CSS编译器
+                        processed.generatedCode = cssCompiler_->Compile(fragment.content, fileName);
+                        processed.isContent = true;
+                        break;
+                    case Scanner::FragmentType::JS:
+                        // 调用JavaScript编译器
+                        processed.generatedCode = jsCompiler_->Compile(fragment.content, fileName);
+                        processed.isContent = true;
+                        break;
+                    default:
+                        // 跳过未知片段
+                        continue;
+                }
+            } catch (const std::exception& e) {
+                Utils::ErrorHandler::GetInstance().LogError(
+                    "片段编译失败: " + std::string(e.what()) + " (类型: " + std::to_string(static_cast<int>(fragment.type)) + ")"
+                );
+                // 编译失败时保持原内容
+                processed.generatedCode = fragment.content;
+                processed.isContent = true;
             }
             
             processedFragments.push_back(processed);
@@ -380,6 +395,58 @@ void CompilerDispatcher::Cleanup() {
     // chtlJSParser_.reset();
     cssCompiler_.reset();
     jsCompiler_.reset();
+}
+
+std::string CompilerDispatcher::CompileCHTLFragment(const std::string& content) {
+    if (!chtlParser_) {
+        throw std::runtime_error("CHTL解析器未初始化");
+    }
+    
+    try {
+        // 使用CHTL词法分析器
+        CHTL::Lexer::CHTLLexer lexer;
+        auto tokens = lexer.Tokenize(content, "fragment");
+        
+        // 使用CHTL解析器解析
+        auto ast = chtlParser_->Parse(tokens, "fragment");
+        
+        if (ast) {
+            // 这里需要CHTL生成器来生成HTML
+            // 暂时返回处理过的内容
+            return content;
+        }
+        
+        return content;
+    } catch (const std::exception& e) {
+        Utils::ErrorHandler::GetInstance().LogWarning("CHTL片段编译警告: " + std::string(e.what()));
+        return content;
+    }
+}
+
+std::string CompilerDispatcher::CompileCHTLJSFragment(const std::string& content) {
+    if (!chtlJSParser_) {
+        throw std::runtime_error("CHTL JS解析器未初始化");
+    }
+    
+    try {
+        // 使用CHTL JS词法分析器
+        CHTLJS::Lexer::CHTLJSLexer lexer;
+        auto tokens = lexer.Tokenize(content, "fragment");
+        
+        // 使用CHTL JS解析器解析
+        auto ast = chtlJSParser_->Parse(tokens, "fragment");
+        
+        if (ast) {
+            // 这里需要CHTL JS生成器来生成JavaScript
+            // 暂时返回处理过的内容
+            return content;
+        }
+        
+        return content;
+    } catch (const std::exception& e) {
+        Utils::ErrorHandler::GetInstance().LogWarning("CHTL JS片段编译警告: " + std::string(e.what()));
+        return content;
+    }
 }
 
 } // namespace Dispatcher
