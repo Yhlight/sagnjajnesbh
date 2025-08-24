@@ -121,10 +121,9 @@ target_include_directories(cmod PUBLIC
 
 target_link_libraries(cmod utils)
 
-# CJMOD库
+# CJMOD库 - 使用真正的CJMOD API
 add_library(cjmod STATIC
-    CJMOD/ProperCJMODApi.cpp
-    CJMOD/CJMODApi.cpp
+    CJMOD/TrueCJMODApi.cpp
 )
 
 target_include_directories(cjmod PUBLIC

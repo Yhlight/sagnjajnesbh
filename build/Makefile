@@ -970,53 +970,29 @@ CHTLJS/Parser/CHTLJSParser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_core.dir/build.make CMakeFiles/chtljs_core.dir/CHTLJS/Parser/CHTLJSParser.cpp.s
 .PHONY : CHTLJS/Parser/CHTLJSParser.cpp.s
 
-CJMOD/CJMODApi.o: CJMOD/CJMODApi.cpp.o
-.PHONY : CJMOD/CJMODApi.o
+CJMOD/TrueCJMODApi.o: CJMOD/TrueCJMODApi.cpp.o
+.PHONY : CJMOD/TrueCJMODApi.o
 
 # target to build an object file
-CJMOD/CJMODApi.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cjmod.dir/build.make CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o
-.PHONY : CJMOD/CJMODApi.cpp.o
+CJMOD/TrueCJMODApi.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cjmod.dir/build.make CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o
+.PHONY : CJMOD/TrueCJMODApi.cpp.o
 
-CJMOD/CJMODApi.i: CJMOD/CJMODApi.cpp.i
-.PHONY : CJMOD/CJMODApi.i
-
-# target to preprocess a source file
-CJMOD/CJMODApi.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cjmod.dir/build.make CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.i
-.PHONY : CJMOD/CJMODApi.cpp.i
-
-CJMOD/CJMODApi.s: CJMOD/CJMODApi.cpp.s
-.PHONY : CJMOD/CJMODApi.s
-
-# target to generate assembly for a file
-CJMOD/CJMODApi.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cjmod.dir/build.make CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.s
-.PHONY : CJMOD/CJMODApi.cpp.s
-
-CJMOD/ProperCJMODApi.o: CJMOD/ProperCJMODApi.cpp.o
-.PHONY : CJMOD/ProperCJMODApi.o
-
-# target to build an object file
-CJMOD/ProperCJMODApi.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cjmod.dir/build.make CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o
-.PHONY : CJMOD/ProperCJMODApi.cpp.o
-
-CJMOD/ProperCJMODApi.i: CJMOD/ProperCJMODApi.cpp.i
-.PHONY : CJMOD/ProperCJMODApi.i
+CJMOD/TrueCJMODApi.i: CJMOD/TrueCJMODApi.cpp.i
+.PHONY : CJMOD/TrueCJMODApi.i
 
 # target to preprocess a source file
-CJMOD/ProperCJMODApi.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cjmod.dir/build.make CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.i
-.PHONY : CJMOD/ProperCJMODApi.cpp.i
+CJMOD/TrueCJMODApi.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cjmod.dir/build.make CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.i
+.PHONY : CJMOD/TrueCJMODApi.cpp.i
 
-CJMOD/ProperCJMODApi.s: CJMOD/ProperCJMODApi.cpp.s
-.PHONY : CJMOD/ProperCJMODApi.s
+CJMOD/TrueCJMODApi.s: CJMOD/TrueCJMODApi.cpp.s
+.PHONY : CJMOD/TrueCJMODApi.s
 
 # target to generate assembly for a file
-CJMOD/ProperCJMODApi.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cjmod.dir/build.make CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.s
-.PHONY : CJMOD/ProperCJMODApi.cpp.s
+CJMOD/TrueCJMODApi.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cjmod.dir/build.make CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.s
+.PHONY : CJMOD/TrueCJMODApi.cpp.s
 
 CMOD/CMODManager.o: CMOD/CMODManager.cpp.o
 .PHONY : CMOD/CMODManager.o
@@ -1436,12 +1412,9 @@ help:
 	@echo "... CHTLJS/Parser/CHTLJSParser.o"
 	@echo "... CHTLJS/Parser/CHTLJSParser.i"
 	@echo "... CHTLJS/Parser/CHTLJSParser.s"
-	@echo "... CJMOD/CJMODApi.o"
-	@echo "... CJMOD/CJMODApi.i"
-	@echo "... CJMOD/CJMODApi.s"
-	@echo "... CJMOD/ProperCJMODApi.o"
-	@echo "... CJMOD/ProperCJMODApi.i"
-	@echo "... CJMOD/ProperCJMODApi.s"
+	@echo "... CJMOD/TrueCJMODApi.o"
+	@echo "... CJMOD/TrueCJMODApi.i"
+	@echo "... CJMOD/TrueCJMODApi.s"
 	@echo "... CMOD/CMODManager.o"
 	@echo "... CMOD/CMODManager.i"
 	@echo "... CMOD/CMODManager.s"

@@ -143,7 +143,7 @@ void NamespaceMerger::ExtractSymbolsFromNode(std::shared_ptr<AST::ASTNode> node,
     // 根据节点类型提取符号名称
     switch (node->GetType()) {
         case AST::NodeType::CUSTOM_ELEMENT: {
-            auto customElement = std::dynamic_pointer_cast<AST::CustomElementNode>(node);
+            auto customElement = std::dynamic_pointer_cast<AST::CustomNode>(node);
             if (customElement) {
                 symbol.name = customElement->GetName();
                 symbol.type = "@Element";
@@ -456,7 +456,7 @@ std::string NamespaceMerger::GetNodeName(std::shared_ptr<AST::ASTNode> node) {
     
     switch (node->GetType()) {
         case AST::NodeType::CUSTOM_ELEMENT: {
-            auto customElement = std::dynamic_pointer_cast<AST::CustomElementNode>(node);
+            auto customElement = std::dynamic_pointer_cast<AST::CustomNode>(node);
             return customElement ? customElement->GetName() : "";
         }
         case AST::NodeType::CUSTOM_STYLE: {

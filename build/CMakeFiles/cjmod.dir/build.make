@@ -72,47 +72,31 @@ include CMakeFiles/cjmod.dir/flags.make
 CMakeFiles/cjmod.dir/codegen:
 .PHONY : CMakeFiles/cjmod.dir/codegen
 
-CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o: CMakeFiles/cjmod.dir/flags.make
-CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o: /workspace/src/CJMOD/ProperCJMODApi.cpp
-CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o: CMakeFiles/cjmod.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o -MF CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o.d -o CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o -c /workspace/src/CJMOD/ProperCJMODApi.cpp
+CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o: CMakeFiles/cjmod.dir/flags.make
+CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o: /workspace/src/CJMOD/TrueCJMODApi.cpp
+CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o: CMakeFiles/cjmod.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o -MF CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o.d -o CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o -c /workspace/src/CJMOD/TrueCJMODApi.cpp
 
-CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CJMOD/ProperCJMODApi.cpp > CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.i
+CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CJMOD/TrueCJMODApi.cpp > CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.i
 
-CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CJMOD/ProperCJMODApi.cpp -o CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.s
-
-CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o: CMakeFiles/cjmod.dir/flags.make
-CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o: /workspace/src/CJMOD/CJMODApi.cpp
-CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o: CMakeFiles/cjmod.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o -MF CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o.d -o CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o -c /workspace/src/CJMOD/CJMODApi.cpp
-
-CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/CJMOD/CJMODApi.cpp > CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.i
-
-CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CJMOD/CJMODApi.cpp -o CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.s
+CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/CJMOD/TrueCJMODApi.cpp -o CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.s
 
 # Object files for target cjmod
 cjmod_OBJECTS = \
-"CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o" \
-"CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o"
+"CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o"
 
 # External object files for target cjmod
 cjmod_EXTERNAL_OBJECTS =
 
-libcjmod.a: CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o
-libcjmod.a: CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o
+libcjmod.a: CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o
 libcjmod.a: CMakeFiles/cjmod.dir/build.make
 libcjmod.a: CMakeFiles/cjmod.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libcjmod.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libcjmod.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/cjmod.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cjmod.dir/link.txt --verbose=$(VERBOSE)
 

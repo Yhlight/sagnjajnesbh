@@ -1,8 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o"
-  "CMakeFiles/cjmod.dir/CJMOD/CJMODApi.cpp.o.d"
-  "CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o"
-  "CMakeFiles/cjmod.dir/CJMOD/ProperCJMODApi.cpp.o.d"
+  "CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o"
+  "CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o.d"
   "libcjmod.a"
   "libcjmod.pdb"
 )
