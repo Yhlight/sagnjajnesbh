@@ -50,25 +50,21 @@ AST::ASTNodePtr CHTLJSParser::ParseStatement() {
     
     // 先整体识别虚对象方法调用模式：identifier->identifier()
     if (token.GetType() == Core::TokenType::IDENTIFIER) {
-        size_t savedPos = tokens_->GetPosition();
-        
-        // 前瞻：identifier -> identifier (
-        if (tokens_->GetPosition() + 2 < tokens_->Size()) {
-            auto nextToken = tokens_->Peek(1);
-            auto afterNextToken = tokens_->Peek(2);
-            auto afterAfterNextToken = tokens_->Peek(3);
+        // 前瞻：当前identifier -> identifier (
+        // 检查后续三个token的模式
+        if (tokens_->GetPosition() + 3 < tokens_->Size()) {
+            auto token1 = tokens_->Peek(1);  // 应该是 ARROW
+            auto token2 = tokens_->Peek(2);  // 应该是 IDENTIFIER
+            auto token3 = tokens_->Peek(3);  // 应该是 LEFT_PAREN
             
-            if (nextToken.GetType() == Core::TokenType::ARROW &&
-                afterNextToken.GetType() == Core::TokenType::IDENTIFIER &&
-                afterAfterNextToken.GetType() == Core::TokenType::LEFT_PAREN) {
+            if (token1.GetType() == Core::TokenType::ARROW &&
+                token2.GetType() == Core::TokenType::IDENTIFIER &&
+                token3.GetType() == Core::TokenType::LEFT_PAREN) {
                 
                 // 整体识别为虚对象方法调用
                 return ParseVirtualMethodCall();
             }
         }
-        
-        // 恢复位置，按正常流程解析
-        tokens_->SetPosition(savedPos);
     }
     
     switch (token.GetType()) {
@@ -728,11 +724,44 @@ AST::ASTNodePtr CHTLJSParser::ParseMethodCall(AST::ASTNodePtr object) {
 }
 
 AST::ASTNodePtr CHTLJSParser::ParseVirtualMethodCall() {
-    // ParseVirtualMethodCall已移除 - 虚对象方法调用属于CJMOD扩展，不属于CHTL JS核心
-    // 语法文档第1485行明确说明虚对象调用属于CJMOD扩展
+    // 根据官方语法文档，虚对象方法调用是CHTL JS核心特征
+    // 解析格式：virtualObject->method()
     
-    ReportError("虚对象方法调用属于CJMOD扩展，不属于CHTL JS核心语法");
-    return nullptr;
+    if (!Check(Core::TokenType::IDENTIFIER)) {
+        ReportError("期望虚对象标识符");
+        return nullptr;
+    }
+    
+    std::string objectName = ParseIdentifier();
+    
+    if (!Consume(Core::TokenType::ARROW, "期望箭头操作符 '->'")) {
+        return nullptr;
+    }
+    
+    if (!Check(Core::TokenType::IDENTIFIER)) {
+        ReportError("期望方法标识符");
+        return nullptr;
+    }
+    
+    std::string methodName = ParseIdentifier();
+    
+    if (!Consume(Core::TokenType::LEFT_PAREN, "期望 '('")) {
+        return nullptr;
+    }
+    
+    // 跳过参数（简单处理）
+    int parenCount = 1;
+    while (parenCount > 0 && !IsAtEnd()) {
+        if (Check(Core::TokenType::LEFT_PAREN)) {
+            parenCount++;
+        } else if (Check(Core::TokenType::RIGHT_PAREN)) {
+            parenCount--;
+        }
+        Advance();
+    }
+    
+    // 创建虚对象方法调用节点
+    return std::make_shared<AST::VirtualMethodCallNode>(objectName, methodName, Current());
 }
 
 AST::ASTNodePtr CHTLJSParser::ParseAnimationKeyframe() {
