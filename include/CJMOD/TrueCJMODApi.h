@@ -82,6 +82,12 @@ public:
     const std::string& getProcessedValue() const { return processedValue_; }
     const std::string& getJSCode() const { return jsCode_; }
     
+    // 新增：支持可选参数和无修饰字面量
+    bool isOptional() const { return isOptional_; }
+    bool hasLiteralSupport() const { return literalSupport_; }
+    void SetOptional(bool optional) { isOptional_ = optional; }
+    void SetLiteralSupport(bool support) { literalSupport_ = support; }
+    
     // 输出重载
     friend std::ostream& operator<<(std::ostream& os, const Arg& arg);
 
@@ -90,6 +96,8 @@ private:
     bool isPlaceholder_;
     bool hasBind_;
     bool hasValue_;
+    bool isOptional_;        // 新增：是否为可选参数
+    bool literalSupport_;    // 新增：是否支持无修饰字面量
     std::string rawValue_;
     std::string processedValue_;
     std::string jsTemplate_;
@@ -148,12 +156,20 @@ public:
     // 占位符管理
     size_t getPlaceholderCount() const { return placeholderCounter_; }
     void resetPlaceholderIndex() { currentPlaceholderIndex_ = 0; }
+    
+    // 新增：无序和字面量支持
+    void SetUnorderedSupport(bool support) { unorderedSupport_ = support; }
+    void SetLiteralSupport(bool support) { literalSupport_ = support; }
+    bool hasUnorderedSupport() const { return unorderedSupport_; }
+    bool hasLiteralSupport() const { return literalSupport_; }
 
 private:
     std::unordered_map<std::string, size_t> nameToIndex_;
     size_t placeholderCounter_ = 0;
     mutable size_t currentPlaceholderIndex_ = 0; // 用于占位符自动计数
     std::string triggerKeyword_;
+    bool unorderedSupport_ = false;  // 新增：是否支持无序参数
+    bool literalSupport_ = false;    // 新增：是否支持无修饰字面量
     
     Arg* findArg(const std::string& name);
 };
@@ -241,9 +257,16 @@ private:
 // ============================================================================
 
 /**
- * @brief syntaxAnalys全局函数 - 改进的语法分析
+ * @brief syntaxAnalys全局函数 - 支持无序、可选、无修饰字面量的语法分析
+ * @param pattern 语法模式字符串，使用$作为占位符，$?表示可选参数
+ * @param ignoreChars 忽略的字符集（可选）
+ * @param unorderedSupport 是否支持无序参数（默认true）
+ * @param literalSupport 是否支持无修饰字面量（默认true）
  */
-std::unique_ptr<Syntax> syntaxAnalys(const std::string& pattern, const std::string& ignoreChars = "");
+std::unique_ptr<Syntax> syntaxAnalys(const std::string& pattern, 
+                                    const std::string& ignoreChars = "",
+                                    bool unorderedSupport = true,
+                                    bool literalSupport = true);
 
 /**
  * @brief generateCode全局函数 - 优化的代码生成

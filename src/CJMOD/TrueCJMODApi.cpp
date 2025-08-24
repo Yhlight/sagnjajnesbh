@@ -388,9 +388,66 @@ std::string CHTLJSFunction::extractContent(size_t start, size_t end) {
 // 全局函数实现 - 完善的API入口点
 // ============================================================================
 
-std::unique_ptr<Syntax> syntaxAnalys(const std::string& pattern, const std::string& ignoreChars) {
+std::unique_ptr<Syntax> syntaxAnalys(const std::string& pattern, 
+                                    const std::string& ignoreChars,
+                                    bool unorderedSupport,
+                                    bool literalSupport) {
     CHTLJSFunction processor;
-    return processor.syntaxAnalys(pattern, ignoreChars);
+    auto syntax = processor.syntaxAnalys(pattern, ignoreChars);
+    
+    // 应用无序和字面量支持特性
+    if (syntax) {
+        // 解析可选参数标记（$?）
+        std::regex optionalRegex(R"(\$(\w+)?\?)");
+        std::string::const_iterator start = pattern.cbegin();
+        std::smatch match;
+        
+        std::set<std::string> optionalParams;
+        while (std::regex_search(start, pattern.cend(), match, optionalRegex)) {
+            if (match[1].matched) {
+                optionalParams.insert(match[1].str());
+            }
+            start = match.suffix().first;
+        }
+        
+        // 标记可选参数
+        for (auto& arg : syntax->args) {
+            if (optionalParams.count(arg.getName()) > 0) {
+                arg.SetOptional(true);
+            }
+            
+            // 启用无修饰字面量支持
+            if (literalSupport) {
+                arg.SetLiteralSupport(true);
+                
+                // 为字面量参数设置智能绑定
+                if (!arg.hasBind()) {
+                    arg.bind([](const std::string& value) -> std::string {
+                        // 无修饰字面量处理：url: image.jpg -> "image.jpg"
+                        if (!value.empty() && value.front() != '"' && value.front() != '\'') {
+                            // 检查是否为数字或布尔值
+                            if (std::regex_match(value, std::regex("^-?\\d+(\\.\\d+)?$"))) {
+                                return value; // 保持数字格式
+                            }
+                            if (value == "true" || value == "false") {
+                                return value; // 保持布尔值格式
+                            }
+                            // 其他情况添加引号
+                            return "\"" + value + "\"";
+                        }
+                        return value;
+                    });
+                }
+            }
+        }
+        
+        // 启用无序支持
+        if (unorderedSupport) {
+            syntax->SetUnorderedSupport(true);
+        }
+    }
+    
+    return syntax;
 }
 
 std::string generateCode(const Syntax& syntax) {
