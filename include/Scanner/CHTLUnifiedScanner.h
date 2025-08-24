@@ -515,6 +515,15 @@ private:
      * @return 片段类型
      */
     FragmentType DetermineFragmentType(const std::string& content);
+    
+    /**
+     * @brief 根据上下文确定片段类型
+     * @param content 片段内容
+     * @param inScriptBlock 是否在script块内
+     * @param inStyleBlock 是否在style块内
+     * @return 片段类型
+     */
+    FragmentType DetermineFragmentTypeInContext(const std::string& content, bool inScriptBlock, bool inStyleBlock);
 };
 
 } // namespace Scanner

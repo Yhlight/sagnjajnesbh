@@ -6,6 +6,7 @@
 #include "CHTLJS/Lexer/CHTLJSLexer.h"
 #include "CHTL/Generator/CHTLGenerator.h"
 #include "CHTLJS/Generator/CHTLJSGenerator.h"
+#include "CHTLJS/Compiler/CHTLJSCompiler.h"
 #include "CMOD/CMODSystem.h"
 #include "CSS/CSSCompiler.h"
 #include "JavaScript/JavaScriptCompiler.h"
@@ -430,29 +431,30 @@ std::string CompilerDispatcher::CompileCHTLFragment(const std::string& content) 
 }
 
 std::string CompilerDispatcher::CompileCHTLJSFragment(const std::string& content) {
-    if (!chtlJSParser_) {
-        throw std::runtime_error("CHTL JS解析器未初始化");
-    }
-    
     try {
-        // 使用CHTL JS词法分析器
-        CHTLJS::Lexer::CHTLJSLexer lexer;
-        auto tokens = lexer.Tokenize(content, "fragment");
+        // 使用独立的CHTL JS编译器
+        CHTLJS::Compiler::CHTLJSCompilerConfig config;
+        config.enableDebug = false;
+        config.optimizeOutput = true;
+        config.generateComments = true;
+        config.enableVirtualObjects = true;
         
-        // 使用CHTL JS解析器解析
-        auto ast = chtlJSParser_->Parse(tokens, "fragment");
+        CHTLJS::Compiler::CHTLJSCompiler compiler(config);
+        auto result = compiler.Compile(content, "fragment");
         
-        if (ast) {
-            // 使用CHTL JS生成器生成JavaScript
-            CHTLJS::Generator::CHTLJSGenerator generator;
-            
-            return generator.Generate(ast);
+        if (result.success) {
+            return result.jsOutput;
+        } else {
+            // 编译失败时记录错误
+            for (const auto& error : result.errors) {
+                Utils::ErrorHandler::GetInstance().LogError("CHTL JS编译错误: " + error);
+            }
+            return "// CHTL JS compilation failed\n" + content;
         }
         
-        return content;
     } catch (const std::exception& e) {
         Utils::ErrorHandler::GetInstance().LogWarning("CHTL JS片段编译警告: " + std::string(e.what()));
-        return content;
+        return "// CHTL JS compilation error: " + std::string(e.what()) + "\n" + content;
     }
 }
 

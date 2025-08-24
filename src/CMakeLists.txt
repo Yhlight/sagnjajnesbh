@@ -47,6 +47,7 @@ add_library(chtljs_core STATIC
     CHTLJS/Generator/CHTLJSGenerator.cpp
     CHTLJS/Events/JSEventSystem.cpp
     CHTLJS/Core/CHTLJSStateContext.cpp
+    CHTLJS/Compiler/CHTLJSCompiler.cpp
 )
 
 target_include_directories(chtljs_core PUBLIC

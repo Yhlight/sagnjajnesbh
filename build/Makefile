@@ -754,6 +754,30 @@ CHTLJS/AST/CHTLJSASTNodes.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_core.dir/build.make CMakeFiles/chtljs_core.dir/CHTLJS/AST/CHTLJSASTNodes.cpp.s
 .PHONY : CHTLJS/AST/CHTLJSASTNodes.cpp.s
 
+CHTLJS/Compiler/CHTLJSCompiler.o: CHTLJS/Compiler/CHTLJSCompiler.cpp.o
+.PHONY : CHTLJS/Compiler/CHTLJSCompiler.o
+
+# target to build an object file
+CHTLJS/Compiler/CHTLJSCompiler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_core.dir/build.make CMakeFiles/chtljs_core.dir/CHTLJS/Compiler/CHTLJSCompiler.cpp.o
+.PHONY : CHTLJS/Compiler/CHTLJSCompiler.cpp.o
+
+CHTLJS/Compiler/CHTLJSCompiler.i: CHTLJS/Compiler/CHTLJSCompiler.cpp.i
+.PHONY : CHTLJS/Compiler/CHTLJSCompiler.i
+
+# target to preprocess a source file
+CHTLJS/Compiler/CHTLJSCompiler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_core.dir/build.make CMakeFiles/chtljs_core.dir/CHTLJS/Compiler/CHTLJSCompiler.cpp.i
+.PHONY : CHTLJS/Compiler/CHTLJSCompiler.cpp.i
+
+CHTLJS/Compiler/CHTLJSCompiler.s: CHTLJS/Compiler/CHTLJSCompiler.cpp.s
+.PHONY : CHTLJS/Compiler/CHTLJSCompiler.s
+
+# target to generate assembly for a file
+CHTLJS/Compiler/CHTLJSCompiler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtljs_core.dir/build.make CMakeFiles/chtljs_core.dir/CHTLJS/Compiler/CHTLJSCompiler.cpp.s
+.PHONY : CHTLJS/Compiler/CHTLJSCompiler.cpp.s
+
 CHTLJS/Core/CHTLJSContext.o: CHTLJS/Core/CHTLJSContext.cpp.o
 .PHONY : CHTLJS/Core/CHTLJSContext.o
 
@@ -1361,6 +1385,9 @@ help:
 	@echo "... CHTLJS/AST/CHTLJSASTNodes.o"
 	@echo "... CHTLJS/AST/CHTLJSASTNodes.i"
 	@echo "... CHTLJS/AST/CHTLJSASTNodes.s"
+	@echo "... CHTLJS/Compiler/CHTLJSCompiler.o"
+	@echo "... CHTLJS/Compiler/CHTLJSCompiler.i"
+	@echo "... CHTLJS/Compiler/CHTLJSCompiler.s"
 	@echo "... CHTLJS/Core/CHTLJSContext.o"
 	@echo "... CHTLJS/Core/CHTLJSContext.i"
 	@echo "... CHTLJS/Core/CHTLJSContext.s"

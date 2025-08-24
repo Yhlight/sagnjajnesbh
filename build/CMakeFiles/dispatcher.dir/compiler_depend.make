@@ -285,6 +285,7 @@ CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: /workspace/src/Di
   /workspace/include/CHTL/Selector/SelectorAutomation.h \
   /workspace/include/CHTLJS/AST/CHTLJSASTNodes.h \
   /workspace/include/CHTLJS/AST/CHTLJSASTVisitor.h \
+  /workspace/include/CHTLJS/Compiler/CHTLJSCompiler.h \
   /workspace/include/CHTLJS/Core/CHTLJSState.h \
   /workspace/include/CHTLJS/Core/CHTLJSToken.h \
   /workspace/include/CHTLJS/Generator/CHTLJSGenerator.h \
@@ -692,6 +693,8 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 /usr/lib/llvm-20/lib/clang/20/include/__stddef_null.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
+
+/workspace/include/CHTLJS/Compiler/CHTLJSCompiler.h:
 
 /usr/include/c++/14/bits/exception.h:
 

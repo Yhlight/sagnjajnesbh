@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/workspace/src/CHTLJS/AST/CHTLJSASTNodes.cpp" "CMakeFiles/chtljs_core.dir/CHTLJS/AST/CHTLJSASTNodes.cpp.o" "gcc" "CMakeFiles/chtljs_core.dir/CHTLJS/AST/CHTLJSASTNodes.cpp.o.d"
+  "/workspace/src/CHTLJS/Compiler/CHTLJSCompiler.cpp" "CMakeFiles/chtljs_core.dir/CHTLJS/Compiler/CHTLJSCompiler.cpp.o" "gcc" "CMakeFiles/chtljs_core.dir/CHTLJS/Compiler/CHTLJSCompiler.cpp.o.d"
   "/workspace/src/CHTLJS/Core/CHTLJSContext.cpp" "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSContext.cpp.o" "gcc" "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSContext.cpp.o.d"
   "/workspace/src/CHTLJS/Core/CHTLJSGlobalMap.cpp" "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSGlobalMap.cpp.o" "gcc" "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSGlobalMap.cpp.o.d"
   "/workspace/src/CHTLJS/Core/CHTLJSState.cpp" "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSState.cpp.o" "gcc" "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSState.cpp.o.d"

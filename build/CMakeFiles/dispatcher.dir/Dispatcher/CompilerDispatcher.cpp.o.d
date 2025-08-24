@@ -278,6 +278,7 @@ CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
   /workspace/src/../include/CMOD/CMODSystem.h \
   /workspace/src/../include/CHTLJS/Generator/CHTLJSGenerator.h \
   /workspace/src/../include/CHTLJS/AST/CHTLJSASTVisitor.h \
+  /workspace/src/../include/CHTLJS/Compiler/CHTLJSCompiler.h \
   /workspace/src/../include/CSS/CSSCompiler.h \
   /workspace/src/../include/JavaScript/JavaScriptCompiler.h \
   /workspace/src/../include/Utils/StringUtils.h

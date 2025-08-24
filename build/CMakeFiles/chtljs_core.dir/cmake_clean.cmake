@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/chtljs_core.dir/CHTLJS/AST/CHTLJSASTNodes.cpp.o"
   "CMakeFiles/chtljs_core.dir/CHTLJS/AST/CHTLJSASTNodes.cpp.o.d"
+  "CMakeFiles/chtljs_core.dir/CHTLJS/Compiler/CHTLJSCompiler.cpp.o"
+  "CMakeFiles/chtljs_core.dir/CHTLJS/Compiler/CHTLJSCompiler.cpp.o.d"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSContext.cpp.o"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSContext.cpp.o.d"
   "CMakeFiles/chtljs_core.dir/CHTLJS/Core/CHTLJSGlobalMap.cpp.o"
