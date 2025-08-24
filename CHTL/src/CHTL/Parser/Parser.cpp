@@ -13,6 +13,7 @@ public:
     CompileContext* context;
     ParserConfig config;
     std::vector<std::string> errors;
+    std::string sourceCode;  // 保存源代码用于原样提取
     
     // 解析状态
     struct ParseState {
@@ -605,11 +606,21 @@ private:
     }
     
     std::shared_ptr<ASTNode> ParseStyleProperty(ParseState& state) {
-        std::string property = state.Current().value;
         size_t line = state.Current().line;
         size_t column = state.Current().column;
         
+        // 收集属性名（可能包含连字符）
+        std::string property = state.Current().value;
         state.Advance();
+        
+        // 处理连字符属性名（如 text-align）
+        while (!state.IsEOF() && state.Current().value == "-" && 
+               state.Peek().type == TokenType::IDENTIFIER) {
+            property += "-";
+            state.Advance();
+            property += state.Current().value;
+            state.Advance();
+        }
         
         // 跳过 : 或 =
         if (state.Current().type == TokenType::COLON || 
@@ -617,100 +628,117 @@ private:
             state.Advance();
         }
         
-        // 收集属性值
+        // 收集CSS属性值 - 使用简单的规则保持原样
         std::string value;
+        size_t prevEndColumn = 0;
+        
         while (!state.IsEOF() && state.Current().type != TokenType::SEMICOLON) {
-            // 检查是否需要添加空格
-            bool needSpace = false;
-            if (!value.empty()) {
-                char lastChar = value.back();
-                const Token& curToken = state.Current();
-                
-                // 特殊情况不需要空格
-                if (lastChar == '#' || lastChar == '(' || lastChar == ',' ||
-                    curToken.value == ")" || curToken.value == "," ||
-                    curToken.value == "px" || curToken.value == "em" || 
-                    curToken.value == "%" || curToken.value == "rem" ||
-                    // 颜色值的十六进制数字
-                    (lastChar == '#' && std::isxdigit(curToken.value[0])) ||
-                    // 连字符后的单词（如text-align）
-                    (lastChar == '-' && std::isalpha(curToken.value[0]))) {
-                    needSpace = false;
-                } else if (state.Current().value == "-" && state.Peek().type == TokenType::NUMBER) {
-                    // 负数前需要空格
-                    needSpace = true;
-                } else {
-                    needSpace = true;
-                }
-            }
+            const Token& token = state.Current();
             
-            if (needSpace) value += " ";
-            
-            // 处理变量表达式（只处理已注册的变量组）
-            if (state.Current().type == TokenType::IDENTIFIER &&
+            // 处理变量表达式
+            if (token.type == TokenType::IDENTIFIER &&
                 state.Peek().type == TokenType::LEFT_PAREN) {
-                std::string varGroupName = state.Current().value;
+                std::string varGroupName = token.value;
                 
                 // 检查是否是已注册的变量组
                 bool isVarGroup = false;
                 auto varObj = context->GetGlobalMap().Find(varGroupName, GlobalObjectType::TEMPLATE_VAR);
-                if (varObj) {
-                    isVarGroup = true;
-                } else {
+                if (!varObj) {
                     varObj = context->GetGlobalMap().Find(varGroupName, GlobalObjectType::CUSTOM_VAR);
                     if (varObj) {
                         isVarGroup = true;
                     }
+                } else {
+                    isVarGroup = true;
                 }
                 
                 if (isVarGroup) {
+                    // 是变量表达式
+                    if (!value.empty() && value.back() != ' ') {
+                        value += " ";
+                    }
                     auto varExpr = ParseVarExpression(state);
                     if (varExpr) {
                         value += varExpr->value;
                     }
-                } else {
-                    // 普通CSS函数调用
-                    value += state.Current().value;
-                    state.Advance();
-                    value += state.Current().value; // (
-                    state.Advance();
-                    
-                    // 收集函数参数
-                    int parenDepth = 1;
-                    while (!state.IsEOF() && parenDepth > 0) {
-                        if (state.Current().type == TokenType::LEFT_PAREN) {
-                            parenDepth++;
-                        } else if (state.Current().type == TokenType::RIGHT_PAREN) {
-                            parenDepth--;
-                        }
-                        
-                        value += state.Current().value;
-                        state.Advance();
-                        
-                        // 只在需要时添加空格
-                        if (parenDepth > 0 && !state.IsEOF() && 
-                            state.Current().type != TokenType::RIGHT_PAREN &&
-                            state.Current().type != TokenType::COMMA &&
-                            state.Current().value != "," &&
-                            state.Peek(-1).type != TokenType::COMMA &&
-                            state.Peek(-1).value != ",") {
-                            value += " ";
-                        }
-                    }
-                }
-            } else {
-                // 特殊处理CSS函数和负数
-                if (state.Current().value == "-" && 
-                    state.Peek().type == TokenType::NUMBER) {
-                    value += "-";
-                    state.Advance();
-                    value += state.Current().value;
-                    state.Advance();
-                } else {
-                    value += state.Current().value;
-                    state.Advance();
+                    continue;
                 }
             }
+            
+            // 对于非变量表达式，使用更精确的CSS空格规则
+            if (!value.empty()) {
+                bool needSpace = true;
+                char lastChar = value.back();
+                const std::string& curValue = token.value;
+                
+                // 规则1：操作符和分隔符前后不需要空格
+                if (curValue == "(" || curValue == ")" || curValue == "," || 
+                    curValue == ":" || curValue == ";") {
+                    needSpace = false;
+                }
+                // 规则2：左括号、逗号、冒号、井号后不需要空格
+                else if (lastChar == '(' || lastChar == ',' || lastChar == ':' || 
+                         lastChar == '#') {
+                    needSpace = false;
+                }
+                // 规则3：CSS属性名中的连字符（如text-align）
+                else if (token.type == TokenType::COLON && value.length() > 0) {
+                    // 冒号前的是属性名，不需要空格
+                    needSpace = false;
+                }
+                // 规则4：单位前不需要空格
+                else if ((curValue == "px" || curValue == "em" || curValue == "%" ||
+                          curValue == "rem" || curValue == "pt" || curValue == "vh" || 
+                          curValue == "vw" || curValue == "deg" || curValue == "s" ||
+                          curValue == "ms") && 
+                         (value.length() > 0 && (std::isdigit(lastChar) || lastChar == '.'))) {
+                    needSpace = false;
+                }
+                // 规则5：连字符处理
+                else if (curValue == "-") {
+                    // -webkit- 等前缀
+                    if (value.length() > 0 && std::isalpha(value[value.length()-1])) {
+                        needSpace = false;
+                    }
+                    // 负数：如果前面是括号，不需要空格
+                    else if (lastChar == '(') {
+                        needSpace = false;
+                    }
+                    // 其他情况的负数需要空格
+                    else if (state.Peek().type == TokenType::NUMBER) {
+                        needSpace = true;
+                    }
+                }
+                else if (lastChar == '-') {
+                    // 连字符后的字母不需要空格 (text-align)
+                    if (curValue.length() > 0 && std::isalpha(curValue[0])) {
+                        needSpace = false;
+                    }
+                    // 连字符后的数字也不需要空格 (-2px)
+                    else if (token.type == TokenType::NUMBER) {
+                        needSpace = false;
+                    }
+                }
+                // 规则5：数字和小数点
+                else if (token.type == TokenType::NUMBER && lastChar == '.') {
+                    needSpace = false;
+                }
+                else if (curValue == "." && value.length() > 0 && std::isdigit(lastChar)) {
+                    needSpace = false;
+                }
+                // 规则6：颜色值
+                else if (lastChar == '#') {
+                    // #后面的任何内容都不需要空格
+                    needSpace = false;
+                }
+                
+                if (needSpace) {
+                    value += " ";
+                }
+            }
+            
+            value += token.value;
+            state.Advance();
         }
         
         auto node = std::make_shared<StylePropertyNode>(property, value);
@@ -1097,14 +1125,36 @@ private:
             state.Current().type == TokenType::EQUALS) {
             state.Advance();
             
-            // 收集值
+            // 收集值 - 使用与CSS属性值相同的逻辑
             std::string value;
             while (!state.IsEOF() && 
                    state.Current().type != TokenType::SEMICOLON &&
                    state.Current().type != TokenType::COMMA &&
                    state.Current().type != TokenType::RIGHT_BRACE) {
-                if (!value.empty()) value += " ";
-                value += state.Current().value;
+                const Token& token = state.Current();
+                
+                if (!value.empty()) {
+                    bool needSpace = true;
+                    char lastChar = value.back();
+                    const std::string& curValue = token.value;
+                    
+                    // 使用相同的CSS空格规则
+                    if (curValue == "(" || curValue == ")" || curValue == ",") {
+                        needSpace = false;
+                    }
+                    else if (lastChar == '(' || lastChar == ',' || lastChar == '#') {
+                        needSpace = false;
+                    }
+                    else if (lastChar == '-' && token.type == TokenType::NUMBER) {
+                        needSpace = false;
+                    }
+                    
+                    if (needSpace) {
+                        value += " ";
+                    }
+                }
+                
+                value += token.value;
                 state.Advance();
             }
             

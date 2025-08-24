@@ -12,6 +12,7 @@ enum class TokenType {
     STRING_LITERAL,       // 字符串字面量 "..." 或 '...'
     UNQUOTED_LITERAL,     // 无引号字面量
     NUMBER,               // 数字
+    CSS_VALUE,           // CSS属性值（原样保留）
     
     // 关键字
     KEYWORD_TEMPLATE,     // [Template]
@@ -88,12 +89,16 @@ struct Token {
     size_t column;
     size_t endLine;
     size_t endColumn;
+    size_t sourcePos;     // 在源代码中的起始位置
+    size_t sourceEndPos;  // 在源代码中的结束位置
     
     Token(TokenType t, const std::string& v, size_t l, size_t c)
-        : type(t), value(v), line(l), column(c), endLine(l), endColumn(c + v.length()) {}
+        : type(t), value(v), line(l), column(c), endLine(l), endColumn(c + v.length()),
+          sourcePos(0), sourceEndPos(0) {}
     
     Token(TokenType t, const std::string& v, size_t l, size_t c, size_t el, size_t ec)
-        : type(t), value(v), line(l), column(c), endLine(el), endColumn(ec) {}
+        : type(t), value(v), line(l), column(c), endLine(el), endColumn(ec),
+          sourcePos(0), sourceEndPos(0) {}
     
     bool IsKeyword() const;
     bool IsTypeMarker() const;
