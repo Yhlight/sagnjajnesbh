@@ -197,11 +197,14 @@ AST::ASTNodePtr CHTLJSParser::ParseVirtualObject() {
     context_.virtualObjects.push_back(objectName);
     stateManager_.EnterVirtualObject(objectName);
     
-    // 解析赋值
+    // 解析赋值 - 虚对象只能赋值给CHTL JS函数
     if (Consume(Core::TokenType::EQUAL, "期望 '='")) {
-        auto assignment = ParseExpression();
+        auto assignment = ParseCHTLJSFunction();
         if (assignment) {
             virtualObjectNode->SetAssignment(assignment);
+        } else {
+            ReportError("虚对象只能赋值给CHTL JS函数（listen、delegate、animate）");
+            return nullptr;
         }
     }
     
