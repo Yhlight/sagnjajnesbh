@@ -149,7 +149,7 @@ public:
     void registerVirtualObject(const std::string& virName, const std::string& sourceFunction);
     std::string delegateVirtualCall(const std::string& virName, const std::string& methodName);
     
-private:
+protected:
     std::string functionName_;
     std::string generatedCode_;
     bool processed_;

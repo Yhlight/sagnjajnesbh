@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    [Import] @CJmod from "demo"
+    <!-- CJMOD导入已处理 -->
     
     <style>
         * {
@@ -326,8 +326,112 @@ animation.play().then(() => {
     
     <!-- CHTL JS代码块 - 会被统一扫描器识别并交给CJMOD处理 -->
     <script>
-    {
-        console.log("🏗️ CHTL与CJMOD集成演示开始");
+// CHTL编译器生成的JavaScript代码
+console.log('🏗️ CHTL页面加载完成');
+
+function printMylove(config) {
+    console.log('🎨 printMylove: 开始处理图像转字符');
+    
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    
+    img.onload = function() {
+        canvas.width = parseInt(config.width) || 100;
+        canvas.height = parseInt(config.height) || 100;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const pixels = imageData.data;
+        
+        let result = '';
+        for (let y = 0; y < canvas.height; y += 2) {
+            for (let x = 0; x < canvas.width; x += 2) {
+                const i = (y * canvas.width + x) * 4;
+                const brightness = (pixels[i] + pixels[i+1] + pixels[i+2]) / 3;
+                
+                if (config.mode === 'ASCII') {
+                    const chars = '@%#*+=-:. ';
+                    const charIndex = Math.floor(brightness / 255 * (chars.length - 1));
+                    result += chars[charIndex];
+                } else {
+                    result += brightness > 128 ? '█' : ' ';
+                }
+            }
+            result += '\n';
+        }
+        
+        console.log(result);
+        return result;
+    };
+    
+    img.src = config.url;
+    return 'printMylove processing started...';
+}
+
+
+function iNeverAway(stateConfig) {
+    console.log('💫 iNeverAway: 创建状态管理器');
+    
+    const stateManager = {
+        states: {},
+        currentState: null,
+        
+        register: function(stateName, handler) {
+            this.states[stateName] = handler;
+        },
+        
+        switchTo: function(stateName, ...args) {
+            if (this.states[stateName]) {
+                this.currentState = stateName;
+                return this.states[stateName].apply(this, args);
+            }
+        }
+    };
+    
+    for (const [stateName, handler] of Object.entries(stateConfig)) {
+        stateManager.register(stateName, handler);
+    }
+    
+    return stateManager;
+}
+
+
+function createAnimation(config) {
+    console.log('🎬 createAnimation: 创建动画系统');
+    
+    return {
+        config: config,
+        play: function() {
+            return new Promise((resolve) => {
+                const elements = document.querySelectorAll(this.config.target);
+                const duration = this.config.duration || 1000;
+                
+                elements.forEach(element => {
+                    element.style.transition = `all ${duration}ms ease`;
+                    
+                    if (this.config.type === 'fadeInUp') {
+                        element.style.opacity = '0';
+                        element.style.transform = 'translateY(30px)';
+                        setTimeout(() => {
+                            element.style.opacity = '1';
+                            element.style.transform = 'translateY(0)';
+                        }, 50);
+                    }
+                });
+                
+                setTimeout(resolve, duration);
+            });
+        }
+    };
+}
+
+
+// 虚对象处理 - vir语法转换为标准JavaScript
+
+
+// 原始JavaScript代码
+console.log("🏗️ CHTL与CJMOD集成演示开始");
         
         // ============ printMylove实现 ============
         // 这个函数调用会被统一扫描器识别为CHTL_JS片段
@@ -337,13 +441,7 @@ animation.play().then(() => {
             console.log("=== printMylove演示 ===");
             
             // CJMOD扩展语法 - 统一扫描器会识别这个
-            const result = printMylove({
-                url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzY2N2VlYSIvPgogIDx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q0hUTDwvdGV4dD4KPC9zdmc+",
-                mode: "ASCII",
-                width: "200px",
-                height: "150px",
-                scale: 0.8
-            });
+            const result = // printMylove调用已处理
             
             document.getElementById('printMyloveResult').style.display = 'block';
             document.getElementById('asciiOutput').innerHTML = 
@@ -368,11 +466,11 @@ animation.play().then(() => {
         
         function activateVirtualObject() {
             // 虚对象调用 - CJMOD会委托给CHTL JS的虚对象系统
-            eventManager->activate(document.getElementById('virtualDemo'));
+            activate.invoke('activate'));
         }
         
         function deactivateVirtualObject() {
-            eventManager->deactivate(document.getElementById('virtualDemo'));
+            deactivate.invoke('deactivate'));
         }
         
         // ============ iNeverAway状态管理演示 ============
@@ -398,15 +496,15 @@ animation.play().then(() => {
         });
         
         function demonstrateStateLoading() {
-            stateManager->Loading("正在处理CJMOD请求...");
+            Loading.invoke('Loading');
         }
         
         function demonstrateStateSuccess() {
-            stateManager->Success("CJMOD扩展执行成功！");
+            Success.invoke('Success');
         }
         
         function demonstrateStateError() {
-            stateManager->Error("模拟的错误状态");
+            Error.invoke('Error');
         }
         
         // ============ 自定义CJMOD扩展演示 ============
@@ -481,8 +579,8 @@ animation.play().then(() => {
         
         // 初始化交互效果
         addInteractiveEffects();
-    }
-    </script>
+
+</script>
     
     <!-- 普通JavaScript - 不会被CJMOD处理 -->
     <script>
