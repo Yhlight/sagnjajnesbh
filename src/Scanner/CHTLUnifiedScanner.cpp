@@ -61,6 +61,7 @@ std::vector<CodeFragment> CHTLUnifiedScanner::ScanSource(const std::string& sour
 
 void CHTLUnifiedScanner::ScanLoop() {
     // 使用原有的扫描逻辑，滑动窗口只是辅助功能
+    std::cout << "=== 进入ScanLoop，使用传统扫描 ===" << std::endl;
     TraditionalScan();
 }
 
@@ -170,6 +171,7 @@ void CHTLUnifiedScanner::HandleGlobalState() {
         SkipWhitespace();
         if (!IsAtEnd() && CurrentChar() == '{') {
             // 这是一个CHTL元素块
+            std::cout << "[DEBUG] 检测到CHTL元素: " << word << std::endl;
             currentPos_ = startPos; // 回退
             EnterCHTLBlock();
             return;
@@ -787,6 +789,7 @@ void CHTLUnifiedScanner::InitialScan(size_t searchRange) {
 
 void CHTLUnifiedScanner::TraditionalScan() {
     LogDebug("使用传统扫描方式");
+    std::cout << "[DEBUG] 开始传统扫描" << std::endl;
     
     // 原有的扫描逻辑
     while (!IsAtEnd()) {
