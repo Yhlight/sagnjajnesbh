@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.o"
   "CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.o.d"
+  "CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o"
+  "CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o.d"
   "libscanner.a"
   "libscanner.pdb"
 )

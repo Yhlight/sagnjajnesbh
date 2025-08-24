@@ -101,13 +101,41 @@ CompilationResult CompilerDispatcher::DispatchFragments(const std::vector<Scanne
             "开始片段协作编译，共 " + std::to_string(fragments.size()) + " 个片段"
         );
         
+        // 获取优化的合并顺序
+        auto optimalOrder = scanner_->GetOptimalMergeOrder(fragments);
+        
+        // 查找不完整的片段
+        auto incompleteFragments = scanner_->FindIncompleteFragments(fragments);
+        if (!incompleteFragments.empty()) {
+            Utils::ErrorHandler::GetInstance().LogWarning(
+                "发现 " + std::to_string(incompleteFragments.size()) + " 个不完整片段"
+            );
+        }
+        
         // 直接调用对应的编译器处理片段
         std::vector<ProcessedFragment> processedFragments;
         
-        for (const auto& fragment : fragments) {
+        // 创建片段ID到索引的映射
+        std::unordered_map<size_t, size_t> idToIndex;
+        for (size_t i = 0; i < fragments.size(); ++i) {
+            idToIndex[fragments[i].fragmentId] = i;
+        }
+        
+        // 按优化顺序处理片段
+        for (size_t fragmentId : optimalOrder) {
+            auto it = idToIndex.find(fragmentId);
+            if (it == idToIndex.end()) continue;
+            
+            const auto& fragment = fragments[it->second];
             ProcessedFragment processed;
             processed.originalType = fragment.type;
             processed.originalPosition = fragment.startPos;
+            
+            // 添加索引信息到处理结果
+            processed.fragmentId = fragment.fragmentId;
+            processed.sequenceIndex = fragment.sequenceIndex;
+            processed.integrity = static_cast<int>(fragment.integrity);
+            processed.context = static_cast<int>(fragment.context);
             
             try {
                 switch (fragment.type) {

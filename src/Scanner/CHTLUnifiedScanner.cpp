@@ -56,6 +56,16 @@ std::vector<CodeFragment> CHTLUnifiedScanner::ScanSource(const std::string& sour
     }
     
     LogDebug("扫描完成，发现 " + std::to_string(fragments_.size()) + " 个代码片段");
+    
+    // 构建片段索引
+    if (!fragments_.empty()) {
+        BuildFragmentIndex(fragments_);
+        
+        if (verbose_) {
+            PrintIndexStatistics(fragments_);
+        }
+    }
+    
     return fragments_;
 }
 
@@ -1435,6 +1445,40 @@ FragmentType CHTLUnifiedScanner::DetermineFragmentType(const std::string& conten
     // 默认为CHTL（因为CHTL是主要语言）
     LogDebug("默认识别为CHTL片段: " + trimmed.substr(0, 20) + "...");
     return FragmentType::CHTL;
+}
+
+// ============ 片段索引接口实现 ============
+
+void CHTLUnifiedScanner::BuildFragmentIndex(std::vector<CodeFragment>& fragments) {
+    LogDebug("开始构建片段索引");
+    indexManager_.BuildIndex(fragments);
+    LogDebug("片段索引构建完成");
+}
+
+std::vector<size_t> CHTLUnifiedScanner::GetOptimalMergeOrder(const std::vector<CodeFragment>& fragments) const {
+    return indexManager_.GetOptimalMergeOrder(fragments);
+}
+
+std::vector<size_t> CHTLUnifiedScanner::FindIncompleteFragments(const std::vector<CodeFragment>& fragments) const {
+    return indexManager_.FindIncompleteFragments(fragments);
+}
+
+std::vector<size_t> CHTLUnifiedScanner::FindFragmentsByType(const std::vector<CodeFragment>& fragments, 
+                                                           FragmentType type) const {
+    return indexManager_.FindFragmentsByType(fragments, type);
+}
+
+std::vector<size_t> CHTLUnifiedScanner::FindFragmentsByContext(const std::vector<CodeFragment>& fragments, 
+                                                             FragmentContext context) const {
+    return indexManager_.FindFragmentsByContext(fragments, context);
+}
+
+std::vector<size_t> CHTLUnifiedScanner::GetFragmentDependencies(size_t fragmentId) const {
+    return indexManager_.GetDependencies(fragmentId);
+}
+
+void CHTLUnifiedScanner::PrintIndexStatistics(const std::vector<CodeFragment>& fragments) const {
+    indexManager_.PrintIndexStatistics(fragments);
 }
 
 } // namespace Scanner

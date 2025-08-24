@@ -57,6 +57,7 @@ target_include_directories(chtljs_core PUBLIC
 # 统一扫描器库
 add_library(scanner STATIC
     Scanner/CHTLUnifiedScanner.cpp
+    Scanner/FragmentIndexManager.cpp
 )
 
 target_include_directories(scanner PUBLIC

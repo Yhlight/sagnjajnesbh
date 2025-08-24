@@ -1149,6 +1149,30 @@ Scanner/CHTLUnifiedScanner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/scanner.dir/build.make CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.s
 .PHONY : Scanner/CHTLUnifiedScanner.cpp.s
 
+Scanner/FragmentIndexManager.o: Scanner/FragmentIndexManager.cpp.o
+.PHONY : Scanner/FragmentIndexManager.o
+
+# target to build an object file
+Scanner/FragmentIndexManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scanner.dir/build.make CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o
+.PHONY : Scanner/FragmentIndexManager.cpp.o
+
+Scanner/FragmentIndexManager.i: Scanner/FragmentIndexManager.cpp.i
+.PHONY : Scanner/FragmentIndexManager.i
+
+# target to preprocess a source file
+Scanner/FragmentIndexManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scanner.dir/build.make CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.i
+.PHONY : Scanner/FragmentIndexManager.cpp.i
+
+Scanner/FragmentIndexManager.s: Scanner/FragmentIndexManager.cpp.s
+.PHONY : Scanner/FragmentIndexManager.s
+
+# target to generate assembly for a file
+Scanner/FragmentIndexManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scanner.dir/build.make CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.s
+.PHONY : Scanner/FragmentIndexManager.cpp.s
+
 Tools/module_builder.o: Tools/module_builder.cpp.o
 .PHONY : Tools/module_builder.o
 
@@ -1398,6 +1422,9 @@ help:
 	@echo "... Scanner/CHTLUnifiedScanner.o"
 	@echo "... Scanner/CHTLUnifiedScanner.i"
 	@echo "... Scanner/CHTLUnifiedScanner.s"
+	@echo "... Scanner/FragmentIndexManager.o"
+	@echo "... Scanner/FragmentIndexManager.i"
+	@echo "... Scanner/FragmentIndexManager.s"
 	@echo "... Tools/module_builder.o"
 	@echo "... Tools/module_builder.i"
 	@echo "... Tools/module_builder.s"

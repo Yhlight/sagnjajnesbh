@@ -86,17 +86,33 @@ CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Scanner/CHTLUnifiedScanner.cpp -o CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.s
 
+CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o: CMakeFiles/scanner.dir/flags.make
+CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o: /workspace/src/Scanner/FragmentIndexManager.cpp
+CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o: CMakeFiles/scanner.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o -MF CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o.d -o CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o -c /workspace/src/Scanner/FragmentIndexManager.cpp
+
+CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/Scanner/FragmentIndexManager.cpp > CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.i
+
+CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Scanner/FragmentIndexManager.cpp -o CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.s
+
 # Object files for target scanner
 scanner_OBJECTS = \
-"CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.o"
+"CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.o" \
+"CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o"
 
 # External object files for target scanner
 scanner_EXTERNAL_OBJECTS =
 
 libscanner.a: CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.o
+libscanner.a: CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o
 libscanner.a: CMakeFiles/scanner.dir/build.make
 libscanner.a: CMakeFiles/scanner.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libscanner.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libscanner.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/scanner.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/scanner.dir/link.txt --verbose=$(VERBOSE)
 
