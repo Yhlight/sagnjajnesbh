@@ -910,12 +910,6 @@ AST::ASTNodePtr CHTLParser::ParseCSSSelector() {
 }
 
 AST::ASTNodePtr CHTLParser::ParseCSSProperty() {
-    // 转换到CSS属性解析状态
-    if (!stateManager_.TransitionTo(Core::CompileState::PARSING_CSS_PROPERTIES, Current())) {
-        ReportError("无法转换到CSS属性解析状态");
-        return nullptr;
-    }
-    
     // 解析属性名
     std::string property = ParseIdentifier();
     if (property.empty()) {
@@ -926,19 +920,9 @@ AST::ASTNodePtr CHTLParser::ParseCSSProperty() {
     // 检查分隔符（: 或 =）
     bool usesCEEquality = false;
     if (Check(Core::TokenType::COLON)) {
-        // 转换到CSS属性值解析状态
-        if (!stateManager_.TransitionTo(Core::CompileState::PARSING_CSS_PROPERTY_VALUE, Current())) {
-            ReportError("无法转换到CSS属性值解析状态");
-            return nullptr;
-        }
         Advance();
     } else if (Check(Core::TokenType::EQUAL)) {
         usesCEEquality = true;
-        // 转换到CSS属性值解析状态
-        if (!stateManager_.TransitionTo(Core::CompileState::PARSING_CSS_PROPERTY_VALUE, Current())) {
-            ReportError("无法转换到CSS属性值解析状态");
-            return nullptr;
-        }
         Advance();
     } else {
         ReportError("期望 ':' 或 '=' 在CSS属性 " + property + " 后");
@@ -952,12 +936,8 @@ AST::ASTNodePtr CHTLParser::ParseCSSProperty() {
         return nullptr;
     }
     
-    // 消费可选的分号并转换回CSS属性状态
+    // 消费可选的分号
     if (Check(Core::TokenType::SEMICOLON)) {
-        if (!stateManager_.TransitionTo(Core::CompileState::PARSING_CSS_PROPERTIES, Current())) {
-            ReportError("无法转换回CSS属性解析状态");
-            return nullptr;
-        }
         Advance();
     }
     
