@@ -2446,6 +2446,7 @@ src/CMakeFiles/chtljs_core.dir/CHTLJS/Parser/CHTLJSParser.cpp.o
  /workspace/include/CHTLJS/AST/CHTLJSASTNodes.h
  /workspace/include/CHTLJS/Core/CHTLJSState.h
  /workspace/include/CHTLJS/Core/CHTLJSToken.h
+ /workspace/include/CHTLJS/Core/CHTLJSView.h
  /workspace/include/CHTLJS/Parser/CHTLJSParser.h
  /workspace/include/Utils/ErrorHandler.h
 

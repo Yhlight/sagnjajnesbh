@@ -96,6 +96,7 @@ private:
     // 函数解析
     AST::ASTNodePtr ParseFunctionDefinition();
     AST::ASTNodePtr ParseArrowFunction();
+    AST::ASTNodePtr ParseCHTLJSFunction();  // CHTL JS特有的函数解析
     
     // 对象和数组解析
     AST::ASTNodePtr ParseObjectLiteral();

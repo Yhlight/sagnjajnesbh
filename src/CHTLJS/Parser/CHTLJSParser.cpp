@@ -957,6 +957,21 @@ std::string CHTLJSParser::ParseLiteralValue() {
     }
 }
 
+AST::ASTNodePtr CHTLJSParser::ParseCHTLJSFunction() {
+    // 解析CHTL JS特有的函数：listen、delegate、animate
+    
+    if (Match(Core::TokenType::LISTEN)) {
+        return ParseListenBlock();
+    } else if (Match(Core::TokenType::DELEGATE)) {
+        return ParseDelegateBlock();
+    } else if (Match(Core::TokenType::ANIMATE)) {
+        return ParseAnimateBlock();
+    } else {
+        // 不是CHTL JS函数
+        return nullptr;
+    }
+}
+
 } // namespace Parser
 } // namespace CHTLJS
 } // namespace CHTL

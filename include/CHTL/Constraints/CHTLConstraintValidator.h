@@ -40,7 +40,21 @@ enum class ConstraintTarget {
     HTML_TYPE,              // @Html类型
     CUSTOM_TYPE,            // [Custom]类型
     TEMPLATE_TYPE,          // [Template]类型
-    ORIGIN_EMBED            // 原始嵌入（总是允许）
+    
+    // 新增：完整的约束目标类型
+    CUSTOM_VAR_SPECIALIZATION,     // 自定义变量的特例化
+    TEMPLATE_VAR_SPECIALIZATION,   // 模板变量的特例化  
+    VALUELESS_STYLE,               // 无值样式组
+    CUSTOM_STYLE_SPECIALIZATION,   // 自定义样式组的特例化
+    DELETE_PROPERTY,               // delete属性
+    DELETE_INHERITANCE,            // delete继承
+    STYLE_INHERITANCE,             // 继承(样式组之间的继承)
+    GENERATOR_COMMENT,             // 生成器注释
+    FULL_QUALIFIED_NAME,           // 全缀名
+    NAMESPACE_FROM,                // 命名空间from
+    CHTL_JS_SPECIAL_SYNTAX,        // CHTL JS特供语法（{{&}}等）
+    
+    ORIGIN_EMBED                   // 原始嵌入（总是允许）
 };
 
 /**

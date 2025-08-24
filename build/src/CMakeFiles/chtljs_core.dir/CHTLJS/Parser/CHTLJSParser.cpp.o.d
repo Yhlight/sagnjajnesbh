@@ -213,6 +213,7 @@ src/CMakeFiles/chtljs_core.dir/CHTLJS/Parser/CHTLJSParser.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
   /workspace/include/CHTLJS/AST/CHTLJSASTNodes.h \
+  /workspace/include/CHTLJS/Core/CHTLJSView.h \
   /workspace/include/Utils/ErrorHandler.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ostream \
