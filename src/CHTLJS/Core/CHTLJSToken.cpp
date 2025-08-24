@@ -94,7 +94,7 @@ std::string CHTLJSToken::GetTokenTypeName(TokenType type) {
         case TokenType::DELAY: return "DELAY";
         case TokenType::CALLBACK: return "CALLBACK";
         case TokenType::AT: return "AT";
-        // 错误的Token已移除：I_NEVER_AWAY、VOID、VOID_STATE不是CHTL JS的内容
+        // 注意：I_NEVER_AWAY、VOID、VOID_STATE是CJMOD扩展功能，不属于基础CHTL JS语法
         case TokenType::COMMENT: return "COMMENT";
         case TokenType::WHITESPACE: return "WHITESPACE";
         case TokenType::NEWLINE: return "NEWLINE";
@@ -143,7 +143,8 @@ void CHTLJSToken::InitializeKeywordMap() {
         {"callback", TokenType::CALLBACK},
         {"at", TokenType::AT},
         
-        // 其他关键字已移除，iNeverAway、function、const、let、var、Void不是CHTL JS的内容
+        // 注意：function、const、let、var是JavaScript语法，不属于CHTL JS
+        // iNeverAway、Void是CJMOD扩展功能
     };
     
     keywordMapInitialized_ = true;

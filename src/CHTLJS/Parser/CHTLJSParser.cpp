@@ -71,9 +71,6 @@ AST::ASTNodePtr CHTLJSParser::ParseStatement() {
         case Core::TokenType::VIR:
             return ParseVirtualObject();
             
-        // 错误的Token已移除：CONST、LET、VAR不是CHTL JS的内容
-            return ParseVariableDeclaration();
-            
         case Core::TokenType::ENHANCED_SELECTOR:
             return ParseExpression(); // 增强选择器作为表达式处理
             
@@ -109,10 +106,6 @@ AST::ASTNodePtr CHTLJSParser::ParsePrimaryExpression() {
         case Core::TokenType::ANIMATE:
             return ParseAnimateBlock();
             
-        // 错误的Token已移除：I_NEVER_AWAY、FUNCTION不是CHTL JS的内容
-            // return ParseINeverAwayBlock();  // 方法已移除
-            // return ParseFunctionDefinition(); // 方法已移除
-            
         case Core::TokenType::LEFT_PAREN:
             // 箭头函数解析已移除 - CHTL JS不包含JS语法
             {
@@ -125,10 +118,14 @@ AST::ASTNodePtr CHTLJSParser::ParsePrimaryExpression() {
             }
             
         case Core::TokenType::LEFT_BRACE:
-            return ParseObjectLiteral();
+            // CHTL JS不支持对象字面量语法
+            ReportError("CHTL JS不支持对象字面量语法，请使用CHTL JS语法");
+            return nullptr;
             
         case Core::TokenType::LEFT_BRACKET:
-            return ParseArrayLiteral();
+            // CHTL JS不支持数组字面量语法
+            ReportError("CHTL JS不支持数组字面量语法，请使用CHTL JS语法");
+            return nullptr;
             
         case Core::TokenType::IDENTIFIER:
             {
@@ -254,8 +251,9 @@ AST::ASTNodePtr CHTLJSParser::ParseListenBlock() {
             break;
         }
         
-        // 解析事件处理器
-        auto handler = ParseExpression();
+        // 解析事件处理器（CHTL JS不支持复杂的函数语法）
+        // 简化处理：只接受基本的事件处理语法
+        auto handler = ParseSimpleEventHandler();
         if (handler) {
             listenNode->AddEventHandler(eventType, handler);
         }
@@ -882,6 +880,39 @@ bool CHTLJSParser::IsArrowFunction() const {
     }
     
     return false;
+}
+
+AST::ASTNodePtr CHTLJSParser::ParseSimpleEventHandler() {
+    // 解析简单的事件处理器（CHTL JS语法）
+    // 支持的格式：
+    // 1. 字符串：事件处理器函数名
+    // 2. 增强选择器：{{selector}}
+    // 3. 标识符：函数或变量名
+    
+    const auto& token = Current();
+    
+    switch (token.GetType()) {
+        case Core::TokenType::STRING:
+            {
+                std::string handlerName = token.GetValue();
+                Advance();
+                return std::make_shared<AST::LiteralNode>(AST::LiteralNode::LiteralType::STRING, handlerName, token);
+            }
+            
+        case Core::TokenType::ENHANCED_SELECTOR:
+            return ParseEnhancedSelector();
+            
+        case Core::TokenType::IDENTIFIER:
+            {
+                std::string name = token.GetValue();
+                Advance();
+                return std::make_shared<AST::IdentifierNode>(name, token);
+            }
+            
+        default:
+            ReportError("不支持的事件处理器类型，CHTL JS仅支持字符串、标识符或增强选择器");
+            return nullptr;
+    }
 }
 
 } // namespace Parser

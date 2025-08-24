@@ -1,0 +1,68 @@
+// 正确的CHTL JS语法示例 - 严格按照CHTL语法文档
+
+html {
+    head {
+        title {
+            text { CHTL JS语法测试 }
+        }
+    }
+    
+    body {
+        div {
+            id: container;
+            class: main-content;
+            
+            h1 {
+                text { CHTL JS核心功能测试 }
+            }
+            
+            button {
+                id: test-button;
+                class: btn primary;
+                text { 点击测试 }
+            }
+        }
+        
+        script {
+            // 1. 虚对象 (vir) - 语法文档第564-581行
+            vir Calculator = {
+                add: 5,
+                multiply: 3
+            };
+            
+            // 2. 增强选择器 - 语法文档第145-151行
+            {{#test-button}};  // ID选择器
+            {{.btn}};          // 类选择器
+            {{button}};        // 标签选择器
+            
+            // 3. 箭头操作符 - 语法文档第1162行（与.完全等价）
+            Calculator->add;
+            {{#container}}->innerHTML;
+            
+            // 4. 监听器 - 语法文档第1184-1213行
+            listen({
+                click: "handleClick",
+                mouseenter: "handleMouseEnter"
+            });
+            
+            // 5. 事件委托 - 语法文档第1215-1232行
+            delegate({
+                target: "{{.btn}}",
+                event: "click",
+                handler: "delegatedHandler"
+            });
+            
+            // 6. 动画 - 语法文档第1233-1271行
+            animate({
+                target: "{{#test-button}}",
+                duration: 1000,
+                easing: "ease-in-out",
+                when: [
+                    { at: 0.0, opacity: 0 },
+                    { at: 0.5, opacity: 0.5 },
+                    { at: 1.0, opacity: 1 }
+                ]
+            });
+        }
+    }
+}

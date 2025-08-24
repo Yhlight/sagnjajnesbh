@@ -136,6 +136,9 @@ private:
     
     // 语法检查辅助
     bool IsArrowFunction() const;
+    
+    // CHTL JS特定解析
+    AST::ASTNodePtr ParseSimpleEventHandler();
 
 private:
     ParserConfig config_;               // 配置
