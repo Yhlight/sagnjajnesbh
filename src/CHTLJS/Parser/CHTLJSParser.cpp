@@ -401,7 +401,8 @@ AST::ASTNodePtr CHTLJSParser::ParseAnimateBlock() {
                 animateNode->SetDuration(std::stoi(durationStr));
             }
         } else if (key == "easing") {
-            std::string easing = ParseStringValue();
+            // 支持无修饰字面量：easing: ease-in-out
+            std::string easing = ParseLiteralValue();
             if (!easing.empty()) {
                 animateNode->SetEasing(easing);
             }
@@ -912,6 +913,43 @@ AST::ASTNodePtr CHTLJSParser::ParseSimpleEventHandler() {
         default:
             ReportError("不支持的事件处理器类型，CHTL JS仅支持字符串、标识符或增强选择器");
             return nullptr;
+    }
+}
+
+std::string CHTLJSParser::ParseLiteralValue() {
+    // 解析字面量值，支持：
+    // 1. 字符串字面量 "value"
+    // 2. 无修饰字面量 value
+    // 3. 数字字面量 123
+    
+    const auto& token = Current();
+    
+    switch (token.GetType()) {
+        case Core::TokenType::STRING:
+            {
+                std::string value = token.GetValue();
+                Advance();
+                return value;
+            }
+            
+        case Core::TokenType::NUMBER:
+            {
+                std::string value = token.GetValue();
+                Advance();
+                return value;
+            }
+            
+        case Core::TokenType::IDENTIFIER:
+            {
+                // 无修饰字面量：在值的位置，IDENTIFIER被解释为字面量
+                std::string value = token.GetValue();
+                Advance();
+                return value;
+            }
+            
+        default:
+            ReportError("期望字面量值（字符串、数字或无修饰字面量）");
+            return "";
     }
 }
 

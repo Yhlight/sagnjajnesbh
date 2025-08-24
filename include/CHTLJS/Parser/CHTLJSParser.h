@@ -139,6 +139,7 @@ private:
     
     // CHTL JS特定解析
     AST::ASTNodePtr ParseSimpleEventHandler();
+    std::string ParseLiteralValue();  // 解析字面量值（支持无修饰字面量）
 
 private:
     ParserConfig config_;               // 配置

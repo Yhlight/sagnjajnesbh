@@ -1,0 +1,92 @@
+// 测试CHTL JS的关键特性：键值对无序、键值对可选、无修饰字面量
+
+html {
+    body {
+        div {
+            id: container;
+            class: test-box;
+            
+            button {
+                id: test-button;
+                class: btn;
+                text { 点击测试 }
+            }
+        }
+        
+        script {
+            // 1. 虚对象 - 基础语法
+            vir myHandler = listen({
+                click: myClickFunction,
+                mouseenter: myEnterFunction
+            });
+            
+            // 2. 增强选择器测试
+            {{#test-button}};
+            {{.btn}};
+            {{button}};
+            {{button[0]}};
+            
+            // 3. 箭头操作符
+            myHandler->click();
+            {{#container}}->innerHTML;
+            
+            // 4. 监听器 - 键值对无序测试
+            {{#test-button}}->listen({
+                mouseenter: handleMouseEnter,    // 顺序1
+                click: handleClick,              // 顺序2
+                mouseleave: handleMouseLeave     // 顺序3
+            });
+            
+            // 同样的监听器，不同顺序
+            {{.btn}}->listen({
+                click: handleClick,              // 顺序改变
+                mouseleave: handleMouseLeave,    // 顺序改变
+                mouseenter: handleMouseEnter     // 顺序改变
+            });
+            
+            // 5. 事件委托 - 键值对可选测试
+            {{#container}}->delegate({
+                target: {{.btn}},                // 必需的
+                click: delegateClick            // 其他事件可选
+                // mouseenter可选
+                // mouseleave可选
+            });
+            
+            // 6. 动画 - 无修饰字面量测试
+            animate({
+                target: {{#test-button}},
+                duration: 1000,                  // 数字字面量
+                easing: ease-in-out,            // 无修饰字面量
+                direction: forward,             // 无修饰字面量
+                when: [
+                    {
+                        at: 0.0,                // 数字字面量
+                        opacity: 0.0,           // 数字字面量
+                        transform: scale(0.8)   // 无修饰字面量
+                    },
+                    {
+                        at: 0.5,
+                        opacity: 0.5,
+                        transform: scale(1.0)
+                    },
+                    {
+                        at: 1.0,
+                        opacity: 1.0,
+                        transform: scale(1.2)
+                    }
+                ]
+                // loop可选
+                // delay可选
+                // callback可选
+            });
+            
+            // 7. 动画 - 键值对无序测试
+            animate({
+                easing: ease-out,               // 顺序改变
+                duration: 500,                  // 顺序改变
+                target: {{.btn}},               // 顺序改变
+                direction: reverse              // 顺序改变
+            });
+        }
+    }
+}
