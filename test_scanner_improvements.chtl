@@ -1,0 +1,59 @@
+// 测试统一扫描器的可变长度切片和CJMOD集成
+
+[Import] @CJmod from Chtholly;
+
+html {
+    head {
+        title {
+            text { 统一扫描器改进测试 }
+        }
+    }
+    
+    body {
+        div {
+            id: main-container;
+            class: test-container;
+            
+            h1 {
+                text { CHTL与CJMOD集成测试 }
+            }
+            
+            script {
+                // 这里应该正确识别CHTL JS语法
+                vir testObject = listen({
+                    target: "{{button}}",
+                    event: "click",
+                    handler: function() {
+                        console.log("按钮被点击");
+                    }
+                });
+                
+                // 测试箭头操作符的精确切割
+                testObject->activate();
+                
+                // 测试CJMOD语法（需要动态注册）
+                printMylove({
+                    url: "test.jpg",
+                    mode: "ASCII",
+                    width: 80
+                });
+                
+                // 测试增强选择器
+                {{main-container}}->addClass("active");
+            }
+            
+            style {
+                .test-container {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    padding: 20px;
+                    border-radius: 10px;
+                }
+                
+                h1 {
+                    color: white;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}

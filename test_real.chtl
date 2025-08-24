@@ -1,47 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>真正的CJMOD测试</title>
-</head>
-<body>
-    <h1>CJMOD扩展实战测试</h1>
+// 真实CJMOD测试 - 使用正确的CHTL语法
+
+[Import] @CJmod from test;
+
+html {
+    head {
+        title {
+            text { 真实CJMOD测试 }
+        }
+    }
     
-    <!-- 导入test CJMOD模块 -->
-    [Import] @CJmod from "test"
-    
-    <script>
-    {
-        // 这些代码会被统一扫描器扫描
-        // 当扫描到testFunction时，会调用CJMOD扩展
-        
-        testFunction({
-            name: "实战测试",
-            value: 42,
-            type: "string"
-        });
-        
-        // 普通JS代码，不会被CJMOD处理
-        console.log("这是普通JS代码");
-        
-        // 另一个CJMOD调用
-        simpleTest("Hello", "upper");
-        
-        // 更多普通代码
-        var x = 10;
-        function normalFunc() {
-            return "normal";
+    body {
+        h1 {
+            text { 真实CJMOD测试页面 }
         }
         
-        // 复杂的CJMOD调用
-        testFunction({
-            name: "复杂测试",
-            value: 999,
-            type: "number",
-            nested: {
-                inner: "value"
+        -- 导入test CJMOD模块进行真实测试
+        
+        div {
+            id: test-container;
+            class: main-content;
+            
+            p {
+                text { 这是一个真实的CJMOD测试页面 }
             }
-        });
+            
+            script {
+                // 真实的CJMOD功能测试
+                console.log("开始真实CJMOD测试");
+                
+                // 测试基本功能
+                testFunction({
+                    name: "realTest",
+                    value: 999,
+                    type: "real"
+                });
+                
+                // 测试字符串处理
+                simpleTest("Real World Test", "upper");
+                
+                console.log("真实CJMOD测试完成");
+            }
+        }
     }
-    </script>
-</body>
-</html>
+}

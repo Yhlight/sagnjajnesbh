@@ -1,9 +1,9 @@
 // 珂朵莉模块使用示例 - 根据CHTL语法文档严格实现
 // 展示混合模块（CMOD + CJMOD）的完整使用方式
 
-[Import] @Chtl from Chtholly.Core
-[Import] @Chtl from Chtholly.Accordion
-[Import] @CJmod from Chtholly.ChthollyJS
+[Import] @Chtl from Chtholly.Core;
+[Import] @Chtl from Chtholly.Accordion;
+[Import] @CJmod from Chtholly.ChthollyJS;
 
 [Namespace] ChthollyDemo {
 

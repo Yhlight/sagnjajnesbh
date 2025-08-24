@@ -1,0 +1,8 @@
+html {
+    body {
+        div { class: box; text { Hello } }
+        script {
+            {{box}}->textContent();
+        }
+    }
+}

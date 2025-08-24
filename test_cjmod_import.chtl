@@ -1,0 +1,38 @@
+[Import] @CJmod from Chtholly;
+
+html {
+    head {
+        title {
+            text { CJMOD测试 }
+        }
+    }
+    
+    body {
+        div {
+            script {
+                // 测试printMylove功能
+                const result = printMylove({
+                    url: "test.jpg",
+                    mode: "ASCII",
+                    width: 80,
+                    height: 40
+                });
+                
+                console.log("printMylove结果:", result);
+                
+                // 测试iNeverAway功能
+                vir eventSystem = iNeverAway({
+                    Void<Init>: function() {
+                        console.log("系统初始化");
+                    },
+                    
+                    Handle: function(eventType, callback) {
+                        document.addEventListener(eventType, callback);
+                    }
+                });
+                
+                eventSystem->Void<Init>();
+            }
+        }
+    }
+}

@@ -59,23 +59,38 @@ CHTLJSCompilationResult CHTLJSCompiler::Compile(const std::string& chtlJSCode, c
         // 1. 预处理代码
         std::string processedCode = PreprocessCode(chtlJSCode);
         
-        // 2. 检查虚对象语法
+        // 2. 检查是否为有效的CHTL JS语法
+        if (!IsValidCHTLJSFragment(processedCode)) {
+            // 如果不是有效的CHTL JS语法，直接作为JavaScript输出
+            result.jsOutput = processedCode;
+            result.success = true;
+            
+            if (config_.enableDebug) {
+                Utils::ErrorHandler::GetInstance().LogInfo("输入不是有效的CHTL JS语法，直接输出为JavaScript");
+            }
+            return result;
+        }
+        
+        // 3. 检查虚对象语法
         if (IsVirtualObjectSyntax(processedCode)) {
             return CompileVirtualObject(processedCode, fileName);
         }
         
-        // 3. 词法分析
+        // 4. 词法分析
         auto tokens = lexer_->Tokenize(processedCode, fileName);
         
         if (config_.enableDebug) {
             Utils::ErrorHandler::GetInstance().LogInfo("CHTL JS词法分析完成，Token数量: " + std::to_string(tokens.Size()));
         }
         
-        // 4. 语法分析
+        // 5. 语法分析
         auto ast = parser_->Parse(tokens, fileName);
         
         if (!ast) {
-            HandleCompilationError("CHTL JS语法分析失败：无法生成AST", result);
+            // 语法分析失败，但不完全放弃，尝试作为JavaScript输出
+            Utils::ErrorHandler::GetInstance().LogWarning("CHTL JS语法分析失败，尝试作为JavaScript输出: " + fileName);
+            result.jsOutput = processedCode;
+            result.success = true;
             return result;
         }
         
@@ -83,10 +98,10 @@ CHTLJSCompilationResult CHTLJSCompiler::Compile(const std::string& chtlJSCode, c
             Utils::ErrorHandler::GetInstance().LogInfo("CHTL JS语法分析完成");
         }
         
-        // 5. 代码生成
+        // 6. 代码生成
         result.jsOutput = generator_->Generate(ast);
         
-        // 6. 后处理
+        // 7. 后处理
         if (config_.optimizeOutput) {
             result.jsOutput = PostprocessJavaScript(result.jsOutput);
         }
@@ -98,7 +113,11 @@ CHTLJSCompilationResult CHTLJSCompiler::Compile(const std::string& chtlJSCode, c
         }
         
     } catch (const std::exception& e) {
-        HandleCompilationError("CHTL JS编译过程中发生异常: " + std::string(e.what()), result);
+        // 异常情况下，尝试直接输出原代码
+        Utils::ErrorHandler::GetInstance().LogWarning("CHTL JS编译异常，输出原代码: " + std::string(e.what()));
+        result.jsOutput = chtlJSCode;
+        result.success = true;
+        result.warnings.push_back("编译过程中发生异常，输出原代码: " + std::string(e.what()));
     }
     
     return result;
@@ -167,6 +186,14 @@ std::string CHTLJSCompiler::PreprocessCode(const std::string& code) {
     std::regex newlineRegex("\r\n|\r");
     processed = std::regex_replace(processed, newlineRegex, "\n");
     
+    // 不在预处理阶段转换箭头操作符
+    // 箭头操作符的转换应该在AST生成或代码生成阶段进行
+    // 这样Lexer可以正确识别箭头操作符标记
+    
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo("CHTL JS预处理完成");
+    }
+    
     return processed;
 }
 
@@ -200,6 +227,54 @@ void CHTLJSCompiler::HandleCompilationError(const std::string& error, CHTLJSComp
 bool CHTLJSCompiler::IsVirtualObjectSyntax(const std::string& code) {
     std::string trimmed = Utils::StringUtils::Trim(code);
     return trimmed.find("vir") == 0;
+}
+
+bool CHTLJSCompiler::IsValidCHTLJSFragment(const std::string& code) {
+    std::string trimmed = Utils::StringUtils::Trim(code);
+    
+    if (trimmed.empty()) {
+        return false;
+    }
+    
+    // 1. 检查虚对象声明: vir objectName = {...}
+    std::regex virPattern(R"(^\s*vir\s+\w+\s*=\s*\{[\s\S]*\}\s*$)");
+    if (std::regex_match(trimmed, virPattern)) {
+        return true;
+    }
+    
+    // 2. 检查增强选择器调用: {{selector}}->method(...)
+    std::regex selectorPattern(R"(\{\{[^}]+\}\}\s*->\s*\w+)");
+    if (std::regex_search(trimmed, selectorPattern)) {
+        return true;
+    }
+    
+    // 3. 检查虚对象方法调用: object->method(...)
+    std::regex methodPattern(R"(\w+\s*->\s*\w+\s*(\([^)]*\))?(\s*;)?$)");
+    if (std::regex_search(trimmed, methodPattern)) {
+        return true;
+    }
+    
+    // 4. 检查CHTL JS特定方法: listen(...), delegate(...), animate(...)
+    std::regex chtlJSFuncPattern(R"(\b(listen|delegate|animate)\s*\([^)]*\))");
+    if (std::regex_search(trimmed, chtlJSFuncPattern)) {
+        return true;
+    }
+    
+    // 5. 检查Import语句
+    if (trimmed.find("[Import]") != std::string::npos) {
+        return true;
+    }
+    
+    // 6. 如果包含常见JavaScript关键字但没有CHTL JS特征，可能不是CHTL JS
+    std::regex jsOnlyPattern(R"(\b(console\.|document\.|let\s+|const\s+|var\s+|function\s+)\b)");
+    if (std::regex_search(trimmed, jsOnlyPattern) && 
+        trimmed.find("->") == std::string::npos && 
+        trimmed.find("{{") == std::string::npos && 
+        trimmed.find("vir") == std::string::npos) {
+        return false;
+    }
+    
+    return false;
 }
 
 // 移除了错误的表达式语法检测

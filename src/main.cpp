@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <locale>
+#include <codecvt>
 #include "Scanner/CHTLUnifiedScanner.h"
 #include "Dispatcher/CompilerDispatcher.h"
 #include "Utils/FileUtils.h"
@@ -27,27 +29,34 @@ void PrintUsage(const std::string& programName) {
     std::cout << "  " << programName << " --scan-only --verbose test.chtl\n";
 }
 
-void PrintFragmentType(Scanner::FragmentType type) {
+void PrintFragmentType(CHTL::Scanner::FragmentType type) {
     switch (type) {
-        case Scanner::FragmentType::CHTL:
+        case CHTL::Scanner::FragmentType::CHTL:
             std::cout << "CHTL";
             break;
-        case Scanner::FragmentType::CHTL_JS:
+        case CHTL::Scanner::FragmentType::CHTL_JS:
             std::cout << "CHTL JS";
             break;
-        case Scanner::FragmentType::CSS:
+        case CHTL::Scanner::FragmentType::CSS:
             std::cout << "CSS";
             break;
-        case Scanner::FragmentType::JS:
+        case CHTL::Scanner::FragmentType::JS:
             std::cout << "JavaScript";
             break;
-        case Scanner::FragmentType::Unknown:
+        case CHTL::Scanner::FragmentType::Unknown:
             std::cout << "Unknown";
             break;
     }
 }
 
 int main(int argc, char* argv[]) {
+    // 设置UTF-8语言环境
+    std::locale::global(std::locale(""));
+    std::ios_base::sync_with_stdio(false);
+    std::cin.imbue(std::locale());
+    std::cout.imbue(std::locale());
+    std::cerr.imbue(std::locale());
+    
     std::string inputFile;
     std::string outputFile;
     bool verbose = false;
@@ -106,7 +115,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    std::string sourceCode = Utils::FileUtils::ReadFile(inputFile);
+    std::string sourceCode = Utils::FileUtils::ReadFileUTF8(inputFile);
     if (sourceCode.empty()) {
         std::cerr << "错误: 无法读取输入文件或文件为空: " << inputFile << "\n";
         return 1;
@@ -117,7 +126,7 @@ int main(int argc, char* argv[]) {
     }
     
     // 配置扫描器
-    Scanner::CHTLUnifiedScanner scanner;
+    CHTL::Scanner::CHTLUnifiedScanner scanner;
     scanner.SetVerbose(verbose);
     
     // 执行扫描
@@ -157,11 +166,11 @@ int main(int argc, char* argv[]) {
         size_t chtlCount = 0, chtlJSCount = 0, cssCount = 0, jsCount = 0, unknownCount = 0;
         for (const auto& fragment : fragments) {
             switch (fragment.type) {
-                case Scanner::FragmentType::CHTL: chtlCount++; break;
-                case Scanner::FragmentType::CHTL_JS: chtlJSCount++; break;
-                case Scanner::FragmentType::CSS: cssCount++; break;
-                case Scanner::FragmentType::JS: jsCount++; break;
-                case Scanner::FragmentType::Unknown: unknownCount++; break;
+                case CHTL::Scanner::FragmentType::CHTL: chtlCount++; break;
+                case CHTL::Scanner::FragmentType::CHTL_JS: chtlJSCount++; break;
+                case CHTL::Scanner::FragmentType::CSS: cssCount++; break;
+                case CHTL::Scanner::FragmentType::JS: jsCount++; break;
+                case CHTL::Scanner::FragmentType::Unknown: unknownCount++; break;
             }
         }
         

@@ -1,7 +1,10 @@
 #include "Utils/FileUtils.h"
+#include "Utils/UTF8Utils.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <locale>
+#include <codecvt>
 
 namespace CHTL {
 namespace Utils {
@@ -15,6 +18,32 @@ std::string FileUtils::ReadFile(const std::string& filePath) {
     std::stringstream buffer;
     buffer << file.rdbuf();
     return buffer.str();
+}
+
+std::string FileUtils::ReadFileUTF8(const std::string& filePath) {
+    std::ifstream file(filePath, std::ios::binary);
+    if (!file.is_open()) {
+        return "";
+    }
+    
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string content = buffer.str();
+    
+    // 检查并处理BOM
+    if (content.length() >= 3 && 
+        (unsigned char)content[0] == 0xEF && 
+        (unsigned char)content[1] == 0xBB && 
+        (unsigned char)content[2] == 0xBF) {
+        content = content.substr(3);  // 移除BOM
+    }
+    
+    // 验证和修复UTF-8编码
+    if (!UTF8Utils::IsValidUTF8(content)) {
+        content = UTF8Utils::FixUTF8String(content);
+    }
+    
+    return content;
 }
 
 bool FileUtils::WriteFile(const std::string& filePath, const std::string& content) {

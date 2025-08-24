@@ -1,0 +1,25 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
+# The set of languages for which implicit dependencies are needed:
+set(CMAKE_DEPENDS_LANGUAGES
+  )
+
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/workspace/src/Dispatcher/CompilerDispatcher.cpp" "src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o" "gcc" "src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o.d"
+  "/workspace/src/Dispatcher/FragmentProcessors.cpp" "src/CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o" "gcc" "src/CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o.d"
+  "/workspace/src/Dispatcher/IntermediateProcessors.cpp" "src/CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o" "gcc" "src/CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o.d"
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
+  )
+
+# Fortran module output directory.
+set(CMAKE_Fortran_TARGET_MODULE_DIR "")

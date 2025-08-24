@@ -157,6 +157,33 @@ std::string VirtualObjectNode::ToString() const {
     return "VIRTUAL_OBJECT(" + name_ + ")";
 }
 
+// ArrowOperatorNode实现
+ArrowOperatorNode::ArrowOperatorNode(ASTNodePtr left, ASTNodePtr right, const Core::CHTLJSToken& token)
+    : ASTNode(NodeType::ARROW_OPERATOR, token), left_(left), right_(right) {}
+
+void ArrowOperatorNode::Accept(ASTVisitor& visitor) {
+    visitor.VisitArrowOperatorNode(*this);
+}
+
+ASTNodePtr ArrowOperatorNode::Clone() const {
+    ASTNodePtr leftClone = left_ ? left_->Clone() : nullptr;
+    ASTNodePtr rightClone = right_ ? right_->Clone() : nullptr;
+    return std::make_shared<ArrowOperatorNode>(leftClone, rightClone, token_);
+}
+
+std::string ArrowOperatorNode::ToString() const {
+    std::string result = "ARROW_OPERATOR(";
+    if (left_) {
+        result += left_->ToString();
+    }
+    result += " -> ";
+    if (right_) {
+        result += right_->ToString();
+    }
+    result += ")";
+    return result;
+}
+
 // ListenBlockNode实现
 ListenBlockNode::ListenBlockNode(const Core::CHTLJSToken& token)
     : ASTNode(NodeType::LISTEN_BLOCK, token) {}
@@ -255,11 +282,32 @@ std::string AnimateBlockNode::ToString() const {
 // - MethodCallNode - 方法调用是JavaScript语法
 // 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
 
-// 所有JavaScript语法和CJMOD扩展节点实现已移除：
+// 所有JavaScript语法节点实现已移除：
 // - MethodCallNode - 方法调用是JavaScript语法
-// - VirtualMethodCallNode - 虚方法调用属于CJMOD扩展
 // 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
-// 语法文档第1485行明确说明虚对象调用属于CJMOD扩展
+
+// VirtualMethodCallNode实现 - 这是CHTL JS核心特征，不是CJMOD扩展
+VirtualMethodCallNode::VirtualMethodCallNode(const std::string& objectName, const std::string& method, const Core::CHTLJSToken& token)
+    : ASTNode(NodeType::VIRTUAL_OBJECT, token), objectName_(objectName), method_(method), isVoidStateCall_(false) {}
+
+void VirtualMethodCallNode::Accept(ASTVisitor& visitor) {
+    visitor.VisitVirtualMethodCallNode(*this);
+}
+
+ASTNodePtr VirtualMethodCallNode::Clone() const {
+    auto clone = std::make_shared<VirtualMethodCallNode>(objectName_, method_, token_);
+    clone->SetIsVoidStateCall(isVoidStateCall_);
+    for (const auto& arg : arguments_) {
+        if (arg) {
+            clone->AddArgument(arg->Clone());
+        }
+    }
+    return clone;
+}
+
+std::string VirtualMethodCallNode::ToString() const {
+    return "VIRTUAL_METHOD_CALL(" + objectName_ + "->" + method_ + "())";
+}
 
 // AnimationKeyframeNode实现
 AnimationKeyframeNode::AnimationKeyframeNode(double time, const Core::CHTLJSToken& token)

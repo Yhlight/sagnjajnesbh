@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libutils.a CMakeFiles/utils.dir/Utils/FileUtils.cpp.o CMakeFiles/utils.dir/Utils/StringUtils.cpp.o CMakeFiles/utils.dir/Utils/ErrorHandler.cpp.o CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o
+/usr/bin/ranlib ../lib/libutils.a

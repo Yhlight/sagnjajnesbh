@@ -1,0 +1,15 @@
+[Import] @Chtl from TestModule;
+
+html {
+    head {
+        title {
+            text { Import系统测试 }
+        }
+    }
+    
+    body {
+        div {
+            text { 这是Import系统测试 }
+        }
+    }
+}

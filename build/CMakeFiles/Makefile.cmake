@@ -38,6 +38,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.31/Modules/Platform/Linux-Initialize.cmake"
   "/usr/share/cmake-3.31/Modules/Platform/Linux.cmake"
   "/usr/share/cmake-3.31/Modules/Platform/UnixPaths.cmake"
+  "/workspace/CMakeLists.txt"
   "CMakeFiles/3.31.6/CMakeCCompiler.cmake"
   "CMakeFiles/3.31.6/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.31.6/CMakeSystem.cmake"
@@ -53,21 +54,23 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "src/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/chtl_core.dir/DependInfo.cmake"
-  "CMakeFiles/chtljs_core.dir/DependInfo.cmake"
-  "CMakeFiles/scanner.dir/DependInfo.cmake"
-  "CMakeFiles/dispatcher.dir/DependInfo.cmake"
-  "CMakeFiles/utils.dir/DependInfo.cmake"
-  "CMakeFiles/css_compiler.dir/DependInfo.cmake"
-  "CMakeFiles/js_compiler.dir/DependInfo.cmake"
-  "CMakeFiles/cmod.dir/DependInfo.cmake"
-  "CMakeFiles/cjmod.dir/DependInfo.cmake"
-  "CMakeFiles/module_builder.dir/DependInfo.cmake"
-  "CMakeFiles/chtl_compiler.dir/DependInfo.cmake"
-  "CMakeFiles/build_all_modules.dir/DependInfo.cmake"
-  "CMakeFiles/clean_modules.dir/DependInfo.cmake"
+  "src/CMakeFiles/chtl_core.dir/DependInfo.cmake"
+  "src/CMakeFiles/chtljs_core.dir/DependInfo.cmake"
+  "src/CMakeFiles/scanner.dir/DependInfo.cmake"
+  "src/CMakeFiles/dispatcher.dir/DependInfo.cmake"
+  "src/CMakeFiles/utils.dir/DependInfo.cmake"
+  "src/CMakeFiles/css_compiler.dir/DependInfo.cmake"
+  "src/CMakeFiles/js_compiler.dir/DependInfo.cmake"
+  "src/CMakeFiles/cmod.dir/DependInfo.cmake"
+  "src/CMakeFiles/cjmod.dir/DependInfo.cmake"
+  "src/CMakeFiles/module_builder.dir/DependInfo.cmake"
+  "src/CMakeFiles/chtl_compiler.dir/DependInfo.cmake"
+  "src/CMakeFiles/build_module_.dir/DependInfo.cmake"
+  "src/CMakeFiles/build_all_modules.dir/DependInfo.cmake"
+  "src/CMakeFiles/clean_modules.dir/DependInfo.cmake"
   )

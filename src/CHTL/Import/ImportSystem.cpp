@@ -774,7 +774,7 @@ EnhancedImportSystem::EnhancedImportSystem(const std::string& currentFilePath,
     , disableDefaultNamespace_(false)
     , htmlImportCount_(0), styleImportCount_(0), jsImportCount_(0)
     , chtlImportCount_(0), cjmodImportCount_(0), originImportCount_(0)
-    , duplicateImportCount_(0), circularDependencyCount_(0) {}
+    , duplicateImportCount_(0), circularDependencyCount_(0), unifiedScanner_(nullptr) {}
 
 std::vector<std::shared_ptr<AST::ASTNode>> EnhancedImportSystem::ProcessImport(const std::string& importStatement) {
     std::vector<std::shared_ptr<AST::ASTNode>> results;
@@ -914,17 +914,28 @@ std::vector<std::shared_ptr<AST::ASTNode>> EnhancedImportSystem::ProcessCJmodImp
     auto resolvedPaths = pathResolver_.ResolvePath(importInfo);
     
     for (const auto& path : resolvedPaths) {
-        // 创建CJmod导入节点
-        auto importNode = std::make_shared<AST::ImportNode>(
-            AST::ImportNode::ImportType::CJMOD, 
-            path, 
-            "", 
-            "", 
-            Core::CHTLToken()
-        );
-        
-        results.push_back(importNode);
-        cjmodImportCount_++;
+        // 加载CJMOD模块并注册关键字到统一扫描器
+        if (LoadCJMODModule(path, importInfo.path)) {
+            // 创建CJmod导入节点
+            auto importNode = std::make_shared<AST::ImportNode>(
+                AST::ImportNode::ImportType::CJMOD, 
+                path, 
+                "", 
+                "", 
+                Core::CHTLToken()
+            );
+            
+            results.push_back(importNode);
+            cjmodImportCount_++;
+            
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "成功加载CJMOD模块: " + importInfo.path + " -> " + path
+            );
+        } else {
+            Utils::ErrorHandler::GetInstance().LogError(
+                "加载CJMOD模块失败: " + importInfo.path + " -> " + path
+            );
+        }
     }
     
     return results;
@@ -1054,8 +1065,70 @@ void EnhancedImportSystem::Reset() {
     circularDependencyCount_ = 0;
 }
 
+bool EnhancedImportSystem::LoadCJMODModule(const std::string& modulePath, const std::string& moduleName) {
+    if (!unifiedScanner_) {
+        Utils::ErrorHandler::GetInstance().LogError("统一扫描器未设置，无法注册CJMOD关键字");
+        return false;
+    }
+    
+    // 检查模块是否已经加载
+    if (loadedCJMODModules_.find(moduleName) != loadedCJMODModules_.end()) {
+        Utils::ErrorHandler::GetInstance().LogInfo("CJMOD模块已加载: " + moduleName);
+        return true;
+    }
+    
+    // 构造动态库路径
+    std::string libraryPath = modulePath;
+    if (libraryPath.find(".cjmod") == std::string::npos) {
+        libraryPath += ".cjmod";
+    }
+    
+    // 加载动态库
+    void* handle = dlopen(libraryPath.c_str(), RTLD_LAZY);
+    if (!handle) {
+        Utils::ErrorHandler::GetInstance().LogError(
+            "无法加载CJMOD动态库: " + libraryPath + " - " + dlerror()
+        );
+        return false;
+    }
+    
+    // 获取模块注册函数
+    typedef void (*RegisterCJMODFunc)(Scanner::CHTLUnifiedScanner*);
+    RegisterCJMODFunc registerFunc = (RegisterCJMODFunc) dlsym(handle, "RegisterCJMODExtensions");
+    
+    if (!registerFunc) {
+        Utils::ErrorHandler::GetInstance().LogError(
+            "CJMOD模块缺少RegisterCJMODExtensions函数: " + moduleName
+        );
+        dlclose(handle);
+        return false;
+    }
+    
+    // 调用模块注册函数
+    try {
+        registerFunc(unifiedScanner_);
+        
+        // 记录已加载的模块
+        loadedCJMODModules_[moduleName] = handle;
+        
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "成功注册CJMOD模块: " + moduleName + "，关键字已注册到统一扫描器"
+        );
+        
+        return true;
+    } catch (const std::exception& e) {
+        Utils::ErrorHandler::GetInstance().LogError(
+            "CJMOD模块注册失败: " + moduleName + " - " + e.what()
+        );
+        dlclose(handle);
+        return false;
+    }
+}
 
-
+void EnhancedImportSystem::SetUnifiedScanner(CHTL::Scanner::CHTLUnifiedScanner* scanner) {
+    unifiedScanner_ = scanner;
+    Utils::ErrorHandler::GetInstance().LogInfo("已设置统一扫描器引用，CJMOD模块加载时将自动注册关键字");
+}
 
 
 } // namespace Import

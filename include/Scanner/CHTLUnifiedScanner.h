@@ -4,6 +4,8 @@
 #include <vector>
 #include <memory>
 #include <unordered_set>
+#include <unordered_map>
+#include <functional>
 #include "CHTL/Comments/ContextualCommentSystem.h"
 
 namespace CHTL {
@@ -218,6 +220,43 @@ public:
      */
     void ClearKeywords();
 
+    // ============ CJMOD动态注册接口 ============
+    
+    /**
+     * @brief CJMOD模块动态注册关键字
+     * @param keyword 关键字
+     * @param moduleName 模块名称
+     * @param handler 处理函数
+     */
+    void RegisterCJMODKeyword(const std::string& keyword, const std::string& moduleName, 
+                             std::function<std::string(const std::string&)> handler);
+    
+    /**
+     * @brief 注销CJMOD模块的关键字
+     * @param moduleName 模块名称
+     */
+    void UnregisterCJMODModule(const std::string& moduleName);
+    
+    /**
+     * @brief 检查关键字是否已注册
+     * @param keyword 关键字
+     * @return 是否已注册
+     */
+    bool IsKeywordRegistered(const std::string& keyword) const;
+    
+    /**
+     * @brief 获取关键字的处理器
+     * @param keyword 关键字
+     * @return 处理器函数，如果未找到返回nullptr
+     */
+    std::function<std::string(const std::string&)> GetKeywordHandler(const std::string& keyword) const;
+    
+    /**
+     * @brief 获取已注册的CJMOD模块列表
+     * @return 模块名称列表
+     */
+    std::vector<std::string> GetRegisteredCJMODModules() const;
+
     // ============ 片段索引接口 ============
     
     /**
@@ -270,6 +309,11 @@ public:
      * @param fragments 片段列表
      */
     void PrintIndexStatistics(const std::vector<CodeFragment>& fragments) const;
+    
+    /**
+     * @brief 检测是否包含CHTL JS语法
+     */
+    bool HasCHTLJSSyntax(const std::string& content) const;
 
 private:
     /**
@@ -318,6 +362,16 @@ private:
      * @brief 已注册的CHTL JS关键字
      */
     std::unordered_set<std::string> registeredKeywords_;
+
+    /**
+     * @brief CJMOD关键字注册表 - keyword -> (moduleName, handler)
+     */
+    std::unordered_map<std::string, std::pair<std::string, std::function<std::string(const std::string&)>>> cjmodKeywords_;
+    
+    /**
+     * @brief CJMOD模块注册表 - moduleName -> keywords
+     */
+    std::unordered_map<std::string, std::vector<std::string>> cjmodModules_;
 
     /**
      * @brief 上下文注释生成器
@@ -644,14 +698,14 @@ private:
      * @param content 代码内容
      * @return 是否为完整的CHTL块
      */
-    bool IsCHTLBlockComplete(const std::string& content);
+    bool IsCHTLBlockComplete(const std::string& content) const;
     
     /**
      * @brief 检测CHTL JS片段的完整性
      * @param content 代码内容
      * @return 是否为完整的CHTL JS片段
      */
-    bool IsCHTLJSFragmentComplete(const std::string& content);
+    bool IsCHTLJSFragmentComplete(const std::string& content) const;
     
     /**
      * @brief 最小单元切割
@@ -665,7 +719,7 @@ private:
      * @param content 代码内容
      * @return 大括号平衡数（正数表示未闭合的左括号）
      */
-    int CalculateBraceBalance(const std::string& content);
+    int CalculateBraceBalance(const std::string& content) const;
     
     /**
      * @brief 查找下一个语法边界
@@ -696,6 +750,48 @@ private:
      * @return 片段类型
      */
     FragmentType DetermineFragmentTypeInContext(const std::string& content, bool inScriptBlock, bool inStyleBlock);
+    
+    // ============ 内容类型检测辅助方法 ============
+    
+    /**
+     * @brief 检测是否为HTML元素
+     */
+    bool IsHTMLElement(const std::string& content) const;
+    
+    /**
+     * @brief 检测是否为样式块
+     */
+    bool IsStyleBlock(const std::string& content) const;
+    
+    /**
+     * @brief 检测是否为脚本块
+     */
+    bool IsScriptBlock(const std::string& content) const;
+    
+    /**
+     * @brief 检测是否为虚对象
+     */
+    bool IsVirObject(const std::string& content) const;
+    
+    /**
+     * @brief 检测样式块完整性
+     */
+    bool IsStyleBlockComplete(const std::string& content) const;
+    
+    /**
+     * @brief 检测脚本块完整性
+     */
+    bool IsScriptBlockComplete(const std::string& content) const;
+    
+    /**
+     * @brief 检测是否为有效的语法单元
+     */
+    bool IsValidSyntaxUnit(const std::string& content) const;
+    
+    /**
+     * @brief 检测是否为有效的CHTL JS语法
+     */
+    bool IsValidCHTLJSSyntax(const std::string& content) const;
 };
 
 } // namespace Scanner

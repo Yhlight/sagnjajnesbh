@@ -5,6 +5,17 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
+#include <functional>
+#include <dlfcn.h>  // 动态库加载
+
+// Forward declarations
+namespace CHTL {
+namespace Scanner {
+    class CHTLUnifiedScanner;
+}
+}
+
+#include "../AST/CHTLASTNodes.h"
 
 namespace CHTL {
 namespace AST {
@@ -364,11 +375,24 @@ private:
     
     /**
      * @brief 处理@CJmod导入
-     * @param importInfo 导入信息
-     * @return AST节点列表
      */
     std::vector<std::shared_ptr<AST::ASTNode>> ProcessCJmodImport(const ImportInfo& importInfo);
     
+    /**
+     * @brief 加载CJMOD模块并注册关键字
+     * @param modulePath CJMOD模块文件路径
+     * @param moduleName 模块名称
+     * @return 是否加载成功
+     */
+    bool LoadCJMODModule(const std::string& modulePath, const std::string& moduleName);
+    
+public:
+    /**
+     * @brief 设置统一扫描器引用（用于CJMOD关键字注册）
+     * @param scanner 统一扫描器引用
+     */
+    void SetUnifiedScanner(CHTL::Scanner::CHTLUnifiedScanner* scanner);
+
     /**
      * @brief 处理[Origin]自定义类型导入
      * @param importInfo 导入信息
@@ -419,6 +443,16 @@ private:
     mutable int originImportCount_;                 // 原始嵌入导入计数
     mutable int duplicateImportCount_;              // 重复导入计数
     mutable int circularDependencyCount_;           // 循环依赖计数
+
+    /**
+     * @brief 统一扫描器引用（用于CJMOD关键字注册）
+     */
+    CHTL::Scanner::CHTLUnifiedScanner* unifiedScanner_;
+    
+    /**
+     * @brief 已加载的CJMOD模块 - moduleName -> library handle
+     */
+    std::unordered_map<std::string, void*> loadedCJMODModules_;
 };
 
 /**

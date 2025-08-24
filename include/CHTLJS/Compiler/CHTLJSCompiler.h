@@ -161,6 +161,13 @@ private:
     bool IsVirtualObjectSyntax(const std::string& code);
     
     /**
+     * @brief 检查是否为有效的CHTL JS片段
+     * @param code 代码内容
+     * @return 是否为有效的CHTL JS语法
+     */
+    bool IsValidCHTLJSFragment(const std::string& code);
+    
+    /**
      * @brief 处理虚对象转换
      * @param virCode vir对象代码
      * @return 转换后的JavaScript

@@ -1,0 +1,1 @@
+/usr/bin/c++  -DUNICODE -D_UNICODE -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/module_builder.dir/link.d CMakeFiles/module_builder.dir/Tools/module_builder.cpp.o -o ../bin/module_builder   -L/workspace/ANTLR4/lib  -Wl,-rpath,/workspace/ANTLR4/lib ../lib/libcmod.a ../lib/libcjmod.a ../lib/libutils.a

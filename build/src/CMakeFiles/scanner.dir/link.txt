@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libscanner.a CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.o CMakeFiles/scanner.dir/Scanner/FragmentIndexManager.cpp.o
+/usr/bin/ranlib ../lib/libscanner.a

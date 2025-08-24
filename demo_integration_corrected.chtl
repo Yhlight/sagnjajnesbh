@@ -1,0 +1,381 @@
+// CHTL与CJMOD完整集成演示 - 使用正确的CHTL语法
+
+[Import] @CJmod from demo;
+
+html {
+    head {
+        title {
+            text { CHTL与CJMOD完整集成演示 }
+        }
+        
+        meta {
+            charset: UTF-8;
+        }
+        
+        meta {
+            name: viewport;
+            content: width=device-width, initial-scale=1.0;
+        }
+        
+        style {
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: 'Microsoft YaHei', sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                color: white;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                padding: 30px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                backdrop-filter: blur(10px);
+            }
+            
+            .demo-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+            
+            .demo-card {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                padding: 25px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .demo-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            }
+            
+            .demo-card h3 {
+                color: #00ff88;
+                margin-bottom: 15px;
+                font-size: 1.4em;
+            }
+            
+            .code-display {
+                background: #1a1a1a;
+                color: #00ff88;
+                padding: 15px;
+                border-radius: 8px;
+                font-family: 'Courier New', monospace;
+                font-size: 0.9em;
+                margin: 10px 0;
+                overflow-x: auto;
+                border-left: 4px solid #00ff88;
+            }
+            
+            .result-display {
+                background: rgba(0, 255, 136, 0.1);
+                border: 1px solid #00ff88;
+                padding: 15px;
+                border-radius: 8px;
+                margin: 10px 0;
+            }
+            
+            .btn {
+                background: linear-gradient(45deg, #00ff88, #00cc6a);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 25px;
+                cursor: pointer;
+                font-size: 1em;
+                transition: all 0.3s ease;
+                margin: 5px;
+            }
+            
+            .btn:hover {
+                transform: scale(1.05);
+                box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+            }
+        }
+    }
+    
+    body {
+        div {
+            class: container;
+            
+            div {
+                class: header;
+                
+                h1 {
+                    text { 🚀 CHTL与CJMOD完整集成演示 }
+                }
+                
+                p {
+                    text { 展示CHTL语法、CJMOD扩展和统一扫描器的完美协作 }
+                }
+            }
+            
+            div {
+                class: demo-grid;
+                
+                -- CJMOD扩展演示卡片
+                div {
+                    class: demo-card;
+                    
+                    h3 {
+                        text { 🎯 CJMOD扩展演示 }
+                    }
+                    
+                    div {
+                        class: code-display;
+                        text { printMylove({ url: "image.jpg", mode: "ASCII" }); }
+                    }
+                    
+                    button {
+                        class: btn;
+                        onclick: testPrintMylove();
+                        text { 测试 printMylove }
+                    }
+                    
+                    div {
+                        id: printmylove-result;
+                        class: result-display;
+                        text { 点击按钮查看结果 }
+                    }
+                }
+                
+                -- 虚对象演示卡片
+                div {
+                    class: demo-card;
+                    
+                    h3 {
+                        text { 🔮 虚对象演示 }
+                    }
+                    
+                    div {
+                        class: code-display;
+                        text { vir handler = listen({ click: function(e) { ... } }); }
+                    }
+                    
+                    button {
+                        class: btn;
+                        onclick: testVirtualObject();
+                        text { 测试虚对象 }
+                    }
+                    
+                    div {
+                        id: vir-result;
+                        class: result-display;
+                        text { 点击按钮查看结果 }
+                    }
+                }
+                
+                -- iNeverAway演示卡片
+                div {
+                    class: demo-card;
+                    
+                    h3 {
+                        text { ⚡ iNeverAway演示 }
+                    }
+                    
+                    div {
+                        class: code-display;
+                        text { vir state = iNeverAway({ Void<Active>: function() { ... } }); }
+                    }
+                    
+                    button {
+                        class: btn;
+                        onclick: testINeverAway();
+                        text { 测试 iNeverAway }
+                    }
+                    
+                    div {
+                        id: ineveraway-result;
+                        class: result-display;
+                        text { 点击按钮查看结果 }
+                    }
+                }
+            }
+            
+            -- 综合演示区域
+            div {
+                class: demo-card;
+                style: grid-column: 1 / -1;
+                
+                h3 {
+                    text { 🏗️ 综合架构演示 }
+                }
+                
+                p {
+                    text { 以下代码展示了CHTL JS语法如何被统一扫描器识别并交给CJMOD API处理： }
+                }
+                
+                script {
+                    -- 这是上下文注释，会生成JavaScript注释
+                    -- 演示完整的CJMOD集成
+                    
+                    // ============ printMylove功能测试 ============
+                    function testPrintMylove() {
+                        console.log("测试printMylove功能");
+                        
+                        const result = printMylove({
+                            url: "demo_image.jpg",
+                            mode: "ASCII",
+                            width: 60,
+                            height: 20,
+                            scale: 1.0
+                        });
+                        
+                        document.getElementById('printmylove-result').innerHTML = 
+                            '<pre>' + result + '</pre>';
+                    }
+                    
+                    // ============ 虚对象功能测试 ============
+                    function testVirtualObject() {
+                        console.log("测试虚对象功能");
+                        
+                        vir eventHandler = listen({
+                            click: function(element) {
+                                console.log("虚对象点击事件:", element);
+                                return "点击事件已处理";
+                            },
+                            
+                            hover: function(element) {
+                                console.log("虚对象悬停事件:", element);
+                                return "悬停事件已处理";
+                            }
+                        });
+                        
+                        const result = eventHandler->click("测试元素");
+                        document.getElementById('vir-result').textContent = result;
+                    }
+                    
+                    // ============ iNeverAway功能测试 ============
+                    function testINeverAway() {
+                        console.log("测试iNeverAway功能");
+                        
+                        vir stateManager = iNeverAway({
+                            Void<Active>: function(target) {
+                                console.log("激活状态:", target);
+                                return "状态已激活: " + target;
+                            },
+                            
+                            Void<Inactive>: function(target) {
+                                console.log("非激活状态:", target);
+                                return "状态已停用: " + target;
+                            },
+                            
+                            String<GetStatus>: function() {
+                                return "当前状态：运行中";
+                            }
+                        });
+                        
+                        const result1 = stateManager->Active("演示组件");
+                        const result2 = stateManager->GetStatus();
+                        
+                        document.getElementById('ineveraway-result').innerHTML = 
+                            result1 + '<br>' + result2;
+                    }
+                    
+                    // ============ 页面初始化 ============
+                    document.addEventListener('DOMContentLoaded', function() {
+                        console.log("CHTL与CJMOD集成演示页面加载完成");
+                        
+                        // 显示架构信息
+                        console.log("=== 架构信息 ===");
+                        console.log("✓ 统一扫描器：负责代码片段切割");
+                        console.log("✓ CJMOD API：处理CHTL JS扩展语法");
+                        console.log("✓ 完美集成：各组件职责明确，协作无缝");
+                        
+                        // 添加交互效果
+                        const cards = document.querySelectorAll('.demo-card');
+                        cards.forEach(card => {
+                            card.addEventListener('mouseenter', function() {
+                                this.style.transform = 'translateY(-5px) scale(1.02)';
+                            });
+                            
+                            card.addEventListener('mouseleave', function() {
+                                this.style.transform = 'translateY(0) scale(1)';
+                            });
+                        });
+                    });
+                    
+                    // ============ 普通JavaScript代码 ============
+                    // 这些代码不会被CJMOD处理，直接输出为标准JavaScript
+                    
+                    function showMessage(message) {
+                        const toast = document.createElement('div');
+                        toast.style.cssText = `
+                            position: fixed;
+                            top: 20px;
+                            right: 20px;
+                            background: linear-gradient(45deg, #00ff88, #00cc6a);
+                            color: white;
+                            padding: 15px;
+                            border-radius: 10px;
+                            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3);
+                            z-index: 9999;
+                        `;
+                        toast.textContent = message;
+                        document.body.appendChild(toast);
+                        
+                        setTimeout(() => toast.remove(), 3000);
+                    }
+                    
+                    // 全局工具函数
+                    window.CHTLDemo = {
+                        showArchitectureInfo: function() {
+                            showMessage("CHTL架构：统一扫描器 + CJMOD API + 完美协作");
+                        },
+                        
+                        testAll: function() {
+                            testPrintMylove();
+                            setTimeout(testVirtualObject, 1000);
+                            setTimeout(testINeverAway, 2000);
+                            setTimeout(() => showMessage("所有测试完成！"), 3000);
+                        }
+                    };
+                }
+            }
+            
+            -- 页脚信息
+            div {
+                class: demo-card;
+                style: text-align: center; margin-top: 40px;
+                
+                h3 {
+                    text { 📚 技术说明 }
+                }
+                
+                p {
+                    text { 本演示严格按照CHTL语法文档实现，展示了正确的架构设计和组件协作方式。 }
+                }
+                
+                button {
+                    class: btn;
+                    onclick: CHTLDemo.testAll();
+                    text { 🚀 运行所有测试 }
+                }
+                
+                button {
+                    class: btn;
+                    onclick: CHTLDemo.showArchitectureInfo();
+                    text { 📖 显示架构信息 }
+                }
+            }
+        }
+    }
+}

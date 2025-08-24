@@ -16,8 +16,13 @@ namespace Parser { class CHTLParser; }
 namespace CHTLJS { namespace Parser { class CHTLJSParser; } }
 namespace CSS { class CSSCompiler; }
 namespace JavaScript { class JavaScriptCompiler; }
+namespace Import { class EnhancedImportSystem; }
 
 namespace Dispatcher {
+
+// 前向声明中间处理器
+class JavaScriptIntermediateProcessor;
+class CSSIntermediateProcessor;
 
 /**
  * @brief 编译结果结构体
@@ -92,8 +97,17 @@ private:
     std::unique_ptr<Core::CHTLState> stateManager_;     // CHTL状态管理器
     std::unique_ptr<CHTLJS::Core::CHTLJSState> chtlJSStateManager_; // CHTL JS状态管理器
     
-    std::unique_ptr<Scanner::CHTLUnifiedScanner> scanner_;  // 统一扫描器
-    // 完整实现：使用所有必需的解析器 - 严格按照目标规划.ini
+    // 统一扫描器
+    std::unique_ptr<CHTL::Scanner::CHTLUnifiedScanner> scanner_;
+    
+    // Import系统
+    std::unique_ptr<Import::EnhancedImportSystem> importSystem_;
+
+    // 中间处理器
+    std::unique_ptr<JavaScriptIntermediateProcessor> jsProcessor_;  // JavaScript中间处理器
+    std::unique_ptr<CSSIntermediateProcessor> cssProcessor_;        // CSS中间处理器
+
+    // 解析器组件
     std::unique_ptr<Parser::CHTLParser> chtlParser_;        // CHTL解析器
     std::unique_ptr<CHTLJS::Parser::CHTLJSParser> chtlJSParser_; // CHTL JS解析器
     std::unique_ptr<CSS::CSSCompiler> cssCompiler_;         // CSS编译器
@@ -141,6 +155,14 @@ private:
     std::string ProcessCSSFragments(const std::vector<Scanner::CodeFragment>& fragments, const std::string& fileName);
     
     /**
+     * @brief 基础CSS片段处理（回退方案）
+     * @param fragments CSS片段列表
+     * @param fileName 文件名
+     * @return CSS输出
+     */
+    std::string ProcessCSSFragmentsBasic(const std::vector<Scanner::CodeFragment>& fragments, const std::string& fileName);
+    
+    /**
      * @brief 处理JavaScript片段
      * @param fragments JavaScript片段列表
      * @param fileName 文件名
@@ -156,6 +178,14 @@ private:
      * @return JavaScript输出
      */
     std::string ProcessSharedScriptFragments(const std::vector<Scanner::CodeFragment>& scriptFragments, const std::string& fileName);
+    
+    /**
+     * @brief 基础共享Script片段处理（回退方案）
+     * @param scriptFragments Script片段列表
+     * @param fileName 文件名
+     * @return JavaScript输出
+     */
+    std::string ProcessSharedScriptFragmentsBasic(const std::vector<Scanner::CodeFragment>& scriptFragments, const std::string& fileName);
     
     /**
      * @brief 合并编译结果
@@ -196,6 +226,18 @@ private:
      * @return 生成的JavaScript代码
      */
     std::string CompileCHTLJSFragment(const std::string& content);
+
+    /**
+     * @brief 处理源代码中的Import语句
+     * @param source 源代码
+     */
+    void ProcessImportStatements(const std::string& source);
+    
+         /**
+      * @brief 获取可执行文件所在目录
+      * @return 可执行文件目录路径
+      */
+     std::string GetExecutableDirectory() const;
 };
 
 } // namespace Dispatcher
