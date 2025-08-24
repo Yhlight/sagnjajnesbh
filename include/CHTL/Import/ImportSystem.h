@@ -384,6 +384,7 @@ private:
      */
     bool LoadCJMODModule(const std::string& modulePath, const std::string& moduleName);
     
+public:
     /**
      * @brief 设置统一扫描器引用（用于CJMOD关键字注册）
      * @param scanner 统一扫描器引用
