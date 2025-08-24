@@ -216,11 +216,11 @@ CMakeFiles/scanner.dir/clean:
 # All Build rule for target.
 CMakeFiles/dispatcher.dir/all: CMakeFiles/chtl_core.dir/all
 CMakeFiles/dispatcher.dir/all: CMakeFiles/chtljs_core.dir/all
-CMakeFiles/dispatcher.dir/all: CMakeFiles/scanner.dir/all
 CMakeFiles/dispatcher.dir/all: CMakeFiles/utils.dir/all
 CMakeFiles/dispatcher.dir/all: CMakeFiles/css_compiler.dir/all
 CMakeFiles/dispatcher.dir/all: CMakeFiles/js_compiler.dir/all
 CMakeFiles/dispatcher.dir/all: CMakeFiles/cmod.dir/all
+CMakeFiles/dispatcher.dir/all: CMakeFiles/scanner.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dispatcher.dir/build.make CMakeFiles/dispatcher.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dispatcher.dir/build.make CMakeFiles/dispatcher.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=42,43,44 "Built target dispatcher"
@@ -448,12 +448,12 @@ CMakeFiles/module_builder.dir/clean:
 # All Build rule for target.
 CMakeFiles/chtl_compiler.dir/all: CMakeFiles/chtl_core.dir/all
 CMakeFiles/chtl_compiler.dir/all: CMakeFiles/chtljs_core.dir/all
-CMakeFiles/chtl_compiler.dir/all: CMakeFiles/scanner.dir/all
-CMakeFiles/chtl_compiler.dir/all: CMakeFiles/dispatcher.dir/all
 CMakeFiles/chtl_compiler.dir/all: CMakeFiles/utils.dir/all
 CMakeFiles/chtl_compiler.dir/all: CMakeFiles/css_compiler.dir/all
 CMakeFiles/chtl_compiler.dir/all: CMakeFiles/js_compiler.dir/all
 CMakeFiles/chtl_compiler.dir/all: CMakeFiles/cmod.dir/all
+CMakeFiles/chtl_compiler.dir/all: CMakeFiles/scanner.dir/all
+CMakeFiles/chtl_compiler.dir/all: CMakeFiles/dispatcher.dir/all
 CMakeFiles/chtl_compiler.dir/all: CMakeFiles/build_all_modules.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/chtl_compiler.dir/build.make CMakeFiles/chtl_compiler.dir/build

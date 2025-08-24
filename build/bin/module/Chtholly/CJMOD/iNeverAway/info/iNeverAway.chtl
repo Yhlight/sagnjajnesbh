@@ -1,0 +1,17 @@
+[Info]
+{
+    name = "iNeverAway";
+    version = "1.0.0";
+    description = "iNeverAway CJMOD扩展 - 创建一组标记函数，使用状态区分同名键";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "cjmod-extension";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+[Export]
+{
+    iNeverAway;  // CJMOD扩展函数
+}
