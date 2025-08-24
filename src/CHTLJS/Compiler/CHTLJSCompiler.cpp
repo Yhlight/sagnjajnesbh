@@ -127,28 +127,7 @@ CHTLJSCompilationResult CHTLJSCompiler::CompileVirtualObject(const std::string& 
     return result;
 }
 
-CHTLJSCompilationResult CHTLJSCompiler::CompileExpression(const std::string& expressionCode, const std::string& fileName) {
-    CHTLJSCompilationResult result;
-    
-    try {
-        if (config_.enableDebug) {
-            Utils::ErrorHandler::GetInstance().LogInfo("开始编译表达式: " + fileName);
-        }
-        
-        // 转换{{}}语法为标准JavaScript
-        result.jsOutput = TransformExpression(expressionCode);
-        result.success = true;
-        
-        if (config_.enableDebug) {
-            Utils::ErrorHandler::GetInstance().LogInfo("表达式编译完成");
-        }
-        
-    } catch (const std::exception& e) {
-        HandleCompilationError("表达式编译失败: " + std::string(e.what()), result);
-    }
-    
-    return result;
-}
+// 移除了错误的表达式编译方法
 
 bool CHTLJSCompiler::Validate(const std::string& chtlJSCode) {
     try {
@@ -260,36 +239,7 @@ std::string CHTLJSCompiler::TransformVirtualObject(const std::string& virCode) {
     return "// Failed to parse virtual object: " + virCode;
 }
 
-std::string CHTLJSCompiler::TransformExpression(const std::string& expressionCode) {
-    // 转换{{expression}}为JavaScript表达式
-    std::regex expressionRegex(R"(\{\{([^}]+)\}\})");
-    std::string result = expressionCode;
-    
-    std::sregex_iterator iter(expressionCode.begin(), expressionCode.end(), expressionRegex);
-    std::sregex_iterator end;
-    
-    for (; iter != end; ++iter) {
-        std::string fullMatch = iter->str();
-        std::string expression = (*iter)[1].str();
-        
-        // 生成JavaScript表达式
-        std::string jsExpression;
-        
-        if (config_.generateComments) {
-            jsExpression = "/* CHTL Expression */ (" + Utils::StringUtils::Trim(expression) + ")";
-        } else {
-            jsExpression = "(" + Utils::StringUtils::Trim(expression) + ")";
-        }
-        
-        // 替换原表达式
-        size_t pos = result.find(fullMatch);
-        if (pos != std::string::npos) {
-            result.replace(pos, fullMatch.length(), jsExpression);
-        }
-    }
-    
-    return result;
-}
+// 移除了错误的表达式转换方法
 
 } // namespace Compiler
 } // namespace CHTLJS

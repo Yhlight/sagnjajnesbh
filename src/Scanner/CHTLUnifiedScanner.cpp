@@ -1164,20 +1164,7 @@ void CHTLUnifiedScanner::PerformMinimalUnitSlicing(const std::string& content,
         size_t cutEndPos = pos;
         FragmentType cutType = FragmentType::CHTL;
         
-        // 1. 检测CHTL JS表达式语法 {{...}}
-        if (pos < content.length() - 1 && content[pos] == '{' && content[pos + 1] == '{') {
-            size_t endPos = pos + 2;
-            while (endPos < content.length() - 1) {
-                if (content[endPos] == '}' && content[endPos + 1] == '}') {
-                    endPos += 2;
-                    break;
-                }
-                endPos++;
-            }
-            cutEndPos = endPos;
-            cutType = FragmentType::CHTL_JS;
-            foundCutPoint = true;
-        }
+        // 1. 检测虚对象语法 vir objectName = { ... };
         
         // 2. 检测虚对象语法 vir objectName { ... }
         else if (pos + 3 < content.length() && content.substr(pos, 3) == "vir") {

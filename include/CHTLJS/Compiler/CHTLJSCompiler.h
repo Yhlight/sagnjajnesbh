@@ -82,13 +82,7 @@ public:
      */
     CHTLJSCompilationResult CompileVirtualObject(const std::string& virCode, const std::string& fileName = "");
     
-    /**
-     * @brief 编译表达式语法
-     * @param expressionCode {{}}表达式代码
-     * @param fileName 文件名
-     * @return 编译结果
-     */
-    CHTLJSCompilationResult CompileExpression(const std::string& expressionCode, const std::string& fileName = "");
+    // 移除了错误的{{}}表达式语法支持
     
     /**
      * @brief 验证CHTL JS语法
@@ -167,25 +161,11 @@ private:
     bool IsVirtualObjectSyntax(const std::string& code);
     
     /**
-     * @brief 检查是否为表达式语法
-     * @param code 代码内容
-     * @return 是否为{{}}语法
-     */
-    bool IsExpressionSyntax(const std::string& code);
-    
-    /**
      * @brief 处理虚对象转换
      * @param virCode vir对象代码
      * @return 转换后的JavaScript
      */
     std::string TransformVirtualObject(const std::string& virCode);
-    
-    /**
-     * @brief 处理表达式转换
-     * @param expressionCode 表达式代码
-     * @return 转换后的JavaScript
-     */
-    std::string TransformExpression(const std::string& expressionCode);
 };
 
 } // namespace Compiler
