@@ -1,0 +1,9 @@
+html {
+    body {
+        div { text { Test } }
+        
+        script {
+            console.log("Hello World");
+        }
+    }
+}
