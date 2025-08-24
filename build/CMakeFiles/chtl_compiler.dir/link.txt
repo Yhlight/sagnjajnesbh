@@ -1,0 +1,1 @@
+/usr/bin/c++ -Xlinker --dependency-file=CMakeFiles/chtl_compiler.dir/link.d CMakeFiles/chtl_compiler.dir/main.cpp.o -o chtl_compiler  libchtl_core.a libchtljs_core.a libscanner.a libdispatcher.a libcss_compiler.a libjs_compiler.a libcmod.a libutils.a libchtl_core.a libcmod.a libutils.a libchtljs_core.a libscanner.a

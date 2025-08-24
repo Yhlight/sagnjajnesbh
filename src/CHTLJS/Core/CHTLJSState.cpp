@@ -137,7 +137,7 @@ std::string CHTLJSState::GetStateName(CompileState state) {
         // case CompileState::PARSING_VOID_TYPE: return "PARSING_VOID_TYPE"; - CJMOD扩展
         // case CompileState::PARSING_VOID_STATE: return "PARSING_VOID_STATE"; - CJMOD扩展
         
-        case CompileState::PARSING_ARROW_FUNCTION: return "PARSING_ARROW_FUNCTION";
+        // PARSING_ARROW_FUNCTION已移除 - CHTL JS不包含JS语法
         case CompileState::PARSING_EVENT_HANDLER: return "PARSING_EVENT_HANDLER";
         case CompileState::PARSING_ANIMATION_KEYFRAME: return "PARSING_ANIMATION_KEYFRAME";
         case CompileState::PARSING_CSS_IN_ANIMATION: return "PARSING_CSS_IN_ANIMATION";
@@ -183,8 +183,7 @@ void CHTLJSState::InitializeDefaultTransitions() {
         {CompileState::PARSING_ANIMATE_BLOCK, CompileState::PARSING_CSS_IN_ANIMATION, TokenType::END},
         {CompileState::PARSING_ANIMATE_BLOCK, CompileState::INITIAL, TokenType::RIGHT_BRACE},
         
-        // 箭头函数相关转换
-        {CompileState::PARSING_ARROW_FUNCTION, CompileState::INITIAL, TokenType::SEMICOLON},
+        // 箭头函数相关转换已移除 - CHTL JS不包含JS语法
         
         // 错误的状态转换已移除：FUNCTION、I_NEVER_AWAY、VOID相关转换不是CHTL JS的内容
         
@@ -195,7 +194,7 @@ void CHTLJSState::InitializeDefaultTransitions() {
         
         // 事件处理器相关转换
         // 事件处理器相关的FUNCTION和OBJECT_LITERAL转换已移除 - JavaScript语法
-        {CompileState::PARSING_EVENT_HANDLER, CompileState::PARSING_ARROW_FUNCTION, TokenType::ARROW},
+        // PARSING_ARROW_FUNCTION转换已移除 - CHTL JS不包含JS语法
         {CompileState::PARSING_EVENT_HANDLER, CompileState::INITIAL, TokenType::COMMA},
         
         // 通用转换（任何状态都可以转换到错误状态）

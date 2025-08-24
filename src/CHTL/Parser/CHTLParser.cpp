@@ -1266,7 +1266,7 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
         if (Check(Core::TokenType::SEMICOLON)) {
             Advance();
         }
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return nullptr; // 跳过此导入
     }
     
@@ -1343,9 +1343,9 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
 std::string CHTLParser::ParseImportPath() {
     std::string importPath;
     
-    if (currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
+    if (Current().GetType() == Core::TokenType::STRING_LITERAL) {
         // 字符串字面量路径
-        importPath = currentToken_.GetValue();
+        importPath = Current().GetValue();
         // 移除字符串字面量的引号
         if (importPath.length() >= 2 && 
             ((importPath.front() == '"' && importPath.back() == '"') ||
@@ -1353,24 +1353,18 @@ std::string CHTLParser::ParseImportPath() {
             importPath = importPath.substr(1, importPath.length() - 2);
         }
         Advance();
-    } else if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+    } else if (Current().GetType() == Core::TokenType::IDENTIFIER) {
         // 无修饰字符串路径（支持连续的标识符、路径分隔符和通配符）
         std::string pathBuilder = "";
         
         while (!IsAtEnd() && 
-               (currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
-                currentToken_.GetType() == Core::TokenType::DOT ||
-                currentToken_.GetType() == Core::TokenType::SLASH ||
-                currentToken_.GetType() == Core::TokenType::STAR)) {
+               (Current().GetType() == Core::TokenType::IDENTIFIER ||
+                Current().GetType() == Core::TokenType::DOT)) {
             
-            if (currentToken_.GetType() == Core::TokenType::DOT) {
+            if (Current().GetType() == Core::TokenType::DOT) {
                 pathBuilder += ".";
-            } else if (currentToken_.GetType() == Core::TokenType::SLASH) {
-                pathBuilder += "/";
-            } else if (currentToken_.GetType() == Core::TokenType::STAR) {
-                pathBuilder += "*";
             } else {
-                pathBuilder += currentToken_.GetValue();
+                pathBuilder += Current().GetValue();
             }
             
             Advance();
@@ -1530,7 +1524,7 @@ AST::ASTNodePtr CHTLParser::ParseNamespaceDeclaration() {
     context_.currentNamespace = previousNamespace;
     globalMap_.ExitNamespace();
     
-    guard.Commit();
+    // StateGuard自动管理状态，无需手动Commit
     return namespaceNode;
 }
 
@@ -1553,7 +1547,7 @@ AST::ASTNodePtr CHTLParser::ParseSingleNamespaceDeclaration() {
     // 解析约束（except关键字） - 可以在省略大括号的命名空间中使用
     if (Check(Core::TokenType::EXCEPT)) {
         auto constraint = ParseConstraintDeclaration();
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return constraint;
     }
     
@@ -1561,14 +1555,14 @@ AST::ASTNodePtr CHTLParser::ParseSingleNamespaceDeclaration() {
     if (Check(Core::TokenType::LEFT_BRACKET) && 
         stateContext_->LookAhead(1) && stateContext_->LookAhead(1)->GetValue() == "Namespace") {
         auto nestedNamespace = ParseNamespaceDeclaration();
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return nestedNamespace;
     }
     
     // 解析普通声明
     auto declaration = ParseDeclaration();
     if (declaration) {
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
         return declaration;
     }
     
@@ -1620,7 +1614,7 @@ void CHTLParser::ParseParallelNamespaceDeclarations(std::shared_ptr<AST::Namespa
         }
     }
     
-    guard.Commit();
+    // StateGuard自动管理状态，无需手动Commit
 }
 
 AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
@@ -1638,13 +1632,13 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
     
     // 解析配置名称（可选）
     std::string configName = "";
-    if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
-        configName = currentToken_.GetValue();
+    if (Current().GetType() == Core::TokenType::IDENTIFIER) {
+        configName = Current().GetValue();
         Advance();
     }
     
     // 创建配置节点
-    auto configNode = std::make_shared<AST::ConfigurationNode>(configName, currentToken_);
+    auto configNode = std::make_shared<AST::ConfigurationNode>(configName, Current());
     
     // 解析配置块
     if (!Consume(Core::TokenType::LEFT_BRACE, "期望 '{'")) {
@@ -1652,10 +1646,10 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
     }
     
     // 解析配置项
-    while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
-        if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
+    while (!IsAtEnd() && Current().GetType() != Core::TokenType::RIGHT_BRACE) {
+        if (Current().GetType() == Core::TokenType::IDENTIFIER) {
             // 普通配置项：INDEX_INITIAL_COUNT = 0;
-            std::string configKey = currentToken_.GetValue();
+            std::string configKey = Current().GetValue();
             Advance();
             
             if (!Consume(Core::TokenType::EQUAL, "期望 '='")) {
@@ -1664,27 +1658,27 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
             
             // 解析配置值
             std::string configValue = "";
-            if (currentToken_.GetType() == Core::TokenType::NUMBER ||
-                currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
-                currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
-                configValue = currentToken_.GetValue();
+            if (Current().GetType() == Core::TokenType::NUMBER ||
+                Current().GetType() == Core::TokenType::IDENTIFIER ||
+                Current().GetType() == Core::TokenType::STRING_LITERAL) {
+                configValue = Current().GetValue();
                 Advance();
-            } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+            } else if (Current().GetType() == Core::TokenType::LEFT_BRACKET) {
                 // 数组值：[@Style, @style, @CSS, @Css, @css]
                 configValue = "[";
                 Advance();
                 
-                while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACKET) {
-                    configValue += currentToken_.GetValue();
+                while (!IsAtEnd() && Current().GetType() != Core::TokenType::RIGHT_BRACKET) {
+                    configValue += Current().GetValue();
                     Advance();
                     
-                    if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::COMMA) {
+                    if (!IsAtEnd() && Current().GetType() == Core::TokenType::COMMA) {
                         configValue += ", ";
                         Advance();
                     }
                 }
                 
-                if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::RIGHT_BRACKET) {
+                if (!IsAtEnd() && Current().GetType() == Core::TokenType::RIGHT_BRACKET) {
                     configValue += "]";
                     Advance();
                 }
@@ -1694,16 +1688,16 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
             configNode->AddSetting(configKey, configValue);
             
             // 跳过分号
-            if (currentToken_.GetType() == Core::TokenType::SEMICOLON) {
+            if (Current().GetType() == Core::TokenType::SEMICOLON) {
                 Advance();
             }
             
-        } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+        } else if (Current().GetType() == Core::TokenType::LEFT_BRACKET) {
             // 配置组：[Name] { ... } 或 [OriginType] { ... }
             Advance(); // 跳过 [
             
-            if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
-                std::string groupName = currentToken_.GetValue();
+            if (Current().GetType() == Core::TokenType::IDENTIFIER) {
+                std::string groupName = Current().GetValue();
                 Advance();
                 
                 if (!Consume(Core::TokenType::RIGHT_BRACKET, "期望 ']'")) {
@@ -1716,9 +1710,9 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
                 
                 // 解析配置组内容
                 std::vector<std::string> groupItems;
-                while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
-                    if (currentToken_.GetType() == Core::TokenType::IDENTIFIER) {
-                        std::string itemKey = currentToken_.GetValue();
+                while (!IsAtEnd() && Current().GetType() != Core::TokenType::RIGHT_BRACE) {
+                    if (Current().GetType() == Core::TokenType::IDENTIFIER) {
+                        std::string itemKey = Current().GetValue();
                         Advance();
                         
                         if (!Consume(Core::TokenType::EQUAL, "期望 '='")) {
@@ -1726,26 +1720,26 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
                         }
                         
                         std::string itemValue = "";
-                        if (currentToken_.GetType() == Core::TokenType::IDENTIFIER ||
-                            currentToken_.GetType() == Core::TokenType::STRING_LITERAL) {
-                            itemValue = currentToken_.GetValue();
+                        if (Current().GetType() == Core::TokenType::IDENTIFIER ||
+                            Current().GetType() == Core::TokenType::STRING_LITERAL) {
+                            itemValue = Current().GetValue();
                             Advance();
-                        } else if (currentToken_.GetType() == Core::TokenType::LEFT_BRACKET) {
+                        } else if (Current().GetType() == Core::TokenType::LEFT_BRACKET) {
                             // 数组值处理
                             itemValue = "[";
                             Advance();
                             
-                            while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACKET) {
-                                itemValue += currentToken_.GetValue();
+                            while (!IsAtEnd() && Current().GetType() != Core::TokenType::RIGHT_BRACKET) {
+                                itemValue += Current().GetValue();
                                 Advance();
                                 
-                                if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::COMMA) {
+                                if (!IsAtEnd() && Current().GetType() == Core::TokenType::COMMA) {
                                     itemValue += ", ";
                                     Advance();
                                 }
                             }
                             
-                            if (!IsAtEnd() && currentToken_.GetType() == Core::TokenType::RIGHT_BRACKET) {
+                            if (!IsAtEnd() && Current().GetType() == Core::TokenType::RIGHT_BRACKET) {
                                 itemValue += "]";
                                 Advance();
                             }
@@ -1754,7 +1748,7 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
                         groupItems.push_back(itemKey + "=" + itemValue);
                         
                         // 跳过分号
-                        if (currentToken_.GetType() == Core::TokenType::SEMICOLON) {
+                        if (Current().GetType() == Core::TokenType::SEMICOLON) {
                             Advance();
                         }
                     } else {
@@ -1815,7 +1809,7 @@ AST::ASTNodePtr CHTLParser::ParseScriptBlock() {
     }
     
     // 解析脚本内容
-    while (!IsAtEnd() && currentToken_.GetType() != Core::TokenType::RIGHT_BRACE) {
+    while (!IsAtEnd() && Current().GetType() != Core::TokenType::RIGHT_BRACE) {
         const Core::CHTLToken& token = Current();
         AST::ASTNodePtr child = nullptr;
         
@@ -1883,7 +1877,7 @@ AST::ASTNodePtr CHTLParser::ParseScriptBlock() {
         ReportError("脚本块违反语法约束");
     }
     
-    guard.Commit();
+    // StateGuard自动管理状态，无需手动Commit
     return scriptBlock;
 }
 
@@ -1893,19 +1887,19 @@ AST::ASTNodePtr CHTLParser::ParseJavaScriptFragment() {
     
     // 收集JavaScript代码，直到遇到CHTL语法
     while (!IsAtEnd() && 
-           currentToken_.GetType() != Core::TokenType::RIGHT_BRACE &&
-           currentToken_.GetType() != Core::TokenType::AT_STYLE &&
-           currentToken_.GetType() != Core::TokenType::AT_VAR &&
-           currentToken_.GetType() != Core::TokenType::DELETE &&
-           currentToken_.GetType() != Core::TokenType::EXCEPT) {
+           Current().GetType() != Core::TokenType::RIGHT_BRACE &&
+           Current().GetType() != Core::TokenType::AT_STYLE &&
+           Current().GetType() != Core::TokenType::AT_VAR &&
+           Current().GetType() != Core::TokenType::DELETE &&
+           Current().GetType() != Core::TokenType::EXCEPT) {
         
         // 检查是否为CHTL JS语法开始 {{
-        if (currentToken_.GetType() == Core::TokenType::LEFT_BRACE && 
+        if (Current().GetType() == Core::TokenType::LEFT_BRACE && 
             Peek().GetType() == Core::TokenType::LEFT_BRACE) {
             break; // 让ParseCHTLJSExpression处理
         }
         
-        jsContent += currentToken_.GetValue();
+        jsContent += Current().GetValue();
         
         // 如果下一个token不是结束符，添加空格
         if (!IsAtEnd() && Peek().GetType() != Core::TokenType::RIGHT_BRACE) {
@@ -1941,16 +1935,16 @@ AST::ASTNodePtr CHTLParser::ParseCHTLJSExpression() {
     
     // 收集CHTL JS表达式内容，处理嵌套的花括号
     while (!IsAtEnd() && braceCount > 0) {
-        if (currentToken_.GetType() == Core::TokenType::LEFT_BRACE) {
+        if (Current().GetType() == Core::TokenType::LEFT_BRACE) {
             braceCount++;
             expression += "{";
-        } else if (currentToken_.GetType() == Core::TokenType::RIGHT_BRACE) {
+        } else if (Current().GetType() == Core::TokenType::RIGHT_BRACE) {
             braceCount--;
             if (braceCount > 0) {
                 expression += "}";
             }
         } else {
-            expression += currentToken_.GetValue();
+            expression += Current().GetValue();
             
             // 如果下一个token不是结束符，添加空格
             if (!IsAtEnd() && braceCount > 2) {
@@ -1976,10 +1970,10 @@ AST::ASTNodePtr CHTLParser::ParseCHTLJSExpression() {
 }
 
 AST::ASTNodePtr CHTLParser::ParseComment() {
-    std::string commentText = currentToken_.GetValue();
+    std::string commentText = Current().GetValue();
     
     AST::CommentNode::CommentType commentType;
-    switch (currentToken_.GetType()) {
+    switch (Current().GetType()) {
         case Core::TokenType::SINGLE_LINE_COMMENT:
             commentType = AST::CommentNode::CommentType::SINGLE_LINE;
             break;
@@ -1994,7 +1988,7 @@ AST::ASTNodePtr CHTLParser::ParseComment() {
             break;
     }
     
-    auto commentNode = std::make_shared<AST::CommentNode>(commentType, commentText, currentToken_);
+    auto commentNode = std::make_shared<AST::CommentNode>(commentType, commentText, Current());
     Advance();
     
     return commentNode;
@@ -2603,7 +2597,7 @@ bool CHTLParser::ValidateSemantics(AST::ASTNodePtr node) {
     // 实际实现中需要根据具体的AST节点结构进行遍历
     
     if (isValid) {
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
     }
     
     return isValid;
@@ -2657,7 +2651,7 @@ bool CHTLParser::CheckConstraints(const std::string& nodeName, const std::string
     
     bool result = !hasViolation;
     if (result) {
-        guard.Commit();
+        // StateGuard自动管理状态，无需手动Commit
     }
     
     return result;

@@ -1,0 +1,1 @@
+/usr/bin/c++ -Xlinker --dependency-file=CMakeFiles/module_builder.dir/link.d CMakeFiles/module_builder.dir/Tools/module_builder.cpp.o -o module_builder  libcmod.a libcjmod.a libutils.a

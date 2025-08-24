@@ -1,3 +1,12 @@
+cmake_minimum_required(VERSION 3.16)
+project(CHTL)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 全局include路径
+include_directories(${CMAKE_SOURCE_DIR}/../include)
+
 # CHTL编译器核心库
 add_library(chtl_core STATIC
     CHTL/Core/CHTLToken.cpp
@@ -112,8 +121,8 @@ target_link_libraries(cmod utils)
 
 # CJMOD库
 add_library(cjmod STATIC
-    CJMOD/SimpleCJMODApi.cpp
-    CJMOD/SophisticatedCJMODApi.cpp
+    CJMOD/ProperCJMODApi.cpp
+    CJMOD/CJMODApi.cpp
 )
 
 target_include_directories(cjmod PUBLIC
