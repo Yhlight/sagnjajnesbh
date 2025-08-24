@@ -1,0 +1,12 @@
+html {
+    body {
+        button { id: btn; text { Test } }
+        script {
+            animate({
+                target: {{#btn}},
+                duration: 1000,
+                easing: ease-in-out
+            });
+        }
+    }
+}

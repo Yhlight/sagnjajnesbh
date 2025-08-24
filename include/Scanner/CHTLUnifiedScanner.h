@@ -222,40 +222,25 @@ public:
 
     // ============ CJMOD动态注册接口 ============
     
-    /**
-     * @brief CJMOD模块动态注册关键字
-     * @param keyword 关键字
-     * @param moduleName 模块名称
-     * @param handler 处理函数
-     */
-    void RegisterCJMODKeyword(const std::string& keyword, const std::string& moduleName, 
-                             std::function<std::string(const std::string&)> handler);
+    // ============ CJMOD集成接口（修正版）============
+    // 
+    // 注意：以下是错误的架构，已被移除
+    // RegisterCJMODKeyword() - ❌ 错误实现，CJMOD应该通过scanKeyword()处理
+    // UnregisterCJMODModule() - ❌ 错误实现
+    // GetKeywordHandler() - ❌ 错误实现
+    // GetRegisteredCJMODModules() - ❌ 错误实现
+    //
+    // 正确的CJMOD集成方式：
+    // 1. 统一扫描器检测 [Import] @CJMOD
+    // 2. 启用相应的扫描策略（双指针/前置截取）
+    // 3. CJMOD模块内部使用 scanner->scanKeyword() 处理关键字
     
     /**
-     * @brief 注销CJMOD模块的关键字
-     * @param moduleName 模块名称
-     */
-    void UnregisterCJMODModule(const std::string& moduleName);
-    
-    /**
-     * @brief 检查关键字是否已注册
+     * @brief 检查关键字是否已注册（仅限基础CHTL JS关键字）
      * @param keyword 关键字
      * @return 是否已注册
      */
     bool IsKeywordRegistered(const std::string& keyword) const;
-    
-    /**
-     * @brief 获取关键字的处理器
-     * @param keyword 关键字
-     * @return 处理器函数，如果未找到返回nullptr
-     */
-    std::function<std::string(const std::string&)> GetKeywordHandler(const std::string& keyword) const;
-    
-    /**
-     * @brief 获取已注册的CJMOD模块列表
-     * @return 模块名称列表
-     */
-    std::vector<std::string> GetRegisteredCJMODModules() const;
 
     // ============ 片段索引接口 ============
     

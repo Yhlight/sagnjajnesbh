@@ -69,7 +69,7 @@ Core::CHTLJSToken CHTLJSLexer::ScanToken() {
         case '{':
             // 检查是否为增强选择器开始 {{
             if (Peek() == '{') {
-                current_--; // 回退
+                // 不需要回退，直接扫描增强选择器
                 return ScanEnhancedSelector();
             }
             return MakeToken(Core::TokenType::LEFT_BRACE, "{");
@@ -92,6 +92,7 @@ Core::CHTLJSToken CHTLJSLexer::ScanToken() {
         case '-':
             // 检查是否为箭头操作符 ->
             if (Peek() == '>') {
+                Advance(); // 消费 '-'
                 return ScanArrowOperator();
             }
             return MakeToken(Core::TokenType::IDENTIFIER, "-");
@@ -122,8 +123,9 @@ Core::CHTLJSToken CHTLJSLexer::ScanToken() {
 
 Core::CHTLJSToken CHTLJSLexer::ScanEnhancedSelector() {
     // 扫描增强选择器 {{selector}}
-    if (!Match('{') || !Match('{')) {
-        return MakeErrorToken("期望 '{{'");
+    // 已经扫描了第一个{，现在扫描第二个{
+    if (!Match('{')) {
+        return MakeErrorToken("期望第二个'{'");
     }
     
     std::string selectorContent = "";
@@ -151,8 +153,9 @@ Core::CHTLJSToken CHTLJSLexer::ScanEnhancedSelector() {
 
 Core::CHTLJSToken CHTLJSLexer::ScanArrowOperator() {
     // 扫描箭头操作符 ->
-    if (!Match('-') || !Match('>')) {
-        return MakeErrorToken("期望 '->'");
+    // 已经扫描了'-'，现在扫描'>'
+    if (!Match('>')) {
+        return MakeErrorToken("期望'>'完成箭头操作符");
     }
     
     return MakeToken(Core::TokenType::ARROW, "->");

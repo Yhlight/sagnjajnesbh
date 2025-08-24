@@ -1801,79 +1801,41 @@ void CHTLUnifiedScanner::PrintIndexStatistics(const std::vector<CodeFragment>& f
 }
 
 // ============================================================================
-// CJMOD动态注册机制实现
+// CJMOD集成接口（修正版）
 // ============================================================================
 
-void CHTLUnifiedScanner::RegisterCJMODKeyword(const std::string& keyword, const std::string& moduleName, 
-                                             std::function<std::string(const std::string&)> handler) {
-    LogDebug("注册CJMOD关键字: " + keyword + " (模块: " + moduleName + ")");
-    
-    // 检查关键字是否已被其他模块注册
-    if (cjmodKeywords_.find(keyword) != cjmodKeywords_.end()) {
-        std::string existingModule = cjmodKeywords_[keyword].first;
-        if (existingModule != moduleName) {
-            Utils::ErrorHandler::GetInstance().LogWarning(
-                "关键字 '" + keyword + "' 已被模块 '" + existingModule + "' 注册，模块 '" + moduleName + "' 的注册被忽略"
-            );
-            return;
-        }
-    }
-    
-    // 注册关键字
-    cjmodKeywords_[keyword] = std::make_pair(moduleName, handler);
-    
-    // 添加到基础关键字集合
-    registeredKeywords_.insert(keyword);
-    
-    // 记录模块的关键字
-    if (cjmodModules_.find(moduleName) == cjmodModules_.end()) {
-        cjmodModules_[moduleName] = std::vector<std::string>();
-    }
-    
-    auto& moduleKeywords = cjmodModules_[moduleName];
-    if (std::find(moduleKeywords.begin(), moduleKeywords.end(), keyword) == moduleKeywords.end()) {
-        moduleKeywords.push_back(keyword);
-    }
-    
-    LogDebug("CJMOD关键字注册成功: " + keyword);
-}
+// 注意：RegisterCJMODKeyword是错误的架构实现
+// CJMOD应该通过scanKeyword()在模块内部处理关键字
+// 统一扫描器只负责检测[Import] @CJMOD并启用扫描策略
+// 
+// 正确的架构：
+// 1. [Import] @CJMOD 触发扫描策略改变
+// 2. CJMOD模块内部使用 scanner->scanKeyword() 
+// 3. 双指针/前置截取由CJMOD API控制
+//
+// 以下是错误的实现，需要被替换为正确的CJMOD集成接口
 
-void CHTLUnifiedScanner::UnregisterCJMODModule(const std::string& moduleName) {
-    LogDebug("注销CJMOD模块: " + moduleName);
-    
-    auto moduleIt = cjmodModules_.find(moduleName);
-    if (moduleIt != cjmodModules_.end()) {
-        // 移除该模块的所有关键字
-        for (const auto& keyword : moduleIt->second) {
-            cjmodKeywords_.erase(keyword);
-            registeredKeywords_.erase(keyword);
-        }
-        
-        // 移除模块记录
-        cjmodModules_.erase(moduleIt);
-        
-        LogDebug("CJMOD模块注销成功: " + moduleName);
-    }
-}
+// 正确的CJMOD集成接口（待实现）
+// 
+// void EnableCJMODScanStrategy(bool enable) {
+//     if (enable) {
+//         scanStrategy_ = ScanStrategy::SLIDING_WINDOW; // 或 FRONT_EXTRACT
+//         LogDebug("CJMOD扫描策略已启用");
+//     } else {
+//         scanStrategy_ = ScanStrategy::SLIDING_WINDOW; // 默认策略
+//         LogDebug("CJMOD扫描策略已禁用");
+//     }
+// }
+//
+// void NotifyCJMODImport(const std::string& moduleName) {
+//     // 通知统一扫描器有CJMOD模块被导入
+//     // 这里可以启用相应的扫描策略
+//     EnableCJMODScanStrategy(true);
+//     LogDebug("检测到CJMOD导入: " + moduleName);
+// }
 
 bool CHTLUnifiedScanner::IsKeywordRegistered(const std::string& keyword) const {
     return registeredKeywords_.find(keyword) != registeredKeywords_.end();
-}
-
-std::function<std::string(const std::string&)> CHTLUnifiedScanner::GetKeywordHandler(const std::string& keyword) const {
-    auto it = cjmodKeywords_.find(keyword);
-    if (it != cjmodKeywords_.end()) {
-        return it->second.second;
-    }
-    return nullptr;
-}
-
-std::vector<std::string> CHTLUnifiedScanner::GetRegisteredCJMODModules() const {
-    std::vector<std::string> modules;
-    for (const auto& pair : cjmodModules_) {
-        modules.push_back(pair.first);
-    }
-    return modules;
 }
 
 // ============================================================================

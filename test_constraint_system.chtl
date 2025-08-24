@@ -1,0 +1,29 @@
+html {
+    body {
+        div {
+            style {
+                /* 局部style块 - 应该允许CHTL语法 */
+                .test-class {
+                    color: red;
+                }
+            }
+            
+            script {
+                /* 局部script块 - 应该允许CHTL JS特供语法 */
+                vir testObj = listen({
+                    click: "handleClick"
+                });
+                
+                {{#button}}->click();
+            }
+        }
+    }
+    
+    script {
+        /* 全局script块 - 应该禁止CHTL语法，只允许纯JS */
+        console.log("这是纯JS代码");
+        
+        // 以下应该被约束器检测为错误：
+        // vir errorObj = listen({click: "test"});  // 应该被禁止
+    }
+}

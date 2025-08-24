@@ -96,6 +96,7 @@ private:
     // 函数解析
     AST::ASTNodePtr ParseFunctionDefinition();
     AST::ASTNodePtr ParseArrowFunction();
+    AST::ASTNodePtr ParseCHTLJSFunction();  // CHTL JS特有的函数解析
     
     // 对象和数组解析
     AST::ASTNodePtr ParseObjectLiteral();
@@ -136,6 +137,10 @@ private:
     
     // 语法检查辅助
     bool IsArrowFunction() const;
+    
+    // CHTL JS特定解析
+    AST::ASTNodePtr ParseSimpleEventHandler();
+    std::string ParseLiteralValue();  // 解析字面量值（支持无修饰字面量）
 
 private:
     ParserConfig config_;               // 配置

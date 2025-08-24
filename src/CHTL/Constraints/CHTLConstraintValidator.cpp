@@ -16,11 +16,20 @@ void CHTLConstraintValidator::InitializeDefaultConstraints() {
     // 无值样式组，自定义样式组的特例化，delete属性，delete继承，继承(样式组之间的继承)，
     // 生成器注释，全缀名，任意类型的原始嵌入，从命名空间中拿到某一个模板变量等
     allowedSyntax_[SyntaxContext::GLOBAL_STYLE] = {
-        ConstraintTarget::TEMPLATE_VAR,         // 模板变量
-        ConstraintTarget::CUSTOM_VAR,           // 自定义变量
-        ConstraintTarget::TEMPLATE_STYLE,       // 模板样式组
-        ConstraintTarget::CUSTOM_STYLE,         // 自定义样式组
-        ConstraintTarget::ORIGIN_EMBED          // 原始嵌入（总是允许）
+        ConstraintTarget::TEMPLATE_VAR,                 // 模板变量
+        ConstraintTarget::CUSTOM_VAR,                   // 自定义变量
+        ConstraintTarget::CUSTOM_VAR_SPECIALIZATION,    // 自定义变量的特例化
+        ConstraintTarget::TEMPLATE_STYLE,               // 模板样式组
+        ConstraintTarget::CUSTOM_STYLE,                 // 自定义样式组
+        ConstraintTarget::VALUELESS_STYLE,              // 无值样式组
+        ConstraintTarget::CUSTOM_STYLE_SPECIALIZATION,  // 自定义样式组的特例化
+        ConstraintTarget::DELETE_PROPERTY,              // delete属性
+        ConstraintTarget::DELETE_INHERITANCE,           // delete继承
+        ConstraintTarget::STYLE_INHERITANCE,            // 继承(样式组之间的继承)
+        ConstraintTarget::GENERATOR_COMMENT,            // 生成器注释
+        ConstraintTarget::FULL_QUALIFIED_NAME,          // 全缀名
+        ConstraintTarget::NAMESPACE_FROM,               // 从命名空间中拿模板变量等
+        ConstraintTarget::ORIGIN_EMBED                  // 原始嵌入（总是允许）
     };
     
     // 目标规划.ini第139行：非局部script约束
@@ -35,21 +44,34 @@ void CHTLConstraintValidator::InitializeDefaultConstraints() {
     // 无值样式组，自定义样式组的特例化，delete属性，delete继承，继承(样式组之间的继承)，
     // 生成器注释，全缀名，任意类型的原始嵌入，从命名空间中拿到某一个模板变量等
     allowedSyntax_[SyntaxContext::LOCAL_STYLE] = {
-        ConstraintTarget::TEMPLATE_VAR,         // 模板变量
-        ConstraintTarget::CUSTOM_VAR,           // 自定义变量
-        ConstraintTarget::TEMPLATE_STYLE,       // 模板样式组
-        ConstraintTarget::CUSTOM_STYLE,         // 自定义样式组
-        ConstraintTarget::ORIGIN_EMBED          // 原始嵌入
+        ConstraintTarget::TEMPLATE_VAR,                 // 模板变量
+        ConstraintTarget::CUSTOM_VAR,                   // 自定义变量
+        ConstraintTarget::CUSTOM_VAR_SPECIALIZATION,    // 自定义变量的特例化
+        ConstraintTarget::TEMPLATE_STYLE,               // 模板样式组
+        ConstraintTarget::CUSTOM_STYLE,                 // 自定义样式组
+        ConstraintTarget::VALUELESS_STYLE,              // 无值样式组
+        ConstraintTarget::CUSTOM_STYLE_SPECIALIZATION,  // 自定义样式组的特例化
+        ConstraintTarget::DELETE_PROPERTY,              // delete属性
+        ConstraintTarget::DELETE_INHERITANCE,           // delete继承
+        ConstraintTarget::STYLE_INHERITANCE,            // 继承(样式组之间的继承)
+        ConstraintTarget::GENERATOR_COMMENT,            // 生成器注释
+        ConstraintTarget::FULL_QUALIFIED_NAME,          // 全缀名
+        ConstraintTarget::NAMESPACE_FROM,               // 从命名空间中拿模板变量等
+        ConstraintTarget::ORIGIN_EMBED                  // 原始嵌入
     };
     
     // 目标规划.ini第143行：局部script约束
     // 允许使用：模板变量，自定义变量组，变量组特例化，命名空间from，--注释以及原始嵌入(任意类型)
     // {{&}}这些特供语法属于本身具有的功能，不应该被误禁
     allowedSyntax_[SyntaxContext::LOCAL_SCRIPT] = {
-        ConstraintTarget::TEMPLATE_VAR,         // 模板变量
-        ConstraintTarget::CUSTOM_VAR,           // 自定义变量组
-        ConstraintTarget::ORIGIN_EMBED          // 原始嵌入
-        // 注意：{{&}}等CHTL JS特供语法不受约束
+        ConstraintTarget::TEMPLATE_VAR,                 // 模板变量
+        ConstraintTarget::CUSTOM_VAR,                   // 自定义变量组
+        ConstraintTarget::CUSTOM_VAR_SPECIALIZATION,    // 变量组特例化
+        ConstraintTarget::TEMPLATE_VAR_SPECIALIZATION,  // 模板变量特例化
+        ConstraintTarget::NAMESPACE_FROM,               // 命名空间from
+        ConstraintTarget::GENERATOR_COMMENT,            // --注释
+        ConstraintTarget::CHTL_JS_SPECIAL_SYNTAX,       // {{&}}等CHTL JS特供语法
+        ConstraintTarget::ORIGIN_EMBED                  // 原始嵌入
     };
     
     // 元素主体中允许所有语法（默认）
@@ -319,18 +341,32 @@ std::string CHTLConstraintValidator::GetNodeName(const std::shared_ptr<AST::ASTN
 
 std::string CHTLConstraintValidator::GetConstraintTargetName(ConstraintTarget target) const {
     switch (target) {
-        case ConstraintTarget::HTML_ELEMENT:     return "HTML元素";
-        case ConstraintTarget::CUSTOM_ELEMENT:   return "自定义元素";
-        case ConstraintTarget::TEMPLATE_ELEMENT: return "模板元素";
-        case ConstraintTarget::CUSTOM_STYLE:     return "自定义样式组";
-        case ConstraintTarget::TEMPLATE_STYLE:   return "模板样式组";
-        case ConstraintTarget::CUSTOM_VAR:       return "自定义变量组";
-        case ConstraintTarget::TEMPLATE_VAR:     return "模板变量组";
-        case ConstraintTarget::HTML_TYPE:        return "@Html类型";
-        case ConstraintTarget::CUSTOM_TYPE:      return "[Custom]类型";
-        case ConstraintTarget::TEMPLATE_TYPE:    return "[Template]类型";
-        case ConstraintTarget::ORIGIN_EMBED:     return "原始嵌入";
-        default:                                 return "未知类型";
+        case ConstraintTarget::HTML_ELEMENT:                return "HTML元素";
+        case ConstraintTarget::CUSTOM_ELEMENT:              return "自定义元素";
+        case ConstraintTarget::TEMPLATE_ELEMENT:            return "模板元素";
+        case ConstraintTarget::CUSTOM_STYLE:                return "自定义样式组";
+        case ConstraintTarget::TEMPLATE_STYLE:              return "模板样式组";
+        case ConstraintTarget::CUSTOM_VAR:                  return "自定义变量组";
+        case ConstraintTarget::TEMPLATE_VAR:                return "模板变量组";
+        case ConstraintTarget::HTML_TYPE:                   return "@Html类型";
+        case ConstraintTarget::CUSTOM_TYPE:                 return "[Custom]类型";
+        case ConstraintTarget::TEMPLATE_TYPE:               return "[Template]类型";
+        
+        // 新增的约束目标类型
+        case ConstraintTarget::CUSTOM_VAR_SPECIALIZATION:   return "自定义变量的特例化";
+        case ConstraintTarget::TEMPLATE_VAR_SPECIALIZATION: return "模板变量的特例化";
+        case ConstraintTarget::VALUELESS_STYLE:             return "无值样式组";
+        case ConstraintTarget::CUSTOM_STYLE_SPECIALIZATION: return "自定义样式组的特例化";
+        case ConstraintTarget::DELETE_PROPERTY:             return "delete属性";
+        case ConstraintTarget::DELETE_INHERITANCE:          return "delete继承";
+        case ConstraintTarget::STYLE_INHERITANCE:           return "继承(样式组之间的继承)";
+        case ConstraintTarget::GENERATOR_COMMENT:           return "生成器注释";
+        case ConstraintTarget::FULL_QUALIFIED_NAME:         return "全缀名";
+        case ConstraintTarget::NAMESPACE_FROM:              return "命名空间from";
+        case ConstraintTarget::CHTL_JS_SPECIAL_SYNTAX:      return "CHTL JS特供语法";
+        
+        case ConstraintTarget::ORIGIN_EMBED:                return "原始嵌入";
+        default:                                            return "未知类型";
     }
 }
 
