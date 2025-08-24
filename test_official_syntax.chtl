@@ -1,0 +1,13 @@
+html {
+    body {
+        script {
+            vir test = listen({
+                click: () => {
+                    console.log("Hello from virtual object!");
+                }
+            });
+            
+            test->click();
+        }
+    }
+}
