@@ -1,258 +1,367 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>正确的CJMOD架构演示</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 20px;
-            color: white;
+// 正确的CJMOD架构演示 - 使用CHTL语法
+// 展示统一扫描器与CJMOD API的完美协作
+
+[Import] @CJmod from Chtholly;
+
+html {
+    head {
+        title {
+            text { 正确的CJMOD架构演示 }
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .demo-section {
-            margin: 30px 0;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            border-left: 4px solid #00ff88;
-        }
-        
-        .code-output {
-            background: #1a1a1a;
-            color: #00ff88;
-            padding: 15px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            margin: 10px 0;
-            overflow-x: auto;
-        }
-        
-        h1, h2 {
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        
-        .architecture-flow {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        
-        .flow-step {
-            background: rgba(0, 255, 136, 0.2);
-            padding: 10px 15px;
-            border-radius: 25px;
-            margin: 5px;
-            border: 2px solid #00ff88;
-            flex: 1;
-            text-align: center;
-            min-width: 150px;
-        }
-        
-        .arrow {
-            font-size: 24px;
-            color: #00ff88;
-            margin: 0 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🏗️ CHTL正确架构演示</h1>
-        <p style="text-align: center; font-size: 18px;">
-            展示统一扫描器与CJMOD API的完美协作
-        </p>
-        
-        <div class="architecture-flow">
-            <div class="flow-step">📄 CHTL源代码</div>
-            <div class="arrow">→</div>
-            <div class="flow-step">🔍 统一扫描器</div>
-            <div class="arrow">→</div>
-            <div class="flow-step">📦 CodeFragment</div>
-            <div class="arrow">→</div>
-            <div class="flow-step">⚙️ CJMOD API</div>
-            <div class="arrow">→</div>
-            <div class="flow-step">📜 标准JS</div>
-        </div>
-        
-        <div class="demo-section">
-            <h2>🎯 CJMOD扩展演示</h2>
-            <p>以下CHTL JS代码将被统一扫描器识别并交给CJMOD API处理：</p>
+        style {
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                margin: 0;
+                padding: 20px;
+                color: white;
+            }
             
-            <script>
-            {
-                // ============ printMylove演示 ============
-                console.log("=== printMylove演示 ===");
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                padding: 30px;
+                backdrop-filter: blur(10px);
+            }
+            
+            .demo-section {
+                margin: 30px 0;
+                padding: 20px;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 10px;
+                border-left: 4px solid #00ff88;
+            }
+            
+            .code-output {
+                background: #1a1a1a;
+                color: #00ff88;
+                padding: 15px;
+                border-radius: 8px;
+                font-family: 'Courier New', monospace;
+                margin: 10px 0;
+                overflow-x: auto;
+            }
+            
+            h1, h2 {
+                text-align: center;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            }
+            
+            .architecture-flow {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin: 20px 0;
+                flex-wrap: wrap;
+            }
+            
+            .flow-step {
+                background: rgba(0, 255, 136, 0.2);
+                padding: 10px 15px;
+                border-radius: 25px;
+                margin: 5px;
+                border: 2px solid #00ff88;
+                flex: 1;
+                text-align: center;
+                min-width: 150px;
+            }
+            
+            .arrow {
+                font-size: 24px;
+                color: #00ff88;
+                margin: 0 10px;
+            }
+        }
+    }
+    
+    body {
+        div {
+            class: container;
+            
+            h1 {
+                text { 🏗️ CHTL正确架构演示 }
+            }
+            
+            p {
+                style: text-align: center; font-size: 18px;
+                text { 展示统一扫描器与CJMOD API的完美协作 }
+            }
+            
+            div {
+                class: architecture-flow;
                 
-                const loveImage = printMylove({
-                    url: "https://example.com/chtholly.jpg",
-                    mode: "ASCII",
-                    width: "400px",
-                    height: "300px",
-                    scale: 0.8
-                });
-                
-                console.log("printMylove处理完成");
-                
-                // ============ 虚对象演示 ============
-                console.log("=== 虚对象演示 ===");
-                
-                vir eventHandler = listen({
-                    click: function(element) {
-                        console.log("点击事件触发:", element);
-                        element.style.background = "#ff6b6b";
-                    },
-                    
-                    hover: function(element) {
-                        console.log("悬停事件触发:", element);
-                        element.style.transform = "scale(1.05)";
-                    },
-                    
-                    leave: function(element) {
-                        console.log("离开事件触发:", element);
-                        element.style.transform = "scale(1.0)";
-                    }
-                });
-                
-                // 虚对象调用 - 这些会被CJMOD委托给CHTL JS处理
-                eventHandler->click(document.querySelector('.demo-section'));
-                
-                // ============ iNeverAway演示 ============
-                console.log("=== iNeverAway演示 ===");
-                
-                vir stateManager = iNeverAway({
-                    Void<Active>: function(elementId, state) {
-                        console.log("激活状态:", elementId, state);
-                        document.getElementById(elementId).classList.add('active');
-                    },
-                    
-                    Void<Inactive>: function(elementId, state) {
-                        console.log("非激活状态:", elementId, state);
-                        document.getElementById(elementId).classList.remove('active');
-                    },
-                    
-                    Void: {
-                        reset: function() {
-                            console.log("重置所有状态");
-                        }
-                    }
-                });
-                
-                // 状态管理调用
-                stateManager->Active("demo-container", true);
-                
-                // ============ 普通JavaScript代码 ============
-                console.log("=== 普通JavaScript代码 ===");
-                
-                // 这些是普通JS，不会被CJMOD处理
-                function normalFunction() {
-                    return "这是普通的JavaScript函数";
+                div {
+                    class: flow-step;
+                    text { 📄 CHTL源代码 }
                 }
                 
-                const normalVariable = "普通变量";
+                div {
+                    class: arrow;
+                    text { → }
+                }
                 
-                // 事件绑定
-                document.addEventListener('DOMContentLoaded', function() {
-                    console.log("页面加载完成");
-                    
-                    // 展示架构优势
-                    displayArchitectureInfo();
-                });
+                div {
+                    class: flow-step;
+                    text { 🔍 统一扫描器 }
+                }
                 
-                function displayArchitectureInfo() {
-                    const output = document.createElement('div');
-                    output.className = 'code-output';
-                    output.innerHTML = `
-                        <h3>🏆 CHTL架构优势</h3>
-                        <p>✅ 统一扫描器：专注代码片段切割，不做词法分析</p>
-                        <p>✅ CJMOD API：接收CodeFragment，使用peekKeyword提取参数</p>
-                        <p>✅ 职责分离：各组件专注核心功能，避免重复实现</p>
-                        <p>✅ 完美协作：利用现有优秀架构，不重新发明轮子</p>
-                        
-                        <h3>🚀 处理流程</h3>
-                        <p>1. 统一扫描器识别CHTL JS语法（printMylove, vir, listen等）</p>
-                        <p>2. 切割为CodeFragment并分类为CHTL_JS类型</p>
-                        <p>3. CJMOD API接收Fragment，使用peekKeyword提取参数</p>
-                        <p>4. 生成标准JavaScript代码</p>
-                        <p>5. 与普通JS代码合并输出</p>
-                    `;
-                    
-                    document.body.appendChild(output);
+                div {
+                    class: arrow;
+                    text { → }
+                }
+                
+                div {
+                    class: flow-step;
+                    text { 📦 CodeFragment }
+                }
+                
+                div {
+                    class: arrow;
+                    text { → }
+                }
+                
+                div {
+                    class: flow-step;
+                    text { ⚙️ CJMOD API }
+                }
+                
+                div {
+                    class: arrow;
+                    text { → }
+                }
+                
+                div {
+                    class: flow-step;
+                    text { 📜 标准JS }
                 }
             }
-            </script>
-        </div>
+            
+            div {
+                class: demo-section;
+                
+                h2 {
+                    text { 🎯 CJMOD扩展演示 }
+                }
+                
+                p {
+                    text { 以下CHTL JS代码将被统一扫描器识别并交给CJMOD API处理： }
+                }
+                
+                script {
+                    // ============ printMylove演示 ============
+                    console.log("=== printMylove演示 ===");
+                    
+                    const loveImage = printMylove({
+                        url: "https://example.com/chtholly.jpg",
+                        mode: "ASCII",
+                        width: "400px",
+                        height: "300px",
+                        scale: 0.8
+                    });
+                    
+                    console.log("printMylove处理完成");
+                    
+                    // ============ 虚对象演示 ============
+                    console.log("=== 虚对象演示 ===");
+                    
+                    vir eventHandler = listen({
+                        click: function(element) {
+                            console.log("点击事件触发:", element);
+                            element.style.background = "#ff6b6b";
+                        },
+                        
+                        hover: function(element) {
+                            console.log("悬停事件触发:", element);
+                            element.style.transform = "scale(1.05)";
+                        },
+                        
+                        leave: function(element) {
+                            console.log("离开事件触发:", element);
+                            element.style.transform = "scale(1.0)";
+                        }
+                    });
+                    
+                    // 虚对象调用 - 这些会被CJMOD委托给CHTL JS处理
+                    eventHandler->click(document.querySelector('.demo-section'));
+                    
+                    // ============ iNeverAway演示 ============
+                    console.log("=== iNeverAway演示 ===");
+                    
+                    vir stateManager = iNeverAway({
+                        Void<Active>: function(elementId, state) {
+                            console.log("激活状态:", elementId, state);
+                            document.getElementById(elementId).classList.add('active');
+                        },
+                        
+                        Void<Inactive>: function(elementId, state) {
+                            console.log("非激活状态:", elementId, state);
+                            document.getElementById(elementId).classList.remove('active');
+                        },
+                        
+                        Void: {
+                            reset: function() {
+                                console.log("重置所有状态");
+                            }
+                        }
+                    });
+                    
+                    // 状态管理调用
+                    stateManager->Active("demo-container", true);
+                    
+                    // ============ 普通JavaScript代码 ============
+                    console.log("=== 普通JavaScript代码 ===");
+                    
+                    // 这些是普通JS，不会被CJMOD处理
+                    function normalFunction() {
+                        return "这是普通的JavaScript函数";
+                    }
+                    
+                    const normalVariable = "普通变量";
+                    
+                    // 事件绑定
+                    document.addEventListener('DOMContentLoaded', function() {
+                        console.log("页面加载完成");
+                        
+                        // 展示架构优势
+                        displayArchitectureInfo();
+                    });
+                    
+                    function displayArchitectureInfo() {
+                        const output = document.createElement('div');
+                        output.className = 'code-output';
+                        output.innerHTML = `
+                            <h3>🏆 CHTL架构优势</h3>
+                            <p>✅ 统一扫描器：专注代码片段切割，不做词法分析</p>
+                            <p>✅ CJMOD API：接收CodeFragment，使用peekKeyword提取参数</p>
+                            <p>✅ 职责分离：各组件专注核心功能，避免重复实现</p>
+                            <p>✅ 完美协作：利用现有优秀架构，不重新发明轮子</p>
+                            
+                            <h3>🚀 处理流程</h3>
+                            <p>1. 统一扫描器识别CHTL JS语法（printMylove, vir, listen等）</p>
+                            <p>2. 切割为CodeFragment并分类为CHTL_JS类型</p>
+                            <p>3. CJMOD API接收Fragment，使用peekKeyword提取参数</p>
+                            <p>4. 生成标准JavaScript代码</p>
+                            <p>5. 与普通JS代码合并输出</p>
+                        `;
+                        
+                        document.body.appendChild(output);
+                    }
+                }
+            }
+            
+            div {
+                class: demo-section;
+                
+                h2 {
+                    text { 💡 架构设计哲学 }
+                }
+                
+                div {
+                    class: code-output;
+                    
+                    p {
+                        text { 🎯 职责分离：统一扫描器负责切割，CJMOD负责处理 }
+                    }
+                    p {
+                        text { 🔄 协作优先：组件间完美配合，避免重复实现 }
+                    }
+                    p {
+                        text { ⚡ 效率至上：利用现有优秀架构，不重新发明轮子 }
+                    }
+                    p {
+                        text { 🏗️ 可扩展性：新的CJMOD扩展可以轻松集成 }
+                    }
+                }
+            }
+            
+            div {
+                class: demo-section;
+                
+                h2 {
+                    text { 🔍 统一扫描器工作原理 }
+                }
+                
+                div {
+                    class: code-output;
+                    
+                    p {
+                        text { 不进行词法分析 - 这是关键理解！ }
+                    }
+                    p {
+                        text { ✅ 代码片段切割和分类 }
+                    }
+                    p {
+                        text { ✅ 状态机驱动的扫描（GLOBAL, IN_SCRIPT, IN_CHTL_BLOCK等） }
+                    }
+                    p {
+                        text { ✅ 双指针滑动窗口机制 }
+                    }
+                    p {
+                        text { ✅ 关键字注册和识别 }
+                    }
+                    p {
+                        text { ❌ 不做token化或语法分析 }
+                    }
+                }
+            }
+            
+            div {
+                class: demo-section;
+                
+                h2 {
+                    text { ⚙️ CJMOD API职责 }
+                }
+                
+                div {
+                    class: code-output;
+                    
+                    p {
+                        text { ✅ 接收统一扫描器的CodeFragment }
+                    }
+                    p {
+                        text { ✅ 使用peekKeyword技术提取参数值 }
+                    }
+                    p {
+                        text { ✅ 应用参数处理器和转换规则 }
+                    }
+                    p {
+                        text { ✅ 生成标准JavaScript代码 }
+                    }
+                    p {
+                        text { ✅ 委托虚对象功能给CHTL JS }
+                    }
+                    p {
+                        text { ❌ 不重新实现扫描和词法分析 }
+                    }
+                }
+            }
+        }
         
-        <div class="demo-section">
-            <h2>💡 架构设计哲学</h2>
-            <div class="code-output">
-                <p><strong>🎯 职责分离</strong>：统一扫描器负责切割，CJMOD负责处理</p>
-                <p><strong>🔄 协作优先</strong>：组件间完美配合，避免重复实现</p>
-                <p><strong>⚡ 效率至上</strong>：利用现有优秀架构，不重新发明轮子</p>
-                <p><strong>🏗️ 可扩展性</strong>：新的CJMOD扩展可以轻松集成</p>
-            </div>
-        </div>
-        
-        <div class="demo-section">
-            <h2>🔍 统一扫描器工作原理</h2>
-            <div class="code-output">
-                <p><strong>不进行词法分析</strong> - 这是关键理解！</p>
-                <p>✅ 代码片段切割和分类</p>
-                <p>✅ 状态机驱动的扫描（GLOBAL, IN_SCRIPT, IN_CHTL_BLOCK等）</p>
-                <p>✅ 双指针滑动窗口机制</p>
-                <p>✅ 关键字注册和识别</p>
-                <p>❌ 不做token化或语法分析</p>
-            </div>
-        </div>
-        
-        <div class="demo-section">
-            <h2>⚙️ CJMOD API职责</h2>
-            <div class="code-output">
-                <p>✅ 接收统一扫描器的CodeFragment</p>
-                <p>✅ 使用peekKeyword技术提取参数值</p>
-                <p>✅ 应用参数处理器和转换规则</p>
-                <p>✅ 生成标准JavaScript代码</p>
-                <p>✅ 委托虚对象功能给CHTL JS</p>
-                <p>❌ 不重新实现扫描和词法分析</p>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // 普通JavaScript - 页面交互
-        document.addEventListener('DOMContentLoaded', function() {
-            // 添加交互效果
-            const sections = document.querySelectorAll('.demo-section');
-            sections.forEach(section => {
-                section.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px)';
-                    this.style.boxShadow = '0 10px 25px rgba(0,255,136,0.3)';
+        script {
+            // 普通JavaScript - 页面交互
+            document.addEventListener('DOMContentLoaded', function() {
+                // 添加交互效果
+                const sections = document.querySelectorAll('.demo-section');
+                sections.forEach(section => {
+                    section.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-5px)';
+                        this.style.boxShadow = '0 10px 25px rgba(0,255,136,0.3)';
+                    });
+                    
+                    section.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0)';
+                        this.style.boxShadow = 'none';
+                    });
                 });
                 
-                section.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = 'none';
-                });
+                // 显示架构信息
+                console.log("🏗️ CHTL正确架构演示页面加载完成");
+                console.log("统一扫描器将识别script块中的CHTL JS语法");
+                console.log("CJMOD API将处理printMylove, vir, listen等扩展语法");
             });
-            
-            // 显示架构信息
-            console.log("🏗️ CHTL正确架构演示页面加载完成");
-            console.log("统一扫描器将识别script块中的CHTL JS语法");
-            console.log("CJMOD API将处理printMylove, vir, listen等扩展语法");
-        });
-    </script>
-</body>
-</html>
+        }
+    }
+}
