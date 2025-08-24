@@ -100,19 +100,35 @@ src/CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.s"
 	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Dispatcher/FragmentProcessors.cpp -o CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.s
 
+src/CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o: src/CMakeFiles/dispatcher.dir/flags.make
+src/CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o: /workspace/src/Dispatcher/IntermediateProcessors.cpp
+src/CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o: src/CMakeFiles/dispatcher.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o -MF CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o.d -o CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o -c /workspace/src/Dispatcher/IntermediateProcessors.cpp
+
+src/CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.i"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/Dispatcher/IntermediateProcessors.cpp > CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.i
+
+src/CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.s"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Dispatcher/IntermediateProcessors.cpp -o CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.s
+
 # Object files for target dispatcher
 dispatcher_OBJECTS = \
 "CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o" \
-"CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o"
+"CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o" \
+"CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o"
 
 # External object files for target dispatcher
 dispatcher_EXTERNAL_OBJECTS =
 
 lib/libdispatcher.a: src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o
 lib/libdispatcher.a: src/CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o
+lib/libdispatcher.a: src/CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o
 lib/libdispatcher.a: src/CMakeFiles/dispatcher.dir/build.make
 lib/libdispatcher.a: src/CMakeFiles/dispatcher.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library ../lib/libdispatcher.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library ../lib/libdispatcher.a"
 	cd /workspace/build/src && $(CMAKE_COMMAND) -P CMakeFiles/dispatcher.dir/cmake_clean_target.cmake
 	cd /workspace/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/dispatcher.dir/link.txt --verbose=$(VERBOSE)
 

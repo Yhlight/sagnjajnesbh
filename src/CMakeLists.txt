@@ -68,6 +68,7 @@ target_include_directories(scanner PUBLIC
 add_library(dispatcher STATIC
     Dispatcher/CompilerDispatcher.cpp
     Dispatcher/FragmentProcessors.cpp
+    Dispatcher/IntermediateProcessors.cpp
 )
 
 target_include_directories(dispatcher PUBLIC

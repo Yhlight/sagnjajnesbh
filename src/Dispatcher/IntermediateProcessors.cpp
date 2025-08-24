@@ -85,39 +85,34 @@ FragmentProcessingResult JavaScriptIntermediateProcessor::ProcessLocalScriptCHTL
     try {
         // 1. 处理CHTL变量模板（如 ThemeColor(), Colors() 等）
         std::regex chtlVarRegex(R"(\b(ThemeColor|Colors|Spacing)\s*\(\s*([^)]*)\s*\))");
-        result.processedCode = std::regex_replace(result.processedCode, chtlVarRegex, 
-            [](const std::smatch& match) -> std::string {
-                std::string varName = match[1].str();
-                std::string params = match[2].str();
-                
-                // 转换为JavaScript函数调用
-                return "CHTL." + varName + "(" + params + ")";
-            });
+        result.processedCode = std::regex_replace(result.processedCode, chtlVarRegex, "CHTL.$1($2)");
         
         // 2. 处理CHTL选择器增强（局部script中可能的{{selector}}语法）
         std::regex localSelectorRegex(R"(\{\{([^}]+)\}\})");
-        result.processedCode = std::regex_replace(result.processedCode, localSelectorRegex, 
-            [](const std::smatch& match) -> std::string {
-                std::string selector = match[1].str();
-                // 转换为标准的document.querySelector调用
-                return "document.querySelector('" + selector + "')";
-            });
+        result.processedCode = std::regex_replace(result.processedCode, localSelectorRegex, "document.querySelector('$1')");
         
         // 3. 处理CHTL JS导入语法
         std::regex importRegex(R"(\[Import\]\s*@(\w+)\s+from\s+([^;]+);?)");
-        result.processedCode = std::regex_replace(result.processedCode, importRegex, 
-            [&result](const std::smatch& match) -> std::string {
-                std::string importType = match[1].str();
-                std::string moduleName = match[2].str();
-                
-                // 转换为JavaScript import或require语句
-                if (importType == "CJmod") {
-                    result.warnings.push_back("CJMOD导入在JavaScript中需要特殊处理: " + moduleName);
-                    return "// CJMOD导入: " + moduleName + " (需要动态加载)";
-                } else {
-                    return "// CHTL导入: " + moduleName;
-                }
-            });
+        std::string importTemp = result.processedCode;
+        std::sregex_iterator iter(importTemp.begin(), importTemp.end(), importRegex);
+        std::sregex_iterator end;
+        
+        while (iter != end) {
+            std::smatch match = *iter;
+            std::string importType = match[1].str();
+            std::string moduleName = match[2].str();
+            
+            std::string replacement;
+            if (importType == "CJmod") {
+                result.warnings.push_back("CJMOD导入在JavaScript中需要特殊处理: " + moduleName);
+                replacement = "// CJMOD导入: " + moduleName + " (需要动态加载)";
+            } else {
+                replacement = "// CHTL导入: " + moduleName;
+            }
+            
+            result.processedCode = result.processedCode.replace(match.position(), match.length(), replacement);
+            ++iter;
+        }
         
         result.success = true;
         

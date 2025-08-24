@@ -1,5 +1,6 @@
 #include "Dispatcher/CompilerDispatcher.h"
 #include "Dispatcher/FragmentProcessors.h"
+#include "Dispatcher/IntermediateProcessors.h"
 #include "CHTL/Import/ImportSystem.h"
 #include "CHTL/Parser/CHTLParser.h"
 #include "CHTLJS/Parser/CHTLJSParser.h"
@@ -61,11 +62,23 @@ void CompilerDispatcher::InitializeCompilers() {
         Utils::ErrorHandler::GetInstance().LogInfo("CHTL和CHTL JS解析器初始化完成");
     }
     
+    // 初始化中间处理器
+    jsProcessor_ = std::make_unique<JavaScriptIntermediateProcessor>();
+    cssProcessor_ = std::make_unique<CSSIntermediateProcessor>();
+    
+    // 设置中间处理器调试模式
+    jsProcessor_->SetDebugMode(config_.enableDebugOutput);
+    cssProcessor_->SetDebugMode(config_.enableDebugOutput);
+    
     // 初始化CSS编译器（ANTLR4）
     cssCompiler_ = std::make_unique<CSS::CSSCompiler>();
     
     // 初始化JavaScript编译器（ANTLR4）
     jsCompiler_ = std::make_unique<JavaScript::JavaScriptCompiler>();
+    
+    if (config_.enableDebugOutput) {
+        Utils::ErrorHandler::GetInstance().LogInfo("中间处理器初始化完成");
+    }
 }
 
 CompilationResult CompilerDispatcher::Compile(const std::string& source, const std::string& fileName) {
@@ -315,24 +328,41 @@ std::string CompilerDispatcher::ProcessCHTLJSFragments(const std::vector<Scanner
 }
 
 std::string CompilerDispatcher::ProcessCSSFragments(const std::vector<Scanner::CodeFragment>& fragments, const std::string& fileName) {
-    // 处理CSS片段 - 使用ANTLR4 CSS编译器
-    std::string cssOutput = "";
-    
-    for (const auto& fragment : fragments) {
-        try {
-            // 使用CSS编译器编译片段
-            auto compiledCSS = cssCompiler_->Compile(fragment.content, fileName);
-            cssOutput += compiledCSS;
-            cssOutput += "\n";
-            
-        } catch (const std::exception& e) {
-            Utils::ErrorHandler::GetInstance().LogError(
-                "处理CSS片段异常: " + std::string(e.what())
-            );
-        }
+    // 使用CSS中间处理器合并CSS片段，处理其中的CHTL特征，然后传递给CSS编译器
+    if (config_.enableDebugOutput) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "开始使用CSS中间处理器处理CSS片段，共 " + std::to_string(fragments.size()) + " 个片段"
+        );
     }
     
-    return cssOutput;
+    try {
+        // 1. 使用CSS中间处理器处理所有CSS片段，转换CHTL特征
+        FragmentProcessingResult processingResult = cssProcessor_->ProcessCSSFragments(fragments);
+        
+        if (!processingResult.success) {
+            Utils::ErrorHandler::GetInstance().LogError("CSS中间处理器处理失败");
+            // 回退到原始实现
+            return ProcessCSSFragmentsBasic(fragments, fileName);
+        }
+        
+        // 2. 将处理后的完整CSS代码传递给CSS编译器检查
+        std::string finalCSSOutput = cssCompiler_->Compile(processingResult.processedCode, fileName);
+        
+        if (config_.enableDebugOutput) {
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "CSS编译器处理完成，最终输出长度: " + std::to_string(finalCSSOutput.length())
+            );
+        }
+        
+        return finalCSSOutput;
+        
+    } catch (const std::exception& e) {
+        Utils::ErrorHandler::GetInstance().LogError(
+            "CSS片段处理异常: " + std::string(e.what())
+        );
+        // 回退到基础实现
+        return ProcessCSSFragmentsBasic(fragments, fileName);
+    }
 }
 
 std::string CompilerDispatcher::ProcessJavaScriptFragments(const std::vector<Scanner::CodeFragment>& fragments, const std::string& fileName) {
@@ -357,42 +387,89 @@ std::string CompilerDispatcher::ProcessJavaScriptFragments(const std::vector<Sca
 }
 
 std::string CompilerDispatcher::ProcessSharedScriptFragments(const std::vector<Scanner::CodeFragment>& scriptFragments, const std::string& fileName) {
-    // 处理Script的共同管理 - 目标规划第46行：script → 由CHTL，CHTL JS，JS编译器共同管理
-    std::string jsOutput = "";
+    // 使用中间处理器合并所有Script片段，然后传递给JS编译器
+    if (config_.enableDebugOutput) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "开始使用中间处理器处理共享Script片段，共 " + std::to_string(scriptFragments.size()) + " 个片段"
+        );
+    }
     
-    jsOutput += "// Shared Script Processing - CHTL + CHTL JS + JavaScript\n";
-    
-    for (const auto& fragment : scriptFragments) {
-        try {
-            // 分析片段内容，决定使用哪个编译器
-            if (fragment.content.find("{{") != std::string::npos || 
-                fragment.content.find("listen") != std::string::npos ||
-                fragment.content.find("delegate") != std::string::npos) {
-                // CHTL JS语法，使用CHTL JS编译器
-                jsOutput += "// CHTL JS Processed\n";
-                jsOutput += fragment.content;
-            } else if (fragment.content.find("@") != std::string::npos ||
-                      fragment.content.find("[Template]") != std::string::npos) {
-                // CHTL语法，使用CHTL编译器
-                jsOutput += "// CHTL Processed\n";
-                jsOutput += fragment.content;
+    try {
+        // 1. 按类型分离片段
+        std::vector<Scanner::CodeFragment> chtlJSFragments;
+        std::vector<Scanner::CodeFragment> pureJSFragments;
+        
+        for (const auto& fragment : scriptFragments) {
+            // 使用统一扫描器的逻辑判断是否为CHTL JS
+            if (scanner_->HasCHTLJSSyntax(fragment.content)) {
+                chtlJSFragments.push_back(fragment);
             } else {
-                // 纯JavaScript，使用JavaScript编译器
-                auto compiledJS = jsCompiler_->Compile(fragment.content, fileName);
-                jsOutput += "// Pure JavaScript Processed\n";
-                jsOutput += compiledJS;
+                pureJSFragments.push_back(fragment);
             }
-            
-            jsOutput += "\n";
-            
-        } catch (const std::exception& e) {
-            Utils::ErrorHandler::GetInstance().LogError(
-                "处理共同管理Script片段异常: " + std::string(e.what())
+        }
+        
+        if (config_.enableDebugOutput) {
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "Script片段分类完成: CHTL JS: " + std::to_string(chtlJSFragments.size()) + 
+                ", 纯JS: " + std::to_string(pureJSFragments.size())
             );
         }
+        
+        // 2. 使用JavaScript中间处理器合并所有代码
+        FragmentProcessingResult processingResult = jsProcessor_->ProcessJavaScriptFragments(
+            chtlJSFragments, pureJSFragments
+        );
+        
+        if (!processingResult.success) {
+            Utils::ErrorHandler::GetInstance().LogError("JavaScript中间处理器处理失败");
+            // 回退到原始实现
+            return ProcessSharedScriptFragmentsBasic(scriptFragments, fileName);
+        }
+        
+        // 3. 将合并后的完整JavaScript代码传递给JS编译器检查
+        std::string finalJSOutput = jsCompiler_->Compile(processingResult.processedCode, fileName);
+        
+        if (config_.enableDebugOutput) {
+            Utils::ErrorHandler::GetInstance().LogInfo(
+                "JavaScript编译器处理完成，最终输出长度: " + std::to_string(finalJSOutput.length())
+            );
+        }
+        
+        return finalJSOutput;
+        
+    } catch (const std::exception& e) {
+        Utils::ErrorHandler::GetInstance().LogError(
+            "共享Script片段处理异常: " + std::string(e.what())
+        );
+        // 回退到基础实现
+        return ProcessSharedScriptFragmentsBasic(scriptFragments, fileName);
+    }
+}
+
+std::string CompilerDispatcher::ProcessSharedScriptFragmentsBasic(const std::vector<Scanner::CodeFragment>& scriptFragments, const std::string& fileName) {
+    // 基础回退实现 - 简单拼接所有片段
+    std::string jsOutput = "// Basic Script Processing (Fallback)\n";
+    
+    for (const auto& fragment : scriptFragments) {
+        jsOutput += "// Fragment\n";
+        jsOutput += fragment.content;
+        jsOutput += "\n";
     }
     
     return jsOutput;
+}
+
+std::string CompilerDispatcher::ProcessCSSFragmentsBasic(const std::vector<Scanner::CodeFragment>& fragments, const std::string& fileName) {
+    // 基础CSS回退实现 - 简单拼接所有片段
+    std::string cssOutput = "/* Basic CSS Processing (Fallback) */\n";
+    
+    for (const auto& fragment : fragments) {
+        cssOutput += "/* CSS Fragment */\n";
+        cssOutput += fragment.content;
+        cssOutput += "\n";
+    }
+    
+    return cssOutput;
 }
 
 std::string CompilerDispatcher::MergeCompilationResults(const std::string& htmlOutput, const std::string& cssOutput, const std::string& jsOutput) {

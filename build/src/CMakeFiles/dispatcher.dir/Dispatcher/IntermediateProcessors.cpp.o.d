@@ -1,7 +1,6 @@
-src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
-  /workspace/src/Dispatcher/CompilerDispatcher.cpp \
-  /workspace/include/Dispatcher/CompilerDispatcher.h \
-  /workspace/include/Scanner/CHTLUnifiedScanner.h \
+src/CMakeFiles/dispatcher.dir/Dispatcher/IntermediateProcessors.cpp.o: \
+  /workspace/src/Dispatcher/IntermediateProcessors.cpp \
+  /workspace/include/Dispatcher/IntermediateProcessors.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/string \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/requires_hosted.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++config.h \
@@ -199,6 +198,7 @@ src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/backward/auto_ptr.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_memory_defs.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/execution_defs.h \
+  /workspace/include/Scanner/CHTLUnifiedScanner.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/unordered_set \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unordered_set.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/hashtable.h \
@@ -213,37 +213,21 @@ src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/array \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/compare \
   /workspace/include/CHTL/Comments/ContextualCommentSystem.h \
-  /workspace/include/CHTL/Core/CHTLGlobalMap.h \
-  /workspace/include/CHTL/Core/CHTLToken.h \
-  /workspace/include/CHTL/Core/CHTLState.h \
+  /workspace/include/CHTLJS/Compiler/CHTLJSCompiler.h \
+  /workspace/include/CHTLJS/Core/CHTLJSToken.h \
+  /workspace/include/CHTLJS/Core/CHTLJSState.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
-  /workspace/include/CHTLJS/Core/CHTLJSState.h \
-  /workspace/include/CHTLJS/Core/CHTLJSToken.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/map \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tree.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_map.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_multimap.h \
-  /workspace/include/Dispatcher/FragmentProcessors.h \
-  /workspace/include/Dispatcher/IntermediateProcessors.h \
-  /workspace/include/CHTL/Import/ImportSystem.h /usr/include/dlfcn.h \
-  /usr/include/x86_64-linux-gnu/bits/dlfcn.h \
-  /usr/include/x86_64-linux-gnu/bits/dl_find_object.h \
-  /workspace/include/CHTL/Import/../AST/CHTLASTNodes.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/variant \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
-  /workspace/include/CHTL/Parser/CHTLParser.h \
-  /workspace/include/CHTL/Core/CHTLStateContext.h \
-  /workspace/include/CHTL/AST/CHTLASTNodes.h \
-  /workspace/include/CHTL/Core/ImportManager.h \
-  /workspace/include/CHTL/Core/NamespaceMerger.h \
-  /workspace/include/CHTL/Lexer/CHTLLexer.h \
-  /workspace/include/Utils/ErrorHandler.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ostream \
+  /workspace/include/CHTLJS/AST/CHTLJSASTNodes.h \
+  /workspace/include/CHTLJS/Lexer/CHTLJSLexer.h \
+  /workspace/include/CHTLJS/Parser/CHTLJSParser.h \
+  /workspace/include/CHTLJS/Generator/CHTLJSGenerator.h \
+  /workspace/include/CHTLJS/AST/CHTLJSASTVisitor.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/istream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ios \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/ios_base.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_classes.h \
@@ -263,31 +247,12 @@ src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/ctype_inline.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_facets.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/basic_ios.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ostream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/ostream.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/istream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/istream.tcc \
-  /workspace/include/CHTL/Constraints/CHTLConstraintValidator.h \
-  /workspace/include/CHTL/Constraints/ExceptConstraintParser.h \
-  /workspace/include/CHTLJS/Parser/CHTLJSParser.h \
-  /workspace/include/CHTLJS/AST/CHTLJSASTNodes.h \
-  /workspace/include/CHTLJS/Lexer/CHTLJSLexer.h \
-  /workspace/include/CHTL/Generator/CHTLGenerator.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
-  /workspace/include/CHTL/AST/CHTLASTVisitor.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/algorithm \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_algo.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/algorithmfwd.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_heap.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uniform_int_dist.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_algorithm_defs.h \
-  /workspace/include/CHTL/Selector/SelectorAutomation.h \
-  /workspace/include/CMOD/CMODSystem.h \
-  /workspace/include/CHTLJS/Generator/CHTLJSGenerator.h \
-  /workspace/include/CHTLJS/AST/CHTLJSASTVisitor.h \
-  /workspace/include/CHTLJS/Compiler/CHTLJSCompiler.h \
-  /workspace/include/CSS/CSSCompiler.h \
-  /workspace/include/JavaScript/JavaScriptCompiler.h \
+  /workspace/include/Utils/ErrorHandler.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
   /workspace/include/Utils/StringUtils.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/regex \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bitset \
@@ -300,6 +265,12 @@ src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/codecvt.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_facets_nonio.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_conv.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_algo.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/algorithmfwd.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_heap.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uniform_int_dist.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_tree.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_map.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/regex_constants.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/regex_error.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/regex_automaton.h \
@@ -311,16 +282,4 @@ src/CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/regex.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/regex.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/regex_executor.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/regex_executor.tcc \
-  /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
-  /usr/include/x86_64-linux-gnu/bits/environments.h \
-  /usr/include/x86_64-linux-gnu/bits/confname.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/linux/close_range.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/chrono \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/chrono.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ratio \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cstdint \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/limits
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/regex_executor.tcc

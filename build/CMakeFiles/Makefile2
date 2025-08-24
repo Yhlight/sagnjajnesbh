@@ -202,7 +202,7 @@ src/CMakeFiles/chtljs_core.dir/clean:
 src/CMakeFiles/scanner.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/scanner.dir/build.make src/CMakeFiles/scanner.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/scanner.dir/build.make src/CMakeFiles/scanner.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=48,49,50 "Built target scanner"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=49,50,51 "Built target scanner"
 .PHONY : src/CMakeFiles/scanner.dir/all
 
 # Build rule for subdir invocation for target.
@@ -219,7 +219,7 @@ scanner: src/CMakeFiles/scanner.dir/rule
 # codegen rule for target.
 src/CMakeFiles/scanner.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/scanner.dir/build.make src/CMakeFiles/scanner.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=48,49,50 "Finished codegen for target scanner"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=49,50,51 "Finished codegen for target scanner"
 .PHONY : src/CMakeFiles/scanner.dir/codegen
 
 # clean rule for target.
@@ -240,12 +240,12 @@ src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/js_compiler.dir/all
 src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/cmod.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dispatcher.dir/build.make src/CMakeFiles/dispatcher.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dispatcher.dir/build.make src/CMakeFiles/dispatcher.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=41,42,43 "Built target dispatcher"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=41,42,43,44 "Built target dispatcher"
 .PHONY : src/CMakeFiles/dispatcher.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/dispatcher.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 48
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 49
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/dispatcher.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/dispatcher.dir/rule
@@ -257,7 +257,7 @@ dispatcher: src/CMakeFiles/dispatcher.dir/rule
 # codegen rule for target.
 src/CMakeFiles/dispatcher.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dispatcher.dir/build.make src/CMakeFiles/dispatcher.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=41,42,43 "Finished codegen for target dispatcher"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=41,42,43,44 "Finished codegen for target dispatcher"
 .PHONY : src/CMakeFiles/dispatcher.dir/codegen
 
 # clean rule for target.
@@ -272,7 +272,7 @@ src/CMakeFiles/dispatcher.dir/clean:
 src/CMakeFiles/utils.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=51,52,53,54,55 "Built target utils"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=52,53,54,55,56 "Built target utils"
 .PHONY : src/CMakeFiles/utils.dir/all
 
 # Build rule for subdir invocation for target.
@@ -289,7 +289,7 @@ utils: src/CMakeFiles/utils.dir/rule
 # codegen rule for target.
 src/CMakeFiles/utils.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=51,52,53,54,55 "Finished codegen for target utils"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=52,53,54,55,56 "Finished codegen for target utils"
 .PHONY : src/CMakeFiles/utils.dir/codegen
 
 # clean rule for target.
@@ -336,7 +336,7 @@ src/CMakeFiles/css_compiler.dir/clean:
 src/CMakeFiles/js_compiler.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=44,45 "Built target js_compiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=45,46 "Built target js_compiler"
 .PHONY : src/CMakeFiles/js_compiler.dir/all
 
 # Build rule for subdir invocation for target.
@@ -353,7 +353,7 @@ js_compiler: src/CMakeFiles/js_compiler.dir/rule
 # codegen rule for target.
 src/CMakeFiles/js_compiler.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=44,45 "Finished codegen for target js_compiler"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=45,46 "Finished codegen for target js_compiler"
 .PHONY : src/CMakeFiles/js_compiler.dir/codegen
 
 # clean rule for target.
@@ -434,7 +434,7 @@ src/CMakeFiles/module_builder.dir/all: src/CMakeFiles/cmod.dir/all
 src/CMakeFiles/module_builder.dir/all: src/CMakeFiles/cjmod.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/module_builder.dir/build.make src/CMakeFiles/module_builder.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/module_builder.dir/build.make src/CMakeFiles/module_builder.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=46,47 "Built target module_builder"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=47,48 "Built target module_builder"
 .PHONY : src/CMakeFiles/module_builder.dir/all
 
 # Build rule for subdir invocation for target.
@@ -451,7 +451,7 @@ module_builder: src/CMakeFiles/module_builder.dir/rule
 # codegen rule for target.
 src/CMakeFiles/module_builder.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/module_builder.dir/build.make src/CMakeFiles/module_builder.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=46,47 "Finished codegen for target module_builder"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=47,48 "Finished codegen for target module_builder"
 .PHONY : src/CMakeFiles/module_builder.dir/codegen
 
 # clean rule for target.
@@ -480,7 +480,7 @@ src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/build_all_modules.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/chtl_compiler.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 50
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 51
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/chtl_compiler.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/chtl_compiler.dir/rule

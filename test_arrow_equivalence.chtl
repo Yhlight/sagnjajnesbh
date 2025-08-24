@@ -1,0 +1,35 @@
+html {
+    head {
+        title { text { 箭头操作符等价性测试 } }
+    }
+    
+    body {
+        div { id: container; 
+            text { 测试箭头操作符转换 }
+        }
+        
+        script {
+            // CHTL JS 箭头操作符测试
+            vir myObject = {
+                name: "test",
+                greet: function() {
+                    console.log("Hello from " + this.name);
+                }
+            };
+            
+            // 使用箭头操作符（应该转换为点操作符）
+            myObject->greet();
+            
+            // 增强选择器with箭头操作符  
+            {{#container}}->innerHTML = "Updated content";
+            
+            // CHTL变量模板
+            let color = ThemeColor(primary);
+            let spacing = Spacing(medium);
+            
+            // 纯JavaScript
+            console.log("This should remain as-is");
+            document.getElementById("container").style.color = color;
+        }
+    }
+}

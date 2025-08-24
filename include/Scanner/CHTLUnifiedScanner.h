@@ -309,6 +309,11 @@ public:
      * @param fragments 片段列表
      */
     void PrintIndexStatistics(const std::vector<CodeFragment>& fragments) const;
+    
+    /**
+     * @brief 检测是否包含CHTL JS语法
+     */
+    bool HasCHTLJSSyntax(const std::string& content) const;
 
 private:
     /**
@@ -767,11 +772,6 @@ private:
      * @brief 检测是否为虚对象
      */
     bool IsVirObject(const std::string& content) const;
-    
-    /**
-     * @brief 检测是否包含CHTL JS语法
-     */
-    bool HasCHTLJSSyntax(const std::string& content) const;
     
     /**
      * @brief 检测样式块完整性
