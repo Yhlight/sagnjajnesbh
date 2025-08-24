@@ -134,8 +134,8 @@ src/clean: src/CMakeFiles/clean_modules.dir/clean
 # Target rules for target src/CMakeFiles/chtl_core.dir
 
 # All Build rule for target.
-src/CMakeFiles/chtl_core.dir/all: src/CMakeFiles/utils.dir/all
 src/CMakeFiles/chtl_core.dir/all: src/CMakeFiles/cmod.dir/all
+src/CMakeFiles/chtl_core.dir/all: src/CMakeFiles/utils.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_core.dir/build.make src/CMakeFiles/chtl_core.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 "Built target chtl_core"
@@ -231,13 +231,13 @@ src/CMakeFiles/scanner.dir/clean:
 # Target rules for target src/CMakeFiles/dispatcher.dir
 
 # All Build rule for target.
+src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/js_compiler.dir/all
+src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/cmod.dir/all
 src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/chtl_core.dir/all
 src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/chtljs_core.dir/all
 src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/scanner.dir/all
 src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/utils.dir/all
 src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/css_compiler.dir/all
-src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/js_compiler.dir/all
-src/CMakeFiles/dispatcher.dir/all: src/CMakeFiles/cmod.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dispatcher.dir/build.make src/CMakeFiles/dispatcher.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/dispatcher.dir/build.make src/CMakeFiles/dispatcher.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=41,42,43,44 "Built target dispatcher"
@@ -429,9 +429,9 @@ src/CMakeFiles/cjmod.dir/clean:
 # Target rules for target src/CMakeFiles/module_builder.dir
 
 # All Build rule for target.
-src/CMakeFiles/module_builder.dir/all: src/CMakeFiles/utils.dir/all
 src/CMakeFiles/module_builder.dir/all: src/CMakeFiles/cmod.dir/all
 src/CMakeFiles/module_builder.dir/all: src/CMakeFiles/cjmod.dir/all
+src/CMakeFiles/module_builder.dir/all: src/CMakeFiles/utils.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/module_builder.dir/build.make src/CMakeFiles/module_builder.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/module_builder.dir/build.make src/CMakeFiles/module_builder.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=47,48 "Built target module_builder"
@@ -463,16 +463,16 @@ src/CMakeFiles/module_builder.dir/clean:
 # Target rules for target src/CMakeFiles/chtl_compiler.dir
 
 # All Build rule for target.
+src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/build_all_modules.dir/all
+src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/js_compiler.dir/all
+src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/cmod.dir/all
+src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/build_module_.dir/all
 src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/chtl_core.dir/all
 src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/chtljs_core.dir/all
 src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/scanner.dir/all
 src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/dispatcher.dir/all
 src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/utils.dir/all
 src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/css_compiler.dir/all
-src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/js_compiler.dir/all
-src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/cmod.dir/all
-src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/build_module_.dir/all
-src/CMakeFiles/chtl_compiler.dir/all: src/CMakeFiles/build_all_modules.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_compiler.dir/build.make src/CMakeFiles/chtl_compiler.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_compiler.dir/build.make src/CMakeFiles/chtl_compiler.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2 "Built target chtl_compiler"
@@ -490,8 +490,8 @@ chtl_compiler: src/CMakeFiles/chtl_compiler.dir/rule
 .PHONY : chtl_compiler
 
 # codegen rule for target.
-src/CMakeFiles/chtl_compiler.dir/codegen: src/CMakeFiles/build_module_.dir/all
 src/CMakeFiles/chtl_compiler.dir/codegen: src/CMakeFiles/build_all_modules.dir/all
+src/CMakeFiles/chtl_compiler.dir/codegen: src/CMakeFiles/build_module_.dir/all
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/chtl_compiler.dir/build.make src/CMakeFiles/chtl_compiler.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2 "Finished codegen for target chtl_compiler"
 .PHONY : src/CMakeFiles/chtl_compiler.dir/codegen
