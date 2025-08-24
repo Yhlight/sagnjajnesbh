@@ -1,0 +1,16 @@
+html {
+    body {
+        div { id: container;
+            text { 箭头操作符测试 }
+        }
+        script {
+            vir myObject = {
+                greet: function() {
+                    console.log("Hello!");
+                }
+            };
+            myObject->greet();
+            {{#container}}->innerHTML = "Updated";
+        }
+    }
+}

@@ -83,39 +83,11 @@ FragmentProcessingResult JavaScriptIntermediateProcessor::ProcessLocalScriptCHTL
     result.processedCode = scriptContent;
     
     try {
-        // 1. 根据官方语法文档，局部script中不应该有CHTL变量模板
-        // 这些变量模板应该在CHTL编译阶段处理，而不是在JavaScript中
-        // 因此这里不进行变量模板转换
+        // 中间处理器只负责代码合并，不进行任何语法转换
+        // 所有的CHTL特征（变量模板、增强选择器、导入语法等）都由相应的编译器处理
         
-        // 2. 处理增强选择器{{selector}}（这是CHTL JS特征，应该转换）
-        // 根据官方语法文档，增强选择器会创建DOM对象
-        // 这部分应该由CHTL JS编译器处理，但如果在局部script中出现，则进行基础转换
-        std::regex localSelectorRegex(R"(\{\{([^}]+)\}\})");
-        // 在局部script中，直接转换为基础的querySelector
-        result.processedCode = std::regex_replace(result.processedCode, localSelectorRegex, "document.querySelector('$1')");
-        
-        // 3. 处理CHTL JS导入语法
-        std::regex importRegex(R"(\[Import\]\s*@(\w+)\s+from\s+([^;]+);?)");
-        std::string importTemp = result.processedCode;
-        std::sregex_iterator iter(importTemp.begin(), importTemp.end(), importRegex);
-        std::sregex_iterator end;
-        
-        while (iter != end) {
-            std::smatch match = *iter;
-            std::string importType = match[1].str();
-            std::string moduleName = match[2].str();
-            
-            std::string replacement;
-            if (importType == "CJmod") {
-                result.warnings.push_back("CJMOD导入在JavaScript中需要特殊处理: " + moduleName);
-                replacement = "// CJMOD导入: " + moduleName + " (需要动态加载)";
-            } else {
-                replacement = "// CHTL导入: " + moduleName;
-            }
-            
-            result.processedCode = result.processedCode.replace(match.position(), match.length(), replacement);
-            ++iter;
-        }
+        // 保持原始代码不变，只记录日志
+        LogDebug("局部script特征处理：保持原始代码不变");
         
         result.success = true;
         
@@ -134,124 +106,44 @@ FragmentProcessingResult JavaScriptIntermediateProcessor::ProcessLocalScriptCHTL
 std::string JavaScriptIntermediateProcessor::ConvertCHTLJSToJavaScript(const std::string& chtlJSCode) {
     std::string result = chtlJSCode;
     
-    // 1. 处理箭头操作符转换
+    // 中间处理器不负责CHTL JS到JavaScript的转换
+    // 这个转换工作由CHTL JS编译器自身负责
+    // 调用各个处理方法，但它们现在都只是保持原始代码不变
     result = ProcessArrowOperators(result);
-    
-    // 2. 处理增强选择器
     result = ProcessEnhancedSelectors(result);
-    
-    // 3. 处理虚对象语法
     result = ProcessVirtualObjects(result);
-    
-    // 4. 处理CHTL JS特定方法
     result = ProcessCHTLJSMethods(result);
     
-    LogDebug("CHTL JS转换为JavaScript完成");
+    LogDebug("CHTL JS代码处理完成（保持原始状态，等待CHTL JS编译器处理）");
     return result;
 }
 
 std::string JavaScriptIntermediateProcessor::ProcessArrowOperators(const std::string& code) {
-    // 根据官方CHTL语法文档第1162-1164行：
-    // "使用到CHTL JS语法时，我们推荐使用->代替. 以便明确使用了CHTL JS语法"
-    // "->与.是完全等价的，因此你可以直接使用->进行链式访问"
-    
-    std::string result = code;
-    
-    // 将箭头操作符 -> 转换为点操作符 .（它们完全等价）
-    // 支持链式访问，处理复杂的选择器和方法调用
-    std::regex arrowRegex(R"((\w+|\)\s*|\]\s*)\s*->\s*(\w+))");
-    result = std::regex_replace(result, arrowRegex, "$1.$2");
-    
-    // 处理增强选择器中的箭头操作符
-    std::regex selectorArrowRegex(R"(\}\}\s*->\s*(\w+))");
-    result = std::regex_replace(result, selectorArrowRegex, "}}.$1");
-    
-    LogDebug("箭头操作符转换完成（-> 等价于 .）");
-    return result;
+    // 中间处理器不负责转换，只负责代码合并
+    // 箭头操作符的转换由CHTL JS编译器自身负责
+    LogDebug("保持原始代码，不进行箭头操作符转换");
+    return code;
 }
 
 std::string JavaScriptIntermediateProcessor::ProcessEnhancedSelectors(const std::string& code) {
-    // 根据官方CHTL语法文档，处理增强选择器 {{selector}} 转换为 DOM对象
-    // 支持的形式：{{box}}, {{.box}}, {{#box}}, {{button}}, {{.box button}}, {{button[0]}}
-    std::string result = code;
-    
-    // 使用迭代器方式处理复杂的转换逻辑
-    std::regex selectorRegex(R"(\{\{([^}]+)\}\})");
-    std::sregex_iterator iter(result.begin(), result.end(), selectorRegex);
-    std::sregex_iterator end;
-    
-    // 从后往前替换，避免位置偏移问题
-    std::vector<std::pair<size_t, std::pair<size_t, std::string>>> replacements;
-    
-    while (iter != end) {
-        std::smatch match = *iter;
-        std::string selector = match[1].str();
-        std::string replacement;
-        
-        // 处理特殊选择器形式
-        if (selector.find('[') != std::string::npos) {
-            // 处理索引访问 {{button[0]}} -> document.querySelectorAll('button')[0]
-            size_t bracketPos = selector.find('[');
-            std::string baseSelector = selector.substr(0, bracketPos);
-            std::string indexPart = selector.substr(bracketPos);
-            replacement = "document.querySelectorAll('" + baseSelector + "')" + indexPart;
-        } else if (selector.find(' ') != std::string::npos) {
-            // 处理复合选择器 {{.box button}} -> document.querySelectorAll('.box button')
-            replacement = "document.querySelectorAll('" + selector + "')";
-        } else if (selector.length() > 0 && (selector[0] == '.' || selector[0] == '#')) {
-            // 处理类选择器和ID选择器 {{.box}}, {{#box}} -> document.querySelector
-            replacement = "document.querySelector('" + selector + "')";
-        } else {
-            // 处理普通选择器 {{box}} -> 智能查找 (先判断tag，然后查找类名/id)
-            replacement = "(document.querySelector('#" + selector + "') || document.querySelector('." + selector + "') || document.querySelector('" + selector + "'))";
-        }
-        
-        replacements.push_back({static_cast<size_t>(match.position()), {static_cast<size_t>(match.length()), replacement}});
-        ++iter;
-    }
-    
-    // 从后往前替换
-    for (auto rit = replacements.rbegin(); rit != replacements.rend(); ++rit) {
-        result.replace(rit->first, rit->second.first, rit->second.second);
-    }
-    
-    LogDebug("增强选择器转换完成");
-    return result;
+    // 中间处理器不负责转换，只负责代码合并
+    // 增强选择器的转换由CHTL JS编译器自身负责
+    LogDebug("保持原始代码，不进行增强选择器转换");
+    return code;
 }
 
 std::string JavaScriptIntermediateProcessor::ProcessVirtualObjects(const std::string& code) {
-    // 根据官方语法文档，虚对象: vir 对象名 = CHTL JS函数
-    // vir是编译期语法糖，不涉及JS，应该由CHTL JS编译器处理
-    // 这里只是作为容错机制，如果CHTL JS编译器没有处理，则进行基础转换
-    std::string result = code;
-    
-    // 检查是否有虚对象语法
-    std::regex virRegex(R"(\bvir\s+\w+\s*=)");
-    if (std::regex_search(result, virRegex)) {
-        LogDebug("检测到虚对象语法，这应该由CHTL JS编译器处理");
-        // 作为容错，进行基础转换
-        std::regex virDeclRegex(R"(vir\s+(\w+)\s*=\s*([^;]+;?))");
-        result = std::regex_replace(result, virDeclRegex, "var $1 = $2");
-    }
-    
-    LogDebug("虚对象语法转换完成");
-    return result;
+    // 中间处理器不负责转换，只负责代码合并
+    // 虚对象的转换由CHTL JS编译器自身负责
+    LogDebug("保持原始代码，不进行虚对象转换");
+    return code;
 }
 
 std::string JavaScriptIntermediateProcessor::ProcessCHTLJSMethods(const std::string& code) {
-    std::string result = code;
-    
-    // 根据官方语法文档，CHTL JS特定方法应该由CHTL JS编译器处理
-    // 这里只检查是否有这些方法，如果有则记录警告
-    
-    // 检查是否有CHTL JS特定方法
-    std::regex chtlJSMethodRegex(R"(\b(listen|delegate|animate)\s*\()");
-    if (std::regex_search(result, chtlJSMethodRegex)) {
-        LogDebug("检测到CHTL JS特定方法，这应该由CHTL JS编译器处理");
-    }
-    
-    LogDebug("CHTL JS方法转换完成");
-    return result;
+    // 中间处理器不负责转换，只负责代码合并
+    // CHTL JS方法的转换由CHTL JS编译器自身负责
+    LogDebug("保持原始代码，不进行CHTL JS方法转换");
+    return code;
 }
 
 std::string JavaScriptIntermediateProcessor::MergeJavaScriptFragments(
@@ -372,32 +264,17 @@ FragmentProcessingResult CSSIntermediateProcessor::ProcessCSSFragments(
 }
 
 std::string CSSIntermediateProcessor::ProcessCHTLVariableTemplates(const std::string& cssCode) {
-    std::string result = cssCode;
-    
-    // 根据官方语法文档，CSS中的CHTL变量模板应该在CHTL编译阶段处理
-    // 这里只是作为容错机制，理论上不应该在这个阶段出现CHTL变量模板
-    // 如果出现，可能是编译流程有问题，记录警告但不进行转换
-    
-    // 检查是否有CHTL变量模板语法
-    std::regex chtlTemplateRegex(R"(\b(ThemeColor|Colors|Spacing)\s*\()");
-    if (std::regex_search(result, chtlTemplateRegex)) {
-        LogDebug("警告：CSS中检测到CHTL变量模板语法，这应该在CHTL编译阶段处理");
-    }
-    
-    LogDebug("CSS CHTL变量模板处理完成");
-    return result;
+    // 中间处理器不负责转换，只负责代码合并
+    // CHTL变量模板的转换由CHTL编译器自身负责
+    LogDebug("保持原始CSS代码，不进行变量模板转换");
+    return cssCode;
 }
 
 std::string CSSIntermediateProcessor::ProcessCHTLJSExpressions(const std::string& cssCode) {
-    std::string result = cssCode;
-    
-    // 处理CSS中可能的CHTL JS表达式
-    // 例如：{{selector}} 在CSS中转换为适当的选择器
-    std::regex selectorRegex(R"(\{\{([^}]+)\}\})");
-    result = std::regex_replace(result, selectorRegex, "$1");
-    
-    LogDebug("CSS CHTL JS表达式处理完成");
-    return result;
+    // 中间处理器不负责转换，只负责代码合并
+    // CHTL JS表达式的转换由相应的编译器自身负责
+    LogDebug("保持原始CSS代码，不进行CHTL JS表达式转换");
+    return cssCode;
 }
 
 void CSSIntermediateProcessor::LogDebug(const std::string& message) {

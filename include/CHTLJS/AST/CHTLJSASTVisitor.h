@@ -47,13 +47,15 @@ public:
     virtual void VisitListenBlockNode(ListenBlockNode& node) = 0;
     virtual void VisitDelegateBlockNode(DelegateBlockNode& node) = 0;
     virtual void VisitAnimateBlockNode(AnimateBlockNode& node) = 0;
-    // 错误的访问方法已移除 - 这些节点属于JavaScript语法或CJMOD扩展
+    // CHTL JS核心特征访问方法（根据官方语法文档，箭头操作符是CHTL JS核心特征）
+    virtual void VisitMethodCallNode(MethodCallNode& node) = 0;  // 箭头操作符方法调用
+    virtual void VisitVirtualMethodCallNode(VirtualMethodCallNode& node) = 0;  // 虚对象方法调用
+    
+    // 以下节点确实属于JavaScript语法或CJMOD扩展，保持注释状态
     // virtual void VisitINeverAwayBlockNode(INeverAwayBlockNode& node) = 0; - CJMOD扩展
     // virtual void VisitFunctionDefinitionNode(FunctionDefinitionNode& node) = 0; - JavaScript语法
     // virtual void VisitObjectLiteralNode(ObjectLiteralNode& node) = 0; - JavaScript语法
     // virtual void VisitArrayLiteralNode(ArrayLiteralNode& node) = 0; - JavaScript语法
-    // virtual void VisitMethodCallNode(MethodCallNode& node) = 0; - JavaScript语法
-    // virtual void VisitVirtualMethodCallNode(VirtualMethodCallNode& node) = 0; - CJMOD扩展
     // virtual void VisitVariableDeclarationNode(VariableDeclarationNode& node) = 0; - JavaScript语法
     // virtual void VisitAssignmentExpressionNode(AssignmentExpressionNode& node) = 0; - JavaScript语法
     // virtual void VisitPropertyAccessNode(PropertyAccessNode& node) = 0; - JavaScript语法
@@ -78,13 +80,15 @@ public:
     void VisitListenBlockNode(ListenBlockNode& node) override {}
     void VisitDelegateBlockNode(DelegateBlockNode& node) override {}
     void VisitAnimateBlockNode(AnimateBlockNode& node) override {}
-    // 错误的访问方法已移除 - 这些节点属于JavaScript语法或CJMOD扩展
+    // CHTL JS核心特征的默认实现
+    void VisitMethodCallNode(MethodCallNode& node) override {}  // 箭头操作符方法调用
+    void VisitVirtualMethodCallNode(VirtualMethodCallNode& node) override {}  // 虚对象方法调用
+    
+    // 以下节点确实属于JavaScript语法或CJMOD扩展，保持注释状态
     // void VisitINeverAwayBlockNode(INeverAwayBlockNode& node) override {} - CJMOD扩展
     // void VisitFunctionDefinitionNode(FunctionDefinitionNode& node) override {} - JavaScript语法
     // void VisitObjectLiteralNode(ObjectLiteralNode& node) override {} - JavaScript语法
     // void VisitArrayLiteralNode(ArrayLiteralNode& node) override {} - JavaScript语法
-    // void VisitMethodCallNode(MethodCallNode& node) override {} - JavaScript语法
-    // void VisitVirtualMethodCallNode(VirtualMethodCallNode& node) override {} - CJMOD扩展
     // void VisitVariableDeclarationNode(VariableDeclarationNode& node) override {} - JavaScript语法
     // void VisitAssignmentExpressionNode(AssignmentExpressionNode& node) override {} - JavaScript语法
     // void VisitPropertyAccessNode(PropertyAccessNode& node) override {} - JavaScript语法
