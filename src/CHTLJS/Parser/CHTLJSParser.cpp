@@ -48,6 +48,29 @@ AST::ASTNodePtr CHTLJSParser::Parse(Core::CHTLJSTokenStream& tokens, const std::
 AST::ASTNodePtr CHTLJSParser::ParseStatement() {
     const auto& token = Current();
     
+    // 先整体识别虚对象方法调用模式：identifier->identifier()
+    if (token.GetType() == Core::TokenType::IDENTIFIER) {
+        size_t savedPos = tokens_->GetPosition();
+        
+        // 前瞻：identifier -> identifier (
+        if (tokens_->GetPosition() + 2 < tokens_->Size()) {
+            auto nextToken = tokens_->Peek(1);
+            auto afterNextToken = tokens_->Peek(2);
+            auto afterAfterNextToken = tokens_->Peek(3);
+            
+            if (nextToken.GetType() == Core::TokenType::ARROW &&
+                afterNextToken.GetType() == Core::TokenType::IDENTIFIER &&
+                afterAfterNextToken.GetType() == Core::TokenType::LEFT_PAREN) {
+                
+                // 整体识别为虚对象方法调用
+                return ParseVirtualMethodCall();
+            }
+        }
+        
+        // 恢复位置，按正常流程解析
+        tokens_->SetPosition(savedPos);
+    }
+    
     switch (token.GetType()) {
         case Core::TokenType::VIR:
             return ParseVirtualObject();
@@ -511,37 +534,9 @@ AST::ASTNodePtr CHTLJSParser::ParseAssignmentExpression() {
             std::string methodName = ParseIdentifier();
             
             if (isArrow) {
-                // 检查是否为函数调用 method()
-                if (Check(Core::TokenType::LEFT_PAREN)) {
-                    // 这是虚对象方法调用：virtualObject->method()
-                    // 创建VirtualMethodCallNode，因为CHTL JS无法接管greet()这样的函数调用
-                    Advance(); // 消费 '('
-                    
-                    // 简单处理：跳过参数直到找到 ')'
-                    int parenCount = 1;
-                    while (parenCount > 0 && !IsAtEnd()) {
-                        if (Check(Core::TokenType::LEFT_PAREN)) {
-                            parenCount++;
-                        } else if (Check(Core::TokenType::RIGHT_PAREN)) {
-                            parenCount--;
-                        }
-                        Advance();
-                    }
-                    
-                    // 确定左侧是否为虚对象标识符
-                    if (expr->GetType() == AST::NodeType::IDENTIFIER) {
-                        auto identifierNode = std::static_pointer_cast<AST::IdentifierNode>(expr);
-                        expr = std::make_shared<AST::VirtualMethodCallNode>(
-                            identifierNode->GetName(), methodName, operatorToken);
-                    } else {
-                        ReportError("箭头操作符左侧应为虚对象标识符");
-                        return nullptr;
-                    }
-                } else {
-                    // 普通的箭头操作符：object->property
-                    auto rightExpr = std::make_shared<AST::IdentifierNode>(methodName, Current());
-                    expr = std::make_shared<AST::ArrowOperatorNode>(expr, rightExpr, operatorToken);
-                }
+                // 创建箭头操作符节点 - 这是CHTL JS核心特征
+                auto rightExpr = std::make_shared<AST::IdentifierNode>(methodName, Current());
+                expr = std::make_shared<AST::ArrowOperatorNode>(expr, rightExpr, operatorToken);
             } else {
                 // 点操作符处理
                 ReportError("点操作符在CHTL JS中应使用箭头操作符->代替");
