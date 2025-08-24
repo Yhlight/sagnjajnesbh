@@ -245,7 +245,28 @@ std::string AnimateBlockNode::ToString() const {
 
 // FunctionDefinitionNode的所有方法实现已移除 - function是JavaScript语法
 
-// ArrowFunctionNode已完全移除 - CHTL JS不包含JS语法
+// ArrowFunctionNode实现
+ArrowFunctionNode::ArrowFunctionNode(const Core::CHTLJSToken& token)
+    : ASTNode(NodeType::ARROW_FUNCTION, token) {}
+
+void ArrowFunctionNode::Accept(ASTVisitor& visitor) {
+    visitor.VisitArrowFunctionNode(*this);
+}
+
+ASTNodePtr ArrowFunctionNode::Clone() const {
+    auto clone = std::make_shared<ArrowFunctionNode>(token_);
+    for (const auto& param : parameters_) {
+        clone->AddParameter(param);
+    }
+    if (body_) {
+        clone->SetBody(body_->Clone());
+    }
+    return clone;
+}
+
+std::string ArrowFunctionNode::ToString() const {
+    return "ARROW_FUNCTION(" + std::to_string(parameters_.size()) + " params)";
+}
 
 // ObjectLiteralNode实现已移除 - 对象字面量是JavaScript语法，不属于CHTL JS
 // 语法文档第1100行明确说明"CHTL JS不支持JS的语法"
