@@ -153,7 +153,7 @@ void NamespaceMerger::ExtractSymbolsFromNode(std::shared_ptr<AST::ASTNode> node,
         }
         
         case AST::NodeType::CUSTOM_STYLE: {
-            auto customStyle = std::dynamic_pointer_cast<AST::CustomStyleNode>(node);
+            auto customStyle = std::dynamic_pointer_cast<AST::CustomNode>(node);
             if (customStyle) {
                 symbol.name = customStyle->GetName();
                 symbol.type = "@Style";
@@ -163,7 +163,7 @@ void NamespaceMerger::ExtractSymbolsFromNode(std::shared_ptr<AST::ASTNode> node,
         }
         
         case AST::NodeType::CUSTOM_VAR: {
-            auto customVar = std::dynamic_pointer_cast<AST::CustomVarNode>(node);
+            auto customVar = std::dynamic_pointer_cast<AST::CustomNode>(node);
             if (customVar) {
                 symbol.name = customVar->GetName();
                 symbol.type = "@Var";
@@ -173,7 +173,7 @@ void NamespaceMerger::ExtractSymbolsFromNode(std::shared_ptr<AST::ASTNode> node,
         }
         
         case AST::NodeType::TEMPLATE_ELEMENT: {
-            auto templateElement = std::dynamic_pointer_cast<AST::TemplateElementNode>(node);
+            auto templateElement = std::dynamic_pointer_cast<AST::TemplateNode>(node);
             if (templateElement) {
                 symbol.name = templateElement->GetName();
                 symbol.type = "[Template]@Element";
@@ -183,7 +183,7 @@ void NamespaceMerger::ExtractSymbolsFromNode(std::shared_ptr<AST::ASTNode> node,
         }
         
         case AST::NodeType::TEMPLATE_STYLE: {
-            auto templateStyle = std::dynamic_pointer_cast<AST::TemplateStyleNode>(node);
+            auto templateStyle = std::dynamic_pointer_cast<AST::TemplateNode>(node);
             if (templateStyle) {
                 symbol.name = templateStyle->GetName();
                 symbol.type = "[Template]@Style";
@@ -193,7 +193,7 @@ void NamespaceMerger::ExtractSymbolsFromNode(std::shared_ptr<AST::ASTNode> node,
         }
         
         case AST::NodeType::TEMPLATE_VAR: {
-            auto templateVar = std::dynamic_pointer_cast<AST::TemplateVarNode>(node);
+            auto templateVar = std::dynamic_pointer_cast<AST::TemplateNode>(node);
             if (templateVar) {
                 symbol.name = templateVar->GetName();
                 symbol.type = "[Template]@Var";
@@ -460,23 +460,23 @@ std::string NamespaceMerger::GetNodeName(std::shared_ptr<AST::ASTNode> node) {
             return customElement ? customElement->GetName() : "";
         }
         case AST::NodeType::CUSTOM_STYLE: {
-            auto customStyle = std::dynamic_pointer_cast<AST::CustomStyleNode>(node);
+            auto customStyle = std::dynamic_pointer_cast<AST::CustomNode>(node);
             return customStyle ? customStyle->GetName() : "";
         }
         case AST::NodeType::CUSTOM_VAR: {
-            auto customVar = std::dynamic_pointer_cast<AST::CustomVarNode>(node);
+            auto customVar = std::dynamic_pointer_cast<AST::CustomNode>(node);
             return customVar ? customVar->GetName() : "";
         }
         case AST::NodeType::TEMPLATE_ELEMENT: {
-            auto templateElement = std::dynamic_pointer_cast<AST::TemplateElementNode>(node);
+            auto templateElement = std::dynamic_pointer_cast<AST::TemplateNode>(node);
             return templateElement ? templateElement->GetName() : "";
         }
         case AST::NodeType::TEMPLATE_STYLE: {
-            auto templateStyle = std::dynamic_pointer_cast<AST::TemplateStyleNode>(node);
+            auto templateStyle = std::dynamic_pointer_cast<AST::TemplateNode>(node);
             return templateStyle ? templateStyle->GetName() : "";
         }
         case AST::NodeType::TEMPLATE_VAR: {
-            auto templateVar = std::dynamic_pointer_cast<AST::TemplateVarNode>(node);
+            auto templateVar = std::dynamic_pointer_cast<AST::TemplateNode>(node);
             return templateVar ? templateVar->GetName() : "";
         }
         case AST::NodeType::NAMESPACE: {

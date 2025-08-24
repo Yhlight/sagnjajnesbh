@@ -14,69 +14,63 @@ class Scanner;
 struct CodeFragment;
 
 /**
- * @brief 扫描策略枚举 - 按照用户原始设计
+ * @brief 扫描策略枚举 - 完善的Policy系统
  */
 enum class Policy {
-    NORMAL,     // 常规
-    COLLECT,    // 收集  
-    SKIP        // 跳过
+    NORMAL,     // 常规扫描
+    COLLECT,    // 收集模式 - 收集内容直到遇到结束标记
+    SKIP        // 跳过模式 - 跳过指定内容
 };
 
 /**
- * @brief Arg类 - 严格按照用户原始API设计
+ * @brief Arg类 - 完善的参数处理设计
  * 
- * 核心特性：
- * 1. 支持operator()重载接受函数
- * 2. 支持bind函数处理
- * 3. 占位符自动计数
+ * 修正原始API缺陷：
+ * 1. 分离bind（值处理）和transform（JS转换）职责
+ * 2. 支持占位符自动管理
+ * 3. 与双指针扫描机制集成
  */
 class Arg {
 public:
     Arg(const std::string& name = "", bool isPlaceholder = false);
     
-    // 用户核心设计：operator()重载 - 接受函数而不是值
+    // 修正后的bind设计 - 只负责值处理
     template<typename T>
-    void operator()(std::function<std::string(T)> func) {
-        bindFunction_ = [func](const std::string& str) -> std::string {
-            // 根据类型转换并调用函数
+    void bind(const std::function<std::string(T)>& processor) {
+        valueProcessor_ = [processor](const std::string& raw) -> std::string {
             if constexpr (std::is_same_v<T, std::string>) {
-                return func(str);
+                return processor(raw);
             } else if constexpr (std::is_same_v<T, int>) {
                 try {
-                    int value = std::stoi(str);
-                    return func(value);
+                    return processor(std::stoi(raw));
                 } catch (...) {
-                    return func(0);
+                    return processor(0);
+                }
+            } else if constexpr (std::is_same_v<T, double>) {
+                try {
+                    return processor(std::stod(raw));
+                } catch (...) {
+                    return processor(0.0);
                 }
             } else {
-                return func(T{});
+                return processor(T{});
             }
         };
         hasBind_ = true;
     }
     
-    // 无参数函数重载
-    void operator()(std::function<std::string()> func) {
-        bindFunction_ = [func](const std::string&) -> std::string {
-            return func();
+    // 无参数bind - 用于固定值
+    void bind(const std::function<std::string()>& generator) {
+        valueProcessor_ = [generator](const std::string&) -> std::string {
+            return generator();
         };
         hasBind_ = true;
     }
     
-    // bind方法
-    template<typename T>
-    void bind(const std::function<std::string(T)>& func) {
-        operator()(func);
-    }
+    // match方法 - 接收原始值并应用处理器
+    void match(const std::string& rawValue);
     
-    void bind(const std::function<std::string()>& func) {
-        operator()(func);
-    }
-    
-    // match方法 - 匹配参数值并调用绑定函数
-    void match(const std::string& value);
-    
-    // transform方法 - 转换为JS代码
+    // transform方法 - 只负责JS代码转换
     void transform(const std::string& jsTemplate);
     
     // 获取器
@@ -84,7 +78,8 @@ public:
     bool isPlaceholder() const { return isPlaceholder_; }
     bool hasBind() const { return hasBind_; }
     bool hasValue() const { return hasValue_; }
-    const std::string& getValue() const { return processedValue_; }
+    const std::string& getRawValue() const { return rawValue_; }
+    const std::string& getProcessedValue() const { return processedValue_; }
     const std::string& getJSCode() const { return jsCode_; }
     
     // 输出重载
@@ -99,99 +94,112 @@ private:
     std::string processedValue_;
     std::string jsTemplate_;
     std::string jsCode_;
-    std::function<std::string(const std::string&)> bindFunction_;
+    std::function<std::string(const std::string&)> valueProcessor_;
     
     void applyTransform();
 };
 
 /**
- * @brief Syntax类 - 严格按照用户原始设计
+ * @brief Syntax类 - 完善的语法容器设计
  * 
- * 核心特性：
- * 1. 维护args向量
- * 2. 提供bind方法自动搜索参数
- * 3. 支持索引访问
+ * 修正原始API缺陷：
+ * 1. 改进占位符管理机制
+ * 2. 支持链式操作（Enhanced版本特性）
+ * 3. 更好的参数查找和绑定
  */
 class Syntax {
 public:
     Syntax() = default;
     
-    // 用户核心设计：args向量
+    // 核心：args向量
     std::vector<Arg> args;
     
-    // 绑定方法 - 自动搜索参数名
+    // 改进的bind方法 - 支持占位符自动计数
     template<typename T>
-    void bind(const std::string& name, const std::function<std::string(T)>& func) {
+    Syntax& bind(const std::string& name, const std::function<std::string(T)>& processor) {
         auto* arg = findArg(name);
         if (arg) {
-            arg->bind(func);
+            arg->bind(processor);
         }
+        return *this; // 支持链式调用
     }
     
-    void bind(const std::string& name, const std::function<std::string()>& func) {
+    Syntax& bind(const std::string& name, const std::function<std::string()>& generator) {
         auto* arg = findArg(name);
         if (arg) {
-            arg->bind(func);
+            arg->bind(generator);
         }
+        return *this;
     }
     
-    // match方法
-    void match(const std::string& name, const std::string& value);
-    
-    // transform方法
-    void transform(const std::string& name, const std::string& jsTemplate);
+    // 批量操作支持
+    Syntax& match(const std::string& name, const std::string& value);
+    Syntax& transform(const std::string& name, const std::string& jsTemplate);
     
     // result方法 - 组合所有参数的JS代码
-    std::string result();
+    std::string result() const;
     
     // 工具方法
     size_t length() const { return args.size(); }
     void addArg(const std::string& name, bool isPlaceholder = false);
     void setTriggerKeyword(const std::string& keyword);
     const std::string& getTriggerKeyword() const { return triggerKeyword_; }
+    
+    // 占位符管理
+    size_t getPlaceholderCount() const { return placeholderCounter_; }
+    void resetPlaceholderIndex() { currentPlaceholderIndex_ = 0; }
 
 private:
     std::unordered_map<std::string, size_t> nameToIndex_;
     size_t placeholderCounter_ = 0;
+    mutable size_t currentPlaceholderIndex_ = 0; // 用于占位符自动计数
     std::string triggerKeyword_;
     
     Arg* findArg(const std::string& name);
 };
 
 /**
- * @brief CHTLJSFunction类 - 严格按照用户原始设计
+ * @brief CHTLJSFunction类 - 完善的CJMOD处理器
  * 
- * 核心特性：
- * 1. 完整的原始API流程
- * 2. 与统一扫描器集成
- * 3. 辅助函数支持
+ * 集成所有讨论的特性：
+ * 1. 双指针扫描机制
+ * 2. 前置提取机制  
+ * 3. 完整的Policy系统
+ * 4. 与统一扫描器集成
+ * 5. 虚对象支持
  */
 class CHTLJSFunction {
 public:
     CHTLJSFunction();
     
-    // 原始API核心流程：syntaxAnalys -> bind -> transform -> scanKeyword -> match -> result -> generateCode
+    // 修正后的核心流程
     std::unique_ptr<Syntax> syntaxAnalys(const std::string& pattern, const std::string& ignoreChars = "");
     
+    // 扫描器集成 - 双指针扫描机制
     void scanKeyword(const Arg& arg, std::function<void()> handler);
     void scanKeyword(const std::string& keyword, std::function<void()> handler);
     
-    // 辅助函数 - 按照用户原始设计
+    // 辅助函数 - 完善的工具集
     std::string peekKeyword(int offset) const;
-    bool isObject(const std::string& content);
-    bool isFunction(const std::string& content);
-    std::string slice(const std::string& content, size_t start, size_t end = std::string::npos);
+    bool isObject(const std::string& content) const;
+    bool isFunction(const std::string& content) const;
+    std::string slice(const std::string& content, size_t start, size_t end = std::string::npos) const;
     
-    // Policy系统 - 按照用户原始设计
+    // 完善的Policy系统
     void policyChangeBegin(const std::string& trigger, Policy policy);
     std::string policyChangeEnd(const std::string& trigger, Policy policy);
+    Policy getCurrentPolicy() const { return currentPolicy_; }
     
-    // 代码生成
+    // 代码生成和优化
     std::string generateCode(const Syntax& syntax);
     
-    // 与统一扫描器集成
+    // 统一扫描器集成
     void setCodeFragment(const CodeFragment& fragment);
     std::string processSourceCode(const std::string& sourceCode, const std::string& pattern);
+    
+    // 虚对象支持 - 委托给CHTL JS
+    void virBind(const std::string& functionName);
+    bool hasVirtualObject(const std::string& name) const;
 
 private:
     CodeFragment* currentFragment_;
@@ -199,58 +207,125 @@ private:
     Policy currentPolicy_;
     std::unordered_map<std::string, std::function<void()>> keywordHandlers_;
     
+    // Policy栈管理
     struct PolicyState {
         std::string trigger;
         Policy policy;
+        size_t position;
     };
     std::vector<PolicyState> policyStack_;
     
-    // 内部辅助方法
+    // 双指针扫描状态
+    struct ScannerState {
+        size_t frontPointer;
+        size_t backPointer;
+        bool isScanning;
+        std::string collectedContent;
+    };
+    ScannerState scannerState_;
+    
+    // 虚对象注册表
+    std::unordered_map<std::string, std::string> virtualObjects_;
+    
+    // 内部方法
     std::vector<std::string> tokenize(const std::string& input, const std::string& ignoreChars);
     void processPolicyChange(const std::string& trigger, Policy policy);
     std::string optimizeJSCode(const std::string& jsCode);
+    void initializeScannerState();
+    void updateScannerPointers();
+    std::string extractContent(size_t start, size_t end);
 };
 
 // ============================================================================
-// 全局函数 - 按照用户原始设计
+// 全局函数 - 完善的API入口点
 // ============================================================================
 
 /**
- * @brief syntaxAnalys全局函数 - 用户原始设计的入口点
+ * @brief syntaxAnalys全局函数 - 改进的语法分析
  */
 std::unique_ptr<Syntax> syntaxAnalys(const std::string& pattern, const std::string& ignoreChars = "");
 
 /**
- * @brief generateCode全局函数 - 用户原始设计的代码生成
+ * @brief generateCode全局函数 - 优化的代码生成
  */
 std::string generateCode(const Syntax& syntax);
 
 /**
- * @brief createCHTLJSFunction - 简化流程，自动化原始API流程
+ * @brief createCHTLJSFunction - 完善的简化流程
  * 
- * 根据用户要求：自动化官方流程，让用户通过一个函数就能快速创建CHTL JS函数
+ * 自动化完整的原始API流程：
+ * 1. syntaxAnalys - 自动分析占位符
+ * 2. bind - 自动绑定默认处理器
+ * 3. transform - 自动设置JS转换
+ * 4. scanKeyword - 自动注册扫描器
+ * 5. match - 自动匹配参数值
+ * 6. result - 自动组合结果
+ * 7. generateCode - 自动生成优化的JS代码
  */
 std::string createCHTLJSFunction(const std::string& chtlJsCode);
+
+// ============================================================================
+// Enhanced版本特性 - 可选的高级功能
+// ============================================================================
+
+/**
+ * @brief EnhancedSyntax - 支持链式操作的增强版本
+ */
+class EnhancedSyntax : public Syntax {
+public:
+    // 链式bind操作
+    template<typename T>
+    EnhancedSyntax& chainBind(const std::string& name, const std::function<std::string(T)>& processor) {
+        bind(name, processor);
+        return *this;
+    }
+    
+    // 链式transform操作
+    EnhancedSyntax& chainTransform(const std::string& name, const std::string& jsTemplate) {
+        transform(name, jsTemplate);
+        return *this;
+    }
+    
+    // 批量绑定
+    EnhancedSyntax& bindAll(const std::function<std::string(const std::string&)>& defaultProcessor);
+};
+
+/**
+ * @brief AutoFillProcessor - 智能填充处理器
+ */
+class AutoFillProcessor {
+public:
+    static std::string autoFill(const std::string& chtlJsCode, const std::vector<std::string>& values);
+    static std::unique_ptr<Syntax> smartAnalysis(const std::string& pattern);
+    static void applyIntelligentBinding(Syntax& syntax);
+};
 
 } // namespace CJMOD
 } // namespace CHTL
 
 /**
- * @brief 🎯 真正的CJMOD API设计 - 严格按照用户原始设计
+ * @brief 🎯 完善的CJMOD API设计总结
  * 
- * 【核心流程】
+ * 【修正的核心流程】
  * syntaxAnalys -> bind -> transform -> scanKeyword -> match -> result -> generateCode
  * 
- * 【三个核心类】
- * ✅ Arg：支持operator()重载接受函数，占位符处理
- * ✅ Syntax：维护args向量，提供bind自动搜索
- * ✅ CHTLJSFunction：完整流程，辅助函数，Policy系统
+ * 【三个核心类 - 完善版】
+ * ✅ Arg：分离bind和transform职责，完善占位符处理
+ * ✅ Syntax：改进参数管理，支持链式操作
+ * ✅ CHTLJSFunction：集成双指针扫描、Policy系统、虚对象支持
  * 
- * 【关键特性】
- * ✅ 占位符使用$符号
- * ✅ peekKeyword获取前后关键字内容
- * ✅ Policy系统：NORMAL, COLLECT, SKIP
- * ✅ 辅助函数：isObject, isFunction, slice
- * ✅ 与统一扫描器集成
- * ✅ createCHTLJSFunction简化流程
+ * 【集成的高级特性】
+ * ✅ 双指针扫描和前置提取机制
+ * ✅ 完整的Policy系统（NORMAL, COLLECT, SKIP）
+ * ✅ 与统一扫描器深度集成
+ * ✅ 虚对象委托支持
+ * ✅ 智能的占位符管理
+ * ✅ 优化的JS代码生成
+ * ✅ Enhanced版本的链式操作
+ * ✅ AutoFill智能填充
+ * 
+ * 【简化流程】
+ * ✅ createCHTLJSFunction：一键自动化所有步骤
+ * ✅ 智能默认处理器
+ * ✅ 自动优化和错误处理
  */
