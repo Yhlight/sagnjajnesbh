@@ -1271,7 +1271,7 @@ AST::ASTNodePtr CHTLParser::ParseImportDeclaration() {
     }
     
     // 创建导入节点
-    auto importNode = std::make_shared<AST::ImportNode>(importType, path, alias, Current());
+    auto importNode = std::make_shared<AST::ImportNode>(importType, path, name, alias, Current());
     if (!name.empty()) {
         importNode->SetName(name);
     }
@@ -1773,16 +1773,14 @@ AST::ASTNodePtr CHTLParser::ParseConfigurationDeclaration() {
     }
     
     // 添加到全局映射表
-    if (globalMap_) {
-        Core::ConfigurationInfo configInfo(configName.empty() ? "default" : configName);
-        for (const auto& setting : configNode->GetSettings()) {
-            configInfo.settings[setting.first] = setting.second;
-        }
-        for (const auto& group : configNode->GetGroups()) {
-            configInfo.groups[group.first] = group.second;
-        }
-        globalMap_->AddConfiguration(configInfo);
+    Core::ConfigurationInfo configInfo(configName.empty() ? "default" : configName);
+    for (const auto& setting : configNode->GetSettings()) {
+        configInfo.settings[setting.first] = setting.second;
     }
+    for (const auto& group : configNode->GetGroups()) {
+        configInfo.groups[group.first] = group.second;
+    }
+    globalMap_.AddConfiguration(configInfo);
     
     return configNode;
 }
@@ -1914,7 +1912,7 @@ AST::ASTNodePtr CHTLParser::ParseJavaScriptFragment() {
     }
     
     // 创建JavaScript片段节点
-    auto jsFragment = std::make_shared<AST::JavaScriptNode>(Utils::StringUtils::Trim(jsContent), Current());
+    auto jsFragment = std::make_shared<AST::ScriptBlockNode>(Utils::StringUtils::Trim(jsContent), Current());
     
     return jsFragment;
 }
@@ -1958,13 +1956,12 @@ AST::ASTNodePtr CHTLParser::ParseCHTLJSExpression() {
     // 检查是否有引用选择器 {{&}} - script中的引用语法
     if (Utils::StringUtils::Trim(expression) == "&") {
         // 创建script引用选择器节点，优先选择id
-        auto referenceNode = std::make_shared<AST::ReferenceNode>("&", Current());
-        referenceNode->SetReferenceType(AST::ReferenceNode::ReferenceType::SCRIPT_REFERENCE);
+        auto referenceNode = std::make_shared<AST::ScriptBlockNode>("&", Current());
         return referenceNode;
     }
     
     // 创建CHTL JS表达式节点
-    auto chtljsNode = std::make_shared<AST::CHTLJSNode>(Utils::StringUtils::Trim(expression), Current());
+    auto chtljsNode = std::make_shared<AST::ScriptBlockNode>(Utils::StringUtils::Trim(expression), Current());
     
     return chtljsNode;
 }
