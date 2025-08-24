@@ -186,6 +186,15 @@ std::string CHTLJSCompiler::PreprocessCode(const std::string& code) {
     std::regex newlineRegex("\r\n|\r");
     processed = std::regex_replace(processed, newlineRegex, "\n");
     
+    // 关键改进：将箭头操作符 -> 转换为点操作符 .
+    // 这样箭头操作符与点操作符完全等价
+    std::regex arrowRegex(R"((\w+)\s*->\s*(\w+))");
+    processed = std::regex_replace(processed, arrowRegex, "$1.$2");
+    
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo("CHTL JS预处理完成，箭头操作符已转换为点操作符");
+    }
+    
     return processed;
 }
 
