@@ -21,6 +21,12 @@ Arg::Arg(const std::string& name, bool isPlaceholder)
 void Arg::match(const std::string& rawValue) {
     rawValue_ = rawValue;
     
+    // 可变参数特殊处理
+    if (isVariadic_) {
+        addVariadicValue(rawValue);
+        return;
+    }
+    
     if (hasBind_ && valueProcessor_) {
         // 调用值处理器处理原始值
         processedValue_ = valueProcessor_(rawValue);
@@ -30,6 +36,29 @@ void Arg::match(const std::string& rawValue) {
     }
     
     hasValue_ = true;
+    applyTransform();
+}
+
+void Arg::addVariadicValue(const std::string& value) {
+    variadicValues_.push_back(value);
+    
+    // 为可变参数重新生成processedValue_
+    std::string combinedValue;
+    for (size_t i = 0; i < variadicValues_.size(); ++i) {
+        if (i > 0) combinedValue += ", ";
+        
+        // 应用值处理器到每个值
+        if (hasBind_ && valueProcessor_) {
+            combinedValue += valueProcessor_(variadicValues_[i]);
+        } else {
+            combinedValue += variadicValues_[i];
+        }
+    }
+    
+    processedValue_ = combinedValue;
+    hasValue_ = true;
+    
+    // 应用JS转换
     applyTransform();
 }
 

@@ -1,0 +1,72 @@
+// iNeverAway功能演示 - 使用可变参数处理自定义键名和状态
+[Import] @CJmod from Chtholly;
+
+html {
+    head {
+        script {
+            // 演示1：基本的iNeverAway用法，使用可变参数
+            vir EventManager = iNeverAway({
+                // 可变参数语法：... 表示可以接受任意数量的键值对
+                ...
+            });
+            
+            // 实际使用时的语法（编译器会处理）：
+            vir EventManager = iNeverAway({
+                // 自定义键名，状态可选
+                Void<Init>: function() {
+                    console.log("珂朵莉的守护系统启动");
+                },
+                
+                Void<Cleanup>: function() {
+                    console.log("系统安全关闭");
+                },
+                
+                // 自定义键名：Handle<UserAction>
+                Handle<UserAction>: function(action, data) {
+                    console.log(`用户执行了: ${action}`, data);
+                },
+                
+                // 自定义键名：Process<DataValidation>
+                Process<DataValidation>: function(data) {
+                    return data && data.length > 0;
+                },
+                
+                // 完全自定义的键名
+                CustomEventHandler: function(event) {
+                    console.log("自定义事件:", event);
+                },
+                
+                // 支持无修饰字面量
+                SimpleKey: simpleValue,
+                AnotherKey: 123,
+                BooleanKey: true
+            });
+        }
+    }
+    
+    body {
+        div {
+            text { "iNeverAway可变参数演示" }
+            
+            script {
+                // 演示2：printMylove也支持可变参数和无序、可选
+                const asciiArt = printMylove({
+                    // 无序参数：可以任意顺序
+                    mode: ASCII,           // 无修饰字面量
+                    url: chtholly.jpg,     // 无修饰字面量
+                    width: 80,             // 数字
+                    height: 40,            // 数字
+                    // 可选参数：可以省略
+                    // scale: 1.0,         // 这个可以省略
+                    // contrast: 1.2,      // 这个也可以省略
+                });
+                
+                console.log(asciiArt);
+                
+                // 演示3：使用虚对象调用（箭头操作符）
+                EventManager->Void<Init>();
+                EventManager->Handle<UserAction>("click", {x: 100, y: 200});
+            }
+        }
+    }
+}
