@@ -5,6 +5,7 @@
 #include "Utils/StringUtils.h"
 #include <algorithm>
 #include <sstream>
+#include <unordered_set>
 
 namespace CHTL {
 namespace Parser {
@@ -1110,6 +1111,13 @@ std::string CHTLParser::ParseStringValue() {
             token.GetType() == Core::TokenType::LEFT_PAREN ||     // ( 符号
             token.GetType() == Core::TokenType::RIGHT_PAREN ||    // ) 符号
             token.GetType() == Core::TokenType::COMMA ||          // , 符号
+            token.GetType() == Core::TokenType::CSS_DIMENSION ||  // 带单位的数值 (10px, 2em等)
+            token.GetType() == Core::TokenType::CSS_PERCENTAGE || // 百分比 (50%)
+            token.GetType() == Core::TokenType::CSS_FUNCTION ||   // CSS函数 (calc(), var()等)
+            token.GetType() == Core::TokenType::CSS_URL ||        // URL函数
+            token.GetType() == Core::TokenType::PLUS ||           // + 符号
+            token.GetType() == Core::TokenType::MINUS ||          // - 符号
+            token.GetType() == Core::TokenType::PERCENT ||        // % 符号
             (inCSSPropertyValue && (
                 token.GetType() == Core::TokenType::SLASH ||      // / 符号 (用于字体等)
                 token.GetType() == Core::TokenType::STAR ||       // * 符号 (用于通配符)
@@ -1118,11 +1126,21 @@ std::string CHTLParser::ParseStringValue() {
                 token.GetType() == Core::TokenType::LEFT_BRACKET || // [ 符号
                 token.GetType() == Core::TokenType::RIGHT_BRACKET || // ] 符号
                 token.GetType() == Core::TokenType::ID_SELECTOR || // #color (十六进制颜色被误识别为ID选择器)
-                token.GetType() == Core::TokenType::CLASS_SELECTOR  // .class (可能的CSS类名)
+                token.GetType() == Core::TokenType::CLASS_SELECTOR || // .class (可能的CSS类名)
+                token.GetType() == Core::TokenType::CSS_IMPORTANT  // !important
             ))) {
             
-            value += token.GetValue();
-            Advance();
+            // 特殊处理CSS函数
+            if (token.GetType() == Core::TokenType::CSS_FUNCTION || 
+                token.GetType() == Core::TokenType::CSS_URL) {
+                value += ParseCSSFunction(token.GetValue());
+            } else if (token.GetType() == Core::TokenType::CSS_IMPORTANT) {
+                value += "!" + token.GetValue();
+                Advance();
+            } else {
+                value += token.GetValue();
+                Advance();
+            }
         } else {
             // 遇到不支持的token，停止解析
             break;
@@ -2851,6 +2869,266 @@ void CHTLParser::RegisterCustomOriginType(const std::string& originType) {
             "自动注册原始嵌入类型: " + configKey + " = " + configValue
         );
     }
+}
+
+std::string CHTLParser::ParseCSSPropertyValue() {
+    std::string value = "";
+    
+    // 处理CSS属性值的各种类型
+    while (!IsAtEnd() && 
+           !Check(Core::TokenType::SEMICOLON) && 
+           !Check(Core::TokenType::RIGHT_BRACE) &&
+           !Check(Core::TokenType::NEWLINE)) {
+        
+        const auto& token = Current();
+        
+        // 根据token类型处理不同的CSS值
+        switch (token.GetType()) {
+            case Core::TokenType::CSS_DIMENSION:
+            case Core::TokenType::CSS_PERCENTAGE:
+            case Core::TokenType::NUMBER:
+                value += ParseCSSLength();
+                break;
+                
+            case Core::TokenType::CSS_FUNCTION:
+                value += ParseCSSFunction(token.GetValue());
+                break;
+                
+            case Core::TokenType::CSS_URL:
+                value += ParseCSSFunction("url");
+                break;
+                
+            case Core::TokenType::ID_SELECTOR:
+            case Core::TokenType::HASH:
+                value += ParseCSSColor();
+                break;
+                
+            case Core::TokenType::IDENTIFIER:
+                // 可能是颜色名、关键字或其他标识符
+                if (IsCSSColorName(token.GetValue())) {
+                    value += ParseCSSColor();
+                } else {
+                    value += token.GetValue();
+                    Advance();
+                }
+                break;
+                
+            case Core::TokenType::STRING_LITERAL:
+            case Core::TokenType::UNQUOTED_LITERAL:
+                value += token.GetValue();
+                Advance();
+                break;
+                
+            case Core::TokenType::CSS_IMPORTANT:
+                value += "!" + token.GetValue();
+                Advance();
+                break;
+                
+            case Core::TokenType::COMMA:
+                value += ", ";
+                Advance();
+                break;
+                
+            case Core::TokenType::SLASH:
+                value += "/";
+                Advance();
+                break;
+                
+            case Core::TokenType::PLUS:
+            case Core::TokenType::MINUS:
+            case Core::TokenType::STAR:
+                value += token.GetValue();
+                Advance();
+                break;
+                
+            case Core::TokenType::LEFT_PAREN:
+            case Core::TokenType::RIGHT_PAREN:
+                value += token.GetValue();
+                Advance();
+                break;
+                
+            default:
+                // 遇到不支持的token，停止解析
+                goto end_parsing;
+        }
+        
+        // 添加适当的空格
+        if (!IsAtEnd() && !value.empty()) {
+            const auto& nextToken = Current();
+            if (ShouldAddSpaceBetweenTokens(token, nextToken)) {
+                value += " ";
+            }
+        }
+    }
+    
+end_parsing:
+    return Utils::StringUtils::Trim(value);
+}
+
+std::string CHTLParser::ParseCSSFunction(const std::string& functionName) {
+    std::string result = functionName;
+    
+    // 消费函数名
+    if (Check(Core::TokenType::CSS_FUNCTION) || Check(Core::TokenType::CSS_URL)) {
+        Advance();
+    }
+    
+    // 消费左括号
+    if (Check(Core::TokenType::LEFT_PAREN)) {
+        result += "(";
+        Advance();
+        
+        // 解析函数参数
+        bool firstParam = true;
+        int parenLevel = 1;
+        
+        while (!IsAtEnd() && parenLevel > 0) {
+            const auto& token = Current();
+            
+            if (token.GetType() == Core::TokenType::LEFT_PAREN) {
+                parenLevel++;
+                result += "(";
+                Advance();
+            } else if (token.GetType() == Core::TokenType::RIGHT_PAREN) {
+                parenLevel--;
+                result += ")";
+                Advance();
+            } else if (token.GetType() == Core::TokenType::COMMA && parenLevel == 1) {
+                result += ", ";
+                Advance();
+                firstParam = false;
+            } else {
+                // 递归解析参数值
+                if (!firstParam && !result.empty() && result.back() != ' ' && result.back() != '(') {
+                    result += " ";
+                }
+                
+                if (token.GetType() == Core::TokenType::CSS_FUNCTION) {
+                    result += ParseCSSFunction(token.GetValue());
+                } else {
+                    result += token.GetValue();
+                    Advance();
+                }
+                firstParam = false;
+            }
+        }
+    }
+    
+    return result;
+}
+
+std::string CHTLParser::ParseCSSColor() {
+    const auto& token = Current();
+    std::string color = "";
+    
+    if (token.GetType() == Core::TokenType::ID_SELECTOR) {
+        // 十六进制颜色 #rrggbb 或 #rgb
+        color = token.GetValue();
+        Advance();
+    } else if (token.GetType() == Core::TokenType::HASH) {
+        // # 符号后跟颜色值
+        color = "#";
+        Advance();
+        
+        // 解析十六进制数字
+        while (!IsAtEnd() && 
+               (Check(Core::TokenType::IDENTIFIER) || Check(Core::TokenType::NUMBER))) {
+            color += Current().GetValue();
+            Advance();
+        }
+    } else if (token.GetType() == Core::TokenType::IDENTIFIER) {
+        // 颜色名称 (red, blue, transparent等)
+        color = token.GetValue();
+        Advance();
+    } else if (token.GetType() == Core::TokenType::CSS_FUNCTION) {
+        // CSS颜色函数 (rgb, rgba, hsl, hsla等)
+        color = ParseCSSFunction(token.GetValue());
+    }
+    
+    return color;
+}
+
+std::string CHTLParser::ParseCSSLength() {
+    const auto& token = Current();
+    std::string length = token.GetValue();
+    Advance();
+    return length;
+}
+
+std::string CHTLParser::ParseCSSCompoundValue() {
+    std::string compound = "";
+    
+    // 解析复合值，如 background 的多个值
+    while (!IsAtEnd() && 
+           !Check(Core::TokenType::SEMICOLON) && 
+           !Check(Core::TokenType::RIGHT_BRACE)) {
+        
+        std::string part = ParseCSSPropertyValue();
+        if (!part.empty()) {
+            if (!compound.empty()) {
+                compound += " ";
+            }
+            compound += part;
+        }
+        
+        // 检查是否有逗号分隔的多个值
+        if (Check(Core::TokenType::COMMA)) {
+            compound += ", ";
+            Advance();
+        } else {
+            break;
+        }
+    }
+    
+    return compound;
+}
+
+bool CHTLParser::IsCSSColorName(const std::string& name) {
+    // CSS颜色名称列表
+    static const std::unordered_set<std::string> colorNames = {
+        "red", "green", "blue", "white", "black", "yellow", "cyan", "magenta",
+        "gray", "grey", "orange", "purple", "pink", "brown", "lime", "navy",
+        "teal", "silver", "maroon", "olive", "aqua", "fuchsia", "transparent",
+        "inherit", "initial", "unset", "currentColor", "aliceblue", "antiquewhite",
+        "aquamarine", "azure", "beige", "bisque", "blanchedalmond", "blueviolet",
+        "burlywood", "cadetblue", "chartreuse", "chocolate", "coral", "cornflowerblue",
+        "cornsilk", "crimson", "darkblue", "darkcyan", "darkgoldenrod", "darkgray",
+        "darkgreen", "darkkhaki", "darkmagenta", "darkolivegreen", "darkorange",
+        "darkorchid", "darkred", "darksalmon", "darkseagreen", "darkslateblue",
+        "darkslategray", "darkturquoise", "darkviolet", "deeppink", "deepskyblue",
+        "dimgray", "dodgerblue", "firebrick", "floralwhite", "forestgreen",
+        "gainsboro", "ghostwhite", "gold", "goldenrod", "greenyellow", "honeydew",
+        "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender", "lavenderblush",
+        "lawngreen", "lemonchiffon", "lightblue", "lightcoral", "lightcyan",
+        "lightgoldenrodyellow", "lightgray", "lightgreen", "lightpink", "lightsalmon",
+        "lightseagreen", "lightskyblue", "lightslategray", "lightsteelblue",
+        "lightyellow", "limegreen", "linen", "mediumaquamarine", "mediumblue",
+        "mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue",
+        "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue",
+        "mintcream", "mistyrose", "moccasin", "navajowhite", "oldlace", "olivedrab",
+        "orangered", "orchid", "palegoldenrod", "palegreen", "paleturquoise",
+        "palevioletred", "papayawhip", "peachpuff", "peru", "plum", "powderblue",
+        "rosybrown", "royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen",
+        "seashell", "sienna", "skyblue", "slateblue", "slategray", "snow",
+        "springgreen", "steelblue", "tan", "thistle", "tomato", "turquoise",
+        "violet", "wheat", "whitesmoke", "yellowgreen"
+    };
+    
+    return colorNames.find(name) != colorNames.end();
+}
+
+bool CHTLParser::ShouldAddSpaceBetweenTokens(const Core::CHTLToken& current, const Core::CHTLToken& next) {
+    // 不在这些符号前后添加空格
+    if (current.GetType() == Core::TokenType::LEFT_PAREN ||
+        current.GetType() == Core::TokenType::COMMA ||
+        next.GetType() == Core::TokenType::RIGHT_PAREN ||
+        next.GetType() == Core::TokenType::COMMA ||
+        next.GetType() == Core::TokenType::SEMICOLON) {
+        return false;
+    }
+    
+    // 在大多数其他情况下添加空格
+    return true;
 }
 
 } // namespace Parser

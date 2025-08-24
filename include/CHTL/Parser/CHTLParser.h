@@ -263,6 +263,37 @@ private:
      */
     AST::ASTNodePtr ParseCSSProperty();
     
+    /**
+     * @brief 解析CSS属性值（全面支持所有CSS值类型）
+     * @return 解析的CSS属性值字符串
+     */
+    std::string ParseCSSPropertyValue();
+    
+    /**
+     * @brief 解析CSS函数（如calc(), var(), rgb()等）
+     * @param functionName 函数名
+     * @return 解析的CSS函数字符串
+     */
+    std::string ParseCSSFunction(const std::string& functionName);
+    
+    /**
+     * @brief 解析CSS颜色值（支持所有颜色格式）
+     * @return 解析的CSS颜色值字符串
+     */
+    std::string ParseCSSColor();
+    
+    /**
+     * @brief 解析CSS长度值（支持所有单位）
+     * @return 解析的CSS长度值字符串
+     */
+    std::string ParseCSSLength();
+    
+    /**
+     * @brief 解析CSS复合值（如background的多个值）
+     * @return 解析的CSS复合值字符串
+     */
+    std::string ParseCSSCompoundValue();
+
     // 继承和特例化解析
     /**
      * @brief 解析继承声明
@@ -482,6 +513,21 @@ private:
     
     // 自动化OriginType系统
     std::unordered_set<std::string> autoRegisteredOriginTypes_;  // 自动注册的原始嵌入类型
+
+    /**
+     * @brief 检查是否为CSS颜色名称
+     * @param name 要检查的名称
+     * @return 是否为CSS颜色名称
+     */
+    bool IsCSSColorName(const std::string& name);
+    
+    /**
+     * @brief 判断两个token之间是否需要添加空格
+     * @param current 当前token
+     * @param next 下一个token
+     * @return 是否需要添加空格
+     */
+    bool ShouldAddSpaceBetweenTokens(const Core::CHTLToken& current, const Core::CHTLToken& next);
 };
 
 /**

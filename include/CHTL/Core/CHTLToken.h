@@ -90,6 +90,16 @@ enum class TokenType {
     PSEUDO_CLASS,           // :hover, :active等
     PSEUDO_ELEMENT,         // ::before, ::after等
     
+    // CSS属性值相关
+    CSS_DIMENSION,          // 带单位的数值 (10px, 2em, 50%, 100vh等)
+    CSS_PERCENTAGE,         // 百分比 (50%)
+    CSS_FUNCTION,           // CSS函数 (calc(), var(), rgb()等)
+    CSS_URL,                // URL函数 url(...)
+    CSS_IMPORTANT,          // !important
+    PLUS,                   // + (用于calc()等)
+    MINUS,                  // - (用于calc()等)
+    PERCENT,                // % (百分比符号)
+    
     // 特殊Token
     NEWLINE,                // 换行符
     WHITESPACE,             // 空白字符
