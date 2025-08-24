@@ -28,6 +28,7 @@ enum class CompileState {
     PARSING_SCRIPT_BLOCK,   // 解析脚本块
     PARSING_CSS_SELECTOR,   // 解析CSS选择器
     PARSING_CSS_PROPERTIES, // 解析CSS属性
+    PARSING_CSS_PROPERTY_VALUE, // 解析CSS属性值
 
     PARSING_INHERITANCE,    // 解析继承
     PARSING_DELETION,       // 解析删除操作

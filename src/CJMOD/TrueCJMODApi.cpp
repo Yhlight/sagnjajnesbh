@@ -6,6 +6,7 @@
 #include <regex>
 #include <sstream>
 #include <iostream>
+#include <set>
 
 namespace CHTL {
 namespace CJMOD {
@@ -460,7 +461,7 @@ std::unique_ptr<Syntax> syntaxAnalys(const std::string& pattern,
             variadicArg.SetLiteralSupport(literalSupport);
             
             // 为可变参数设置特殊绑定
-            variadicArg.bind([](const std::string& value) -> std::string {
+            variadicArg.bind<std::string>([](const std::string& value) -> std::string {
                 // 可变参数处理：将多个值组合成数组
                 return "[" + value + "]";
             });
@@ -480,7 +481,7 @@ std::unique_ptr<Syntax> syntaxAnalys(const std::string& pattern,
                 
                 // 为字面量参数设置智能绑定
                 if (!arg.hasBind()) {
-                    arg.bind([](const std::string& value) -> std::string {
+                    arg.bind<std::string>([](const std::string& value) -> std::string {
                         // 无修饰字面量处理：url: image.jpg -> "image.jpg"
                         if (!value.empty() && value.front() != '"' && value.front() != '\'') {
                             // 检查是否为数字或布尔值
@@ -533,7 +534,7 @@ std::string createCHTLJSFunction(const std::string& chtlJsCode) {
         for (auto& arg : syntax->args) {
             if (arg.isPlaceholder()) {
                 // 智能类型推断和处理
-                arg.bind([](const std::string& value) -> std::string {
+                arg.bind<std::string>([](const std::string& value) -> std::string {
                     // 简单的类型推断
                     if (value.empty()) return "null";
                     
@@ -629,7 +630,7 @@ void AutoFillProcessor::applyIntelligentBinding(Syntax& syntax) {
     for (auto& arg : syntax.args) {
         if (arg.isPlaceholder() && !arg.hasBind()) {
             // 应用智能绑定
-            arg.bind([](const std::string& value) -> std::string {
+            arg.bind<std::string>([](const std::string& value) -> std::string {
                 return value; // 默认处理
             });
         }

@@ -153,15 +153,15 @@ add_executable(chtl_compiler
     main.cpp
 )
 
-# CMOD导出生成工具
-add_executable(cmod_export_generator
-    Tools/cmod_export_generator.cpp
-)
-
-target_link_libraries(cmod_export_generator
-    cmod
-    utils
-)
+# CMOD导出生成工具 (暂时禁用，需要修复API)
+# add_executable(cmod_export_generator
+#     Tools/cmod_export_generator.cpp
+# )
+# 
+# target_link_libraries(cmod_export_generator
+#     cmod
+#     utils
+# )
 
 target_link_libraries(chtl_compiler
     chtl_core

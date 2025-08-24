@@ -909,6 +909,12 @@ AST::ASTNodePtr CHTLParser::ParseCSSSelector() {
 }
 
 AST::ASTNodePtr CHTLParser::ParseCSSProperty() {
+    // 转换到CSS属性解析状态
+    if (!stateManager_.TransitionTo(Core::CompileState::PARSING_CSS_PROPERTIES, Current())) {
+        ReportError("无法转换到CSS属性解析状态");
+        return nullptr;
+    }
+    
     // 解析属性名
     std::string property = ParseIdentifier();
     if (property.empty()) {
@@ -919,9 +925,19 @@ AST::ASTNodePtr CHTLParser::ParseCSSProperty() {
     // 检查分隔符（: 或 =）
     bool usesCEEquality = false;
     if (Check(Core::TokenType::COLON)) {
+        // 转换到CSS属性值解析状态
+        if (!stateManager_.TransitionTo(Core::CompileState::PARSING_CSS_PROPERTY_VALUE, Current())) {
+            ReportError("无法转换到CSS属性值解析状态");
+            return nullptr;
+        }
         Advance();
     } else if (Check(Core::TokenType::EQUAL)) {
         usesCEEquality = true;
+        // 转换到CSS属性值解析状态
+        if (!stateManager_.TransitionTo(Core::CompileState::PARSING_CSS_PROPERTY_VALUE, Current())) {
+            ReportError("无法转换到CSS属性值解析状态");
+            return nullptr;
+        }
         Advance();
     } else {
         ReportError("期望 ':' 或 '=' 在CSS属性 " + property + " 后");
@@ -935,8 +951,12 @@ AST::ASTNodePtr CHTLParser::ParseCSSProperty() {
         return nullptr;
     }
     
-    // 消费可选的分号
+    // 消费可选的分号并转换回CSS属性状态
     if (Check(Core::TokenType::SEMICOLON)) {
+        if (!stateManager_.TransitionTo(Core::CompileState::PARSING_CSS_PROPERTIES, Current())) {
+            ReportError("无法转换回CSS属性解析状态");
+            return nullptr;
+        }
         Advance();
     }
     
@@ -1069,6 +1089,9 @@ std::string CHTLParser::ParseIdentifier() {
 std::string CHTLParser::ParseStringValue() {
     std::string value = "";
     
+    // 检查是否在CSS属性值状态
+    bool inCSSPropertyValue = stateManager_.IsInState(Core::CompileState::PARSING_CSS_PROPERTY_VALUE);
+    
     // 处理CSS属性值，可能包含多个token
     while (!IsAtEnd() && 
            !Check(Core::TokenType::SEMICOLON) && 
@@ -1086,7 +1109,17 @@ std::string CHTLParser::ParseStringValue() {
             token.GetType() == Core::TokenType::DOT ||            // . 符号
             token.GetType() == Core::TokenType::LEFT_PAREN ||     // ( 符号
             token.GetType() == Core::TokenType::RIGHT_PAREN ||    // ) 符号
-            token.GetType() == Core::TokenType::COMMA) {          // , 符号
+            token.GetType() == Core::TokenType::COMMA ||          // , 符号
+            (inCSSPropertyValue && (
+                token.GetType() == Core::TokenType::SLASH ||      // / 符号 (用于字体等)
+                token.GetType() == Core::TokenType::STAR ||       // * 符号 (用于通配符)
+                token.GetType() == Core::TokenType::COLON ||      // : 符号 (用于伪类等)
+                token.GetType() == Core::TokenType::EQUAL ||      // = 符号 (用于属性选择器)
+                token.GetType() == Core::TokenType::LEFT_BRACKET || // [ 符号
+                token.GetType() == Core::TokenType::RIGHT_BRACKET || // ] 符号
+                token.GetType() == Core::TokenType::ID_SELECTOR || // #color (十六进制颜色被误识别为ID选择器)
+                token.GetType() == Core::TokenType::CLASS_SELECTOR  // .class (可能的CSS类名)
+            ))) {
             
             value += token.GetValue();
             Advance();

@@ -116,12 +116,16 @@ Core::CHTLToken CHTLLexer::ScanToken() {
             }
             return MakeToken(Core::TokenType::SLASH, "/");
         case '-':
-            // 生成器注释或数字
+            // 生成器注释、数字或CSS属性名
             if (Match('-')) {
                 return ScanGeneratorComment();
             } else if (IsDigit(Peek())) {
                 current_--; // 回退
                 return ScanNumberLiteral();
+            } else if (IsAlpha(Peek())) {
+                // CSS属性名（如 -webkit-transform）
+                current_--; // 回退
+                return ScanIdentifierOrKeyword();
             }
             return MakeErrorToken("意外的字符: -");
         case '"':

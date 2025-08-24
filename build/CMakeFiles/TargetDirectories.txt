@@ -9,7 +9,6 @@
 /workspace/build/CMakeFiles/cjmod.dir
 /workspace/build/CMakeFiles/module_builder.dir
 /workspace/build/CMakeFiles/chtl_compiler.dir
-/workspace/build/CMakeFiles/cmod_export_generator.dir
 /workspace/build/CMakeFiles/build_all_modules.dir
 /workspace/build/CMakeFiles/clean_modules.dir
 /workspace/build/CMakeFiles/edit_cache.dir

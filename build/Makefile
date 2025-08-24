@@ -260,19 +260,6 @@ chtl_compiler/fast:
 .PHONY : chtl_compiler/fast
 
 #=============================================================================
-# Target rules for targets named cmod_export_generator
-
-# Build rule for target.
-cmod_export_generator: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cmod_export_generator
-.PHONY : cmod_export_generator
-
-# fast build rule for target.
-cmod_export_generator/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod_export_generator.dir/build.make CMakeFiles/cmod_export_generator.dir/build
-.PHONY : cmod_export_generator/fast
-
-#=============================================================================
 # Target rules for targets named build_all_modules
 
 # Build rule for target.
@@ -1162,30 +1149,6 @@ Scanner/CHTLUnifiedScanner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/scanner.dir/build.make CMakeFiles/scanner.dir/Scanner/CHTLUnifiedScanner.cpp.s
 .PHONY : Scanner/CHTLUnifiedScanner.cpp.s
 
-Tools/cmod_export_generator.o: Tools/cmod_export_generator.cpp.o
-.PHONY : Tools/cmod_export_generator.o
-
-# target to build an object file
-Tools/cmod_export_generator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod_export_generator.dir/build.make CMakeFiles/cmod_export_generator.dir/Tools/cmod_export_generator.cpp.o
-.PHONY : Tools/cmod_export_generator.cpp.o
-
-Tools/cmod_export_generator.i: Tools/cmod_export_generator.cpp.i
-.PHONY : Tools/cmod_export_generator.i
-
-# target to preprocess a source file
-Tools/cmod_export_generator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod_export_generator.dir/build.make CMakeFiles/cmod_export_generator.dir/Tools/cmod_export_generator.cpp.i
-.PHONY : Tools/cmod_export_generator.cpp.i
-
-Tools/cmod_export_generator.s: Tools/cmod_export_generator.cpp.s
-.PHONY : Tools/cmod_export_generator.s
-
-# target to generate assembly for a file
-Tools/cmod_export_generator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmod_export_generator.dir/build.make CMakeFiles/cmod_export_generator.dir/Tools/cmod_export_generator.cpp.s
-.PHONY : Tools/cmod_export_generator.cpp.s
-
 Tools/module_builder.o: Tools/module_builder.cpp.o
 .PHONY : Tools/module_builder.o
 
@@ -1321,7 +1284,6 @@ help:
 	@echo "... chtljs_core"
 	@echo "... cjmod"
 	@echo "... cmod"
-	@echo "... cmod_export_generator"
 	@echo "... css_compiler"
 	@echo "... dispatcher"
 	@echo "... js_compiler"
@@ -1436,9 +1398,6 @@ help:
 	@echo "... Scanner/CHTLUnifiedScanner.o"
 	@echo "... Scanner/CHTLUnifiedScanner.i"
 	@echo "... Scanner/CHTLUnifiedScanner.s"
-	@echo "... Tools/cmod_export_generator.o"
-	@echo "... Tools/cmod_export_generator.i"
-	@echo "... Tools/cmod_export_generator.s"
 	@echo "... Tools/module_builder.o"
 	@echo "... Tools/module_builder.i"
 	@echo "... Tools/module_builder.s"
