@@ -1,0 +1,30 @@
+// 由比滨结衣模块主信息文件
+// 语法文档第1521-1522行：由比滨结衣模块使用CMOD（纯CMOD模块）
+
+[Info]
+{
+    name = "Yuigahama";
+    version = "1.0.0";
+    description = "由比滨结衣模块 - 纯CMOD主题组件集合";
+    author = "CHTL Team";
+    license = "MIT";
+    dependencies = "";
+    category = "theme-cmod";
+    minCHTLVersion = "1.0.0";
+    maxCHTLVersion = "2.0.0";
+}
+
+// 外部查询表，优化性能用，无实际作用
+// 不需要写这个，此由系统生成
+[Export]
+{
+    // 纯CMOD组件导出（语法文档第1524-1531行）
+    [Custom] @Element MusicPlayer, YuiAccordion, YuiCloverAlbum, YuiMemo,
+             YuiWarmNote, YuiSakuraRain, YuiMouseEffect;
+
+    [Custom] @Style YuiMusicTheme, YuiAccordionTheme, YuiCloverAlbumTheme,
+           YuiMemoTheme, YuiWarmNoteTheme, YuiSakuraRainTheme, YuiMouseEffectTheme;
+
+    [Template] @Var YuiMusicConfig, YuiAccordionConfig, YuiCloverAlbumConfig,
+         YuiMemoConfig, YuiWarmNoteConfig, YuiSakuraRainConfig, YuiMouseEffectConfig;
+}

@@ -14,6 +14,7 @@
 #include "Utils/StringUtils.h"
 #include <map>
 #include <sstream>
+#include <regex>
 
 namespace CHTL {
 namespace Dispatcher {
@@ -36,6 +37,14 @@ void CompilerDispatcher::InitializeCompilers() {
     // 初始化统一扫描器
     scanner_ = std::make_unique<Scanner::CHTLUnifiedScanner>();
     scanner_->SetVerbose(config_.enableDebugOutput);
+    
+    // 初始化Import系统并与统一扫描器集成
+    importSystem_ = std::make_unique<Import::EnhancedImportSystem>(".", "/usr/local/lib/chtl/modules");
+    importSystem_->SetUnifiedScanner(scanner_.get());
+    
+    if (config_.enableDebugOutput) {
+        Utils::ErrorHandler::GetInstance().LogInfo("Import系统已集成到统一扫描器，CJMOD模块加载时将自动注册关键字");
+    }
     
     // 完整实现：初始化所有必需的解析器 - 严格按照目标规划.ini要求
     chtlParser_ = std::make_unique<Parser::CHTLParser>(*globalMap_, *stateManager_);
@@ -63,7 +72,10 @@ CompilationResult CompilerDispatcher::Compile(const std::string& source, const s
             );
         }
         
-        // 第一步：使用统一扫描器进行精准代码切割
+        // 第一步：处理Import语句，加载CJMOD模块
+        ProcessImportStatements(source);
+        
+        // 第二步：使用统一扫描器进行精准代码切割
         auto fragments = scanner_->ScanSource(source, fileName);
         
         if (config_.enableDebugOutput) {
@@ -427,6 +439,48 @@ void CompilerDispatcher::Cleanup() {
     // chtlJSParser_.reset();
     cssCompiler_.reset();
     jsCompiler_.reset();
+}
+
+void CompilerDispatcher::ProcessImportStatements(const std::string& source) {
+    if (config_.enableDebugOutput) {
+        Utils::ErrorHandler::GetInstance().LogInfo("开始处理Import语句");
+    }
+    
+    // 使用正则表达式查找所有Import语句
+    std::regex importRegex(R"(\[Import\]\s*@\w+\s+from\s+[\w\.]+\s*;?)");
+    std::sregex_iterator iter(source.begin(), source.end(), importRegex);
+    std::sregex_iterator end;
+    
+    int importCount = 0;
+    for (; iter != end; ++iter) {
+        std::string importStatement = iter->str();
+        
+        try {
+            // 处理Import语句
+            auto importNodes = importSystem_->ProcessImport(importStatement);
+            
+            for (const auto& node : importNodes) {
+                if (config_.enableDebugOutput) {
+                    Utils::ErrorHandler::GetInstance().LogInfo(
+                        "处理Import语句: " + importStatement
+                    );
+                }
+            }
+            
+            importCount++;
+            
+        } catch (const std::exception& e) {
+            Utils::ErrorHandler::GetInstance().LogError(
+                "处理Import语句失败: " + importStatement + " - " + e.what()
+            );
+        }
+    }
+    
+    if (config_.enableDebugOutput) {
+        Utils::ErrorHandler::GetInstance().LogInfo(
+            "Import语句处理完成，共处理 " + std::to_string(importCount) + " 个Import语句"
+        );
+    }
 }
 
 std::string CompilerDispatcher::CompileCHTLFragment(const std::string& content) {

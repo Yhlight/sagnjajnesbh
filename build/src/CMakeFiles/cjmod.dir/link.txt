@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libcjmod.a CMakeFiles/cjmod.dir/CJMOD/TrueCJMODApi.cpp.o
+/usr/bin/ranlib ../lib/libcjmod.a

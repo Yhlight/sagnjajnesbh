@@ -1,1 +1,0 @@
-/usr/bin/c++ -Xlinker --dependency-file=CMakeFiles/cmod_export_generator.dir/link.d CMakeFiles/cmod_export_generator.dir/Tools/cmod_export_generator.cpp.o -o cmod_export_generator  libcmod.a libutils.a

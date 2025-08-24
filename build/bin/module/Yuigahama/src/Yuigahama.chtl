@@ -1,0 +1,984 @@
+// 由比滨结衣模块主文件
+// 温柔可爱的女孩 - 由比滨结衣的专属模块
+
+// 由比滨结衣主题变量定义
+[Custom] @Var YuigahamaTheme {
+    primaryColor: "#FFE4E1";     // 温柔粉色
+    secondaryColor: "#FFF0F5";   // 淡雅色
+    accentColor: "#FF6347";      // 活泼色
+    backgroundColor: "#FFFAF0";   // 温暖背景色
+    textColor: "#8B4513";        // 文字色
+    borderColor: "#F0E68C";      // 边框色
+    shadowColor: "rgba(255, 228, 225, 0.4)"; // 阴影色
+}
+
+[Custom] @Var GentleColors {
+    soft: "#FFF8DC";            // 柔和色
+    warm: "#FFEBCD";            // 温暖色
+    bright: "#FFE4B5";          // 明亮色
+    tender: "#FFEFD5";          // 温柔色
+}
+
+[Custom] @Var MusicConfig {
+    defaultVolume: "0.7";       // 默认音量
+    fadeTime: "1000";           // 淡入淡出时间
+    bufferSize: "4096";         // 缓冲区大小
+    visualizerBars: "32";       // 可视化条数
+}
+
+// 音乐播放器组件（由比滨结衣特色功能）
+[Custom] @Element MusicPlayer {
+    div {
+        class: "yuigahama-music-player";
+        
+        div {
+            class: "player-header";
+            text: "由比滨的音乐盒 ♪";
+        }
+        
+        div {
+            class: "player-display";
+            
+            div {
+                class: "song-info";
+                
+                div {
+                    class: "song-title";
+                    text: "${songTitle}";
+                }
+                
+                div {
+                    class: "song-artist";
+                    text: "${songArtist}";
+                }
+            }
+            
+            div {
+                class: "album-art";
+                style: "background-image: url('${albumArt}');";
+            }
+        }
+        
+        div {
+            class: "player-progress";
+            
+            div {
+                class: "progress-bar";
+                
+                div {
+                    class: "progress-filled";
+                }
+                
+                div {
+                    class: "progress-handle";
+                }
+            }
+            
+            div {
+                class: "time-display";
+                
+                span {
+                    class: "current-time";
+                    text: "0:00";
+                }
+                
+                span {
+                    class: "duration";
+                    text: "0:00";
+                }
+            }
+        }
+        
+        div {
+            class: "player-controls";
+            
+            button {
+                class: "control-btn prev-btn";
+                text: "⏮";
+                onclick: "previousTrack()";
+            }
+            
+            button {
+                class: "control-btn play-btn";
+                text: "▶";
+                onclick: "togglePlay()";
+            }
+            
+            button {
+                class: "control-btn next-btn";
+                text: "⏭";
+                onclick: "nextTrack()";
+            }
+            
+            div {
+                class: "volume-control";
+                
+                button {
+                    class: "volume-btn";
+                    text: "🔊";
+                    onclick: "toggleMute()";
+                }
+                
+                input {
+                    type: "range";
+                    class: "volume-slider";
+                    min: "0";
+                    max: "100";
+                    value: "70";
+                    oninput: "setVolume(this.value)";
+                }
+            }
+        }
+        
+        div {
+            class: "player-visualizer";
+            
+            canvas {
+                class: "visualizer-canvas";
+                width: "300";
+                height: "60";
+            }
+        }
+        
+        audio {
+            class: "audio-element";
+            preload: "metadata";
+        }
+        
+        style { @Style MusicPlayerStyle; }
+        
+        script {
+            class YuigahamaMusicPlayer {
+                constructor() {
+                    this.audio = document.querySelector('.audio-element');
+                    this.playBtn = document.querySelector('.play-btn');
+                    this.progressBar = document.querySelector('.progress-bar');
+                    this.progressFilled = document.querySelector('.progress-filled');
+                    this.progressHandle = document.querySelector('.progress-handle');
+                    this.currentTimeEl = document.querySelector('.current-time');
+                    this.durationEl = document.querySelector('.duration');
+                    this.volumeSlider = document.querySelector('.volume-slider');
+                    this.canvas = document.querySelector('.visualizer-canvas');
+                    this.ctx = this.canvas.getContext('2d');
+                    
+                    this.isPlaying = false;
+                    this.isMuted = false;
+                    this.currentTrack = 0;
+                    this.playlist = [];
+                    
+                    this.init();
+                }
+                
+                init() {
+                    // 初始化音频事件
+                    this.audio.addEventListener('loadedmetadata', () => {
+                        this.updateDuration();
+                    });
+                    
+                    this.audio.addEventListener('timeupdate', () => {
+                        this.updateProgress();
+                    });
+                    
+                    this.audio.addEventListener('ended', () => {
+                        this.nextTrack();
+                    });
+                    
+                    // 初始化进度条拖拽
+                    this.initProgressDrag();
+                    
+                    // 初始化可视化器
+                    this.initVisualizer();
+                    
+                    // 设置初始音量
+                    this.audio.volume = @Var(MusicConfig.defaultVolume);
+                }
+                
+                togglePlay() {
+                    if (this.isPlaying) {
+                        this.pause();
+                    } else {
+                        this.play();
+                    }
+                }
+                
+                play() {
+                    this.audio.play();
+                    this.isPlaying = true;
+                    this.playBtn.innerText = '⏸';
+                    this.playBtn.classList.add('playing');
+                }
+                
+                pause() {
+                    this.audio.pause();
+                    this.isPlaying = false;
+                    this.playBtn.innerText = '▶';
+                    this.playBtn.classList.remove('playing');
+                }
+                
+                nextTrack() {
+                    this.currentTrack = (this.currentTrack + 1) % this.playlist.length;
+                    this.loadTrack();
+                }
+                
+                previousTrack() {
+                    this.currentTrack = (this.currentTrack - 1 + this.playlist.length) % this.playlist.length;
+                    this.loadTrack();
+                }
+                
+                loadTrack() {
+                    if (this.playlist.length > 0) {
+                        const track = this.playlist[this.currentTrack];
+                        this.audio.src = track.url;
+                        document.querySelector('.song-title').innerText = track.title;
+                        document.querySelector('.song-artist').innerText = track.artist;
+                        document.querySelector('.album-art').style.backgroundImage = `url('${track.albumArt}')`;
+                    }
+                }
+                
+                setVolume(volume) {
+                    this.audio.volume = volume / 100;
+                }
+                
+                toggleMute() {
+                    this.isMuted = !this.isMuted;
+                    this.audio.muted = this.isMuted;
+                    document.querySelector('.volume-btn').innerText = this.isMuted ? '🔇' : '🔊';
+                }
+                
+                updateProgress() {
+                    if (this.audio.duration) {
+                        const progress = (this.audio.currentTime / this.audio.duration) * 100;
+                        this.progressFilled.style.width = progress + '%';
+                        this.progressHandle.style.left = progress + '%';
+                        
+                        this.currentTimeEl.innerText = this.formatTime(this.audio.currentTime);
+                    }
+                }
+                
+                updateDuration() {
+                    this.durationEl.innerText = this.formatTime(this.audio.duration);
+                }
+                
+                formatTime(seconds) {
+                    const mins = Math.floor(seconds / 60);
+                    const secs = Math.floor(seconds % 60);
+                    return `${mins}:${secs.toString().padStart(2, '0')}`;
+                }
+                
+                initProgressDrag() {
+                    let isDragging = false;
+                    
+                    this.progressBar.addEventListener('mousedown', (e) => {
+                        isDragging = true;
+                        this.updateProgressFromMouse(e);
+                    });
+                    
+                    document.addEventListener('mousemove', (e) => {
+                        if (isDragging) {
+                            this.updateProgressFromMouse(e);
+                        }
+                    });
+                    
+                    document.addEventListener('mouseup', () => {
+                        isDragging = false;
+                    });
+                }
+                
+                updateProgressFromMouse(e) {
+                    const rect = this.progressBar.getBoundingClientRect();
+                    const progress = (e.clientX - rect.left) / rect.width;
+                    const clampedProgress = Math.max(0, Math.min(1, progress));
+                    
+                    if (this.audio.duration) {
+                        this.audio.currentTime = clampedProgress * this.audio.duration;
+                    }
+                }
+                
+                initVisualizer() {
+                    // 由比滨风格的音频可视化
+                    if (typeof AudioContext !== 'undefined') {
+                        this.audioContext = new AudioContext();
+                        this.analyser = this.audioContext.createAnalyser();
+                        this.source = this.audioContext.createMediaElementSource(this.audio);
+                        
+                        this.source.connect(this.analyser);
+                        this.analyser.connect(this.audioContext.destination);
+                        
+                        this.analyser.fftSize = @Var(MusicConfig.visualizerBars) * 8;
+                        this.bufferLength = this.analyser.frequencyBinCount;
+                        this.dataArray = new Uint8Array(this.bufferLength);
+                        
+                        this.drawVisualizer();
+                    }
+                }
+                
+                drawVisualizer() {
+                    requestAnimationFrame(() => this.drawVisualizer());
+                    
+                    this.analyser.getByteFrequencyData(this.dataArray);
+                    
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    
+                    const barWidth = this.canvas.width / @Var(MusicConfig.visualizerBars);
+                    let x = 0;
+                    
+                    for (let i = 0; i < @Var(MusicConfig.visualizerBars); i++) {
+                        const barHeight = (this.dataArray[i] / 255) * this.canvas.height;
+                        
+                        // 由比滨风格的渐变色
+                        const gradient = this.ctx.createLinearGradient(0, this.canvas.height, 0, this.canvas.height - barHeight);
+                        gradient.addColorStop(0, '@Var(YuigahamaTheme.accentColor)');
+                        gradient.addColorStop(1, '@Var(YuigahamaTheme.primaryColor)');
+                        
+                        this.ctx.fillStyle = gradient;
+                        this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth - 2, barHeight);
+                        
+                        x += barWidth;
+                    }
+                }
+                
+                // 加载播放列表
+                loadPlaylist(playlist) {
+                    this.playlist = playlist;
+                    if (playlist.length > 0) {
+                        this.loadTrack();
+                    }
+                }
+            }
+            
+            // 全局函数
+            function togglePlay() {
+                window.yuiPlayer.togglePlay();
+            }
+            
+            function nextTrack() {
+                window.yuiPlayer.nextTrack();
+            }
+            
+            function previousTrack() {
+                window.yuiPlayer.previousTrack();
+            }
+            
+            function setVolume(volume) {
+                window.yuiPlayer.setVolume(volume);
+            }
+            
+            function toggleMute() {
+                window.yuiPlayer.toggleMute();
+            }
+            
+            // 初始化由比滨音乐播放器
+            window.yuiPlayer = new YuigahamaMusicPlayer();
+            
+            // 示例播放列表
+            window.yuiPlayer.loadPlaylist([
+                {
+                    title: "温柔的旋律",
+                    artist: "由比滨结衣",
+                    url: "music/gentle_melody.mp3",
+                    albumArt: "images/yui_album1.jpg"
+                },
+                {
+                    title: "青春的回忆",
+                    artist: "由比滨结衣",
+                    url: "music/youth_memory.mp3",
+                    albumArt: "images/yui_album2.jpg"
+                }
+            ]);
+        }
+    }
+}
+
+[Custom] @Style MusicPlayerStyle {
+    .yuigahama-music-player {
+        max-width: 400px;
+        background: linear-gradient(135deg, @Var(YuigahamaTheme.backgroundColor), @Var(GentleColors.soft));
+        border: 2px solid @Var(YuigahamaTheme.borderColor);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 12px 24px @Var(YuigahamaTheme.shadowColor);
+        font-family: 'Microsoft YaHei', sans-serif;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .yuigahama-music-player::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, @Var(GentleColors.tender) 0%, transparent 70%);
+        opacity: 0.2;
+        pointer-events: none;
+    }
+    
+    .player-header {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: @Var(YuigahamaTheme.accentColor);
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid @Var(YuigahamaTheme.borderColor);
+    }
+    
+    .player-display {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        align-items: center;
+    }
+    
+    .song-info {
+        flex: 1;
+    }
+    
+    .song-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: @Var(YuigahamaTheme.accentColor);
+        margin-bottom: 5px;
+    }
+    
+    .song-artist {
+        font-size: 14px;
+        color: @Var(YuigahamaTheme.textColor);
+        opacity: 0.8;
+    }
+    
+    .album-art {
+        width: 80px;
+        height: 80px;
+        background-size: cover;
+        background-position: center;
+        border-radius: 12px;
+        border: 2px solid @Var(YuigahamaTheme.borderColor);
+        box-shadow: 0 4px 8px @Var(YuigahamaTheme.shadowColor);
+        background: linear-gradient(45deg, @Var(YuigahamaTheme.primaryColor), @Var(YuigahamaTheme.secondaryColor));
+    }
+    
+    .player-progress {
+        margin-bottom: 20px;
+    }
+    
+    .progress-bar {
+        position: relative;
+        height: 8px;
+        background: @Var(GentleColors.soft);
+        border-radius: 4px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        border: 1px solid @Var(YuigahamaTheme.borderColor);
+    }
+    
+    .progress-filled {
+        height: 100%;
+        background: linear-gradient(90deg, @Var(YuigahamaTheme.primaryColor), @Var(YuigahamaTheme.accentColor));
+        border-radius: 3px;
+        width: 0%;
+        transition: width 0.1s ease;
+    }
+    
+    .progress-handle {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        background: @Var(YuigahamaTheme.accentColor);
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        cursor: pointer;
+        left: 0%;
+        transition: left 0.1s ease;
+    }
+    
+    .time-display {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: @Var(YuigahamaTheme.textColor);
+    }
+    
+    .player-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .control-btn {
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 50%;
+        background: linear-gradient(45deg, @Var(YuigahamaTheme.primaryColor), @Var(YuigahamaTheme.secondaryColor));
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px @Var(YuigahamaTheme.shadowColor);
+    }
+    
+    .control-btn:hover {
+        transform: translateY(-2px) scale(1.1);
+        box-shadow: 0 6px 12px @Var(YuigahamaTheme.shadowColor);
+    }
+    
+    .play-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        background: linear-gradient(45deg, @Var(YuigahamaTheme.accentColor), @Var(GentleColors.bright));
+    }
+    
+    .play-btn.playing {
+        animation: playingPulse 1.5s infinite ease-in-out;
+    }
+    
+    .volume-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .volume-btn {
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        color: @Var(YuigahamaTheme.accentColor);
+    }
+    
+    .volume-slider {
+        width: 80px;
+        height: 4px;
+        background: @Var(GentleColors.soft);
+        border-radius: 2px;
+        outline: none;
+        cursor: pointer;
+    }
+    
+    .volume-slider::-webkit-slider-thumb {
+        appearance: none;
+        width: 12px;
+        height: 12px;
+        background: @Var(YuigahamaTheme.accentColor);
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    
+    .player-visualizer {
+        height: 60px;
+        border-radius: 8px;
+        overflow: hidden;
+        background: linear-gradient(90deg, @Var(GentleColors.soft), @Var(GentleColors.warm));
+        border: 1px solid @Var(YuigahamaTheme.borderColor);
+    }
+    
+    .visualizer-canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    
+    @keyframes playingPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+}
+
+// 由比滨风格的手风琴组件
+[Custom] @Element YuiAccordion {
+    div {
+        class: "yuigahama-accordion";
+        
+        div {
+            class: "yui-accordion-header";
+            onclick: "toggleYuiAccordion(this)";
+            text: "${title}";
+        }
+        
+        div {
+            class: "yui-accordion-content";
+            style: "display: none;";
+            text: "${content}";
+        }
+        
+        style { @Style YuiAccordionStyle; }
+        
+        script {
+            function toggleYuiAccordion(header) {
+                const content = header.nextElementSibling;
+                const isVisible = content.style.display !== 'none';
+                
+                // 由比滨风格的温柔动画
+                if (isVisible) {
+                    content.style.animation = 'yuiGentleFadeOut 0.4s ease-out forwards';
+                    setTimeout(() => content.style.display = 'none', 400);
+                } else {
+                    content.style.display = 'block';
+                    content.style.animation = 'yuiGentleFadeIn 0.4s ease-in forwards';
+                }
+                
+                header.classList.toggle('active');
+            }
+        }
+    }
+}
+
+[Custom] @Style YuiAccordionStyle {
+    .yuigahama-accordion {
+        border: 2px solid @Var(YuigahamaTheme.borderColor);
+        border-radius: 15px;
+        margin: 12px 0;
+        overflow: hidden;
+        box-shadow: 0 6px 12px @Var(YuigahamaTheme.shadowColor);
+        background: linear-gradient(135deg, @Var(YuigahamaTheme.backgroundColor), @Var(GentleColors.soft));
+    }
+    
+    .yui-accordion-header {
+        background: linear-gradient(90deg, @Var(YuigahamaTheme.primaryColor), @Var(YuigahamaTheme.secondaryColor));
+        color: @Var(YuigahamaTheme.textColor);
+        padding: 18px 25px;
+        cursor: pointer;
+        font-weight: 600;
+        position: relative;
+        transition: all 0.4s ease;
+        font-size: 15px;
+    }
+    
+    .yui-accordion-header:hover {
+        background: linear-gradient(90deg, @Var(YuigahamaTheme.secondaryColor), @Var(YuigahamaTheme.accentColor));
+        transform: translateY(-1px);
+    }
+    
+    .yui-accordion-header::after {
+        content: "♡";
+        position: absolute;
+        right: 25px;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: transform 0.4s ease;
+        color: @Var(YuigahamaTheme.accentColor);
+        font-size: 16px;
+    }
+    
+    .yui-accordion-header.active::after {
+        transform: translateY(-50%) rotate(180deg);
+    }
+    
+    .yui-accordion-content {
+        padding: 25px;
+        background: @Var(YuigahamaTheme.backgroundColor);
+        color: @Var(YuigahamaTheme.textColor);
+        line-height: 1.7;
+    }
+    
+    @keyframes yuiGentleFadeIn {
+        from { opacity: 0; transform: translateY(-15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes yuiGentleFadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-15px); }
+    }
+}
+
+// 由比滨风格的备忘录组件
+[Custom] @Element YuiMemo {
+    div {
+        class: "yuigahama-memo";
+        
+        div {
+            class: "yui-memo-header";
+            text: "由比滨的小本本 ♡";
+        }
+        
+        div {
+            class: "yui-memo-content";
+            contenteditable: "true";
+            placeholder: "记录温柔的时光...";
+        }
+        
+        div {
+            class: "yui-memo-footer";
+            
+            button {
+                class: "yui-memo-save-btn";
+                text: "保存";
+                onclick: "saveYuiMemo()";
+            }
+            
+            button {
+                class: "yui-memo-share-btn";
+                text: "分享";
+                onclick: "shareYuiMemo()";
+            }
+        }
+        
+        style { @Style YuiMemoStyle; }
+        
+        script {
+            function saveYuiMemo() {
+                const content = document.querySelector('.yui-memo-content').innerText;
+                localStorage.setItem('yuigahama_memo', content);
+                showYuiNotification('已保存到由比滨的小本本 ♡');
+            }
+            
+            function shareYuiMemo() {
+                const content = document.querySelector('.yui-memo-content').innerText;
+                if (navigator.share) {
+                    navigator.share({
+                        title: '由比滨的分享',
+                        text: content
+                    });
+                } else {
+                    // 复制到剪贴板
+                    navigator.clipboard.writeText(content).then(() => {
+                        showYuiNotification('内容已复制，可以分享给朋友了 ♡');
+                    });
+                }
+            }
+            
+            function showYuiNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'yui-notification';
+                notification.innerText = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'yuiFadeOut 0.5s ease-out forwards';
+                    setTimeout(() => notification.remove(), 500);
+                }, 2500);
+            }
+            
+            // 加载保存的内容
+            window.addEventListener('load', () => {
+                const saved = localStorage.getItem('yuigahama_memo');
+                if (saved) {
+                    document.querySelector('.yui-memo-content').innerText = saved;
+                }
+            });
+        }
+    }
+}
+
+[Custom] @Style YuiMemoStyle {
+    .yuigahama-memo {
+        max-width: 450px;
+        background: linear-gradient(135deg, @Var(YuigahamaTheme.backgroundColor), @Var(GentleColors.warm));
+        border: 2px solid @Var(YuigahamaTheme.borderColor);
+        border-radius: 18px;
+        padding: 25px;
+        box-shadow: 0 10px 20px @Var(YuigahamaTheme.shadowColor);
+        font-family: 'Microsoft YaHei', sans-serif;
+        position: relative;
+    }
+    
+    .yui-memo-header {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: @Var(YuigahamaTheme.accentColor);
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid @Var(YuigahamaTheme.borderColor);
+    }
+    
+    .yui-memo-content {
+        min-height: 180px;
+        padding: 18px;
+        border: 1px solid @Var(YuigahamaTheme.borderColor);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.9);
+        color: @Var(YuigahamaTheme.textColor);
+        line-height: 1.7;
+        margin-bottom: 18px;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+    
+    .yui-memo-content:focus {
+        background: white;
+        border-color: @Var(YuigahamaTheme.accentColor);
+        box-shadow: 0 0 12px @Var(YuigahamaTheme.shadowColor);
+    }
+    
+    .yui-memo-footer {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+    }
+    
+    .yui-memo-save-btn, .yui-memo-share-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        font-size: 14px;
+    }
+    
+    .yui-memo-save-btn {
+        background: linear-gradient(45deg, @Var(YuigahamaTheme.primaryColor), @Var(YuigahamaTheme.accentColor));
+        color: white;
+    }
+    
+    .yui-memo-save-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px @Var(YuigahamaTheme.shadowColor);
+    }
+    
+    .yui-memo-share-btn {
+        background: linear-gradient(45deg, @Var(GentleColors.warm), @Var(GentleColors.bright));
+        color: @Var(YuigahamaTheme.textColor);
+    }
+    
+    .yui-memo-share-btn:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(45deg, @Var(GentleColors.bright), @Var(YuigahamaTheme.accentColor));
+        color: white;
+    }
+    
+    .yui-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(45deg, @Var(YuigahamaTheme.primaryColor), @Var(YuigahamaTheme.accentColor));
+        color: white;
+        padding: 12px 24px;
+        border-radius: 30px;
+        box-shadow: 0 6px 12px @Var(YuigahamaTheme.shadowColor);
+        z-index: 1000;
+        animation: yuiFadeIn 0.5s ease-in;
+        font-weight: 500;
+    }
+    
+    @keyframes yuiFadeIn {
+        from { opacity: 0; transform: translateX(100%) scale(0.8); }
+        to { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    
+    @keyframes yuiFadeOut {
+        from { opacity: 1; transform: translateX(0) scale(1); }
+        to { opacity: 0; transform: translateX(100%) scale(0.8); }
+    }
+}
+
+// 由比滨风格的樱花雨特效
+[Custom] @Element YuiSakuraRain {
+    div {
+        class: "yuigahama-sakura-rain";
+        
+        style { @Style YuiSakuraRainStyle; }
+        
+        script {
+            class YuigahamaSakuraPetal {
+                constructor(container) {
+                    this.container = container;
+                    this.element = document.createElement('div');
+                    this.element.className = 'yui-sakura-petal';
+                    this.reset();
+                    container.appendChild(this.element);
+                }
+                
+                reset() {
+                    this.x = Math.random() * window.innerWidth;
+                    this.y = -30;
+                    this.rotation = Math.random() * 360;
+                    this.speed = Math.random() * 1.5 + 0.8; // 更温柔的速度
+                    this.rotationSpeed = Math.random() * 3 - 1.5;
+                    this.size = Math.random() * 6 + 6; // 稍大的花瓣
+                    this.opacity = Math.random() * 0.4 + 0.6; // 更明显的透明度
+                    this.swayAmplitude = Math.random() * 30 + 20; // 摆动幅度
+                    
+                    this.element.style.left = this.x + 'px';
+                    this.element.style.top = this.y + 'px';
+                    this.element.style.transform = `rotate(${this.rotation}deg)`;
+                    this.element.style.width = this.size + 'px';
+                    this.element.style.height = this.size + 'px';
+                    this.element.style.opacity = this.opacity;
+                }
+                
+                update() {
+                    this.y += this.speed;
+                    // 由比滨风格的温柔摆动
+                    this.x += Math.sin(this.y * 0.008) * 0.8;
+                    this.rotation += this.rotationSpeed;
+                    
+                    this.element.style.left = this.x + 'px';
+                    this.element.style.top = this.y + 'px';
+                    this.element.style.transform = `rotate(${this.rotation}deg)`;
+                    
+                    if (this.y > window.innerHeight + 30) {
+                        this.reset();
+                    }
+                }
+            }
+            
+            // 创建由比滨樱花雨
+            const yuiSakuraContainer = document.querySelector('.yuigahama-sakura-rain');
+            const yuiPetals = [];
+            
+            for (let i = 0; i < 40; i++) { // 稍少的花瓣数量，更温柔
+                yuiPetals.push(new YuigahamaSakuraPetal(yuiSakuraContainer));
+            }
+            
+            function animateYuiSakura() {
+                yuiPetals.forEach(petal => petal.update());
+                requestAnimationFrame(animateYuiSakura);
+            }
+            
+            animateYuiSakura();
+        }
+    }
+}
+
+[Custom] @Style YuiSakuraRainStyle {
+    .yuigahama-sakura-rain {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+    }
+    
+    .yui-sakura-petal {
+        position: absolute;
+        background: radial-gradient(ellipse, @Var(YuigahamaTheme.primaryColor), @Var(GentleColors.tender));
+        border-radius: 60% 0 60% 0;
+        pointer-events: none;
+        animation: yuiSakuraFloat 4s infinite ease-in-out;
+        box-shadow: 0 2px 4px rgba(255, 228, 225, 0.3);
+    }
+    
+    .yui-sakura-petal::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(60deg);
+        width: 70%;
+        height: 70%;
+        background: @Var(GentleColors.soft);
+        border-radius: 60% 0 60% 0;
+        opacity: 0.9;
+    }
+    
+    @keyframes yuiSakuraFloat {
+        0%, 100% { transform: rotate(0deg) scale(1); }
+        25% { transform: rotate(60deg) scale(1.05); }
+        50% { transform: rotate(120deg) scale(0.95); }
+        75% { transform: rotate(180deg) scale(1.02); }
+    }
+}

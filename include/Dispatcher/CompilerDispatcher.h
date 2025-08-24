@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scanner/CHTLUnifiedScanner.h"
+#include "CHTL/Import/ImportSystem.h"
 #include "CHTL/Core/CHTLGlobalMap.h"
 #include "CHTL/Core/CHTLState.h"
 #include "CHTLJS/Core/CHTLJSState.h"
@@ -92,8 +93,13 @@ private:
     std::unique_ptr<Core::CHTLState> stateManager_;     // CHTL状态管理器
     std::unique_ptr<CHTLJS::Core::CHTLJSState> chtlJSStateManager_; // CHTL JS状态管理器
     
-    std::unique_ptr<Scanner::CHTLUnifiedScanner> scanner_;  // 统一扫描器
-    // 完整实现：使用所有必需的解析器 - 严格按照目标规划.ini
+    // 统一扫描器
+    std::unique_ptr<Scanner::CHTLUnifiedScanner> scanner_;
+    
+    // Import系统
+    std::unique_ptr<Import::EnhancedImportSystem> importSystem_;
+
+    // 解析器组件
     std::unique_ptr<Parser::CHTLParser> chtlParser_;        // CHTL解析器
     std::unique_ptr<CHTLJS::Parser::CHTLJSParser> chtlJSParser_; // CHTL JS解析器
     std::unique_ptr<CSS::CSSCompiler> cssCompiler_;         // CSS编译器
@@ -196,6 +202,17 @@ private:
      * @return 生成的JavaScript代码
      */
     std::string CompileCHTLJSFragment(const std::string& content);
+
+    /**
+     * @brief 处理源代码中的Import语句
+     * @param source 源代码
+     */
+    void ProcessImportStatements(const std::string& source);
+
+    /**
+     * @brief 初始化编译器组件
+     */
+    void InitializeCompilers();
 };
 
 } // namespace Dispatcher

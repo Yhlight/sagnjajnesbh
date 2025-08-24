@@ -15,10 +15,19 @@
 ########################
 
 //Value Computed by CMake
-CHTL_BINARY_DIR:STATIC=/workspace/build
+CHTL_BINARY_DIR:STATIC=/workspace/build/src
 
 //Value Computed by CMake
-CHTL_IS_TOP_LEVEL:STATIC=ON
+CHTL_Compiler_BINARY_DIR:STATIC=/workspace/build
+
+//Value Computed by CMake
+CHTL_Compiler_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+CHTL_Compiler_SOURCE_DIR:STATIC=/workspace
+
+//Value Computed by CMake
+CHTL_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
 CHTL_SOURCE_DIR:STATIC=/workspace/src
@@ -159,7 +168,22 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=CHTL
+CMAKE_PROJECT_NAME:STATIC=CHTL_Compiler
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION:STATIC=1.0.0
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_MAJOR:STATIC=1
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_MINOR:STATIC=0
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_PATCH:STATIC=0
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_TWEAK:STATIC=
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -315,7 +339,7 @@ CMAKE_GENERATOR_PLATFORM:INTERNAL=
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
 //Source directory with the top level CMakeLists.txt file for this
 // project
-CMAKE_HOME_DIRECTORY:INTERNAL=/workspace/src
+CMAKE_HOME_DIRECTORY:INTERNAL=/workspace
 //Install .so files without execute permission.
 CMAKE_INSTALL_SO_NO_EXE:INTERNAL=1
 //ADVANCED property for variable: CMAKE_LINKER
@@ -335,7 +359,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

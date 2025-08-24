@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcmod.a CMakeFiles/cmod.dir/CMOD/CMODSystem.cpp.o
-/usr/bin/ranlib libcmod.a
