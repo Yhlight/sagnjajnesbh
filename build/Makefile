@@ -315,43 +315,17 @@ chtl_compiler/fast:
 .PHONY : chtl_compiler/fast
 
 #=============================================================================
-# Target rules for targets named build_module_Chtholly
+# Target rules for targets named build_module_
 
 # Build rule for target.
-build_module_Chtholly: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 build_module_Chtholly
-.PHONY : build_module_Chtholly
+build_module_: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 build_module_
+.PHONY : build_module_
 
 # fast build rule for target.
-build_module_Chtholly/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/build_module_Chtholly.dir/build.make src/CMakeFiles/build_module_Chtholly.dir/build
-.PHONY : build_module_Chtholly/fast
-
-#=============================================================================
-# Target rules for targets named Chtholly_cjmod
-
-# Build rule for target.
-Chtholly_cjmod: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Chtholly_cjmod
-.PHONY : Chtholly_cjmod
-
-# fast build rule for target.
-Chtholly_cjmod/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/build
-.PHONY : Chtholly_cjmod/fast
-
-#=============================================================================
-# Target rules for targets named build_module_Yuigahama
-
-# Build rule for target.
-build_module_Yuigahama: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 build_module_Yuigahama
-.PHONY : build_module_Yuigahama
-
-# fast build rule for target.
-build_module_Yuigahama/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/build_module_Yuigahama.dir/build.make src/CMakeFiles/build_module_Yuigahama.dir/build
-.PHONY : build_module_Yuigahama/fast
+build_module_/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/build_module_.dir/build.make src/CMakeFiles/build_module_.dir/build
+.PHONY : build_module_/fast
 
 #=============================================================================
 # Target rules for targets named build_all_modules
@@ -393,10 +367,8 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... build_all_modules"
-	@echo "... build_module_Chtholly"
-	@echo "... build_module_Yuigahama"
+	@echo "... build_module_"
 	@echo "... clean_modules"
-	@echo "... Chtholly_cjmod"
 	@echo "... chtl_compiler"
 	@echo "... chtl_core"
 	@echo "... chtljs_core"

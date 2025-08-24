@@ -1,0 +1,163 @@
+// 基础CHTL代码生成测试
+// 测试所有基本语法元素
+
+html {
+    head {
+        title {
+            text { 基础CHTL代码生成测试 }
+        }
+        
+        meta {
+            charset: UTF-8;
+        }
+        
+        style {
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+            
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                color: #333;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            .test-section {
+                margin: 20px 0;
+                padding: 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+        }
+    }
+    
+    body {
+        div {
+            class: container;
+            
+            h1 {
+                text { CHTL基础功能测试 }
+            }
+            
+            div {
+                class: test-section;
+                id: text-test;
+                
+                h2 {
+                    text { 文本节点测试 }
+                }
+                
+                p {
+                    text { 这是一个普通的文本节点测试。 }
+                }
+                
+                p {
+                    text { "这是一个带引号的文本节点测试。" }
+                }
+            }
+            
+            div {
+                class: test-section;
+                id: attribute-test;
+                
+                h2 {
+                    text { 属性测试 }
+                }
+                
+                div {
+                    id: demo-div;
+                    class: demo highlight;
+                    data-test = value;
+                    
+                    p {
+                        text { 这个div有多种属性：id、class和data属性 }
+                    }
+                }
+            }
+            
+            div {
+                class: test-section;
+                id: nested-test;
+                
+                h2 {
+                    text { 嵌套结构测试 }
+                }
+                
+                ul {
+                    li {
+                        text { 列表项1 }
+                    }
+                    li {
+                        text { 列表项2 }
+                        ul {
+                            li {
+                                text { 嵌套列表项1 }
+                            }
+                            li {
+                                text { 嵌套列表项2 }
+                            }
+                        }
+                    }
+                    li {
+                        text { 列表项3 }
+                    }
+                }
+            }
+            
+            div {
+                class: test-section;
+                id: form-test;
+                
+                h2 {
+                    text { 表单元素测试 }
+                }
+                
+                form {
+                    action: /submit;
+                    method: post;
+                    
+                    input {
+                        type: text;
+                        name: username;
+                        placeholder: 请输入用户名;
+                    }
+                    
+                    input {
+                        type: password;
+                        name: password;
+                        placeholder: 请输入密码;
+                    }
+                    
+                    button {
+                        type: submit;
+                        text { 提交 }
+                    }
+                }
+            }
+            
+            script {
+                // 这里应该测试脚本块
+                console.log("CHTL基础功能测试页面已加载");
+                
+                document.addEventListener('DOMContentLoaded', function() {
+                    console.log("DOM内容已加载完成");
+                    
+                    const testSections = document.querySelectorAll('.test-section');
+                    console.log("找到", testSections.length, "个测试区域");
+                });
+            }
+        }
+    }
+}

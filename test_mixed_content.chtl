@@ -1,0 +1,30 @@
+html {
+    head {
+        style {
+            body { margin: 0; }
+            .test { color: red; }
+        }
+    }
+    
+    body {
+        div {
+            script {
+                console.log("测试脚本");
+                let x = 10;
+            }
+        }
+        
+        div {
+            id: chtl-js-test;
+            script {
+                vir testObj = {
+                    test: function() {
+                        return "CHTL JS功能";
+                    }
+                };
+                
+                testObj.test();
+            }
+        }
+    }
+}

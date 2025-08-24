@@ -326,46 +326,18 @@ chtl_compiler/fast:
 .PHONY : chtl_compiler/fast
 
 # Convenience name for target.
-src/CMakeFiles/build_module_Chtholly.dir/rule:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/build_module_Chtholly.dir/rule
-.PHONY : src/CMakeFiles/build_module_Chtholly.dir/rule
+src/CMakeFiles/build_module_.dir/rule:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/build_module_.dir/rule
+.PHONY : src/CMakeFiles/build_module_.dir/rule
 
 # Convenience name for target.
-build_module_Chtholly: src/CMakeFiles/build_module_Chtholly.dir/rule
-.PHONY : build_module_Chtholly
+build_module_: src/CMakeFiles/build_module_.dir/rule
+.PHONY : build_module_
 
 # fast build rule for target.
-build_module_Chtholly/fast:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/build_module_Chtholly.dir/build.make src/CMakeFiles/build_module_Chtholly.dir/build
-.PHONY : build_module_Chtholly/fast
-
-# Convenience name for target.
-src/CMakeFiles/Chtholly_cjmod.dir/rule:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/Chtholly_cjmod.dir/rule
-.PHONY : src/CMakeFiles/Chtholly_cjmod.dir/rule
-
-# Convenience name for target.
-Chtholly_cjmod: src/CMakeFiles/Chtholly_cjmod.dir/rule
-.PHONY : Chtholly_cjmod
-
-# fast build rule for target.
-Chtholly_cjmod/fast:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/build
-.PHONY : Chtholly_cjmod/fast
-
-# Convenience name for target.
-src/CMakeFiles/build_module_Yuigahama.dir/rule:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/build_module_Yuigahama.dir/rule
-.PHONY : src/CMakeFiles/build_module_Yuigahama.dir/rule
-
-# Convenience name for target.
-build_module_Yuigahama: src/CMakeFiles/build_module_Yuigahama.dir/rule
-.PHONY : build_module_Yuigahama
-
-# fast build rule for target.
-build_module_Yuigahama/fast:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/build_module_Yuigahama.dir/build.make src/CMakeFiles/build_module_Yuigahama.dir/build
-.PHONY : build_module_Yuigahama/fast
+build_module_/fast:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/build_module_.dir/build.make src/CMakeFiles/build_module_.dir/build
+.PHONY : build_module_/fast
 
 # Convenience name for target.
 src/CMakeFiles/build_all_modules.dir/rule:
@@ -1235,78 +1207,6 @@ JavaScript/JavaScriptCompiler.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/js_compiler.dir/build.make src/CMakeFiles/js_compiler.dir/JavaScript/JavaScriptCompiler.cpp.s
 .PHONY : JavaScript/JavaScriptCompiler.cpp.s
 
-Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.o: Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.o
-.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.o
-
-# target to build an object file
-Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.o
-.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.o
-
-Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.i: Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.i
-.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.i
-
-# target to preprocess a source file
-Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.i
-.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.i
-
-Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.s: Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.s
-.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.s
-
-# target to generate assembly for a file
-Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.s
-.PHONY : Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.cpp.s
-
-Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.o: Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.o
-.PHONY : Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.o
-
-# target to build an object file
-Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.o
-.PHONY : Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.o
-
-Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.i: Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.i
-.PHONY : Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.i
-
-# target to preprocess a source file
-Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.i
-.PHONY : Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.i
-
-Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.s: Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.s
-.PHONY : Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.s
-
-# target to generate assembly for a file
-Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.s
-.PHONY : Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.cpp.s
-
-Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.o: Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.o
-.PHONY : Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.o
-
-# target to build an object file
-Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.o:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.o
-.PHONY : Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.o
-
-Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.i: Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.i
-.PHONY : Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.i
-
-# target to preprocess a source file
-Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.i:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.i
-.PHONY : Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.i
-
-Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.s: Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.s
-.PHONY : Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.s
-
-# target to generate assembly for a file
-Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.s:
-	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Chtholly_cjmod.dir/build.make src/CMakeFiles/Chtholly_cjmod.dir/Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.s
-.PHONY : Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.cpp.s
-
 Scanner/CHTLUnifiedScanner.o: Scanner/CHTLUnifiedScanner.cpp.o
 .PHONY : Scanner/CHTLUnifiedScanner.o
 
@@ -1489,10 +1389,8 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... build_all_modules"
-	@echo "... build_module_Chtholly"
-	@echo "... build_module_Yuigahama"
+	@echo "... build_module_"
 	@echo "... clean_modules"
-	@echo "... Chtholly_cjmod"
 	@echo "... chtl_compiler"
 	@echo "... chtl_core"
 	@echo "... chtljs_core"
@@ -1609,15 +1507,6 @@ help:
 	@echo "... JavaScript/JavaScriptCompiler.o"
 	@echo "... JavaScript/JavaScriptCompiler.i"
 	@echo "... JavaScript/JavaScriptCompiler.s"
-	@echo "... Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.o"
-	@echo "... Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.i"
-	@echo "... Module/Chtholly/CJMOD/ChthollyJS/src/ChthollyJS.s"
-	@echo "... Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.o"
-	@echo "... Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.i"
-	@echo "... Module/Chtholly/CJMOD/iNeverAway/src/INeverAwayExtension.s"
-	@echo "... Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.o"
-	@echo "... Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.i"
-	@echo "... Module/Chtholly/CJMOD/printMylove/src/PrintMyloveExtension.s"
 	@echo "... Scanner/CHTLUnifiedScanner.o"
 	@echo "... Scanner/CHTLUnifiedScanner.i"
 	@echo "... Scanner/CHTLUnifiedScanner.s"

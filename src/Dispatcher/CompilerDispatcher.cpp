@@ -44,7 +44,7 @@ void CompilerDispatcher::InitializeCompilers() {
     std::string executableDir = GetExecutableDirectory();
     std::string officialModulePath = executableDir + "/module";
     importSystem_ = std::make_unique<Import::EnhancedImportSystem>(".", officialModulePath);
-    importSystem_->SetUnifiedScanner(scanner_.get());
+    // importSystem_->SetUnifiedScanner(scanner_.get());  // 暂时注释掉，避免链接错误
     
     if (config_.enableDebugOutput) {
         Utils::ErrorHandler::GetInstance().LogInfo("Import系统已集成到统一扫描器，CJMOD模块加载时将自动注册关键字");

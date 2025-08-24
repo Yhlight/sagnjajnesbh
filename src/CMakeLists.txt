@@ -379,7 +379,6 @@ endif()
     
     # 添加到总的模块构建目标
     add_dependencies(chtl_compiler build_module_${MODULE_NAME})
-endforeach()
 
 # ========== 模块构建函数定义 ==========
 

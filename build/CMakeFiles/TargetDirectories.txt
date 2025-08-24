@@ -16,9 +16,7 @@
 /workspace/build/src/CMakeFiles/cjmod.dir
 /workspace/build/src/CMakeFiles/module_builder.dir
 /workspace/build/src/CMakeFiles/chtl_compiler.dir
-/workspace/build/src/CMakeFiles/build_module_Chtholly.dir
-/workspace/build/src/CMakeFiles/Chtholly_cjmod.dir
-/workspace/build/src/CMakeFiles/build_module_Yuigahama.dir
+/workspace/build/src/CMakeFiles/build_module_.dir
 /workspace/build/src/CMakeFiles/build_all_modules.dir
 /workspace/build/src/CMakeFiles/clean_modules.dir
 /workspace/build/src/CMakeFiles/test.dir

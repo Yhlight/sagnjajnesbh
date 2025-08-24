@@ -1,0 +1,14 @@
+html {
+    head {
+        title {
+            text { 简单测试 }
+        }
+    }
+    
+    body {
+        div {
+            id: test;
+            text { Hello CHTL! }
+        }
+    }
+}
