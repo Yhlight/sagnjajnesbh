@@ -1351,6 +1351,30 @@ Utils/StringUtils.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/Utils/StringUtils.cpp.s
 .PHONY : Utils/StringUtils.cpp.s
 
+Utils/UTF8Utils.o: Utils/UTF8Utils.cpp.o
+.PHONY : Utils/UTF8Utils.o
+
+# target to build an object file
+Utils/UTF8Utils.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o
+.PHONY : Utils/UTF8Utils.cpp.o
+
+Utils/UTF8Utils.i: Utils/UTF8Utils.cpp.i
+.PHONY : Utils/UTF8Utils.i
+
+# target to preprocess a source file
+Utils/UTF8Utils.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.i
+.PHONY : Utils/UTF8Utils.cpp.i
+
+Utils/UTF8Utils.s: Utils/UTF8Utils.cpp.s
+.PHONY : Utils/UTF8Utils.s
+
+# target to generate assembly for a file
+Utils/UTF8Utils.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/utils.dir/build.make src/CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.s
+.PHONY : Utils/UTF8Utils.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -1525,6 +1549,9 @@ help:
 	@echo "... Utils/StringUtils.o"
 	@echo "... Utils/StringUtils.i"
 	@echo "... Utils/StringUtils.s"
+	@echo "... Utils/UTF8Utils.o"
+	@echo "... Utils/UTF8Utils.i"
+	@echo "... Utils/UTF8Utils.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

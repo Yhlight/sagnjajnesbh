@@ -114,11 +114,26 @@ src/CMakeFiles/utils.dir/Utils/ErrorHandler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/utils.dir/Utils/ErrorHandler.cpp.s"
 	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Utils/ErrorHandler.cpp -o CMakeFiles/utils.dir/Utils/ErrorHandler.cpp.s
 
+src/CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o: src/CMakeFiles/utils.dir/flags.make
+src/CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o: /workspace/src/Utils/UTF8Utils.cpp
+src/CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o: src/CMakeFiles/utils.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o -MF CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o.d -o CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o -c /workspace/src/Utils/UTF8Utils.cpp
+
+src/CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.i"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/Utils/UTF8Utils.cpp > CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.i
+
+src/CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.s"
+	cd /workspace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/Utils/UTF8Utils.cpp -o CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.s
+
 # Object files for target utils
 utils_OBJECTS = \
 "CMakeFiles/utils.dir/Utils/FileUtils.cpp.o" \
 "CMakeFiles/utils.dir/Utils/StringUtils.cpp.o" \
-"CMakeFiles/utils.dir/Utils/ErrorHandler.cpp.o"
+"CMakeFiles/utils.dir/Utils/ErrorHandler.cpp.o" \
+"CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o"
 
 # External object files for target utils
 utils_EXTERNAL_OBJECTS =
@@ -126,9 +141,10 @@ utils_EXTERNAL_OBJECTS =
 lib/libutils.a: src/CMakeFiles/utils.dir/Utils/FileUtils.cpp.o
 lib/libutils.a: src/CMakeFiles/utils.dir/Utils/StringUtils.cpp.o
 lib/libutils.a: src/CMakeFiles/utils.dir/Utils/ErrorHandler.cpp.o
+lib/libutils.a: src/CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o
 lib/libutils.a: src/CMakeFiles/utils.dir/build.make
 lib/libutils.a: src/CMakeFiles/utils.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library ../lib/libutils.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library ../lib/libutils.a"
 	cd /workspace/build/src && $(CMAKE_COMMAND) -P CMakeFiles/utils.dir/cmake_clean_target.cmake
 	cd /workspace/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/utils.dir/link.txt --verbose=$(VERBOSE)
 

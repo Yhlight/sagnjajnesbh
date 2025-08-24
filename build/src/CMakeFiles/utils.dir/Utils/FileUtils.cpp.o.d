@@ -234,6 +234,7 @@ src/CMakeFiles/utils.dir/Utils/FileUtils.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/ext/aligned_buffer.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/fs_dir.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/fs_ops.h \
+  /workspace/include/Utils/UTF8Utils.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/fstream \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/basic_file.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/x86_64-linux-gnu/c++/14/bits/c++io.h \

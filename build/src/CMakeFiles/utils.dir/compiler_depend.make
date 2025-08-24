@@ -500,7 +500,8 @@ src/CMakeFiles/utils.dir/Utils/FileUtils.cpp.o: /workspace/src/Utils/FileUtils.c
   /usr/lib/llvm-20/lib/clang/20/include/stdarg.h \
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h \
-  /workspace/include/Utils/FileUtils.h
+  /workspace/include/Utils/FileUtils.h \
+  /workspace/include/Utils/UTF8Utils.h
 
 src/CMakeFiles/utils.dir/Utils/StringUtils.cpp.o: /workspace/src/Utils/StringUtils.cpp \
   /usr/include/alloca.h \
@@ -750,6 +751,8 @@ src/CMakeFiles/utils.dir/Utils/StringUtils.cpp.o: /workspace/src/Utils/StringUti
 
 
 /workspace/include/Utils/StringUtils.h:
+
+/workspace/include/Utils/UTF8Utils.h:
 
 /workspace/include/Utils/FileUtils.h:
 

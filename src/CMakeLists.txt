@@ -87,6 +87,7 @@ add_library(utils STATIC
     Utils/FileUtils.cpp
     Utils/StringUtils.cpp
     Utils/ErrorHandler.cpp
+    Utils/UTF8Utils.cpp
 )
 
 target_include_directories(utils PUBLIC

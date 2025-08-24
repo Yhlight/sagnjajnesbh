@@ -9,8 +9,10 @@
 #include <dlfcn.h>  // 动态库加载
 
 // Forward declarations
+namespace CHTL {
 namespace Scanner {
     class CHTLUnifiedScanner;
+}
 }
 
 #include "../AST/CHTLASTNodes.h"
@@ -389,7 +391,7 @@ public:
      * @brief 设置统一扫描器引用（用于CJMOD关键字注册）
      * @param scanner 统一扫描器引用
      */
-    void SetUnifiedScanner(Scanner::CHTLUnifiedScanner* scanner);
+    void SetUnifiedScanner(CHTL::Scanner::CHTLUnifiedScanner* scanner);
 
     /**
      * @brief 处理[Origin]自定义类型导入
@@ -445,7 +447,7 @@ private:
     /**
      * @brief 统一扫描器引用（用于CJMOD关键字注册）
      */
-    Scanner::CHTLUnifiedScanner* unifiedScanner_;
+    CHTL::Scanner::CHTLUnifiedScanner* unifiedScanner_;
     
     /**
      * @brief 已加载的CJMOD模块 - moduleName -> library handle

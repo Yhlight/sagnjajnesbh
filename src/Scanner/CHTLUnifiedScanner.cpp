@@ -1439,6 +1439,56 @@ void CHTLUnifiedScanner::PerformMinimalUnitSlicing(const std::string& content,
     LogDebug("智能最小单元切割完成，生成 " + std::to_string(fragments.size()) + " 个片段");
 }
 
+bool CHTLUnifiedScanner::IsValidCHTLJSSyntax(const std::string& content) const {
+    std::string trimmed = content;
+    
+    // 移除前后空白
+    size_t start = trimmed.find_first_not_of(" \t\n\r");
+    if (start == std::string::npos) return false;
+    size_t end = trimmed.find_last_not_of(" \t\n\r");
+    trimmed = trimmed.substr(start, end - start + 1);
+    
+    // 1. 检查虚对象声明: vir objectName = {...}
+    std::regex virPattern(R"(^\s*vir\s+\w+\s*=\s*\{[\s\S]*\}\s*$)");
+    if (std::regex_match(trimmed, virPattern)) {
+        return true;
+    }
+    
+    // 2. 检查增强选择器调用: {{selector}}->method(...)
+    std::regex selectorPattern(R"(^\s*\{\{[^}]+\}\}\s*->\s*\w+\s*(\([^)]*\))?\s*;?\s*$)");
+    if (std::regex_match(trimmed, selectorPattern)) {
+        return true;
+    }
+    
+    // 3. 检查虚对象方法调用: object->method(...)
+    std::regex methodPattern(R"(^\s*\w+\s*->\s*\w+\s*(\([^)]*\))?\s*;?\s*$)");
+    if (std::regex_match(trimmed, methodPattern)) {
+        return true;
+    }
+    
+    // 4. 检查CHTL JS特定方法: listen(...), delegate(...), animate(...)
+    std::regex chtlJSFuncPattern(R"(^\s*(listen|delegate|animate)\s*\([^)]*\)\s*;?\s*$)");
+    if (std::regex_match(trimmed, chtlJSFuncPattern)) {
+        return true;
+    }
+    
+    // 5. 检查CJMOD关键字调用
+    for (const auto& pair : cjmodKeywords_) {
+        const std::string& keyword = pair.first;
+        std::regex cjmodPattern("^\\s*" + keyword + "\\s*\\([^)]*\\)\\s*;?\\s*$");
+        if (std::regex_match(trimmed, cjmodPattern)) {
+            return true;
+        }
+    }
+    
+    // 6. 检查包含Import语句的片段
+    if (trimmed.find("[Import]") != std::string::npos) {
+        return true;
+    }
+    
+    return false;
+}
+
 FragmentType CHTLUnifiedScanner::DetermineFragmentTypeInContext(const std::string& content, 
                                                                bool inScriptBlock, 
                                                                bool inStyleBlock) {
@@ -1452,8 +1502,8 @@ FragmentType CHTLUnifiedScanner::DetermineFragmentTypeInContext(const std::strin
     
     // 在script块内的上下文判断
     if (inScriptBlock) {
-        // 优先检测CHTL JS语法
-        if (trimmed.find("vir") == 0 || trimmed.find("{{") != std::string::npos) {
+        // 更严格的CHTL JS语法检测
+        if (IsValidCHTLJSSyntax(trimmed)) {
             LogDebug("Script块内识别为CHTL JS片段: " + trimmed.substr(0, 20) + "...");
             return FragmentType::CHTL_JS;
         }
@@ -1853,28 +1903,37 @@ bool CHTLUnifiedScanner::IsVirObject(const std::string& content) const {
 }
 
 bool CHTLUnifiedScanner::HasCHTLJSSyntax(const std::string& content) const {
-    // 检测各种CHTL JS语法特征
+    // 更精确的CHTL JS语法检测
     
-    // 增强选择器：{{selector}}
-    if (content.find("{{") != std::string::npos && content.find("}}") != std::string::npos) {
+    // 1. 检查完整的增强选择器模式：{{...}}->...
+    std::regex selectorPattern(R"(\{\{[^}]+\}\}\s*->\s*\w+)");
+    if (std::regex_search(content, selectorPattern)) {
         return true;
     }
     
-    // 箭头操作符：object->method
-    if (content.find("->") != std::string::npos) {
+    // 2. 检查虚对象声明：vir identifier =
+    std::regex virPattern(R"(\bvir\s+\w+\s*=)");
+    if (std::regex_search(content, virPattern)) {
         return true;
     }
     
-    // 已注册的关键字（包括CJMOD扩展）
-    for (const auto& keyword : registeredKeywords_) {
-        if (content.find(keyword) != std::string::npos) {
-            return true;
-        }
+    // 3. 检查虚对象方法调用：object->method
+    std::regex virMethodPattern(R"(\w+\s*->\s*\w+\s*\()");
+    if (std::regex_search(content, virMethodPattern)) {
+        return true;
     }
     
-    // CJMOD关键字
+    // 4. 检查CHTL JS特定方法调用
+    std::regex chtlJSMethodPattern(R"(\b(listen|delegate|animate)\s*\()");
+    if (std::regex_search(content, chtlJSMethodPattern)) {
+        return true;
+    }
+    
+    // 5. 检查注册的CJMOD关键字（更严格的匹配）
     for (const auto& pair : cjmodKeywords_) {
-        if (content.find(pair.first) != std::string::npos) {
+        const std::string& keyword = pair.first;
+        std::regex keywordPattern("\\b" + keyword + "\\s*\\(");
+        if (std::regex_search(content, keywordPattern)) {
             return true;
         }
     }

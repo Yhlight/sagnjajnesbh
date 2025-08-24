@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/workspace/include -I/workspace/ANTLR4/include -I/workspace/../include -I/workspace/include/CHTLJS
 
-CXX_FLAGS = -O3 -DNDEBUG -std=c++17 -finput-charset=UTF-8 -fexec-charset=UTF-8
+CXX_FLAGS =  -DUNICODE -D_UNICODE -O3 -DNDEBUG -std=c++17 -finput-charset=UTF-8 -fexec-charset=UTF-8
 

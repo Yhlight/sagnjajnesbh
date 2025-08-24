@@ -1,0 +1,17 @@
+html {
+    head {
+        title {
+            text { UTF-8中文测试 }
+        }
+    }
+    
+    body {
+        div {
+            text { 你好，世界！这是中文测试。 }
+        }
+        
+        div {
+            text { Hello, 世界! Mixed text 测试. }
+        }
+    }
+}

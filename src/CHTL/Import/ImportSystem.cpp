@@ -1125,7 +1125,7 @@ bool EnhancedImportSystem::LoadCJMODModule(const std::string& modulePath, const 
     }
 }
 
-void EnhancedImportSystem::SetUnifiedScanner(Scanner::CHTLUnifiedScanner* scanner) {
+void EnhancedImportSystem::SetUnifiedScanner(CHTL::Scanner::CHTLUnifiedScanner* scanner) {
     unifiedScanner_ = scanner;
     Utils::ErrorHandler::GetInstance().LogInfo("已设置统一扫描器引用，CJMOD模块加载时将自动注册关键字");
 }

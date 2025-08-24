@@ -39,7 +39,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o
  /usr/include/asm-generic/posix_types.h
  /usr/include/asm-generic/types.h
  /usr/include/ctype.h
- /usr/include/dlfcn.h
  /usr/include/endian.h
  /usr/include/errno.h
  /usr/include/features-time64.h
@@ -68,8 +67,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o
  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h
  /usr/include/x86_64-linux-gnu/bits/byteswap.h
  /usr/include/x86_64-linux-gnu/bits/cpu-set.h
- /usr/include/x86_64-linux-gnu/bits/dl_find_object.h
- /usr/include/x86_64-linux-gnu/bits/dlfcn.h
  /usr/include/x86_64-linux-gnu/bits/endian.h
  /usr/include/x86_64-linux-gnu/bits/endianness.h
  /usr/include/x86_64-linux-gnu/bits/errno.h
@@ -291,7 +288,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o
  /usr/include/c++/14/typeinfo
  /usr/include/c++/14/unordered_map
  /usr/include/c++/14/unordered_set
- /usr/include/c++/14/variant
  /usr/include/c++/14/vector
  /usr/include/x86_64-linux-gnu/c++/14/bits/atomic_word.h
  /usr/include/x86_64-linux-gnu/c++/14/bits/basic_file.h
@@ -325,8 +321,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o
  /workspace/include/CHTL/Core/CHTLGlobalMap.h
  /workspace/include/CHTL/Core/CHTLState.h
  /workspace/include/CHTL/Core/CHTLToken.h
- /workspace/include/CHTL/AST/CHTLASTNodes.h
- /workspace/include/CHTL/Import/ImportSystem.h
  /workspace/include/CHTLJS/Core/CHTLJSState.h
  /workspace/include/CHTLJS/Core/CHTLJSToken.h
  /workspace/include/Dispatcher/CompilerDispatcher.h

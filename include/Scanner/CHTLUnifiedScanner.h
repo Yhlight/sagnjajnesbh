@@ -787,6 +787,11 @@ private:
      * @brief 检测是否为有效的语法单元
      */
     bool IsValidSyntaxUnit(const std::string& content) const;
+    
+    /**
+     * @brief 检测是否为有效的CHTL JS语法
+     */
+    bool IsValidCHTLJSSyntax(const std::string& content) const;
 };
 
 } // namespace Scanner

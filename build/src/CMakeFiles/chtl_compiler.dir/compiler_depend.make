@@ -37,7 +37,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o: /workspace/src/main.cpp \
   /usr/include/asm-generic/posix_types.h \
   /usr/include/asm-generic/types.h \
   /usr/include/ctype.h \
-  /usr/include/dlfcn.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
@@ -66,8 +65,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o: /workspace/src/main.cpp \
   /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/x86_64-linux-gnu/bits/byteswap.h \
   /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/x86_64-linux-gnu/bits/dl_find_object.h \
-  /usr/include/x86_64-linux-gnu/bits/dlfcn.h \
   /usr/include/x86_64-linux-gnu/bits/endian.h \
   /usr/include/x86_64-linux-gnu/bits/endianness.h \
   /usr/include/x86_64-linux-gnu/bits/errno.h \
@@ -289,7 +286,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o: /workspace/src/main.cpp \
   /usr/include/c++/14/typeinfo \
   /usr/include/c++/14/unordered_map \
   /usr/include/c++/14/unordered_set \
-  /usr/include/c++/14/variant \
   /usr/include/c++/14/vector \
   /usr/include/x86_64-linux-gnu/c++/14/bits/atomic_word.h \
   /usr/include/x86_64-linux-gnu/c++/14/bits/basic_file.h \
@@ -323,8 +319,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o: /workspace/src/main.cpp \
   /workspace/include/CHTL/Core/CHTLGlobalMap.h \
   /workspace/include/CHTL/Core/CHTLState.h \
   /workspace/include/CHTL/Core/CHTLToken.h \
-  /workspace/include/CHTL/AST/CHTLASTNodes.h \
-  /workspace/include/CHTL/Import/ImportSystem.h \
   /workspace/include/CHTLJS/Core/CHTLJSState.h \
   /workspace/include/CHTLJS/Core/CHTLJSToken.h \
   /workspace/include/Dispatcher/CompilerDispatcher.h \
@@ -345,8 +339,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o: /workspace/src/main.cpp \
 /workspace/include/Dispatcher/CompilerDispatcher.h:
 
 /workspace/include/CHTLJS/Core/CHTLJSState.h:
-
-/workspace/include/CHTL/AST/CHTLASTNodes.h:
 
 /workspace/include/CHTL/Core/CHTLState.h:
 
@@ -424,9 +416,9 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o: /workspace/src/main.cpp \
 
 /usr/include/c++/14/iostream:
 
-/usr/include/c++/14/functional:
+/usr/include/x86_64-linux-gnu/sys/select.h:
 
-/usr/include/c++/14/fstream:
+/usr/include/c++/14/bits/shared_ptr.h:
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
 
@@ -456,6 +448,10 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o: /workspace/src/main.cpp \
 
 /usr/include/c++/14/cstdlib:
 
+/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
+
 lib/libchtljs_core.a:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
@@ -477,14 +473,6 @@ lib/libchtljs_core.a:
 /usr/include/x86_64-linux-gnu/c++/14/bits/cpu_defines.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
-
-/usr/include/x86_64-linux-gnu/sys/select.h:
-
-/usr/include/c++/14/bits/shared_ptr.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
@@ -526,18 +514,6 @@ lib/libchtljs_core.a:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/libgcc.a:
 
-/usr/include/c++/14/bits/shared_ptr_base.h:
-
-/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
-
-/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
-
-/usr/include/asm-generic/errno-base.h:
-
-/usr/include/c++/14/bits/stl_algobase.h:
-
-/usr/include/c++/14/bits/stl_iterator.h:
-
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
 /usr/include/x86_64-linux-gnu/c++/14/bits/c++allocator.h:
@@ -547,14 +523,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o:
 /usr/include/c++/14/ext/type_traits.h:
 
 /usr/include/alloca.h:
-
-/usr/include/c++/14/pstl/execution_defs.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
-
-/usr/include/asm-generic/types.h:
-
-/usr/include/asm-generic/bitsperlong.h:
 
 /usr/lib/x86_64-linux-gnu/libc_nonshared.a:
 
@@ -596,8 +564,6 @@ src/CMakeFiles/chtl_compiler.dir/main.cpp.o:
 
 /usr/include/stdio.h:
 
-/usr/include/c++/14/variant:
-
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
 /usr/include/c++/14/bits/locale_facets.tcc:
@@ -610,6 +576,26 @@ lib/libcmod.a:
 
 /usr/include/c++/14/bits/uses_allocator.h:
 
+/usr/include/c++/14/bits/shared_ptr_base.h:
+
+/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
+
+/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+/usr/include/c++/14/pstl/execution_defs.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+
+/usr/include/asm-generic/bitsperlong.h:
+
+/usr/include/asm-generic/types.h:
+
+/usr/include/c++/14/bits/stl_algobase.h:
+
+/usr/include/c++/14/bits/stl_iterator.h:
+
 /usr/include/c++/14/bits/memory_resource.h:
 
 lib/libcss_compiler.a:
@@ -617,6 +603,8 @@ lib/libcss_compiler.a:
 /usr/include/pthread.h:
 
 /usr/include/c++/14/bits/functexcept.h:
+
+/usr/include/c++/14/functional:
 
 /workspace/ANTLR4/lib/libantlr4-runtime-static.a:
 
@@ -656,8 +644,6 @@ lib/libdispatcher.a:
 
 /usr/include/c++/14/bits/stl_raw_storage_iter.h:
 
-/usr/include/x86_64-linux-gnu/bits/dlfcn.h:
-
 /lib/x86_64-linux-gnu/crti.o:
 
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
@@ -683,8 +669,6 @@ lib/libdispatcher.a:
 /usr/include/asm-generic/int-ll64.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
-
-/workspace/include/CHTL/Import/ImportSystem.h:
 
 /usr/include/asm-generic/posix_types.h:
 
@@ -759,8 +743,6 @@ lib/libutils.a:
 /usr/include/x86_64-linux-gnu/bits/stdio.h:
 
 /usr/include/linux/types.h:
-
-/usr/include/dlfcn.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/14/crtbeginS.o:
 
@@ -852,8 +834,6 @@ lib/libjs_compiler.a:
 
 /usr/include/c++/14/bits/deque.tcc:
 
-/usr/include/x86_64-linux-gnu/bits/dl_find_object.h:
-
 /usr/include/c++/14/bits/stringfwd.h:
 
 /usr/include/c++/14/bits/std_function.h:
@@ -911,12 +891,6 @@ lib/libjs_compiler.a:
 /usr/include/x86_64-linux-gnu/bits/endian.h:
 
 /usr/include/c++/14/bits/parse_numbers.h:
-
-/usr/include/c++/14/initializer_list:
-
-/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
-
-/usr/include/c++/14/bits/postypes.h:
 
 /usr/include/c++/14/bits/quoted_string.h:
 
@@ -993,3 +967,11 @@ lib/libjs_compiler.a:
 /usr/include/c++/14/ext/concurrence.h:
 
 /usr/include/c++/14/ext/string_conversions.h:
+
+/usr/include/c++/14/fstream:
+
+/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
+
+/usr/include/c++/14/bits/postypes.h:
+
+/usr/include/c++/14/initializer_list:

@@ -1,4 +1,5 @@
 #include "Utils/FileUtils.h"
+#include "Utils/UTF8Utils.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -25,9 +26,6 @@ std::string FileUtils::ReadFileUTF8(const std::string& filePath) {
         return "";
     }
     
-    // 确保以UTF-8方式读取
-    file.imbue(std::locale(""));
-    
     std::stringstream buffer;
     buffer << file.rdbuf();
     std::string content = buffer.str();
@@ -38,6 +36,11 @@ std::string FileUtils::ReadFileUTF8(const std::string& filePath) {
         (unsigned char)content[1] == 0xBB && 
         (unsigned char)content[2] == 0xBF) {
         content = content.substr(3);  // 移除BOM
+    }
+    
+    // 验证和修复UTF-8编码
+    if (!UTF8Utils::IsValidUTF8(content)) {
+        content = UTF8Utils::FixUTF8String(content);
     }
     
     return content;

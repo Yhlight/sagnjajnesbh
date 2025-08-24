@@ -7,6 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/utils.dir/Utils/FileUtils.cpp.o.d"
   "CMakeFiles/utils.dir/Utils/StringUtils.cpp.o"
   "CMakeFiles/utils.dir/Utils/StringUtils.cpp.o.d"
+  "CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o"
+  "CMakeFiles/utils.dir/Utils/UTF8Utils.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

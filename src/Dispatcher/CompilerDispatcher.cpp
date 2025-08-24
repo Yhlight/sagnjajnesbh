@@ -38,7 +38,7 @@ void CompilerDispatcher::InitializeCompilers() {
     chtlJSStateManager_ = std::make_unique<CHTLJS::Core::CHTLJSState>();
     
     // 初始化统一扫描器
-    scanner_ = std::make_unique<Scanner::CHTLUnifiedScanner>();
+    scanner_ = std::make_unique<CHTL::Scanner::CHTLUnifiedScanner>();
     scanner_->SetVerbose(config_.enableDebugOutput);
     
     // 初始化Import系统并与统一扫描器集成
@@ -46,8 +46,7 @@ void CompilerDispatcher::InitializeCompilers() {
     std::string executableDir = GetExecutableDirectory();
     std::string officialModulePath = executableDir + "/module";
     importSystem_ = std::make_unique<Import::EnhancedImportSystem>(".", officialModulePath);
-    // TODO: 修复命名空间问题后重新启用
-    // importSystem_->SetUnifiedScanner(scanner_.get());
+    importSystem_->SetUnifiedScanner(scanner_.get());
     
     if (config_.enableDebugOutput) {
         Utils::ErrorHandler::GetInstance().LogInfo("Import系统已集成到统一扫描器，CJMOD模块加载时将自动注册关键字");

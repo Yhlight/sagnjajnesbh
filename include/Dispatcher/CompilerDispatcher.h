@@ -94,7 +94,7 @@ private:
     std::unique_ptr<CHTLJS::Core::CHTLJSState> chtlJSStateManager_; // CHTL JS状态管理器
     
     // 统一扫描器
-    std::unique_ptr<Scanner::CHTLUnifiedScanner> scanner_;
+    std::unique_ptr<CHTL::Scanner::CHTLUnifiedScanner> scanner_;
     
     // Import系统
     std::unique_ptr<Import::EnhancedImportSystem> importSystem_;
