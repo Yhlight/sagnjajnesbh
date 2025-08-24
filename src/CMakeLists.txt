@@ -181,38 +181,91 @@ if(WIN32)
 endif()
 
 # ========== 模块自动构建系统 ==========
-# 按照您的设计：自动构建src/Module中的模块，输出到与exe同级的module文件夹
+# 按照您的设计：编译src/Module中的源码，输出到module文件夹
+# 支持无序结构和分类结构（CMOD/、CJMOD/目录）
 
-# 查找所有模块源目录
-file(GLOB MODULE_DIRS "${CMAKE_SOURCE_DIR}/src/Module/*")
-
-# 为每个模块创建构建规则
-foreach(MODULE_DIR ${MODULE_DIRS})
-    get_filename_component(MODULE_NAME ${MODULE_DIR} NAME)
+# 检测src/Module的结构类型
+function(detect_module_structure MODULE_SOURCE_DIR STRUCTURE_TYPE)
+    # 检查是否为分类结构（存在CMOD/或CJMOD/目录）
+    set(IS_CLASSIFIED FALSE)
     
-    # 检查模块结构类型
-    if(EXISTS "${MODULE_DIR}/info")
-        # 标准CMOD模块结构 (有info文件夹)
-        set(MODULE_TYPE "CMOD")
-        set(INFO_FILE "${MODULE_DIR}/info/${MODULE_NAME}.chtl")
-        
-        if(EXISTS "${MODULE_DIR}/src")
-            set(SRC_FILES "${MODULE_DIR}/src/*.chtl")
-        else()
-            set(SRC_FILES "${MODULE_DIR}/*.chtl")
+    # 检查各种可能的分类目录名
+    foreach(CMOD_DIR "CMOD" "Cmod" "cmod")
+        if(EXISTS "${MODULE_SOURCE_DIR}/${CMOD_DIR}")
+            set(IS_CLASSIFIED TRUE)
+            break()
         endif()
-        
-        # 检查是否有CJMOD扩展
-        if(EXISTS "${MODULE_DIR}/CJMOD")
-            set(MODULE_TYPE "MIXED")  # CMOD + CJMOD混合模块
-            file(GLOB_RECURSE CJMOD_FILES "${MODULE_DIR}/CJMOD/*.cpp")
+    endforeach()
+    
+    foreach(CJMOD_DIR "CJMOD" "CJmod" "cjmod")
+        if(EXISTS "${MODULE_SOURCE_DIR}/${CJMOD_DIR}")
+            set(IS_CLASSIFIED TRUE)
+            break()
         endif()
+    endforeach()
+    
+    if(IS_CLASSIFIED)
+        set(${STRUCTURE_TYPE} "CLASSIFIED" PARENT_SCOPE)
+    else()
+        set(${STRUCTURE_TYPE} "MIXED" PARENT_SCOPE)
+    endif()
+endfunction()
+
+# 主模块构建逻辑
+set(MODULE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/src/Module")
+set(MODULE_OUTPUT_DIR "${CMAKE_BINARY_DIR}/bin/module")
+
+if(EXISTS ${MODULE_SOURCE_DIR})
+    detect_module_structure(${MODULE_SOURCE_DIR} MODULE_STRUCTURE)
+    
+    message(STATUS "检测到模块结构类型: ${MODULE_STRUCTURE}")
+    
+    if(MODULE_STRUCTURE STREQUAL "CLASSIFIED")
+        # 分类结构：处理CMOD/和CJMOD/目录
+        message(STATUS "使用分类结构构建模块")
+        
+        # 查找并构建CMOD模块
+        foreach(CMOD_DIR "CMOD" "Cmod" "cmod")
+            if(EXISTS "${MODULE_SOURCE_DIR}/${CMOD_DIR}")
+                file(GLOB CMOD_MODULES "${MODULE_SOURCE_DIR}/${CMOD_DIR}/*")
+                foreach(MODULE_PATH ${CMOD_MODULES})
+                    if(IS_DIRECTORY ${MODULE_PATH})
+                        get_filename_component(MODULE_NAME ${MODULE_PATH} NAME)
+                        build_cmod_module(${MODULE_PATH} ${MODULE_NAME} "${MODULE_OUTPUT_DIR}/${CMOD_DIR}")
+                    endif()
+                endforeach()
+                break()
+            endif()
+        endforeach()
+        
+        # 查找并构建CJMOD模块
+        foreach(CJMOD_DIR "CJMOD" "CJmod" "cjmod")
+            if(EXISTS "${MODULE_SOURCE_DIR}/${CJMOD_DIR}")
+                file(GLOB CJMOD_MODULES "${MODULE_SOURCE_DIR}/${CJMOD_DIR}/*")
+                foreach(MODULE_PATH ${CJMOD_MODULES})
+                    if(IS_DIRECTORY ${MODULE_PATH})
+                        get_filename_component(MODULE_NAME ${MODULE_PATH} NAME)
+                        build_cjmod_module(${MODULE_PATH} ${MODULE_NAME} "${MODULE_OUTPUT_DIR}/${CJMOD_DIR}")
+                    endif()
+                endforeach()
+                break()
+            endif()
+        endforeach()
         
     else()
-        # 简单模块结构 (无序结构，直接在根目录)
-        set(MODULE_TYPE "SIMPLE")
-        file(GLOB SRC_FILES "${MODULE_DIR}/*.cmod" "${MODULE_DIR}/*.chtl")
+        # 无序结构：所有模块都在src/Module根目录
+        message(STATUS "使用无序结构构建模块")
+        file(GLOB MODULE_DIRS "${MODULE_SOURCE_DIR}/*")
+        foreach(MODULE_DIR ${MODULE_DIRS})
+            if(IS_DIRECTORY ${MODULE_DIR})
+                get_filename_component(MODULE_NAME ${MODULE_DIR} NAME)
+                # 根据内容判断模块类型并构建
+                detect_and_build_module(${MODULE_DIR} ${MODULE_NAME} ${MODULE_OUTPUT_DIR})
+            endif()
+        endforeach()
     endif()
+    
+endif()
     
     # 设置输出目录
     set(MODULE_OUTPUT_DIR "${CMAKE_BINARY_DIR}/bin/module/${MODULE_NAME}")
