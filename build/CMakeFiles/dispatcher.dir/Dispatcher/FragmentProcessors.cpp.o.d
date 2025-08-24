@@ -235,6 +235,32 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
   /workspace/src/../include/Utils/ErrorHandler.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/iostream \
+  /workspace/src/../include/CHTL/Lexer/CHTLLexer.h \
+  /workspace/src/../include/CHTL/Core/CHTLToken.h \
+  /workspace/src/../include/CHTL/Parser/CHTLParser.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/functional \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/array \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/compare \
+  /workspace/src/../include/CHTL/Core/CHTLGlobalMap.h \
+  /workspace/src/../include/CHTL/Core/CHTLState.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
+  /workspace/src/../include/CHTL/Core/CHTLStateContext.h \
+  /workspace/src/../include/CHTL/AST/CHTLASTNodes.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/variant \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/parse_numbers.h \
+  /workspace/src/../include/CHTL/Core/ImportManager.h \
+  /workspace/src/../include/CHTL/Core/NamespaceMerger.h \
+  /workspace/src/../include/CHTL/Constraints/CHTLConstraintValidator.h \
+  /workspace/src/../include/CHTL/Constraints/ExceptConstraintParser.h \
+  /workspace/src/../include/CHTLJS/Parser/CHTLJSParser.h \
+  /workspace/src/../include/CHTLJS/Core/CHTLJSToken.h \
+  /workspace/src/../include/CHTLJS/Core/CHTLJSState.h \
+  /workspace/src/../include/CHTLJS/AST/CHTLJSASTNodes.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/regex \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bitset \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/locale \
@@ -246,12 +272,6 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/codecvt.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_facets_nonio.tcc \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/locale_conv.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/stack \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/deque \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_deque.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/deque.tcc \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_stack.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_function.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_algo.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/algorithmfwd.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_heap.h \

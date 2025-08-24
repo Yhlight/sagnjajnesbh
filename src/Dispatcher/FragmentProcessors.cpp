@@ -1,6 +1,9 @@
 #include "Dispatcher/FragmentProcessors.h"
 #include "Utils/StringUtils.h"
 #include "Utils/ErrorHandler.h"
+#include "CHTL/Lexer/CHTLLexer.h"
+#include "CHTL/Parser/CHTLParser.h"
+#include "CHTLJS/Parser/CHTLJSParser.h"
 #include <unordered_set>
 #include <regex>
 
@@ -21,6 +24,30 @@ ProcessedFragment CHTLFragmentProcessor::ProcessFragment(const Scanner::CodeFrag
     if (content.empty()) {
         return result;
     }
+    
+    // 使用真正的CHTL解析器来处理片段
+    if (parser_) {
+        try {
+            // 创建词法分析器来处理片段
+            CHTL::Lexer::CHTLLexer lexer;
+            auto tokens = lexer.Tokenize(content, "fragment");
+            
+            // 使用解析器解析tokens
+            auto ast = parser_->Parse(tokens, "fragment");
+            if (ast) {
+                // 这里需要生成器来生成HTML
+                // 暂时返回原内容，等待生成器集成
+                result.generatedCode = content;
+                result.isContent = true;
+                return result;
+            }
+        } catch (const std::exception& e) {
+            // 解析失败，回退到简单处理
+            Utils::ErrorHandler::GetInstance().LogWarning("CHTL片段解析失败: " + std::string(e.what()));
+        }
+    }
+    
+    // 回退到简单的字符串处理（保持原有逻辑作为备用）
     
     // 处理HTML元素
     if (IsHTMLElement(content)) {
