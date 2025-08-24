@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/chtl.dir/link.d CMakeFiles/chtl.dir/src/main.cpp.o -o bin/chtl   -L/workspace/CHTL/../ANTLR4/dist  -Wl,-rpath,/workspace/CHTL/../ANTLR4/dist: lib/libCHTLCore.a lib/libCSSCompiler.a lib/libJSCompiler.a
