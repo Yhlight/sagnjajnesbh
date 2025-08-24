@@ -4,6 +4,9 @@
 #include "CHTLJS/Parser/CHTLJSParser.h"
 #include "CHTL/Lexer/CHTLLexer.h"
 #include "CHTLJS/Lexer/CHTLJSLexer.h"
+#include "CHTL/Generator/CHTLGenerator.h"
+#include "CHTLJS/Generator/CHTLJSGenerator.h"
+#include "CMOD/CMODSystem.h"
 #include "CSS/CSSCompiler.h"
 #include "JavaScript/JavaScriptCompiler.h"
 #include "Utils/ErrorHandler.h"
@@ -411,9 +414,12 @@ std::string CompilerDispatcher::CompileCHTLFragment(const std::string& content) 
         auto ast = chtlParser_->Parse(tokens, "fragment");
         
         if (ast) {
-            // 这里需要CHTL生成器来生成HTML
-            // 暂时返回处理过的内容
-            return content;
+            // 使用CHTL生成器生成HTML
+            // 需要创建CHTL生成器实例
+            CMOD::CompleteCMODManager emptyCMODManager("", "");
+            CHTL::Generator::CHTLGenerator generator(*globalMap_, emptyCMODManager);
+            
+            return generator.Generate(ast);
         }
         
         return content;
@@ -437,9 +443,10 @@ std::string CompilerDispatcher::CompileCHTLJSFragment(const std::string& content
         auto ast = chtlJSParser_->Parse(tokens, "fragment");
         
         if (ast) {
-            // 这里需要CHTL JS生成器来生成JavaScript
-            // 暂时返回处理过的内容
-            return content;
+            // 使用CHTL JS生成器生成JavaScript
+            CHTLJS::Generator::CHTLJSGenerator generator;
+            
+            return generator.Generate(ast);
         }
         
         return content;

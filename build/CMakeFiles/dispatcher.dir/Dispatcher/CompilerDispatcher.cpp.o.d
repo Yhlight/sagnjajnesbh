@@ -263,8 +263,21 @@ CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: \
   /workspace/src/../include/CHTL/Constraints/ExceptConstraintParser.h \
   /workspace/src/../include/CHTLJS/Parser/CHTLJSParser.h \
   /workspace/src/../include/CHTLJS/AST/CHTLJSASTNodes.h \
+  /workspace/src/../include/CHTLJS/Lexer/CHTLJSLexer.h \
+  /workspace/src/../include/CHTL/Generator/CHTLGenerator.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc \
+  /workspace/src/../include/CHTL/AST/CHTLASTVisitor.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/algorithm \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_algo.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/algorithmfwd.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_heap.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/uniform_int_dist.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_algorithm_defs.h \
+  /workspace/src/../include/CHTL/Selector/SelectorAutomation.h \
+  /workspace/src/../include/CMOD/CMODSystem.h \
+  /workspace/src/../include/CHTLJS/Generator/CHTLJSGenerator.h \
+  /workspace/src/../include/CHTLJS/AST/CHTLJSASTVisitor.h \
   /workspace/src/../include/CSS/CSSCompiler.h \
   /workspace/src/../include/JavaScript/JavaScriptCompiler.h \
-  /workspace/src/../include/Utils/StringUtils.h \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/sstream \
-  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/sstream.tcc
+  /workspace/src/../include/Utils/StringUtils.h

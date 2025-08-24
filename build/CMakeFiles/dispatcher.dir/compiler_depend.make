@@ -101,10 +101,12 @@ CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: /workspace/src/Di
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/include/c++/14/algorithm \
   /usr/include/c++/14/array \
   /usr/include/c++/14/backward/auto_ptr.h \
   /usr/include/c++/14/backward/binders.h \
   /usr/include/c++/14/bit \
+  /usr/include/c++/14/bits/algorithmfwd.h \
   /usr/include/c++/14/bits/align.h \
   /usr/include/c++/14/bits/alloc_traits.h \
   /usr/include/c++/14/bits/allocated_ptr.h \
@@ -161,11 +163,13 @@ CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: /workspace/src/Di
   /usr/include/c++/14/bits/sstream.tcc \
   /usr/include/c++/14/bits/std_abs.h \
   /usr/include/c++/14/bits/std_function.h \
+  /usr/include/c++/14/bits/stl_algo.h \
   /usr/include/c++/14/bits/stl_algobase.h \
   /usr/include/c++/14/bits/stl_bvector.h \
   /usr/include/c++/14/bits/stl_construct.h \
   /usr/include/c++/14/bits/stl_deque.h \
   /usr/include/c++/14/bits/stl_function.h \
+  /usr/include/c++/14/bits/stl_heap.h \
   /usr/include/c++/14/bits/stl_iterator.h \
   /usr/include/c++/14/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/14/bits/stl_iterator_base_types.h \
@@ -182,6 +186,7 @@ CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: /workspace/src/Di
   /usr/include/c++/14/bits/streambuf_iterator.h \
   /usr/include/c++/14/bits/string_view.tcc \
   /usr/include/c++/14/bits/stringfwd.h \
+  /usr/include/c++/14/bits/uniform_int_dist.h \
   /usr/include/c++/14/bits/unique_ptr.h \
   /usr/include/c++/14/bits/unordered_map.h \
   /usr/include/c++/14/bits/unordered_set.h \
@@ -222,6 +227,7 @@ CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: /workspace/src/Di
   /usr/include/c++/14/new \
   /usr/include/c++/14/ostream \
   /usr/include/c++/14/pstl/execution_defs.h \
+  /usr/include/c++/14/pstl/glue_algorithm_defs.h \
   /usr/include/c++/14/pstl/glue_memory_defs.h \
   /usr/include/c++/14/pstl/pstl_config.h \
   /usr/include/c++/14/sstream \
@@ -263,6 +269,7 @@ CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: /workspace/src/Di
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h \
   /workspace/include/CHTL/AST/CHTLASTNodes.h \
+  /workspace/include/CHTL/AST/CHTLASTVisitor.h \
   /workspace/include/CHTL/Comments/ContextualCommentSystem.h \
   /workspace/include/CHTL/Constraints/CHTLConstraintValidator.h \
   /workspace/include/CHTL/Constraints/ExceptConstraintParser.h \
@@ -272,12 +279,18 @@ CMakeFiles/dispatcher.dir/Dispatcher/CompilerDispatcher.cpp.o: /workspace/src/Di
   /workspace/include/CHTL/Core/CHTLToken.h \
   /workspace/include/CHTL/Core/ImportManager.h \
   /workspace/include/CHTL/Core/NamespaceMerger.h \
+  /workspace/include/CHTL/Generator/CHTLGenerator.h \
   /workspace/include/CHTL/Lexer/CHTLLexer.h \
   /workspace/include/CHTL/Parser/CHTLParser.h \
+  /workspace/include/CHTL/Selector/SelectorAutomation.h \
   /workspace/include/CHTLJS/AST/CHTLJSASTNodes.h \
+  /workspace/include/CHTLJS/AST/CHTLJSASTVisitor.h \
   /workspace/include/CHTLJS/Core/CHTLJSState.h \
   /workspace/include/CHTLJS/Core/CHTLJSToken.h \
+  /workspace/include/CHTLJS/Generator/CHTLJSGenerator.h \
+  /workspace/include/CHTLJS/Lexer/CHTLJSLexer.h \
   /workspace/include/CHTLJS/Parser/CHTLJSParser.h \
+  /workspace/include/CMOD/CMODSystem.h \
   /workspace/include/CSS/CSSCompiler.h \
   /workspace/include/Dispatcher/CompilerDispatcher.h \
   /workspace/include/Dispatcher/FragmentProcessors.h \
@@ -634,13 +647,17 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 
 /workspace/include/Dispatcher/FragmentProcessors.h:
 
-/workspace/include/Dispatcher/CompilerDispatcher.h:
+/workspace/include/CMOD/CMODSystem.h:
 
 /workspace/include/CHTLJS/Parser/CHTLJSParser.h:
+
+/workspace/include/CHTLJS/Lexer/CHTLJSLexer.h:
 
 /workspace/include/CHTLJS/Core/CHTLJSState.h:
 
 /workspace/include/CHTLJS/AST/CHTLJSASTNodes.h:
+
+/workspace/include/CHTL/Selector/SelectorAutomation.h:
 
 /workspace/include/CHTL/Lexer/CHTLLexer.h:
 
@@ -654,11 +671,25 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 
 /workspace/include/CHTL/Constraints/ExceptConstraintParser.h:
 
+/workspace/include/Dispatcher/CompilerDispatcher.h:
+
+/workspace/include/CHTL/AST/CHTLASTVisitor.h:
+
 /workspace/include/CHTL/AST/CHTLASTNodes.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/stdint.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/stdarg.h:
+
+/usr/lib/llvm-20/lib/clang/20/include/__stddef_wchar_t.h:
+
+/workspace/include/CHTL/Constraints/CHTLConstraintValidator.h:
+
+/usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h:
+
+/usr/lib/llvm-20/lib/clang/20/include/__stddef_offsetof.h:
+
+/usr/lib/llvm-20/lib/clang/20/include/__stddef_null.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
 
@@ -674,9 +705,7 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
-/usr/include/c++/14/bits/functexcept.h:
-
-/usr/include/pthread.h:
+/workspace/include/CHTLJS/AST/CHTLJSASTVisitor.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/stddef.h:
 
@@ -696,17 +725,17 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 
 /usr/include/c++/14/backward/binders.h:
 
+/usr/include/c++/14/algorithm:
+
+/usr/include/stdlib.h:
+
+/usr/include/c++/14/istream:
+
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
 /usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
-
-/usr/include/c++/14/bits/uniform_int_dist.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 
 /usr/include/c++/14/bits/shared_ptr.h:
 
@@ -766,8 +795,6 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 
 /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
-
 /usr/include/c++/14/bits/allocator.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
@@ -822,6 +849,8 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 
 /usr/include/ctype.h:
 
+/workspace/include/CHTL/Generator/CHTLGenerator.h:
+
 /usr/include/c++/14/bits/cxxabi_init_exception.h:
 
 /usr/include/c++/14/string_view:
@@ -829,10 +858,6 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 /usr/include/errno.h:
 
 /usr/include/c++/14/debug/debug.h:
-
-/usr/include/stdlib.h:
-
-/usr/include/c++/14/istream:
 
 /usr/include/linux/errno.h:
 
@@ -902,6 +927,10 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 
 /usr/include/sched.h:
 
+/usr/include/pthread.h:
+
+/usr/include/c++/14/bits/functexcept.h:
+
 /usr/include/x86_64-linux-gnu/asm/types.h:
 
 /usr/include/asm-generic/errno.h:
@@ -928,21 +957,37 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
+/usr/lib/llvm-20/lib/clang/20/include/__stddef_nullptr_t.h:
+
+/usr/include/c++/14/bits/stl_uninitialized.h:
+
 /usr/include/c++/14/bits/stl_tempbuf.h:
 
 /usr/include/linux/stddef.h:
 
+/usr/include/c++/14/bits/concept_check.h:
+
+/usr/include/c++/14/bits/align.h:
+
+/usr/include/c++/14/bits/ostream.tcc:
+
+/usr/include/c++/14/ext/aligned_buffer.h:
+
 /usr/include/c++/14/new:
 
 /usr/include/c++/14/functional:
-
-/usr/include/c++/14/bits/exception_ptr.h:
 
 /usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
 
 /usr/include/x86_64-linux-gnu/bits/cpu-set.h:
 
 /usr/include/c++/14/bits/shared_ptr_base.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
+
+/usr/include/c++/14/bits/uniform_int_dist.h:
 
 /usr/include/c++/14/vector:
 
@@ -1004,6 +1049,8 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
+/usr/include/c++/14/bits/exception_ptr.h:
+
 /usr/include/c++/14/bits/functional_hash.h:
 
 /usr/include/c++/14/bits/hashtable.h:
@@ -1026,25 +1073,9 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 
 /usr/include/c++/14/bits/nested_exception.h:
 
-/usr/include/c++/14/bits/stl_uninitialized.h:
-
-/usr/lib/llvm-20/lib/clang/20/include/__stddef_nullptr_t.h:
-
-/usr/lib/llvm-20/lib/clang/20/include/__stddef_offsetof.h:
-
 /usr/include/features.h:
 
 /usr/include/c++/14/bits/node_handle.h:
-
-/usr/lib/llvm-20/lib/clang/20/include/__stddef_wchar_t.h:
-
-/usr/include/c++/14/bits/concept_check.h:
-
-/usr/include/c++/14/bits/align.h:
-
-/usr/include/c++/14/ext/aligned_buffer.h:
-
-/usr/include/c++/14/bits/ostream.tcc:
 
 /usr/lib/llvm-20/lib/clang/20/include/__stddef_ptrdiff_t.h:
 
@@ -1136,6 +1167,8 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 
 /usr/include/c++/14/exception:
 
+/workspace/include/CHTLJS/Generator/CHTLJSGenerator.h:
+
 /usr/include/c++/14/ext/alloc_traits.h:
 
 /usr/include/c++/14/ext/atomicity.h:
@@ -1169,6 +1202,10 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 /usr/include/asm-generic/bitsperlong.h:
 
 /usr/include/c++/14/pstl/execution_defs.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
+
+/usr/include/c++/14/pstl/glue_algorithm_defs.h:
 
 /usr/include/c++/14/bits/stl_algo.h:
 
@@ -1211,9 +1248,3 @@ CMakeFiles/dispatcher.dir/Dispatcher/FragmentProcessors.cpp.o: /workspace/src/Di
 /usr/lib/llvm-20/lib/clang/20/include/__stdarg___gnuc_va_list.h:
 
 /usr/lib/llvm-20/lib/clang/20/include/__stddef_header_macro.h:
-
-/usr/lib/llvm-20/lib/clang/20/include/__stddef_null.h:
-
-/workspace/include/CHTL/Constraints/CHTLConstraintValidator.h:
-
-/usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h:
