@@ -178,6 +178,16 @@ void CHTLJSGenerator::VisitAnimateBlockNode(AST::AnimateBlockNode& node) {
 
 // VisitArrowFunctionNode已移除 - CHTL JS不包含JS语法
 
+void CHTLJSGenerator::VisitVirtualMethodCallNode(AST::VirtualMethodCallNode& node) {
+    // 处理虚对象方法调用：objectName->method() 转换为 objectName.method()
+    // 根据官方语法文档，->与.完全等价
+    output_ << node.GetObjectName() << "." << node.GetMethodName() << "()";
+    
+    if (config_.enableDebug) {
+        Utils::ErrorHandler::GetInstance().LogInfo("生成虚对象方法调用: " + node.GetObjectName() + "." + node.GetMethodName());
+    }
+}
+
 void CHTLJSGenerator::VisitAnimationKeyframeNode(AST::AnimationKeyframeNode& node) {
     // 动画关键帧生成
     

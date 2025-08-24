@@ -94,8 +94,8 @@ public:
     // void VisitFunctionDefinitionNode(AST::FunctionDefinitionNode& node) override; - JavaScript语法
     // void VisitObjectLiteralNode(AST::ObjectLiteralNode& node) override; - JavaScript语法
     // void VisitArrayLiteralNode(AST::ArrayLiteralNode& node) override; - JavaScript语法
-    // void VisitMethodCallNode(AST::MethodCallNode& node) override; - JavaScript语法
-    // void VisitVirtualMethodCallNode(AST::VirtualMethodCallNode& node) override; - CJMOD扩展
+    // CHTL JS核心特征处理（虚对象方法调用）
+    void VisitVirtualMethodCallNode(AST::VirtualMethodCallNode& node) override;  // 虚对象方法调用
     // void VisitVariableDeclarationNode(AST::VariableDeclarationNode& node) override; - JavaScript语法
     
     // VisitArrowFunctionNode已移除 - CHTL JS不包含JS语法

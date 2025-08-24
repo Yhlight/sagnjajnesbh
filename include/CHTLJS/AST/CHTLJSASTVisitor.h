@@ -47,8 +47,7 @@ public:
     virtual void VisitListenBlockNode(ListenBlockNode& node) = 0;
     virtual void VisitDelegateBlockNode(DelegateBlockNode& node) = 0;
     virtual void VisitAnimateBlockNode(AnimateBlockNode& node) = 0;
-    // CHTL JS核心特征访问方法（根据官方语法文档，箭头操作符是CHTL JS核心特征）
-    virtual void VisitMethodCallNode(MethodCallNode& node) = 0;  // 箭头操作符方法调用
+    // CHTL JS核心特征访问方法（虚对象方法调用）
     virtual void VisitVirtualMethodCallNode(VirtualMethodCallNode& node) = 0;  // 虚对象方法调用
     
     // 以下节点确实属于JavaScript语法或CJMOD扩展，保持注释状态
@@ -81,7 +80,6 @@ public:
     void VisitDelegateBlockNode(DelegateBlockNode& node) override {}
     void VisitAnimateBlockNode(AnimateBlockNode& node) override {}
     // CHTL JS核心特征的默认实现
-    void VisitMethodCallNode(MethodCallNode& node) override {}  // 箭头操作符方法调用
     void VisitVirtualMethodCallNode(VirtualMethodCallNode& node) override {}  // 虚对象方法调用
     
     // 以下节点确实属于JavaScript语法或CJMOD扩展，保持注释状态
