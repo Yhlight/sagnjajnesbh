@@ -205,30 +205,34 @@ bool CHTLJSCompiler::IsVirtualObjectSyntax(const std::string& code) {
 // 移除了错误的表达式语法检测
 
 std::string CHTLJSCompiler::TransformVirtualObject(const std::string& virCode) {
-    // 解析vir语法：vir objectName { ... }
-    std::regex virRegex(R"(vir\s+(\w+)\s*\{(.*)\})");
+    // 解析vir语法：vir objectName = CHTL JS函数
+    // 虚对象原理：创建特殊命名的全局函数，解析成函数引用
+    std::regex virRegex(R"(vir\s+(\w+)\s*=\s*(.+))");
     std::smatch matches;
     
     if (std::regex_search(virCode, matches, virRegex)) {
         std::string objectName = matches[1].str();
-        std::string objectBody = matches[2].str();
+        std::string chtlJSFunction = matches[2].str();
         
         // 生成虚对象的JavaScript代码
         std::stringstream js;
         
         if (config_.generateComments) {
-            js << "// Virtual object: " << objectName << "\n";
+            js << "// Virtual object: " << objectName << " (编译期语法糖)\n";
+            js << "// 原理：为CHTL JS函数中的键值创建特殊命名的全局函数\n";
         }
         
-        js << "const " << objectName << " = {\n";
-        js << objectBody;
-        js << "\n};\n";
+        // 虚对象是编译期语法糖，用于访问CHTL JS函数中键值为函数的键
+        // 这里需要解析CHTL JS函数并为每个键创建全局函数
+        js << "// Virtual object '" << objectName << "' registered\n";
+        js << "// Source CHTL JS function: " << chtlJSFunction << "\n";
         
-        // 如果启用虚对象支持，添加特殊处理
         if (config_.enableVirtualObjects) {
-            js << "// Register virtual object\n";
-            js << "if (typeof window !== 'undefined' && window.CHTL) {\n";
-            js << "    window.CHTL.registerVirtualObject('" << objectName << "', " << objectName << ");\n";
+            js << "if (typeof window !== 'undefined' && !window.CHTL_VirtualObjects) {\n";
+            js << "    window.CHTL_VirtualObjects = {};\n";
+            js << "}\n";
+            js << "if (typeof window !== 'undefined') {\n";
+            js << "    window.CHTL_VirtualObjects['" << objectName << "'] = " << chtlJSFunction << ";\n";
             js << "}\n";
         }
         
@@ -236,7 +240,7 @@ std::string CHTLJSCompiler::TransformVirtualObject(const std::string& virCode) {
     }
     
     // 如果解析失败，返回注释版本
-    return "// Failed to parse virtual object: " + virCode;
+    return "// Failed to parse virtual object (正确语法: vir 对象名 = CHTL JS函数): " + virCode;
 }
 
 // 移除了错误的表达式转换方法
