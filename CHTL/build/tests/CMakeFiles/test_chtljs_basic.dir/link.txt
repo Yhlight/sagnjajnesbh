@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Xlinker --dependency-file=CMakeFiles/test_chtljs_basic.dir/link.d CMakeFiles/test_chtljs_basic.dir/test_chtljs_basic.cpp.o -o ../bin/test_chtljs_basic   -L/workspace/CHTL/../ANTLR4/dist  -Wl,-rpath,/workspace/CHTL/../ANTLR4/dist ../lib/libCHTLCore.a

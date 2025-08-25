@@ -1,0 +1,160 @@
+// CHTL测试文件
+[Template] @Style DefaultText
+{
+    color: black;
+    line-height: 1.6;
+    font-family: Arial, sans-serif;
+}
+
+[Custom] @Style ButtonStyle
+{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+[Template] @Var ThemeColors
+{
+    primary: #007bff;
+    secondary: #6c757d;
+    success: #28a745;
+    danger: #dc3545;
+}
+
+[Custom] @Element Card
+{
+    div
+    {
+        class: card;
+        
+        style
+        {
+            .card
+            {
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 10px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+        }
+        
+        div
+        {
+            class: card-header;
+            
+            text
+            {
+                "卡片标题"
+            }
+        }
+        
+        div
+        {
+            class: card-body;
+            
+            text
+            {
+                "这是卡片的内容"
+            }
+        }
+    }
+}
+
+html
+{
+    head
+    {
+        
+    }
+    
+    body
+    {
+        -- 这是生成器注释，会出现在HTML中
+        
+        div
+        {
+            id: container;
+            class: main-container;
+            
+            style
+            {
+                // 内联样式
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+                
+                // 自动生成类名
+                .welcome-section
+                {
+                    background-color: #f8f9fa;
+                    padding: 40px;
+                    text-align: center;
+                    margin-bottom: 30px;
+                }
+                
+                // & 选择器
+                &:hover
+                {
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                }
+            }
+            
+            h1
+            {
+                text
+                {
+                    "欢迎使用CHTL"
+                }
+            }
+            
+            p
+            {
+                style
+                {
+                    @Style DefaultText;
+                    font-size: 18px;
+                    color: ThemeColors(secondary);
+                }
+                
+                text
+                {
+                    "CHTL是一种基于C++实现的超文本语言，提供更符合开发者习惯的HTML编写方式。"
+                }
+            }
+            
+            button
+            {
+                style
+                {
+                    @Style ButtonStyle;
+                    background-color: ThemeColors(primary);
+                    color: white;
+                    
+                    &:hover
+                    {
+                        background-color: #0056b3;
+                        transform: translateY(-2px);
+                    }
+                }
+                
+                text
+                {
+                    "开始使用"
+                }
+                
+                script
+                {
+                    this.addEventListener('click', function() {
+                        alert('欢迎使用CHTL！');
+                    });
+                }
+            }
+            
+            // 使用自定义元素
+            @Element Card;
+        }
+    }
+}
